@@ -1,0 +1,27 @@
+﻿{
+    "levelId":  "early_09_14x14_seed_604483",
+    "width":  14,
+    "height":  14,
+    "seed":  3000,
+    "arrowCoverage":  0.9,
+    "initialMovableArrowCount":  5,
+    "targetDifficultyScore":  309,
+    "fixedGenerationSeed":  604483,
+    "minPathLen":  3,
+    "maxPathLength":  15,
+    "twistiness":  0.8,
+    "validateWithGreedy":  true,
+    "blockedLoseLimit":  3,
+    "spawnMaskKey":  null,
+    "introSettingsKey":  null,
+    "paletteKey":  null,
+    "arrowColorMode":  0,
+    "arrowColorMaskQuantizeSteps":  16,
+    "tintOnHit":  true,
+    "hitTint":  {
+                    "r":  1,
+                    "g":  1,
+                    "b":  1,
+                    "a":  1
+                }
+}

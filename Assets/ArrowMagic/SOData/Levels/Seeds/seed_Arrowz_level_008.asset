@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: seed_Arrowz_level_008
+  m_EditorClassIdentifier: 
+  levelId: seed_Arrowz_level_008
+  source: 1
+  board:
+    width: 12
+    height: 16
+    seed: 0
+  generation:
+    arrowCoverage: 1
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 264
+    computedDifficultyScoreV0: 264
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 192
+    twistiness: 0.5
+    validateWithGreedy: 1
+  variant:
+    sourceScreenshotId: Arrowz_level_008
+    shapeClass: NotScanned
+    seedTags: seed;screenshot;auto;head_tail_auto_confirmed
+    variantMode: 
+    sourceChainCountBeforeVariant: 0
+    generatedTailChainCount: 0
+  authoredLevel:
+    width: 12
+    height: 16
+    arrows:
+    - indices: 6700000068000000690000005d000000510000004500000044000000500000005c0000005b0000005a0000005900000058000000570000005600000055000000490000003d0000003100000025000000190000000d0000000100000002000000030000000400000005000000060000000700000008000000090000000a00000016000000220000002e0000003a00000046000000520000005e000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 2700000028000000290000002a0000002b0000002c00000038000000390000002d00000021000000200000001f00000013000000120000001e0000001d00000011000000100000000f0000000e0000001a0000001b0000001c000000
+      colorIndex: 1
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 1400000015000000
+      colorIndex: 2
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 4b0000004a0000003e0000003f000000330000003400000040000000
+      colorIndex: 3
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 4d00000041000000350000003600000042000000430000004f0000004e000000
+      colorIndex: 4
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 6100000062000000630000006f00000070000000640000006500000066000000
+      colorIndex: 5
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 8a0000008b00000097000000980000008c0000008d00000081000000800000007400000075000000760000006a000000
+      colorIndex: 6
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 6d000000790000008500000086000000870000007b0000007c00000088000000
+      colorIndex: 7
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 71000000720000007e0000007f00000073000000
+      colorIndex: 8
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: a00000009400000095000000890000007d000000
+      colorIndex: 9
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 820000008e000000
+      colorIndex: 10
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 9e0000009f000000930000009200000091000000
+      colorIndex: 11
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 96000000a2000000a3000000af000000b0000000a4000000a5000000a60000009a00000099000000
+      colorIndex: 12
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: aa000000a90000009d000000
+      colorIndex: 13
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: ad000000a1000000
+      colorIndex: 14
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: b2000000b1000000
+      colorIndex: 15
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

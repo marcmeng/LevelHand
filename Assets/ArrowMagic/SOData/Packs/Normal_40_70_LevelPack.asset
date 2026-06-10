@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: Normal_40_70_LevelPack
+  m_EditorClassIdentifier: Assembly-CSharp::PixelBug.Arrowscape.LevelPack
+  packId: normal_40_70
+  displayName: Normal 40-70
+  levels:
+  - {fileID: 11400000, guid: 5897b54efaa044f5a5833cdcc4d4a40f, type: 2}
+  - {fileID: 11400000, guid: 6cb79cf069434c668b241c595cbd8e28, type: 2}
+  - {fileID: 11400000, guid: 287a33b1e54849a9a7d01f7e4cb727a3, type: 2}
+  - {fileID: 11400000, guid: 9bc05b3cf29f474e87c4ea6f2e5cc0a3, type: 2}
+  - {fileID: 11400000, guid: 6eaacaa595324bcdaeb3815c46cf41e7, type: 2}
+  - {fileID: 11400000, guid: c966c1934eca4b04b74ebffc4ee58f31, type: 2}
+  - {fileID: 11400000, guid: 23a087c31150435da5eed0b51e63d798, type: 2}
+  - {fileID: 11400000, guid: a87db9ef57df41feaf434095883eadb1, type: 2}
+  - {fileID: 11400000, guid: bcc6a1f2360b49dd96fff54423820a34, type: 2}
+  - {fileID: 11400000, guid: 403cd7833041418da367c86c355f8d34, type: 2}
+  - {fileID: 11400000, guid: 81cb193d635943be8fae5d998446db18, type: 2}
+  - {fileID: 11400000, guid: a18c629dcea74cbb9275d038f88f974d, type: 2}
+  - {fileID: 11400000, guid: 1c343bf05b5e40daa1ce2c81f47b36ae, type: 2}
+  - {fileID: 11400000, guid: ff10a6c81ddc411c95a5b8cf50fe0c3e, type: 2}
+  - {fileID: 11400000, guid: a7856b1f9edf4c75bfa2e7b7aaf08572, type: 2}
+  - {fileID: 11400000, guid: 88d5cdbef462472b8727d4ce1f5c1cc2, type: 2}
+  - {fileID: 11400000, guid: 7e5062fe73dd493891d9d1d501b7a38a, type: 2}
+  - {fileID: 11400000, guid: cebd823b8e9f4f0da6c1e65a070fd89f, type: 2}
+  - {fileID: 11400000, guid: a399e029eee84aacab50a7dfd15377a8, type: 2}
+  - {fileID: 11400000, guid: 53e79f92677143fdba4a3711305758f6, type: 2}

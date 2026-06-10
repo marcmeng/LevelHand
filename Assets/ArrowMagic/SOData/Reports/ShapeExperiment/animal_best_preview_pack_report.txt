@@ -1,0 +1,16 @@
+SeedMaskPatch Animal Best Preview Pack
+SourcePackFolder=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal
+CandidateOutput=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/AnimalBestPreviewPack.asset
+Mode=AnimalBestCompactMaskCropRepairOneFinalPerMask
+Design=compact cropped animal silhouettes; strong features, low detail, no unused canvas border
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrongFinalPack.asset | Added=156
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R1OuterStrongFinalPack.asset | Added=158
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrong_A484_SinglePack.asset | Added=1
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R3OuterStrongFinalPack.asset | Added=120
+LoadedSourceSeeds=435
+[1] Mask=Assets/ArrowMagic/Masks/ShapeAnimalBestPreview/MaskAnimalBest_32x26-WhaleBoldSide.png | Matched=40/40 fitting seeds for mask=32x26
+    MatchTop1: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset
+    MatchTop2: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_162_r1_281_a965.asset
+    MatchTop3: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_158_r2_281_a965.asset
+    BeginAttempt1=MatchTop1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset

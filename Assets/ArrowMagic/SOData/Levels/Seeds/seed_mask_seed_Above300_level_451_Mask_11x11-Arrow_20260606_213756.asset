@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: seed_mask_seed_Above300_level_451_Mask_11x11-Arrow_20260606_213756
+  m_EditorClassIdentifier: 
+  levelId: seed_Above300_level_451_maskpatch
+  source: 1
+  board:
+    width: 11
+    height: 11
+    seed: 0
+  generation:
+    arrowCoverage: 1
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 739
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 616
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 11
+    height: 11
+    arrows:
+    - indices: 0b00000000000000
+      colorIndex: 0
+    - indices: 0c0000000d0000000200000001000000
+      colorIndex: 0
+    - indices: 0e0000000f0000000400000003000000
+      colorIndex: 0
+    - indices: 1b0000001000000005000000
+      colorIndex: 0
+    - indices: 26000000270000001c0000001100000006000000
+      colorIndex: 0
+    - indices: 0a000000090000000800000007000000
+      colorIndex: 0
+    - indices: 1300000012000000
+      colorIndex: 0
+    - indices: 31000000320000003300000028000000
+      colorIndex: 0
+    - indices: 6f0000006e00000063000000580000004d0000004200000037000000
+      colorIndex: 0
+    - indices: 700000006500000064000000590000004e0000004300000038000000390000003a0000003b0000003c0000003d0000003e000000
+      colorIndex: 0
+    - indices: 5a0000004f00000044000000450000004600000051000000
+      colorIndex: 0
+    - indices: 52000000530000004800000047000000
+      colorIndex: 0
+    - indices: 4c0000004b000000560000006100000062000000
+      colorIndex: 0
+    - indices: 78000000770000006c0000006b000000
+      colorIndex: 0
+    - indices: 7600000075000000
+      colorIndex: 0
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: 760332a0bbeb84cca9073518d13c1e6e, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

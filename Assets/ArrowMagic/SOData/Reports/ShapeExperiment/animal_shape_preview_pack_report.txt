@@ -1,0 +1,39 @@
+SeedMaskPatch Animal Shape Preview Pack
+SourcePackFolder=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal
+CandidateOutput=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/AnimalShapePreviewPack.asset
+Mode=AnimalShapeMaskCropRepairOneFinalPerMask
+Design=fit-to-canvas side-view animal silhouettes; approved short preview set
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrongFinalPack.asset | Added=156
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R1OuterStrongFinalPack.asset | Added=158
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrong_A484_SinglePack.asset | Added=1
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R3OuterStrongFinalPack.asset | Added=120
+LoadedSourceSeeds=435
+[1] Mask=Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_42x42-DogSitSide.png | Matched=48/435 fallback seeds for oversized mask=42x42
+    MatchTop1: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_166_r1_285_a974.asset
+    MatchTop2: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_162_r2_285_a974.asset
+    MatchTop3: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_099_r2_194_a753.asset
+    BeginAttempt1=MatchTop1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_166_r1_285_a974.asset
+    Attempt1=MatchTop1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_166_r1_285_a974.asset | MaskArea=910 | FinalFill=882 | Ratio=0.969 | Chains=112 | straightness=chains=112, tiles=882, straight=64(0.57), longStraight=46(0.41), longTiles=0.51, bent=48(0.43), longestRun=22, longestChain=29 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_01_maskanimal_42x42-dogsitside_rawclip_r1_outer_strong_166_r1_285_a974_MaskAnimal_42x42-DogSitSide_20260610_175209.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_01_maskanimal_42x42-dogsitside_r1_outer_strong_166_r1_285_a974_MaskAnimal_42x42-DogSitSide_20260610_175209.asset
+[2] Mask=Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_40x44-CatSitSide.png | Matched=48/435 fallback seeds for oversized mask=40x44
+    MatchTop1: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_162_r2_285_a974.asset
+    MatchTop2: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_166_r1_285_a974.asset
+    MatchTop3: Source=Assets/ArrowMagic/SOData/Levels/Generated/CompositeSeedVariantsABPlayabilityCandidates300/composite_play_cand_077_composite_portrait150_085_composite_greedy_ab_09_vflip_keep_edge120.asset
+    BeginAttempt1=MatchTop1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_162_r2_285_a974.asset
+    Attempt1=MatchTop1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_162_r2_285_a974.asset | MaskArea=875 | FinalFill=840 | Ratio=0.960 | Chains=116 | straightness=chains=116, tiles=840, straight=60(0.52), longStraight=34(0.29), longTiles=0.38, bent=56(0.48), longestRun=22, longestChain=34 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_02_maskanimal_40x44-catsitside_rawclip_r2_outer_strong_162_r2_285_a974_MaskAnimal_40x44-CatSitSide_20260610_180433.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_02_maskanimal_40x44-catsitside_r2_outer_strong_162_r2_285_a974_MaskAnimal_40x44-CatSitSide_20260610_180433.asset
+[3] Mask=Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_42x34-DuckSide.png | Matched=48/435 fallback seeds for oversized mask=42x34
+    MatchTop1: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset
+    MatchTop2: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_006_r2_008_a409.asset
+    MatchTop3: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_099_r2_194_a753.asset
+    BeginAttempt1=MatchTop1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset
+    Attempt1=MatchTop1 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset | MaskArea=765 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_03_maskanimal_42x34-duckside_rawclip_r1_outer_strong_006_r1_008_a409_MaskAnimal_42x34-DuckSide_20260610_181054.asset | Final=
+    BeginAttempt2=MatchTop2 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_006_r2_008_a409.asset
+    Attempt2=MatchTop2 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_006_r2_008_a409.asset | MaskArea=765 | FinalFill=725 | Ratio=0.948 | Chains=114 | straightness=chains=114, tiles=725, straight=48(0.42), longStraight=31(0.27), longTiles=0.34, bent=66(0.58), longestRun=12, longestChain=20 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_03_maskanimal_42x34-duckside_rawclip_r2_outer_strong_006_r2_008_a409_MaskAnimal_42x34-DuckSide_20260610_182026.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_03_maskanimal_42x34-duckside_r2_outer_strong_006_r2_008_a409_MaskAnimal_42x34-DuckSide_20260610_182027.asset
+[4] Mask=Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_44x30-FishSideLarge.png | Matched=48/435 fallback seeds for oversized mask=44x30
+    MatchTop1: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset
+    MatchTop2: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_006_r2_008_a409.asset
+    MatchTop3: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_099_r2_194_a753.asset
+    BeginAttempt1=MatchTop1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset
+    Attempt1=MatchTop1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset | MaskArea=719 | FinalFill=677 | Ratio=0.942 | Chains=100 | straightness=chains=100, tiles=677, straight=31(0.31), longStraight=20(0.20), longTiles=0.25, bent=69(0.69), longestRun=17, longestChain=21 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_04_maskanimal_44x30-fishsidelarge_rawclip_r1_outer_strong_006_r1_008_a409_MaskAnimal_44x30-FishSideLarge_20260610_182927.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_04_maskanimal_44x30-fishsidelarge_r1_outer_strong_006_r1_008_a409_MaskAnimal_44x30-FishSideLarge_20260610_182927.asset
+PackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/AnimalShapePreviewPack.asset | levels=4
+DemoAttached=True

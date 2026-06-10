@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: r1_ab_105_above300_level_598_final
+  m_EditorClassIdentifier: 
+  levelId: r1_ab_105_above300_level_598_final
+  source: 1
+  board:
+    width: 24
+    height: 24
+    seed: 0
+  generation:
+    arrowCoverage: 1
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 735
+    computedDifficultyScoreV0: 735
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 576
+    twistiness: 0.5
+    validateWithGreedy: 1
+  variant:
+    sourceScreenshotId: seed_Above300_level_598
+    shapeClass: NotScanned
+    seedTags: addcells_rewrite_v2;rotation
+    variantMode: rotation
+    sourceChainCountBeforeVariant: 51
+    generatedTailChainCount: 10
+    pipelineRunId: r1_recovery_validated_b20_full_resume_o100_20260606_20260606_112337_o100_n020
+    pipelineStage: rotation
+    rootSeedId: seed_Above300_level_598
+    totalDiffRatioFromRoot: 0.72934973
+    occupiedCellDiffRatioFromRoot: 0.13356766
+    directionDiffRatioFromRoot: 0.5957821
+    addedOccupiedCellsFromRoot: 65
+    removedOccupiedCellsFromRoot: 11
+    directionChangedCellsFromRoot: 339
+    alignedUnionCellsFromRoot: 569
+    alignedOffsetXFromRoot: 2
+    alignedOffsetYFromRoot: 0
+  authoredLevel:
+    width: 24
+    height: 24
+    arrows:
+    - indices: 380200002002000008020000f0010000d8010000c0010000bf010000be010000bd010000a50100008d0100008c0100008b0100008a010000890100008801000087010000860100008501000084010000830100009b0100009c0100009d0100009e0100009f010000a0010000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: d7010000d6010000d5010000ed010000050200001d0200003502000036020000370200001f02000007020000ef010000ee010000060200001e020000
+      colorIndex: 1
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 1c02000004020000ec010000d4010000bc010000a4010000a3010000a2010000a1010000b9010000d1010000d2010000d3010000eb010000030200001b020000330200003202000031020000300200002f0200002e0200002d0200002c0200002b0200002a02000012020000fa010000e2010000ca010000cb010000cc010000cd010000ce010000cf010000d0010000b8010000b7010000b6010000b5010000b4010000
+      colorIndex: 2
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 2202000021020000
+      colorIndex: 3
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 160200001702000018020000190200001a02000002020000ea010000
+      colorIndex: 4
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 13020000fb010000e3010000e4010000fc0100001402000015020000fd010000fe010000ff0100000002000001020000
+      colorIndex: 5
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 0e020000f6010000f70100000f020000
+      colorIndex: 6
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 0b0200000c020000
+      colorIndex: 7
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: f3010000f20100000a02000009020000f1010000d9010000da010000db010000c3010000c4010000dc010000
+      colorIndex: 8
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: f5010000dd010000de010000df010000c7010000af010000970100007f0100007e0100007d01000095010000ad010000c5010000c6010000ae01000096010000
+      colorIndex: 9
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: e9010000e8010000e7010000e6010000e5010000
+      colorIndex: 10
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: c2010000c1010000a9010000aa010000ab010000ac010000940100007c0100007b010000930100009201000091010000790100007a010000620100004a0100004b01000033010000340100004c0100006401000063010000
+      colorIndex: 11
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: bb010000ba010000
+      colorIndex: 12
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: b3010000b20100009a010000820100006a0100006b0100006c0100006d0100006e0100006f01000070010000710100007201000073010000740100007501000076010000770100007801000090010000a8010000a7010000a60100008e0100008f010000
+      colorIndex: 13
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 6601000065010000
+      colorIndex: 14
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 61010000490100003101000032010000
+      colorIndex: 15
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 5d0100005e0100005f0100006001000048010000
+      colorIndex: 16
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 2c010000440100005c0100005b0100005a01000059010000410100002901000011010000f9000000fa000000fb000000130100002b01000043010000420100002a01000012010000
+      colorIndex: 17
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 5701000058010000
+      colorIndex: 18
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 22010000230100002401000025010000260100002701000028010000400100003f0100003e0100003d01000055010000540100003c0100003b01000053010000520100003a010000
+      colorIndex: 19
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 4f0100004e0100004d010000350100003601000037010000
+      colorIndex: 20
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 4701000046010000450100002d010000
+      colorIndex: 21
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 2f01000030010000
+      colorIndex: 22
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 1e01000006010000ee000000ef000000070100001f010000
+      colorIndex: 23
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: ed000000050100001d0100001c0100001b0100001a0100001901000018010000
+      colorIndex: 24
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 17010000160100001501000014010000fc000000fd000000fe000000ff0000000001000001010000
+      colorIndex: 25
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 7f0000009700000098000000b0000000c8000000e0000000f8000000100100000f0100000e010000f6000000de000000
+      colorIndex: 26
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 0d010000f5000000dd000000c5000000ad000000ac000000ab000000aa000000920000007a000000620000004a00000032000000330000001b0000001c00000004000000050000001d00000035000000360000001e0000001f000000200000000800000007000000
+      colorIndex: 27
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: c4000000dc000000f40000000c010000
+      colorIndex: 28
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: c3000000db000000f30000000b0100000a010000f2000000da000000c2000000
+      colorIndex: 29
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 020100000301000004010000ec000000eb000000ea000000
+      colorIndex: 30
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: f7000000df000000c7000000c6000000ae000000960000007e000000660000006500000064000000630000007b00000093000000940000007c0000007d00000095000000
+      colorIndex: 31
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: e2000000e3000000e4000000e5000000e6000000e7000000e8000000e9000000d1000000d0000000cf000000ce000000cd000000cc000000cb000000ca000000c9000000
+      colorIndex: 32
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: d3000000d4000000d5000000d6000000d7000000bf000000a70000008f000000770000005f000000470000002f00000017000000160000001500000014000000130000001200000011000000100000000f0000000e0000000d0000000c0000000b0000000a00000009000000210000003900000051000000690000008100000099000000b1000000b2000000b3000000b4000000b5000000b6000000b7000000b8000000b9000000ba000000bb000000bc000000bd000000be000000a60000008e000000760000005e00000046000000
+      colorIndex: 33
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 3a0000003b0000003c0000003d0000003e0000003f0000004000000041000000420000004300000044000000450000005d000000750000008d000000a5000000a4000000a3000000a2000000a1000000a00000009f0000009e0000009d0000009c0000009b0000009a000000820000006a00000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c000000740000008c0000008b0000008a000000890000008800000087000000860000008500000084000000830000006b0000006c0000006d0000006e0000006f000000700000007100000072000000
+      colorIndex: 34
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 8000000068000000
+      colorIndex: 35
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 4b0000004c0000004d0000004e0000004f000000500000003800000037000000
+      colorIndex: 36
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e000000
+      colorIndex: 37
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 0200000003000000
+      colorIndex: 38
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 3f02000027020000260200003e0200003d0200003c0200003b0200002302000024020000250200000d020000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 3a02000039020000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 10020000f8010000e0010000c8010000b001000098010000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 99010000810100006901000051010000390100002101000009010000f1000000d9000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: c0000000a80000009000000091000000790000006100000049000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 4800000030000000180000001900000031000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: e1010000c9010000b1010000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 08010000f0000000d8000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 8001000068010000500100003801000020010000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: c1000000a9000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 11020000f9010000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 7800000060000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

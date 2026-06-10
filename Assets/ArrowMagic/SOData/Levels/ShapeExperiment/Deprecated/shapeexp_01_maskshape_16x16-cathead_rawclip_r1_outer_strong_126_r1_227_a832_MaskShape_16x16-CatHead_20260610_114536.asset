@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: shapeexp_01_maskshape_16x16-cathead_rawclip_r1_outer_strong_126_r1_227_a832_MaskShape_16x16-CatHead_20260610_114536
+  m_EditorClassIdentifier: 
+  levelId: r1_outer_strong_126_r1_227_a832_rawclip
+  source: 1
+  board:
+    width: 16
+    height: 16
+    seed: 0
+  generation:
+    arrowCoverage: 0.98395723
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 474
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 374
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 16
+    height: 16
+    arrows:
+    - indices: 260000003600000046000000560000006600000065000000550000004500000035000000
+      colorIndex: 0
+    - indices: 38000000280000002700000037000000470000005700000067000000770000008700000097000000a7000000b7000000c7000000
+      colorIndex: 0
+    - indices: 490000003900000029000000
+      colorIndex: 0
+    - indices: 3400000044000000540000006400000074000000750000007600000086000000960000009500000085000000840000008300000073000000630000005300000043000000
+      colorIndex: 0
+    - indices: eb000000db000000cb000000bb000000ba000000aa0000009a0000008a0000007a0000006a0000005a0000004a0000003a000000
+      colorIndex: 0
+    - indices: 4c0000005c0000006c0000007c0000008c0000009c000000ac000000bc000000cc000000
+      colorIndex: 0
+    - indices: 9200000082000000720000006200000052000000
+      colorIndex: 0
+    - indices: 5d0000006d0000007d0000008d0000009d000000
+      colorIndex: 0
+    - indices: 6900000068000000780000007900000089000000880000009800000099000000a9000000a8000000b8000000b9000000c9000000
+      colorIndex: 0
+    - indices: 7b0000008b0000009b000000ab000000
+      colorIndex: 0
+    - indices: a5000000a4000000a30000009300000094000000
+      colorIndex: 0
+    - indices: a6000000b6000000c6000000
+      colorIndex: 0
+    - indices: d5000000c5000000b5000000b4000000b3000000c3000000
+      colorIndex: 0
+    - indices: e4000000d4000000c4000000
+      colorIndex: 0
+    - indices: da000000ca000000
+      colorIndex: 0
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: e85bcc0b48c94fd4b93ae0a60ddd5b17, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

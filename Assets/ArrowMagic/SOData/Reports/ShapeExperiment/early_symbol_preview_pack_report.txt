@@ -1,0 +1,32 @@
+SeedMaskPatch Early Symbol Preview Pack
+SourcePackFolder=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal
+CandidateOutput=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/EarlySymbolPreviewPack.asset
+Mode=EarlySuperSymbolMaskCropRepairOneFinalPerMask
+Design=original 19 star baseline plus 3 strong early symbols
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrongFinalPack.asset | Added=171
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R1OuterStrongFinalPack.asset | Added=176
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R3OuterStrongFinalPack.asset | Added=120
+LoadedSourceSeeds=467
+[1] Mask=Assets/ArrowMagic/Masks/Mask_19x19-Star.png | Matched=120/423 fitting seeds for mask=19x19
+    Top1: 1. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=176 | 箭头=175 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_123_r2_227_a832 | 可用 | 保留=174 | 箭头=174 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_147_r1_258_a894 | 可用 | 保留=173 | 箭头=178 | 缺口=0 | 填充=1.04 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_115_r1_210_a787.asset | MaskArea=184 | FinalFill=175 | Ratio=0.951 | Chains=25 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/earlysym_01_mask_19x19-star_rawclip_r1_outer_strong_115_r1_210_a787_Mask_19x19-Star_20260610_132408.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/earlysym_01_mask_19x19-star_r1_outer_strong_115_r1_210_a787_Mask_19x19-Star_20260610_132408.asset
+[2] Mask=Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_19x19-PlusBold.png | Matched=120/423 fitting seeds for mask=19x19
+    Top1: 1. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=190 | 箭头=190 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_123_r2_227_a832 | 可用 | 保留=188 | 箭头=188 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_029_r1_043_a475 | 可用 | 保留=186 | 箭头=188 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_115_r1_210_a787.asset | MaskArea=193 | FinalFill=190 | Ratio=0.984 | Chains=22 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/earlysym_02_maskreadable_19x19-plusbold_rawclip_r1_outer_strong_115_r1_210_a787_MaskReadable_19x19-PlusBold_20260610_132513.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/earlysym_02_maskreadable_19x19-plusbold_r1_outer_strong_115_r1_210_a787_MaskReadable_19x19-PlusBold_20260610_132513.asset
+[3] Mask=Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_21x21-XBold.png | Matched=120/362 fitting seeds for mask=21x21
+    Top1: 1. r2_outer_strong_168_r2_297_a006 | 可用 | 保留=236 | 箭头=240 | 缺口=0 | 填充=1.03 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_029_r1_043_a475 | 可用 | 保留=235 | 箭头=241 | 缺口=0 | 填充=1.03 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_022_r1_036_a466 | 可用 | 保留=233 | 箭头=241 | 缺口=0 | 填充=1.03 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_168_r2_297_a006.asset | MaskArea=249 | FinalFill=240 | Ratio=0.964 | Chains=43 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/earlysym_03_maskreadable_21x21-xbold_rawclip_r2_outer_strong_168_r2_297_a006_MaskReadable_21x21-XBold_20260610_132635.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/earlysym_03_maskreadable_21x21-xbold_r2_outer_strong_168_r2_297_a006_MaskReadable_21x21-XBold_20260610_132635.asset
+[4] Mask=Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_20x22-LightningSmall.png | Matched=120/394 fitting seeds for mask=20x22
+    Top1: 1. r1_outer_strong_117_r1_213_a798 | 可用 | 保留=180 | 箭头=181 | 缺口=0 | 填充=1.01 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_014_r1_020_a435 | 可用 | 保留=180 | 箭头=163 | 缺口=17 | 填充=0.91 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_100_r1_191_a744 | 可用 | 保留=176 | 箭头=180 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_117_r1_213_a798.asset | MaskArea=188 | FinalFill=181 | Ratio=0.963 | Chains=30 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/earlysym_04_maskreadable_20x22-lightningsmall_rawclip_r1_outer_strong_117_r1_213_a798_MaskReadable_20x22-LightningSmall_20260610_132757.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/earlysym_04_maskreadable_20x22-lightningsmall_r1_outer_strong_117_r1_213_a798_MaskReadable_20x22-LightningSmall_20260610_132757.asset
+PackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/EarlySymbolPreviewPack.asset | levels=4
+DemoAttached=True

@@ -1,0 +1,23 @@
+SeedMaskPatch Animal Shape Followup Pack
+SourcePackFolder=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal
+CandidateOutput=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/AnimalShapePreviewPack.asset
+Mode=AnimalShapeSideRemainderFollowup
+Design=continue side-view animal silhouettes; run duck/fish/elephant first, bunny last
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrongFinalPack.asset | Added=156
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R1OuterStrongFinalPack.asset | Added=158
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrong_A484_SinglePack.asset | Added=1
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R3OuterStrongFinalPack.asset | Added=120
+LoadedSourceSeeds=435
+ExistingAcceptedFromMain=2
+[1] Mask=Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_42x34-DuckSide.png | Matched=80/435 fallback seeds for oversized mask=42x34
+    Top1: 1. r1_outer_strong_006_r1_008_a409 | 可用 | 保留=548 | 箭头=553 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    BeginAttempt1=Top1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset
+    Attempt1=Top1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset | MaskArea=585 | FinalFill=553 | Ratio=0.945 | Chains=87 | straightness=chains=87, tiles=553, straight=25(0.29), longStraight=17(0.20), longTiles=0.24, bent=62(0.71), longestRun=12, longestChain=21 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalfollowup_01_maskanimal_42x34-duckside_rawclip_r1_outer_strong_006_r1_008_a409_MaskAnimal_42x34-DuckSide_20260610_165547.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalfollowup_01_maskanimal_42x34-duckside_r1_outer_strong_006_r1_008_a409_MaskAnimal_42x34-DuckSide_20260610_165547.asset
+[2] Mask=Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_44x30-FishSideLarge.png | Matched=80/435 fallback seeds for oversized mask=44x30
+    Top1: 1. r1_outer_strong_006_r1_008_a409 | 可用 | 保留=458 | 箭头=541 | 缺口=0 | 填充=1.19 | 去尾/改写=0
+    BeginAttempt1=Top1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset
+    Attempt1=Top1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_006_r1_008_a409.asset | MaskArea=564 | FinalFill=541 | Ratio=0.959 | Chains=87 | straightness=chains=87, tiles=541, straight=34(0.39), longStraight=22(0.25), longTiles=0.34, bent=53(0.61), longestRun=13, longestChain=19 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalfollowup_02_maskanimal_44x30-fishsidelarge_rawclip_r1_outer_strong_006_r1_008_a409_MaskAnimal_44x30-FishSideLarge_20260610_170317.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalfollowup_02_maskanimal_44x30-fishsidelarge_r1_outer_strong_006_r1_008_a409_MaskAnimal_44x30-FishSideLarge_20260610_170317.asset
+[3] Mask=Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_44x38-ElephantSide.png | Matched=80/435 fallback seeds for oversized mask=44x38
+    Top1: 1. r1_outer_strong_166_r1_285_a974 | 可用 | 保留=618 | 箭头=639 | 缺口=0 | 填充=1.04 | 去尾/改写=0
+    BeginAttempt1=Top1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_166_r1_285_a974.asset

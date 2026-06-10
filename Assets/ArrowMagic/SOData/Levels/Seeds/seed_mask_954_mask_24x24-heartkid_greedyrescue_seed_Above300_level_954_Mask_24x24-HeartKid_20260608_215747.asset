@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: seed_mask_954_mask_24x24-heartkid_greedyrescue_seed_Above300_level_954_Mask_24x24-HeartKid_20260608_215747
+  m_EditorClassIdentifier: 
+  levelId: seed_Above300_level_954_maskpatch
+  source: 1
+  board:
+    width: 24
+    height: 24
+    seed: 0
+  generation:
+    arrowCoverage: 1
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 1364
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 1188
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 24
+    height: 24
+    arrows:
+    - indices: b7000000b6000000b5000000b4000000b30000009b000000830000006b00000053000000
+      colorIndex: 0
+    - indices: 6a000000820000009a00000099000000
+      colorIndex: 0
+    - indices: 9e0000009d0000009c000000840000006c0000006d000000
+      colorIndex: 0
+    - indices: 8500000086000000
+      colorIndex: 0
+    - indices: b2000000b1000000b0000000
+      colorIndex: 0
+    - indices: de000000df000000f70000000f0100000e0100000d010000250100003d01000055010000560100005701000058010000400100002801000010010000f8000000e0000000c8000000c7000000
+      colorIndex: 0
+    - indices: c9000000ca000000cb000000cc000000cd000000ce000000cf000000d0000000e800000000010000180100003001000048010000600100007801000090010000a8010000c0010000d8010000f0010000
+      colorIndex: 0
+    - indices: 59010000410100002901000011010000f9000000e1000000
+      colorIndex: 0
+    - indices: fa000000fb000000e3000000e2000000
+      colorIndex: 0
+    - indices: e7000000e6000000e5000000e4000000fc000000fd000000fe000000ff000000170100002f010000470100005f010000
+      colorIndex: 0
+    - indices: e900000001010000190100003101000049010000610100007901000091010000a9010000c1010000d9010000f1010000
+      colorIndex: 0
+    - indices: 0c010000240100003c01000054010000530100003b01000023010000
+      colorIndex: 0
+    - indices: 1601000015010000140100001301000012010000
+      colorIndex: 0
+    - indices: 1a010000320100004a010000620100007a01000092010000aa010000c2010000da010000
+      colorIndex: 0
+    - indices: db010000c3010000ab010000930100007b010000630100004b010000330100001b010000
+      colorIndex: 0
+    - indices: 3f01000027010000260100003e010000
+      colorIndex: 0
+    - indices: 2e0100002d0100002c0100002b0100002a010000
+      colorIndex: 0
+    - indices: 340100004c010000640100007c01000094010000ac010000c4010000
+      colorIndex: 0
+    - indices: 520100003a010000
+      colorIndex: 0
+    - indices: 4601000045010000440100004301000042010000
+      colorIndex: 0
+    - indices: 4d01000065010000
+      colorIndex: 0
+    - indices: 5e0100005d0100005c0100005b0100005a010000
+      colorIndex: 0
+    - indices: ef010000d7010000bf010000a70100008f01000077010000760100007501000074010000730100007201000071010000700100006f0100006e0100006d0100006c0100006b0100006a010000
+      colorIndex: 0
+    - indices: ad010000950100007d010000
+      colorIndex: 0
+    - indices: e6010000e7010000cf010000b70100009f010000870100008601000085010000840100008301000082010000
+      colorIndex: 0
+    - indices: bb010000a30100008b0100008a01000089010000a1010000b9010000d1010000e9010000
+      colorIndex: 0
+    - indices: bc010000a40100008c010000
+      colorIndex: 0
+    - indices: 9a0100009b0100009c0100009d0100009e010000b6010000ce010000cd010000cc010000
+      colorIndex: 0
+    - indices: a0010000b8010000d0010000e8010000
+      colorIndex: 0
+    - indices: a2010000ba010000d2010000
+      colorIndex: 0
+    - indices: a5010000bd010000d5010000d6010000ee010000
+      colorIndex: 0
+    - indices: b5010000b4010000b3010000
+      colorIndex: 0
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: 0519099a9d354a41b512bab336504d02, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

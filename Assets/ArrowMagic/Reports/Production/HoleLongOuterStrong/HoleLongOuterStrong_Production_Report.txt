@@ -1,0 +1,24 @@
+HoleLongOuterStrong Production Batch
+SourcePacks=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal
+CandidateOutput=Assets/ArrowMagic/SOData/Levels/Production/HoleLongOuterStrong/Candidates
+CandidatesPerMask=3
+DeepAttemptLimit=16
+TargetFillRatio=0.92
+Rules=GreedyPass,BlockRayHits0,Chains40SmallOr50-120,HighFinalOnly
+MaskCreated=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_22x34_long.png, size=22x34, shape=long, shell=480, hole=140 | fixedHole=10x14, holeOrigin=6,10
+MaskCreated=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_24x36_long.png, size=24x36, shape=long, shell=588, hole=140 | fixedHole=10x14, holeOrigin=7,11
+MaskCreated=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_24x40_long.png, size=24x40, shape=long, shell=676, hole=140 | fixedHole=10x14, holeOrigin=7,13
+MaskCreated=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_26x38_long.png, size=26x38, shape=long, shell=704, hole=140 | fixedHole=10x14, holeOrigin=8,12
+MaskCreated=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_26x42_long.png, size=26x42, shape=long, shell=796, hole=140 | fixedHole=10x14, holeOrigin=8,14
+MaskCreated=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_28x40_long.png, size=28x40, shape=long, shell=828, hole=140 | fixedHole=10x14, holeOrigin=9,13
+MaskCreated=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_28x44_long.png, size=28x44, shape=long, shell=928, hole=140 | fixedHole=10x14, holeOrigin=9,15
+MaskCreated=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_30x46_long.png, size=30x46, shape=long, shell=1068, hole=140 | fixedHole=10x14, holeOrigin=10,16
+CandidateFolderCleared=7
+Mask[1/8]=22x34_long, size=22x34, spawn=480, blocks=140, path=Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_22x34_long.png
+  Preview=checked=120, valid=120
+  PreviewTop1=seed=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_048_r1_086_a557.asset, offset=-1,1, fill=464, chains=103, score=11260
+  PreviewTop2=seed=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_005_r1_006_a401.asset, offset=-1,1, fill=465, chains=101, score=11230
+  PreviewTop3=seed=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_047_r2_086_a557.asset, offset=-1,-1, fill=464, chains=100, score=11206
+  PreviewTop4=seed=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_163_r2_288_a984.asset, offset=0,0, fill=467, chains=94, score=11144
+  PreviewTop5=seed=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_139_r2_253_a885.asset, offset=1,-1, fill=466, chains=93, score=11127
+  DeepAttempt1=accepted=True, seed=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_048_r1_086_a557.asset, final=Assets/ArrowMagic/SOData/Levels/Production/HoleLongOuterStrong/Candidates/hole_prod_22x34_long_r01_r1_outer_strong_048_r1_086_a557_20260610_111835.asset, fill=442/480, chains=62, minChains=50, hits=0, score=7767

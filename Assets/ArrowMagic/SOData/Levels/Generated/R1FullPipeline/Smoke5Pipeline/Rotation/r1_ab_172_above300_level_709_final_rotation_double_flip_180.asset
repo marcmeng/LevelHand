@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: r1_ab_172_above300_level_709_final_rotation_double_flip_180
+  m_EditorClassIdentifier: 
+  levelId: r1_ab_172_above300_level_709_final_rotation_double_flip_180
+  source: 1
+  board:
+    width: 39
+    height: 65
+    seed: 0
+  generation:
+    arrowCoverage: 1
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 30
+    computedDifficultyScoreV0: 30
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 2535
+    twistiness: 0.5
+    validateWithGreedy: 1
+  variant:
+    sourceScreenshotId: r1_ab_172_above300_level_709_final
+    shapeClass: NormalPuzzle
+    seedTags: seed;screenshot;auto;head_tail_auto_confirmed;normal_puzzle;rotation;rotation
+    variantMode: rotation
+    sourceChainCountBeforeVariant: 5
+    generatedTailChainCount: 0
+    pipelineRunId: r1_r2_from_r1_formal_20260609_c060_20260608_184917_o080_n020
+    pipelineStage: rotation
+    rootSeedId: r1_ab_172_above300_level_709_final
+    totalDiffRatioFromRoot: 0.75
+    occupiedCellDiffRatioFromRoot: 0.75
+    directionDiffRatioFromRoot: 0
+    addedOccupiedCellsFromRoot: 6
+    removedOccupiedCellsFromRoot: 6
+    directionChangedCellsFromRoot: 0
+    alignedUnionCellsFromRoot: 16
+    alignedOffsetXFromRoot: 1
+    alignedOffsetYFromRoot: -60
+  authoredLevel:
+    width: 39
+    height: 65
+    arrows:
+    - indices: 390000003a000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 3e00000065000000
+      colorIndex: 1
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 3f00000066000000
+      colorIndex: 2
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 850000005e000000
+      colorIndex: 3
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 6900000068000000
+      colorIndex: 4
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

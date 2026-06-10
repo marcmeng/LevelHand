@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/ArrowTiles.uss?fileID=7433441132597879392&amp;guid=737f7112262334292b78d96d660824c6&amp;type=3#ArrowTiles"/>
+    <ui:VisualElement class="text horizontal centered font" style="flex-grow: 1; top: 0; position: absolute; flex-direction: row;">
+        <ui:Label text="Moves" name="movesLabel"/>
+        <ui:Label text="Status" name="statusLabel"/>
+        <ui:Label text="Hearts" name="heartsLabel"/>
+        <ui:Label text="Blocked" name="blockedLabel"/>
+    </ui:VisualElement>
+    <ui:VisualElement class="text centered font" style="flex-grow: 1; flex-direction: row; position: absolute; bottom: 0;">
+        <ui:Button text="Undo" name="undoButton" class="tile-btn button"/>
+        <ui:Button text="Restart" name="restartButton" class="tile-btn button"/>
+        <ui:Button text="New" name="newButton" class="tile-btn button"/>
+        <ui:Button text="Edit" name="editButton" class="tile-btn button" style="display: none;"/>
+        <ui:Button text="Save" name="saveButton" class="tile-btn button" style="display: none;"/>
+    </ui:VisualElement>
+</ui:UXML>

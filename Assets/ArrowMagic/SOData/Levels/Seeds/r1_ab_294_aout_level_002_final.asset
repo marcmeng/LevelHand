@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: r1_ab_294_aout_level_002_final
+  m_EditorClassIdentifier: 
+  levelId: r1_ab_294_aout_level_002_final
+  source: 1
+  board:
+    width: 6
+    height: 8
+    seed: 0
+  generation:
+    arrowCoverage: 1
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 168
+    computedDifficultyScoreV0: 168
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 48
+    twistiness: 0.5
+    validateWithGreedy: 1
+  variant:
+    sourceScreenshotId: seed_AOut_level_002
+    shapeClass: NotScanned
+    seedTags: addcells_rewrite_v2;rotation
+    variantMode: rotation
+    sourceChainCountBeforeVariant: 8
+    generatedTailChainCount: 3
+    pipelineRunId: r1_recovery_validated_b20_full_resume_o100_20260606_20260606_142411_o280_n020
+    pipelineStage: rotation
+    rootSeedId: seed_AOut_level_002
+    totalDiffRatioFromRoot: 0.875
+    occupiedCellDiffRatioFromRoot: 0.25
+    directionDiffRatioFromRoot: 0.625
+    addedOccupiedCellsFromRoot: 12
+    removedOccupiedCellsFromRoot: 0
+    directionChangedCellsFromRoot: 30
+    alignedUnionCellsFromRoot: 48
+    alignedOffsetXFromRoot: 0
+    alignedOffsetYFromRoot: 0
+  authoredLevel:
+    width: 6
+    height: 8
+    arrows:
+    - indices: 2e0000002d0000002c0000002b0000002a000000240000001e0000001800000012000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 0c0000000d0000000e0000000f0000001000000011000000170000001d00000023000000290000002f000000
+      colorIndex: 1
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 27000000210000001b0000001a0000002000000026000000250000001f00000019000000
+      colorIndex: 2
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 1300000014000000
+      colorIndex: 3
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 28000000220000001c0000001600000015000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 0200000003000000040000000a0000000900000008000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 0b00000005000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    - indices: 01000000070000000600000000000000
+      colorIndex: 0
+      useCustomColor: 0
+      customColor: {r: 1, g: 1, b: 1, a: 1}
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

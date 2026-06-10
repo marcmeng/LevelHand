@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: readableshape_02_maskreadable_20x20-heartbold_r1_outer_strong_116_r1_211_a789_MaskReadable_20x20-HeartBold_20260610_123327
+  m_EditorClassIdentifier: 
+  levelId: r1_outer_strong_116_r1_211_a789_maskpatch
+  source: 1
+  board:
+    width: 20
+    height: 20
+    seed: 0
+  generation:
+    arrowCoverage: 0.994
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 653
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 500
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 20
+    height: 20
+    arrows:
+    - indices: 2e000000420000004100000040000000
+      colorIndex: 0
+    - indices: 2f0000004300000057000000560000006a0000006b0000006c0000008000000094000000a8000000a9000000bd000000bc000000bb000000a7000000a600000092000000930000007f0000007e0000007d000000690000005500000054000000680000007c00000090000000a4000000b8000000b9000000cd000000cc000000e0000000e1000000e2000000f60000000a0100001e010000
+      colorIndex: 0
+    - indices: 360000003500000034000000
+      colorIndex: 0
+    - indices: 5f0000005e0000005d0000005c0000005b0000005a00000059000000580000004400000045000000460000004700000048000000490000004a0000004b000000
+      colorIndex: 0
+    - indices: 53000000670000007b0000008f000000a3000000b7000000cb000000
+      colorIndex: 0
+    - indices: 6000000074000000880000008700000086000000850000008400000098000000990000009a0000009b0000009c0000009d0000008900000075000000
+      colorIndex: 0
+    - indices: 660000007a000000
+      colorIndex: 0
+    - indices: 95000000810000006d0000006e0000008200000096000000aa000000be000000bf000000c0000000c1000000c2000000c3000000c4000000
+      colorIndex: 0
+    - indices: c5000000b1000000b0000000af000000ae000000ad000000ac000000ab00000097000000830000006f00000070000000710000007200000073000000
+      colorIndex: 0
+    - indices: 790000008d000000
+      colorIndex: 0
+    - indices: 8a0000009e000000
+      colorIndex: 0
+    - indices: 91000000a5000000
+      colorIndex: 0
+    - indices: a2000000b6000000
+      colorIndex: 0
+    - indices: ce000000ba000000
+      colorIndex: 0
+    - indices: eb000000d7000000d6000000d5000000d4000000d3000000d2000000d1000000d0000000cf000000
+      colorIndex: 0
+    - indices: 330100001f0100000b010000f7000000e3000000e4000000e5000000e6000000e7000000e8000000fc000000100100002401000038010000
+      colorIndex: 0
+    - indices: e9000000fd0000001101000025010000
+      colorIndex: 0
+    - indices: fe000000ea000000
+      colorIndex: 0
+    - indices: 230100000f010000fb000000fa000000f9000000f80000000c01000020010000
+      colorIndex: 0
+    - indices: 210100000d010000
+      colorIndex: 0
+    - indices: 5f0100004b01000037010000360100003501000034010000480100005c010000
+      colorIndex: 0
+    - indices: 710100005d010000490100004a0100005e01000072010000
+      colorIndex: 0
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: 87415cae0f31c414f8504a2d6fb1e158, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

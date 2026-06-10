@@ -1,0 +1,22 @@
+SeedMaskPatch Original Star Mask Preview Pack
+Mask=Assets/ArrowMagic/Masks/Mask_19x19-Star.png
+SourcePackFolder=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal
+CandidateOutput=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/OriginalStarMaskPreviewPack.asset
+Mode=SingleOriginalStarMaskCropRepair
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrongFinalPack.asset | Added=171
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R1OuterStrongFinalPack.asset | Added=176
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R3OuterStrongFinalPack.asset | Added=120
+LoadedSourceSeeds=467
+Matched=160/423 fitting seeds for mask=19x19
+Top1: 1. r1_outer_strong_168_r1_289_a985 | 可用 | 保留=176 | 箭头=178 | 缺口=0 | 填充=1.01 | 去尾/改写=0
+Top2: 2. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=176 | 箭头=175 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+Top3: 3. r1_outer_strong_117_r1_213_a798 | 可用 | 保留=175 | 箭头=178 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+Top4: 4. r2_outer_strong_123_r2_227_a832 | 可用 | 保留=174 | 箭头=174 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+Top5: 5. r1_outer_strong_147_r1_258_a894 | 可用 | 保留=173 | 箭头=178 | 缺口=0 | 填充=1.04 | 去尾/改写=0
+Top6: 6. r1_outer_strong_029_r1_043_a475 | 可用 | 保留=172 | 箭头=175 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+Top7: 7. r1_outer_strong_100_r1_191_a744 | 可用 | 保留=171 | 箭头=179 | 缺口=0 | 填充=1.05 | 去尾/改写=0
+Top8: 8. r1_outer_strong_061_r1_104_a594 | 可用 | 保留=171 | 箭头=178 | 缺口=0 | 填充=1.04 | 去尾/改写=0
+Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_168_r1_289_a985.asset | MaskArea=184 | FinalFill=178 | Ratio=0.967 | Chains=32 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/original_star_mask_preview_rawclip_r1_outer_strong_168_r1_289_a985_Mask_19x19-Star_20260610_121712.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/original_star_mask_preview_r1_outer_strong_168_r1_289_a985_Mask_19x19-Star_20260610_121712.asset
+PackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/OriginalStarMaskPreviewPack.asset | levels=1
+DemoAttached=True

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: CompositeSeedVariantsAB_ScoreTop10
+  m_EditorClassIdentifier: 
+  packId: composite_seed_variants_ab_score_top10
+  displayName: Composite Seed Variants AB Score Top 10
+  levels:
+  - {fileID: 11400000, guid: 0ec15c8c4633de24c9c56292f4c1e875, type: 2}
+  - {fileID: 11400000, guid: 9c5c47502fbe03e428dfd57db498ac6a, type: 2}
+  - {fileID: 11400000, guid: 63bec9e1cf0bf6b4bbf16f1b30f5444d, type: 2}
+  - {fileID: 11400000, guid: 4ce69a4ac2518f7448555404a62d8993, type: 2}
+  - {fileID: 11400000, guid: de6b9d19915f71a45927c817b04d87e8, type: 2}
+  - {fileID: 11400000, guid: b281a4b39f24bd949bd8a06d87c85e81, type: 2}
+  - {fileID: 11400000, guid: 3d11f6deaa66ac34d8ac879112ec1515, type: 2}
+  - {fileID: 11400000, guid: 9aa678cf83e70234484bb7e2f26bce7d, type: 2}
+  - {fileID: 11400000, guid: 4a006f895219d7543b040fb14708ac8c, type: 2}
+  - {fileID: 11400000, guid: 6a522d67848aa7743acbe99f1d920a67, type: 2}

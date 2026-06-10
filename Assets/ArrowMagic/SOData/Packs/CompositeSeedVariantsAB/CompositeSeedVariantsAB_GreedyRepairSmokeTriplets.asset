@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: CompositeSeedVariantsAB_GreedyRepairSmokeTriplets
+  m_EditorClassIdentifier: 
+  packId: composite_seed_variants_ab_greedy_repair_smoke_triplets
+  displayName: Composite Seed Variants AB Greedy Repair Smoke Triplets
+  levels:
+  - {fileID: 11400000, guid: c99a2dd6996da4e45b07e02edeaf7be5, type: 2}
+  - {fileID: 11400000, guid: 4b0cc7c8792408c4d9bbc21ef1c2fbc4, type: 2}
+  - {fileID: 11400000, guid: 06f461b7ea92ad3489d07306550f7646, type: 2}
+  - {fileID: 11400000, guid: 79c8f8e4c13bfe842ad99415207f6594, type: 2}
+  - {fileID: 11400000, guid: 8ec7e98a40b35324885ea97bfadcd0cd, type: 2}
+  - {fileID: 11400000, guid: db3382e8e6732ad4990a7bfe90fe4f11, type: 2}
+  - {fileID: 11400000, guid: c99a2dd6996da4e45b07e02edeaf7be5, type: 2}
+  - {fileID: 11400000, guid: 0d9fae666093d484ea55f92888377079, type: 2}
+  - {fileID: 11400000, guid: 6a0d7da19277e9b4991ebd05eb999239, type: 2}

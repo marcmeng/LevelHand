@@ -1,0 +1,35 @@
+SeedMaskPatch Readable Shape Preview Pack
+SourcePackFolder=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal
+CandidateOutput=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ReadableShapePreviewPack.asset
+Mode=ReadableShapeMaskCropRepairOneFinalPerMask
+Design=early 19-21 plus recommended 28-36 sizes
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrongFinalPack.asset | Added=171
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R1OuterStrongFinalPack.asset | Added=176
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R3OuterStrongFinalPack.asset | Added=120
+LoadedSourceSeeds=467
+[1] Mask=Assets/ArrowMagic/Masks/Mask_19x19-Star.png | Matched=140/423 fitting seeds for mask=19x19
+    Top1: 1. r1_outer_strong_168_r1_289_a985 | 可用 | 保留=176 | 箭头=178 | 缺口=0 | 填充=1.01 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=176 | 箭头=175 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_117_r1_213_a798 | 可用 | 保留=175 | 箭头=178 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_168_r1_289_a985.asset | MaskArea=184 | FinalFill=178 | Ratio=0.967 | Chains=32 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_01_mask_19x19-star_rawclip_r1_outer_strong_168_r1_289_a985_Mask_19x19-Star_20260610_123151.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_01_mask_19x19-star_r1_outer_strong_168_r1_289_a985_Mask_19x19-Star_20260610_123151.asset
+[2] Mask=Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_20x20-HeartBold.png | Matched=140/400 fitting seeds for mask=20x20
+    Top1: 1. r1_outer_strong_116_r1_211_a789 | 可用 | 保留=179 | 箭头=178 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_122_r1_220_a816 | 可用 | 保留=177 | 箭头=179 | 缺口=0 | 填充=1.01 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_117_r1_213_a798 | 可用 | 保留=176 | 箭头=179 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_116_r1_211_a789.asset | MaskArea=184 | FinalFill=178 | Ratio=0.967 | Chains=22 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_02_maskreadable_20x20-heartbold_rawclip_r1_outer_strong_116_r1_211_a789_MaskReadable_20x20-HeartBold_20260610_123326.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_02_maskreadable_20x20-heartbold_r1_outer_strong_116_r1_211_a789_MaskReadable_20x20-HeartBold_20260610_123327.asset
+[3] Mask=Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_21x21-GemBold.png | Matched=140/362 fitting seeds for mask=21x21
+    Top1: 1. r1_outer_strong_165_r1_284_a972 | 可用 | 保留=180 | 箭头=179 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_078_r1_150_a655 | 可用 | 保留=179 | 箭头=180 | 缺口=0 | 填充=1.01 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_100_r1_191_a744 | 可用 | 保留=178 | 箭头=181 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_165_r1_284_a972.asset | MaskArea=187 | FinalFill=179 | Ratio=0.957 | Chains=23 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_03_maskreadable_21x21-gembold_rawclip_r1_outer_strong_165_r1_284_a972_MaskReadable_21x21-GemBold_20260610_123500.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_03_maskreadable_21x21-gembold_r1_outer_strong_165_r1_284_a972_MaskReadable_21x21-GemBold_20260610_123500.asset
+[4] Mask=Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_28x28-StarBoldLarge.png | Matched=140/172 fitting seeds for mask=28x28
+    Top1: 1. r2_outer_strong_126_r2_232_a845 | 可用 | 保留=361 | 箭头=367 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_129_r2_235_a852 | 可用 | 保留=357 | 箭头=369 | 缺口=0 | 填充=1.03 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_064_r1_109_a606 | 可用 | 保留=327 | 箭头=367 | 缺口=0 | 填充=1.12 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_126_r2_232_a845.asset | MaskArea=382 | FinalFill=367 | Ratio=0.961 | Chains=65 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_04_maskreadable_28x28-starboldlarge_rawclip_r2_outer_strong_126_r2_232_a845_MaskReadable_28x28-StarBoldLarge_20260610_123759.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_04_maskreadable_28x28-starboldlarge_r2_outer_strong_126_r2_232_a845_MaskReadable_28x28-StarBoldLarge_20260610_123759.asset
+[5] Mask=Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_28x30-HouseBold.png | Matched=140/171 fitting seeds for mask=28x30
+    Top1: 1. r2_outer_strong_126_r2_232_a845 | 可用 | 保留=353 | 箭头=358 | 缺口=0 | 填充=1.01 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_129_r2_235_a852 | 可用 | 保留=350 | 箭头=360 | 缺口=0 | 填充=1.03 | 去尾/改写=0
+    Top3: 3. r2_outer_strong_061_r2_109_a606 | 可用 | 保留=327 | 箭头=359 | 缺口=0 | 填充=1.10 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_126_r2_232_a845.asset | MaskArea=372 | FinalFill=358 | Ratio=0.962 | Chains=64 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_05_maskreadable_28x30-housebold_rawclip_r2_outer_strong_126_r2_232_a845_MaskReadable_28x30-HouseBold_20260610_124013.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_05_maskreadable_28x30-housebold_r2_outer_strong_126_r2_232_a845_MaskReadable_28x30-HouseBold_20260610_124013.asset

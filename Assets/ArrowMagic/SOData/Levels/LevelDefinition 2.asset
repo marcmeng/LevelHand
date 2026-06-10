@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: LevelDefinition 2
+  m_EditorClassIdentifier: Assembly-CSharp::PixelBug.Arrowscape.LevelDefinition
+  levelId: level_002
+  board:
+    width: 20
+    height: 20
+    seed: 0
+  generation:
+    arrowCoverage: 0.95
+    minPathLen: 2
+    maxPathLength: 20
+    twistiness: 0.5
+    validateWithGreedy: 1
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: 4126093758db94562aa3e2aeff5e3c65, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 11400000, guid: 774d741ddd630465cbae25692e97da4f, type: 2}
+  palette: {fileID: 11400000, guid: e641e7dda7fea40c088450018929ba5f, type: 2}
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

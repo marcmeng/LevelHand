@@ -1,0 +1,64 @@
+SeedMaskPatch Shape Experiment Preview Pack
+MaskFolder=Assets/ArrowMagic/Masks/ShapeExperiment
+SourcePackFolder=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal
+CandidateOutput=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeExperimentPreviewPack.asset
+MaskLimit=10
+Mode=SolidShapeMaskCropRepairOneFinalPerMask
+LoadedMasks=10
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R2OuterStrongFinalPack.asset | Added=171
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R1OuterStrongFinalPack.asset | Added=176
+SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R3OuterStrongFinalPack.asset | Added=120
+LoadedSourceSeeds=467
+[1] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_16x16-CatHead.png | Matched=80/450 fitting seeds for mask=16x16
+    Top1: 1. r1_outer_strong_126_r1_227_a832 | 可用 | 保留=117 | 箭头=117 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=116 | 箭头=116 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top3: 3. r2_outer_strong_123_r2_227_a832 | 可用 | 保留=116 | 箭头=116 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_126_r1_227_a832.asset | MaskArea=118 | FinalFill=117 | Ratio=0.992 | Chains=16 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_01_maskshape_16x16-cathead_rawclip_r1_outer_strong_126_r1_227_a832_MaskShape_16x16-CatHead_20260610_114536.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_01_maskshape_16x16-cathead_r1_outer_strong_126_r1_227_a832_MaskShape_16x16-CatHead_20260610_114536.asset
+[2] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_16x16-Fish.png | Matched=80/450 fitting seeds for mask=16x16
+    Top1: 1. r2_outer_strong_144_r2_259_a897 | 可用 | 保留=88 | 箭头=85 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_148_r1_259_a897 | 可用 | 保留=87 | 箭头=84 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=85 | 箭头=85 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_144_r2_259_a897.asset | MaskArea=88 | FinalFill=85 | Ratio=0.966 | Chains=17 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_02_maskshape_16x16-fish_rawclip_r2_outer_strong_144_r2_259_a897_MaskShape_16x16-Fish_20260610_114541.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_02_maskshape_16x16-fish_r2_outer_strong_144_r2_259_a897_MaskShape_16x16-Fish_20260610_114541.asset
+[3] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_16x16-Tree.png | Matched=80/450 fitting seeds for mask=16x16
+    Top1: 1. r1_outer_strong_173_r1_297_a006 | 可用 | 保留=112 | 箭头=109 | 缺口=2 | 填充=0.98 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=111 | 箭头=111 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_148_r1_259_a897 | 可用 | 保留=111 | 箭头=108 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_173_r1_297_a006.asset | MaskArea=112 | FinalFill=109 | Ratio=0.973 | Chains=15 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_03_maskshape_16x16-tree_rawclip_r1_outer_strong_173_r1_297_a006_MaskShape_16x16-Tree_20260610_114553.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_03_maskshape_16x16-tree_r1_outer_strong_173_r1_297_a006_MaskShape_16x16-Tree_20260610_114553.asset
+[4] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_16x16-Cloud.png | Matched=80/450 fitting seeds for mask=16x16
+    Top1: 1. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=99 | 箭头=99 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_144_r2_259_a897 | 可用 | 保留=98 | 箭头=95 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_126_r1_227_a832 | 可用 | 保留=97 | 箭头=97 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_115_r1_210_a787.asset | MaskArea=99 | FinalFill=99 | Ratio=1.000 | Chains=11 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_04_maskshape_16x16-cloud_rawclip_r1_outer_strong_115_r1_210_a787_MaskShape_16x16-Cloud_20260610_114600.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_04_maskshape_16x16-cloud_r1_outer_strong_115_r1_210_a787_MaskShape_16x16-Cloud_20260610_114600.asset
+[5] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_16x16-Crown.png | Matched=80/450 fitting seeds for mask=16x16
+    Top1: 1. r1_outer_strong_148_r1_259_a897 | 可用 | 保留=94 | 箭头=93 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_144_r2_259_a897 | 可用 | 保留=94 | 箭头=90 | 缺口=2 | 填充=0.98 | 去尾/改写=0
+    Top3: 3. r2_outer_strong_123_r2_227_a832 | 可用 | 保留=93 | 箭头=93 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_148_r1_259_a897.asset | MaskArea=96 | FinalFill=93 | Ratio=0.969 | Chains=15 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_05_maskshape_16x16-crown_rawclip_r1_outer_strong_148_r1_259_a897_MaskShape_16x16-Crown_20260610_114608.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_05_maskshape_16x16-crown_r1_outer_strong_148_r1_259_a897_MaskShape_16x16-Crown_20260610_114608.asset
+[6] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_16x16-Shield.png | Matched=80/450 fitting seeds for mask=16x16
+    Top1: 1. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=114 | 箭头=113 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_123_r2_227_a832 | 可用 | 保留=113 | 箭头=112 | 缺口=1 | 填充=0.99 | 去尾/改写=1
+    Top3: 3. r1_outer_strong_148_r1_259_a897 | 可用 | 保留=112 | 箭头=109 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_115_r1_210_a787.asset | MaskArea=114 | FinalFill=113 | Ratio=0.991 | Chains=14 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_06_maskshape_16x16-shield_rawclip_r1_outer_strong_115_r1_210_a787_MaskShape_16x16-Shield_20260610_114619.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_06_maskshape_16x16-shield_r1_outer_strong_115_r1_210_a787_MaskShape_16x16-Shield_20260610_114619.asset
+[7] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_14x20-Balloon.png | Matched=80/447 fitting seeds for mask=14x20
+    Top1: 1. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=96 | 箭头=96 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_112_r2_210_a787 | 可用 | 保留=95 | 箭头=95 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_173_r1_297_a006 | 可用 | 保留=94 | 箭头=94 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_115_r1_210_a787.asset | MaskArea=96 | FinalFill=96 | Ratio=1.000 | Chains=19 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_07_maskshape_14x20-balloon_rawclip_r1_outer_strong_115_r1_210_a787_MaskShape_14x20-Balloon_20260610_114629.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_07_maskshape_14x20-balloon_r1_outer_strong_115_r1_210_a787_MaskShape_14x20-Balloon_20260610_114629.asset
+[8] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_18x18-Duck.png | Matched=80/441 fitting seeds for mask=18x18
+    Top1: 1. r1_outer_strong_115_r1_210_a787 | 可用 | 保留=138 | 箭头=138 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r2_outer_strong_144_r2_259_a897 | 可用 | 保留=138 | 箭头=137 | 缺口=0 | 填充=1.01 | 去尾/改写=0
+    Top3: 3. r2_outer_strong_123_r2_227_a832 | 可用 | 保留=137 | 箭头=137 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_115_r1_210_a787.asset | MaskArea=141 | FinalFill=138 | Ratio=0.979 | Chains=15 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_08_maskshape_18x18-duck_rawclip_r1_outer_strong_115_r1_210_a787_MaskShape_18x18-Duck_20260610_114658.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_08_maskshape_18x18-duck_r1_outer_strong_115_r1_210_a787_MaskShape_18x18-Duck_20260610_114658.asset
+[9] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_22x24-Bunny.png | Matched=80/321 fitting seeds for mask=22x24
+    Top1: 1. r1_outer_strong_117_r1_213_a798 | 可用 | 保留=218 | 箭头=219 | 缺口=0 | 填充=1.00 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_009_r1_013_a421 | 可用 | 保留=215 | 箭头=222 | 缺口=0 | 填充=1.04 | 去尾/改写=0
+    Top3: 3. r2_outer_strong_075_r2_150_a655 | 可用 | 保留=215 | 箭头=221 | 缺口=0 | 填充=1.03 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_117_r1_213_a798.asset | MaskArea=228 | FinalFill=219 | Ratio=0.961 | Chains=37 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_09_maskshape_22x24-bunny_rawclip_r1_outer_strong_117_r1_213_a798_MaskShape_22x24-Bunny_20260610_114818.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_09_maskshape_22x24-bunny_r1_outer_strong_117_r1_213_a798_MaskShape_22x24-Bunny_20260610_114819.asset
+[10] Mask=Assets/ArrowMagic/Masks/ShapeExperiment/MaskShape_22x20-Bear.png | Matched=80/330 fitting seeds for mask=22x20
+    Top1: 1. r1_outer_strong_009_r1_013_a421 | 可用 | 保留=184 | 箭头=186 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    Top2: 2. r1_outer_strong_078_r1_150_a655 | 可用 | 保留=183 | 箭头=186 | 缺口=0 | 填充=1.02 | 去尾/改写=0
+    Top3: 3. r1_outer_strong_147_r1_258_a894 | 可用 | 保留=181 | 箭头=188 | 缺口=0 | 填充=1.04 | 去尾/改写=0
+    Generated=True | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_009_r1_013_a421.asset | MaskArea=194 | FinalFill=186 | Ratio=0.959 | Chains=36 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_10_maskshape_22x20-bear_rawclip_r1_outer_strong_009_r1_013_a421_MaskShape_22x20-Bear_20260610_114928.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/shapeexp_10_maskshape_22x20-bear_r1_outer_strong_009_r1_013_a421_MaskShape_22x20-Bear_20260610_114928.asset
+PackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeExperimentPreviewPack.asset | levels=10
+DemoAttached=True

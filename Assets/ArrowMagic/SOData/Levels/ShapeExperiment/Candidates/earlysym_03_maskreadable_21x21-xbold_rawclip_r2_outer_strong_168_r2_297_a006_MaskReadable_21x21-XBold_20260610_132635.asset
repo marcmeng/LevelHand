@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: earlysym_03_maskreadable_21x21-xbold_rawclip_r2_outer_strong_168_r2_297_a006_MaskReadable_21x21-XBold_20260610_132635
+  m_EditorClassIdentifier: 
+  levelId: r2_outer_strong_168_r2_297_a006_rawclip
+  source: 1
+  board:
+    width: 21
+    height: 21
+    seed: 0
+  generation:
+    arrowCoverage: 0.97732425
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 501
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 441
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 21
+    height: 21
+    arrows:
+    - indices: 410000002c00000017000000180000002d000000
+      colorIndex: 0
+    - indices: 9700000098000000830000006e00000059000000440000002f0000001a000000190000002e00000043000000580000006d00000082000000
+      colorIndex: 0
+    - indices: 1b00000030000000450000005a0000006f0000008400000099000000
+      colorIndex: 0
+    - indices: 370000004c000000610000006200000063000000640000004f0000003a000000250000002400000023000000380000004d0000004e00000039000000
+      colorIndex: 0
+    - indices: 5d0000005c000000710000008600000085000000700000005b0000004600000031000000
+      colorIndex: 0
+    - indices: 8f0000007a00000065000000500000003b000000
+      colorIndex: 0
+    - indices: 3c00000051000000660000007b000000
+      colorIndex: 0
+    - indices: 3d0000005200000067000000
+      colorIndex: 0
+    - indices: 4000000055000000
+      colorIndex: 0
+    - indices: 810000006c0000005700000042000000
+      colorIndex: 0
+    - indices: a30000008e0000007900000078000000770000007600000075000000600000004b000000
+      colorIndex: 0
+    - indices: ad000000ae000000af000000b0000000b1000000b20000009d000000880000007300000072000000870000009c0000009b0000009a000000
+      colorIndex: 0
+    - indices: 8c0000008b0000008a0000009f000000a0000000a1000000
+      colorIndex: 0
+    - indices: cb000000ca000000c9000000c8000000c7000000c6000000c5000000c4000000c3000000
+      colorIndex: 0
+    - indices: d8000000d9000000da000000db000000dc000000dd000000de000000df000000e0000000
+      colorIndex: 0
+    - indices: ec000000ed000000ee000000ef000000f0000000f1000000060100001b010000
+      colorIndex: 0
+    - indices: f6000000f5000000f4000000f3000000f2000000070100001c01000031010000
+      colorIndex: 0
+    - indices: 6b01000056010000410100002c0100001701000002010000
+      colorIndex: 0
+    - indices: 08010000090100000a0100000b0100000c0100002101000036010000350100003401000033010000480100005d0100005e0100005f010000600100004b0100004a01000049010000
+      colorIndex: 0
+    - indices: 2901000014010000
+      colorIndex: 0
+    - indices: 7f0100006a01000055010000400100002b0100001601000015010000
+      colorIndex: 0
+    - indices: 200100001f0100001e0100001d0100003201000047010000
+      colorIndex: 0
+    - indices: 73010000740100007501000076010000610100004c0100003701000022010000
+      colorIndex: 0
+    - indices: 7d0100007c01000067010000520100003d01000028010000
+      colorIndex: 0
+    - indices: 930100007e01000069010000540100003f0100002a010000
+      colorIndex: 0
+    - indices: 2f0100002e0100002d0100004201000057010000
+      colorIndex: 0
+    - indices: 380100004d0100006201000077010000
+      colorIndex: 0
+    - indices: 51010000660100007b010000
+      colorIndex: 0
+    - indices: a10100008c0100008b0100008a01000089010000
+      colorIndex: 0
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: 21e24d89025a49142a897a0ade047fec, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a900afa86035c479ba41432fa576cbd9, type: 3}
+  m_Name: EditedLevelData
+  m_EditorClassIdentifier: Assembly-CSharp::PixelBug.Arrowscape.EditedLevelData
+  baseSpec:
+    seed: 0
+    width: 11
+    height: 11
+    generatorId: ClearAllArrowsGenerator
+    generatorVersion: 1
+    generatorParamsJson: 
+  clearedTiles: []
+  tileOverrides:
+  - pos: {x: 6, y: 2}
+    kind: 2
+    inDir: 1
+    outDir: 3
+  - pos: {x: 5, y: 2}
+    kind: 2
+    inDir: 1
+    outDir: 3
+  - pos: {x: 4, y: 2}
+    kind: 2
+    inDir: 1
+    outDir: 3
+  - pos: {x: 3, y: 2}
+    kind: 2
+    inDir: 1
+    outDir: 3
+  - pos: {x: 4, y: 8}
+    kind: 2
+    inDir: 0
+    outDir: 2
+  - pos: {x: 4, y: 7}
+    kind: 2
+    inDir: 0
+    outDir: 3
+  - pos: {x: 3, y: 7}
+    kind: 2
+    inDir: 1
+    outDir: 3
+  - pos: {x: 6, y: 8}
+    kind: 2
+    inDir: 0
+    outDir: 2
+  - pos: {x: 6, y: 7}
+    kind: 2
+    inDir: 0
+    outDir: 1
+  - pos: {x: 7, y: 7}
+    kind: 2
+    inDir: 3
+    outDir: 1
+  baseBoardHashAtEditTime: 0

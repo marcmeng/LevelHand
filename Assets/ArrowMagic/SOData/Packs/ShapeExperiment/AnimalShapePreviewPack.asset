@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: AnimalShapePreviewPack
+  m_EditorClassIdentifier: 
+  packId: AnimalShapePreviewPack
+  displayName: Animal Shape Preview (4)
+  levels:
+  - {fileID: 11400000, guid: f5539428279e93b43b3f363105917279, type: 2}
+  - {fileID: 11400000, guid: 8daef46da8d8835468cbe87f5198e898, type: 2}
+  - {fileID: 11400000, guid: d157f7c14aff83a44aaa59b64c251c9f, type: 2}
+  - {fileID: 11400000, guid: 65475e3702164a349967797ddc24d919, type: 2}

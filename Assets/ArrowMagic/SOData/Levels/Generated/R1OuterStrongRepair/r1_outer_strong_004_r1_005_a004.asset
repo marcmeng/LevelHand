@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: r1_outer_strong_004_r1_005_a004
+  m_EditorClassIdentifier: 
+  levelId: r1_outer_strong_004_r1_005_a004
+  source: 1
+  board:
+    width: 8
+    height: 6
+    seed: 0
+  generation:
+    arrowCoverage: 0.9583333
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 110
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 48
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 8
+    height: 6
+    arrows:
+    - indices: 2d0000002500000026000000270000002f000000
+      colorIndex: 0
+    - indices: 020000000a0000001200000013000000
+      colorIndex: 1
+    - indices: 2a000000220000001a000000
+      colorIndex: 2
+    - indices: 070000000f000000
+      colorIndex: 3
+    - indices: 110000001000000008000000090000000100000000000000
+      colorIndex: 3
+    - indices: 18000000200000002100000019000000
+      colorIndex: 3
+    - indices: 2900000028000000
+      colorIndex: 3
+    - indices: 17000000160000001500000014000000
+      colorIndex: 7
+    - indices: 1f0000001e0000001d0000001c0000001b000000
+      colorIndex: 8
+    - indices: 030000000b0000000c0000000d00000005000000060000000e000000
+      colorIndex: 9
+    - indices: 2b00000023000000240000002c000000
+      colorIndex: 10
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

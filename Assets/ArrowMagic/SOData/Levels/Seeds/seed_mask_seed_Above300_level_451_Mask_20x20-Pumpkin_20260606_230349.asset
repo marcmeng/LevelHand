@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: seed_mask_seed_Above300_level_451_Mask_20x20-Pumpkin_20260606_230349
+  m_EditorClassIdentifier: 
+  levelId: seed_Above300_level_451_maskpatch
+  source: 1
+  board:
+    width: 20
+    height: 20
+    seed: 0
+  generation:
+    arrowCoverage: 1
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 739
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 616
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 20
+    height: 20
+    arrows:
+    - indices: 2e00000042000000560000006a000000690000005500000041000000
+      colorIndex: 0
+    - indices: 2f00000043000000570000006b0000006c000000580000004400000045000000590000006d000000
+      colorIndex: 0
+    - indices: 35000000490000004a000000
+      colorIndex: 0
+    - indices: 670000006800000054000000
+      colorIndex: 0
+    - indices: b00000009c0000008800000087000000730000005f000000
+      colorIndex: 0
+    - indices: 85000000710000007200000086000000
+      colorIndex: 0
+    - indices: 7d0000007c0000007b0000008f000000a3000000
+      colorIndex: 0
+    - indices: ab000000aa000000a9000000
+      colorIndex: 0
+    - indices: bf000000be000000bd000000bc000000
+      colorIndex: 0
+    - indices: e1000000f5000000090100000a0100001e01000032010000310100001d0100001c01000008010000f4000000
+      colorIndex: 0
+    - indices: fb000000fc000000e8000000
+      colorIndex: 0
+    - indices: 1201000013010000ff000000eb000000ea000000
+      colorIndex: 0
+    - indices: f3000000070100001b0100002f0100003001000044010000
+      colorIndex: 0
+    - indices: 34010000330100001f0100000b010000f7000000f8000000
+      colorIndex: 0
+    - indices: 200100000c010000
+      colorIndex: 0
+    - indices: 3c010000280100002701000026010000250100001101000010010000
+      colorIndex: 0
+    - indices: 2301000024010000
+      colorIndex: 0
+    - indices: 4f0100003b0100003a01000039010000380100004c010000
+      colorIndex: 0
+    - indices: 4e0100004d010000
+      colorIndex: 0
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: 4126093758db94562aa3e2aeff5e3c65, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

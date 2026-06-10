@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b18544e78f374df6b77a8f0aa8d8609, type: 3}
+  m_Name: SfxLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::PixelBug.Arrowscape.SfxLibrary
+  win:
+    clips:
+    - {fileID: 8300000, guid: 753656685be034307907876610993f39, type: 3}
+    volume: 1
+    pitchRange: {x: 1, y: 1}
+  lose:
+    clips:
+    - {fileID: 8300000, guid: 3e6d24ad5c3f4449b96f744ad1e8d951, type: 3}
+    volume: 1
+    pitchRange: {x: 1, y: 1}
+  arrowBlocked:
+    clips:
+    - {fileID: 8300000, guid: 294053c3ea8114fdc80e98280b62783f, type: 3}
+    volume: 1
+    pitchRange: {x: 1, y: 1}
+  arrowExit:
+    clips:
+    - {fileID: 8300000, guid: ea2075f022cea444db0b977bb47c87d5, type: 3}
+    volume: 0.15
+    pitchRange: {x: 1, y: 1}
+  arrowSelected:
+    clips:
+    - {fileID: 8300000, guid: 9c6e1ae0fa49043deb04196bd51a42f3, type: 3}
+    volume: 0.25
+    pitchRange: {x: 1, y: 1.1}
+  undo:
+    clips:
+    - {fileID: 8300000, guid: 7f71d3e1934504529854adc83f60af4a, type: 3}
+    volume: 1
+    pitchRange: {x: 0, y: 0}
+  click:
+    clips:
+    - {fileID: 8300000, guid: 5095943aaefe04d8495bd1742bc081b1, type: 3}
+    volume: 1
+    pitchRange: {x: 0, y: 0}
+  submit:
+    clips:
+    - {fileID: 8300000, guid: 5095943aaefe04d8495bd1742bc081b1, type: 3}
+    volume: 0.25
+    pitchRange: {x: 0.2, y: 0.2}
+  start:
+    clips:
+    - {fileID: 8300000, guid: 5095943aaefe04d8495bd1742bc081b1, type: 3}
+    volume: 1
+    pitchRange: {x: 0, y: 0}
+  next:
+    clips:
+    - {fileID: 8300000, guid: 5095943aaefe04d8495bd1742bc081b1, type: 3}
+    volume: 1
+    pitchRange: {x: 0, y: 0}

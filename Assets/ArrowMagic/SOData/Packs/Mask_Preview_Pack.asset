@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: Mask_Preview_Pack
+  m_EditorClassIdentifier: Assembly-CSharp::PixelBug.ArrowMagic.LevelPack
+  packId: mask_preview_pack
+  displayName: Mask Preview Pack
+  levels:
+  - {fileID: 11400000, guid: 20f1cf8eacaf797243a595b6a58006e7, type: 2}
+  - {fileID: 11400000, guid: 504fb24ad669cf35e3ef6e904130ffcf, type: 2}
