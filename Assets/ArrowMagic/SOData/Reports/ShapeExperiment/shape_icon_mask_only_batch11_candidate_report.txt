@@ -1,0 +1,13 @@
+Shape Icon Mask Only Batch11 Candidate Pack
+BaseMaskFolder=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch11Base
+VariantMaskFolder=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch11Variants
+Catalog=Assets/ArrowMagic/SOData/Reports/ShapeExperiment/shape_icon_mask_only_batch11_catalog.csv
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch11CandidatePack.asset
+Mode=StandaloneMaskOnlyOnionFill
+Policy=High coverage, non-straight, Greedy validated
+LoadedRows=3
+[1] Done=PotionBottle/compact | Mask=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch11Variants/MaskOnlyBatch11_22x26-01PotionBottle-compact.png | Level=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/ProceduralMaskFill/maskonlyb11_01_compact_potionbottle_20260620_194950.asset | Area=299 Used=299 Fill=1.000 Chains=39 AvgLen=7.2 MaxLen=10 Turns=120 StraightLong=0 | GreedyMoves=39 | Score=1096.4
+[2] Done=PotionBottle/main | Mask=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch11Base/MaskOnlyBatch11_28x32-01PotionBottle-main.png | Level=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/ProceduralMaskFill/maskonlyb11_01_main_potionbottle_20260620_194950.asset | Area=487 Used=487 Fill=1.000 Chains=60 AvgLen=7.7 MaxLen=12 Turns=240 StraightLong=0 | GreedyMoves=60 | Score=1052.0
+[3] Done=PotionBottle/large | Mask=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch11Variants/MaskOnlyBatch11_34x39-01PotionBottle-large.png | Level=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/ProceduralMaskFill/maskonlyb11_01_large_potionbottle_20260620_194950.asset | Area=721 Used=721 Fill=1.000 Chains=86 AvgLen=7.9 MaxLen=14 Turns=347 StraightLong=0 | GreedyMoves=86 | Score=987.6
+PackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch11CandidatePack.asset | Levels=3
+DemoAttached=True

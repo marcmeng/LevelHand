@@ -1,0 +1,265 @@
+﻿You are right to push this down to âsmallest experimentâ level. Your failure log is very consistent:
+
+> **post-hoc cannot create non-locality because SGP density already destroys ray degrees of freedom**
+
+So BridgeSlotSourceV1 must *not* be a repair system. It must be a **generation-time reservation system inside SGP**.
+
+---
+
+# 1. Decision
+
+ð **B) causal skeleton first then constrained SGP fill**
+
+But with a strict interpretation:
+
+> Not âarchitecture firstâ, but **ray-valid dependency spine is instantiated BEFORE any density decisions**
+
+This is the only option that avoids:
+- rayCells = 0 collapse
+- endpoint degeneracy
+- local adjacency domination
+
+---
+
+# 2. BridgeSlotSourceV1 â Minimal V1 algorithm (6â10 steps)
+
+### Step 1 â Seed selection (SGP-compatible, NOT hand layout)
+- Sample N anchors from SGP initial noise field:
+  - targets: outer-edge candidates only
+  - hubs: mid-density gradient regions
+  - support: low-density interior pockets
+  - upstream: high-obstruction candidates
+
+---
+
+### Step 2 â Force dependency chain sampling
+
+Construct chain template:
+
+```text
+Upstream â Support â Hub â Target
+```
+
+BUT enforce:
+
+- Support must have **at least 2 ray-obstruction candidates**
+- Hub must have **â¥ 1 alternative ray blocker candidate**
+- Target must be outer escape node
+
+---
+
+### Step 3 â Ray feasibility probing BEFORE placement
+
+For each proposed edge:
+
+- simulate empty-grid ray first
+- compute all possible blocker candidates in radius R=3â7
+
+Reject if:
+- candidate blocker count == 0
+- or all blockers lie at distance â¤ 1
+
+---
+
+### Step 4 â Place âbridge slotsâ (NEW CORE MECHANISM)
+
+Instead of placing geometry:
+
+Insert **reserved voxel tags**:
+
+```text
+BridgeSlot(type=SupportRaySlot)
+BridgeSlot(type=HubRaySlot)
+BridgeSlot(type=UpstreamRaySlot)
+```
+
+These are:
+- non-collidable during fill
+- but **ray-anchored forbidden zones**
+
+---
+
+### Step 5 â Lock ray-collision constraints
+
+For each edge:
+
+```text
+B.escapeRay MUST intersect A.geometry AFTER fill
+AND MUST NOT intersect any non-A geometry in ray corridor
+```
+
+So corridor is implicitly preserved as:
+> âcollision-exclusive laneâ
+
+---
+
+### Step 6 â SGP fill phase (constrained noise fill)
+
+Fill remaining grid using SGP normal rules BUT:
+
+- cannot place geometry inside BridgeSlot radius corridor
+- cannot introduce new ray blockers inside reserved corridor bands
+
+---
+
+### Step 7 â Post-fill ray re-validation
+
+Run full escapeRay recompute:
+- ensure each dependency still valid
+- ensure no alternative blocker appears
+
+---
+
+### Step 8 â Solve trace execution validation
+
+Run SGPRhythmTrace:
+- confirm actual dependency traversal matches intended chain order
+
+---
+
+# 3. Exact geometry constraints (critical)
+
+Define each node type as **ray origin/destination constraints**, not position:
+
+### Upstream (U)
+- must have â¥2 outgoing escapeRay intersections
+- must be blocked by Support only
+- must sit in high-density SGP region (entropy > threshold)
+
+### Support (S)
+- must intersect ray from Hub â Target
+- must be the **ONLY valid blocker on that ray segment**
+- must NOT block any other chain edges
+
+### Hub (H)
+- must intersect ray from Target or secondary targets
+- must allow at least 1 alternative blocker candidate (to avoid triviality)
+
+### Target (T)
+- must have escapeRay exiting grid boundary or terminal sink
+
+---
+
+# 4. How SGP fill avoids breaking rays
+
+Key rule:
+
+> SGP fill is forbidden from modifying **ray corridor voxels defined by BridgeSlots**
+
+Implementation:
+
+- Convert BridgeSlot into:
+  - âhard exclusion mask for SGP density updateâ
+- SGP only operates on:
+  - complement of corridor field
+
+So effectively:
+
+```text
+SGP_domain = FullGrid - RayCorridorMask
+```
+
+This preserves:
+- density realism
+- but guarantees causal spine survival
+
+---
+
+# 5. Reject rules (VERY IMPORTANT)
+
+Reject level if:
+
+### Structural anti-locality failures:
+- dependencyFollowRunMax > 3
+- localPatchSolveRunMax > 4
+- any chain depth < 3
+
+### Geometry collapse:
+- any BridgeSlot has <1 valid ray blocker after fill
+- any ray has alternative blocker count > 1 (breaks determinism)
+
+### Conveyor detection:
+- any chain where all edges have Manhattan distance â¤ 2
+
+### LocalEasy trap:
+- solve trace shows greedy completion in first 30% steps
+
+---
+
+# 6. 20-source smoke test acceptance targets
+
+You should aim for:
+
+### Core metrics:
+
+- **â¥ 60% sources have depth â¥ 3 chains**
+- **â¥ 30% sources contain depth â¥ 4 chain**
+- **causalAntiLocalityScore â¥ 0.55 (was 0.29)**
+- **dependencyFollowRunMax â¤ 2 in solved traces only**
+- **LocalEasy classification â¤ 20% of solved cases**
+
+### Structural:
+
+- 1+ chain per level must show:
+  > delayed activation (hub activates after support removal)
+
+---
+
+# 7. One thing Codex MUST NOT do next
+
+â ï¸ **Do NOT attempt to increase difficulty via post-hoc ray mutation or endpoint splitting again**
+
+Because your own data already proves:
+
+> all post-hoc operations collapse into local reparameterizations of existing ray topology
+
+So any further:
+- flipping
+- splitting
+- sidecar insertion
+- local repair
+
+will only re-enter the same equivalence class: **LocalEasy manifold**
+
+---
+
+# 8. Is BridgeSlotSourceV1 still wrong?
+
+ð Partially: it is correct directionally, but still slightly too âgraph-thinkingâ.
+
+The real smallest possible test is actually:
+
+---
+
+## â ï¸ Even smaller experiment (if you want maximum correctness)
+
+### âRay-First Constraint Field V0â
+
+Instead of building chains explicitly:
+
+1. Sample 2 rays only:
+   - Support â Upstream
+   - Hub â Support
+
+2. Then ask SGP to fill EVERYTHING ELSE
+
+3. Measure whether Target becomes *emergent dependent* in trace
+
+---
+
+### Why this might be better than BridgeSlotSourceV1:
+Because even BridgeSlotSourceV1 still assumes:
+> chain structure is designed
+
+While your data suggests:
+> chain structure must be *forced by ray scarcity itself*
+
+---
+
+If you want, next step I can convert BridgeSlotSourceV1 into:
+
+- Unity C# struct layout
+- BridgeSlot masking implementation
+- or SGPRhythmTrace patch to validate âray exclusivity violation rateâ
+
+Just tell me.

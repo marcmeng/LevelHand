@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: earlyprop_03_earlysweep_v2_maskearlyprop_22x22-earlyprop03ruler_20260611_143450
+  m_EditorClassIdentifier: 
+  levelId: r2_outer_strong_005_r2_006_a401_earlyprop_03_earlysweep_v2_maskearlyprop_22x22-earlyprop03ruler
+  source: 1
+  board:
+    width: 22
+    height: 22
+    seed: 1340911
+  generation:
+    arrowCoverage: 0.96
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 974
+    fixedGenerationSeed: 1340911
+    minPathLen: 2
+    maxPathLength: 825
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 22
+    height: 22
+    arrows:
+    - indices: bb010000ba010000b9010000a3010000a40100008e0100008d01000077010000
+      colorIndex: 0
+    - indices: d4000000be000000bf000000c0000000aa000000ab000000950000009600000080000000
+      colorIndex: 1
+    - indices: 92010000910100007b0100007c0100007d010000670100006801000052010000510100003b0100003a010000
+      colorIndex: 2
+    - indices: 56000000400000002a000000290000003f0000003e00000028000000270000003d0000003c00000026000000250000003b0000003a000000
+      colorIndex: 3
+    - indices: 66010000650100004f01000050010000
+      colorIndex: 4
+    - indices: 6b00000055000000540000006a000000690000007f0000007e0000009400000093000000
+      colorIndex: 5
+    - indices: 680000005200000053000000
+      colorIndex: 6
+    - indices: 7a010000790100007801000062010000610100004b0100004c01000036010000
+      colorIndex: 7
+    - indices: a9000000a800000092000000910000007b0000007c0000007d00000067000000510000005000000066000000
+      colorIndex: 0
+    - indices: 28010000270100003d0100003c01000026010000250100000f01000010010000fa000000fb000000e5000000
+      colorIndex: 1
+    - indices: 4900000033000000340000004a0000004b0000003500000036000000200000002100000022000000
+      colorIndex: 2
+    - indices: 130100001201000011010000
+      colorIndex: 3
+    - indices: 900100008f010000a5010000a6010000
+      colorIndex: 4
+    - indices: 0b0100000a010000200100001f01000035010000
+      colorIndex: 5
+    - indices: 64010000630100004d0100004e01000038010000390100002301000024010000
+      colorIndex: 6
+    - indices: 3701000021010000
+      colorIndex: 7
+    - indices: a7000000a6000000bc000000bb000000d1000000d0000000e6000000
+      colorIndex: 0
+    - indices: d3000000d2000000e8000000e9000000
+      colorIndex: 1
+    - indices: fd000000e7000000
+      colorIndex: 2
+    - indices: 3900000038000000370000004d0000004c00000062000000
+      colorIndex: 3
+    - indices: 32000000310000001b0000001a000000190000002f0000003000000046000000
+      colorIndex: 4
+    - indices: 170000002d0000002e00000018000000
+      colorIndex: 5
+    - indices: 43000000590000006f00000070000000710000008700000086000000850000009b000000
+      colorIndex: 6
+    - indices: 9c0000009d0000009e000000
+      colorIndex: 7
+    - indices: f4000000de000000df000000c9000000b3000000b2000000b1000000c7000000c8000000
+      colorIndex: 0
+    - indices: 5a00000044000000450000005b0000005c000000
+      colorIndex: 1
+    - indices: 4700000048000000
+      colorIndex: 2
+    - indices: 4f0000004e000000
+      colorIndex: 3
+    - indices: dd000000f300000009010000
+      colorIndex: 4
+    - indices: f5000000f6000000f7000000f8000000
+      colorIndex: 5
+    - indices: 1c0000001d0000001e0000001f000000
+      colorIndex: 6
+    - indices: 2300000024000000
+      colorIndex: 7
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: a9bc4006119a36b45b22747336e7d316, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

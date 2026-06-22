@@ -1,0 +1,6 @@
+group,count,avgScore,minScore,maxScore,avgChains,avgOpeningGood,avgBottleneckRatio,difficultyTags,mechanicTags
+hole_mask_early_front,70,456.829,345,664,65.971,3.543,0.469,Normal:34 Hard:32 VeryHard:4,HoleBlocker:70
+normal_campaign500,500,314.656,93,832,108.6,8.98,0.334,Flow:137 Normal:203 Hard:113 VeryHard:37 Extreme:10,None:500
+shape_early_prop,4,123.25,101,150,32.75,4.75,0.06,Flow:4,ShapePuzzle:4
+shape_final_with_supplement,147,301.646,220,506,114.585,9.939,0.187,Flow:25 Normal:110 Hard:12,ShapePuzzle:147
+ALL,721,324.745,93,832,105.261,8.624,0.316,Flow:166 Normal:347 Hard:157 VeryHard:41 Extreme:10,None:500 ShapePuzzle:151 HoleBlocker:70

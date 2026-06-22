@@ -11,76 +11,88 @@ SourcePack=Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal/R3Oute
 LoadedSourceSeeds=435
 TallFitSourceFilter=prefer_non_composite_play_candidates | Kept=315/435
 [1] Mask=Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x30-RocketMini.png | Matched=64/121 fitting seeds for mask=22x30
-    MatchTop1: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset
-    MatchTop2: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset
-    MatchTop3: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_017_r1_026_a451.asset
-    MatchTop4: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_041_r1_071_a528.asset
-    MatchTop5: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_084_r1_156_a672.asset
-    MatchTop6: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_130_r1_233_a846.asset
-    MatchTop7: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_174_r1_298_a008.asset
-    MatchTop8: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_035_r2_055_a501.asset
-    BeginAttempt1=MatchTop1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset
-    Attempt1=MatchTop1 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset | MaskArea=360 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt2=MatchTop2 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset
-    Attempt2=MatchTop2 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset | MaskArea=360 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt3=MatchTop3 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_017_r1_026_a451.asset
-    Attempt3=MatchTop3 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_017_r1_026_a451.asset | MaskArea=360 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt4=MatchTop4 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_041_r1_071_a528.asset
-    Attempt4=MatchTop4 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_041_r1_071_a528.asset | MaskArea=360 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt5=MatchTop5 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_084_r1_156_a672.asset
-    Attempt5=MatchTop5 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_084_r1_156_a672.asset | MaskArea=360 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt6=MatchTop6 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_130_r1_233_a846.asset
-    Attempt6=MatchTop6 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_130_r1_233_a846.asset | MaskArea=360 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt7=MatchTop7 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_174_r1_298_a008.asset
-    Attempt7=MatchTop7 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_174_r1_298_a008.asset | MaskArea=360 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt8=MatchTop8 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_035_r2_055_a501.asset
-    Attempt8=MatchTop8 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_035_r2_055_a501.asset | MaskArea=360 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    Generated=False | Reason=All matched candidates rejected | Attempts=8
+    MatchPick1=Rank1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset
+    MatchPick2=Rank2 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset
+    MatchPick3=Rank3 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_017_r1_026_a451.asset
+    MatchPick4=Rank4 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_041_r1_071_a528.asset
+    MatchPick5=Rank5 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_084_r1_156_a672.asset
+    MatchPick6=Rank6 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_130_r1_233_a846.asset
+    MatchPick7=Rank7 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_174_r1_298_a008.asset
+    MatchPick8=Rank8 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_035_r2_055_a501.asset
+    MatchPick9=Rank9 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_148_r2_264_a906.asset
+    MatchPick10=Rank10 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_153_r2_273_a948.asset
+    MatchPick11=Rank12 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_103_r1_195_a754.asset
+    MatchPick12=Rank16 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_057_r1_097_a581.asset
+    MatchPick13=Rank20 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_072_r1_140_a635.asset
+    MatchPick14=Rank24 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_095_r2_186_a735.asset
+    MatchPick15=Rank32 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_052_r2_092_a573.asset
+    MatchPick16=Rank40 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_073_r1_141_a638.asset
+    MatchPick17=Rank48 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_082_r1_154_a665.asset
+    MatchPick18=Rank56 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_128_r1_231_a844.asset
+    BeginAttempt1=Rank1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset
+    Attempt1=Rank1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset | MaskArea=360 | FinalFill=349 | Ratio=0.969 | MinRatio=0.84 | Chains=52 | straightness=chains=52, tiles=349, straight=20(0.38), longStraight=9(0.17), longTiles=0.20, bent=32(0.62), longestRun=14, longestChain=21 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_01_masktallfit_22x30-rocketmini_rawclip_r1_outer_strong_053_r1_092_a573_MaskTallFit_22x30-RocketMini_20260610_203911.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_01_masktallfit_22x30-rocketmini_r1_outer_strong_053_r1_092_a573_MaskTallFit_22x30-RocketMini_20260610_203911.asset
 [2] Mask=Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x30-ShieldTall.png | Matched=64/121 fitting seeds for mask=22x30
-    MatchTop1: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset
-    MatchTop2: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset
-    MatchTop3: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_017_r1_026_a451.asset
-    MatchTop4: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_041_r1_071_a528.asset
-    MatchTop5: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_084_r1_156_a672.asset
-    MatchTop6: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_130_r1_233_a846.asset
-    MatchTop7: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_174_r1_298_a008.asset
-    MatchTop8: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_035_r2_055_a501.asset
-    BeginAttempt1=MatchTop1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset
-    Attempt1=MatchTop1 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset | MaskArea=405 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt2=MatchTop2 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset
-    Attempt2=MatchTop2 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset | MaskArea=405 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt3=MatchTop3 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_017_r1_026_a451.asset
-    Attempt3=MatchTop3 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_017_r1_026_a451.asset | MaskArea=405 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt4=MatchTop4 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_041_r1_071_a528.asset
-    Attempt4=MatchTop4 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_041_r1_071_a528.asset | MaskArea=405 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt5=MatchTop5 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_084_r1_156_a672.asset
-    Attempt5=MatchTop5 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_084_r1_156_a672.asset | MaskArea=405 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt6=MatchTop6 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_130_r1_233_a846.asset
-    Attempt6=MatchTop6 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_130_r1_233_a846.asset | MaskArea=405 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt7=MatchTop7 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_174_r1_298_a008.asset
-    Attempt7=MatchTop7 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_174_r1_298_a008.asset | MaskArea=405 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt8=MatchTop8 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_035_r2_055_a501.asset
-    Attempt8=MatchTop8 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_035_r2_055_a501.asset | MaskArea=405 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    Generated=False | Reason=All matched candidates rejected | Attempts=8
+    MatchPick1=Rank1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset
+    MatchPick2=Rank2 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset
+    MatchPick3=Rank3 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_017_r1_026_a451.asset
+    MatchPick4=Rank4 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_041_r1_071_a528.asset
+    MatchPick5=Rank5 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_084_r1_156_a672.asset
+    MatchPick6=Rank6 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_130_r1_233_a846.asset
+    MatchPick7=Rank7 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_174_r1_298_a008.asset
+    MatchPick8=Rank8 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_035_r2_055_a501.asset
+    MatchPick9=Rank9 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_148_r2_264_a906.asset
+    MatchPick10=Rank10 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_153_r2_273_a948.asset
+    MatchPick11=Rank12 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_103_r1_195_a754.asset
+    MatchPick12=Rank16 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_057_r1_097_a581.asset
+    MatchPick13=Rank20 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_072_r1_140_a635.asset
+    MatchPick14=Rank24 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_095_r2_186_a735.asset
+    MatchPick15=Rank32 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_052_r2_092_a573.asset
+    MatchPick16=Rank40 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_073_r1_141_a638.asset
+    MatchPick17=Rank48 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_082_r1_154_a665.asset
+    MatchPick18=Rank56 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_128_r1_231_a844.asset
+    BeginAttempt1=Rank1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset
+    Attempt1=Rank1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_053_r1_092_a573.asset | MaskArea=405 | FinalFill=381 | Ratio=0.941 | MinRatio=0.84 | Chains=50 | straightness=chains=50, tiles=381, straight=19(0.38), longStraight=14(0.28), longTiles=0.29, bent=31(0.62), longestRun=13, longestChain=27 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_02_masktallfit_22x30-shieldtall_rawclip_r1_outer_strong_053_r1_092_a573_MaskTallFit_22x30-ShieldTall_20260610_203954.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_02_masktallfit_22x30-shieldtall_r1_outer_strong_053_r1_092_a573_MaskTallFit_22x30-ShieldTall_20260610_203955.asset
 [3] Mask=Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_20x30-BottleMini.png | Matched=64/144 fitting seeds for mask=20x30
-    MatchTop1: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_035_r1_055_a501.asset
-    MatchTop2: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_086_r1_160_a681.asset
-    MatchTop3: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_152_r1_264_a906.asset
-    MatchTop4: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_053_r2_093_a574.asset
-    MatchTop5: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_083_r2_160_a681.asset
-    MatchTop6: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_132_r2_238_a858.asset
-    MatchTop7: Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_157_r2_279_a957.asset
-    MatchTop8: Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_056_r1_096_a578.asset
-    BeginAttempt1=MatchTop1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_035_r1_055_a501.asset
-    Attempt1=MatchTop1 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_035_r1_055_a501.asset | MaskArea=417 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt2=MatchTop2 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_086_r1_160_a681.asset
-    Attempt2=MatchTop2 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_086_r1_160_a681.asset | MaskArea=417 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt3=MatchTop3 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_152_r1_264_a906.asset
-    Attempt3=MatchTop3 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_152_r1_264_a906.asset | MaskArea=417 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt4=MatchTop4 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_053_r2_093_a574.asset
-    Attempt4=MatchTop4 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_053_r2_093_a574.asset | MaskArea=417 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt5=MatchTop5 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_083_r2_160_a681.asset
-    Attempt5=MatchTop5 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_083_r2_160_a681.asset | MaskArea=417 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt6=MatchTop6 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_132_r2_238_a858.asset
-    Attempt6=MatchTop6 | Generated=False | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_132_r2_238_a858.asset | MaskArea=417 | FinalFill=0 | Ratio=0.000 | Chains=0 | straightness=not-evaluated | Raw= | Final=
-    BeginAttempt7=MatchTop7 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_157_r2_279_a957.asset
+    MatchPick1=Rank1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_035_r1_055_a501.asset
+    MatchPick2=Rank2 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_086_r1_160_a681.asset
+    MatchPick3=Rank3 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_152_r1_264_a906.asset
+    MatchPick4=Rank4 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_053_r2_093_a574.asset
+    MatchPick5=Rank5 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_083_r2_160_a681.asset
+    MatchPick6=Rank6 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_132_r2_238_a858.asset
+    MatchPick7=Rank7 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_157_r2_279_a957.asset
+    MatchPick8=Rank8 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_056_r1_096_a578.asset
+    MatchPick9=Rank9 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_097_r1_185_a731.asset
+    MatchPick10=Rank10 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_110_r2_208_a782.asset
+    MatchPick11=Rank12 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_159_r2_282_a966.asset
+    MatchPick12=Rank16 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_098_r1_186_a735.asset
+    MatchPick13=Rank20 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_051_r1_089_a565.asset
+    MatchPick14=Rank24 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_007_r1_010_a417.asset
+    MatchPick15=Rank32 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_055_r2_096_a578.asset
+    MatchPick16=Rank40 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_118_r2_219_a811.asset
+    MatchPick17=Rank48 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_073_r1_141_a638.asset
+    MatchPick18=Rank56 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_071_r1_139_a632.asset
+    BeginAttempt1=Rank1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_035_r1_055_a501.asset
+    Attempt1=Rank1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_035_r1_055_a501.asset | MaskArea=417 | FinalFill=405 | Ratio=0.971 | MinRatio=0.84 | Chains=74 | straightness=chains=74, tiles=405, straight=27(0.36), longStraight=6(0.08), longTiles=0.13, bent=47(0.64), longestRun=13, longestChain=20 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_03_masktallfit_20x30-bottlemini_rawclip_r1_outer_strong_035_r1_055_a501_MaskTallFit_20x30-BottleMini_20260610_204048.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_03_masktallfit_20x30-bottlemini_r1_outer_strong_035_r1_055_a501_MaskTallFit_20x30-BottleMini_20260610_204048.asset
+[4] Mask=Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x32-TorchTall.png | Matched=64/91 fitting seeds for mask=22x32
+    MatchPick1=Rank1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_051_r1_089_a565.asset
+    MatchPick2=Rank2 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_057_r1_097_a581.asset
+    MatchPick3=Rank3 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_065_r1_110_a607.asset
+    MatchPick4=Rank4 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_169_r1_290_a987.asset
+    MatchPick5=Rank5 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_045_r1_080_a542.asset
+    MatchPick6=Rank6 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_106_r1_198_a757.asset
+    MatchPick7=Rank7 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_057_r2_100_a588.asset
+    MatchPick8=Rank8 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_095_r2_186_a735.asset
+    MatchPick9=Rank9 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_005_r1_006_a401.asset
+    MatchPick10=Rank10 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_048_r1_086_a557.asset
+    MatchPick11=Rank12 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_031_r1_048_a491.asset
+    MatchPick12=Rank16 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_017_r2_026_a451.asset
+    MatchPick13=Rank20 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_078_r2_153_a664.asset
+    MatchPick14=Rank24 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_050_r1_088_a564.asset
+    MatchPick15=Rank32 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_103_r2_198_a757.asset
+    MatchPick16=Rank40 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_031_r2_048_a491.asset
+    MatchPick17=Rank48 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_037_r1_063_a515.asset
+    MatchPick18=Rank56 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R2OuterStrongRepair/r2_outer_strong_037_r2_063_a515.asset
+    BeginAttempt1=Rank1 | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_051_r1_089_a565.asset
+    Attempt1=Rank1 | Generated=True | QualityRejected=False | RejectReason=none | Source=Assets/ArrowMagic/SOData/Levels/Generated/R1OuterStrongRepair/r1_outer_strong_051_r1_089_a565.asset | MaskArea=362 | FinalFill=341 | Ratio=0.942 | MinRatio=0.84 | Chains=60 | straightness=chains=60, tiles=341, straight=20(0.33), longStraight=6(0.10), longTiles=0.15, bent=40(0.67), longestRun=18, longestChain=29 | Raw=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_04_masktallfit_22x32-torchtall_rawclip_r1_outer_strong_051_r1_089_a565_MaskTallFit_22x32-TorchTall_20260610_204127.asset | Final=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_04_masktallfit_22x32-torchtall_r1_outer_strong_051_r1_089_a565_MaskTallFit_22x32-TorchTall_20260610_204127.asset
+PackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/TallFitShapePreviewPack.asset | levels=4
+DemoAttached=True

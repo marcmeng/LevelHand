@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: direct_pure_topup_01_20_direct_refresh_topup_rect_dense_weave_g2_v03
+  m_EditorClassIdentifier: 
+  levelId: direct_pure_topup_01_20_direct_refresh_topup_rect_dense_weave_g2_v03
+  source: 1
+  board:
+    width: 14
+    height: 25
+    seed: 2623197
+  generation:
+    arrowCoverage: 0.9714286
+    initialMovableArrowCount: 11
+    targetDifficultyScore: 251
+    fixedGenerationSeed: 2623197
+    minPathLen: 3
+    maxPathLength: 9
+    twistiness: 0.58
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 14
+    height: 25
+    arrows:
+    - indices: 5d0100004f0100004101000033010000250100001701000009010000
+      colorIndex: 0
+    - indices: 00000000010000000200000003000000040000000500000006000000
+      colorIndex: 1
+    - indices: 0700000008000000090000000a00000018000000190000000b0000000c000000
+      colorIndex: 2
+    - indices: 50010000420100003401000026010000
+      colorIndex: 3
+    - indices: 7e0000007f000000800000008e0000008d0000008c0000009a000000a8000000
+      colorIndex: 4
+    - indices: 0e0000001c0000002a000000380000004600000054000000
+      colorIndex: 5
+    - indices: 5c0100005b0100005a0100005901000058010000570100005601000055010000
+      colorIndex: 6
+    - indices: 62000000630000007100000070000000
+      colorIndex: 7
+    - indices: fb000000ed000000df000000d1000000c3000000
+      colorIndex: 0
+    - indices: 51010000430100003501000027010000280100001a01000019010000
+      colorIndex: 1
+    - indices: b6000000b7000000a90000009b0000009c000000aa000000ab000000b9000000b8000000
+      colorIndex: 2
+    - indices: 0d0000001b0000002900000037000000
+      colorIndex: 3
+    - indices: 4500000053000000610000006f0000007d0000008b00000099000000a7000000b5000000
+      colorIndex: 4
+    - indices: e0000000e1000000d3000000d2000000
+      colorIndex: 5
+    - indices: c4000000c5000000c6000000d4000000e2000000e3000000d5000000c7000000
+      colorIndex: 6
+    - indices: 52010000440100003601000037010000290100001b0100001c010000
+      colorIndex: 7
+    - indices: ee000000fc0000000a0100000b0100000c010000
+      colorIndex: 0
+    - indices: ba000000bb000000bc000000ae000000af000000a1000000a00000009200000093000000
+      colorIndex: 1
+    - indices: 53010000540100004601000045010000
+      colorIndex: 2
+    - indices: c8000000c9000000ca000000d8000000d9000000
+      colorIndex: 3
+    - indices: fd000000fe000000f0000000ef000000
+      colorIndex: 4
+    - indices: 0f0000001d0000002b000000390000003a0000002c0000002d0000001f000000
+      colorIndex: 5
+    - indices: 100000001100000012000000200000002e000000
+      colorIndex: 6
+    - indices: 4701000048010000490100004a0100004b0100004c010000
+      colorIndex: 7
+    - indices: 3b0000003c0000003d0000002f0000002100000013000000
+      colorIndex: 0
+    - indices: 47000000550000005600000048000000490000004a000000
+      colorIndex: 1
+    - indices: 5700000065000000640000007200000073000000810000008f0000009d000000
+      colorIndex: 2
+    - indices: 14000000150000001600000017000000
+      colorIndex: 3
+    - indices: 90000000910000009f0000009e000000ac000000ad000000
+      colorIndex: 4
+    - indices: d6000000d7000000e5000000e6000000e7000000f5000000
+      colorIndex: 5
+    - indices: 9400000095000000a3000000a2000000b0000000b1000000bf000000c0000000b2000000
+      colorIndex: 6
+    - indices: 30000000310000002300000022000000
+      colorIndex: 7
+    - indices: 3200000033000000250000002600000027000000280000001a000000
+      colorIndex: 0
+    - indices: 4d0100004e0100004001000032010000240100001601000015010000
+      colorIndex: 1
+    - indices: 3f0100003101000023010000220100001401000013010000
+      colorIndex: 2
+    - indices: 8200000083000000840000008500000077000000
+      colorIndex: 3
+    - indices: b3000000b4000000c2000000c1000000cf000000ce000000cd000000db000000
+      colorIndex: 4
+    - indices: 08010000fa000000ec000000de000000d0000000
+      colorIndex: 5
+    - indices: a4000000a5000000a6000000980000008a0000007c000000
+      colorIndex: 6
+    - indices: 5800000066000000740000007500000076000000
+      colorIndex: 7
+    - indices: 6700000068000000690000005b0000005c000000
+      colorIndex: 0
+    - indices: 380100002a0100002b010000390100003a0100003b010000
+      colorIndex: 1
+    - indices: 07010000f9000000eb000000dd000000dc000000ea000000e9000000e8000000
+      colorIndex: 2
+    - indices: 3c0100003d0100003e010000300100002f01000021010000
+      colorIndex: 3
+    - indices: 590000005a0000004c0000003e0000003f0000004d000000
+      colorIndex: 4
+    - indices: 4000000041000000420000003400000035000000360000004400000052000000
+      colorIndex: 5
+    - indices: 600000006e0000006d0000007b0000008900000097000000
+      colorIndex: 6
+    - indices: bd000000cb000000cc000000be000000
+      colorIndex: 7
+    - indices: 030100001101000012010000200100002e0100002d0100002c0100001e010000
+      colorIndex: 0
+    - indices: 0d010000ff000000f1000000f2000000e4000000
+      colorIndex: 1
+    - indices: 43000000510000005f0000005e000000500000004f000000
+      colorIndex: 2
+    - indices: 0e0100000001000001010000f3000000f400000002010000100100000f0100001d010000
+      colorIndex: 3
+    - indices: 06010000f8000000f7000000f6000000
+      colorIndex: 4
+    - indices: 6a0000006b0000006c0000007a0000008800000087000000
+      colorIndex: 5
+    - indices: 0401000005010000
+      colorIndex: 6
+    - indices: 7800000079000000
+      colorIndex: 7
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 0
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

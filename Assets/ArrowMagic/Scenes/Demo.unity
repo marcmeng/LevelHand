@@ -520,7 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PixelBug.ArrowMagic.LevelProgression
   loader: {fileID: 258936410}
-  activePack: {fileID: 11400000, guid: 41be373129a4d7542b630c6a14ec9c36, type: 2}
+  activePack: {fileID: 11400000, guid: 7e42b04748881a7499e5890541a79845, type: 2}
   loopPack: 1
 --- !u!4 &1464105414
 Transform:
@@ -717,6 +717,8 @@ MonoBehaviour:
   heartSpacingPx: 2
   nextButtonName: nextButton
   skipButtonName: skipButton
+  levelJumpFieldName: levelJumpField
+  levelJumpButtonName: levelJumpButton
   progression: {fileID: 1464105413}
   levelNumberLabelName: levelNumberLabel
   introPresetLabelName: introPresetLabel

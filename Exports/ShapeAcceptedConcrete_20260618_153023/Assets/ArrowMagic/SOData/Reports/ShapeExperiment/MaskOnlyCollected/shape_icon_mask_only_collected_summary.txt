@@ -1,0 +1,29 @@
+Shape Icon Mask-Only Collected Pool
+SourcePack01=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch01CandidatePack.asset
+SourcePack02=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch02CandidatePack.asset
+SourcePack03=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch03CandidatePack.asset
+SourcePack04=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch04CandidatePack.asset
+SourcePack05=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch05CandidatePack.asset
+SourcePack06=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch06CandidatePack.asset
+SourcePack07=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch07CandidatePack.asset
+SourcePack08=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch08CandidatePack.asset
+SourcePack09=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch09CandidatePack.asset
+AllReviewPack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/MaskOnlyCollected/ShapeIconMaskOnlyAllReviewPack.asset
+AcceptedPoolPack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/MaskOnlyCollected/ShapeIconMaskOnlyAcceptedPoolPack.asset
+Rule=AllReview keeps all generated candidates; AcceptedPool excludes candidates known to need mask rework.
+KnownIssue=Ghost needs eyes/negative-feature holes in the mask before production use.
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch01CandidatePack.asset | total=33 | accepted=33 | excluded=0
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch02CandidatePack.asset | total=54 | accepted=51 | excluded=3
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch03CandidatePack.asset | total=12 | accepted=12 | excluded=0
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch04CandidatePack.asset | total=60 | accepted=60 | excluded=0
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch05CandidatePack.asset | total=60 | accepted=60 | excluded=0
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch06CandidatePack.asset | total=27 | accepted=27 | excluded=0
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch07CandidatePack.asset | total=29 | accepted=29 | excluded=0
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch08CandidatePack.asset | total=30 | accepted=30 | excluded=0
+Collected=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch09CandidatePack.asset | total=45 | accepted=45 | excluded=0
+AllReviewPackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/MaskOnlyCollected/ShapeIconMaskOnlyAllReviewPack.asset | levels=350
+AcceptedPoolPackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/MaskOnlyCollected/ShapeIconMaskOnlyAcceptedPoolPack.asset | levels=347
+AllReviewCount=350
+AcceptedPoolCount=347
+ExcludedCount=3
+DemoAttached=False

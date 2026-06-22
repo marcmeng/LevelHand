@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: level3_thirty_03_level3_thirty_mini_maze_30
+  m_EditorClassIdentifier: 
+  levelId: level3_thirty_03_level3_thirty_mini_maze_30
+  source: 1
+  board:
+    width: 12
+    height: 18
+    seed: 4125551
+  generation:
+    arrowCoverage: 0.9675926
+    initialMovableArrowCount: 9
+    targetDifficultyScore: 97
+    fixedGenerationSeed: 4125551
+    minPathLen: 5
+    maxPathLength: 11
+    twistiness: 0.7
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 12
+    height: 18
+    arrows:
+    - indices: cb000000ca000000c9000000bd000000
+      colorIndex: 0
+    - indices: d4000000c8000000bc000000bb000000af000000b0000000a4000000
+      colorIndex: 1
+    - indices: d7000000d6000000d5000000
+      colorIndex: 2
+    - indices: 030000000f0000000e0000001a0000001b0000002700000028000000340000003500000041000000
+      colorIndex: 3
+    - indices: cc000000cd000000ce000000c2000000c3000000cf000000d0000000c4000000c5000000b9000000
+      colorIndex: 4
+    - indices: 18000000190000000d0000000c000000000000000100000002000000
+      colorIndex: 5
+    - indices: c7000000c6000000ba000000ae000000ad000000a1000000a2000000
+      colorIndex: 6
+    - indices: 0b0000000a000000090000001500000014000000200000002c0000002b000000
+      colorIndex: 7
+    - indices: c0000000b4000000a8000000a90000009d0000009c000000900000009100000085000000
+      colorIndex: 0
+    - indices: b5000000b6000000b7000000b8000000ac000000a00000009f000000ab000000aa0000009e00000092000000
+      colorIndex: 1
+    - indices: b1000000a5000000990000009800000097000000a3000000
+      colorIndex: 2
+    - indices: d1000000d2000000d3000000
+      colorIndex: 3
+    - indices: bf000000be000000b2000000a60000009a000000
+      colorIndex: 4
+    - indices: 84000000780000006c00000060000000610000006d0000006e000000
+      colorIndex: 5
+    - indices: 95000000890000007d0000007c0000008800000094000000930000008700000086000000
+      colorIndex: 6
+    - indices: 04000000050000000600000012000000130000001f000000
+      colorIndex: 7
+    - indices: 100000001c0000001d000000290000002a000000360000003700000043000000420000004e000000
+      colorIndex: 0
+    - indices: 7100000065000000660000005a0000005b0000004f000000500000004400000038000000
+      colorIndex: 1
+    - indices: 17000000230000002f0000002e0000003a00000039000000
+      colorIndex: 2
+    - indices: 700000006400000058000000590000004d0000004c000000400000003f000000330000003200000026000000
+      colorIndex: 3
+    - indices: 22000000210000002d000000
+      colorIndex: 4
+    - indices: 250000002400000030000000310000003d0000003e0000004a0000004b000000
+      colorIndex: 5
+    - indices: 790000007a0000007b0000006f000000630000005700000056000000
+      colorIndex: 6
+    - indices: 8e00000082000000760000007500000069000000680000005c000000
+      colorIndex: 7
+    - indices: 8d0000008100000080000000740000007300000067000000
+      colorIndex: 0
+    - indices: 960000008a0000007e0000007f0000008b0000008c000000
+      colorIndex: 1
+    - indices: 3c00000048000000490000005500000054000000
+      colorIndex: 2
+    - indices: 0700000008000000
+      colorIndex: 3
+    - indices: 6b0000006a0000005e0000005d000000510000005200000046000000
+      colorIndex: 4
+    - indices: b3000000a70000009b0000008f0000008300000077000000
+      colorIndex: 5
+    - indices: 5f00000053000000470000003b000000
+      colorIndex: 6
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 0
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: TallFitEarlyShapeKeepPack
+  m_EditorClassIdentifier: 
+  packId: TallFitEarlyShapeKeepPack
+  displayName: Tall Fit Early Shape Keep (4)
+  levels:
+  - {fileID: 11400000, guid: 44e06555252c5ce4c8bdef4afa018556, type: 2}
+  - {fileID: 11400000, guid: 6fc76de106043d644b31b0deeef09f33, type: 2}
+  - {fileID: 11400000, guid: 4091e1f6982197644b63d8951d18ec48, type: 2}
+  - {fileID: 11400000, guid: 9724f18a98fc3654c8e45cc48f3002cd, type: 2}

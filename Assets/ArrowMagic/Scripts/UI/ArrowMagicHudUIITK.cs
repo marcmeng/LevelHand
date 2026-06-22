@@ -48,6 +48,8 @@ namespace PixelBug.ArrowMagic
         
         [SerializeField] string nextButtonName = "nextButton";
         [SerializeField] string skipButtonName = "skipButton";
+        [SerializeField] string levelJumpFieldName = "levelJumpField";
+        [SerializeField] string levelJumpButtonName = "levelJumpButton";
         [SerializeField] LevelProgression progression;
         
         [SerializeField] string levelNumberLabelName = "levelNumberLabel";
@@ -55,13 +57,16 @@ namespace PixelBug.ArrowMagic
         [SerializeField] string introPresetLabelName = "introPresetLabel";
         [SerializeField] string modeLabelName = "modeLabel";
 
-        Button _undoBtn, _restartBtn, _newBtn, _nextBtn, _skipBtn, _saveBtn, _editBtn;
+        Button _undoBtn, _restartBtn, _newBtn, _nextBtn, _skipBtn, _levelJumpBtn, _saveBtn, _editBtn;
         Label _movesLabel, _statusLabel, _blockedLabel, _heartsLabel, _editModeLabel, _levelNumberLabel, _introPresetLabel, _modeLabel;
         
         Button _seedMinusBtn, _seedPlusBtn;
         IntegerField _seedField;
+        IntegerField _levelJumpField;
         int _seedEditValue;
+        int _levelJumpValue = 1;
         bool _suppressSeedCallbacks;
+        bool _suppressLevelJumpCallbacks;
         bool _showOutcomeButton;
         bool _showWinOutcome;
         bool _showLoseOutcome;
@@ -152,6 +157,7 @@ namespace PixelBug.ArrowMagic
             _newBtn?.UnregisterCallback<ClickEvent>(OnNewClicked);
             _nextBtn?.UnregisterCallback<ClickEvent>(OnNextClicked);
             _skipBtn?.UnregisterCallback<ClickEvent>(OnSkipClicked);
+            _levelJumpBtn?.UnregisterCallback<ClickEvent>(OnLevelJumpClicked);
             _editBtn?.UnregisterCallback<ClickEvent>(OnEditToggleClicked);
             _saveBtn?.UnregisterCallback<ClickEvent>(OnSaveClicked);
             
@@ -160,6 +166,8 @@ namespace PixelBug.ArrowMagic
             _seedField?.UnregisterValueChangedCallback(OnSeedFieldValueChanged);
             _seedField?.UnregisterCallback<FocusOutEvent>(OnSeedFieldFocusOut);
             _seedField?.UnregisterCallback<KeyDownEvent>(OnSeedFieldKeyDown);
+            _levelJumpField?.UnregisterValueChangedCallback(OnLevelJumpFieldValueChanged);
+            _levelJumpField?.UnregisterCallback<KeyDownEvent>(OnLevelJumpFieldKeyDown);
         }
 
         void Bind()
@@ -173,6 +181,7 @@ namespace PixelBug.ArrowMagic
             _newBtn = root.Q<Button>(newButtonName);
             _nextBtn = root.Q<Button>(nextButtonName);
             _skipBtn = root.Q<Button>(skipButtonName);
+            _levelJumpBtn = root.Q<Button>(levelJumpButtonName);
             if (_nextBtn != null)
             {
                 _nextBtn.RemoveFromClassList("show");
@@ -184,6 +193,7 @@ namespace PixelBug.ArrowMagic
             _seedMinusBtn = root.Q<Button>(seedMinusButtonName);
             _seedPlusBtn  = root.Q<Button>(seedPlusButtonName);
             _seedField    = root.Q<IntegerField>(seedFieldName);
+            _levelJumpField = root.Q<IntegerField>(levelJumpFieldName);
 
             _movesLabel = root.Q<Label>(movesLabelName);
             _statusLabel = root.Q<Label>(statusLabelName);
@@ -202,6 +212,7 @@ namespace PixelBug.ArrowMagic
             _newBtn?.UnregisterCallback<ClickEvent>(OnNewClicked);
             _nextBtn?.UnregisterCallback<ClickEvent>(OnNextClicked);
             _skipBtn?.UnregisterCallback<ClickEvent>(OnSkipClicked);
+            _levelJumpBtn?.UnregisterCallback<ClickEvent>(OnLevelJumpClicked);
             _editBtn?.UnregisterCallback<ClickEvent>(OnEditToggleClicked);
             _saveBtn?.UnregisterCallback<ClickEvent>(OnSaveClicked);
             
@@ -210,12 +221,15 @@ namespace PixelBug.ArrowMagic
             _seedField?.UnregisterValueChangedCallback(OnSeedFieldValueChanged);
             _seedField?.UnregisterCallback<FocusOutEvent>(OnSeedFieldFocusOut);
             _seedField?.UnregisterCallback<KeyDownEvent>(OnSeedFieldKeyDown);
+            _levelJumpField?.UnregisterValueChangedCallback(OnLevelJumpFieldValueChanged);
+            _levelJumpField?.UnregisterCallback<KeyDownEvent>(OnLevelJumpFieldKeyDown);
 
             _undoBtn?.RegisterCallback<ClickEvent>(OnUndoClicked);
             _restartBtn?.RegisterCallback<ClickEvent>(OnRestartClicked);
             _newBtn?.RegisterCallback<ClickEvent>(OnNewClicked);
             _nextBtn?.RegisterCallback<ClickEvent>(OnNextClicked);
             _skipBtn?.RegisterCallback<ClickEvent>(OnSkipClicked);
+            _levelJumpBtn?.RegisterCallback<ClickEvent>(OnLevelJumpClicked);
             _editBtn?.RegisterCallback<ClickEvent>(OnEditToggleClicked);
             _saveBtn?.RegisterCallback<ClickEvent>(OnSaveClicked);
             
@@ -224,6 +238,8 @@ namespace PixelBug.ArrowMagic
             _seedField?.RegisterValueChangedCallback(OnSeedFieldValueChanged);
             _seedField?.RegisterCallback<FocusOutEvent>(OnSeedFieldFocusOut);
             _seedField?.RegisterCallback<KeyDownEvent>(OnSeedFieldKeyDown);
+            _levelJumpField?.RegisterValueChangedCallback(OnLevelJumpFieldValueChanged);
+            _levelJumpField?.RegisterCallback<KeyDownEvent>(OnLevelJumpFieldKeyDown);
         }
         
         void OnSeedMinusClicked(ClickEvent _)
@@ -296,6 +312,63 @@ namespace PixelBug.ArrowMagic
             _seedField.value = seed;
             _seedEditValue = seed;
             _suppressSeedCallbacks = false;
+        }
+
+        void OnLevelJumpFieldValueChanged(ChangeEvent<int> evt)
+        {
+            if (_suppressLevelJumpCallbacks) return;
+            _levelJumpValue = evt.newValue;
+        }
+
+        void OnLevelJumpFieldKeyDown(KeyDownEvent evt)
+        {
+            if (evt.keyCode == KeyCode.Return || evt.keyCode == KeyCode.KeypadEnter)
+            {
+                JumpToRequestedLevel(raiseSubmit: true);
+                evt.StopPropagation();
+            }
+        }
+
+        void OnLevelJumpClicked(ClickEvent _)
+        {
+            JumpToRequestedLevel(raiseSubmit: false);
+        }
+
+        void JumpToRequestedLevel(bool raiseSubmit)
+        {
+            if (controller == null) return;
+            if (controller.EditorMode) return;
+
+            if (progression == null)
+                progression = FindFirstObjectByType<LevelProgression>();
+
+            if (progression == null || progression.LevelCount <= 0)
+                return;
+
+            int targetLevel = Mathf.Clamp(_levelJumpValue, 1, progression.LevelCount);
+
+            ResetOutcomeButtonLatch();
+            bool jumped = progression.TryJumpToLevel(targetLevel);
+            if (!jumped) return;
+
+            SetLevelJumpFieldWithoutNotify(progression.CurrentLevelNumber);
+
+            if (raiseSubmit)
+                GameEvents.RaiseSubmit();
+            else
+                GameEvents.RaiseButtonClicked();
+
+            Refresh();
+        }
+
+        void SetLevelJumpFieldWithoutNotify(int levelNumber)
+        {
+            if (_levelJumpField == null) return;
+
+            _suppressLevelJumpCallbacks = true;
+            _levelJumpField.value = Mathf.Max(1, levelNumber);
+            _levelJumpValue = _levelJumpField.value;
+            _suppressLevelJumpCallbacks = false;
         }
 
         void OnEditorModeChanged(bool _)
@@ -406,6 +479,8 @@ namespace PixelBug.ArrowMagic
                 if (_levelNumberLabel != null) _levelNumberLabel.text = "";
                 if (_editBtn != null) _editBtn.text = "Edit";
                 if (_editModeLabel != null) _editModeLabel.text = "";
+                if (_levelJumpField != null) _levelJumpField.SetEnabled(false);
+                if (_levelJumpBtn != null) _levelJumpBtn.SetEnabled(false);
                 if (_nextBtn != null)
                 {
                     _nextBtn.RemoveFromClassList("show");
@@ -504,6 +579,9 @@ namespace PixelBug.ArrowMagic
                     _levelNumberLabel.text = "Level 1";
             }
 
+            if (progression != null && progression.LevelCount > 0)
+                SetLevelJumpFieldWithoutNotify(progression.CurrentLevelNumber);
+
             if (_statusLabel != null)
             {
                 if (editing)
@@ -539,6 +617,10 @@ namespace PixelBug.ArrowMagic
             if (_newBtn != null) _newBtn.SetEnabled(!editing);
             if (_skipBtn != null)
                 _skipBtn.SetEnabled(!editing && (!controller.Won || !_showOutcomeButton));
+
+            bool canJump = !editing && progression != null && progression.LevelCount > 0;
+            if (_levelJumpField != null) _levelJumpField.SetEnabled(canJump);
+            if (_levelJumpBtn != null) _levelJumpBtn.SetEnabled(canJump);
             
             // Hearts: total = blockedLoseLimit, filled = blockedLoseLimit - BlockedUniqueCount
             int maxHearts = Mathf.Max(0, controller.blockedLoseLimit);

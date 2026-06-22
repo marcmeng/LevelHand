@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: arch_linework_13_circuit_v5
+  m_EditorClassIdentifier: 
+  levelId: arch_linework_13_circuit_v5
+  source: 1
+  board:
+    width: 24
+    height: 33
+    seed: 510004
+  generation:
+    arrowCoverage: 0.1919192
+    initialMovableArrowCount: 6
+    targetDifficultyScore: 21
+    fixedGenerationSeed: 510004
+    minPathLen: 2
+    maxPathLength: 39
+    twistiness: 0.35
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 24
+    height: 33
+    arrows:
+    - indices: d0020000d1020000d2020000d3020000d4020000d5020000d6020000d7020000d8020000d9020000da020000db020000dc020000dd020000de020000df020000e0020000e1020000e2020000e3020000e4020000cc020000b40200009c020000840200006c0200006b0200006a0200006902000068020000670200007f02000097020000af020000ae020000ad020000ac020000ab020000aa020000
+      colorIndex: 0
+    - indices: f8010000f9010000fa010000fb010000fc010000fd010000fe010000ff01000000020000e8010000d0010000b8010000a001000088010000700100007101000072010000730100007401000075010000760100005e010000460100002e01000016010000
+      colorIndex: 1
+    - indices: 7700000076000000750000007400000073000000720000008a000000a2000000ba000000d2000000ea000000020100000101000000010000ff000000fe000000fd000000fc000000e4000000cc000000b40000009c0000009b0000009a000000990000009800000097000000
+      colorIndex: 2
+    - indices: 8b0200008c0200008d0200008e0200008f0200009002000091020000920200007a020000620200004a020000320200001a020000190200001802000017020000160200001502000014020000130200002b02000043020000
+      colorIndex: 3
+    - indices: 340200001c02000004020000ec010000d4010000bc010000a4010000a5010000a6010000a7010000a8010000a9010000aa010000ab010000ac010000c4010000dc010000f40100000c020000240200003c0200003b0200003a020000
+      colorIndex: 4
+    - indices: 1c000000340000004c000000640000007c00000094000000ac000000
+      colorIndex: 5
+    - indices: 260000003e000000560000006e000000860000009e000000b6000000ce000000e6000000
+      colorIndex: 0
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 0
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

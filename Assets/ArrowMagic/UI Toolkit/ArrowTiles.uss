@@ -60,4 +60,26 @@
     transition-timing-function: ease-out-bounce;
 }
 
+.jump-field {
+    width: 42px;
+    min-width: 42px;
+    margin-left: 4px;
+    margin-top: 4px;
+    color: rgb(67, 67, 67);
+}
+
+.jump-field .unity-base-text-field__input {
+    background-color: rgb(204, 204, 204);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    -unity-text-align: middle-center;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.jump-button {
+    min-width: 34px;
+}
 

@@ -1,0 +1,154 @@
+﻿Youâve already basically proven something important: **all post-hoc operators are structurally saturated under dense SGP packing**. The failure mode is not âweak heuristicsâ, itâs **state space collapse** â there is literally no geometric degree of freedom left for causal non-locality to be *introduced after the fact*.
+
+So the answer is not another operator. Itâs a **phase change in when causality is allowed to exist.**
+
+---
+
+# 1. Recommended next implementation direction
+
+ð **C) Two-phase generator (but with a stricter reinterpretation: âcausal skeleton first, SGP fill secondâ)**
+
+Not just âlayout first, fill laterâ.
+
+Instead:
+
+> **Phase 0: Causal Skeleton Graph (physics-locked)**
+> Build a minimal set of *escapeRay-valid collision edges that already define the full dependency DAG*
+
+Then:
+
+> **Phase 1: SGP density fill as a constrained packing problem that must not destroy skeleton rays**
+
+This is the only direction that breaks your current ceiling because it reintroduces **free space before geometry is over-constrained**.
+
+---
+
+# 2. Why each failed operator failed (one sentence each)
+
+- **FlipBlockedRay:support** â flips do not change ray topology, only orientation, so they cannot introduce new collision ordering.
+- **ExistingRay** â samples from an already local graph; it measures closure but cannot expand dependency diameter.
+- **InsertSidecarAsUpstreamBlocker** â requires empty ray corridors that dense SGP generation already eliminates (rayCellsâ0).
+- **ExistingMultiHopRay** â reuses pre-existing adjacency; no new geometric causality is created, only re-labeling of local chains.
+- **SplitEndpointSidecar** â endpoint geometry is already constrained to 1-step visibility, so splitting produces only micro-branches that remain locally collapsible.
+
+---
+
+# 3. Minimal V1 algorithm (engineering spec)
+
+## Phase 0 â Skeleton Builder (NEW CORE)
+
+Input: empty grid or low-density seed mask
+
+### Step 0.1: Select anchors
+- Pick N targets (leaf nodes)
+- For each target, sample potential hub points with **min Manhattan + visibility constraint**
+
+### Step 0.2: Build causal edges
+For each edge A â B:
+- Place A and B first (abstract nodes)
+- Then attempt to carve a **ray corridor cell strip** such that:
+
+```text
+B.escapeRay MUST intersect A.geometry
+AND
+no intermediate geometry blocks ray except A
+```
+
+### Step 0.3: Validate skeleton
+Reject skeleton if:
+- DAG depth < 3
+- max fanout > threshold (e.g. 3)
+- any edge has alternative valid blockers (prevents determinism collapse)
+
+---
+
+## Phase 1 â Constrained SGP Fill
+
+Fill remaining cells with SGP rules but:
+
+### Hard constraints:
+- MUST NOT invalidate any skeleton ray collision
+- Cannot introduce new ray blockers on existing valid AâB edges
+- Must preserve âunique blocker per dependency edgeâ
+
+### Soft constraints:
+- maximize density
+- maintain visual consistency
+
+---
+
+## Acceptance rules (critical)
+
+A level is valid only if:
+
+- â¥ 30% of dependencies are **depth â¥ 3**
+- â¥ 1 dependency chain has length â¥ 5
+- â¥ 60% of solve trace steps are **non-local hop transitions (distance â¥ 3 cells)**
+- skeleton edges remain 100% ray-valid after fill
+
+---
+
+# 4. Metric target for next 20-source experiment
+
+You need a metric that proves you broke locality ceiling:
+
+### ð¯ Target:
+
+> **causalDiameterScore â¥ 0.65**
+
+Defined as:
+
+```text
+average shortest-path distance (in grid cells) across solved dependency edges
+```
+
+AND:
+
+> **nonLocalEdgeRatio â¥ 0.55**
+
+Where:
+
+```text
+nonLocalEdge = rayDistance â¥ 3 cells
+```
+
+---
+
+# 5. One critical warning (do NOT do this next)
+
+â ï¸ **Do NOT continue adding operators on top of dense SGP outputs**
+
+Because what your data already shows:
+
+> dense SGP collapses ray topology into local adjacency equivalence classes
+
+So any operator like:
+- sidecar insertion
+- endpoint split
+- ray flipping
+- post-hoc repair
+
+will **only permute within a locally saturated manifold**
+
+It will *look like innovation*, but mathematically it is:
+> isomorphic re-labeling of the same local graph.
+
+---
+
+# Bottom line
+
+Your real breakthrough is not âbetter support logicâ.
+
+It is:
+
+> **stop treating geometry as input and start treating causal rays as first-class primitives that must exist before geometry is allowed to fill space**
+
+---
+
+If you want next step, I can help you design:
+
+- Skeleton generator pseudocode integrated into Unity C#
+- Ray corridor carving algorithm (robust under SGP fill)
+- Or a migration plan to adapt your current Build-SGPRhythmTrace pipeline to evaluate skeleton-first graphs
+
+Just tell me.

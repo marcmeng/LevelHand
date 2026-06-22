@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.pixelbug.arrow-level-generator": {
+      "version": "file:com.pixelbug.arrow-level-generator",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "9.2.0",
       "depth": 1,

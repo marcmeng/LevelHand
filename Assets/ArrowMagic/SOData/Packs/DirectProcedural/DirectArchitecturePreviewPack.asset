@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: DirectArchitecturePreviewPack
+  m_EditorClassIdentifier: 
+  packId: direct_architecture_preview
+  displayName: Direct Architecture Preview (8)
+  levels:
+  - {fileID: 11400000, guid: 94361b6ffb6fba74cbf4f9c8dd19700e, type: 2}
+  - {fileID: 11400000, guid: 879ee7ae673da3242a16b449c18ef59a, type: 2}
+  - {fileID: 11400000, guid: 7c8cf670342da54458d2951464047cc0, type: 2}
+  - {fileID: 11400000, guid: 4332779e5375a6742a655da84cad25f5, type: 2}
+  - {fileID: 11400000, guid: a9eead408e4a66746b86cbc8da503dee, type: 2}
+  - {fileID: 11400000, guid: 37df053dbdc5f8d4193519fcec901e0b, type: 2}
+  - {fileID: 11400000, guid: 274263d14e463ac42ab5f4259e848628, type: 2}
+  - {fileID: 11400000, guid: 6c0f7387ef8cd40489d6856383377725, type: 2}

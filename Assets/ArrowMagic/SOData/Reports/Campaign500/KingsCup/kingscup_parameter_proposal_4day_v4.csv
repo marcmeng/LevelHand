@@ -1,0 +1,19 @@
+﻿sheet,id,field,current,proposal,note
+KingsCup,1,robotCount,49,49,4-day event keeps 49 robots + player = 50 leaderboard entries
+KingsCup,1,enterReward,item_8_10,item_8_10,entry reward unchanged
+KingsCupScoreRule,1,difficulty1,missing,1,normal level gives 1 trophy
+KingsCupScoreRule,2,difficulty2,missing,2,hard level gives 2 trophies
+KingsCupScoreRule,3,difficulty3,missing,3,very hard level gives 3 trophies
+KingsCupScoreRule,4,difficulty4,missing,5,extreme level gives 5 trophies
+KingsCupRobot,1,scoreDuration,"1,30","30,90",low-score robot for light/casual 4-day players
+KingsCupRobot,2,scoreDuration,"1,31","80,170",mid-score robot around standard 4-day players
+KingsCupRobot,3,scoreDuration,"1,32","160,310",high-score robot around active/heavy players
+KingsCupRobot,4,scoreDuration,"1,33","300,480",ultra-high robot for top competition
+KingsCupRobotPlan,1,score,"0,100","0,80",light player band
+KingsCupRobotPlan,1,robotCounts,"1_10,2_20,3_10,4_9","1_12,2_20,3_12,4_5",easier leaderboard for light players
+KingsCupRobotPlan,2,score,missing,"81,160",standard player band
+KingsCupRobotPlan,2,robotCounts,missing,"1_8,2_18,3_16,4_7",standard mix
+KingsCupRobotPlan,3,score,missing,"161,300",active player band
+KingsCupRobotPlan,3,robotCounts,missing,"1_5,2_14,3_20,4_10",stronger top half
+KingsCupRobotPlan,4,score,missing,"301,999",heavy/top player band
+KingsCupRobotPlan,4,robotCounts,missing,"1_3,2_10,3_20,4_16",top-heavy competition for high scorers

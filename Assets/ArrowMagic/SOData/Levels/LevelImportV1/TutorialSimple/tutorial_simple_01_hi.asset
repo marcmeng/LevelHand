@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: TutorialSimple01Hi
+  m_EditorClassIdentifier: 
+  levelId: tutorial_simple_01_hi
+  source: 1
+  board:
+    width: 10
+    height: 7
+    seed: 1001
+  generation:
+    arrowCoverage: 0.3
+    initialMovableArrowCount: 4
+    targetDifficultyScore: 45
+    fixedGenerationSeed: 1001
+    minPathLen: 2
+    maxPathLength: 5
+    twistiness: 0.2
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 10
+    height: 7
+    arrows:
+    - indices: 33000000290000001f000000150000000b000000
+      colorIndex: 0
+    - indices: 360000002c00000022000000180000000e000000
+      colorIndex: 1
+    - indices: 2100000020000000
+      colorIndex: 2
+    - indices: 3a0000003900000038000000
+      colorIndex: 3
+    - indices: 2f000000250000001b000000
+      colorIndex: 4
+    - indices: 120000001100000010000000
+      colorIndex: 5
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

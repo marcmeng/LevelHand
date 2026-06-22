@@ -1,0 +1,16 @@
+SeedMaskPatch Tall Fit Early Shape Keep Archive
+SourcePack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/TallFitShapePreviewPack.asset
+KeepLevelFolder=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/KeepEarly
+KeepMaskFolder=Assets/ArrowMagic/Masks/ShapeKeepEarly
+KeepPack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/KeepEarly/TallFitEarlyShapeKeepPack.asset
+Usage=early-stage special-shape crop+repair samples; later Shape production should target higher chain counts
+Mask1=Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x30-RocketMini.png -> Assets/ArrowMagic/Masks/ShapeKeepEarly/MaskTallFit_22x30-RocketMini.png | ok=True | copied
+Mask2=Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x30-ShieldTall.png -> Assets/ArrowMagic/Masks/ShapeKeepEarly/MaskTallFit_22x30-ShieldTall.png | ok=True | copied
+Mask3=Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_20x30-BottleMini.png -> Assets/ArrowMagic/Masks/ShapeKeepEarly/MaskTallFit_20x30-BottleMini.png | ok=True | copied
+Mask4=Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x32-TorchTall.png -> Assets/ArrowMagic/Masks/ShapeKeepEarly/MaskTallFit_22x32-TorchTall.png | ok=True | copied
+Level1=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_01_masktallfit_22x30-rocketmini_r1_outer_strong_053_r1_092_a573_MaskTallFit_22x30-RocketMini_20260610_203911.asset -> Assets/ArrowMagic/SOData/Levels/ShapeExperiment/KeepEarly/early_shape_keep_01_RocketMini.asset | ok=True | copied
+Level2=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_02_masktallfit_22x30-shieldtall_r1_outer_strong_053_r1_092_a573_MaskTallFit_22x30-ShieldTall_20260610_203955.asset -> Assets/ArrowMagic/SOData/Levels/ShapeExperiment/KeepEarly/early_shape_keep_02_ShieldTall.asset | ok=True | copied
+Level3=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_03_masktallfit_20x30-bottlemini_r1_outer_strong_035_r1_055_a501_MaskTallFit_20x30-BottleMini_20260610_204048.asset -> Assets/ArrowMagic/SOData/Levels/ShapeExperiment/KeepEarly/early_shape_keep_03_BottleMini.asset | ok=True | copied
+Level4=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/tallfit_04_masktallfit_22x32-torchtall_r1_outer_strong_051_r1_089_a565_MaskTallFit_22x32-TorchTall_20260610_204127.asset -> Assets/ArrowMagic/SOData/Levels/ShapeExperiment/KeepEarly/early_shape_keep_04_TorchTall.asset | ok=True | copied
+PackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/KeepEarly/TallFitEarlyShapeKeepPack.asset | levels=4
+DemoAttached=True

@@ -63,6 +63,26 @@ namespace PixelBug.ArrowMagic
             loader.Apply(activePack.levels[currentIndex]);
         }
 
+        public bool TryJumpToLevel(int levelNumber)
+        {
+            if (activePack == null || activePack.levels == null || activePack.levels.Length == 0)
+                return false;
+
+            if (loader == null)
+                loader = FindFirstObjectByType<LevelLoader>();
+
+            if (loader == null)
+            {
+                Debug.LogWarning("[LevelProgression] Cannot jump: missing LevelLoader.");
+                return false;
+            }
+
+            int targetIndex = Mathf.Clamp(levelNumber - 1, 0, activePack.levels.Length - 1);
+            currentIndex = targetIndex;
+            loader.Apply(activePack.levels[currentIndex]);
+            return true;
+        }
+
         public bool HasNextLevel()
         {
             if (activePack == null) return false;

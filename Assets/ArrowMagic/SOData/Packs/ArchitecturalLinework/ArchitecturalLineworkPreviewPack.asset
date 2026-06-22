@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: ArchitecturalLineworkPreviewPack
+  m_EditorClassIdentifier: 
+  packId: architectural_linework_preview
+  displayName: Architectural Linework Preview (8)
+  levels:
+  - {fileID: 11400000, guid: bf96b3d6cb2e26c4ea58ec8123943699, type: 2}
+  - {fileID: 11400000, guid: 7fcc9739a3759644a909b0216271986a, type: 2}
+  - {fileID: 11400000, guid: 40b527d8d89f1664e99c933e4011da7f, type: 2}
+  - {fileID: 11400000, guid: 34b8f1ef321304b4f8bc6e1a400458a8, type: 2}
+  - {fileID: 11400000, guid: 36c07bb33bf1f72418061d3d27c879fd, type: 2}
+  - {fileID: 11400000, guid: cea032638307722499791da8fe4146d6, type: 2}
+  - {fileID: 11400000, guid: 4373259e69b8cea41902058faf22ec57, type: 2}
+  - {fileID: 11400000, guid: 57d93e81fd4048c4395c5f612b0ab1cd, type: 2}

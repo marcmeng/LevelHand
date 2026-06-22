@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: candidate_L003_level3_tiny_03_level3_tiny_mini_maze_17
+  m_EditorClassIdentifier: 
+  levelId: level3_tiny_03_level3_tiny_mini_maze_17
+  source: 1
+  board:
+    width: 9
+    height: 14
+    seed: 1592789
+  generation:
+    arrowCoverage: 0.96825397
+    initialMovableArrowCount: 5
+    targetDifficultyScore: 49
+    fixedGenerationSeed: 1592789
+    minPathLen: 5
+    maxPathLength: 9
+    twistiness: 0.7
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 9
+    height: 14
+    arrows:
+    - indices: 060000000f00000010000000070000000800000011000000
+      colorIndex: 0
+    - indices: 7d000000740000006b000000620000005900000050000000470000003e00000035000000
+      colorIndex: 1
+    - indices: 2c000000230000001a000000190000001800000021000000
+      colorIndex: 2
+    - indices: 750000006c000000630000005a00000051000000480000003f00000036000000
+      colorIndex: 3
+    - indices: 760000007700000078000000790000007a0000007b000000
+      colorIndex: 4
+    - indices: 05000000040000000300000002000000010000000000000009000000120000001b000000
+      colorIndex: 5
+    - indices: 6d0000006e0000006f000000700000007100000072000000
+      colorIndex: 6
+    - indices: 2b0000002a00000033000000340000003d000000460000004f000000
+      colorIndex: 7
+    - indices: 0a0000000b0000000c0000000d0000000e0000001700000020000000
+      colorIndex: 0
+    - indices: 160000001500000014000000130000001c000000
+      colorIndex: 1
+    - indices: 2400000025000000260000001d0000001e0000001f000000280000002900000032000000
+      colorIndex: 2
+    - indices: 31000000300000002f0000002e0000003700000040000000410000004a00000049000000
+      colorIndex: 3
+    - indices: 3800000039000000420000004b0000004c00000055000000560000005f000000
+      colorIndex: 4
+    - indices: 640000006500000066000000670000005e0000005d000000540000005300000052000000
+      colorIndex: 5
+    - indices: 5700000058000000610000006000000069000000
+      colorIndex: 6
+    - indices: 7c000000730000006a000000
+      colorIndex: 7
+    - indices: 4500000044000000430000003a0000003b0000003c000000
+      colorIndex: 0
+    - indices: 5c0000005b000000
+      colorIndex: 1
+    - indices: 4e0000004d000000
+      colorIndex: 2
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 0
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

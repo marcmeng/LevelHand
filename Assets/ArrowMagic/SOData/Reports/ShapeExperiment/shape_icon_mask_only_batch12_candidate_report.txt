@@ -1,0 +1,13 @@
+Shape Icon Mask Only Batch12 Candidate Pack
+BaseMaskFolder=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch12Base
+VariantMaskFolder=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch12Variants
+Catalog=Assets/ArrowMagic/SOData/Reports/ShapeExperiment/shape_icon_mask_only_batch12_catalog.csv
+Pack=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch12CandidatePack.asset
+Mode=StandaloneMaskOnlyOnionFill
+Policy=High coverage, non-straight, Greedy validated
+LoadedRows=3
+[1] Done=MagicWand/compact | Mask=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch12Variants/MaskOnlyBatch12_40x40-01MagicWand-compact.png | Level=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/ProceduralMaskFill/maskonlyb12_01_compact_magicwand_20260620_214457.asset | Area=400 Used=400 Fill=1.000 Chains=54 AvgLen=6.7 MaxLen=10 Turns=185 StraightLong=0 | GreedyMoves=54 | Score=1042.4
+[2] Done=MagicWand/main | Mask=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch12Base/MaskOnlyBatch12_48x48-01MagicWand-main.png | Level=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/ProceduralMaskFill/maskonlyb12_01_main_magicwand_20260620_214457.asset | Area=582 Used=582 Fill=1.000 Chains=75 AvgLen=7.3 MaxLen=12 Turns=266 StraightLong=0 | GreedyMoves=75 | Score=1010.0
+[3] Done=MagicWand/large | Mask=Assets/ArrowMagic/Masks/ShapeIconMaskOnlyBatch12Variants/MaskOnlyBatch12_52x52-01MagicWand-large.png | Level=Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/ProceduralMaskFill/maskonlyb12_01_large_magicwand_20260620_214457.asset | Area=686 Used=686 Fill=1.000 Chains=83 AvgLen=7.6 MaxLen=14 Turns=308 StraightLong=0 | GreedyMoves=83 | Score=988.8
+PackSynced=Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch12CandidatePack.asset | Levels=3
+DemoAttached=True

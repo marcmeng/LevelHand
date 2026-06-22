@@ -58,6 +58,12 @@ namespace PixelBug.ArrowMagic.EditorTools
         private const string kAnimalBestPreviewPackPath = "Assets/ArrowMagic/SOData/Packs/ShapeExperiment/AnimalBestPreviewPack.asset";
         private const string kTallFitShapePreviewReportPath = "Assets/ArrowMagic/SOData/Reports/ShapeExperiment/tall_fit_shape_preview_pack_report.txt";
         private const string kTallFitShapePreviewPackPath = "Assets/ArrowMagic/SOData/Packs/ShapeExperiment/TallFitShapePreviewPack.asset";
+        private const string kTallFitEarlyKeepReportPath = "Assets/ArrowMagic/SOData/Reports/ShapeExperiment/tall_fit_early_shape_keep_report.txt";
+        private const string kTallFitEarlyKeepLevelFolder = "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/KeepEarly";
+        private const string kTallFitEarlyKeepMaskFolder = "Assets/ArrowMagic/Masks/ShapeKeepEarly";
+        private const string kTallFitEarlyKeepPackPath = "Assets/ArrowMagic/SOData/Packs/ShapeExperiment/KeepEarly/TallFitEarlyShapeKeepPack.asset";
+        private const string kShapeEarlyKeepRetrospectiveReportPath = "Assets/ArrowMagic/SOData/Reports/ShapeExperiment/shape_early_keep_retrospective_report.txt";
+        private const string kShapeEarlyKeepRetrospectivePackPath = "Assets/ArrowMagic/SOData/Packs/ShapeExperiment/KeepEarly/ShapeEarlyKeepRetrospectivePack.asset";
         private const string kShapeExperimentSourcePackFolder = "Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal";
         private const string kDemoScenePath = "Assets/ArrowMagic/Scenes/Demo.unity";
         private const int kShapeExperimentPreviewMaskLimit = 10;
@@ -1384,19 +1390,19 @@ namespace PixelBug.ArrowMagic.EditorTools
                 window._maskHealFillRatioFloor = 1f;
                 window._maskHealFillFallbackSteps = 0;
                 window._maxGreedyMovesMultiplier = 8;
-                window._fallbackCleanupLoops = 1;
-                window._greedyTrimPerChain = 1;
+                window._fallbackCleanupLoops = 2;
+                window._greedyTrimPerChain = 3;
                 window._preGreedyGeometryFixPasses = 8;
                 window._allowGreedyFullChainRemoval = true;
                 window._allowGreedyFallbackChainClear = true;
-                window._greedyRepairCandidateEvalCap = 520;
-                window._greedyRepairTimeBudgetMs = 14000;
-                window._allowGreedyCoreTakeoutRefillRescue = false;
+                window._greedyRepairCandidateEvalCap = 1200;
+                window._greedyRepairTimeBudgetMs = 24000;
+                window._allowGreedyCoreTakeoutRefillRescue = true;
                 window._exportRawIfGreedyFails = false;
-                window._candidateTopCount = 8;
-                window._candidatePreEvalLimit = 32;
+                window._candidateTopCount = 18;
+                window._candidatePreEvalLimit = 64;
                 window._candidatePreEvalTimeoutMs = 12000;
-                window._candidateMinFillRatio = 0.90f;
+                window._candidateMinFillRatio = 0.84f;
                 window._outputFolder = kShapeExperimentCandidateFolder;
                 window.EnsureOutputFolder();
                 window._outputPrefix = $"tallfit_{i + 1:00}_{SanitizeName(Path.GetFileNameWithoutExtension(maskPath)).ToLowerInvariant()}";
@@ -1406,9 +1412,36 @@ namespace PixelBug.ArrowMagic.EditorTools
 
                 Debug.Log($"[SeedMaskPatch] Tall Fit Shape Preview direct-generate start {i + 1}/{maskPaths.Length}: {maskPath}");
 
-                int previewCount = Math.Min(8, window._matchedSeeds.Count);
+                var attemptSeeds = new List<LevelDefinition>();
+                var attemptRanks = new List<int>();
+                var seenAttempts = new HashSet<LevelDefinition>();
+
+                void AddAttemptSeed(int index)
+                {
+                    if (index < 0 || index >= window._matchedSeeds.Count)
+                        return;
+
+                    var candidate = window._matchedSeeds[index];
+                    if (candidate == null || !seenAttempts.Add(candidate))
+                        return;
+
+                    attemptSeeds.Add(candidate);
+                    attemptRanks.Add(index + 1);
+                }
+
+                for (int r = 0; r < Math.Min(10, window._matchedSeeds.Count); r++)
+                    AddAttemptSeed(r);
+
+                int[] spreadRanks = { 12, 16, 20, 24, 32, 40, 48, 56, 64 };
+                for (int r = 0; r < spreadRanks.Length && attemptSeeds.Count < 18; r++)
+                    AddAttemptSeed(spreadRanks[r] - 1);
+
+                for (int r = 0; r < window._matchedSeeds.Count && attemptSeeds.Count < 18; r++)
+                    AddAttemptSeed(r);
+
+                int previewCount = attemptSeeds.Count;
                 for (int r = 0; r < previewCount; r++)
-                    report.Add($"    MatchTop{r + 1}: Source={GetAssetPath(window._matchedSeeds[r])}");
+                    report.Add($"    MatchPick{r + 1}=Rank{attemptRanks[r]} | Source={GetAssetPath(attemptSeeds[r])}");
 
                 int maskArea = 0;
                 if (window.TryReadMask(mask, true, false, 0, out bool[] maskCanSpawn))
@@ -1418,13 +1451,13 @@ namespace PixelBug.ArrowMagic.EditorTools
                 int feasibleAttempts = 0;
                 for (int r = 0; r < previewCount; r++)
                 {
-                    var sourceSeed = window._matchedSeeds[r];
+                    var sourceSeed = attemptSeeds[r];
                     if (sourceSeed == null)
                         continue;
 
                     feasibleAttempts++;
                     string sourcePath = GetAssetPath(sourceSeed);
-                    report.Add($"    BeginAttempt{feasibleAttempts}=MatchTop{r + 1} | Source={sourcePath}");
+                    report.Add($"    BeginAttempt{feasibleAttempts}=Rank{attemptRanks[r]} | Source={sourcePath}");
                     WriteReport(kTallFitShapePreviewReportPath, report);
 
                     string generated = window.ProcessSingle(sourceSeed, mask);
@@ -1445,14 +1478,14 @@ namespace PixelBug.ArrowMagic.EditorTools
                             {
                                 finalFill = CountArrowTiles(generatedBoard);
                                 ratio = maskArea > 0 ? (float)finalFill / maskArea : 0f;
-                                fillRejected = maskArea > 0 && ratio < 0.90f;
+                                fillRejected = maskArea > 0 && ratio < window._candidateMinFillRatio;
                             }
                         }
                     }
 
                     bool qualityRejected = straightRejected || fillRejected;
                     string rejectReason = straightRejected ? "straight-dominated" : fillRejected ? "low-fill" : "none";
-                    report.Add($"    Attempt{feasibleAttempts}=MatchTop{r + 1} | Generated={!string.IsNullOrWhiteSpace(generated)} | QualityRejected={qualityRejected} | RejectReason={rejectReason} | Source={sourcePath} | MaskArea={maskArea} | FinalFill={finalFill} | Ratio={ratio:0.000} | Chains={chains} | {straightnessDetails} | Raw={window._latestRawClipPath} | Final={generated}");
+                    report.Add($"    Attempt{feasibleAttempts}=Rank{attemptRanks[r]} | Generated={!string.IsNullOrWhiteSpace(generated)} | QualityRejected={qualityRejected} | RejectReason={rejectReason} | Source={sourcePath} | MaskArea={maskArea} | FinalFill={finalFill} | Ratio={ratio:0.000} | MinRatio={window._candidateMinFillRatio:0.00} | Chains={chains} | {straightnessDetails} | Raw={window._latestRawClipPath} | Final={generated}");
                     WriteReport(kTallFitShapePreviewReportPath, report);
 
                     if (!string.IsNullOrWhiteSpace(generated) && !qualityRejected)
@@ -1485,6 +1518,200 @@ namespace PixelBug.ArrowMagic.EditorTools
 
             AssetDatabase.Refresh();
             Debug.Log($"[SeedMaskPatch] Tall Fit Shape Preview finished. levels={generatedPaths.Count}, pack={kTallFitShapePreviewPackPath}");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Seed Mask Patch/Archive Tall Fit Early Shape Keep Pack")]
+        public static void ArchiveTallFitShapePreviewAsEarlyKeepPack()
+        {
+            var report = new List<string>
+            {
+                "SeedMaskPatch Tall Fit Early Shape Keep Archive",
+                $"SourcePack={kTallFitShapePreviewPackPath}",
+                $"KeepLevelFolder={kTallFitEarlyKeepLevelFolder}",
+                $"KeepMaskFolder={kTallFitEarlyKeepMaskFolder}",
+                $"KeepPack={kTallFitEarlyKeepPackPath}",
+                "Usage=early-stage special-shape crop+repair samples; later Shape production should target higher chain counts"
+            };
+
+            var sourcePack = AssetDatabase.LoadAssetAtPath<LevelPack>(kTallFitShapePreviewPackPath);
+            if (sourcePack == null || sourcePack.levels == null || sourcePack.levels.Length == 0)
+            {
+                report.Add("ArchiveFailed=source pack missing or empty");
+                WriteReport(kTallFitEarlyKeepReportPath, report);
+                Debug.LogError("[SeedMaskPatch] Tall Fit Early Shape Keep archive failed: source pack missing or empty.");
+                return;
+            }
+
+            EnsureFolderExists(kTallFitEarlyKeepLevelFolder);
+            EnsureFolderExists(kTallFitEarlyKeepMaskFolder);
+            EnsureFolderExists(Path.GetDirectoryName(kTallFitEarlyKeepPackPath)?.Replace("\\", "/"));
+
+            string[] maskPaths =
+            {
+                "Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x30-RocketMini.png",
+                "Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x30-ShieldTall.png",
+                "Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_20x30-BottleMini.png",
+                "Assets/ArrowMagic/Masks/ShapeTallFitPreview/MaskTallFit_22x32-TorchTall.png"
+            };
+
+            for (int i = 0; i < maskPaths.Length; i++)
+            {
+                string sourceMaskPath = maskPaths[i];
+                string destinationPath = $"{kTallFitEarlyKeepMaskFolder}/{Path.GetFileName(sourceMaskPath)}";
+                bool copied = TryCopyAssetIfMissing(sourceMaskPath, destinationPath, out string copyDetails);
+                report.Add($"Mask{i + 1}={sourceMaskPath} -> {destinationPath} | ok={copied} | {copyDetails}");
+            }
+
+            string[] keepNames = { "RocketMini", "ShieldTall", "BottleMini", "TorchTall" };
+            var keptLevelPaths = new List<string>();
+            for (int i = 0; i < sourcePack.levels.Length; i++)
+            {
+                var sourceLevel = sourcePack.levels[i];
+                string sourceLevelPath = GetAssetPath(sourceLevel);
+                if (string.IsNullOrWhiteSpace(sourceLevelPath))
+                {
+                    report.Add($"Level{i + 1}=missing source reference");
+                    continue;
+                }
+
+                string keepName = i < keepNames.Length ? keepNames[i] : $"Level{i + 1:00}";
+                string destinationPath = $"{kTallFitEarlyKeepLevelFolder}/early_shape_keep_{i + 1:00}_{SanitizeName(keepName)}.asset";
+                bool copied = TryCopyAssetIfMissing(sourceLevelPath, destinationPath, out string copyDetails);
+                report.Add($"Level{i + 1}={sourceLevelPath} -> {destinationPath} | ok={copied} | {copyDetails}");
+
+                if (copied && AssetDatabase.LoadAssetAtPath<LevelDefinition>(destinationPath) != null)
+                    keptLevelPaths.Add(destinationPath);
+            }
+
+            if (!TrySyncLevelPack(keptLevelPaths, kTallFitEarlyKeepPackPath, "TallFitEarlyShapeKeepPack", $"Tall Fit Early Shape Keep ({keptLevelPaths.Count})", out LevelPack pack, out string packDetails))
+            {
+                report.Add($"PackFailed={packDetails}");
+                WriteReport(kTallFitEarlyKeepReportPath, report);
+                Debug.LogError($"[SeedMaskPatch] Tall Fit Early Shape Keep pack failed: {packDetails}");
+                return;
+            }
+
+            report.Add($"PackSynced={kTallFitEarlyKeepPackPath} | {packDetails}");
+            AttachLevelPackToDemo(pack, "SeedMaskPatch TallFitEarlyShapeKeep");
+            report.Add("DemoAttached=True");
+            WriteReport(kTallFitEarlyKeepReportPath, report);
+
+            AssetDatabase.Refresh();
+            Debug.Log($"[SeedMaskPatch] Tall Fit Early Shape Keep archive finished. levels={keptLevelPaths.Count}, pack={kTallFitEarlyKeepPackPath}");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Seed Mask Patch/Archive Retrospective Early Shape Keeps")]
+        public static void ArchiveRetrospectiveEarlyShapeKeeps()
+        {
+            var report = new List<string>
+            {
+                "SeedMaskPatch Retrospective Early Shape Keep Archive",
+                $"KeepLevelFolder={kTallFitEarlyKeepLevelFolder}",
+                $"KeepMaskFolder={kTallFitEarlyKeepMaskFolder}",
+                $"Pack={kShapeEarlyKeepRetrospectivePackPath}",
+                "Scope=confirmed early/special-shape keeps from previous visual review",
+                "Excluded=EarlySymbolPreviewPack is noted but not archived because some levels were called out as straight-line dominated",
+                "Excluded=AnimalShapePreview level 1/2 dog/cat were explicitly abandoned in visual review"
+            };
+
+            EnsureFolderExists(kTallFitEarlyKeepLevelFolder);
+            EnsureFolderExists(kTallFitEarlyKeepMaskFolder);
+            EnsureFolderExists(Path.GetDirectoryName(kShapeEarlyKeepRetrospectivePackPath)?.Replace("\\", "/"));
+
+            var keptLevelPaths = new List<string>();
+            AddExistingPackLevelsToKeepArchive(kTallFitEarlyKeepPackPath, "current tall-fit early keep", keptLevelPaths, report);
+
+            ArchiveConfirmedKeep(
+                "OriginalStar",
+                "Original Star baseline; user said original star result was ok",
+                "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/original_star_mask_preview_r1_outer_strong_168_r1_289_a985_Mask_19x19-Star_20260610_121712.asset",
+                "Assets/ArrowMagic/Masks/Mask_19x19-Star.png",
+                "early_shape_keep_05_OriginalStar.asset",
+                keptLevelPaths,
+                report);
+
+            ArchiveConfirmedKeep(
+                "ReadableStarBoldLarge",
+                "Readable preview level 4; user said the last two were usable",
+                "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_04_maskreadable_28x28-starboldlarge_r2_outer_strong_126_r2_232_a845_MaskReadable_28x28-StarBoldLarge_20260610_123759.asset",
+                "Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_28x28-StarBoldLarge.png",
+                "early_shape_keep_06_ReadableStarBoldLarge.asset",
+                keptLevelPaths,
+                report);
+
+            ArchiveConfirmedKeep(
+                "ReadableHouseBold",
+                "Readable preview level 5; user said the last two were usable",
+                "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/readableshape_05_maskreadable_28x30-housebold_r2_outer_strong_126_r2_232_a845_MaskReadable_28x30-HouseBold_20260610_124013.asset",
+                "Assets/ArrowMagic/Masks/ShapeReadablePreview/MaskReadable_28x30-HouseBold.png",
+                "early_shape_keep_07_ReadableHouseBold.asset",
+                keptLevelPaths,
+                report);
+
+            ArchiveConfirmedKeep(
+                "AnimalDuckSide",
+                "Animal preview level 3; user said 3 and 4 can be kept",
+                "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_03_maskanimal_42x34-duckside_r2_outer_strong_006_r2_008_a409_MaskAnimal_42x34-DuckSide_20260610_182027.asset",
+                "Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_42x34-DuckSide.png",
+                "early_shape_keep_08_AnimalDuckSide.asset",
+                keptLevelPaths,
+                report);
+
+            ArchiveConfirmedKeep(
+                "AnimalFishSideLarge",
+                "Animal preview level 4; user said 3 and 4 can be kept",
+                "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/animalshape_04_maskanimal_44x30-fishsidelarge_r1_outer_strong_006_r1_008_a409_MaskAnimal_44x30-FishSideLarge_20260610_182927.asset",
+                "Assets/ArrowMagic/Masks/ShapeAnimalPreview/MaskAnimal_44x30-FishSideLarge.png",
+                "early_shape_keep_09_AnimalFishSideLarge.asset",
+                keptLevelPaths,
+                report);
+
+            ArchiveConfirmedKeep(
+                "AnimalBestWhaleTight",
+                "AnimalBest tight crop; user said this batch can be kept",
+                "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/TightCrop/animalbest_tight_01_maskanimalbest_32x28-whaleboldside_32x26.asset",
+                "Assets/ArrowMagic/Masks/ShapeAnimalBestPreview/MaskAnimalBest_32x26-WhaleBoldSide.png",
+                "early_shape_keep_10_AnimalBestWhaleTight.asset",
+                keptLevelPaths,
+                report);
+
+            ArchiveConfirmedKeep(
+                "AnimalBestTurtleTight",
+                "AnimalBest tight crop; user said this batch can be kept",
+                "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/TightCrop/animalbest_tight_02_maskanimalbest_32x28-turtleboldside_32x24.asset",
+                "Assets/ArrowMagic/Masks/ShapeAnimalBestPreview/MaskAnimalBest_32x24-TurtleBoldSide.png",
+                "early_shape_keep_11_AnimalBestTurtleTight.asset",
+                keptLevelPaths,
+                report);
+
+            ArchiveConfirmedKeep(
+                "AnimalBestSnailTight",
+                "AnimalBest tight crop; user said this batch can be kept",
+                "Assets/ArrowMagic/SOData/Levels/ShapeExperiment/Candidates/TightCrop/animalbest_tight_03_maskanimalbest_30x28-snailboldside_29x22.asset",
+                "Assets/ArrowMagic/Masks/ShapeAnimalBestPreview/MaskAnimalBest_29x22-SnailBoldSide.png",
+                "early_shape_keep_12_AnimalBestSnailTight.asset",
+                keptLevelPaths,
+                report);
+
+            report.Add("NeedsReview=EarlySymbolPreviewPack levels 1-4; visual comment mentioned straight-line dominated cases, so not archived");
+            report.Add("NeedsReview=ReadableShapePreview levels 2-3; user said 2/3 were too ordinary/small, so not archived");
+            report.Add("Rejected=AnimalShapePreview levels 1-2 dog/cat; user said 1/2 abandon");
+
+            if (!TrySyncLevelPack(keptLevelPaths, kShapeEarlyKeepRetrospectivePackPath, "ShapeEarlyKeepRetrospectivePack", $"Shape Early Keep Retrospective ({keptLevelPaths.Count})", out LevelPack pack, out string packDetails))
+            {
+                report.Add($"PackFailed={packDetails}");
+                WriteReport(kShapeEarlyKeepRetrospectiveReportPath, report);
+                Debug.LogError($"[SeedMaskPatch] Shape Early Keep Retrospective pack failed: {packDetails}");
+                return;
+            }
+
+            report.Add($"PackSynced={kShapeEarlyKeepRetrospectivePackPath} | {packDetails}");
+            AttachLevelPackToDemo(pack, "SeedMaskPatch ShapeEarlyKeepRetrospective");
+            report.Add("DemoAttached=True");
+            WriteReport(kShapeEarlyKeepRetrospectiveReportPath, report);
+
+            AssetDatabase.Refresh();
+            Debug.Log($"[SeedMaskPatch] Shape Early Keep Retrospective archive finished. levels={keptLevelPaths.Count}, pack={kShapeEarlyKeepRetrospectivePackPath}");
         }
 
         [MenuItem("Tools/ArrowMagic/Seed Mask Patch/Run Animal Shape Followup Pack")]
@@ -2493,6 +2720,91 @@ namespace PixelBug.ArrowMagic.EditorTools
             AssetDatabase.ImportAsset(packPath);
             details = $"levels={levels.Count}";
             return true;
+        }
+
+        private static bool TryCopyAssetIfMissing(string sourcePath, string destinationPath, out string details)
+        {
+            details = string.Empty;
+            if (string.IsNullOrWhiteSpace(sourcePath) || string.IsNullOrWhiteSpace(destinationPath))
+            {
+                details = "empty source or destination";
+                return false;
+            }
+
+            if (AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(sourcePath) == null)
+            {
+                details = $"source missing: {sourcePath}";
+                return false;
+            }
+
+            string folder = Path.GetDirectoryName(destinationPath)?.Replace("\\", "/");
+            EnsureFolderExists(folder);
+
+            if (AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(destinationPath) != null)
+            {
+                details = "destination already exists; kept existing";
+                return true;
+            }
+
+            if (!AssetDatabase.CopyAsset(sourcePath, destinationPath))
+            {
+                details = $"copy failed: {sourcePath} -> {destinationPath}";
+                return false;
+            }
+
+            AssetDatabase.ImportAsset(destinationPath, ImportAssetOptions.ForceUpdate);
+            details = "copied";
+            return true;
+        }
+
+        private static void AddExistingPackLevelsToKeepArchive(string packPath, string label, List<string> keptLevelPaths, List<string> report)
+        {
+            var pack = AssetDatabase.LoadAssetAtPath<LevelPack>(packPath);
+            if (pack == null || pack.levels == null || pack.levels.Length == 0)
+            {
+                report?.Add($"ExistingPack={label} | path={packPath} | missing-or-empty");
+                return;
+            }
+
+            int added = 0;
+            for (int i = 0; i < pack.levels.Length; i++)
+            {
+                string levelPath = GetAssetPath(pack.levels[i]);
+                if (string.IsNullOrWhiteSpace(levelPath))
+                    continue;
+
+                keptLevelPaths?.Add(levelPath);
+                added++;
+                report?.Add($"ExistingKeep={label} | Level{i + 1}={levelPath}");
+            }
+
+            report?.Add($"ExistingPack={label} | path={packPath} | added={added}");
+        }
+
+        private static void ArchiveConfirmedKeep(
+            string id,
+            string reason,
+            string sourceLevelPath,
+            string sourceMaskPath,
+            string destinationLevelFileName,
+            List<string> keptLevelPaths,
+            List<string> report)
+        {
+            string destinationLevelPath = $"{kTallFitEarlyKeepLevelFolder}/{destinationLevelFileName}";
+            bool levelCopied = TryCopyAssetIfMissing(sourceLevelPath, destinationLevelPath, out string levelDetails);
+            if (levelCopied && AssetDatabase.LoadAssetAtPath<LevelDefinition>(destinationLevelPath) != null)
+                keptLevelPaths?.Add(destinationLevelPath);
+
+            string destinationMaskPath = string.Empty;
+            bool maskCopied = false;
+            string maskDetails = "no source mask";
+            if (!string.IsNullOrWhiteSpace(sourceMaskPath))
+            {
+                destinationMaskPath = $"{kTallFitEarlyKeepMaskFolder}/{Path.GetFileName(sourceMaskPath)}";
+                maskCopied = TryCopyAssetIfMissing(sourceMaskPath, destinationMaskPath, out maskDetails);
+            }
+
+            report?.Add($"ConfirmedKeep={id} | reason={reason} | level={sourceLevelPath} -> {destinationLevelPath} | levelOk={levelCopied} | {levelDetails} | mask={sourceMaskPath} -> {destinationMaskPath} | maskOk={maskCopied} | {maskDetails}");
         }
 
         private static bool TrySyncSingleLevelPack(

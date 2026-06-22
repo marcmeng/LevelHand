@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: TutorialSimple01CoreBlock
+  m_EditorClassIdentifier: 
+  levelId: tutorial_simple_01_core_block
+  source: 1
+  board:
+    width: 6
+    height: 6
+    seed: 1001
+  generation:
+    arrowCoverage: 0.25
+    initialMovableArrowCount: 2
+    targetDifficultyScore: 20
+    fixedGenerationSeed: 1001
+    minPathLen: 2
+    maxPathLength: 3
+    twistiness: 0.2
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 6
+    height: 6
+    arrows:
+    - indices: 160000001500000014000000
+      colorIndex: 0
+    - indices: 230000001d00000017000000
+      colorIndex: 1
+    - indices: 070000000800000009000000
+      colorIndex: 2
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

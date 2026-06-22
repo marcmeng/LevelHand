@@ -1,0 +1,69 @@
+group,count,details
+total,500,target=500
+bonusSideEvents,1,doesNotConsumeCampaignOrder=true
+usablePool,676,all=723
+sourceKind,,normal:396 shape:80 hole:24
+slotKind,,Normal:396 Shape:80 Hole:24
+templateId,,A-Standard:90 B-Recovery:90 C-Visual:90 D-Pressure:90 E-Chapter:90 F20-Director:20 F50-Director:20 F30-Director:10
+experienceRole,,Recovery:83 VisualSpice:74 Pressure:55 Observe:53 Bottleneck:46 Flow:46 Peak:46 Core:42 MechanicSpice:22 Normal:20 VisualRecovery:6 ToolUnlock:3 RescueIntro:2 ToolPreview:1 TutorialIntro:1
+contentSeries,,Auto:358 MainShape:72 HoleMechanic:21 Front50Normal:13 Front20Normal:11 Front30Normal:8 MagicShape:4 NewbieProp:4 Front20Rescue:2 Front50Peak:2 Front20Intro:1 Front20Peak:1 Front30Peak:1 Front50Hole:1 TutorialSimple:1
+unlockTag,,BattlePassStore:1 BonusAfter:1 CoreRule:1 CrystalBall:1 Eraser:1 FirstPurchase:1 LoginReward:1 MagicWand:1 PiggyBank:1 Ruler:1
+difficultyTagV1,,Normal:272 Hard:109 Flow:73 VeryHard:37 Extreme:9
+targetDifficultyTag,,Normal:243 Hard:154 Flow:52 VeryHard:42 Extreme:9
+stageRelativeDifficultyTag,,StageFlow:229 StageNormal:179 StageHard:42 StageHard|Peak:20 StageVeryHard|Peak:14 StageFlow|Peak:6 StageHard|Mechanic:3 StageNormal|Mechanic:3 StageVeryHard:3 StageFlow|Mechanic:1
+pressureTag,,LowPressure:442 HighPressure:56 OpeningPressure:2
+shapeTheme,,Magic:21 Landmark:14 Ocean:11 Nature:7 Object:7 Vehicle:7 Music:3 Space:3 ToolUI:3 Art:2 Character:2
+first20SourceKind,,normal:14 shape:4 hole:2
+first20Difficulty,,Flow:16 Normal:4
+first20Risk,,NoRisk:19 LowPlayableFill:1
+first20Chains,,min=6 avg=41.5 max=96 peakMax=96
+levels_001_010,10,template=F20-Director shape=3 hole=1 peak=0 sideBonusAfter=0
+levels_011_020,10,template=F20-Director shape=1 hole=1 peak=1 sideBonusAfter=1
+levels_021_030,10,template=F30-Director shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_031_040,10,template=F50-Director shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_041_050,10,template=F50-Director shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_051_060,10,template=A-Standard shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_061_070,10,template=B-Recovery shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_071_080,10,template=C-Visual shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_081_090,10,template=D-Pressure shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_091_100,10,template=E-Chapter shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_101_110,10,template=A-Standard shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_111_120,10,template=B-Recovery shape=1 hole=1 peak=1 sideBonusAfter=0
+levels_121_130,10,template=C-Visual shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_131_140,10,template=D-Pressure shape=1 hole=1 peak=1 sideBonusAfter=0
+levels_141_150,10,template=E-Chapter shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_151_160,10,template=A-Standard shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_161_170,10,template=B-Recovery shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_171_180,10,template=C-Visual shape=2 hole=1 peak=0 sideBonusAfter=0
+levels_181_190,10,template=D-Pressure shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_191_200,10,template=E-Chapter shape=2 hole=1 peak=0 sideBonusAfter=0
+levels_201_210,10,template=A-Standard shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_211_220,10,template=B-Recovery shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_221_230,10,template=C-Visual shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_231_240,10,template=D-Pressure shape=1 hole=1 peak=0 sideBonusAfter=0
+levels_241_250,10,template=E-Chapter shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_251_260,10,template=A-Standard shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_261_270,10,template=B-Recovery shape=1 hole=1 peak=1 sideBonusAfter=0
+levels_271_280,10,template=C-Visual shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_281_290,10,template=D-Pressure shape=1 hole=1 peak=1 sideBonusAfter=0
+levels_291_300,10,template=E-Chapter shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_301_310,10,template=A-Standard shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_311_320,10,template=B-Recovery shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_321_330,10,template=C-Visual shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_331_340,10,template=D-Pressure shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_341_350,10,template=E-Chapter shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_351_360,10,template=A-Standard shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_361_370,10,template=B-Recovery shape=1 hole=1 peak=1 sideBonusAfter=0
+levels_371_380,10,template=C-Visual shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_381_390,10,template=D-Pressure shape=1 hole=1 peak=1 sideBonusAfter=0
+levels_391_400,10,template=E-Chapter shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_401_410,10,template=A-Standard shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_411_420,10,template=B-Recovery shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_421_430,10,template=C-Visual shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_431_440,10,template=D-Pressure shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_441_450,10,template=E-Chapter shape=2 hole=1 peak=1 sideBonusAfter=0
+levels_451_460,10,template=A-Standard shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_461_470,10,template=B-Recovery shape=1 hole=1 peak=1 sideBonusAfter=0
+levels_471_480,10,template=C-Visual shape=2 hole=0 peak=1 sideBonusAfter=0
+levels_481_490,10,template=D-Pressure shape=1 hole=0 peak=1 sideBonusAfter=0
+levels_491_500,10,template=E-Chapter shape=1 hole=0 peak=1 sideBonusAfter=0

@@ -1,0 +1,14 @@
+﻿sheet,id,field,current,proposal,note
+SkyRace,1,targetCount,15,15,keep 15-level race target
+SkyRaceRobot,1,finishMinute,"45,90","10,16",fast robot; competitive for strong players but still beatable
+SkyRaceRobot,2,finishMinute,"45,90","16,24",normal robot; around standard-player p25 to p75
+SkyRaceRobot,3,finishMinute,"45,90","24,36",slow robot; covers late-campaign slower clears
+SkyRaceRobot,4,finishMinute,"1000,2000","1000,2000",non-finisher placeholder kept
+SkyRaceRobotPlan,1,robots,"2,3,3,4","2,3,3,4",new player gets easier race
+SkyRaceRobotPlan,2,robots,"2,3,3,4","2,3,3,4",previous non-finisher gets easier race
+SkyRaceRobotPlan,3,finishMinute,"31,40","30,999",slow finisher band; avoids gaps above 40 minutes
+SkyRaceRobotPlan,3,robots,"2,3,3,4","2,3,3,4","one normal, two slow, one non-finisher"
+SkyRaceRobotPlan,4,finishMinute,"21,30","18,29",standard player band based on 15-level estimates
+SkyRaceRobotPlan,4,robots,"1,2,3,4","1,2,3,4",standard race mix
+SkyRaceRobotPlan,5,finishMinute,"4,20","1,17",fast player band; covers very early/easy clears too
+SkyRaceRobotPlan,5,robots,"1,2,3,4","1,1,2,3",fast players need two competitive robots; still one slower robot

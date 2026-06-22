@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: hole_early_17x18_standard_r02_r1_ab_091_above300_level_571_final_20260611_093052
+  m_EditorClassIdentifier: 
+  levelId: r1_ab_091_above300_level_571_final_holeblock_multiseed_final
+  source: 1
+  board:
+    width: 17
+    height: 18
+    seed: 0
+  generation:
+    arrowCoverage: 1
+    initialMovableArrowCount: 0
+    targetDifficultyScore: 616
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 456
+    twistiness: 0.5
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 17
+    height: 18
+    arrows:
+    - indices: 1e0000001d0000001c0000001b0000001a0000001900000018000000170000001600000015000000140000001300000012000000
+      colorIndex: 0
+    - indices: 1f0000003000000041000000520000006300000062000000
+      colorIndex: 0
+    - indices: df000000de000000cd000000bc000000ab0000009a00000089000000780000006700000056000000450000003400000023000000
+      colorIndex: 0
+    - indices: 3500000024000000250000003600000037000000
+      colorIndex: 0
+    - indices: 260000002700000038000000
+      colorIndex: 0
+    - indices: 2d0000002c0000002b0000002a0000002900000028000000
+      colorIndex: 0
+    - indices: 2f000000400000003f0000002e000000
+      colorIndex: 0
+    - indices: 31000000420000005300000064000000750000008600000097000000a8000000b9000000ca000000db000000ec000000fd0000000e0100001f010000
+      colorIndex: 0
+    - indices: 390000003a0000003b0000003c0000003d0000003e000000
+      colorIndex: 0
+    - indices: 690000005800000047000000460000005700000068000000
+      colorIndex: 0
+    - indices: 6100000050000000
+      colorIndex: 0
+    - indices: 7300000072000000
+      colorIndex: 0
+    - indices: 74000000850000008400000083000000
+      colorIndex: 0
+    - indices: e4000000e3000000e2000000e1000000e0000000cf000000be000000ad0000009c0000008b000000
+      colorIndex: 0
+    - indices: 9500000094000000
+      colorIndex: 0
+    - indices: c9000000b8000000a700000096000000
+      colorIndex: 0
+    - indices: a6000000a5000000
+      colorIndex: 0
+    - indices: f8000000f9000000e8000000e9000000d8000000c7000000b6000000b7000000
+      colorIndex: 0
+    - indices: da000000d9000000
+      colorIndex: 0
+    - indices: 1801000007010000f6000000e5000000
+      colorIndex: 0
+    - indices: e7000000e6000000
+      colorIndex: 0
+    - indices: eb000000ea000000fb0000000c0100001d0100001c0100001b0100001a010000
+      colorIndex: 0
+    - indices: ef000000f0000000f1000000f2000000f3000000f4000000f5000000
+      colorIndex: 0
+    - indices: 1901000008010000f7000000
+      colorIndex: 0
+    - indices: 1e0100000d010000fc000000
+      colorIndex: 0
+    - indices: 02010000030100000401000015010000
+      colorIndex: 0
+    - indices: 05010000060100001701000016010000
+      colorIndex: 0
+    - indices: 110100001201000013010000
+      colorIndex: 0
+    blockIndices: 48000000490000004a0000004b0000004c0000004d0000004e0000004f000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006a0000006b0000006c0000006d0000006e0000006f00000070000000710000007b0000007c0000007d0000007e0000007f0000008000000081000000820000008c0000008d0000008e0000008f000000900000009100000092000000930000009d0000009e0000009f000000a0000000a1000000a2000000a3000000a4000000ae000000af000000b0000000b1000000b2000000b3000000b4000000b5000000bf000000c0000000c1000000c2000000c3000000c4000000c5000000c6000000d0000000d1000000d2000000d3000000d4000000d5000000d6000000d7000000
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 2800000, guid: 8d40ce7d20de64a40ac2b50ccf532798, type: 3}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

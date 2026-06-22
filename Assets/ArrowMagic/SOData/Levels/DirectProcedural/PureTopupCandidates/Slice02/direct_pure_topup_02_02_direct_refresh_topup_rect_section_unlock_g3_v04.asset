@@ -1,0 +1,166 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: direct_pure_topup_02_02_direct_refresh_topup_rect_section_unlock_g3_v04
+  m_EditorClassIdentifier: 
+  levelId: direct_pure_topup_02_02_direct_refresh_topup_rect_section_unlock_g3_v04
+  source: 1
+  board:
+    width: 15
+    height: 25
+    seed: 2354133
+  generation:
+    arrowCoverage: 0.9866667
+    initialMovableArrowCount: 14
+    targetDifficultyScore: 242
+    fixedGenerationSeed: 2354133
+    minPathLen: 3
+    maxPathLength: 9
+    twistiness: 0.58
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 15
+    height: 25
+    arrows:
+    - indices: 0e0000001d0000002c0000003b0000004a000000
+      colorIndex: 0
+    - indices: 5900000068000000770000008600000095000000
+      colorIndex: 1
+    - indices: 8700000088000000790000007800000069000000
+      colorIndex: 2
+    - indices: 0d0000001c0000002b0000003a000000490000005800000067000000
+      colorIndex: 3
+    - indices: 76010000670100005801000049010000
+      colorIndex: 4
+    - indices: 960000009700000098000000890000007a0000007b000000
+      colorIndex: 5
+    - indices: 750100006601000057010000480100004701000056010000
+      colorIndex: 6
+    - indices: 0c0000001b0000002a0000003900000048000000
+      colorIndex: 7
+    - indices: 68010000590100004a0100003b0100002c0100001d0100000e010000ff000000
+      colorIndex: 0
+    - indices: f0000000e1000000d2000000c3000000b4000000a5000000a6000000a7000000b6000000
+      colorIndex: 1
+    - indices: 000000000f0000001e0000002d0000003c0000004b0000005a0000005b0000006a000000
+      colorIndex: 2
+    - indices: 0b0000000a000000090000000800000007000000
+      colorIndex: 3
+    - indices: 6a0100005b0100005a01000069010000
+      colorIndex: 4
+    - indices: a4000000b3000000c2000000d1000000e0000000
+      colorIndex: 5
+    - indices: 3a0100003901000038010000290100002a0100002b0100001c0100000d010000
+      colorIndex: 6
+    - indices: 74010000730100007201000071010000
+      colorIndex: 7
+    - indices: fe000000ef000000ee000000df000000d0000000c1000000b2000000
+      colorIndex: 0
+    - indices: 760000008500000094000000a3000000a2000000b1000000
+      colorIndex: 1
+    - indices: 010000000200000003000000040000000500000006000000
+      colorIndex: 2
+    - indices: 6f0100006001000051010000520100006101000062010000630100006401000055010000
+      colorIndex: 3
+    - indices: 570000006600000075000000840000009300000092000000a1000000b0000000
+      colorIndex: 4
+    - indices: 1b0100000c010000fd000000fc000000ed000000de000000cf000000c0000000
+      colorIndex: 5
+    - indices: 6b0000006c0000006d0000007c0000007d0000006e0000006f00000060000000
+      colorIndex: 6
+    - indices: 6d0100005e0100005f0100006e010000
+      colorIndex: 7
+    - indices: 8a0000008b0000008c0000008d0000007e0000007f00000070000000
+      colorIndex: 0
+    - indices: 6c0100005d0100005c0100006b010000
+      colorIndex: 1
+    - indices: 54010000530100004401000043010000
+      colorIndex: 2
+    - indices: 1a000000190000001800000017000000160000001500000014000000
+      colorIndex: 3
+    - indices: 4b0100003c0100002d0100001e0100000f01000000010000f1000000f200000001010000
+      colorIndex: 4
+    - indices: 460100004501000036010000350100003401000025010000
+      colorIndex: 5
+    - indices: 290000003800000047000000560000006500000074000000
+      colorIndex: 6
+    - indices: c4000000c5000000c6000000b7000000a8000000990000009a0000009b0000009c000000
+      colorIndex: 7
+    - indices: a9000000aa000000ab000000ba000000
+      colorIndex: 0
+    - indices: 4201000033010000240100002301000014010000150100001601000007010000
+      colorIndex: 1
+    - indices: 9d0000009e0000009f000000a000000091000000900000008100000080000000
+      colorIndex: 2
+    - indices: 8200000083000000
+      colorIndex: 3
+    - indices: 130000001200000011000000100000001f0000002e0000003d0000004c0000004d000000
+      colorIndex: 4
+    - indices: 8e0000008f000000
+      colorIndex: 5
+    - indices: e2000000d3000000d4000000e3000000e4000000f30000000201000003010000
+      colorIndex: 6
+    - indices: 26010000170100000801000009010000fa000000fb000000
+      colorIndex: 7
+    - indices: 5c0000005d0000004e0000004f0000005e0000005f000000
+      colorIndex: 0
+    - indices: 37010000280100002701000018010000190100000a0100000b0100001a010000
+      colorIndex: 1
+    - indices: 41010000400100004f0100004e0100004d0100004c0100003d0100002e010000
+      colorIndex: 2
+    - indices: 320100003101000022010000130100001201000011010000100100001f010000
+      colorIndex: 3
+    - indices: ac000000ad000000ae000000af000000be000000bf000000ce000000dd000000ec000000
+      colorIndex: 4
+    - indices: 21010000200100002f010000300100003f0100003e010000
+      colorIndex: 5
+    - indices: f9000000f8000000e9000000da000000d9000000
+      colorIndex: 6
+    - indices: 040100000501000006010000f7000000e8000000e7000000d8000000c9000000
+      colorIndex: 7
+    - indices: 3e0000002f00000020000000210000002200000023000000
+      colorIndex: 0
+    - indices: 730000007200000071000000620000006100000052000000510000005000000041000000
+      colorIndex: 1
+    - indices: f4000000f5000000f6000000
+      colorIndex: 2
+    - indices: eb000000ea000000db000000dc000000
+      colorIndex: 3
+    - indices: c7000000c8000000d7000000e6000000e5000000d6000000d5000000
+      colorIndex: 4
+    - indices: ca000000cb000000cc000000bd000000bc000000bb000000
+      colorIndex: 5
+    - indices: 280000002700000026000000250000002400000033000000320000003100000040000000
+      colorIndex: 6
+    - indices: 300000003f000000
+      colorIndex: 7
+    - indices: 3700000046000000550000006400000063000000540000005300000044000000
+      colorIndex: 0
+    - indices: 450000003600000035000000340000004300000042000000
+      colorIndex: 1
+    - indices: b9000000b8000000
+      colorIndex: 2
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 0
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

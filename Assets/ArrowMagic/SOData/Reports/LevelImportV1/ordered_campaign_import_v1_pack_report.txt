@@ -1,0 +1,60 @@
+Level Import Preview Pack Report
+Updated=2026-06-12 00:15:28
+Front50WithBonusPack=Assets/ArrowMagic/SOData/Packs/LevelImportV1/CampaignFront50PreviewPack.asset
+Front50WithBonusLevels=51
+FullPack=Assets/ArrowMagic/SOData/Packs/LevelImportV1/Campaign500PreviewPack.asset
+FullLevels=0
+DemoAttached=Assets/ArrowMagic/SOData/Packs/LevelImportV1/CampaignFront50PreviewPack.asset
+
+Front50WithBonus:
+L1 | HiHello | kind=Normal | chains=6 | score=25 | target=Flow | stage=StageFlow | actual=Flow | TutorialSimple01Hi
+L2 | RescueBabyDragon | kind=Hole | chains=22 | score=94 | target=Flow | stage=StageFlow|Mechanic | actual=Normal | hole_early_16x18_standard_r01_seed_Arrowz_level_035_20260611_143152
+L3 | FormerLevel1OpenField | kind=Normal | chains=20 | score=68 | target=Flow | stage=StageFlow | actual=Flow | r2_outer_strong_166_r2_295_a003
+L4 | UnlockCrystalBall | kind=Shape | chains=30 | score=105 | target=Flow | stage=StageFlow | actual=Flow | EarlyProp01CrystalBall
+L5 | UnlockPiggyBankAfter | kind=Normal | chains=26 | score=82 | target=Flow | stage=StageFlow | actual=Flow | nomask_style_01_hui_spiral
+L6 | UnlockEraser | kind=Shape | chains=32 | score=109 | target=Flow | stage=StageFlow | actual=Flow | EarlyProp02Eraser
+L7 | NormalA | kind=Normal | chains=40 | score=117 | target=Flow | stage=StageFlow | actual=Flow | r2_outer_strong_106_r2_203_a772
+L8 | NormalB | kind=Normal | chains=46 | score=131 | target=Flow | stage=StageNormal | actual=Flow | nomask_08_dual_zone
+L9 | PreviewRuler | kind=Shape | chains=32 | score=109 | target=Flow | stage=StageFlow | actual=Flow | EarlyProp03Ruler
+L10 | FirstSmallPressure | kind=Normal | chains=62 | score=237 | target=Hard | stage=StageHard | actual=Normal | r2_outer_strong_051_r2_091_a571
+L11 | RecoverAfterSmallPressure | kind=Normal | chains=48 | score=137 | target=Flow | stage=StageFlow | actual=Flow | nomask_style_09_vertical_gate
+L12 | PostHardObserve | kind=Normal | chains=50 | score=153 | target=Flow | stage=StageFlow | actual=Flow | nomask_style_expansion_23_center_cross_b
+L13 | UnlockMagicWand | kind=Shape | chains=37 | score=130 | target=Flow | stage=StageFlow | actual=Flow | EarlyProp04MagicWand
+L14 | RecoverAfterMagicWand | kind=Normal | chains=42 | score=121 | target=Flow | stage=StageFlow | actual=Flow | nomask_06_sweep
+L15 | NormalC | kind=Normal | chains=50 | score=147 | target=Flow | stage=StageFlow | actual=Flow | r1_outer_strong_049_r1_087_a558
+L16 | SecondSmallPressure | kind=Normal | chains=53 | score=180 | target=Normal | stage=StageNormal | actual=Flow | r2_outer_strong_108_r2_205_a775
+L17 | RescueProudCat | kind=Hole | chains=43 | score=165 | target=Normal | stage=StageNormal|Mechanic | actual=Normal | hole_prod_18x22_standard_r01_r1_ab_091_above300_level_571_final_20260610_113628
+L18 | UnlockFirstPurchaseAfter | kind=Normal | chains=53 | score=155 | target=Flow | stage=StageNormal | actual=Flow | nomask_style_10_zig_river
+L19 | FirstMajorPeakBeforeBonus | kind=Normal | chains=96 | score=386 | target=VeryHard | stage=StageVeryHard|Peak | actual=Normal | r1_ab_201_above300_level_764_final
+L19B | FirstBonusAfterVeryHard | kind=Bonus | chains=45 | score=135 | target=Flow | stage=StageFlow|BonusCandidate | actual=Flow | BonusReward_r1_ab_211_above300_level_789_final
+L20 | UnlockBattlePassStoreAfter | kind=Normal | chains=41 | score=112 | target=Flow | stage=StageFlow | actual=Flow | r1_outer_strong_111_r1_205_a775
+L21 | ReturnAfterFirstBonus | kind=Normal | chains=58 | score=160 | target=Flow | stage=StageFlow | actual=Flow | r2_outer_strong_054_r2_095_a577
+L22 | MazeObserveB | kind=Normal | chains=60 | score=171 | target=Flow | stage=StageFlow | actual=Flow | r1_ab_136_above300_level_623_final
+L23 | SectionNormalB | kind=Normal | chains=66 | score=189 | target=Normal | stage=StageNormal | actual=Flow | r2_outer_strong_029_r2_043_a475
+L24 | SmallPressureA | kind=Normal | chains=71 | score=219 | target=Normal | stage=StageNormal | actual=Flow | r1_outer_strong_057_r1_097_a581
+L25 | MidBlockHardA | kind=Normal | chains=89 | score=325 | target=Hard | stage=StageHard | actual=Normal | r1_ab_106_above300_level_599_final
+L26 | SecondRecoveryDip | kind=Normal | chains=70 | score=185 | target=Flow | stage=StageNormal | actual=Flow | r2_outer_strong_114_r2_213_a798
+L27 | SectionNormalC | kind=Normal | chains=78 | score=256 | target=Normal | stage=StageNormal | actual=Normal | r1_ab_198_above300_level_757_final
+L28 | SmallBottleneckA | kind=Normal | chains=81 | score=292 | target=Normal | stage=StageNormal | actual=Normal | r1_ab_139_above300_level_632_final
+L29 | FirstMainShapePreview | kind=Shape | chains=80 | score=223 | target=Normal | stage=StageNormal | actual=Flow | MainMagicQuillTall
+L30 | SecondRampVeryHardPeak | kind=Normal | chains=110 | score=413 | target=VeryHard | stage=StageVeryHard|Peak | actual=Normal | r2_outer_strong_126_r2_232_a845
+L31 | PostSecondPeakRecovery | kind=Normal | chains=80 | score=216 | target=Flow | stage=StageNormal | actual=Flow | r2_outer_strong_118_r2_219_a811
+L32 | MagicSeriesShield | kind=Shape | chains=83 | score=239 | target=Normal | stage=StageFlow | actual=Flow | MainShieldTall
+L33 | DenseObserveB | kind=Normal | chains=93 | score=262 | target=Normal | stage=StageNormal | actual=Flow | r2_outer_strong_057_r2_100_a588
+L34 | MidBlockHardB | kind=Normal | chains=105 | score=386 | target=Hard | stage=StageHard | actual=Normal | r1_outer_strong_012_r1_016_a427
+L35 | PreOffbeatPeakRecoveryA | kind=Normal | chains=83 | score=222 | target=Flow | stage=StageNormal | actual=Flow | r2_outer_strong_062_r2_110_a607
+L36 | OffbeatVeryHardPeakA | kind=Normal | chains=126 | score=522 | target=VeryHard | stage=StageVeryHard|Peak | actual=Hard | composite_play_cand_102_composite_portrait150_082_composite_greedy_ab_08_rot180_keep_edge120
+L37 | HolePracticeAfterPeak | kind=Hole | chains=51 | score=190 | target=Normal | stage=StageNormal|Mechanic | actual=Normal | hole_prod_20x24_standard_r14_r1_ab_041_above300_level_473_final_20260610_113832
+L38 | PostOffbeatPeakRecoveryA | kind=Normal | chains=86 | score=232 | target=Flow | stage=StageNormal | actual=Flow | r1_outer_strong_045_r1_080_a542
+L39 | MagicSeriesBat | kind=Shape | chains=87 | score=248 | target=Normal | stage=StageNormal | actual=Flow | MainMagicBatTall
+L40 | ChapterBridgeA | kind=Normal | chains=102 | score=318 | target=Normal | stage=StageNormal | actual=Normal | r2_outer_strong_145_r2_261_a899
+L41 | PostBridgeRecoveryA | kind=Normal | chains=83 | score=273 | target=Flow | stage=StageNormal | actual=Normal | r1_ab_232_above300_level_845_final
+L42 | MagicSeriesBlackCat | kind=Shape | chains=88 | score=250 | target=Normal | stage=StageFlow | actual=Flow | MainMagicBlackCatTall
+L43 | MazeObserveC | kind=Normal | chains=103 | score=336 | target=Normal | stage=StageNormal | actual=Normal | r1_ab_086_above300_level_557_final
+L44 | PressureC | kind=Normal | chains=101 | score=346 | target=Normal | stage=StageNormal | actual=Normal | r1_outer_strong_128_r1_231_a844
+L45 | PreOffbeatPeakRecoveryB | kind=Normal | chains=85 | score=269 | target=Flow | stage=StageNormal | actual=Normal | r1_outer_strong_129_r1_232_a845
+L46 | OffbeatVeryHardPeakB | kind=Normal | chains=125 | score=531 | target=VeryHard | stage=StageVeryHard|Peak | actual=Hard | composite_play_cand_002_composite_portrait150_002_composite_greedy_ab_00_identity_keep_edge120
+L47 | PostOffbeatPeakRecoveryB | kind=Normal | chains=82 | score=219 | target=Flow | stage=StageFlow | actual=Flow | r2_outer_strong_056_r2_097_a581
+L48 | MagicSeriesKey | kind=Shape | chains=88 | score=250 | target=Normal | stage=StageFlow | actual=Flow | MainKeyTall
+L49 | MazeNormalC | kind=Normal | chains=108 | score=345 | target=Normal | stage=StageNormal | actual=Normal | r1_outer_strong_102_r1_194_a753
+L50 | ChapterBridgeB | kind=Normal | chains=112 | score=346 | target=Normal | stage=StageNormal | actual=Normal | r2_outer_strong_117_r2_218_a809

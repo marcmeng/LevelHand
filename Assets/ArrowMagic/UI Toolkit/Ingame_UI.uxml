@@ -20,6 +20,8 @@
         <ui:Button text="Restart" name="restartButton" class="tile-btn button" style="display: none;"/>
         <ui:Button text="New" name="newButton" class="tile-btn button" style="display: none;"/>
         <ui:Button text="Skip" name="skipButton" class="tile-btn button skip-button"/>
+        <ui:IntegerField name="levelJumpField" class="jump-field"/>
+        <ui:Button text="Go" name="levelJumpButton" class="tile-btn button jump-button"/>
         <ui:Button text="Edit" name="editButton" class="tile-btn button" style="display: none;"/>
         <ui:Button text="Save" name="saveButton" class="tile-btn button" style="display: none;"/>
     </ui:VisualElement>

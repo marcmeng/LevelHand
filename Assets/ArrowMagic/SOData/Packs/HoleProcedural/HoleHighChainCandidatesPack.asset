@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: HoleHighChainCandidatesPack
+  m_EditorClassIdentifier: 
+  packId: hole_high_chain_candidates
+  displayName: Hole High Chain Candidates (12)
+  levels:
+  - {fileID: 11400000, guid: f5bea65e6b20c5d4192f4eb0df8a393d, type: 2}
+  - {fileID: 11400000, guid: 8215055aecf4c8c44834e2ffee8e66b5, type: 2}
+  - {fileID: 11400000, guid: ca9db8258556b4a40bd67789d35fa7c7, type: 2}
+  - {fileID: 11400000, guid: a21da6d3a25515c43a74a4a146ef7a0d, type: 2}
+  - {fileID: 11400000, guid: 493a6cc8491660044810e7b0aaf88465, type: 2}
+  - {fileID: 11400000, guid: 393a2e0c92c98ca40bfb2928201fdaa9, type: 2}
+  - {fileID: 11400000, guid: be60656886b4da342a5a9575bbe5e986, type: 2}
+  - {fileID: 11400000, guid: c8f96713f88261343ae79b9fbaa7285c, type: 2}
+  - {fileID: 11400000, guid: 44cde841852e1534eac028d511a81937, type: 2}
+  - {fileID: 11400000, guid: b02a351c3a767bb419f30db7f3da8b82, type: 2}
+  - {fileID: 11400000, guid: dd24c797961165d4db54bd86e88b38f8, type: 2}
+  - {fileID: 11400000, guid: 6b12052729116134ca353e2d5f973b32, type: 2}
