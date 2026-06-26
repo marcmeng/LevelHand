@@ -29,6 +29,16 @@
 - 若 GPT 方案不被认可，不直接实现；补充目标、证据、失败分布、约束和验收指标继续追问，直到形成可验证共识或记录未达成一致。
 - 达成共识后才落项目规范：原则/取舍写入 `DECISIONS.md`，流程写入 `WORKFLOW.md`，新入口写入 index，当前执行状态写入 `CURRENT_STATUS.md`。
 
+## AssetDatabase Trim - 2026-06-24
+
+- 用户反馈项目实验产物太多、影响运行；先执行低风险 report-only 冷归档，不删除正式关卡/pack/脚本。
+- 目标 worktree：`.worktrees/sgp-building-grammar`。
+- 已将 `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/` 及 `SGPRhythmLab.meta` 移出 `Assets`，归档到 `_AssetArchive/20260624_assetdatabase_trim/Reports/SGPRhythmLab/`。
+- manifest：`_AssetArchive/20260624_assetdatabase_trim/manifests/sgp_building_grammar_reports_sgprhythmlab_manifest.csv`。
+- summary：`_AssetArchive/20260624_assetdatabase_trim/manifests/sgp_building_grammar_reports_sgprhythmlab_summary.md`。
+- 效果：`sgp-building-grammar` 的 `Assets/ArrowMagic/SOData/Reports` 从 8238 个文件降到 102 个；`Assets/ArrowMagic/SOData` 从 21854 个文件降到 13718 个。
+- 下一步建议：先做 pack/scene 引用审计，再移动未被当前 Demo/review pack 引用的旧 `Levels/SGPRhythmLab` 候选目录；不要直接删除。
+
 ## SGP Native Hard Lane Correction - 2026-06-21
 
 - 人工明确纠偏：难关突破必须继续基于 SGP/StageDoor/StageLock 主线，不再把 Skeleton-first/手摆式骨架作为最终生产路线；Skeleton/DependencySkeleton 只保留为诊断参照。
@@ -120,6 +130,59 @@
 - 状态：待验证 - 旧项目路径尚未在仓库记忆中确认；如后续确认迁移来源，需要更新路径迁移记录。
 - 状态：待验证 - 现有未跟踪关卡、掩码、报告、导出包哪些是正式交付、哪些是实验产物，需要按具体任务确认。
 - 状态：待验证 - 若要提交项目记忆，需要先确认是否同时提交既有 dirty worktree 中的其他内容。
+
+## SGP Sandwich Failure-Pocket Scheduler Probe - 2026-06-25
+
+- 新 clean worktree：`.worktrees/sgp-sandwich-refill`，branch `codex/sgp-sandwich-refill`；用于隔离 sandwich/refill 产线实验。
+- 已新增 `Build-FailurePocketExtractorV1.ps1`：从 SGP growth report 自动抽取 failure pocket anchor owners、added owners、direct-exit owners，并输出下一轮 `FailurePocketAnchorMode/Owners` 命令片段。
+- Extractor 回放验证成功：r7 自动复现 `30;42;44;45;46;47`，r8 自动复现 `30;42;44;45;46;47;48;49`；r9 hard-anchor 0 新增链，正确标记同 pocket capacity boundary 并建议 Reward/换 pocket。
+- Reward 过渡验证：从 r8c02 hard-anchor 边界切 Reward 可继续长到 coverage `0.5846`，`solved=True/supportDepth=4`，但新增链为 direct-exit opener，processTier 掉到 B；说明 Reward 可暴露下一 failure pocket，不能裸接受。
+- 旧 `Build-WavePeelReleaseScaffoldGroupV0.ps1` 用于 Reward 口 source-slot refill 在该场景下 2/4 链版本均超时，确认随机 refill 是当前效率瓶颈。
+- 已新增 `Build-FailurePocketFastRewriteV1.ps1`：确定性枚举 Reward direct-exit source slot 内的 head/neck，将单个 direct-exit opener 改写为 first-hit base owner 的 scaffold，避免随机搜索。
+- Fast rewrite 验证：两个 Reward direct-exit 口同时改写会 `unsolved`；单口改写可行。owner50 单口 best `coverage=0.5577/solved=A/supportDepth=4`；后续 Reward 再暴露 owner51/52，单口改写 owner52 可 4/4 solved/A/supportDepth=4。
+- 当前判断：sandwich line 具备继续挖的价值，但不是“一次 refill 堵所有口”；应采用 `Reward暴露口 -> 单口 fast rewrite commit -> 再 Reward` 的 failure-pocket scheduler。核心未解问题是吞吐：单口 commit 每轮 coverage 增长较小，需做 pocket selection / 多口兼容性预测，避免两个口一起改写导致 release 死锁。
+- 已新增 `Invoke-FailurePocketSchedulerV1.ps1`：自动执行 `Reward SGP -> growth report -> 选单个 direct-exit pocket -> fast rewrite -> trace accept -> commit` 的单口原子调度闭环。
+- Scheduler V1 smoke：从 r8c02/anchors `30;42;44;45;46;47;48;49` 自动 commit 3 个 pocket（50、51、52），全部回到 `solved=True/processTier=A/supportDepth=4`；coverage 从 `0.5538 -> 0.5577 -> 0.5615 -> 0.5654`。Reward 中间态可到 `0.58-0.59` 但为 B/outer 变高，rewrite commit 后质量恢复但 coverage 回落。
+- 当前关键结论：V1 证明“单口 scheduler 可稳定”，但吞吐偏低；下一步应研究 pocket selection / rewrite 保留率 / 局部多口兼容性，而不是继续扩大 Reward 或一次性多口 rewrite。
+- 2026-06-26 继续验证目标“接近 0.9 覆盖”：将 scheduler 加上多 Reward/多单口试探、B-tier debt 接受条件、可配置 rewrite 长度和真实 committed owner anchor。len6 单口 rewrite 可从 `0.5654` 提到 `0.5769` 且 `8/8 solved/A/supportDepth4`；继续多轮后可到 `0.6038 A/supportDepth4`、`0.6135 B/supportDepth4`、`0.6192 B/supportDepth4`，outer 约 `9`，max 约 `10-12`。
+- 关键负结果：从 `0.6135 B/supportDepth4` 直接 SGP 冲 `0.70/0.84` 会 `supportDepth=0/unsolved`；`0.66` 附近已掉到 `supportDepth=2/0`。因此“先补满到高覆盖再修”在当前 SGP/Reward 下不可行。
+- 关键负结果：混合保留 raw SGP chains 能到 `0.63-0.65` 且有时 `solved/supportDepth4`，但多为 `Drop`；keep-one/keep-two raw chain 后续会直接 `supportDepth=0`。raw SGP debt 不能作为可长期保留结构。
+- 关键正结果：pair rewrite 不是原则失败，失败主要来自组合搜索不足。新增 `EnumerateOptionCombos` 后，`o56+o59` 的前 40 个组合找到 `0.6154/B/supportDepth4/outer9/max10` 的双口兼容候选；但继续增长仍慢，当前最高稳定约 `0.6192 B/supportDepth4`。
+- 当前判断：sandwich scheduler 仍有价值，但当前 production V1 不是接近满覆盖路线；硬瓶颈是 `0.62` 后 SGP 新增链会破 support closure，且 fast rewrite 的可保留覆盖太低。下一步若继续本线，应做“组合式 rewrite scheduler + support-aware pair/top-k search”，或重新定义让 SGP 生成阶段避免 0.65 后的 support-breaking raw chains。
+
+## SGP Small Sandwich Probe - 2026-06-25
+
+- 当前实验 worktree：`.worktrees/sgp-rhythm-lab`，只动试验分支资源，未切主项目正式包。
+- 小关卡验证从 `swv2_r4_sgp_step2_from_r3c09_b01_c01` 出发，使用 `Build-SeededDirectSGPFillBaselineV1.ps1` 做 `MaxNewChains=2` 的小步 SGP burst。
+- 产物 `small_sandwich40_step2_probe` 共 4 个候选，4/4 Greedy solved 且 `supportClosureBestDepth=4`；最佳过程样本 `b01_c04` 为 20x26、42 链、coverage `0.5019231`、`avgChoices=3.98`、`maxChoices=9`、`processTier=A`、`localPatchSolveRunMax=2`、`nearOuterPatchSolveRunMax=1`、`outerExitHeadCount=9`。
+- 继续补满 probe：从 42 链样本直接冲 coverage `0.70` 全部 Greedy 失败；LDF `0.60` 可解上限约 49-53 链、coverage `0.604-0.619`，但外出口和可选数明显上升；从 53 链继续冲 `0.66/0.68` 全部不可解。
+- 已新增小步语义接受层脚本：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SmallSemanticSlotFillV0.ps1`。它不重写 SGP，只封装 `Build-SeededDirectSGPFillBaselineV1.ps1`：每轮小步补肉 -> 跑 trace -> 只接受 solved 且外出口/选择数/local/dependency 未爆的候选。
+- V0 完整 run：`small_sandwich_semantic_slot_v0_light_t063`，3 轮接受，从 coverage `0.5019231` 逐步到 `0.5538462`、`0.5884615`、`0.6269231`；最终 50 链、`avgChoices=6.28`、`maxChoices=16`、`outerExitHeadCount=16`、`localPatchSolveRunMax=2`、`dependencyFollowRunMax=10`。报告：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/small_sandwich_semantic_slot_v0_light_t063_summary.md`。
+- V0 第 4 轮继续冲 `0.66` 有可解候选，但全部 `outerExitHeadCount=19` 且 `avgChoices≈8+`，因此按外出口/节奏目标不接受。说明轻量语义接受层能小幅突破直接补肉上限，但还不能质变。
+- 当前 Demo 对比 pack：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_SmallSandwich40ReviewPack.asset`，worktree Demo 已指向该 pack；Level 1/2/3/4 分别为 42 链 base、49 链较稳直接补肉、53 链最高直接补肉、50 链 semantic-slot V0。
+- 结论：小步补链不会立刻破可解/局部顺消，但“直接补满”会快速制造外出口和选择爆炸；当前小内核的可解补肉上限约 coverage `0.62`。下一步应转向 trace-guided slot/edge grammar/repair，而不是继续盲目提高 target coverage。
+
+## SGP Rhythm Lab HardLock 0.30 Production Chain Proof - 2026-06-23
+
+- 当前实验 worktree：`.worktrees/sgp-rhythm-lab`，branch `codex/sgp-rhythm-lab`。
+- 目标已更新为“跑通 0.30 左右覆盖率的完整高难生产链路”，不只做父本分类；今晚必须证明 `parent -> directed/pressure fill -> board trace -> frozen pack` 可以闭环。
+- 已从 `HardLockDirectedBatchPressure/Choke` 父本继续推到约 `0.30`：直接从低覆盖父本冲 0.30 过慢且会卡承压上限；从 `0.2929` near-miss 父本继续补肉会得到 0.30+ 未解候选，说明 0.30 附近是真实边界。
+- 新增/使用 near-miss orientation rescue 后，得到 15 个 `solved=True` 的 0.299-0.309 候选；残余模式分两类：低 avg/max 但静态 `outerExitHeadCount=1`，或 `outerExitHeadCount=0` 但 `avgChoices≈4.17`。
+- 后验单外口翻转实验：对低 avg 的两个 0.30 候选翻掉唯一 outer-exit head 后，`outerExitHeadCount=0`、avg/max 更低，但 `solved=False`；结论是该 outer head 在当前几何中承担可达性/支撑作用，不能作为纯脏链后验翻掉。
+- 后验 pressure/choke rescue 实验：对 `outerExitHeadCount=0` 但 avg 偏高的两个 0.30 候选短预算补肉，0 个可用候选；结论是当前几何空间已接近承压上限，不能靠后验补链强行压回。
+- 冻结 0.30 proof/review 包：`SGPRhythmLab_HardLock030ProofReview5Pack.asset`；5/5 frozen board trace solved/A-tier，但混合了“outer=1 低选择”和“outer=0 avg debt”两类，不作为最终 production gate。
+- 进一步采用动态外口压力 gate，而不是静态 `outerExitHeadCount==0`：允许 `outerExitHeadCount=1`，但要求 `outerExitAvailableChoiceMax<=1` 且 `outerExitSolveRunMax<=1`。冻结包：`SGPRhythmLab_HardLock030DynamicOuterGate5Pack.asset`。
+- `HardLock030DynamicOuterGate5` frozen trace：5/5 `solved=True`、5/5 `processTier=A`、coverage 均约 `0.306+`、`avgChoices=3.86-4.0`、`maxChoices=6`、`supportClosureBestDepth=3`、`localPatchSolveRunMax=3`、`dependencyFollowRunMax=4`、`outerExitAvailableChoiceMax=1`、`outerExitSolveRunMax=1`。
+- 当前判断：0.30 完整链路已跑通，真正下一步不是继续后验救单关，而是把“动态外口压力 + avg choice pressure + parent capacity”前置到父本/填充选择，扩父本池解决多样性和稳定产能。
+
+## SGP Rhythm Lab Dynamic Outer Gate Implementation - 2026-06-23
+
+- 已按 GPT/用户审稿结论把动态外口压力 gate 落到 directed batch fill 主脚本：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-HardLockSlotDirectedBatchFillV1.ps1`。
+- 新增显式参数：`MaxOuterExitHeadCount`、`MaxOuterExitAvailableChoiceMax`、`MaxOuterExitSolveRunMax`、`MaxSameSideOuterExitSolveRunMax`。默认仍为旧严格模式（outer head 必须 0），只有显式传参时才允许动态受控 outer head。
+- batch accept 与 final accept 均改为 `Test-DynamicOuterPressure`：静态 outer head 只负责触发风险检查，真正验收看动态外口可见选择和外口连续消是否低。
+- 输出 CSV 现在保留 `outerExitAvailableChoiceMax`、`outerExitSolveRunMax`、`sameSideOuterExitSolveRunMax`，summary 会记录动态外口 gate 参数，便于明早产线筛选。
+- smoke：对 `HardLock030DynamicOuterGate5` 第一父本用 `outerHead<=1 / outerExitAvailableChoiceMax<=1 / outerExitSolveRunMax<=1` 小预算运行成功，脚本和参数链路正常；该父本 0.306 后无可用继续补肉候选，说明下一步应扩父本池而不是硬推同一父本。
+- 下一步量产命令应从可承压父本池分片跑 directed batch fill，并显式启用动态外口 gate，同时保留 `avgChoices<=4.0`、`maxChoices<=6/7`、`supportClosureDepth>=3`、`localPatchSolveRunMax<=3`、`dependencyFollowRunMax<=4`。
 
 ## SGP Rhythm Lab Trace-Delta Filler Compiler V1 - 2026-06-22
 
@@ -1723,5 +1786,2245 @@
   - `avgChoices` 在过程门中改成“恢复债务”：允许小幅超过 `MaxAvgChoicesCeiling`，但最终 `final_selected` 必须无债务。
   - 默认 `MinGroupSize` 改为 1，允许小步 directed fill；大 batch 仍可由 trace 选择，但不强制每次 2 条起步。
   - 输出 `avgChoiceDebt`、`candidateTargetOwners`、`candidateParallelRisk`，用于后续分析选择空间污染。
+- 已进一步加入 `Choice Pressure Classifier`：
+  - `relay/guard` 视为 pressure filler，`locked` 更接近 expansion/neutral。
+  - 当当前 `avgChoices >= 3.4` 时进入 pressure mode，候选组必须 100% pressure；正常状态下也要求 pressure 比例下限。
+  - 新增 `BaseRowOffset`，支持按父本分片跑，避免一个慢父本拖住整批。
 - b02 验证结果：大组一步推到 `coverage=0.2782` 时 `avgChoices=4.53/max=8`，最终因债务未还被拒；小步 relay 单链推到 `coverage=0.2708` 时 `avgChoices=3.76/max=7`、`solved=True`、`processTier=A`、`supportClosureBestDepth=4`、`outerExitHeadCount=0`。说明“选择债务”模型成立，但恢复不能指望普通补肉自动发生，必须偏向 relay/guard 候选。
 - 多父本 run2 在 b03 前耗时过长被停止；已完成片段显示 b01/b02 可通过小步 relay 保持 avg/max，但需要改成分父本 runner 或短 timeout，避免单个父本拖慢整批。
+- Pressure Final5 冻结成果：
+  - Pack：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_HardLockDirectedBatchPressureFinal5Pack.asset`
+  - Levels：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/HardLockDirectedBatchPressureFinal5Frozen/`
+  - Selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/hard_lock_slot_directed_batch_v1_pressure_final5_selected.csv`
+  - Frozen trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/hard_lock_directed_batch_pressure_final5_frozen_retrace_metrics.csv`
+  - 指标：5/5 `solved=True`、5/5 `processTier=A`、3 `TrueHardCandidate` + 2 `HardPotential`、`avgChoices` 平均 `3.28` 最大 `3.76`、`maxChoices` 最大 `7`、`causalAntiLocalityScore` 最低 `0.6` 平均 `0.646`、`supportClosureBestDepth` 最低 `3`、`localPatchSolveRunMax` 最大 `2`、`dependencyFollowRunMax` 最大 `4`、`outerExitHeadCount=0`。
+- 当前判断：这是比 cov265 更接近“补满且不变简单”的 5 关小包，证明 pressure filler 比例控制有效；仍不是最终量产完成，因为父本仍来自同一 hard-lock/cov265 lane，多样性和更高 coverage 需要继续扩 source 与 guard 库。
+
+## SGP Rhythm Lab Choke O1 Directed Batch - 2026-06-22
+
+- 在 `Build-HardLockSlotDirectedBatchFillV1.ps1` 上新增 choke filler 初版：候选链若被已有逃逸 ray 命中次数 `incomingRayHits >= 2`，标记为 `choke`，并纳入 pressure filler；高 avgChoices pressure mode 下要求一定 choke 比例。
+- 新增动态保险：`MaxDeltaOpeners=0`，即补链后的 board trace `openers` 不允许比补链前增加。当前理解：`incomingRayHits` 是静态压缩信号，`openers` 不增长是最低动态验证，避免“假 choke”变成新独立入口。
+- 5 父本试跑 `hard_lock_slot_directed_batch_v1_choke_o1_final5_try1`：4/5 父本成功补肉；b03 换 seed、扩大候选池仍 0 通过，判定为“不适合继续补肉”的父本，不硬塞。b04/b05 能二轮补肉到 `coverage=0.2806/0.277` 且 avg choices 仍低。
+- 冻结混合 5 关包：
+  - Pack：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_HardLockDirectedBatchChokeO1Final5Pack.asset`
+  - Levels：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/HardLockDirectedBatchChokeO1Final5Frozen/`
+  - Mixed selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/hard_lock_slot_directed_batch_v1_choke_o1_final5_mixed_selected.csv`
+  - Frozen trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/hard_lock_directed_batch_choke_o1_final5_frozen_retrace_metrics.csv`
+- Frozen trace 指标：5/5 `solved=True`，`avgChoices` 平均 `3.146`、最大 `3.76`，`maxChoices` 最大 `7`，`causalAntiLocalityScore` 最低 `0.6`，`supportClosureBestDepth` 最低 `3`，`localPatchSolveRunMax` 最大 `2`，`dependencyFollowRunMax` 最大 `4`，`outerExitHeadCount=0`。
+- 当前判断：Choke O1 证明“补链可以提高 coverage 而不稀释难度”的方向成立；下一步不是继续单纯加链，而是做 `effective escape path / choice reduction` 更强的动态验证，并扩大父本池，跳过 b03 这类可补性耗尽父本。
+
+## Seed Parent / Excellent Skeleton Analysis O1 - 2026-06-22
+
+- 用户纠偏：骨架应该从优秀 seed 中抽，不应先看 coverage。已采纳为 Choke O2 父本分析原则。
+- 已跑内部 `Assets/ArrowMagic/SOData/Levels/Seeds` 全量 951 seed 结构画像：`StandardSeedLike=604`、`R1ABFinal=176`、`R2RefillOrVariant=171`。R1 修复平均 coverage 约 `0.850` 且长链/carrier 基本保持；R2 二次补肉 coverage 仅小幅升至约 `0.860`，但 `avgChain/longRate/veryLong/carrier` 均下降。
+- 仅按静态骨架/coverage 选出的 top80 父本已跑 board trace：80/80 solved，但平均 `openers=6.75`、`avgChoices=4.15`、`maxChoices=8.39`、`causalAntiLocalityScore=0.261`、`localPatchSolveRunMax=4.64`，说明“骨架漂亮/覆盖高”不等于动态难。
+- 已生成动态优秀 seed 骨架候选：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/excellent_seed_skeleton_candidates_o1_20260622.csv`。当前优先拆解对象包括 `seed_Above300_level_664`、`seed_Arrowz_level_036`、`seed_Above300_level_891`、`seed_Arrowz_level_023`、`seed_Above300_level_467` 等。
+- 下一步：先对这些动态优秀 seed 抽骨架共性（选择压力、跨区因果、非局部依赖、低 local run），再用这些共性反哺 SGP Directed Fill / Choke O2；coverage 只作为“可扩张容量”指标，不再作为骨架优先级主指标。
+
+## SGP Rhythm Lab Parent Capacity + Dynamic Repair 0.30 Proof - 2026-06-23
+
+- 当前实验 worktree：`.worktrees/sgp-rhythm-lab`，branch `codex/sgp-rhythm-lab`。
+- 已把动态外口压力 gate 前移到 `Invoke-ParentCapacityProbeV1.ps1`，并同步到 `Repair-NearMissFillerOrientationV1.ps1`；静态 `outerExitHeadCount` 现在是风险信号，正式 gate 看 `outerExitAvailableChoiceMax/outerExitSolveRunMax/sameSideOuterExitSolveRunMax` 是否都 <=1。
+- 父本探针结论：`hard_lock_slot_directed_batch_v1_pressure_final5_selected.csv` 中多数 0.27-0.28 父本已接近补肉上限；`hard_lock_slot_trace_delta_fill_v1_cov265_final5_selected.csv` 里的 0.265 父本可先推到 0.277/0.284，但直接冲 0.30 会出现 `unsolved` near-miss。
+- 关键闭环：从 `pcdo265p1_p05_s937101_b01_r1_c34` 中间父本（coverage `0.277`、avg `2.91`、max `6`、anti `0.714`、support depth `4`、outer=0）继续 directed fill，得到一批 `0.299~0.300` near-miss；再用新增 filler 组方向翻转救援，动态外口 gate 下 51 variants -> 12 accepted。
+- 当前最佳 accepted：`pc34repair_dyn1_v003`，coverage `0.3002451`、avgChoices `3.58`、maxChoices `6`、causalAntiLocality `0.7`、supportClosure `0.935/d3`、localPatchRun `2`、dependencyFollowRun `4`、outerExitHead `1` 且动态外口压力均为 `1`。
+- 关键产物：
+  - Accepted CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/pc34repair_dyn1_accepted.csv`
+  - Source near-miss CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/pc34to30p2_rejected_steps.csv`
+  - Intermediate parent feed：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/pcdo265p1_p05_c34_parent_feed.csv`
+  - Repair output levels：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/RP/pc34repair_dyn1/`
+- 当前判断：今晚已经跑通“父本池 -> 小步 directed fill -> 0.30 near-miss -> orientation repair -> board trace accepted”的生产链路；下一步不是继续单父本硬推，而是把该链路批量化并做 family/source 去重，目标是生成 5 个视觉不重复的 0.30 accepted 关卡包。
+
+## SGP Rhythm Lab Parent Capacity O1 Review5 - 2026-06-23
+
+- 已把 `Invoke-ParentCapacityProbeV1.ps1` 从“direct fill 预筛”升级为完整自动链路：`parent -> directed batch fill -> high-coverage near-miss -> Repair-NearMissFillerOrientationV1 -> A parent pool`。新增参数包括 `RunNearMissOrientationRepair`、`RepairMinCoverage`、`RepairMaxCandidates`、`MinCoverageGainForA/B`，并支持从 LevelDefinition asset 回读空缺 `coverage`。
+- 回归 1：用 `pcdo265p1_p05_c34_parent_feed.csv` 的 0.277 中间父本，自动得到 9 个 `coverage>=0.299` near-miss，51 个 repair variants -> 12 accepted，A pool=1；top `pcauto1_p01_s937257_rp_v003`，coverage `0.3002451`、avg `3.58`、max `6`、anti `0.7`、support `0.935/d3`、local `2`、follow `4`。
+- 回归 2：从原 `hard_lock_slot_trace_delta_fill_v1_cov265_final5_selected.csv` 第 5 父本直跑，自动先补到 `0.277/0.283`，再修 0.299 near-miss；14 variants -> 4 accepted，`pcorig1` A pool=1，best coverage `0.2990196`、avg `3.47`、max `7`、anti `0.645`、support depth `4`。
+- 父本池验证：对 cov265 另外 4 个父本并行探针，p01 为 `B_hard_but_limited`（最高 `0.2782`），p02/p03/p04 为 E；说明同一批 hard-lock 父本并非都能承压到 0.30，先扩 A 父本池是必要路线。
+- 新增原始 headfix 骨架探针：`hard_lock_slot_sgp_fill_headfix_v0_base_09` 从 `0.2059` 补到 `0.2843`，再修 0.299 near-miss；6 variants -> 2 accepted，`pcseed06a` A pool=1。`mirrorxy_04` 补到 `0.2806` 但无 0.30 repair accepted，暂归 B。
+- 已冻结 5 关 review 包：
+  - Pack：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_ParentCapacityO1Review5Pack.asset`
+  - Levels：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/ParentCapacityO1Review5Frozen/`
+  - Selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/parent_capacity_o1_review5_selected.csv`
+  - Frozen trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/parent_capacity_o1_review5_frozen_metrics.csv`
+- Frozen trace：5/5 `solved=True`、5/5 `processTier=A`，selected coverage 均 `0.2990196`；`avgChoices` 最大 `3.94`、`maxChoices` 最大 `7`、`causalAntiLocalityScore` 最低 `0.645`、`supportClosureBestDepth>=3`、`localPatchSolveRunMax<=1`、`dependencyFollowRunMax<=4`、动态外口压力 `outerExitAvailableChoiceMax/outerExitSolveRunMax<=1`。
+- 当前判断：0.30 量产链路已能自动跑通并冻结 5 关，但多样性仍不足（当前 5 关来自 2 个 A 父本）。明早优先继续 parent mining：从更多 hard-lock true-hard / 优秀 seed-derived 骨架中扩 A pool，再做 family/source 去重和 Demo 人工复核。
+
+## SGP Rhythm Lab Mixed Family Production O1 - 2026-06-23
+
+- 已验证 GPT/本地一致结论：父本筛选应先扩结构 family，再推单一父本覆盖率；seed-derived 几何骨架不是今晚主线。
+- 新增 `Build-CausalSeedSkeletonParentsV1.ps1` 作为 seed-derived causal skeleton 诊断脚本；V1 几何抽骨架 14 个仅 1 个 non-LocalEasy，V2 causal-first antiLocal/openers 有改善但仍仅 1 个 non-LocalEasy，direct capacity probe 0 finals。结论：直接从优秀 seed 抽低覆盖骨架会丢因果锁，后续需真正 parentOf/causal subgraph extractor 才继续。
+- 修正 `Build-SkeletonConstraintAdapterV1.ps1`：layout 不再固定 `% 3`，可生成更多 DependencySkeletonV3 / RoomDoorSkeletonV2 family 变体。
+- 语义骨架扩展结果：`skeleton_family_o2_dependency_v3_cov30` 12 个中 1 HardPotential + 4 MediumStructure；`skeleton_family_o2_roomdoor_v2_cov30` 12 个中 3 HardPotential + 7 MediumStructure。说明 semantic skeleton 是有效第二 family，但不是 supportClosureDepth>=3 的同一难度范式。
+- 已采用双 gate：causal-depth hard-lock family 继续要求 `supportClosureDepth>=3`；semantic choice-compression family 不以 support closure 作硬门槛，而要求 `hardStructure!=LocalEasy`、`avg<=3.5`、`max<=7`、`anti>=0.6`、`localPatch<=2`、动态外口压力<=1。
+- 冻结混合 review 包：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_MixedFamilyProductionO1Pack.asset`。
+- 混合包 frozen trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/mixed_family_production_o1_frozen_trace_metrics.csv`；9/9 solved，3 TrueHardCandidate、5 HardPotential、1 MediumStructure，来源包括 hard-lock causal、DependencySkeletonV3、RoomDoorSkeletonV2。
+- 下一步：把 mixed family pack 给用户人工看；若体感通过，做 production scheduler/family cap，把 causal-depth 和 semantic-compression 两条线按比例出货。
+
+## User Review - Mixed Family Production O1 - 2026-06-23
+
+- 用户人工反馈：前 5 个 causal-depth hard-lock 候选确实有难度，方向成立。
+- 主要问题：重复度高且不是“同构相似”，而是第 1/2 关一模一样、第 3/4/5 关一模一样；这是选包/冻结阶段近重复资产没有被 dedupe 挡住，不能作为量产多样性证明。
+- 用户人工反馈：第 6 关及之后的 semantic-choice-compression 候选体感完全不行，视觉上非常稀疏/简单；说明当前 semantic gate 误收，不能按现有指标进入 production。
+- 待合并 GPT 反馈后再定下一步；当前本地倾向是保留 causal-depth hard-lock family，收紧去重/父本 cap，暂停或重做 semantic-compression gate。
+
+
+## GPT Review + Project Decision - Mixed Family Production O1 - 2026-06-23
+
+- GPT 审稿同意 causal-depth hardlock 应作为 production backbone，并指出当前 A-class 正在单 family 收敛，需要 family/skeleton dedup；这一点与项目侧判断一致。
+- GPT 建议 semantic-choice-compression 可作为辅助 family，但用户试玩明确反馈第 6 关及以后完全不行；项目侧以人工体感为准，判定 semantic gate 误收，暂不进入 production。
+- 关键差异：GPT 按低 avg/max、antiLocal 判断 semantic 可用；项目侧认为这些样本是“低选择但低结构密度/低链数/大空白”的假难，说明现有 semantic gate 缺少视觉密度、链数/结构块完整度和 exact/near duplicate 控制。
+- 下一步决策：短期量产只走 causal-depth hardlock family；新增 exact geometry signature dedupe + parent/source cap，避免第 1/2 和第 3/4/5 这种完全重复进入 review/production 包。
+- semantic-choice-compression 保留为诊断/后续重做 gate，不作为明天 20-30 关生产池来源。
+
+## Causal Hardlock Diverse Review V1 - 2026-06-23
+
+- 用户确认 MixedFamily O1 前 5 个 causal-depth hardlock 有难度，但 1/2 完全一样、3/4/5 完全一样；semantic 6+ 体感失败，暂停 production。
+- 新增 `Select-CausalHardlockDiverseCandidatesV1.ps1`：从 accepted CSV 合并 causal hardlock 候选，按 `coverage/avg/max/anti/support/local/follow/dynamic outer` gate 筛选，并计算 exact geometry hash；每 parentGroup/geometryHash 默认最多 1 个。
+- 严格 0.299+ 去重结果：30 个 raw candidates 只能选出 4 个不同父本/几何，冻结为 `SGPRhythmLab_CausalHardlockDiverseReviewV1Cov30Pack.asset`；4/4 frozen trace solved/A，3 TrueHardCandidate + 1 HardPotential。结论：现有 0.30 A pool 不够 8-12 个，多样性不足，不能直接量产 20-30。
+- 0.28+ 多样性诊断结果：70 个 raw candidates 选出 12 个不同父本/几何，冻结为 `SGPRhythmLab_CausalHardlockDiverseReviewV1Cov28Pack.asset`；12/12 frozen trace solved/A，11 TrueHardCandidate + 1 HardPotential。Demo 已挂该包用于人工判断不同父本是否值得继续推到 0.30。
+- 下一步：人工看 Cov28 多样性包；通过的父本再跑 parent capacity/near-miss repair 推到 0.30，目标扩出至少 8-12 个不重复 0.30 A 类父本后再做 20-30 小批量。
+
+## User Review - CausalHardlockDiverseReviewV1Cov28 - 2026-06-23
+
+- 用户试玩反馈：整体难度在线，说明 causal-depth hardlock 多父本路线成立。
+- 问题 1：第 1/2 关仍重复，留 1 个即可；当前 exact geometry hash + parentGroup 仍不足以挡住“视觉重复/近重复”。
+- 问题 2：第 10/11 关右上角存在 3 个连续消除，需在后续选择/trace gate 中加强局部连续消除或角落连续消除惩罚。
+- 问题 3：部分父本只是个别链条不一样，属于 near-duplicate family；下一版 review 包需要增加更粗的 visual/occupancy/skeleton signature，而不只 exact geometry hash。
+- 下一步：从 Cov28 包中保留难度成立样本，但新增 visual-near-dedup、每 base/root skeleton 限制和 corner/local run reject，再挑父本继续推 0.30。
+
+## CausalHardlockDiverseReviewV2Cov28 - 2026-06-23
+
+- 针对用户反馈“1/2 重复、10/11 右上角三连消、部分父本只是个别链不同”，已在 `Select-CausalHardlockDiverseCandidatesV1.ps1` 增加 `MaxOccupancyJaccard` 和 `ManualRejectLevelIds`。
+- 旧 Cov28 12 关包的占用 Jaccard 证实重复：1/2=0.971、10/11=0.976、6/8=1.0；说明 parentGroup/exact geometry hash 不足以防 near-duplicate。
+- 新 V2 选择：`MaxOccupancyJaccard=0.90` 并手动排除用户点名的 `pcauto1_p01_s937257_rp_v044`、`pc34repair_dyn1_v009`；最终 68 raw -> 7 selected，7 个不同父本/几何。
+- 冻结包：`SGPRhythmLab_CausalHardlockDiverseReviewV2Cov28Pack.asset`；Demo 已挂该包。Frozen trace：7/7 solved、7/7 A，6 TrueHardCandidate + 1 HardPotential；最大 pair occupancy Jaccard=0.766。
+- 当前判断：V2 是更可信的多父本基座包；若人工体感通过，下一步把这 7 个父本分别推到 0.30，并继续扩 A pool，而不是从单父本重复抽样。
+
+## User Review - Skeleton Family Definition Gap - 2026-06-23
+
+- 用户反馈：当前 V2 关卡难度已经足够，但多个父本的底层逻辑仍然很像，真实骨架可能只有 1-2 个；其余是同一基础结构上改个别链条、翻转或 repair 后的变体，例如 1 和 6。
+- 当前 dedup 只覆盖 exact geometry、occupancy near-duplicate 和 parentGroup，不足以识别“同一 causal skeleton family”。
+- 下一步需要定义并实现 skeleton family signature：不能只看链条资产/占用相似度，必须结合 causal dependency topology、macro region flow、solve rhythm 和 chain language。
+
+## Causal Skeleton Signature Gap - 2026-06-23
+
+- GPT 顾问补充并被项目侧采纳：除因果骨架、空间骨架、节奏骨架、链条语言外，还需要 `dependency interaction density`，判断多个骨架/锁点之间是否互相耦合。
+- 当前 causal hardlock 家族难度成立，但真实 skeleton species 仍可能只有 1-2 个；下一步不能继续只做 fill/trace，而要做 causal skeleton signature extractor 和 diversity generator/sampler。
+
+## Causal Skeleton Signature V1 - 2026-06-23
+
+- 用户确认当前 causal-depth hardlock 难度已经足够，但多个父本底层逻辑仍高度相似，真实骨架可能只有 1-2 个。
+- 新增脚本：.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-CausalSkeletonSignatureV1.ps1，把关卡分成三层：coreSignature（细差异）、speciesSignature/skeletonFamily（子家族）、macroSkeletonSignature（解题流程宏型）、ootSkeletonSignature（最高层结构盆地）。
+- 已跑当前 V2 Cov28 7 关包：7 core / 5 skeleton family / 4 macro / 1 root skeleton。旧 V1 Cov28 12 关包：12 rows / 9 core / 6 family / 4 macro / 1 root。Cov30 4 关包：4 rows / 2 core / 2 family / 2 macro / 1 root。
+- 结论：当前产线能稳定产“有难度的关”，但仍在同一个 root skeleton 盆地里采样；继续只做 occupancy/parent/geometry 去重不能解决结构物种多样性。
+- 已扩展 Select-CausalHardlockDiverseCandidatesV1.ps1：可选读取 -SignatureCsv，并支持 -MaxPerSkeletonFamily、-MaxPerMacroSkeleton、-MaxPerRootSkeleton，默认不影响旧流程。
+- 下一步：不要继续在同 root 里补变体；应做 causal skeleton diversity generator/sampler，主动生成不同 root skeleton（例如单 hub/双 hub、ring-to-core/core-to-ring、串联 hub、交叉 hub、不同节奏 wave）。
+
+## Causal Skeleton Species Sampler V1 - 2026-06-23
+
+- 新增 `Build-CausalSkeletonSpeciesSamplerV1.ps1`，用于生成不同 causal skeleton species 的低覆盖 source/probe，而不是继续在旧 hardlock root 内做变体。
+- `causal_skeleton_species_sampler_v1_cov235` 生成 12 个 source species；board trace 12/12 有结果，signature 显示 12 core / 12 skeleton family / 12 macro / 12 root，证明“不同 root skeleton 可生成”这个方向成立。
+- 但这些 source 多数还只是 Medium 或未解：可解且 supportDepth>=3 的主要有 `tri_branch_base` 与 `web_four_mirrory`，尚不能直接作为 production hard pack。
+- 将可解 depth>=3 source 送入现有 directed fill 后，`web_four_mirrory` 可被补成 hard-like 候选，但 final signature 变成旧 root `db4cc18089`；`tri_branch_base` 单独 directed fill 0 accepted。
+- 当前关键结论：新 species 生成器已证明结构物种空间可展开，但现有 directed fill/pressure gate 会把可用样本吸回旧 causal-depth hardlock root。下一步必须加 species-preserving / root-collapse gate，再做 species-specific fill，而不是继续把新 source 直接丢进旧 fill 产线。
+
+## Species-Preserving Evaluation Gate V1 - 2026-06-23
+
+- 新增 `Select-CausalSkeletonSpeciesPreservingCandidatesV1.ps1`：读取 candidate CSV + final signature CSV + 可选 source signature CSV，输出 selected/rejected/summary；支持 denied root、source-root preservation、weak root reject 和 hard metrics gate。
+- 验证 1：`causal_species_directed_fill_v1_try1_salvaged` 的 hard-like 候选 final root=`db4cc18089`，被 `DenyRootSkeletonHashes db4cc18089` 正确拒绝，确认“回旧 root 的 hard 候选不能算新 family”。
+- 验证 2：`causal_species_directed_fill_v1_cov28_try1_b01_r1` 整批 18 个候选经签名后，species-preserving gate 选出 3 个非旧 root 候选（roots `d6c7706b07/a02280d338/fdbfe36461`），证明 directed fill 中存在可保种中间样本。
+- 验证 3：把这 3 个中间样本继续小步补到约 0.254-0.262 后，2 个能保持非旧 root，但 final root 退化为 `247c477ed8 = depLocal / edgeSparse / braidWeak`；开启 `-RejectWeakFinalRoot` 后 0/2 通过。
+- 当前结论：identity preservation gate 已成立；下一步 production 方向不是继续简单补肉，而是 species-quality-preserving fill：既禁止旧 root 坍塌，也禁止新 root 退化成 weak/local/sparse root，fill 时必须保持 `depCross`、`edgeCoupled` 或至少 `braidMed+`。
+
+## Species-Preserving Fill Compiler V2 - 2026-06-23
+
+- 新增 `Invoke-SpeciesPreservingFillCompilerV2.ps1`：包装 directed batch fill，每轮执行 `fill -> causal skeleton signature -> species-preserving selector -> next feed`，不直接修改旧 hardlock 量产线。
+- smoke 验证：child fill、signature、SCL gate 均可串联执行；脚本使用 hashtable splat 避免 PowerShell array splat 参数错位。
+- 严格 SCL 验证 `species_preserving_compiler_v2_strict_try2`：输入 3 个非旧 root 中间候选，普通 fill 可产 2 个可解候选（coverage 0.254/0.262，supportDepth=4），但 SCL 0/2 通过。
+- 拒绝原因全部为 `sourceRootNotPreserved;weakFinalRootSkeleton`，final root 统一退化到 `247c477ed8 = depLocal / edgeSparse / braidWeak`。
+- 当前结论：新物种线的下一步不是继续提高 coverage，而是改 fill candidate/ranking，使其保持 source root 或至少保持 `depCross/edgeCoupled/braidMed+`；否则 fill 会把新 species 投影成弱局部 root。
+
+## Species Manifold Gate + 0.29 Proof - 2026-06-23
+
+- GPT 顾问与本地实测已达成一致：`exact source-root preservation` 太硬，会把 fill evolution 锁死；正式生产 gate 改为 `strong-root manifold preserve`：允许强 root A->B 迁移，但禁止回旧 canonical root、禁止 weak/local/sparse root，并要求 final root 仍具备 cross dependency、wide region trace、edge coupling 和 medium/strong braid。
+- 已在 `Select-CausalSkeletonSpeciesPreservingCandidatesV1.ps1` 新增 `-RequireStrongRootManifold`，并修复 `MaxPerFinalRoot/MaxPerSourceRoot` 的排序前占坑问题；现在先按 `selectionScore/coverage` 排序，再执行 root/source cap，避免低分候选抢占 root 名额。
+- 已在 `Select-SpeciesManifoldFromFillRunV1.ps1` 透传 `-RequireStrongRootManifold`，用于批量 fill-run 后按强 root 流形筛选。
+- 关键实测：从保种候选 `fdbfe36461` 继续 fill 到约 `0.2757` 时，strict source-root gate 0/32，通过 strong-manifold gate 可选出 root `a02280d338` 候选（cov `0.2757`、avg `2.82`、max `5`、anti `0.536`、support depth `4`）。
+- 再从该 best 候选冲 `0.29`：directed fill 产生 14 个强 root near-miss 但均 unsolved；经 `Repair-NearMissFillerOrientationV1` 38 variants -> 24 accepted，再经 strong-manifold gate 选出 2 个不同 final root（`a02280d338`、`0eea76b1ba`），coverage 均 `0.290441`，solved/A，support depth `4`，localPatch `2`，followRun `4`。
+- 继续从 `0.290441` best 推 `0.30` 时当前 fill operator 报 `No filler group candidates`，说明单个体几何已接近承压上限；下一步应并行扩更多 source/root basin，而不是硬钻单个体。
+- 待修小问题：部分新脚本/repair 输入 CSV 的 path 以 `./.worktrees` 开头会被 OutputRoot 二次拼接，当前用临时 abspath feed 规避；后续应在 fill/repair 脚本内统一 normalize rooted/relative path。
+
+## Species Manifold Root Pair Demo Pack - 2026-06-23
+
+- 已将 strong-manifold gate 选出的两个 `0.290441` coverage 强 root 候选冻结成 `SGPRhythmLab_SpeciesManifoldRootPairReview2Pack.asset`，关卡副本在 `SpeciesManifoldRootPairReview2Frozen/`。
+- Demo 场景 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` 的 `activePack` 已切到 pack guid `62220026a51e4a7cb8dce3f60b427e8d`。
+- 冻结后 board trace：2/2 solved；v001 avg/max `3.66/6`，v009 avg/max `4.14/7`，两者 `causalAntiLocalityScore=0.552`、`supportClosureBestDepth=4`、`localPatchSolveRunMax=2`、`dependencyFollowRunMax=4`。
+- 该包用于人工看两个 root 的体感差异，不代表最终量产包；下一步仍是扩更多 source/root basin，避免单 root 变体化。
+
+## Root Identity Canonicalization - 2026-06-23
+
+- 用户指出 `SpeciesManifoldRootPairReview2` 两关几乎一样；本地 diff 证实 35 根链只差 1 根，occupancy Jaccard=`0.9506`。
+- 已修正 `Build-CausalSkeletonSignatureV1.ps1`：root signature 移除 rhythm bucket，新增 `rhythmVariantSignature/rhythmVariantHash`。
+- 回归：同一冻结包重算后 `RootSkeletonSignatures=1`、`RhythmVariants=2`；selector 在 `MaxPerFinalRoot=1` 下只保留 v001，v009 因 `maxPerFinalRoot` 拒绝。
+- 已新增 canonical 单关 demo 包 `SGPRhythmLab_SpeciesManifoldCanonicalRootReview1Pack.asset` 并把 Demo activePack 切到 guid `0830f927c72c4ecba5af5f72f3ee9c05`。Frozen trace 1/1 solved，avg/max `3.66/6`，supportDepth `4`。
+- 下一步多样性目标：继续扩不同 rootSkeleton，而不是收集同 root 的 rhythm/geometry variant。
+
+## Species New Root Review2 - 2026-06-23
+
+- 已按 rootSkeleton/rhythm/chainLanguage 分层继续扩真实结构物种：从 `causal_skeleton_species_sampler_v2_cov255_seed947901` 的 `web_four_mirrory` 出发，小步 directed fill 后保住两个不同强 root：`1179a2b946` 与 `77b588f85b`。
+- 冻结 Demo 包：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_SpeciesNewRootReview2Pack.asset`，Demo activePack 已切到 guid `e7900fa8cf964e80a5416e726b7d841e`。
+- 冻结 trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/species_new_root_review2_frozen_trace_metrics.csv`；2/2 solved/A，avg/max 分别 `3.52/6` 与 `3.69/7`，supportDepth `3/4`，localPatchRun `2/2`，dependencyFollowRun `3/3`，outerExitHead `0/0`。
+- 冻结 signature：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/species_new_root_review2_frozen_signature_signatures.csv`；2 rows -> 2 rootSkeleton / 2 macro / 2 chainLanguage（`snake_midLen_shortDominant` 与 `bent_midLen_shortDominant`）。
+- 负结果：新 sampler `seed948777` 有 10 root source，其中 `web_four_mirrory` source root=`41f738e4f0` 很强，但第一轮 fill 14 个候选中 9 个投影到已知 `77b588f85b`、3 个回旧 canonical `7f70a964d4`、仅 1 个保持 `41f738e4f0`，暂不放入 Demo。
+- 下一步：继续多 seed 挖 `solved + supportDepth>=3 + strong root` source；每个 source 只允许小步 fill，并用 final root cap + chainLanguage cap + occupancy cap 进入 review，避免 root 投影和同类变体。
+
+## User Review - SpeciesNewRootReview2 - 2026-06-23
+
+- 用户试玩反馈：`SpeciesNewRootReview2` 两关体感仍然几乎一样，大约只有 2 根链条不同；不能算真正结构物种差异。
+- 本地 diff 证实：第 1 关 29 chains，第 2 关 32 chains，其中 27 条完全相同；occupancy Jaccard=`0.8673`，共同占用 196/221 cells。两关都来自 `web_four` archetype，第二关主要是后续 filler/少量替换。
+- 结论：`rootSkeletonHash` 仍然过度依赖聚合桶（如 `depMixed/depCross`、`antiWeak/antiHard`），会把同一 source archetype 的 fill/rhythm/局部链条变化误判成不同 root。
+- 下一步：废弃该包作为“新 root proof”；选择层必须新增 `sourceArchetype/templateFamily` cap，且真正多样性应来自不同 archetype（如 tri_branch、dual_diagonal、single_spoke/web_four 之间），不是同一 web_four 的后续变体。
+
+## Tri-Branch Solvable Source Prior - 2026-06-23
+
+- GPT 顾问与项目侧一致：`tri_branch` 不能再当随机 layout/fill 变体生成；它必须是 source-level dependency topology template，先约束 `Root -> A/B/C -> Hub`、跨区 branch、branch 间互锁/汇聚，再交给 SGP/fill。
+- 已在 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-CausalSkeletonSpeciesSamplerV1.ps1` 增加 `-TriBranchSolvableBridge` 最小 source prior：tri_branch 额外带入 b3 bridge/support 段，用于验证“source 前置可解性”方向。
+- smoke 结果 `causal_skeleton_species_sampler_v2_tri_solvable_seed949901`：3 个 tri_branch source 中 2 个从旧版全无解提升为 solved；`mirrorx/mirrory` 均 supportDepth=4，maxChoices=5/6，antiLocal=0.636/0.600，outerExit=0。
+- tri_branch solved source 小步 directed fill 后可保持 sourceArchetype=tri_branch：`species_tri_branch_solved_fill_v1_cov27_b02` 中最高可到 coverage `0.2843`，较稳候选 `c03` 为 coverage `0.2745`、avg/max `3.19/6`、anti `0.593`、supportDepth `4`、localPatchRun `1`。
+- 结论：轻量 source prior 已证明 tri_branch 不是死路，但要量产仍需真正 graph-first tri_branch V1；post-hoc repair 对旧 tri_branch near-miss 无效，source generator 必须前置可达性。
+
+## Species Cross-Archetype Review1 - 2026-06-23
+
+- 已冻结 2 关跨 archetype demo pack：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_SpeciesCrossArchetypeReview1Pack.asset`，Demo activePack guid=`462f2102cab84e7d8fda798df9ae00ab`。
+- 关卡 1：canonical/旧高难对照，avg/max `3.66/6`、anti `0.552`、supportDepth `4`、localPatch `2`、followRun `4`；冻结 trace 显示 outerExitHeadCount=`1`，需人工确认是否影响体感。
+- 关卡 2：tri_branch 新 source archetype，avg/max `3.19/6`、anti `0.593`、supportDepth `4`、localPatch `1`、followRun `4`、outerExitHeadCount=`0`。
+- 冻结包 trace 需使用绝对路径 manifest `SGPRhythmLab_SpeciesCrossArchetypeReview1Pack_abspath.csv`，相对路径 manifest 当前会被 `Build-SGPRhythmTrace.ps1` 误判 missing；这是已知 path normalize 待修问题。
+- 冻结 signature 显示 `SourceArchetypeFamilies=2`、`RootArchetypeSignatures=2`，但 `RootSkeletonSignatures=1`；说明 rootSkeleton 聚合桶不能单独作为物种差异充分条件，production diversity 应优先看 sourceArchetype/rootArchetype/occupancy/trace 组合。
+
+## User Review - SpeciesCrossArchetypeReview1 - 2026-06-23
+
+- 用户试玩反馈：`SpeciesCrossArchetypeReview1` 的 Level1/Level2 仍不算严格不同 root；体感是中间两块上下对调，属于局部结构差异。
+- 本地 diff：Level1 35 chains，Level2 32 chains，19 条链完全相同；occupancy Jaccard=`0.6119`，说明单纯 occupancy/Jaccard 不足以识别“同全局骨架、局部模块换位”。
+- 结论：`sourceArchetypeFamily=tri_branch` 与 `rootArchetypeSignature` 只能证明生成来源/局部结构不同，不能单独证明玩家认知上的 strict root 不同。
+- 下一步：新增 strict root / role-layout gate；严格 root 必须体现全局角色布局、关键 hub/support/upstream 的空间分布和解题宏路径变化，而不是中部模块局部置换。
+
+## Strict Root Gate V1 - 2026-06-23
+
+- 根据用户反馈，`SpeciesCrossArchetypeReview1` 被判定为局部差异：中间两块上下对调，不是严格不同 root。
+- 已在 `Build-CausalSkeletonSignatureV1.ps1` 新增 `globalLayoutSignature/Hash` 与 `strictRootSignature/Hash`；strict root 使用 rootSkeleton + 2x2 全局 presence 布局，刻意忽略局部 centroid 密度差异，避免把模块上下换位当成新 root。
+- 回归 `species_cross_archetype_review1_strict_regression_v2`：该包 `RootSkeletonSignatures=1`、`StrictRootSignatures=1`、但 `SourceArchetypeFamilies=2`，符合人工判退：source 名不同不足以证明 strict root 不同。
+- 已在 `Select-CausalSkeletonSpeciesPreservingCandidatesV1.ps1` 和 `Select-CausalHardlockDiverseCandidatesV1.ps1` 增加 `MaxPerStrictRoot`。
+- selector 回归：对 `SpeciesCrossArchetypeReview1` 使用 `MaxPerStrictRoot=1` 时只选 1/2，另一关因 `maxPerStrictRoot` 拒绝；该包不再能作为跨 root proof。
+- 下一步：真正新 root 必须来自 graph-first template 的全局角色布局变化，而不是 sourceArchetype 名称、局部模块换位、链条语言或 rhythm 变化。
+
+## Root Topology Model Direction - 2026-06-23
+
+- GPT 顾问与项目侧一致：当前问题已从“root 去重规则”升级为“root 定义维度不完整”。`strictRootHash` 只能阻止假多样性，不能创造真实 root space。
+- 真正 root family 需要三层联合定义：role-layout（结构角色，如 tri_branch/hub_spoke/diagonal_coupled/web_crossover）、dependency-topology（谁挡谁、fanout、depth、coupling）、causal-trace-pattern（unlock order、delay、跨区节奏）。
+- 下一步不再继续强化 hash-based gate，而是实现 `RootTopologyExtractor V1`：从 trace/signature/geometry 中输出可读 root family 标签和 topology features，用它指导 graph-first tri_branch/dual/web 生成。
+
+## Mixed Root Topology Review V1 - 2026-06-23
+
+- 用户持续反馈证明：`rootSkeletonHash/strictRootHash/sourceArchetype` 仍不足以判断“严格不同 root”；局部模块交换、depth 3/4 或少量链条差异都不能算新 root。
+- 已新增 `Build-RootTopologyExtractorV1.ps1`，输出 `roleLayoutFamily/dependencyTopologyFamily/causalTracePatternFamily/rootTopologyHash`；并修正 depth identity：`supportDepth>=3` 统一为 `depth3p`，避免把“差一根链条/多一层延迟”当新 topology。
+- 回归结果：`SpeciesCrossArchetypeReview1` 两关 -> `RootTopologyFamilies=1`；`SpeciesNewRootReview2` 两关 -> `RootTopologyFamilies=1`，符合人工判退。
+- 已扩展 `Select-CausalSkeletonSpeciesPreservingCandidatesV1.ps1`：支持 `-RootTopologyCsv` 与 `-MaxPerRootTopology`；负样本回归 2 选 1，reject=`maxPerRootTopology`。
+- GPT 顾问与本地实测一致：若要创造新 root，主线应是 topology/motif-first generator；但 `RootTopologyTemplateGeneratorV1` 纯几何模板 smoke 证明 non-tri 模板缺少 trace-visible causal backbone，12 source 仅 tri 可用，现有 directed fill 救不动。
+- 新实用突破：`MixedFamilyProductionO1` 里已有可用 motif 种子。用 mixed-root gate（不强制 hardlock `supportDepth>=3`，但要求 solved、低 choice、anti/local/follow）选出 4 个严格不同 rootTopology：hardlock tri、dependency_skeleton、room_door x2。
+- 已冻结 review pack：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_MixedRootTopologyReviewV1Pack.asset`，Demo activePack guid=`d3e2b07d03634ef28d9e0e0e011eeb97`。
+- Frozen verification：`mixed_root_topology_review_v1_frozen_trace_metrics.csv` 4/4 solved（3 S + 1 A）；`mixed_root_topology_review_v1_frozen_signature_signatures.csv` -> 4 rootSkeleton / 4 strictRoot；`mixed_root_topology_review_v1_frozen_root_topology_root_topology.csv` -> 4 rootTopology / 3 sourceArchetype。
+- 下一步：把 `MixedFamily` 中的 dependency_skeleton/room_door 作为 motif library seed，反推 `motif-embedded topology template`；fill 只做外围补全，不能再用纯 geometry template 期望 trace 自动形成因果骨架。
+
+## User Review - MixedRootTopologyReviewV1 - 2026-06-23
+
+- 用户试玩反馈：`MixedRootTopologyReviewV1` 中 Level2/3/4 都非常简单；只有 Level1 接近当前 hardlock 难度。
+- 本地指标确认用户判断：Level2/3/4 虽然 `avgChoices/maxChoices` 低且 `causalAntiLocalityScore` 高，但 `supportClosureBestDepth=0/1`、`supportClosureBestScore=0`、trace pattern 为 `immediate` 或 `singleRegion`，缺少 trace-visible multi-hop causal support。
+- 结论：`rootTopologyHash` 不同只能证明结构身份不同，不能证明高难；`dependency_skeleton/room_door` 当前属于 false-hard/simple-root 负样本，不能进入高难 production/review，除非后续嵌入真实 causal motif 并通过 support/closure 或等价难度 gate。
+- gate 修正：多 root 产线不能放松到只看 solved + low choice + antiLocal；高难 root 必须有至少一种已验证的难度机制。当前唯一 validated 机制仍是 `supportClosureDepth>=3/supportScore>=0.70` 的 trace-visible hardlock motif。
+- 下一步：撤销 mixed-root gate 作为生产 gate；保留它只作结构诊断。真正多 root 需要 `motif-embedded template`，即每个 root template 内置可见 causal motif，而不是把 simple room/door root 当高难。
+
+## Gate Hotfix After MixedRoot False-Hard Feedback - 2026-06-23
+
+- 已在 `Select-CausalSkeletonSpeciesPreservingCandidatesV1.ps1` 新增 `-RequireRootTopologyProductionQuality`：当提供 `RootTopologyCsv` 时，只允许 `Build-RootTopologyExtractorV1.ps1` 标为 `productionCandidate` 的 root 进入高难 review。
+- 回归 `MixedFamilyProductionO1`：开启该开关后 9 关只选 1 关，Level2/3/4 被 `rootTopologyNotProductionQuality` 拒绝，符合用户“234都非常简单”的反馈。
+- Demo activePack 已从错误的 `MixedRootTopologyReviewV1Pack` 切回已知高难 0.30 基准包 `SGPRhythmLab_HardLock030DynamicOuterGate5Pack.asset`（guid=`65153ebe983f4a1786c8c810e59ec2f5`）。
+- 当前结论：短期高难产线继续用 hardlock causal motif；多 root 方向必须先让 dependency_skeleton/room_door 等模板嵌入 multi-hop causal motif，再谈 production。
+
+## Causal Motif Embedding Compiler V1 - 2026-06-23
+
+- 用户与 GPT 顾问共识已收敛：`rootTopology != difficulty`；root topology 只作为结构容器/身份，进入高难 production 必须先具备 trace-visible causal motif。当前 validated motif 仍是 `supportClosureBestDepth>=3` 且 `supportClosureBestScore>=0.70` 的 hard-lock/support-lock。
+- 新增 `Invoke-CausalMotifEmbeddingCompilerV1.ps1`：串联 `species sampler -> board trace source gate -> species-stratified source sampling -> directed batch fill -> final trace/signature/rootTopology`。它明确禁止 supportDepth 0/1 的 false-hard/simple root 进入 fill。
+- smoke `causal_motif_embedding_v1_smoke1`：3 个 source 小样中 2 个 tri_convergent final 过线；冻结包 `SGPRhythmLab_CausalMotifEmbeddingV1Smoke2Pack.asset`，2/2 frozen trace solved/A，`supportClosureBestDepth=4`，`avg/max=2.96/5` 与 `3.76/6`，`outerExitHeadCount=0`。
+- 已修正 wrapper source selection：新增 `MaxSourceRowsPerSpecies`，先按 rootSpecies 分层取 source，避免 tri source 挤掉 web source。
+- stratified smoke `causal_motif_embedding_v1_strat_smoke1`：source 选择包含 2 个 tri + 2 个 web；最终只有 1 个 tri 过线，web source 能过 support-lock source gate，但旧 directed fill 无法稳定承压。
+- 当前结论：motif embedding chain 已跑通，但仍只在 tri_convergent 容器中稳定；web/dual 下一步需要 species-aware fill，而不是放宽 difficulty gate 或把 simple room/door root 当 hard。
+
+## User Review - Causal Motif Embedding V1 Smoke2 - 2026-06-23
+
+- 用户试玩 `SGPRhythmLab_CausalMotifEmbeddingV1Smoke2Pack` 后反馈：两个 proof 关“可以，差别挺大的”。
+- 这说明即使当前 rootTopology/roleLayout 都仍是 `tri_convergent`，causal motif 的空间落点、fanout/branching 和 trace rhythm 变化已经能产生可感知差异。
+- 结论修正：严格 root 多样性仍是长期目标，但短期 review/production 可以接受“同大容器内的不同 motif instance / rhythm variant”作为体感多样性补充，前提是每关都通过 support-lock motif gate 和 board trace hard gate。
+- 下一步：继续推进 web/dual 的 species-aware fill，同时保留 tri_convergent motif instance 作为当前可用高难差异来源。
+
+## Causal Motif Embedding Review Pool1 - 2026-06-23
+
+- 基于用户对 `CausalMotifEmbeddingV1Smoke2` 的反馈（“差别挺大”），短期策略修正：同一 `tri_convergent` 大容器内的不同 causal motif instance / rhythm variant 可以进入 review，只要通过 trace-visible support-lock hard gate；严格新 root 仍是长期目标。
+- 新跑 seed `964101` 得到 4 个过线 motif final；合并 Smoke2 的 2 个 proof 后，用 `MaxPerStrictRoot=2`、`MaxPerRootTopology=3`、`MaxOccupancyJaccard=0.92`、`RequireRootTopologyProductionQuality` 精选 5/6。
+- 冻结 Demo 包：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_CausalMotifEmbeddingV1ReviewPool1Pack.asset`，Demo activePack guid=`0916e69060664a15823243a67172666b`。
+- 冻结 trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/causal_motif_embedding_v1_review_pool1_frozen_trace_metrics.csv`；5/5 solved/A，avg/max 范围 `2.88-3.76 / 5-7`，supportDepth `3-4`，supportScore `0.908-0.968`，anti `0.571-0.737`，outerExitHead=0。
+- 冻结 signature：5 core / 4 skeleton family / 4 macro / 3 rootSkeleton / 3 strictRoot / 5 rhythm variants；该包应标注为“可用高难 motif-instance 体感 review”，不是严格 multi-root proof。
+- 下一步：用户试玩后若体感认可，短期可沿该路线扩 8-12 关 motif-instance pool；若仍觉得重复，则继续做 web/dual species-aware fill，不能放宽 support-lock gate。
+
+## Root Diversity Reclassification - 2026-06-23
+
+- 对 `CausalMotifEmbeddingV1ReviewPool1` 的最新人工/GPT 审稿结论：5 关难度有一些，但严格 root 基本只有 1 个；其余是同 causal backbone 下的 motif placement / rhythm / fill realization。
+- 当前 root 生成链路问题：species/template source + directed fill 可以产 hard realization，但没有先定义不同 causal backbone；因此 selector 只能把同一 backbone 的变体拆桶，无法生成真正多 root。
+- 下一步最小可执行方向：新增/实现 `causal backbone signature` 诊断，先把现有 review 包重分为 true backbone root；随后做 graph-first causal backbone generator V1，而不是继续强化 hash/gate。
+
+## Causal Backbone Signature V1 - 2026-06-23
+
+- 已新增 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-CausalBackboneSignatureV1.ps1`，作为 root 级因果骨架诊断层；输入 signature CSV + board trace CSV，输出 `causalBackboneHash` 与 `backboneVariantHash`。
+- 该脚本刻意合并 depth3/4、fanout3/4、depMixed/depCross、rhythm、chainLanguage 和 fill 变体，只保留 root 级 support-lock causal degrees of freedom：motif class、hubfield role、distributed flow、lock shape。
+- 在 `CausalMotifEmbeddingV1ReviewPool1` 上验证：旧 signature 显示 3 rootSkeleton / 3 strictRoot / 3 rootTopology；新 causal backbone 诊断输出 `CausalBackboneRoots=1`、`BackboneVariants=5`，与用户/GPT 的体感判断一致。
+- 输出：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/causal_motif_embedding_v1_review_pool1_backbone_v1_backbones.csv` 与 `_summary.md`。
+- 下一步：selector 中 strict root 多样性应优先使用 `causalBackboneHash`；真正新 root 必须由 graph-first causal backbone generator 产生不同 backbone，而不是继续依赖 hash/gate 分桶。
+
+## Causal Backbone Signature Calibration - 2026-06-23
+- `Build-CausalBackboneSignatureV1.ps1` calibrated with synthetic controls: 5 conceptual causal backbones (serial, dual-gate, tri-convergent, multi-hub web, no-backbone) produced 5 `causalBackboneRoots`, while old synthetic strict/rootSkeleton hashes were 1.
+- Current hard motif review pack still collapses to 1 causal backbone with 5 rhythm/geometry variants, matching user visual review.
+- Real `Build-RootTopologyTemplateGeneratorV1` calibration (dual_gate, tri_convergent, web_crossover, hub_spoke) produced 4 assets; board trace shows only `tri_convergent` has depth3 branch3 causal backbone and it maps to the existing hard root `6fc63698fd`; dual/web/hub are `no_causal_backbone` or shallow/unsolved.
+- Conclusion: current root metric is directionally correct for separating causal hard roots from layout roots, but generator still lacks multiple causal hard backbone templates.
+- Next: create explicit graph-first causal backbone definitions for at least dual-gate-hard and multi-hub-web-hard, then realize through SGP/fill and trace-gate them.
+
+## Dual-Gate Hard-Lite Causal Backbone Primitive - 2026-06-23
+
+- GPT 顾问与本地实测一致：`dual_gate_hard_lite` 的 ablation proof 可以算第二 causal backbone 机制证明，但必须固化为 graph-first primitive，不能继续靠从 tri root 剪枝。
+- 已在 `Build-SGPRhythmTrace.ps1` 增加 support closure 独立性诊断字段：`supportClosureQualifiedIndependentCount`、`supportClosureQualifiedMinOverlap`、`supportClosureQualifiedRoots`；用于确认多个 closure 是否只是同 basin 变体。
+- 现有 DesignedHardLockV0 多桥样本 retrace 后仍为单 basin：`supportClosureQualifiedIndependentCount=1`，证明“复制桥”不等于新 root。
+- ablation proof `dual_gate_hard_lite_probe_v1` 3/3 solved/A；其中 branch2/fanout2 样本形成新 causalBackbone `34771de5e2 = serial_support_lock||dual_gate_hubfield||full_board|distributed_cross_flow||depth3p|fanout2|branch2|closureChain`，区别于当前主 tri root `6fc63698fd = cross_region_convergent_support_lock||single_backbone_hubfield||...fanout3p|branch3p|closureGraph`。
+- 已把 `dual_gate_hard_lite` 加入 `Build-RootTopologyTemplateGeneratorV1.ps1` 作为 graph-first source primitive；0.19 source smoke 中 base/mirrory 保持 solved + depth3 + branch2 + fanout2，mirrorx 退回 branch3，应由 backbone gate 拒绝。
+- 已在 `Build-HardLockSlotDirectedBatchFillV1.ps1` 新增 opt-in `MaxCausalFanoutMax` 和 `MaxSupportClosureBranchMax`，用于 species/backbone preserving fill。默认 0 不影响旧 hardlock 产线。
+- 严格 fanout/branch 小步 fill smoke2：`dual_gate_hard_lite_template_v1_directed_fill_strictfanout_smoke2_b01_r2_c17` retrace solved/A、coverage `0.2304`、avg/max `3.04/6`、anti `0.75`、supportDepth `3`、branch `2`、fanout `2`、localPatch `1`、follow `4`、outerExitHead `0`、TrueHardCandidate；backbone 仍为 `34771de5e2`。
+- 当前限制：这不是 0.30 量产包；它证明第二 causal backbone primitive 可独立生成并小步承压。下一步要做 dual-lite species-aware fill/capacity 扩张，目标先推到 `0.25-0.27` 且保持 `branch2/fanout2`，再考虑进 review pack。
+
+## Dual Gate vs Tri Root Review Pack - 2026-06-23
+
+- 已按用户要求冻结 2 关肉眼对照包，并把 Demo activePack 切到该包：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_DualGateVsTriRootReview1Pack.asset`，guid=`1b2f257a8d734053902b1ec4df8539a7`。
+- Level1：旧 `tri_convergent` baseline，frozen trace solved/A，avg/max `3.16/7`，supportDepth `3`，branchMax `3`，fanoutMax `4`，outerExitHead `0`。
+- Level2：新 `dual_gate_hard_lite` proof，frozen trace solved/A，avg/max `3.04/6`，supportDepth `3`，branchMax `2`，fanoutMax `2`，outerExitHead `0`。
+- Frozen backbone report：`dual_gate_vs_tri_root_review1_frozen_backbone_backbones.csv`，2 rows -> 2 causalBackboneRoots。该包只用于人工判断 dual-lite 是否体感为新骨架，不是 production 包。
+
+## Dual Gate Spatial Root Skeleton Review - 2026-06-23
+
+- 用户反馈此前 `dual_gate_hard_lite` 虽有 branch2/fanout2 causal backbone 指标证明，但肉眼仍像旧 root 的左右/局部变体；当前重点改为先验证空间角色布局，而不是继续证明指标。
+- 已在 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RootTopologyTemplateGeneratorV1.ps1` 新增 `dual_gate_spatial` review template：两个空间分离、非对称 gate island + 一个共享中央 core，低覆盖生成，刻意避免镜像变体。
+- 已冻结单关视觉审查包并挂到 Demo：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_DualGateSpatialRootV1SkeletonReview1Pack.asset`，guid=`26db0c7e17d747e4b32e903d7a774d64`。
+- Frozen trace：`dual_gate_spatial_root_v1_skeleton_review1_frozen_trace_metrics.csv`；结果 `solved=False`、`supportClosureBestDepth=1`、`maxChoices=12`，因此它不是 hard/production 候选，只用于人工判断 root 形态是否明显不同。
+- 下一步：若用户认可视觉 root 方向，再做 `dual_gate_spatial` 的 causal motif embedding；若仍像旧 root，则继续调整 role-layout，不进入补肉/量产。
+
+## Dual Gate Joint-Core Root Correction - 2026-06-23
+
+- 用户纠正：`dual_gate` 必须是“两个空间分离的控制系统，共同控制一个核心”；此前 `dual_gate_spatial` 只算 dual-island visual skeleton，不符合 true dual_gate 定义。
+- 已在 `Build-RootTopologyTemplateGeneratorV1.ps1` 标记 `dual_gate_spatial` 为非 true dual_gate，并新增 `dual_gate_joint_core`：Gate A 与 Gate B 分处不同区域，各自形成 gate chain，分别打开中央 core 的两个入口。
+- `dual_gate_joint_core_root_v1_review2` frozen trace：`solved=True`、`processTier=A`、`openers=6`、`avgChoices=4.93`、`maxChoices=6`；trace step 显示 A 路 `0->1->2->3->8`、B 路 `4->5->6->7->9`，两个 gate 分别解锁同一中央 core 的上下入口。
+- 当前限制：旧 `supportClosureBestDepth` 指标仍为 0，说明该指标只识别 support-lock closure，不识别 dual serial joint-core motif；下一步需要新增 `dualGateJointCore` 诊断/gate，再做 choice-pressure 压缩和 production fill。
+- Demo activePack 已切到 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_DualGateJointCoreRootV1Review2Pack.asset`，guid=`7b77e11c291e403884c67c4c74910028`。
+
+## Dual Gate Shared-Lock Prototype - 2026-06-23
+
+- 用户进一步纠正：`dual_gate` 不是“上面解中间一根、下面解核心下一根”，而是两个空间分离控制系统共同控制同一个核心。
+- 已将 `dual_gate_joint_core` 改为 shared-lock 模型：同一中央 core chain 的 escape ray 依次被 lockB 与 lockA 阻挡；Gate A 解 lockA，Gate B 解 lockB，两个 gate 都完成后 core 才打开。
+- `dual_gate_joint_core_root_v1_review5` trace：`solved=True`、`processTier=A`、`openers=6`、`avgChoices=4.55`、`maxChoices=6`、`causalAntiLocalityScore=0.8`、`localPatchSolveRunMax=2`、`dependencyFollowRunMax=2`。
+- Trace order：B 路 `3->4->5` 解 lockB，A 路 `0->1->2` 解 lockA，之后 core `6` 才可用；这版符合 true dual-gate shared-lock 原型，但仍是低覆盖/偏松原型，不是 production hard。
+- Demo activePack 已切到 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_DualGateJointCoreRootV1Review5Pack.asset`，guid=`387a8b56c7db45d8ac941bba0a8693b8`。
+
+## Validated Root Expansion O1 - 2026-06-23
+
+- 当前对话目标切换为“已验证 root 的产线扩张”，不继续追新 root；主线只使用 trace-visible hardlock/support-lock motif，保留 `supportClosureBestDepth>=3`、`supportClosureBestScore>=0.70`、`avgChoices<=4.0`、`maxChoices<=7`、`localPatchSolveRunMax<=3`、`dependencyFollowRunMax<=4` 和动态外口 pressure gate。
+- 从现有报告清洗出 55 个 hard-gate 候选，其中 `coverage>=0.299` 有 39 个；严格 occupancy/parent 去重后只有 2 个 0.30 独立样本，说明当前瓶颈是可承压父本不足，不是 accepted 行数不足。
+- 已并行跑 `Invoke-ParentCapacityProbeV1` 分片：先从 `causal_hardlock_diverse_review_v2_cov28_selected.csv` 的 7 个父本推 0.30，再从 `causal_hardlock_diverse_review_v1_cov28_selected.csv` 补跑 4 个代表父本；只有少数父本能经 near-miss orientation repair 产出 0.299+ accepted，多个父本直接 `No filler group candidates`。
+- 合并后 hard-gate 候选增加到 80 行，其中 `coverage>=0.299` 有 64 行；但严格去重后仍只有 2 个 0.30 独立样本，放宽到 `coverage>=0.285` 得到 4 个 clean review 候选。
+- 已冻结并挂 Demo：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_ValidatedRootExpansionO1ReviewPack.asset`，guid=`4a794e0272e747d8ae902a7cc47ca568`；Demo activePack 已指向该包。
+- Frozen trace：`validated_root_expansion_o1_review_frozen_trace_metrics.csv`，4/4 `solved=True`、4/4 `processTier=A`；avgChoices `3.23-3.69`、maxChoices `5-7`、supportDepth `3-4`、supportScore `0.921-0.975`、localPatch `1-2`、dependencyFollow `4`、动态外口 pressure 均不超过 1。
+- Frozen signature：`validated_root_expansion_o1_review_frozen_signature_summary.md`；4 core / 4 skeleton family / 3 macro / 2 rootSkeleton / 2 strictRoot / 4 rhythm variants。该包定位是“已验证 root 产线 clean expansion review”，不是新 root proof，也不是 12 关量产完成。
+- 下一步：用户肉眼试玩该 4 关；若重复度可接受，可把当前父本池标为短期 hard production lane。若仍嫌重复，必须扩可承压父本来源或把 validated motif 嵌入更多容器，不能仅放宽 selector 拼数量。
+
+## Validated Root Background SGP Fill V1 - 2026-06-23
+
+- 用户纠正：`0.30` 只是父本/骨架分水岭，不是终极目标；完整关卡仍需继续提高 coverage，当前主线转为“已验证 support-lock root 的填肉扩张”。
+- 已新增 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-ValidatedRootBackgroundSGPFillV1.ps1`：从已验证父本读取 LevelDefinition，保护前 N 条核心链的逃逸通道，在剩余空间做全局 bent/random-walk 背景 SGP fill，并每轮用 `Build-SGPRhythmTrace.ps1` 做 board-level gate。
+- 关键实测：旧 `Build-HardLockSlotDirectedBatchFillV1.ps1` 在 `0.305` 左右出现 `No filler group candidates`；新背景 fill 用 `ProtectedChainCount=14` 已将同一 validated root 从 `coverage=0.3051471` 推到 `0.3664216`，再推到 `0.3982843`，且 frozen trace 仍 `solved=True/processTier=A/supportClosureBestDepth=3/supportClosureBestScore=0.969/avgChoices=3.58/maxChoices=7/localPatch=2/dependencyFollow=3`。
+- 已冻结并挂 Demo 的 proof 包：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_ValidatedRootBackgroundSGPV1T40ProofPack.asset`，guid=`b79c62c3b91f4b5cae1d7cc31dbf6c41`；frozen trace：`validatedroot_background_sgp_v1_t40_proof_frozen_trace_metrics.csv`。
+- 负结果：不保护核心 ray 时能生成 `0.33+` 候选但全部 `unsolved`；保护前 20 条链过宽导致没有候选；`0.42+` near-miss 经 `Repair-NearMissFillerOrientationV1.ps1` 仍 `accepted=0`。当前单父本稳定上限约 `0.40`。
+- 小批量复测：4 个 step2 父本中只有 1 个能过一跳到 `coverage=0.337`，说明 0.40 已证明可达，但还不是多父本稳定量产。下一步应做自动保护链数/seed 调度与多父本 capacity search，而不是继续手调单父本。
+- 同步修复 `Build-SGPRhythmTrace.ps1` 的 `.Contains()` 单元素集合健壮性：新增 `Test-ContainsInt`，避免新填肉候选在单可选状态下触发 `System.Int32 does not contain Contains` 的 trace failure。
+
+## Strict Dual Gate Trace Gate V1 - 2026-06-23
+
+- 已在 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` 增加 strict dual-gate 诊断字段：`strictDualGateCandidate`、`strictDualGateFailReasons`、raw candidate、core/gate ids、gate ancestry、A-only/B-only/A+B counterfactual。
+- 定义收敛：strict dual_gate 必须是两个空间分离、因果独立的 gate 系统共同控制同一个 core；只清 A 或只清 B 不能打开 core，A+B 必须能打开 core，且 A/B 在 core 前不能互相解锁或共享 ancestry。
+- 额外 root-level 保护：若 raw 双 blocker 出现在 `supportClosureBestBranchMax>=3` 或 `causalFanoutMax>=3` 的 tri-convergent backbone 内，判为 `triConvergentBackboneDominates`，不算 strict dual root。
+- 回归结果：`dual_gate_joint_core_root_v1_review5` 通过 strict dual gate（core=6，gateA=5，gateB=2；A-only/B-only false，A+B true）。
+- 负样本回归：旧 `dual_gate_vs_tri_root_review1` 中 tri baseline raw=true 但 root=false，原因 `triConvergentBackboneDominates`；旧 dual-lite proof root=false，原因 `gateAHasNoUpstreamControl`；`CausalMotifEmbeddingV1ReviewPool1` 5/5 root=false。
+- 当前判断：review5 是 strict dual-gate low-coverage/root proof；下一步可以基于该 gate 做 dual_gate 生成/补肉，不能再只靠视觉或 raw blocker 判新 root。
+
+## Strict Dual Gate Temporal Independence Review - 2026-06-23
+
+- 已通过 Rosetta/GPT 在指定“高难关卡设计建议”对话复审 strict dual-gate gate。GPT 认可 RAW/STRICT 双层定义，但指出 `branchMax/fanoutMax` 是结构 proxy，长期可能误杀高 fanout 的真 dual_gate；建议补 `temporal non-interference`。
+- 已在 `Build-SGPRhythmTrace.ps1` 增加 temporal independence 字段：`strictDualGateAInfluencesB`、`strictDualGateBInfluencesA`；如果清 A-side ancestry 会让 B gate 可用，或清 B-side ancestry 会让 A gate 可用，则 strict gate 失败。
+- 回归结果：`dual_gate_joint_core_root_v1_review5` 仍为 `strictDualGateCandidate=True`，且 `AInfluencesB=False`、`BInfluencesA=False`、A-only/B-only false、A+B true。
+- 负样本保持稳定：旧 tri baseline raw=true 但 strict=false，原因 `triConvergentBackboneDominates`；旧 dual-lite / review pool 多数 raw=false，原因 `aPlusBDoesNotOpenCore`。
+- 当前工程取舍：V1 继续保留 `triConvergentBackboneDominates` 作为 conservative hard reject，因为本地人工负样本需要它挡旧 root；同时记录风险，后续若出现高 fanout 真 dual_gate，再把 branch/fanout hard reject 降级为 soft risk，并改用更强 temporal/causal independence gate。
+
+## Strict Dual Gate Backbone Integration - 2026-06-23
+
+- 已把 `strictDualGateCandidate=True` 接入 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-CausalBackboneSignatureV1.ps1`。
+- 新 backbone 分类：`strict_dual_gate_shared_core||dual_gate_joint_core||...||dualGate|twoNecessaryGates|temporalIndependent|sharedCore`。
+- 验证：`dual_gate_joint_core_root_v1_review5` 现在输出 causalBackboneHash=`57ae9ef455`，class=`strict_dual_gate_shared_core`，不再被误标为 `no_causal_backbone`。
+- 对照：旧 tri baseline 仍为 `cross_region_convergent_support_lock`，raw dual=true 但 strict=false；旧 dual-lite proof 仍为 `serial_support_lock`，strict=false。
+- 当前可用结论：strict dual-gate 已进入 trace gate + backbone identity 两层；下一步可以基于 `strictDualGateCandidate=True` / backbone class 做 dual_gate 专用补肉或 review pack，不再靠视觉/局部差异判断 root。
+
+## Strict Dual Gate Identity-Preserving Fill Smoke3 - 2026-06-23
+
+- 已将 `RequireStrictDualGate` 接入 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-HardLockSlotDirectedBatchFillV1.ps1`：batch/final gate 要求 `strictDualGateCandidate=True`，并跳过 supportClosure 作为 hard requirement，因为 strict dual 是 shared-core 双 gate motif，不是 support-lock closure motif。
+- Strict dual fill 专用调整：`RequireStrictDualGate` 时放宽 pressure-only group ratio；难度由 strict dual identity gate、choice/max/outer/local/follow trace gate 共同把关。普通 hard-lock/support-lock 产线不受影响。
+- 实测 `dual_gate_strict_fill_smoke3_target012` 从 `dual_gate_joint_core_root_v1_review5` 父本连续接受 6 轮，coverage `0.060 -> 0.1373`、chains `11 -> 19`，最终 trace `solved=True/processTier=A/strictDualGateCandidate=True/raw=True`，gates 仍为 `5+2->6`，`AInfluencesB=False/BInfluencesA=False`，avg/max `4.95/7`，anti `0.846`，outerExitHead `0`，localPatch `1`，dependencyFollow `3`。
+- 已冻结并挂 Demo：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_DualGateStrictFillSmoke3Pack.asset`，guid=`b33f27370e7045b8b584c9b00c3249a6`；Demo activePack 已指向该包。
+- Frozen retrace：`dual_gate_strict_fill_smoke3_frozen_retrace2_metrics.csv`，1/1 passed strict dual gate。该包是 single-root proof/review，不是多关量产包。
+- 下一步：用户肉眼判断 strict dual fill 是否体感区别明显；若认可，扩 seed/父本与 fill target；若仍像旧 root，应继续改 dual shared-core spatial realization，而不是放宽 strict gate。
+
+## Trace Placement Probe V1 - 2026-06-23
+
+- 已按 GPT/用户审稿结论新增独立诊断工具 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-TracePlacementProbeV1.ps1`；定位是“反向调用 board trace 的可放箭头/填肉分类器”，不改 `Build-SGPRhythmTrace.ps1` 真相层，也不直接进入 production fill。
+- 工具从已验证父本出发，只枚举结构敏感区附近的短 micro-chain：核心 escapeRay corridor、ray hit junction、dependency node boundary、occupied boundary；每个候选临时插入后统一跑 board-level trace，并分类为 `SafePressure/SafeNeutral/TooEasy/MotifBroken/Deadlock`。
+- 分类原则：`Deadlock` = trace 不可解但 support-lock/strict-dual motif 指标仍保留；`MotifBroken` = support-lock/strict-dual motif 掉线或分数明显下降；`TooEasy` = solved 但 openers/avg/max/outer pressure 增加或形成独立 filler；`Safe*` = solved 且 motif/choice 稳定。
+- smoke：`trace_placement_probe_v1_smoke5` 对当前 0.398 proof 父本跑 5 个 probe，结果 `SafeNeutral=3`、`Deadlock=2`；说明 0.40 后不是“放不上”，而是同一敏感区域中既有安全中性补位，也有会中盘卡死的插法。
+- 追加小批诊断：`trace_placement_probe_v1_t40_top12` 跑 12 个 probe，结果 `SafeNeutral=4`、`Deadlock=5`、`TooEasy=3`，未发现 `SafePressure`；Safe 候选只把 coverage 小步推到约 `0.402-0.404`，Deadlock 多为“不可解但 motif 指标保留”，TooEasy 多为新增 opener。当前判断：该 0.398 父本还有少量安全视觉补位，但缺少能继续压选择/承压的安全压力区，直接冲 0.45 需要更强父本或改候选策略。
+- 性能注意：20 probe full trace 超过 3 分钟；V1 后续要用于 0.40->0.45 时应先做 top-K 候选收缩和小批 trace，不要全图全量扫。
+
+## Ray Constraint Map V1 - 2026-06-23
+
+- 已按用户/GPT 复核新增独立诊断工具 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RayConstraintMapV1.ps1`；定位是“trace 后的空间语义解释层”，不替代 fill/probe/trace。
+- 工具输入已验证父本，重跑 board trace 后输出：每个 cell 的 `primaryRole`、`canBeHead`、`canBeBodyBlocker`、`activeRayPassCount`、`criticalRayPassCount`、`wouldBlockChains`、`wouldReplaceBlockers`、head anchored/direct-outer 方向、timing/too-easy risk 和 fillPriority；同时输出 active dependency ray edges 与 ASCII role grid。
+- 默认 0.398 proof 父本输出：`ray_constraint_map_v1_t40_cells.csv`、`ray_constraint_map_v1_t40_edges.csv`、`ray_constraint_map_v1_t40_summary.md`、`ray_constraint_map_v1_t40_role_grid.txt`。
+- 关键诊断：coverage `0.3982843`、chains `48`、critical chains `23`、active dependency edges `43`、direct-exit rays `5`；空格角色中 `CriticalTimingZone=136`、`SafeFillZone=48`、`GuardSlot=2`、`BodyOnlyRayBlocker=6`、`HeadAllowed=231`、`HighRiskFreeHead=68`。
+- 当前解释：0.30 不是上限，而是从稳定 skeleton 进入 ray-causal sensitive fill 的临界点；0.30->0.40 主要吃掉 safe region，0.40+ 剩余空间大量落在 critical timing / free-head risk 区。当前父本本身不坏，但若要继续到 0.45，需要按 RayConstraintMap 做 timed blocker/guard/body/head 角色分配，而不是继续无语义补空格。
+
+## Ray Constraint Guided Fill V1 - 2026-06-23
+
+- 已新增 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RayConstraintGuidedFillV1.ps1`，读取 RayConstraintMap 的 cell role，只在 `SafeFillZone/HeadAllowed/GuardSlot/BodyOnlyRayBlocker` 等语义区域生成短链，并用 board-level trace 作最终 gate；同时修复 `Build-RayConstraintMapV1.ps1` 和 GuidedFill 输入在无 `rank` 字段时排序不稳定的问题，改为保持输入顺序。
+- 实验链路：从 0.398 proof 父本开始，按“重算 ray map -> 小步补 1-2 条链 -> trace 回收 -> 选稳定样本继续”的方式连续推进：`0.398 -> 0.409 -> 0.419 -> 0.429 -> 0.436 -> 0.441`。
+- 关键通过样本：`ray_constraint_guided_fill_v1_step440_c01_exact_to442_onechain_b01_c15`，coverage `0.4411765`、chains `57`、`solved=True/processTier=A/TrueHardCandidate`、hardScore `0.724`、antiLocal `0.654`、supportClosure `0.969/d3`、avg/max choices `4.05/8`、localPatch `2`、dependencyFollow `3`。
+- 失败边界：0.436 父本直接 2-chain 冲 0.45 时 `0/20`，全部 `unsolved`；改为 1-chain 冲 0.442 时 `1/24` 通过。结论是 0.436+ 已进入极窄安全窗口，不能再靠普通随机 batch；下一刀应做“paired compensation / unlocker-aware fill”，即新增链 A 若打断或放松路径，必须同时生成 guard/unlocker B 做因果补偿。
+- 当前生产判断：已验证 root 产线可以突破 0.40 并保持难度，短期最好 proof 到 0.441；但要继续往完整高覆盖推进，需要把 RayConstraintMap 从单链放置器升级为批量因果补偿编译器，而不是继续扩大候选数。
+
+## Ray Saturation Fill Hypothesis - 2026-06-24
+
+- 用户提出并需要优先复核的核心假设：当前 0.40+ 骨架已经由既有箭头的 escape rays 形成一张 ray dependency 网；剩余空格不再是“自由空地”，而大多会落在某条已有逃逸射线、critical timing zone 或潜在 blocker 位置上。若该假设成立，后续补链本质不是几何填空，而是对现有 ray dependency graph 做增量改写。
+- 必须先区分两个命题：`A. 剩余空格大多被已有 escape rays 覆盖` 与 `B. 任意新链都会成为有意义 blocker 且不会降难度`。A 可能成立；B 不自动成立，因为新链可能成为 early free head、替换掉更强/更晚的 first-hit、短路解锁顺序、制造外口入口，或直接造成不可解。
+- 新链的正确判定应基于 dependency delta，而不是单链数量：若新链 C 被某些现有链的 escape ray 命中，则新增 blocker 边 `C -> target`；同时 C 自身的 escape ray 也必须被已有结构或配套 unlocker/guard 控制，否则 C 会变成自由入口。`firstHit` 改变不是天然错误；只有当新 firstHit 的可达时间、依赖深度和 trace 顺序破坏主 motif 时才是错误。
+- 下一步应先做 `Ray Saturation Audit`：统计剩余空格中 active/critical ray 覆盖率、direct outer head 风险、body-only/guard/head-allowed 比例、以及插入单格/短链后新增 blocker 边、替换 first-hit 边和新链自身被 blocker 控制的比例。该审计用于验证“骨架是否已覆盖所有逃逸路线”这个前提。
+- 若审计确认剩余空间已高度 ray-saturated，生产填肉应升级为 `RayFieldFillPlannerV2`：先选择要新增/替换的 blocker 关系，再反推链头方向、链身路径和必要 unlocker/guard，最后由 board trace gate 验证 coverage、solved 和 difficulty；不能再把 `GuidedFillV1` 的随机短链当主线。
+
+## Ray First Blocker Fill V1 - 2026-06-24
+
+- 已通过 Rosetta/GPT 反问确认：`direct/free head` 不是硬拒绝条件，只是风险信号；关键是新链是否阻挡现有 active/critical ray、是否进入 trace-visible dependency、以及 trace delta 是否保持 solved/choice/local/follow/motif 稳定。
+- 新增实验脚本 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RayFirstBlockerFillV1.ps1`：读取 RayConstraintMap 的 cell role 和 edge csv 的 `rayCellsBeforeHit`，先选择要阻挡的 target ray，再选 blocker cell，并从 blocker cell 反推新增短链的 head/body；最终仍只信 `Build-SGPRhythmTrace.ps1`。
+- 首轮发现脚本 bug：未显式允许 `AllowCriticalTiming` 时仍会选 `CriticalTimingZone` 作为 anchor；已修正 anchor gate，使 Guard/BodyOnly/Critical 均遵守显式开关。
+- 干净无 critical 对照：`ray_first_blocker_fill_v1_step442_c15_to448_nocritical`，20/20 trace 完成但 0 accepted，20 个全部 unsolved，且候选高度集中在同一 body-only target ray，说明 0.44+ 单纯安全格 blocker 过窄且容易被单 anchor 吸附。
+- 显式允许 critical timing 的严格 proof：`ray_first_blocker_fill_v1_step442_c15_to448_strict_critical` 从最高 proof 父本 `coverage=0.4411765` 接受 1/20；accepted 为 `ray_first_blocker_fill_v1_step442_c15_to448_strict_critical_b01_c17`，coverage `0.4448529`、chains `58`、solved/A、HardPotential、antiLocal `0.611`、supportClosure `0.969/d3`、avg/max `3.62/7`、localPatch `2`、dependencyFollow `3`、outer dynamic pressure <=1。
+- 该 accepted 新链为 `430;406;405`，meta=`target=22;oldHit=16;blocker=430;role=CriticalTimingZone;dir=sameRay`。结论：critical/free-like 插入不是天然降难；只要作为 ray-first blocker 且 trace delta 稳定，可以继续小步提高 coverage。
+- 当前局限：20 个候选只有 1 个严格通过，18 个 unsolved、1 个 local patch，说明 0.44+ 已是极窄窗口；下一步应做 anchor 多样性、trace-parent participation 检查，以及必要时的 paired compensation，而不是扩大随机预算。
+
+## Ray First Blocker Balanced Anchor V2 - 2026-06-24
+
+- 已按 GPT 二审结论确认当前瓶颈是 `single-ray selection collapse`，不是 ray-first 思路错误；V2 最小修正是在 `Build-RayFirstBlockerFillV1.ps1` 加 `MaxAnchorsPerTargetRay` 和 `MaxAnchorPool`，每条 target ray 最多取少量 high-priority anchors，再做候选采样。
+- V2 对同一 0.441 父本的候选分布从“几乎单 target ray”变为 `25` 个 target ray；严格 gate 小批 `ray_first_blocker_fill_v2_balanced16_step442_c15_to448` 16 候选 4 accepted，accepted targets 包括 `37/51/18` 等，证明均衡 anchor 显著提高 accepted rate。
+- 已连续迭代单链 V2，并每步重算 RayConstraintMap：`0.4411765 -> 0.4460784 -> 0.4522059 -> 0.4571078 -> 0.4620098`。各步均保持 `solved=True/processTier=A`、support-lock `d3/d4`、localPatch `<=3`、dependencyFollow `<=4`、动态外口 pressure <=1。
+- 当前最高样本：`ray_first_blocker_fill_v2_balanced16_c09_to463_b01_c16`，coverage `0.4620098`、avg/max `2.9/5`、antiLocal `0.571`、supportClosure `0.969/d4`、localPatch `3`、dependencyFollow `4`，新增链 `509;508;507;531`，meta=`target=50;oldHit=59;blocker=509;role=CriticalTimingZone;dir=sameRay`。
+- 关键结论：`CriticalTimingZone` 应作为 timed blocker actuator 精确使用，而非禁区；balanced ray-first blocker 可以稳定越过 0.45 并保持可解/难度。但最高样本 avgChoices 已降到约 `2.9`，下一阶段需防止过度压缩成单一路径，同时解决大量 rejected 仍为 `unsolved` 的问题。
+- 下一步建议：继续 single-chain V2 到约 `0.48-0.50` 做短程稳定性验证，同时加入 `choice lower band` / `trace-parent participation` / `ray target cooldown`；若 accepted rate 再次塌陷或 avgChoices 低于目标带，应进入 `limited paired compensation`，而不是直接全局 region fill。
+
+## Ray First Iterative Runner and New Boundary - 2026-06-24
+
+- 新增自动 wrapper `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-RayFirstBlockerIterativeFillV1.ps1`：每轮 `selected parent -> Build-RayConstraintMapV1 -> Build-RayFirstBlockerFillV1 balanced-anchor -> trace gate -> 按 avg 下限/coverage/traceScore 选下一父本`。
+- smoke 从 avg 较稳的 `ray_first_blocker_fill_v2_balanced16_c09_to463_b01_c09`（coverage `0.4607843`、avg/max `3.03/6`）出发，自动推进到 `ray_first_blocker_iterative_v1_from0460_to0478_smoke_r01_fill_to467_b01_c05`，coverage `0.4669118`、avg/max `3.05/6`、support `0.97/d4`、localPatch `3`、dependencyFollow `3`。
+- 下一轮目标 `0.4729` 时 `12/12` 候选均 trace 完成但 `0 accepted`，失败全部为 `unsolved`；失败候选的 avg/max 不一定坏（例如 `3.39/6`），说明瓶颈不是变简单，而是 causal reachability 被新增 C 链切断。
+- `0.4669` 父本 map 显示：GuardSlot=`0`、BodyOnlyRayBlocker=`12`、CriticalTimingZone=`140`、HeadAllowed=`163`、SafeFill=`56`、HighRiskFreeHead=`64`。系统已进入“无 guard buffer 的 critical timing 层”，继续 blind single-chain 会高概率堵死。
+- 已再次咨询 GPT/Pro：建议不要立刻写 full paired generator，而先做 `dependency-loss diagnostic`。下一刀应比较 C 插入前后 trace/dependency，定位 `lost_dependency_edges`、`first_unreachable_target`、`motif_break_point`，再从这些断点抽取 D repair anchor；D 的职责是恢复原 causal graph continuity，而不是随机控制 C escape 或做 cosmetic fill。
+- 当前判断：目标 0.95+ 仍未达成，但 single-chain balanced ray-first 已证明可把一个父本类从 `0.441` 自动/半自动推到 `0.467` 并保持难度；要继续 0.48+，必须进入“C-break 诊断 -> D repair anchor extraction -> C+D minimal causal repair loop”。
+
+## Ray First Loss Diagnostic and Old-Path Equivalence Probe - 2026-06-24
+
+- 新增/修复 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RayFirstBlockerLossDiagnosticV1.ps1`，用于比较 C 插入前后的 active dependency edges，并输出 `targetRetargetedToNew/newBlockOwners/changedCriticalOwners/directCutOwners/repairDescriptors/likelyFailureClass`。
+- 对 `ray_first_blocker_iterative_v1_from0460_to0478_smoke_r02_fill_to473` 的 12 个失败 C 候选做诊断：`11/12 direct_dependency_cut`、`1/12 unclassified_unsolved`；`12/12 targetRetargetedToNew=True`，说明 C 都成功成为目标链新 blocker，但依赖时序被改写后不可解。
+- 重要反例：这些 C 自己并非 direct/free exit；post map 显示新增 owner `62` 都有 firstHit（被现有链挡住）。因此失败不是“C 没被堵住”，而是 C 把 target 改接到错误 causal basin 或压扁 oldHit 的等价时序。
+- 进一步检查：12 个失败 C 的 `C.firstHitOwner` 全部不在对应 target 的 `oldHit -> ancestors` 旧依赖路径中。例如 target `2` 的旧路径为 `60->58->16->3`，失败 C 却接到 `28` basin。结论：0.46+ 的 C 生成必须加入 `old-path equivalence`，不能只看“C 能否被某链挡住”。
+- 已在 `Build-RayFirstBlockerFillV1.ps1` 加 opt-in `-RequireCandidateHitOldPath`，并输出 `selfHit/oldPath/selfHitOldPath` 到 `addedMeta`；默认不开启，不影响旧产线。另加 `TargetOwnerFilter` 与单格 ray 方向推断，支持 C timing repair/诊断。
+- 负结果：只对失败 C 的 owner `62` 做 D timing repair（D 阻挡 `C.escapeRay -> C.firstHit` transition）时，`24/24` 仍 `solved=False/Drop`；说明“只延迟 C”不能恢复旧因果等价。
+- 正结果：回到 `0.4669` 父本，在 C 生成阶段启用 `-RequireCandidateHitOldPath` 后，24 个候选中出现 1 个 solved/A 样本：`ray_first_blocker_oldpath_v1_r02_to473_relaxedlocal_smoke24_b01_c06`，coverage `0.4705882`、avg/max `2.57/5`、supportDepth `3`、dependencyFollow `3`、outer dynamic pressure `1`；但 `localPatchSolveRunMax=4`、hardStructureV3Score `0.29`，只能算方向 proof，不是 production hard。
+- 当前下一步：把 `old-path equivalence` 从 hard bool 升级为排序/生成目标，优先选择 `selfHit` 落在 oldPath 中段而不是过早 root，并加入 localPatch 防退化；不要把 0.4706 relaxed-local 样本当最终关卡。
+
+## Ray-Field Basin-Aware Fill Proof - 2026-06-24
+
+- 已按用户反驳和 GPT 二审在 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RayFirstBlockerFillV1.ps1` 增加 `-EmitDebtCounterfactuals`、`-AllowDebtFreeHeadCandidate`、`-RejectWrongBasinCandidate`。
+- Counterfactual 证明：`FreeHeadDebt` 不是硬坏信号。`ray_debt_repair_probe_v1_step488_freec_smoke12_b01_c09_cOnly` 为 free-head C-only，却 `solved=True/A`、coverage `0.4901961`、avg/max `2.5/5`、anti `0.508`、support `0.845/d3`。同 C 加 D 后反而 `solved=False/support=0`。
+- Clean blocker pair 仍是当前稳定增长源：`ray_debt_repair_probe_v1_step488_freec_smoke12_b01_c11` 从 `0.4877451 -> 0.4926471`，avg/max `2.59/5`、anti `0.523`、support `0.848/d3`、local/follow `3/3`。
+- 第二轮 clean pair 推到 `ray_debt_repair_probe_v1_step493_to500_freec_smoke16_b01_c05`，coverage `0.4987745`、avg/max `2.62/5`、anti `0.507`、support `0.858/d3`、local/follow `3/3`。
+- 直接两链冲 `0.505` 失败：solved rows 多为 anti/support/local/follow 退化，WrongBasin C+D 仍多为 unsolved。GPT 复审后结论是 0.50+ 瓶颈为 bad causal basin，而不是通用 D repair。
+- Basin-aware 单链批 `ray_basin_aware_fill_v1_step499_to502_single_smoke24` 经手动 trace gate 选出 4 个合格样本，当前最佳 `..._b01_c06`：coverage `0.502451`、solved/A、avg/max `2.44/5`、anti `0.500`、support `0.858/d3`、local/follow `3/3`、动态外口 pressure `1`。
+- 当前最高已验证父本 CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/ray_basin_aware_fill_v1_step502_base_abs.csv`。下一步应从该父本重算 RayConstraintMap，使用 basin history/cooldown + single micro-slot 继续推进，不要再强制 D repair。
+
+## Ray-Field Boundary Cascade and 0.508 Internal Growth - 2026-06-24
+
+- 已新增并运行 `Build-OuterPressureGuardProbeV1.ps1`，专门验证 0.502 父本的 target64/owner72 外口债：D 必须占住 owner72 的 direct ray cell 408，并枚举包含 408 的短链。
+- 结果：3 个合法 D 中 2 个无解（D 自己被 owner12 挡住后 support closure 掉到 0/d1），1 个可解但不达标：`ray_outer_pressure_guard_v1_target64_owner72_body408_probe_c03` coverage `0.5085784`、solved/A、avg/max `2.36/5`、support `0.858/d3`，但 `dependencyFollowRunMax=7`、`outerExitHeadCount=2`。post map 证明 `72 -> 73` 成立，但新 D(owner73) 变成沿边界长 direct-exit ray。
+- 结论：target64 是 valid basin 但会生成 boundary cascade，不应进入正式父本池；不要继续 perimeter shell guard，除非先有 boundary-cascade depth/path gate。
+- 回到 0.502 父本，排除 target64 与旧退化 target8 后，非边界内部 C 小片前 16 个中 2 个通过正式 gate。当前最高新父本：`ray_basin_aware_fill_v1_step502_to506_nonboundary_smoke64_b01_c01`，coverage `0.5085784`、solved/A、avg/max `2.53/5`、anti `0.500`、support `0.858/d3`、local/follow `3/3`、动态外口 pressure `1`。已固化为 `ray_basin_aware_fill_v1_step509_base_abs.csv` 并生成 `ray_basin_aware_fill_v1_step509_map_*`。
+- 从 0.508 再冲 0.513 的 24 个非边界候选 0 通过：22 unsolved、2 anti-local/follow 退化。说明 0.508 后又进入 internal critical timing 边界；下一步应降低步长、加入 target cooldown/shorter path bias，并对失败 C 做 loss diagnostic，而不是扩大随机候选或追 boundary cascade。
+
+## Strict Dual Gate Joint-Core Variant V2 Fill Review - 2026-06-23
+
+- 已在 `Build-RootTopologyTemplateGeneratorV1.ps1` 增加 strict dual shared-core 的 4 个空间实现变体：base / vertical / right / down；它们仍属于同一 root family（`strict_dual_gate_shared_core`），用途是验证同一 strict dual motif 的空间变体体感，不是证明新 root 物种。
+- source `dual_gate_joint_core_variant_v2` 4/4 通过 strict dual source trace；随后用 `Build-HardLockSlotDirectedBatchFillV1.ps1 -RequireStrictDualGate` 生成 4 个 filled finals，coverage `0.1115-0.1275`，avgChoices `3.71-4.94`，maxChoices `6-7`，antiLocal `0.769-0.909`。
+- 已冻结并挂 Demo：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_DualGateJointCoreVariantV2FillReviewPack.asset`，guid=`a033c607578648f9a3330af450abde68`；Demo activePack 已指向该包。
+- Frozen retrace：`dual_gate_joint_core_variant_v2_fill_review_frozen_trace_metrics.csv`，4/4 `solved=True/processTier=A/strictDualGateCandidate=True/raw=True`；gate core 固定为 `6`，gateA=`5`，gateB=`2`，gate distance `5/6/9/9`，localPatch `1-2`，dependencyFollow `1-3`。
+- 用户肉眼反馈：这组和旧 root 有明显不同，且 4 个 strict dual 变体“不算太同质化”。结论：`strict_dual_gate_shared_core` 可升级为已认可的第二 root family。
+- 下一步：把 strict dual shared-core 纳入生产路径，优先做 coverage/肉感扩张与 8-12 关 review pack；继续保持 `strictDualGateCandidate=True` 作为身份 gate，不用再证明它是不是新 root。
+
+
+## Strict Dual Gate Production-Style Expansion T018 - 2026-06-23
+
+- GPT/Pro reviewed next step after user accepted `strict_dual_gate_shared_core` as second root family. Consensus: do not jump to `0.25+`; first expand strict dual density into `0.16-0.21` identity-preserving zone and produce 8-12 review levels.
+- Ran two strict-dual fill batches from `dual_gate_joint_core_variant_v2_fill_target012_final_selected.csv` using `Build-HardLockSlotDirectedBatchFillV1.ps1 -RequireStrictDualGate`, target coverage `0.18`, seeds `966410` and `966411`.
+- Merged 8 exact-hash-unique finals into `dual_gate_joint_core_variant_v2_fill_target018_review8_selected.csv`; coverage `0.1801-0.1961`, avgChoices `3.50-4.42`, maxChoices `6-7`, antiLocal `0.75-0.95`.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_DualGateJointCoreVariantV2FillReview8T018Pack.asset`, guid=`c1687786dc944d18bb719a04b489fb13`.
+- Frozen retrace: `dual_gate_joint_core_variant_v2_fill_review8_t018_frozen_trace_metrics.csv`, 8/8 `solved=True/processTier=A/strictDualGateCandidate=True/raw=True`; `AOnly=False/BOnly=False/APlusB=True`, `AInfluencesB=False/BInfluencesA=False`, localPatch `1-2`, dependencyFollow `2-4`, outerExitHead `0`, TrueHardCandidate `8/8`.
+- Next user review: judge whether T018 density feels like fuller dual-gate levels and whether 8 levels still feel diverse enough. If accepted, next production step is either broaden seeds/variants at T018 or cautiously probe T021, not 0.25+.
+
+## Strict Dual Gate T030 Proof Pack - 2026-06-24
+
+- Root expansion line checkpoint: `strict_dual_gate_shared_core` has a frozen 0.30 proof pack and is no longer only a low-density root prototype.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_DualGateJointCoreVariantV2FillProof2T030Pack.asset`, guid=`6c8fdbedca9d4c56a4893b67b194c1d9`.
+- Source selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/dual_gate_joint_core_variant_v2_fill_target030_proof2_selected.csv`; selected coverage values `0.3015` and `0.3039`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/dual_gate_joint_core_variant_v2_fill_proof2_t030_frozen_trace_metrics.csv`; 2/2 `solved=True/processTier=A/strictDualGateCandidate=True/raw=True`, A-only/B-only false, A+B true, A/B temporal interference false/false, outerExitHead=0.
+- Next root-family task: pursue `web_crossover` as third causal root candidate. Do not spend this lane on full high coverage; another thread owns that work.
+
+## Path-Aware 0.512 Review Pack - 2026-06-24
+
+- GPT challenged the ray-saturation hypothesis: ray coverage is only geometry saturation; 0.50+ fill must track path/motif impact, not just whether a new chain has free/direct head risk.
+- Added diagnostic script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-PathAwarePlacementProbeV1.ps1`. It merges candidate trace metrics with pre/post ray-edge rewrites and classifies placements as `ClosedHardFill`, `ClosedDebtFill`, `MotifBroken`, `PathDisconnected`, `Linearized`, `BoundaryCascade`, etc.
+- Applied it to the 0.508 parent cooldown-short batch. First 12 candidates split into `ClosedDebtFill=5`, `ClosedHardFill=3`, `MotifBroken=4`. The failure cases are explained by direct cuts of critical owners such as `17/40/44`, not by generic free-head status.
+- Selected the strongest inspectable 0.512 sample `ray_basin_aware_fill_v1_step509_to511_cooldown_short_smoke24_b01_c03`: coverage `0.5122549`, `solved=True/A`, avg/max `2.54/6`, antiLocal `0.515`, support `0.858/d3`, local/follow `3/4`, dynamic outer pressure `1`.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_PathAwareStep512C03ReviewPack.asset`, guid=`763823fa3f75436d9caf80a7d54b991f`; Demo activePack now points to this pack.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/path_aware_step512_c03_review_frozen_trace_metrics.csv`; 1/1 `solved=True/processTier=A`.
+- Next validated-root expansion task after user review: use path-aware placement class as the next gate, not raw single-chain `ray-first` acceptance. Continue from the 0.512 map `path_aware_probe_v1_step512_c03_map_*` and avoid candidates that directly cut critical owners unless the batch closes the debt in trace.
+
+## Web Crossover Root Proof V1 - 2026-06-24
+
+- Root expansion line checkpoint: third causal root candidate `web_crossover` now has a frozen proof pack near `0.30` coverage.
+- Added classifier script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-WebCrossoverRootClassifierV1.ps1`; it treats web as trace-visible multiple independent causal closures, not visual/layout web.
+- GPT-reviewed web V1 gate: `>=2` independent causal hubs/closures, no strict dual masquerade, no single-hub tri collapse, cross-region trace flow, solved/A-or-S, localPatch<=3, dependencyFollow<=4.
+- Source pool: current trace of `species_web_four_fill_v2_cov28_b01_r1_candidates.csv` yielded 6 web-pass parents. Directed fill pushed 5 finals to coverage `0.288-0.2978`; last push toward `0.303` found no acceptable filler.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_WebCrossoverV1RootProofT030Pack.asset`, guid=`8e92cc9a9d504068ae1c4893760dacb7`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/web_crossover_v1_root_proof_t030_frozen_trace_metrics.csv`; 5/5 traced with missing/failed=0.
+- Frozen web gate: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/web_crossover_v1_root_proof_t030_frozen_webgate_web_roots.csv`; 5/5 `webCrossoverCandidate=True`, independent causal hubs `2-3`, qualified hubs `3-4`, supportDepth=4, fanout=3-4.
+- Next: ask GPT whether to attempt `hub_spoke` next or define another root primitive; do not dilute this lane into high-coverage work.
+
+## Ray-Constrained Cavity Fill Smoke - 2026-06-24
+
+- GPT/Pro 审稿确认：0.51+ validated-root 扩张应从 `ray-first patch` 切到 `ray-constrained cavity generation`；ray-first 只保留为物理约束/解释层，不再作为主生成器。
+- 新增实验脚本 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RayConstrainedCavityFillV1.ps1`：从 0.512 父本的中心空洞出发，在局部 ray-interference field 内生成 SGP-style 弯链候选，再交给 board trace 与 path-aware probe。
+- 单链 smoke：20 个候选中 9 个 solved/A，5 个满足 strict-safe（supportDepth>=3、local<=3、follow<=4），path-aware good5 全部为 `SoftDebtNoRetarget`；安全候选覆盖仅到 `0.5159-0.5172`。
+- 两链/三链 batch smoke：分别 20/20 和 20/20 全部无解；三链可到 `0.5257-0.5331` coverage 但大面积 support/motif collapse。
+- 当前结论：方向可行，但必须“单链或逐步 trace-settled micro-fill”；不能把多个中心空洞链同时写入。下一步应选择 strict-safe 单链作为下一父本、重算 RayConstraintMap 后迭代，或做基于 post-map debt 的真正 pair fill。
+- 用户纠偏后已调整 path-aware 分类：`dependencyFollowRun/localPatch` 不再是一超线就硬拒绝。部分顺消可作为 `SoftLinearizedDebt` 次选继续参与排序；只有极端传送带（如 followRun≈10 或低选择长跑）才标 `ConveyorCollapse` 硬拒绝。
+- 重新分类 0.512 单链 solved9：`SoftDebtNoRetarget=5`、`SoftLinearizedDebt=2`、`MotifWeakened=1`、`ConveyorCollapse=1`。其中 c18（follow=5/supportDepth=4）和 c10（follow=6/supportDepth=3）可作为次选，不应被早期 hard gate 卡掉。
+
+## Bare SGP Fill Probe From 0.512 - 2026-06-24
+
+- 用户纠偏：先用当前 SGP 裸跑，看补肉生成能力本身，不要一开始用 hard/path-aware/顺消 gate 卡住；再逐层加约束。
+- 已给 `Build-ValidatedRootBackgroundSGPFillV1.ps1` 增加 opt-in `-AcceptAllTraceRows`，仅用于裸跑实验；默认不影响正式 gate。
+- 0.512 父本上三档结果：
+  - `ProtectedChainCount=14`，即原核心保护强：只能新增 1 条链，coverage 到 `0.517-0.520`，说明保护太强时 SGP 候选空间极窄。
+  - `ProtectedChainCount=0`，完全裸跑：能直接补到 `0.593-0.600`、新增 9-11 链，但 8/8 无解且 supportDepth 多为 0，说明纯几何 SGP 有填满能力但会破坏因果结构。
+  - `ProtectedChainCount=12`，中等保护：能补到 `0.546-0.549`、新增 5 链，choice/anti 不爆且部分 supportDepth=4，但 4/4 无解；path-aware 分类为 `PathDisconnected=2`、`MotifBroken=1`、`BoundaryCascade=1`，关键改写集中在 critical owners `15/16/17/51`。
+- 当前思路 checkpoint：0.51 后真正矛盾不是“SGP能不能填”，而是“哪些核心 ray/owner 需要保护，哪些区域可裸填”。下一步应先整理分层约束顺序，再决定是否继续实验。
+- 结论报告：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/ray_constrained_cavity_fill_v1_step512_smoke_conclusion.md`。
+
+## Naked Background SGP Baseline From 0.30 - 2026-06-24
+
+- 用户提出：从 0.30 初始父本出发，在“不约束”的情况下先让 SGP 裸跑，确认几何补满基线是否存在，再逐层加约束。
+- 使用 `hardlock_030_dynamic_outer_gate5_selected.csv` 第 1 个父本，`ProtectedChainCount=0`、`AvoidCoreRay=false`、`RequireExistingBlocker=false`、`AcceptAllTraceRows`。
+- 分轮裸跑：第一轮从 coverage `0.3076` 冲到约 `0.5135`，第二轮冲到约 `0.7194`；trace 全部 `solved=False/Drop`，support closure 直接掉到 `0/d0`，说明裸 SGP 几何能快速补肉，但会立刻破坏可解因果骨架。
+- 从 `0.7194` 候选继续裸跑只到约 `0.7365` 后无候选；一轮直冲 `0.95` 最高也只到 `0.7488`。当前 `Build-ValidatedRootBackgroundSGPFillV1` 是短折线/random-walk 背景填肉器，不是完整铺满式 SGP；碎空洞后会自然停在约 `0.74-0.75`。
+- 关键产物：`validatedroot_sgp_naked_from030_to095_smoke1_*`、`validatedroot_sgp_naked_from072_to095_smoke1_*`、`validatedroot_sgp_naked_from030_to095_oneshot_smoke1_*`。
+- 当前判断：0.30 后的基线不是“SGP 能直接补满且保持难度”，而是“SGP 有强几何补肉能力，但需要 critical owner/ray 级保护和更完整的空洞填充策略”。下一步不应每步硬卡 avgChoices；应把选择曲线作为包络/软债，同时先保护会导致 support/motif 断裂的少量 critical owner，再让 SGP 在剩余空间填肉。
+
+## Seeded Direct-SGP + Micro-Fill Baseline From 0.30 - 2026-06-24
+
+- 用户纠正：`Build-ValidatedRootBackgroundSGPFillV1` 不是原始 SGP，不能用它的 `0.74-0.75` 上限否定 SGP 满铺能力；必须先验证真正 SGP 类规则在 0.30 父本上能否无约束接近满覆盖。
+- 新增实验脚本 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`：把 package `DirectRectangleArrowLevelGenerator` 的 layer-head/inward-growth/family scoring/remaining heads 思路改造成 seeded fill baseline；可选 `-EnableMicroFill` 对应项目原有 seed/mask patch 里的 shape-heal/micro-fill 补碎空洞层。
+- 修正重要 bug：最初 `Write-LevelAsset` 查找 `paths:` 字段，实际 LevelDefinition 使用 `authoredLevel.arrows:`，导致旧 `seeded_direct_sgp_micro_from030_to095_sweep_smoke4` 只改了 `arrowCoverage` 元数据，资产仍只有 37 链/251 格/真实 coverage `0.3076`。旧 review pack `SGPRhythmLab_SeededDirectSGPMicroFrom030To095SweepReview4Pack.asset` 不可再作为 0.95 证据。
+- 修复脚本后重新生成 `seeded_direct_sgp_micro_from030_to095_sweep_fix1_smoke4`：4 个候选真实 coverage `0.9436-0.9510`、链条数 `141-157`、占用 `770-776` 格，证明 seeded Direct-SGP + micro-fill 的几何满铺能力成立。
+- 修正版 0.95 trace 结果全部失败：4/4 `solved=False/processTier=Drop`，`avgChoices=19.16-21.28`、`maxChoices=38-41`、antiLocal 基本坍塌。结论从“无约束可满铺且保难度”修正为“无约束可满铺几何，但会破坏可解性与难度压力”。
+- 已冻结并挂到 sgp-rhythm-lab Demo 作为视觉检查包：`SGPRhythmLab_SeededDirectSGPMicroFrom030To095SweepFix1Review4Pack.asset`，guid=`ca03633336ec4b20a42d659be39d01a5`。它不是 production hard 包，只用于看真正 0.95 满铺形态。
+- 当前核心结论更新：路线 1 仍更靠谱，但父本限制必须保护 motif/critical owner；再交给 seeded Direct-SGP/micro-fill 后用 trace 筛选。不能把 coverage 元数据当真，后续必须用实际 authored arrows 重新数链条数/占用格验证。
+
+## Small Canvas Seeded Direct-SGP Smoke - 2026-06-24
+
+- 用户明确修正方向：不是在 24x34 大画布里局部框几个 cage，而是保证父本核心思路后把整个生成画布缩小，让 SGP 在小世界内补肉；小画布父本链条可以相应减少，不必保留全部 37 链。
+- `Build-SeededDirectSGPFillBaselineV1.ps1` 已扩展 `CanvasWidth/CanvasHeight/MaxTotalChains`，并修复 LevelDefinition `authoredLevel.arrows` 写入。当前压缩方式是把 0.30 父本重映射到小画布，允许丢弃无法无冲突放入的小链。
+- base-only 尺寸诊断：14x20 保留 25 链但不可解/support=0；16x22 保留 26 链但不可解/supportDepth=1；18x24 保留 28 链、coverage `0.3449`，`solved=True/A`、avg/max `2.54/6`、supportScore `0.888`、supportDepth `3`、outer=1；20x26 保留 32 链但不可解。当前最小不坏画布是 18x24。
+- 在 18x24 上做链数预算：max36（总 36 链）全部可解，coverage `0.463-0.509`，其中 2 个 `processTier=B`，best B `coverage=0.4884`、avg/max `3.97/10`、supportDepth=3、outer=8；max40/44 全部仍可解但 choices/outer 明显上升并 Drop。当前阈值约为 18x24 + 36 总链。
+- 已冻结并挂到 Demo：`SGPRhythmLab_SeededDirectSGPSmallCanvas18x24Max36Review6Pack.asset`，guid=`c2d629dd67e342c48cd0efc3a467112d`。这是小画布路线验证包，不是最终 production 包。
+
+## Root Family GPT Advisor Conversation - 2026-06-24
+
+- User updated the Rosetta/ChatGPT advisor target for this root-family expansion line to conversation id `WEB:bf5c018e-8461-4f2e-a336-4f43782a52f2`.
+- Future GPT consultations for root definitions, root-family strategy, and uncertainty in this lane should use that conversation id instead of the previous `6a36691e-0ebc-83e8-9dae-6d28174a2491`.
+
+## Hub-Spoke Root Proof T0288 - 2026-06-24
+
+- Root expansion line checkpoint: fourth causal root candidate `hub_spoke` now has a frozen proof/review pack near `0.288` coverage.
+- Definition used: one initially clear central hub unlocks multiple spatially separated spoke branches; reject hidden convergent-core/web/tri collapse. Final truth is board trace plus `Build-HubSpokeRootClassifierV1.ps1`.
+- Empirical growth path: true source -> `0.2255` -> `0.2414` -> `0.2659` -> `0.2806`; all solved/A and hub-spoke gate true. A further generic fill reached `0.3027` solved/A but failed hub-spoke identity, while same batch highest true hub-spoke was `0.288`.
+- GPT/Pro reviewed and agreed: freeze `~0.288` as canonical hub-spoke root proof; do not force 0.30 by postfiltering because it crosses root identity boundary.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_HubSpokeTrueV5RootProofT0288Pack.asset`, guid=`4700f5c8ee954d7da359c1185256a872`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/hub_spoke_true_v5_root_proof_t0288_frozen_trace_metrics.csv`; 3/3 `solved=True/processTier=A`, avgChoices `3.30-3.38`, maxChoices `7`, supportDepth `4`.
+- Frozen hub-spoke gate: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/hub_spoke_true_v5_root_proof_t0288_frozen_gate_hub_spoke_roots.csv`; 3/3 `hubSpokeCandidate=True`.
+- Next root-family work: move to next root primitive; revisit hub-spoke density only with a dedicated identity-preserving/spoke-safe fill objective, not generic density fill.
+
+## Checkpoint - 2026-06-24 09:00 - Cascade Relay V1 root proof frozen
+
+- Goal line: root family expansion; cascade_relay is now proven as a bounded linear-propagation root, not a 0.30-growth root.
+- GPT advisor conversation in use: https://chatgpt.com/c/6a3b0ea9-c568-83e8-ba82-d42201a1d66e . GPT agreed with measured boundary: freeze ~0.20-0.21 instead of forcing 0.30.
+- Reliable highest cascade pass before freeze: cascade_relay_v1_fill_from_c24_t023_smoke1_b01_r1_c13, coverage 0.2071, solved A, avgChoices 2.89, maxChoices 5, fanout 2, dependencyFollowRunMax 4, localPatchSolveRunMax 3.
+- Frozen pack: .worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_CascadeRelayV1RootProofT0207Pack.asset, GUID c7d563624d224126937c70db12e42430.
+- Frozen retrace: cascade_relay_v1_root_proof_t0207_frozen_trace_metrics.csv; 3/3 solved A and 3/3 cascadeRelayCandidate=True in cascade_relay_v1_root_proof_t0207_frozen_gate_cascade_roots.csv.
+- Demo scene activePack now points to SGPRhythmLab_CascadeRelayV1RootProofT0207Pack for visual review.
+- Next root primitive: split_key_dependency; implement source + gate, then grow only within identity boundary.
+
+## Checkpoint - 2026-06-24 09:24 - Split Key V1 root proof frozen
+
+- Implemented split_key_dependency topology source in Build-RootTopologyTemplateGeneratorV1.ps1: one core escape ray with three independent lock states (ayBlockers=3;4;5).
+- Implemented Build-SplitKeyRootClassifierV1.ps1; current gate checks 3-lock core ray, non-dual, low fanout, non-cascade, local stability, and region split.
+- Source proof: split_key_v1_source_cov08_* passed with ayBlockerCount=3, strictDualGateCandidate=False, fanout 1, followRun 1, localPatchRun 2.
+- Growth chain reached stable split-key boundary at ~0.20: reliable highest pass split_key_v1_fill_from_c07_t022_smoke1_b01_r1_c11, coverage 0.2034, solved A, avgChoices 3.77, maxChoices 7, fanout 2, followRun 3, localPatchRun 2.
+- Frozen pack: .worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_SplitKeyV1RootProofT0203Pack.asset, GUID fc53728dbb824b9d8e724b1586d97d0b.
+- Frozen retrace/gate: split_key_v1_root_proof_t0203_frozen_trace_metrics.csv and split_key_v1_root_proof_t0203_frozen_gate_split_key_roots.csv; 3/3 solved A and 3/3 splitKeyCandidate=True.
+- Demo scene activePack now points to split-key proof pack for review.
+- Next root primitive in queue: orbit_delay.
+
+
+## Checkpoint - 2026-06-24 09:33 - Root discovery saturated; mixed root-family review pack mounted
+
+- GPT advisor conversation in use: https://chatgpt.com/c/6a3b0ea9-c568-83e8-ba82-d42201a1d66e . Latest GPT review agreed blocker-mask/conflict/reverse cannot be independent roots under static straight-ray + clear-trace physics; they collapse into existing families.
+- Root discovery phase is now considered saturated for current rules. Independent proof families available: support_lock, strict_dual, web_crossover, hub_spoke, cascade_relay, split_key.
+- Created mixed review source CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/mixed_root_family_review_v1_selected.csv` (12 rows, 2 per family).
+- Frozen mixed review pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_MixedRootFamilyReviewV1Pack.asset`, GUID `1dc9459927164d23899ab69b33b9b9f6`.
+- Frozen trace: `mixed_root_family_review_v1_frozen_trace_metrics.csv`; 12/12 solved, 12/12 A tier.
+- Identity audit: `mixed_root_family_review_v1_identity_audit.csv`; designated family gates pass for strict_dual, web_crossover, hub_spoke, cascade_relay, split_key, and support_lock rows keep support closure hard signal.
+- Demo scene activePack now points to `SGPRhythmLab_MixedRootFamilyReviewV1Pack` for user visual/feel review.
+- Next production phase: root-family mixer + collapse detector; do not invent new primitive unless game physics changes.
+
+## User Feedback - 2026-06-24 09:41 - MixedRootFamilyReviewV1 visual root overlap
+
+- User reviewed SGPRhythmLab_MixedRootFamilyReviewV1Pack and observed Level 1 (support_lock) and Level 5 (web_crossover) feel basically the same root.
+- Project-side interpretation: current family identity audit can mark secondary motifs (webCrossoverCandidate=True) while the player-facing primary root remains support-lock. Mixed review should distinguish primary root from modifier/secondary motif.
+- Required correction: future production/root review should assign one primaryRootFamily by dominant causal driver; web-crossover must pass a stronger standalone gate or be downgraded to support-lock variant/modifier.
+
+## Small Canvas Outer-Frame Seeded Direct-SGP Breakthrough - 2026-06-24
+
+- User correction accepted and validated: for fuller validated-root production, first shrink the whole board and predefine/seal the outer frame, then let seeded Direct-SGP fill inward. This is better than local cages in the 24x34 parent and better than a few controlled exit teeth.
+- Script path: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`; active useful knobs are `CanvasWidth=18`, `CanvasHeight=24`, `PreseedOuterFrame`, `OuterFrameSegmentLength=7`, `OuterFrameMaxChains=8`, `MinHeadLayer=1`, `MaxTotalChains=44`.
+- Smoke result `seeded_direct_sgp_smallcanvas_18x24_frame8_max44_smoke8`: 8/8 solved; selected review rows are the 4 A-tier rows with `supportClosureBestDepth>=3`. Selected coverage `0.5602-0.6134`, total chains `44`, compacted parent kept/dropped `28/9`, outer frame added `8`.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_SC18F8Max44Review4Pack.asset`, guid=`68c0042da95a42f688a0dc8f77f93581`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/seeded_direct_sgp_smallcanvas_18x24_frame8_max44_review4_frozen_trace_metrics.csv`; 4/4 `solved=True/processTier=A`, avg/max roughly `4.27-4.68 / 10-11`, supportDepth `3`, localPatch `2-3`, dependencyFollow `3-4`.
+- Important caveat: static `outerExitHeadCount` remains `10-11` because the preseeded frame segments count as heads; dynamic outer pressure is bounded (`outerExitAvailableChoiceMax=5-6`, `outerExitSolveRunMax=2-3`). Next step is user visual/feel review, then push the same outer-frame route with stricter dynamic outer and diversity gates.
+
+## Local Room Role-Constrained SGP Probe - 2026-06-24
+
+- User correction accepted: the local-room proof must feed SGP a cell-role constraint map, not just crop a room and run naked fill.
+- Added experimental script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-LocalRoomSGPFillProbeV1.ps1`. It clips a small rectangular room from an existing level, derives roles from local escape rays (`K` occupied/fixed, `E` reserved exit corridor, `M` must-block, `B` body-only ray corridor, `H` head-allowed, `S` safe fill), then constrains SGP-style fill so heads cannot spawn on body/must-block/exit cells and bodies are rewarded for occupying `M`.
+- 8x10 mid-room smoke with reserved exits (`local_room_role_sgp_probe_v1_smoke2_midroom`) showed role-constrained fill can push local coverage from `0.4375-0.4625` to `0.5625-0.6875`, with many solved A/S/B, but no `M` cells because exits were reserved.
+- 8x10 must-block smoke (`local_room_role_sgp_probe_v1_smoke3_mustblock`) forced `ReservedExitCorridors=0` and required occupying `M`: 12 candidates, 9 solved, 5 A, coverage up to `0.7125`; must-block occupancy `1-4` cells.
+- 10x12 must-block smoke (`local_room_role_sgp_probe_v1_smoke4_10x12_mustblock`) produced 8 candidates, 4 solved (1 A, 3 B), coverage up to `0.675`; must-block occupancy `1-2` cells.
+- Current interpretation: the role-constrained approach is real but currently behaves as a safe/pressure fill controller, not a 0.9+ local fill solver. To reach fuller coverage, the next step needs multi-pass role recomputation and/or staged room expansion rather than forcing one-pass SGP to fill all constrained cells.
+- E-role A/B validation (`local_room_role_sgp_probe_v1_abtest_e_empty` vs `local_room_role_sgp_probe_v1_abtest_e_terminal`) compared the same 24 room/variant pairs. Treating `E` as terminal-capable instead of reserved-empty improved coverage in 16/24 pairs, average coverage delta `+0.0365`, max solved local coverage `0.7375` vs `0.6875`, and did not change solved count (`15/24` both). It occupied exit cells on average `1.92` cells / `0.79` heads.
+- Caveat: terminal-capable `E` did not automatically strengthen the hard motif; one paired sample lost `supportClosureBestDepth>=3`, and high-coverage terminal rows mostly had `supportClosureBestDepth=0`. Next local-fill step should treat `E` as endpoint/head candidate selected by a path-cover/flow layer, not as ordinary free S/H filler.
+- Added local-fill ordering/candidate experiments to the same script: `FillOrder=InnerFirst` prioritizes deeper remaining cavities, and `HeadCandidateMode` now supports `Ring`, `RoleAny`, and `Frontier`.
+- Ring + InnerFirst alone was not enough: `local_room_role_sgp_probe_v1_innerfirst_e_terminal` only nudged max solved local coverage to `0.75` and had solved `14/24`.
+- RoleAny proved the cell-role space can be nearly filled: `local_room_role_sgp_probe_v1_innerfirst_roleany_e_terminal` reached average coverage `0.9047` and max `0.9125`, but solved collapsed to `1/24`, showing arbitrary internal heads create dead/cyclic flow.
+- Frontier is the current best local proof: heads can be anywhere role-valid, but must face current boundary/occupied frontier while chain bodies eat inward. `local_room_role_sgp_probe_v1_innerfirst_frontier_e_terminal` reached average coverage `0.9089`, max `0.9375`, and solved `7/24`; best solved local rooms reached `0.925`. Remaining blocker is not geometric coverage, but preserving solvable/global causal order and hard motif at high density.
+
+## Full 0.30 Parent Frontier Fill Test - 2026-06-24
+
+- Tested the original validated 0.30 parent `near_miss_filler_orientation_v1_probe3_v006` (24x34, base coverage `0.307598`, trace A, avg/max `4/6`, openers `5`, supportDepth `3`, supportScore `0.966`, antiLocal `0.625`, dynamic outer max `1`) as one whole role-constrained room.
+- Tool/mode: `Build-LocalRoomSGPFillProbeV1.ps1`, `FillOrder=InnerFirst`, `HeadCandidateMode=Frontier`, `ExitRoleMode=Terminal`, full board `RoomWidth=24`, `RoomHeight=34`.
+- Geometry fills succeed: target `0.90` produced coverage `0.8995-0.9044` with 147-156 total chains.
+- Solvability/difficulty collapse immediately: all full-board targets `0.65`, `0.75`, `0.80`, `0.85`, `0.90` were `solved=False/Drop`, supportDepth `0`, supportScore `0`, antiLocal `0`. At `0.65`, openers already rose to `13-14` and dynamic outer max to `13-14`; at `0.90`, openers `25-26` and outer max `23-24`.
+- Conclusion: Frontier fill works as a local cavity strategy, but whole-board application destroys the 0.30 parent by creating many independent/frontier exits. Next approach must apply Frontier room-by-room or shell-by-shell with trace settlement and a cap on newly introduced openers/outer frontier, not as one global fill pass.
+- Small-canvas roomwise test on the 18x24 support-lock review parent (`seeded_direct_sgp_smallcanvas_18x24_frame8_max44_smoke8_b01_c07`, base coverage `0.6134`) showed the same distinction. Roomwise `Frontier` can push coverage to `0.80+`, but all variants became `solved=False`, supportDepth `0-1`, and LocalEasy.
+- Added `HeadCandidateMode=Clearable`: new head must face cells of currently statically available/clearable chains, not any occupied/boundary frontier. On 18x24 small canvas, `Clearable` + 1 room added only 1 chain, reached coverage `0.6227`, and preserved solved A + supportDepth `3`; adding a second room/second chain reached `0.6296` but became unsolved with supportDepth `0`.
+- Interpretation: clearable-frontier is the correct safety direction but too coarse as a batch room fill. It must become an iterative micro-fill loop: propose one chain facing current clearable frontier, board trace accept/reject, update clearable frontier, then continue. Room count alone is not a safe batch boundary.
+
+## Original Seed Long-Chain Review V1 - 2026-06-24
+
+- User requested several structures from original seeds with many long chains, to inspect historical long-chain language separately from the current root/fill production lane.
+- Created review pack from top `ImportedOriginal` rows in `reference_seed_structure_top_complex_298.csv`, selecting 8 original reference seeds by `complexChainScore` / long-chain metrics.
+- Pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedLongChainReviewV1Pack.asset`, GUID `9d4fe47b51bb4d11b2e5525bbbe360e2`.
+- Selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_long_chain_review_v1_selected.csv`.
+- Top selected metrics include `level_540` with 112 chains, coverage `0.982`, avgChain `15.911`, maxChain `63`, longChainRate `0.554`; selected set spans 42-157 chains and coverage `0.851-0.982`.
+- Demo scene in `.worktrees/sgp-rhythm-lab` now points to this review pack. This is a visual/structure-language inspection pack, not a hard/root proof pack.
+
+## Original Seed Long-Chain Skeleton Review V2 - 2026-06-24
+
+- User clarified the target is not merely high `longChainRate`; it is the visual/structural skeleton language of many medium/long chains spread across a near-full board. In V1, rows 4/7/8 were judged not to count because they were too sparse/local despite passing some chain metrics.
+- Created V2 review pack excluding V1 rows 4/7/8 and adding stronger full-board long-chain originals: `level_463`, `Arrowz_level_074`, `Arrowz_level_070`.
+- Pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedLongChainSkeletonReviewV2Pack.asset`, GUID `d313fdfd4c504b66be8826758a8bbba5`.
+- Selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_long_chain_skeleton_review_v2_selected.csv`.
+- Selected set: 8 `ImportedOriginal` seeds, 64-157 chains, coverage `0.865-0.982`, avgChain `10.410-15.911`, maxChain `48-66` except no sparse/local-long rows. Demo scene is now mounted to V2.
+
+## Original Seed Difficulty Skeleton Extraction - 2026-06-24
+
+- User asked to extract the difficulty skeleton from original long-chain seeds, not just display full long-chain originals.
+- First static extraction via `Build-CausalSeedSkeletonParentsV1.ps1` at T020/T030 kept solved long-chain pressure but usually lost trace-visible support closure (`supportClosureBestDepth` mostly 0-2), proving static fanout/long-chain ranking is not enough.
+- Ran lightweight full trace on V2 originals with `MaxCounterfactualMovesPerStep=0`; original full seeds were all solvable but generally too loose (`avgChoices=5.04-7.84`, max `11-16`). Several had strong full-level support closure (`d3-d4`), especially level_510, Arrowz_070, Arrowz_123, Arrowz_074, level_540, Arrowz_095.
+- Added script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-OriginalSeedDifficultySkeletonFromTraceV1.ps1`, which seeds extraction from each original full trace `supportClosureBestRoot`, preserves descendants/ancestors, then adds high-score structural chains.
+- Best frozen review pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedDifficultySkeletonT050Review8Pack.asset`, GUID `88aa67560fa7477ea7e6f784bcc70e4e`; Demo is mounted here.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_difficulty_skeleton_t050_review8_frozen_trace_metrics.csv`; 8/8 solved. Level 4 / Arrowz_level_074 is the clearest true extracted difficulty skeleton: 52 chains, A tier, avg/max `3.96/8`, support `0.838/d4`, antiLocal `0.375`. Others mostly preserve choice-pressure or d2 shells, showing many full originals need a broader global density shell to retain their difficulty.
+
+## Availability Peel Skeleton V1 - 2026-06-24
+
+- User proposed a stronger skeleton extraction idea: if a full seed has many currently available easy moves, remove all currently available/free chains and inspect the remaining board as the difficulty skeleton.
+- Implemented `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-AvailabilityPeelSkeletonV1.ps1`: iterative wave peel removes all chains whose escape ray is currently unobstructed while available count >= threshold, stopping at remaining chain/coverage limits. This targets continuous easy solves and isolated chains without blocker relations.
+- Ran on `OriginalSeedLongChainSkeletonReviewV2` with `MinAvailableToPeel=8`, `MaxPeelWaves=12`, `MinRemainingChains=24`, `MinRemainingCoverage=0.18`.
+- Result: 8/8 availability-peel skeletons generated and frozen; Demo mounted pack `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedAvailabilityPeelMin8Review8Pack.asset`, GUID `78403564a5c14a2789262cc9acfb24e2`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_availability_peel_min8_review8_frozen_trace_metrics.csv`; 8/8 solved. Strong rows include level_510 (123 chains, B, avg/max `4.22/9`, support `0.889/d4`) and Arrowz_level_095 (73 chains, A, avg/max `3.85/8`, support `0.810/d4`).
+- Interpretation: availability peel is better than low-coverage static skeleton extraction for original long-chain seeds. It removes free/easy shell but preserves the high-coverage dependency core that actually carries difficulty.
+
+## Availability Peel Batch2 Next16 - 2026-06-24
+
+- Continued availability-peel extraction on the next high-complexity reference seed batch after the first 8 original long-chain seeds. Input CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/availability_peel_next24_input.csv`; 16 assets were present in the current worktree.
+- Generated 16 peel cores via `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-AvailabilityPeelSkeletonV1.ps1`; candidate CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/availability_peel_next16_v1_min8_candidates.csv`.
+- Trace result: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/availability_peel_next16_v1_min8_trace_metrics.csv`; 16/16 solved, many retained support d3-d4. Strong rows: level_414 support `0.937/d4`, level_585 `0.916/d3`, level_943 `0.901/d3`, level_759 `0.892/d4`, Arrowz_level_144 `0.802/d4`.
+- Created and mounted review pack from 12 non-Drop/support d2+ rows: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_AvailabilityPeelBatch2Review12Pack.asset`, GUID `fa0b5e3d61b64548a7c99baf48dff472`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/availability_peel_batch2_review12_frozen_trace_metrics.csv`; 12/12 solved, top row level_414 remains support `0.937/d4`, avg/max `4.05/9`.
+- Demo scene in `.worktrees/sgp-rhythm-lab` now points to the Batch2 review pack.
+
+## Availability Peel Correction - True Skeleton Review2 - 2026-06-24
+
+- User correctly rejected `AvailabilityPeelBatch2Review12` as not a true skeleton: many rows retained most/full boards (e.g. 70-130+ chains or very high coverage), so it should be called an availability-shell/core-residual pack, not a difficulty skeleton pack.
+- Corrected extraction to two stages: (1) availability-shell peel removes currently free/easy chains; (2) causal-core trim starts from the trace-visible `supportClosureBestRoot` and keeps only a small causal neighborhood / high-score dependency carriers.
+- Tested trim at target coverage 0.35/0.45/0.55 on Batch2. 0.35 was too skinny and mostly lost d3 support; 0.45 produced 2 true skeletons with 26/32 chains and retained supportDepth=3; 0.55 only made the same two sources fatter and did not add more d3 roots.
+- Mounted corrected Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_AvailabilityPeelBatch2TrueSkeletonReview2Pack.asset`, GUID `95abf1a1f9ce4e9eaad1043ea90878b3`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/availability_peel_batch2_true_skeleton_review2_frozen_trace_metrics.csv`; 2/2 solved, chains 26/32, supportDepth=3, supportScore 0.789/0.838.
+- Current rule: do not present availability peel residuals as skeletons. A true extracted skeleton must be visibly small and pass board trace with supportDepth>=3 or an explicitly accepted alternate hard motif.
+
+## Naming Correction - Original Seed Root - 2026-06-24
+
+- User clarified that the current extraction target should be called `original_seed_root`, not `skeleton`.
+- Working definition: remove the free/easy shell from a high-coverage original seed, then trim/preserve the trace-visible causal core that carries the original seed's difficulty motif.
+- Review target is not “thin visual skeleton” and not “whole original seed”; it is the root-level causal pattern latent in original seed designs.
+- Future packs/reports should prefer `OriginalSeedRoot` naming; old `Skeleton` labels in existing paths are legacy/experimental wording.
+
+## Original Seed Root Batch3 Review9 - 2026-06-24
+
+- Continued original-seed root mining using all-reference profile, not only the previous top-complex 24. Excluded the first 24 already processed source ids and selected the next 48 available high `complexChainScore` seeds from `reference_seed_structure_profile_298.csv`.
+- Ran availability-shell peel on 48 inputs; 47 residuals generated. Trace was run in chunks; 46/47 residuals were traced successfully. One very thick residual (`original_seed_root_batch3_peel_min8_37_Arrowz_level_080`, 167 chains) timed out under the 90s single-row budget and was skipped for this review.
+- Strong residual root candidates were selected by: solved, non-Drop, supportClosureBestDepth>=3, supportClosureBestScore>=0.72, chains<=60, maxChoices<=10. This intentionally targets `original_seed_root`, not a super-thin visual skeleton.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedRootBatch3Review9Pack.asset`, GUID `f6a5e78fd7cd49bd86d36cf01d8f7f53`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_root_batch3_review9_frozen_trace_metrics.csv`; 9/9 solved, all non-Drop, supportDepth d3/d4, chains 22-57.
+- Best examples: level_944 root (57 chains, A, avg/max 2.79/5, support 0.903/d4), Arrowz_level_182 (49 chains, A, 4.55/9, 0.877/d3), Arrowz_level_154 (39 chains, A, 4.13/7, 0.858/d3), Arrowz_level_179 (22 chains, S, 4.0/7, antiLocal 0.588, support 0.725/d3).
+
+## Small Canvas OpenDebt HeadSlot Probe - 2026-06-24
+
+- User requested the HeadSlot/OpenDebt proof stay on the small canvas route. Base used for the first probe: `seeded_direct_sgp_smallcanvas_18x24_frame8_max44_smoke8_b01_c04` from `seeded_direct_sgp_smallcanvas_18x24_frame8_max44_review4_selected.csv` (18x24, coverage `0.5601852`, solved A, supportDepth 3).
+- Generated ray map `smallcanvas_opendebt_b04_map_*`: 5 direct-exit rays, 2 guard slots, 15 body-only ray blocker cells, 93 head-allowed cells, 20 safe fill cells.
+- Existing `Build-RayFirstBlockerFillV1.ps1` already had debt-aware batch hooks. Added opt-in `AllowDirectExitAnchors` and corrected debt semantics: direct-exit anchors with `oldHit=-1` are closed if the new C head hits an existing chain; they are `FreeHeadDebt` only when C has no first hit.
+- Smoke results:
+  - `smallcanvas_opendebt_cplusd_b04_direct_try2`: 23 traced candidates, 9 accepted; exposed that direct-exit closed candidates were incorrectly labeled `WrongBasinDebt`.
+  - `smallcanvas_opendebt_cplusd_b04_direct_try3`: after debt fix, 22 traced candidates, 8 accepted; top accepted coverage `0.5787037`, solved A, supportDepth 3, avg/max `4.22/11`.
+- Important interpretation: on this small-canvas parent, the useful first step is mostly `CLOSED_SLOT` direct-exit blocking, not true `FreeHeadDebt + D`. Forced D can break motif when C-only is already safe. Next implementation should prefer closed direct-exit blockers, and only attach D for actual `FreeHeadDebt`.
+- Interrupted run `smallcanvas_opendebt_cplusd_b04_direct_try4` produced only a partial candidates CSV and no trace; do not treat it as evidence.
+
+## Parent030 To 0.60 Small Canvas Review4 - 2026-06-24
+
+- User requested restarting from the clean `0.30` parent instead of continuing from already filled `0.50+` samples, because overfilled parents may have lost reserved/flexible space.
+- Input parent: `near_miss_filler_orientation_v1_probe3_v006` (`coverage≈0.3076`, validated support-lock parent). A one-row input CSV was written to `opendebt_parent030_single_input.csv`.
+- Baseline small-canvas fill with `CanvasWidth=18`, `CanvasHeight=24`, `PreseedOuterFrame`, `OuterFrameMaxChains=8`, `MinHeadLayer=1`:
+  - `MaxTotalChains=46` reached coverage `0.606-0.618` with supportDepth 3 but most high-support rows were Drop due choice pressure.
+  - `MaxTotalChains=44` preserved quality better, but the best supportDepth 3 row stopped at `0.599537` (A).
+  - `MaxTotalChains=45` produced 4 reviewable rows at `coverage=0.6018519-0.6134259`, all solved with supportDepth 3; 2 A-tier and 2 B-tier.
+- Frozen review pack mounted in Demo: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_Parent030To060SmallCanvasReview4Pack.asset`, GUID `d638964e6b734b7ab45abb08dbd53630`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/parent030_to060_smallcanvas_review4_frozen_trace_metrics.csv`; 4/4 solved, supportDepth=3, avg/max ranges `4.84-5.22 / 10-12`.
+- Current interpretation: clean 0.30 parent can be pushed to 0.60+ on an 18x24 small canvas while preserving the support-lock motif, but choice pressure is higher than earlier 0.30/0.56 samples. Next improvement should not just add chains; it should lower effective choices by replacing crude outer frame/SGP fill with constraint-field HeadSlot scoring.
+
+## Near-Full Coverage Reframing - 2026-06-24
+
+- User corrected the success target: `0.60` coverage is only a diagnostic waypoint, not meaningful proof for a finished level. Future production validation must target near-full boards, roughly `0.85+` as feasibility and `0.95+` as near-product coverage.
+- GPT advisor agreed that near-full difficulty is an escape-flow control problem, not a space-fill problem. Codex adjustment: outlet/sink planning may be used as a boundary budget, but it must not become the primary structure; the main generator needs ray-pressure / escape-flow constrained fill.
+- Smoke `nearfull_flow_baseline_from060_t090_acceptall_smoke1`: starting from `Parent030To060SmallCanvasReview4` best row, existing background fill with blocker/core-ray constraints generated no continuation candidates. This means the crude outer-frame `0.60` state is a constrained sandbox, not a good expandable parent.
+- Loose smoke `nearfull_flow_baseline_from060_t090_loose_smoke2`: relaxing blocker/core-ray constraints grew only from `0.613` to `0.657`, then no continuation candidates. This supports the same conclusion: outer-frame `0.60` is not the right midpoint for full-board growth.
+- Pure seeded Direct-SGP smoke `nearfull_seeded_direct_from060_t095_smoke1`: geometry can fill the same `0.60` state to coverage `0.9329-0.9444`, but 3/3 trace `solved=False/Drop`, supportDepth `0`, openers `12-13`, avg choices `10.35-12.24`, max choices `20-22`. Full coverage geometry exists; hard motif and flow stability collapse.
+- Updated next target: skip treating `0.60` as success and build a near-full `flow-pressure constrained SGP` experiment from the start. Hard gates should be `solved`, motif/root persistence, and no irreversible dependency collapse; avg/max choices become curve/distribution signals, not per-step hard locks.
+
+## Near-Full Flow-Pressure Smoke1 - 2026-06-24
+
+- Added opt-in `RequireHeadHitsExisting` to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`. It requires a newly generated SGP chain head to ray-hit existing occupied structure instead of immediately drilling to the outside. This is a minimal flow-pressure constraint, not a full allocator.
+- Baseline compact check: `nearfull_compact_base18x24_tracecheck` maps clean `0.30` parent to 18x24 without extra fill. Trace remains solved/A with supportDepth `3`, supportScore `0.888`, avg/max `2.54/6`, dynamic outer max `1`. The small-canvas root itself is valid.
+- One-shot `RequireHeadHitsExisting` without microfill (`nearfull_flowpressure_headhit_18x24_t090_smoke1`) only reached coverage `0.50-0.519` and all rows were unsolved/supportDepth `0`. The constraint is too locking if applied as a batch generator.
+- One-shot `RequireHeadHitsExisting + microfill` (`nearfull_flowpressure_headhit_micro_18x24_t090_smoke2`) reached coverage `0.900463` with low choices (`avg 2.75-3.73`, `max 5-8`) but 4/4 unsolved/supportDepth `0`. This is not a too-easy failure; it is flow/motif disconnection.
+- Trace-settled tiny-gain background fill from the compact 0.30 root (`nearfull_flow_settled_bg18x24_t090_tinygain_smoke4`) preserved solved support-lock for three small steps up to coverage `0.3935`, but was too slow and timed out.
+- Continuation from that accepted point with larger gain (`nearfull_flow_settled_bg18x24_t090_from0393_gain02_smoke5`) accepted one step to coverage `0.4259259`, solved/A, supportDepth `3`, avg/max `2.48/5`, dynamic outer max `1`; the next step to `0.4444444` failed 8/8 as unsolved with supportDepth `1`.
+- Current hard boundary: current SGP-style fill can preserve motif from `0.30` to about `0.42` under trace-settled micro-growth, but near-full `0.85+` is not reachable by simply shrinking step size or requiring heads to hit existing chains. The next missing component is a flow allocator that decides which causal lanes can be filled/closed after `~0.43` without disconnecting the support-lock motif.
+
+## Temporal Core Lane Diagnostic - 2026-06-24
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Compare-TemporalCoreLaneV1.ps1`, a diagnostic-only script that runs both greedy longest-chain trace and wave trace (clear all currently available chains) for selected core owners.
+- Compared accepted `0.4259259` sample with failed `0.4444444` sample using core owners `4;5;19;23;25;26`.
+- Result: accepted sample solves in both greedy and wave modes and all core owners become available/cleared. Failed sample is unsolved in both modes; all six core owners are never available, even when clearing all currently available chains each wave.
+- Static ray graph did not explain the failure: core static edges remain effectively identical. The failure is temporal flow/release order collapse.
+- Concrete break: accepted clears relay owner `24` before releasing the core chain (`...24 -> 12 -> 14 -> 23 -> 13 -> 4 -> 5...`). Failed candidates add two chains and rewrite/replace that relay flow (`24` becomes blocked by new `33/34` or equivalent), leaving the support-lock core permanently unreleased.
+- Control run `nearfull_temporal_lane_noprotect_from0425_repro_r2_control` generated 12 candidates at coverage `0.4444444`; all 12 were unsolved/supportDepth=1 and all 12 had the same core-never-available failure in wave mode. This confirms the current background SGP growth after ~0.426 systematically disconnects temporal core lanes rather than merely increasing choices or outer exits.
+- Current next step: flow allocator should be defined as a temporal core reachability / relay conservation gate, not a static first-hit or average-choice gate. Candidate fill must prove the core lane remains releasable before full production trace.
+
+## Temporal Core Wave Gate Smoke - 2026-06-24
+
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-ValidatedRootBackgroundSGPFillV1.ps1` with opt-in `-RequireTemporalCoreWaveReachable -TemporalCoreOwners`.
+- The gate runs inside candidate generation before adding each new chain: it temporarily inserts the candidate chain and runs lightweight wave simulation; if specified core owners cannot all become clearable/cleared, the candidate path is skipped before asset write/full trace.
+- Smoke from accepted `0.4259259` parent with core owners `4;5;19;23;25;26`: `nearfull_temporal_core_wavegate_from0425_smoke1` generated 24/24 full-trace solved A candidates at coverage `0.4351852`, supportDepth=3, supportScore=0.888, avg/max `2.38/5`.
+- Continuing from the selected `0.4351852` candidate with the same temporal gate produced no further background fill candidates. A no-gate control from the same parent generated 12 candidates at `0.4444444`, but 12/12 were unsolved/supportDepth=1 and all six core owners were never available in both greedy and wave diagnostics.
+- Current conclusion: temporal core wave gate is the right invariant and is not merely over-conservative at 0.4259, but existing background SGP candidate language runs out of core-preserving moves at about `0.435`. The next generator work must create candidate chains from temporal lane pressure fields, not just filter ordinary SGP random/bent chains.
+
+## Temporal Feasible Generator V1 Breakthrough - 2026-06-24
+
+- Added opt-in `-UseTemporalFeasibleGenerator` to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-ValidatedRootBackgroundSGPFillV1.ps1`. Instead of ordinary boundary/free-zone template fill, it enumerates short candidate chains, scores them cheaply, then wave-tests only top candidates before asset write/full board trace.
+- This is the first proof that the `0.435` wall is a generator-language mismatch, not a true impossibility: `nearfull_temporal_feasible_gen_v1_from0435_smoke3_tiny` advanced from `0.4351852` to `0.4467593`, solved/A, supportDepth=3.
+- Continued run via `nearfull_temporal_feasible_gen_v1_from0446_to050_smoke4` and `nearfull_temporal_feasible_gen_v1_from0486_to050_smoke5` advanced to coverage `0.5115741`, 40 chains, solved/A, supportScore `0.888/d3`, avg/max `2.35/5`.
+- Core-lane diagnostic `nearfull_temporal_feasible_gen_v1_from0511_corelane_check` confirms the 0.5116 result is not a fake pass: all core owners `4;5;19;23;25;26` become available/cleared in both greedy and wave modes.
+- New limitation: the 0.5116 sample is classified `LocalEasy`, with antiLocal `0.342` and dependencyFollowRunMax `6`. V1 solves temporal reachability past 0.5, but its scoring slides toward low-choice/local-easy compression.
+- Next step: keep the temporal-feasible generator, but add hard-pressure ranking before top-K wave test: penalize local same-region/follow-run-like paths, reward cross-region/anti-local retargeting, and select for support-lock preservation plus hardness, not only core releasability.
+- Pressure-debt smoke `nearfull_temporal_pressure_debt_v1_from0486_smoke1` tested a soft model where local debt chains are allowed and later candidates are biased toward pressure evidence. It still reached `0.5115741` solved with supportDepth=3, but stayed `LocalEasy` and dropped to antiLocal `0.289`, supportScore `0.708`.
+- Interpretation update: the debt model is conceptually correct, but the current pressure evidence (`head hit`, `incoming ray hits`, `touched owners`, region spread, turns) is too local. "Debt repayment" must be tied to trace/delta pressure signals such as reduced follow-run, restored cross-region release, or improved anti-local ordering, not merely local geometry.
+
+## Solution-Space Sculpting Direction - 2026-06-24
+
+- User/GPT/Codex aligned on the next conceptual shift: near-full fill should not be modeled as judging whether each chain is good or bad. It should control how the whole solution space changes after each small fill step.
+- The accepted target model is iterative trace-delta control: generate a wave-safe candidate batch, evaluate each candidate by how it changes core stability, path diversity, linearization risk, choice wave, follow-run, and anti-locality, then apply only 1-3 chains before recomputing the field.
+- Chain labels such as `pressure / neutral / debt` remain useful as decision shorthand, but they are not the objective. The objective is to prevent the evolving board from collapsing into a single local/linear solve path while still growing coverage.
+- A debt chain can be accepted when geometry leaves no harder local option, but debt must be repaid by later candidates that improve trace-level pressure. Local geometry evidence alone is not sufficient to prove repayment.
+- Proposed V1 controller fields: `coreStabilityDelta`, `linearizationRisk`, `pathDiversityDelta`. Hard reject if core release breaks; conditional accept if linearization worsens; prioritize candidates that preserve/recover path diversity and support-lock pressure.
+
+## Correction - OriginalSeedRootBatch3Review9 Demoted - 2026-06-24
+
+- User reviewed the mounted `OriginalSeedRootBatch3Review9` sample and correctly rejected it as a root: the sample is a dense residual board with many unrelated chains, not a reusable root-level causal structure.
+- Correction: `supportClosureBestDepth>=3` is only a root signal / hard motif indicator, not sufficient to define a root. A dense residual can contain a d3 support closure while still being a partial/full level body.
+- `SGPRhythmLab_OriginalSeedRootBatch3Review9Pack` should be treated as `original_seed_root_signal_carrier` / residual candidate pack, not a true original-seed root pack.
+- Next extraction must use role-graph minimality: identify explicit role chains and blocker edges, remove non-role filler, then validate the minimized role template. Root must be a reusable causal topology, not just a metric-qualified residual board.
+
+## Original Seed RoleGraph Root Proof V1 - 2026-06-24
+
+- User rejected dense residual boards as roots; implemented a first true role-graph extraction sample from `level_944`.
+- Source: `OriginalSeedRootBatch3Review9` row `orig_seed_root_b3_01...level_944`, whose trace reported `supportClosureQualifiedRoots = 49:d4:b2:n8:s0.903:nodes[0;6;21;23;27;40;50;53]`.
+- Extracted minimal role graph by keeping closure root `49` plus nodes `[0,6,21,23,27,40,50,53]`, 9 chains total, coverage `0.0661376`.
+- This minimal graph remains trace-valid: frozen trace solved=True, processTier=S, avg/max choices `1.67/3`, openers=1, supportClosureBestScore `0.872`, supportDepth=4, antiLocal=1, localPatchRun=1, dependencyFollowRun=2.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedRoleGraphRootProofV1Review1Pack.asset`, GUID `7a9f31a602d64fd9ad535c8a878a45ac`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_rolegraph_root_proof_v1_review1_frozen_trace_metrics.csv`.
+- New extraction rule validated: original-seed root should be extracted from trace closure role nodes, not selected by dense residual metrics alone.
+
+## Original Seed Root Level944 0.30 Carrier Expansion - 2026-06-24
+
+- User noted the 9-chain role graph nucleus was too small compared with prior 0.25-0.30 root proofs. Corrected naming: 9-chain graph is `root nucleus`; reviewable root should add necessary carrier/guard/support shell while preserving the causal motif.
+- Naive causal-score expansion to 0.22/0.26/0.30 failed: coverage reached `0.248-0.304`, but support closure collapsed to d2/LocalEasy. Conclusion: ordinary expansion changes root identity and is not acceptable.
+- Implemented a carrier-search proof around fixed level_944 nucleus `[0,6,21,23,27,40,49,50,53]`. Generated 101 variants by keeping the nucleus fixed and adding carrier chains from the original residual; traced all variants in chunks.
+- Selected best 0.30 root: `orig_seed_rolegraph_level944_carrier_v1_076_t30`, coverage `0.3024691`, 35 chains. Frozen trace: solved=True, processTier=A, avg/max choices `4.03/7`, support `0.976/d4`, antiLocal `0.667`, localPatchRun=2, dependencyFollowRun=2, hardStructureV3Class=TrueHardCandidate.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedRoleGraphLevel944Root030Review1Pack.asset`, GUID `a3cd8a75d6cb4fd591cf8d9828e0cb5d`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_rolegraph_level944_root030_review1_frozen_trace_metrics.csv`.
+- Validated extraction pattern: original seed root = minimal nucleus + trace-tested carrier shell; do not expand by static score alone.
+
+## Original Seed RoleGraph Next5 Review - 2026-06-24
+
+- Continued original-seed role-graph root extraction after the accepted level_944 root030 proof. Generalized carrier-search script generated 242 variants from six source residuals; five source families produced trace-qualified d3/d4 motifs, while level_426 produced no d3+ qualified candidate in this run.
+- Mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedRoleGraphNext5ReviewPack.asset`, GUID `9e2e67f9fb8649cf9d2d481ab8fda5c7`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_rolegraph_next5_review_frozen_trace_metrics.csv`; 5/5 solved, all A/S. Rows: level_792 30 chains cov 0.300 support d3 true-hard; Arrowz_level_182 23 chains cov 0.321 d3 medium; Arrowz_level_232 25 chains cov 0.315 d4 medium; Arrowz_level_154 11 chains cov 0.291 d4 true-hard; Arrowz_level_264 8 chains cov 0.339 d3 true-hard.
+- Interpretation: this is a visual/root-boundary review pack, not final production. The last two are long-chain sparse nuclei with carrier shell and may be too thin by user visual standard; the first three are closer to 0.30 reviewable roots.
+
+## Root Library Baseline Packs - 2026-06-24
+
+- User requested building a reusable root library and preserving the initial generated roots separately.
+- Frozen initial generated root family baseline pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootLibraryInitialFamiliesV1Pack.asset`, GUID `7c4cf2078e27463ab3c640d82bdd67fa`. It contains 12 roots: 2 each from support_lock, strict_dual, web_crossover, hub_spoke, cascade_relay, split_key. Frozen trace: `root_library_initial_families_v1_frozen_trace_metrics.csv`; 12/12 solved.
+- Added original-seed rolegraph catalog with new review classes: `RootReviewCandidate`, `ThinRoot`, `NucleusOnly`. Rule currently: chains < 13 => NucleusOnly; 13-19 or low coverage/short wave => ThinRoot; 20+ chains and coverage >= 0.25 with adequate wave/motif => RootReviewCandidate.
+- Frozen clean original-seed root library pack excluding nucleus-only rows: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootLibraryOriginalSeedRoleGraphV1Pack.asset`, GUID `f142bc1c67394ea5a9fc166f513a0a68`. It contains 4 RootReviewCandidate rows: level_944, level_792, Arrowz_level_182, Arrowz_level_232. Frozen trace: `root_library_original_seed_rolegraph_v1_frozen_trace_metrics.csv`; 4/4 solved A.
+- Current interpretation: original seeds can still yield roots, but only through trace nucleus + carrier search + rootReviewClass gate. 8/11 chain hard motifs are nuclei, not roots, and must not enter root review/production root library.
+
+## Original Seed RoleGraph Batch4 Review5 - 2026-06-24
+
+- Continued original-seed rolegraph root extraction after establishing `NucleusOnly/ThinRoot/RootReviewCandidate` gate. Source batch came from `original_seed_root_batch3_peel_min8_trace_merged_metrics.csv`, excluding already-used source ids.
+- Batch4 carrier search generated 628 variants from 6 usable source families. Full trace was too heavy, so candidates were prefiltered to 108 by coverage `0.25-0.34`, chains `>=20`, and closeness to `0.30`; then traced by source. Heavy sources level_980 and level_730 needed top-4 sampling.
+- Mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedRoleGraphBatch4Review5Pack.asset`, GUID `4a70f5e8e2b04ad2b4e43c4ff0786a91`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_rolegraph_batch4_review5_frozen_trace_metrics.csv`; 5/5 solved. Rows: Arrowz_level_055 20 chains S true-hard avg/max 3.5/8; Arrowz_level_120 34 chains S hard-potential 3.91/8; level_699 29 chains S true-hard 4.31/7; level_730 56 chains B medium 5.75/11; level_810 35 chains A true-hard 5.66/10.
+- Catalog updated: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_library_original_seed_rolegraph_v1_catalog.csv` now has 11 rows total, 9 `RootReviewCandidate`. Batch4 is a review pack: level_730/level_810 may be visually useful but have high choice pressure, so user review should decide final library admission.
+
+## Original Seed Strict Role Root V1 - 2026-06-24
+
+- User corrected the root definition again: carrier-search roots must not include arbitrary chains just to reach coverage 0.30. A root chain must have a role: nucleus, closure blocker/target, support carrier, hub guard/choke, shared guard, or other trace-visible dependency role. Cosmetic/filler chains are not root chains.
+- Added strict extractor: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-OriginalSeedStrictRoleRootV1.ps1`. It outputs nucleus/direct/strict variants from original seed residuals without coverage target; strict variants are based on static ray dependency role labels around the trace nucleus.
+- Source CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_strict_role_root_v1_sources.csv`, 15 d3+ source residuals from Batch3 merged trace.
+- Generated 39 strict candidates; trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_strict_role_root_v1_trace_metrics.csv`, 39/39 traced.
+- Mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedStrictRoleRootV1Review8Pack.asset`, GUID `2256b922b4464fe7b27c9e3a572b2796`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_strict_role_root_v1_review8_frozen_trace_metrics.csv`; 8/8 solved. Rows include level_792 (24 chains, A, HardPotential, d3), level_944 (31 chains, B, Medium, d4), level_699 (36 chains, A, Medium, d4), level_980 (26 chains, A, Medium, d4), plus four LocalEasy strict roots from Arrowz_level_182, level_730, level_810, level_426.
+- Key interpretation: strict root extraction proves previous 0.30 carrier roots included non-role filler. Strict roots may have coverage below 0.30 and must be reviewed as role structures; next step is user visual review to decide which strict roots become variant parents.
+
+## Original Seed Strict Role Root Batch5 V1 - 2026-06-24
+
+- Continued strict role-root extraction on additional unprocessed original-seed sources from `availability_peel_next16_v1_min8_trace_metrics.csv`, `original_seed_long_chain_availability_peel_v1_min8_trace_metrics.csv`, and related full/difficulty-skeleton traces. Selected 14 new d3+ source residuals not present in the first strict source batch.
+- Ran `Build-OriginalSeedStrictRoleRootV1.ps1` with no coverage target. Generated 33 candidates (nucleus/direct/strict); trace file: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_strict_role_root_batch5_v1_trace_metrics.csv`.
+- Mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedStrictRoleRootBatch5V1Review8Pack.asset`, GUID `e8b42fb7fb8946c4a21d4e8372d05fbb`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_strict_role_root_batch5_v1_review8_frozen_trace_metrics.csv`; 8/8 solved. Source families: Arrowz_level_074, level_585, Arrowz_level_123, Arrowz_level_070, Arrowz_level_095, Arrowz_level_144, level_414, level_510.
+- Strict role catalog: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_library_original_seed_strict_role_v1_catalog.csv` now has 16 rows total across first strict review8 and Batch5 review8.
+- Interpretation: strict role extraction continues to produce visually plausible roots without fixed coverage. Batch5 roots are mostly MediumStructure, with some LocalEasy labels caused by local/follow runs; user visual review should decide which enter root variant parent set.
+
+## Original Seed Strict Role Root Full V1 Review21 - 2026-06-24
+
+- Ran full strict role-root extraction across 25 currently available original-seed d3+ source residual families, excluding prior frozen review traces to avoid duplicated/truncated IDs.
+- Source CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_strict_role_root_full_sources.csv`.
+- Candidate/trace outputs: `original_seed_strict_role_root_full_v1_candidates.csv` (72 candidates = 24 nucleus, 24 direct, 24 strict) and `original_seed_strict_role_root_full_v1_trace_metrics.csv` (72/72 traced, missing/failed=0).
+- Catalog: `original_seed_strict_role_root_full_v1_catalog.csv`; classes are 21 `StrictRootReview`, 21 `StrictThinRoot`, 30 `NucleusOnly`. `admitted=True` for 18 of the StrictRootReview rows; 3 edge rows are intentionally kept for human review.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedStrictRoleRootFullV1Review21Pack.asset`, GUID `3f5cf33e5b6e4b2d8e44b5f2a38aa729`.
+- Frozen manifest: `SGPRhythmLab_OriginalSeedStrictRoleRootFullV1Review21Pack.csv`; frozen trace: `original_seed_strict_role_root_full_v1_review21_frozen_trace_metrics.csv`; 21/21 traced, 21/21 solved, process tiers S=3/A=14/B=4.
+- Interpretation: this is a broad review pool, not final root library admission. User should filter duplicates, thin/easy roots, and LocalEasy/edge cases after visual review; detailed source/coverage/admitted fields live in `original_seed_strict_role_root_full_v1_review21_selected.csv`.
+
+## Original Seed Root Extractability Correction - 2026-06-24
+
+- User reviewed `OriginalSeedStrictRoleRootFullV1Review21` and judged many samples too forced compared with the internally designed/generated root standard.
+- Decision: keep this full review pack as evidence/reference, but do not treat it as a final root library or production source.
+- Next workflow should first classify original seeds by `root extractability` (whether a source can genuinely yield a reusable root), then run strict root extraction only on sources that pass this source-level gate.
+- Root extraction target shifts from “extract something role-labeled from every d3+ source” to “extract roots only from sources whose role structure visually and causally resembles our accepted root standard.”
+- Source-level gate should reject dense residual leftovers, overly thin nuclei, LocalEasy-only motifs, and samples where strict role chains are just scattered fragments rather than a coherent causal root.
+
+## Original Seed Root Extractability Gate V1 - 2026-06-24
+
+- Implemented the first source-level root extractability screen over the existing 21 full-run `StrictRootReview` rows, instead of treating all d3+ strict extracts as valid roots.
+- Screen output: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_root_extractability_gate_v1_screen.csv`. Tiers: 6 `RootExtractableA`, 5 `RootExtractableB` rows, 6 `ReferenceOnly`, 4 `Reject`; after one-per-source selection, A/B review set has 9 roots.
+- Selected A/B review input: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_root_extractable_v1_review_selected.csv`.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedRootExtractableV1Review9Pack.asset`, GUID `c1e9a01e09d34a78b8bf0670e958c7f1`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_root_extractable_v1_review9_frozen_trace_metrics.csv`; 9/9 solved, S=1/A=8, HardPotential=1/MediumStructure=8, no LocalEasy rows.
+- Interpretation: this replaces the broad Review21 pack as the current default visual review target. Review21 is retained as evidence; ExtractableV1Review9 is the first candidate root-library admission pool.
+
+## Dynamic RoleMap Small Canvas Fill Probe - 2026-06-24
+
+- Validated on the 18x24 small-canvas parent pack `parent030_to060_smallcanvas18x24_frame8_max45_review4_selected.csv` (starting coverage 0.613, solved=True, supportDepth=3).
+- Static roomwise RoleMap fill is insufficient: using local or global RoleMap to fill many chains at once reached ~0.83-0.84 coverage but became solved=False and supportDepth=0. A single center-room batch was already enough to break the core.
+- Root cause found: `CriticalTimingZone` must not be treated as “must-fill blocker” by default. A one-chain candidate whose body crossed three CriticalTimingZone cells immediately broke solved/core release.
+- Added experimental controls to `Build-LocalRoomSGPFillProbeV1.ps1`: `-GlobalRoleMapCellsCsv`, `-UseGlobalRoleMap`, `-GlobalCriticalTimingRole {MustBlock|BodyOnly|Forbidden}`, and `-RoomwiseMaxAcceptedChains`.
+- With `-GlobalCriticalTimingRole Forbidden` and dynamic one-chain steps, progression worked: step1 had 4/8 solved candidates; step2 had 3/8 solved candidates and some improved supportDepth from 3 to 4; step3 had 5/8 solved candidates. Coverage advanced from 0.613 -> 0.627 -> 0.637 -> up to 0.653 while preserving solved branches.
+- Current conclusion: RoleMap is dynamic, not a one-shot map. Production fill should loop: recompute global ray/RoleMap after accepted insertions, lock CriticalTimingZone unless a trace-backed candidate proves it safe, generate small candidate batches, accept only trace-preserving candidates, then recompute.
+
+## Dynamic RoleMap From 0.30 Parent Probe - 2026-06-24
+
+- Re-ran the dynamic RoleMap chain from the original 0.30 parent `near_miss_filler_orientation_v1_probe3_v006` via `opendebt_parent030_single_input.csv`.
+- Baseline: coverage `0.307598`, solved=True, supportDepth=3, avg/max `4/6`, outerExit=1. Initial RoleMap had 116 CriticalTimingZone cells and 328 HeadAllowed cells.
+- Step1 with `CriticalTimingZone=Forbidden` and `RoomwiseMaxAcceptedChains=1`: 12/12 candidates solved, supportDepth=3. Future-capacity ranking favored shorter candidates v12/v08/v06 (future score 376) over higher-coverage v10/v11 (future score 364).
+- Selected v12 for preserving future capacity, then step2: 6/12 candidates solved; unsolved branches prove supportDepth alone is insufficient and board trace must remain the hard gate. Solved branches had similar future capacity (367).
+- Selected v08 from step2, then step3: 6/12 candidates solved; best branch v08 had coverage `0.314951`, supportDepth=4, avg/max `3.32/7`, localRun=3, followRun=4. Higher-coverage solved branches reached `0.317402` but avg/max rose to about `5.05/8`.
+- Current interpretation: the dynamic chain works from the 0.30 parent but current room ordering always fills the same center window `(8,12)` and advances coverage slowly. Next automation should choose rooms by constrained-region urgency/future-capacity, not a fixed center-first room queue.
+
+## Incremental RoleMap Fill Compiler V1 - 2026-06-24
+
+- Added/validated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-IncrementalRoleMapFillCompilerV1.ps1` as the first automated loop for dynamic RoleMap fill: generate SGP-style room candidates, cheap risk filter, trace a bounded TopK, commit one chain, then rebuild RoleMap.
+- Important fix: added `-MaxTraceBatches`; the compiler now traces multiple sorted TopK batches before declaring `no_trace_accept`. This avoids false stops when the first low-risk batch contains only unsolved or too-linear candidates.
+- Validation chain from the original 0.30 parent: baseline `0.307598`, earlier manual/automated steps reached `0.317402`; with the compiler and one-commit checkpoints it advanced to `0.3504902`.
+- Final retrace for `incremental_rolemap_parent030_to035_onecommit_f_final_selected.csv`: solved=True, processTier=A, supportDepth=4, avg/max `3.63/7`, localRun=3, followRun=5, antiLocal=0.689, outerExitHeadCount=1. Commit table records coverage `0.3504902`.
+- Key observation: difficulty is not monotonic per inserted chain. One step drifted looser around avg/max `4.30/8`, later commits recovered pressure to `3.08/6` and then stabilized near `3.6/7`. Do not hard-reject every local simplification if full trace and later pressure recovery remain possible.
+- Current status: direction validated to 0.35, not final production. It still needs speed improvements, better room scheduling, larger-step packing, and proof beyond 0.35 toward 0.6/0.9.
+- V2 scheduling smoke: added opt-in `-UseRegionAwareSchedule`, `-RegionScheduleMode`, `-TraceAllBatchesBeforeCommit`, and `-CommitSelectionMode PressureFirst/Balanced`. Region-aware scheduling ranks rooms by Core/Mid/Outer role, available capacity, pressure slots, critical timing risk, coverage, and recent-room penalty.
+- Region-aware comparison from the 0.35049 state: simple first-accept scheduling committed to `0.3529412` but loosened to avg/max `4.21/8`; `TraceAllBatchesBeforeCommit + PressureFirst` traced 3 TopK batches and selected `0.3553922`, solved/A, supportDepth=4, avg/max `3.63/7`, localRun=3, followRun=5, antiLocal=0.696. This confirms region scheduling plus pressure-aware commit selection is a better V2 direction.
+- High-coverage push from the original 0.30 parent now reaches `0.4203431` while preserving solved=True and supportDepth=4. Important chain of outputs: `incremental_rolemap_parent030_to038_pressure_recover1_final_selected.csv` reached `0.3811275`; `incremental_rolemap_parent030_to039_wide1_final_selected.csv` reached `0.3921569`; `incremental_rolemap_parent030_to405_wide1_final_selected.csv` reached `0.4080882`; `incremental_rolemap_parent030_to425_wide1_final_selected.csv` reached `0.4203431`.
+- Latest high-coverage metrics at `0.4203431`: solved=True, avg/max `4.10/9`, supportDepth=4, localRun=2, followRun=4, outerExitHeadCount=2. This proves the V1 line can climb past 0.4 without immediate difficulty collapse.
+- Current bottleneck: after ~0.414 coverage, valid candidate space becomes sparse. A 12-window pass found no accept after `0.4142157`; a 24-window pass found one accept to `0.4178922`; another 24-window single-commit pass found one accept to `0.4203431`. The next problem is candidate scarcity/search cost and macro region scheduling, not first-order feasibility.
+
+## All Seed Strict Role Root Scan V2 Review13 - 2026-06-24
+
+- User requested a full pass over all seeds after the first 25-source strict review proved too narrow and partly forced. Actual seed pool count is 951 `.asset` files under `Assets/ArrowMagic/SOData/Levels/Seeds`: 780 root seeds and 171 under `Seeds/R2FinalCandidatePool`.
+- Full scan funnel: 951 profile rows -> 798 deep-scan source candidates after cheap prefilter -> 404 trace-eligible availability-peel sources -> 106 sources with supportClosureBestDepth >= 3 -> 267 strict role-root candidates -> 57 `StrictRootReview` rows -> 15 `RootExtractableA/B` rows -> 13 one-per-source selected review roots.
+- Important boundary: 392 availability-peel sources were classified as `TooDenseFullBody` and not burned through full trace in this pass. They are not lost; they need a different dense-seed extractor if we want to mine them later. This pass is a full seed screening pass, not a promise that every dense full-body seed has been fully extracted.
+- Key outputs: prefilter `all_seed_root_source_prefilter_v1_screen.csv`, trace eligibility `all_seed_root_source_trace_eligibility_v1_screen.csv`, eligible trace `all_seed_root_source_trace_eligible_v1_trace_metrics.csv`, strict candidate trace `all_seed_strict_role_root_v1_shortid_trace_metrics.csv`, catalog `all_seed_strict_role_root_v1_catalog.csv`, extractability screen `all_seed_root_extractability_gate_v2_screen.csv`, selected review input `all_seed_root_extractable_v2_review_selected.csv`.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_AllSeedRootExtractableV2Review13Pack.asset`, GUID `8db16fca66f9417f990df524607548b3`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/all_seed_root_extractable_v2_review13_frozen_trace_metrics.csv`; 13/13 solved, tiers S=3/A=9/B=1, classes HardPotential=1 and MediumStructure=12.
+- Interpretation: `AllSeedRootExtractableV2Review13` is now the broadest current original-seed root review pack. It should still be visually filtered for duplicate variants, especially source-family pairs such as r1_ab_089 and r1_ab_156 variants.
+
+## Root Canvas Variant V1B Review16 - 2026-06-24
+
+- User asked to start producing variants from our own generated roots and canvas variants. Implemented `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RootCanvasVariantsV1.ps1` as a first safe variant line: it reads frozen root assets, applies continuity-preserving geometry/canvas transforms, writes new LevelDefinition assets, and emits a candidate CSV.
+- Source roots for V1B: first confirmed self-produced roots from `support_lock`, `strict_dual`, `web_crossover`, and `hub_spoke` in `RootLibraryInitialFamiliesV1`.
+- Variant presets used: `mirrorx`, `rot180`, `wide28_mirrorx`, `tall38_mirrory`. This intentionally preserves causal chain identity while changing orientation/canvas, rather than inventing new dependencies.
+- Candidate output: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_canvas_variant_v1b_candidates.csv`; selected review input: `root_canvas_variant_v1b_review16_selected.csv`.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootCanvasVariantV1BReview16Pack.asset`, GUID `dc94d42f0ca34ecfb9d265855f14f4b7`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_canvas_variant_v1b_review16_frozen_trace_metrics.csv`; 16/16 solved, tiers S=1/A=15, classes TrueHardCandidate=6, HardPotential=6, MediumStructure=4.
+- Signature diagnostics: `root_canvas_variant_v1b_review16_signature_summary.md` reports 5 rootSkeleton signatures; `root_canvas_variant_v1b_review16_backbone_summary.md` reports 5 causal backbone roots and 7 backbone variants. Interpretation: the variant line preserves several distinct root identities instead of collapsing everything to one root, but support_lock/hub_spoke still partially merge with the common convergent support-lock backbone.
+- Next step: user visual review of Review16, then expand from safe transforms into role-anchor remap variants and eventually canvas-specific SGP refill around preserved root specs.
+
+## Root Variant Mixed V1 Review16 - 2026-06-24
+
+- User clarified that canvas shrink/embedding variants are still worth keeping, but they also need real variants because pure scale/canvas moves preserve chain distribution and feel too similar.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RootSpatialRecomposeVariantsV1.ps1` as an attempted chain-level spatial recompose. Result: 14/14 trace Drop, proving independent per-chain relocation destroys ray-causal dependency and should not be the default variant method.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RootPeripheralJitterVariantsV1.ps1`. It locks trace core chains from supportClosure/strictDual fields and only jitters non-core peripheral chains. Hard jitter (move 6 chains) produced 4/24 solved; soft jitter (move 3 chains) produced 17/32 solved A.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantMixedV1Review16Pack.asset`, GUID `e09071087b31411381ecea8cb88168d9`.
+- Pack composition: 4 self-produced root families (`support_lock`, `strict_dual`, `web_crossover`, `hub_spoke`) x 4 rows each. Each family has 2 canvas_embedding variants and 2 peripheral_jitter_soft variants.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_mixed_v1_review16_frozen_trace_metrics.csv`; 16/16 solved, all A, classes TrueHardCandidate=6, HardPotential=8, MediumStructure=2.
+- Signature diagnostics: `root_variant_mixed_v1_review16_signature_summary.md` reports 15 core signatures, 13 skeleton family signatures, 5 rootSkeleton signatures; `root_variant_mixed_v1_review16_backbone_summary.md` reports 6 causal backbone roots and 12 backbone variants.
+- Interpretation: V1 production line now has two viable variant modes: low-risk canvas embedding and trace-core-preserving peripheral jitter. The next variant step should not move chains independently; it should either jitter only non-core chains, or move causal clusters as units with trace gate.
+
+## SGP Constraint Adapter V1 Smoke - 2026-06-24
+
+- User/GPT convergence: keep Direct SGP as the coverage/packing engine, but inject a stateful constraint adapter rather than rewriting SGP or building a second planner.
+- Implemented experimental adapter hooks in `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`: optional RoleMap-backed head filter, body walk role bias, critical-timing body rejection/penalty, outer-exit budget, and mop-up short-chain budget. Defaults preserve old behavior.
+- From an existing 0.30 rootlib parent, `TargetCoverage=0.60 / MaxNewChains=90` with adapter still filled to `0.536-0.580` but 8/8 were unsolved with `supportDepth=0`; conclusion: one-shot large SGP fill still rewrites the temporal/core release graph.
+- Small batch smoke `MaxNewChains=5 / AdapterOuterExitBudget=2` produced 16 candidates, 1 solved A candidate at coverage `0.3676471`, `avg/max=3.64/7`, `supportDepth=3`, `localRun=2`, `followRun=5`, `outerExitHeadCount=3`. This proves adapter-guided SGP can add multiple chains while preserving the motif, but hit rate is low.
+- Strict outer budget smoke `AdapterOuterExitBudget=0` produced no solved candidates; this confirms dynamic outer pressure cannot be hard-zeroed and should remain a controlled budget/gate.
+- Current conclusion: the next viable route is not full-board one-shot SGP and not single-chain only; it is small-batch SGP + adapter + trace commit + RoleMap recompute, with dynamic outer budget and better selection/ranking.
+
+## SGP Constraint Frame Layer V1 Smoke - 2026-06-24
+
+- Added experimental `-UseConstraintFrameLayer` to the seeded SGP adapter: SafeFill/BodyOnly cells are no longer allowed to become heads, high-risk/direct outer heads consume both global and per-side outer budget, and RoleMap still guides body scoring. This is a coarse frame layer, not a full global solver.
+- Step1 from the existing 0.30 rootlib parent with `MaxNewChains=5`, `AdapterOuterExitBudget=2`, `AdapterOuterExitBudgetPerSide=1`: 24 traced candidates, 1 solved A candidate at coverage `0.3676471`, `avg/max=3.64/7`, `supportDepth=3`, `localRun=2`, `followRun=5`, `outerExitHeadCount=3`.
+- Step2 from that candidate: 24 traced candidates, 3 solved A candidates. Best pressure-preserving pick `sgp_frame_layer_v1_step2_batch5_smoke_b01_c19` reached coverage `0.3909314`, `avg/max=3.96/9`, `supportDepth=4`, `localRun=2`, `followRun=4`, `outerExitHeadCount=5`.
+- Step3 candidates geometrically reached `0.411-0.431` coverage, but the traced top candidate was only solved Drop with `avg/max=4.87/11`, `supportDepth=3`, `outerExitHeadCount=7`. This shows the current frame layer can continue the chain but does not yet control outer-exit proliferation or choice curve near 0.42+.
+- Current conclusion: coarse frame is useful but too weak. The next frame layer needs explicit planned outer-exit shell/pressure corridors rather than deriving all frame constraints from the current RoleMap head roles.
+
+## SGP Pressure Gradient Layer V2 Smoke - 2026-06-24
+
+- GPT review corrected the previous “outer shell first” interpretation: next cut should be a dynamic pressure-gradient layer between core and shell, not a fixed prebuilt outer shell.
+- Added experimental `-UsePressureGradientLayer` to the seeded SGP adapter: per-region head budget and per-region outer-exit budget are tracked in addition to global/per-side outer budgets. This tries to prevent SGP from concentrating new exits in one or two regions.
+- Step1 from the existing 0.30 rootlib parent with `MaxNewChains=5`, `AdapterOuterExitBudget=2`, `AdapterOuterExitBudgetPerSide=1`, `AdapterOuterExitBudgetPerRegion=1`, `AdapterHeadBudgetPerRegion=2`: 24 traced candidates, 1 solved A candidate at coverage `0.3504902`, `avg/max=3.19/7`, `supportDepth=4`, `localRun=3`, `followRun=5`, `outerExitHeadCount=3`.
+- Step2 from that candidate: 16 traced candidates, 1 solved A candidate at coverage `0.3762255`, `avg/max=4.43/9`, `supportDepth=4`, `localRun=2`, `followRun=5`, `outerExitHeadCount=4`.
+- Current interpretation: region pressure gradient improves stability/keeps support depth but is conservative and does not yet solve high-coverage speed. It should be integrated into the incremental compiler as a selection/ranking signal, but the route still needs larger macro regions or planned pressure corridors to climb efficiently past ~0.42.
+
+## SGP Incremental Compiler Cavity Recovery Proof - 2026-06-24
+
+- Added experimental knobs to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-IncrementalRoleMapFillCompilerV1.ps1`: `RoomwiseMaxAcceptedChains`, `TraceCavitySplitRecovery`, and `CavitySplitRecoveryLimit`. Defaults preserve old single-chain / no-recovery behavior.
+- GPT review and local data agreed that `cavitySplit` is not a hard reject after about 0.35 coverage; it should be treated as a recoverable soft-risk candidate class and traced in a small recovery beam.
+- One-chain pressure-gradient compiler was safe but too slow: `0.307598 -> 0.3210784` in 4 commits, all solved/A-like with supportDepth 3, but each commit only added a tiny chain.
+- Allowing 2 accepted room chains sped progress: `0.307598 -> 0.3296569` in 2 commits while keeping solved/A, supportDepth 4, maxChoices 7, outerExitHeadCount 1.
+- Cavity recovery + deeper trace beam then produced a stable chain of accepted states:
+  - `0.3296569 -> 0.3566176`, supportDepth 4, maxChoices 7, outerExitHeadCount 1.
+  - `0.3566176 -> 0.3664216`, supportDepth 4, maxChoices 7, outerExitHeadCount 1.
+  - A too-narrow topK path reached `0.3872549` but with maxChoices 9 and outerExitHeadCount 4, so it was not the preferred route.
+  - Deep tracing all 15 candidates at the same transition found a healthier route: `0.375 -> 0.3823529`, supportDepth 4, avg/max `3.81/7`, outerExitHeadCount 3.
+  - Continued deep beam reached `0.3909314`, then `0.3982843`, both solved/A with supportDepth 4, maxChoices 7, localRun 3, followRun 4, outerExitHeadCount 3.
+- Current conclusion: the promising route is no longer tightening cheap filters. It is `RoleMap + pressure gradient + cavitySplit soft recovery + small/deeper beam + commit/recompute`. The next bottleneck is cost and beam scheduling, not first-order feasibility.
+- Continued from the `0.3982843` parent:
+  - Two-chain candidate from `0.3982843` can jump to `0.4080882`, solved/A, supportDepth 4, avg/max `4.76/8`, outerExitHeadCount 4; this is valid but yellow because choices and outer pressure rise.
+  - Single-chain deep beam found a healthier path over the 0.40 line: `0.3982843 -> 0.4007353`, supportDepth 4, avg/max `4.19/7`, outerExitHeadCount 3.
+  - From that healthier state, two-chain candidates remained viable to `0.4105392`, supportDepth 4, avg/max `4.15/7`, outerExitHeadCount 3, then `0.4203431`, supportDepth 4, avg/max `4.27/8`, outerExitHeadCount 3.
+  - After `0.4203431`, two-chain candidates all failed; single-chain deep beam still advanced to `0.4227941` and `0.4264706`, both solved/A with supportDepth 4, maxChoices 8, outerExitHeadCount 3.
+  - From `0.4264706`, a two-chain deep attempt traced 15 candidates and all dropped. Current boundary for this parent/compiler is therefore not an absolute 0.42 wall, but a mode switch: above ~0.42 only small single-chain recovery steps are currently safe, and large local batches break the core release graph.
+- Current next engineering cut: add a high-density scheduler that automatically switches `RoomwiseMaxAcceptedChains` from 2 to 1 when solved-rate drops / maxChoices or outer pressure rises, and reduce cost by caching RoleMap/trace candidates or tracing region-diverse beams instead of all deep candidates every round.
+- Implemented adaptive high-density mode in `Build-IncrementalRoleMapFillCompilerV1.ps1`: `-UseAdaptiveHighDensityMode`, `-HighDensityCoverageThreshold`, `-HighDensityRoomwiseMaxAcceptedChains`. Smoke from `0.4007353` with threshold `0.40` confirmed the round used `roomwiseMaxAcceptedChains=1` and committed to `0.4056373`, solved/A, supportDepth 4, avg/max `4.00/8`, outerExitHeadCount 3.
+
+## Constraint Slot Planner Probe - 2026-06-24
+
+- User asked whether GitHub/skills could provide reusable capability; local check found no installed `ortools` or `z3` Python packages. A temporary standalone prototype was added at `.codex-run/constraint_slot_planner_probe.py` to test the idea without changing the Unity pipeline.
+- Probe reads existing RoleMap cell CSV and performs static candidate-chain set packing / beam planning. It outputs `slot_plan_summary.csv`, `slot_plan_chains.csv`, and ASCII role-plan previews under `.codex-run/constraint_slot_planner_probe_*`.
+- On the latest ~0.40 RoleMap (`pressure_gradient_compiler_v1_adaptive_smoke1_round01_rolemap_cells.csv`), strict RoleMap hard constraints capped the plan at `0.6838` coverage; allowing SafeFill heads reached `0.7341`; allowing CriticalTimingZone as body-only reached `0.8578` with only 1 outer head.
+- The same ~0.40 RoleMap in an unconstrained control mode reached `0.9240` coverage, proving the simple chain language can near-fill, but hard RoleMap constraints are too restrictive. On the earlier ~0.30 RoleMap, the unconstrained control reached `0.8885`, while RoleMap-constrained modes stayed around `0.78-0.82`.
+- Current conclusion: a constraint-solver/slot-planner layer is useful as a diagnostic/planning adapter, but it cannot replace SGP directly. The important correction is that RoleMap must become a soft risk/budget field: critical zones should usually be allowed as body cells, heads/outer exits need budgets, and final difficulty/solvability must still go through trace/SGP commit gates.
+
+## AssetDatabase Trim for SGP Rhythm Lab - 2026-06-24
+
+- User reported Unity stuck for a long time at database after restarting `.worktrees/sgp-rhythm-lab`. Investigation found `Assets/ArrowMagic/SOData` had roughly 84k imported files, including 28k `.asset`, 42k `.meta`, 9.6k `.csv`, and 3.2k `.md`, mostly historical SGPRhythmLab experiment outputs.
+- Performed a reversible hot/cold asset split: kept current review assets in `Assets`, moved historical experiment assets/reports/packs outside `Assets` to `.worktrees/sgp-rhythm-lab/_AssetArchive/20260624_assetdatabase_trim` so Unity no longer imports them.
+- Current hot assets kept in `Assets`: active `RootVariantMixedV1Review16`, `RootCanvasVariantV1BReview16`, `RootPeripheralJitterV1Soft`, `RootLibraryInitialFamiliesV1`, plus pack assets for current mixed variant, canvas variant, initial families, and all-seed extractable review13.
+- After trim, `SOData` dropped to about 7.9k imported files: 3.7k `.asset`, 4.0k `.meta`, 131 `.csv`, 24 `.md`, etc. Reports/SGPRhythmLab dropped to about 99 files. Archive currently contains about 76.9k files.
+- Active Demo pack remains `SGPRhythmLab_RootVariantMixedV1Review16Pack.asset` (GUID `e09071087b31411381ecea8cb88168d9`), and the pack/level directory still exists. Unity project process `82904` restarted and no sgp-rhythm-lab AssetImportWorker was observed after startup.
+- Restore note: archived files were moved, not deleted. Normal path mirror is under `_AssetArchive/20260624_assetdatabase_trim/Assets/...`; reports that hit Windows path-length limits were short-name archived under `_AssetArchive/20260624_assetdatabase_trim/_short_reports/SGPRhythmLab` with `reports_short_manifest.csv`.
+
+## Root Experience Variant V1 Review15 - 2026-06-24
+
+- User clarified that mirror/rotation/full-pack transform variants are not meaningful production variants because the puzzle experience remains the same. Canvas embedding can be retained as a weak/debug variant, but official review needs experiential differences.
+- Built `RootExperienceVariantV1Review15` from `root_peripheral_jitter_v1_soft_review_selected.csv` only. It excludes mirror/rotation/pure canvas embedding and removes duplicate perturbation signatures from the soft jitter pool.
+- Frozen and mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootExperienceVariantV1Review15Pack.asset`, GUID `a41c7df3082c4e87bdd15e2aee3370d4`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_experience_variant_v1_review15_frozen_trace_metrics.csv`; 15/15 solved, all A-tier, classes TrueHardCandidate=6 / HardPotential=6 / MediumStructure=3, avgChoices range `3.02-4.14`, maxChoices `6-7`, supportDepth `3-4`.
+- Signature diagnostics: `root_experience_variant_v1_review15_signature_summary.md` reports 15 core signatures, 13 skeleton family signatures, 5 rootSkeleton signatures; `root_experience_variant_v1_review15_backbone_summary.md` reports 5 causal backbone roots and 10 backbone variants.
+- Interpretation: this is the current best "experience-difference variant" review pack for existing roots. It is not a new-root generator; next root-diversity work should continue on causal-backbone/root expansion separately.
+
+## Root Visible Peripheral Jitter V1 Probe - 2026-06-24
+
+- User reviewed `RootExperienceVariantV1Review15` and said visual/experiential difference was still not obvious. Conclusion: soft peripheral jitter is too conservative and should not be counted as a production diversity line by itself.
+- Ran a stronger non-mirror/non-rotation probe using `Build-RootPeripheralJitterVariantsV1.ps1` with `MaxMovedChains=8`, `SearchRadius=6`, `VariantsPerRoot=12`. It generated 48 candidates across support_lock, strict_dual, web_crossover, and hub_spoke.
+- Trace result: only 3/48 survived as solved A-tier. This confirms aggressive single-chain jitter has low survival rate because it tends to break causal dependencies.
+- Mounted Demo probe pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVisiblePeripheralJitterV1Review3Pack.asset`, GUID `b8c910e29ce84f72b83905d577836553`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_visible_peripheral_jitter_v1_review3_frozen_trace_metrics.csv`; 3/3 solved A, one TrueHardCandidate and two MediumStructure.
+- Interpretation: this is a probe pack for human review only. If the user still sees insufficient difference, stop single-chain jitter and move to causal cluster / role-anchor remap variants.
+
+## AssetDatabase Trim for SGP Rhythm Lab Round2 - 2026-06-24
+
+- User asked whether `.worktrees/sgp-rhythm-lab` still had optimization room after the first AssetDatabase trim. It did: `Assets/ArrowMagic/SOData` still had 8365 files, including untracked `ReferenceSeeds`, old SGPRhythmLab review/source levels, old packs, and old reports.
+- Performed a second reversible hot/cold split to `.worktrees/sgp-rhythm-lab/_AssetArchive/20260624_assetdatabase_trim_round2/`. Manifest: `manifests/sgp_rhythm_lab_round2_hotset_trim_manifest.csv`; summary: `manifests/sgp_rhythm_lab_round2_hotset_trim_summary.md`.
+- Kept hot in `Assets`: active Demo pack `SGPRhythmLab_RootVisiblePeripheralJitterV1Review3Pack.asset`, active level dir `Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/RootVisiblePeripheralJitterV1Review3/`, and reports with prefix `root_visible_peripheral_jitter_v1_review3*`.
+- Moved 268 filesystem items / 1984 files / 8.41 MB out of `Assets`. `Assets/ArrowMagic/SOData` dropped to 6446 files; `Reports/SGPRhythmLab` dropped to 179 files; `Levels/SGPRhythmLab` now contains only 7 files for the active review3 hot set.
+- Verified active pack still exists, its three referenced level GUIDs remain in the active level dir, active report prefix files remain, and `ReferenceSeeds` is no longer under `Assets` but exists in the archive.
+- Intentionally did not move tracked `Assets/ArrowMagic/SOData/Levels/Generated` or `Assets/ArrowMagic/SOData/Levels/Seeds`; those are production/source data and need a separate decision before any cleanup.
+
+## AssetDatabase Trim for SGP Rhythm Lab Round3 - 2026-06-24
+
+- Follow-up check found two more untracked Unity-imported legacy procedural level folders: `Assets/ArrowMagic/SOData/Levels/DirectProcedural` and `Assets/ArrowMagic/SOData/Levels/NoMaskProcedural`.
+- Confirmed current `Demo.unity`, active `SGPRhythmLab_RootVisiblePeripheralJitterV1Review3Pack.asset`, and active review3 level dir do not reference `DirectProcedural` or `NoMaskProcedural`; `git ls-files` also reported no tracked files under those folders.
+- Moved both folders and their meta files to `.worktrees/sgp-rhythm-lab/_AssetArchive/20260624_assetdatabase_trim_round3/`. Manifest: `manifests/sgp_rhythm_lab_round3_legacy_procedural_levels_manifest.csv`; summary: `manifests/sgp_rhythm_lab_round3_legacy_procedural_levels_summary.md`.
+- Moved 4 filesystem items / 90 files / 0.28 MB out of `Assets`; this is small on disk but removes another pair of old experiment folders from Unity AssetDatabase import.
+
+## AssetDatabase Trim for SGP Rhythm Lab Round4 - 2026-06-24
+
+- Follow-up recursive count found remaining non-active report files and child directories under `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab` even after round2.
+- Moved all remaining report children that do not start with `root_visible_peripheral_jitter_v1_review3` to `.worktrees/sgp-rhythm-lab/_AssetArchive/20260624_assetdatabase_trim_round4/`. Manifest: `manifests/sgp_rhythm_lab_round4_reports_tail_manifest.csv`; summary: `manifests/sgp_rhythm_lab_round4_reports_tail_summary.md`.
+- Moved 20 filesystem items / 175 files / 2.13 MB. `Reports/SGPRhythmLab` now has 10 files total, all belonging to the active review3 report prefix.
+
+## Root Cluster Remap V1B Probe - 2026-06-24
+
+- User confirmed single-chain jitter does not create meaningful experiential difference. Decision: single-chain jitter is not an official variant direction.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RootClusterRemapVariantsV1.ps1`. It selects a spatial cluster of non-core chains and translates the cluster as a unit while preserving trace core chains.
+- First strong cluster run generated 27 candidates but only 1 solved; V1B softer run generated 46 candidates and 10 solved A-tier candidates. Survivors concentrated in hub_spoke/support_lock; strict_dual/web_crossover did not survive this cluster strategy.
+- Frozen and mounted Demo probe pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootClusterRemapV1BReview6Pack.asset`, GUID `c2ce4a8cd84e4e6db1fd34d0b6e97ff0`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_cluster_remap_v1b_review6_frozen_trace_metrics.csv`; 6/6 solved A, 2 HardPotential and 4 MediumStructure, supportDepth 3-4.
+- Interpretation: this is a cluster-translation visibility probe. If user still sees insufficient difference, stop translation-based variants and move to role-anchor remap / causal cluster swap instead.
+
+## Root Role-Zone Swap V1 Probe - 2026-06-24
+
+- User rejected both single-chain jitter and non-core cluster translation as visually/experientially indistinguishable.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RootRoleZoneSwapVariantsV1.ps1`. It forms two non-core role zones and swaps their positions, preserving trace core chains and using board trace as the final gate.
+- First role-zone run generated 34 candidates and all solved, but most were no-op (`offsetA=0,0`, `offsetB=0,0`). This exposed an important bug: role-zone remap scripts must reject zero-distance/no-op variants before counting them.
+- Two non-zero role-zone swap survivors were selected from hub_spoke, with large offsets (`16,0` and `-16,1` / `-15,1`) and swapDistance 32-33.
+- Frozen and mounted Demo probe pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootRoleZoneSwapV1Review2Pack.asset`, GUID `d44b9b5752e44d71b37b8d79cfa2a619`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_role_zone_swap_v1_review2_frozen_trace_metrics.csv`; 2/2 solved, tiers S/A, both HardPotential, supportDepth 3-4, avgChoices 3.6-3.9, maxChoices 9.
+- Interpretation: this is the first genuine role-zone swap probe. If user still sees insufficient difference, the conclusion is that old-root variants are not enough and root diversity must come from generating/admitting new causal roots.
+
+## Role-Zone Swap Dedup Correction - 2026-06-24
+
+- User reviewed `RootRoleZoneSwapV1Review2` and confirmed the two levels were effectively identical. Geometry comparison: they were not byte-identical, but came from the same hub_spoke source and same operation family; chain Jaccard was `34/46 = 0.739` with only 6 chains different each way, so the review pack was correctly rejected as duplicated.
+- Corrected selection rule: do not present multiple variants from the same source/root with the same operation class; role-zone swap candidates also need geometry/operation dedup, not just non-zero offsets.
+- Ran non-zero role-zone swap over all 12 initial roots. Only 8 non-zero candidates were generated; 2 solved, both hub_spoke. Cascade/split non-zero candidates dropped; support/strict/web produced no non-zero landed candidates under this search.
+- Mounted a single technical proof instead of the duplicated pair: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootRoleZoneSwapV1Roots12Review1Pack.asset`, GUID `edb2b3dbca7f426089050a3d829fb356`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_role_zone_swap_v1_roots12_review1_frozen_trace_metrics.csv`; 1/1 solved, S-tier, TrueHardCandidate, supportDepth=4, avg/max choices 3.8/9.
+- Conclusion: old-root mutation/variant route is not a sufficient diversity source. It can produce isolated technical proofs, but production diversity should return to generating/admitting genuinely new causal roots.
+
+## Causal Root Family One-Each Review Pack - 2026-06-24
+
+- User decision: stop old-root mutation as the main diversity route and move to new causal roots.
+- Restored archived MixedRootFamilyReviewV1 pack assets/levels/reports from _AssetArchive/20260624_assetdatabase_trim back into .worktrees/sgp-rhythm-lab/Assets for active review.
+- Created one-per-family review pack: .worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_CausalRootFamilyOneEachV1Pack.asset.
+- Pack GUID: 4d9c124509544bebb0d177676f89a8fa; Demo scene activePack now points to this pack.
+- Contents: 6 representatives: support_lock, strict_dual, web_crossover, hub_spoke, cascade_relay, split_key. These reuse frozen MixedRootFamilyReviewV1 assets and existing board-trace/classifier audits.
+- Verification: all 6 level GUIDs referenced by the pack were found in Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/MixedRootFamilyReviewV1.
+- Next review task: user should judge whether these six are player-facing distinct causal roots; do not count within-family pairs/variants as new root diversity.
+
+## Campaign500 Hardening Analyzer V0 - 2026-06-24
+
+- User requested a way to raise candidate/final pack difficulty by reducing early free outer exits and too many simultaneous choices.
+- Added analysis-only editor tool `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`; it reads `Campaign500FinalPack` and `SingleLevelCandidatePoolPack`, runs Greedy/choice trace, counts direct/clearable outer exits, edge short leaks, early choice explosion, and weak dependency signals.
+- Latest run output: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_final_and_candidate_pool_20260624_221821_summary.csv`, `..._leak_rank.csv`, `..._top20_plan.csv`, and `..._notes.md`.
+- Generated review pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningLeakReviewPack.asset` with the top 20 leak candidates; it is not mounted to Demo yet.
+- Calibrated final-pack priority bands after first too-broad run: final 500 distribution is CriticalLeak=26, HighLeak=103, MediumLeak=220, LowLeak=112, Ok=39.
+- Critical candidate campaign orders: 387,425,183,490,381,343,284,382,436,494,474,449,465,488,173,366,475,405,380,500,287,459,445,452,238,456.
+- Validation: `dotnet build .\ArrowLevel-Hand.sln` passed with existing warnings; Unity batch executed analyzer and wrote reports/review pack.
+- Next step: build a light/heavy hardening sandbox from the top leak rows, starting with safe operators only: redirect outer heads, wrap/merge boundary straight or short outer chains, then re-run Greedy and compare choice/outer-exit deltas.
+
+## Campaign500 Hardening GPT Review - 2026-06-24
+
+- Consulted GPT via the user-provided ChatGPT conversation about Hardening Analyzer bands and next steps.
+- GPT agreed leak bands should stay separate from game difficulty labels: they measure early entropy leak / sweepability, not player-facing difficulty.
+- GPT recommended one minimal calibration before mutation sandbox: merge correlated boundary leak signals into one bounded boundary channel, reduce choice-explosion weights, and slightly tighten weak-dependency trigger.
+- Do not change score bands yet; keep `Ok/Low/Medium/High/Critical` thresholds stable so the next report is comparable.
+- Calibration implemented in `CampaignHardeningAnalyzer.cs`: boundary leaks now score once through a capped `BoundaryLeak` channel, choice weights are lower, and weak-dependency trigger is tighter. Batch mode now logs progress every 25 levels and per-level slow warnings.
+- Latest calibrated run: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_final_and_candidate_pool_20260624_224354_summary.csv`, `..._leak_rank.csv`, `..._top20_plan.csv`, `..._notes.md`.
+- Final-pack distribution changed from `Critical=26/High=103/Medium=220/Low=112/Ok=39` to `High=2/Medium=141/Low=284/Ok=73` with no Critical. This is now a sharper repair-priority queue rather than a broad difficulty label.
+- Built copied light/heavy hardening sandbox V1 for selected HighLeak/top MediumLeak levels; do not mutate `Campaign500FinalPack.asset`.
+- Sandbox V1 output: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV1Pack.asset`, levels under `Assets/ArrowMagic/SOData/Levels/Campaign500HardeningSandbox/V1`, report `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v1_20260624_224903.csv`.
+- Sandbox V1 result: 10 source levels x original/light/heavy = 30 assets; all Greedy solved. Light accepted avg `1.9` ops, score `618.8 -> 581.0`, opening choices/direct outer `28.0 -> 26.1`. Heavy accepted avg `3.4` ops, score `618.8 -> 543.5`, opening choices/direct outer `28.0 -> 24.6`. This validates safe outer-head redirect as a first operator, but not yet full gate/region hardening.
+- Demo scene `Assets/ArrowMagic/Scenes/Demo.unity` was mounted to `Campaign500HardeningSandboxV1Pack.asset` for review. Levels were grouped as original/light/heavy triplets per source level.
+- Next local step: add a second sandbox operator that turns remaining free exits into local dependency gates instead of only reversing exposed outer-head chains; keep per-step Greedy + entropy gates and compare against V1.
+
+## Campaign500 Hardening Qualitative Sandbox V2 - 2026-06-24
+
+- User reviewed V1 and correctly found the difference visually indistinguishable. V1 was only chain reversal, so it changed direction metrics but not the visible body language.
+- Added V2 to `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`: `Tools/Arrow Magic/Campaign 500/Hardening/Build Qualitative Sandbox V2`.
+- V2 main operator is accepted edge/direct-exit chain merge: two adjacent boundary/free-exit chains are merged into one longer chain, reducing chain count and visible arrowheads/colors. Every merge is gated by Greedy solvability, unchanged arrow tile count, reduced opening/outer/early choices or leak score, and no excessive forced-move/dependency regression.
+- V2 output pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV2Pack.asset`; level folder `Assets/ArrowMagic/SOData/Levels/Campaign500HardeningSandbox/V2`; report `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v2_20260624_234908.csv`.
+- V2 selected 10 original/strong pairs from orders `425,387,474,183,494,405,490,343,449,382`; all strong variants are Greedy solved.
+- V2 average strong result: accepted ops `9.0`, chains `167.0 -> 158.0`, opening/direct clearable outer `28.0 -> 16.6`, leak score `618.8 -> 399.5`. This is the first visually meaningful hardening sandbox, unlike V1.
+- Demo scene is currently mounted to V2 pack. Review rule: odd levels are originals, even levels are the corresponding strong V2 variant.
+
+## Gate Vocabulary V1 Light Review - 2026-06-24
+
+- Mounted Demo activePack to `SGPRhythmLab_GateVocabularyV1LightReviewPack` (guid `0a8b5ee614ec49deb72f2bb146324904`).
+- Pack path: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GateVocabularyV1LightReviewPack.asset`.
+- Contains 4 shared-core dual-gate door-shape candidates: base, vertical, right-facing, downward/crossed.
+- Board trace: all 4 assets import/reference correctly; levels 1,2,4 pass `strictDualGateCandidate`; level 3/right-facing is visual-only for now because strict dual candidate is rejected in trace.
+- This is a gate vocabulary review pack, not a final production-hard pack; next step is to keep visually accepted door designs and re-run solvable/coverage fill.
+
+## Gate Vocabulary V1 Solved Skeleton Growth Review - 2026-06-24
+
+- User confirmed Gate Vocabulary V1 has visible body-feel differences and is theoretically viable.
+- Local trace corrected GPT's broad diagnosis: pure strict-dual gate skeletons are already `solved=True + strictDualGateCandidate=True`; the earlier failure came from light filler breaking solvability.
+- Mounted Demo activePack to `SGPRhythmLab_GateVocabularyV1SolvedSkeletonGrowthReviewPack` (guid `584221c803cf4d5fa98ac9ac479176ae`).
+- Pack contains 4 solved strict-dual skeleton-only gate designs plus 3 accepted conservative growth steps from the first design.
+- Current conservative growth reached 17 chains / maxChoices 6 / avgChoices about 4.2 / antiLocal about 0.91 while preserving strict-dual identity; not yet coverage 0.30.
+- Next step: implement faster single-base/early-stop fill for solved gate skeletons, then push each accepted gate design toward 0.20 -> 0.25 -> 0.30.
+
+## SGP Full-Density Control Experiments - 2026-06-24
+
+- Goal: start from a verified ~0.30 parent/core skeleton and push toward near-full coverage while preserving solvability and hard motif.
+- Verified baseline: raw seeded SGP can geometrically reach coverage ~0.88, but trace collapses (`solved=False`, avgChoices ~21-24, maxChoices ~36-43, outerExitHeadCount 32-39, supportClosureDepth 0). SGP is a packing engine that reaches density by many outward exits.
+- Hard RoleMap filtering protects the structure but starves fill: coverage caps around 0.53-0.54 with adapter outer exit budget held near 2.
+- Soft-budget Constraint Adapter was implemented in `Build-SeededDirectSGPFillBaselineV1.ps1` and comparison wrapper `Run-SGPBudgetAdapterComparisonV1.ps1`; it restores coverage to ~0.88 but still has 50+ adapter outer exits and traces all Drop/unsolved. Increasing over-budget penalties did not materially reduce outer exits. Conclusion: scoring/budget adapter is too late to change SGP’s high-density generation language.
+- `UsePreActionMask` was added to move constraints earlier: only `GuardSlot/HeadAllowed` conditional zones may be heads; Safe/HighRisk/CriticalTiming/BodyOnly zones can still be consumed as body. This changes SGP behavior: coverage ~0.75-0.79 and adapter outer exits drop to 5-14, but trace deadlocks quickly (`avgChoices 0-1`, unsolved).
+- Crude `PreseedOuterExits + UsePreActionMask` restores some choices (avg ~6-7) but lowers coverage to ~0.58-0.62 and remains unsolved, so random/short boundary exits are not a valid production scaffold.
+- GPT review agreed: stop tuning adapter/preseed exits. Current failure is a missing temporal release scaffold / unlock flow backbone. Next cut should be a minimal release-path scaffold extracted from the 0.30 parent: preserve 1-2 support-lock paths, define one controlled escape/release corridor and one mid-lock bottleneck, then let SGP fill bodies inside that scaffold. Pass criteria: coverage >=0.75 with at least some solved candidates, avgChoices in single digits, maxChoices <=10-12, supportDepth >=3, and outerExitHeadCount not exploding (>20).
+- Follow-up release-head probes extended `Build-SeededDirectSGPFillBaselineV1.ps1` with `PreActionMaskAllowReleaseHeads` and `PreActionMaskReleaseRegions`. Allowing CriticalTimingZone release heads reached only ~0.59-0.63 coverage, all unsolved, outerExitHeadCount=1, avgChoices ~2-3. Allowing HighRiskFreeHead only in parent direct-exit owner regions (`0;3;5;6;8`) still capped around ~0.58-0.63. Conclusion: region/head-slot whitelist is still just a mask; it does not create a valid temporal release scaffold. Next experiment must explicitly construct/freeze release paths, not only permit more head categories.
+- Corrected release-scaffold diagnosis: reserving only `rayCellsBeforeHit` is insufficient because after the original blocker clears, later cells on the same escape ray can still be occupied by new SGP chains and break temporal release. `Build-SeededDirectSGPFillBaselineV1.ps1` now supports `PreActionMaskReserveFullRayOwners` and also applies adapter step rejection to the second cell of a generated chain.
+- Full-ray release-lane experiments on the 0.338 parent:
+  - Selected-edge reserve (`4;5;6;8;9;10;32;40`) and release-head whitelist still produced coverage ~0.57-0.60 but all Drop/LocalEasy, supportDepth=0.
+  - Full-ray reserve for critical owners restored supportDepth from 0 to 2 but stayed unsolved; temporal comparison showed carrier owner `31`/`15` closure was missing.
+  - Full edge-closure reserve (direct roots + all `criticalDependencyEdge` owners) produced 4/4 solved/supportDepth=4 but only coverage ~0.41-0.42 and high choices.
+  - Minimal closure reserve (`0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;19;31;32;40`) produced solved/supportDepth=4 candidates at coverage ~0.45-0.47, still not production due high avg/max choices and low density.
+- Current conclusion: full escape-ray release skeleton is the correct solvability scaffold, but treating it as a hard forbidden reserve is too conservative. Next cut should turn release lanes into controlled lanes that can contain fill only when the inserted chain participates in the temporal release order; do not return to static head/region masks as the main route.
+
+## Tonight Fullish Max44 Review Pack - 2026-06-24
+
+- Goal alignment with GPT/user: tonight pass target is a playable full-ish candidate, not final 0.9 production. Practical threshold: solved, supportDepth >=3/4, avg/max choices controlled, no motif collapse, coverage materially above the 0.338 parent.
+- Main full-canvas release-lane experiments proved the scaffold boundary but did not yet produce high coverage: full-ray release closure can preserve solved/supportDepth but caps coverage near 0.42-0.47.
+- Fallback route produced a playable review pack by shrinking canvas to 18x24, keeping 44 total chains, pre-seeding an outer frame, and running seeded SGP fill.
+- Mounted Demo activePack to `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_TonightFullishMax44V1ReviewPack.asset` (guid `2f4a0a26d8b44ac99d8443914bd1a2de`).
+- Frozen pack contains 6 candidates under `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/TonightFullishMax44V1Review`.
+- Frozen trace verification: 6/6 solved, all supportClosureBestDepth=4, supportScore `0.918-0.946`, avgChoices `3.61-5.20`, maxChoices `7-9`, outerExitHeadCount `8-9`; 5/6 are `MediumStructure`, 1/6 `LocalEasy`; processTier includes S/A. Best first-review candidate is rank 1 / `tonight_fullish_max44_v1_01...` with solved=True, MediumStructure, depth=4, avg/max `4.18/7`.
+- Density up-probe `tonight_smallcanvas_max50_v1` reached coverage up to `0.6227` and remained solvable, but mostly collapsed to `LocalEasy` with outerExitHeadCount `12-15`; not mounted as the main demo pack. This confirms max44 is the better tonight review balance while max50 shows the next density frontier.
+- Interpretation: this is the first end-to-end playable “full-ish” package for tonight, not final production. Remaining gap is outerExitHeadCount still high and coverage is ~0.50-0.58 rather than near-full; next production direction is controlled release-lane fill on full canvas, plus this small-canvas route as fallback/demo baseline.
+
+## Gate Vocabulary V1 One-Per-Door Production Probe - 2026-06-24
+
+- User rejected the previous solved-skeleton growth pack because levels 5/6/7 were the same root/gate grown step-by-step rather than distinct roots.
+- Rebuilt the review unit as one filled candidate per strict-dual gate design: offsets 0-3 from `gate_vocabulary_v1_skeleton_only_trace_metrics.csv`, each filled independently with `Build-HardLockSlotDirectedBatchFillV1.ps1`.
+- Mounted Demo activePack to `SGPRhythmLab_GateVocabularyV1OnePerDoorProdReviewPack`, GUID `724ca47d6f744c088f20d60fe3412dfa`.
+- Pack contents are 4 solved strict-dual candidates, one per door/gate design. Selected candidate coverage is still low (`0.1091-0.1348`), chains 17-19, avgChoices `3.58-3.82`, maxChoices 6, antiLocal `0.833-0.846`, supportDepth 2-3.
+- Frozen trace verified 4/4 `solved=True` and 4/4 `strictDualGateCandidate=True`.
+- Interpretation: this is a player-facing vocabulary review pack, not the final 0.30 production pack. If the user confirms the 4 door designs are truly distinct enough, next step is to push each accepted door independently toward 0.20 -> 0.25 -> 0.30 while enforcing one-output-per-door and no growth-sequence duplicates.
+
+## Gate Vocabulary Door Push020 Mid Review - 2026-06-24
+
+- User confirmed the 4 one-per-door strict-dual designs have visible/experiential difference, so gate/door vocabulary is accepted as a valid diversity axis.
+- Attempted parallel push toward coverage 0.20 from the 4 accepted door candidates. Long run timed out before writing final CSV, but accepted trace steps were recovered from per-round candidate/trace files.
+- Mounted Demo activePack to `SGPRhythmLab_GateVocabularyDoorPush020MidReviewPack`, GUID `9a4ff7b38d774e3a83b0d13b5294a2a7`.
+- Review pack contains 4 candidates, one per door design, at coverage `0.1679-0.1814`, chains 23-25, avgChoices `3.48-3.58`, maxChoices 6, antiLocal `0.833-0.895`, supportDepth 2-4.
+- Frozen trace verified 4/4 `solved=True`, 4/4 `strictDualGateCandidate=True`, 4/4 `TrueHardCandidate`, processTier A.
+- Interpretation: this is the first filled strict-dual door vocabulary review pack with more body than the skeleton pack. It still has not reached 0.20/0.25/0.30; next step after user review is per-door push with shorter/faster staged targets, not one long 0.20 run.
+
+## Gate Vocabulary Door MultiVar V1 Review8 - 2026-06-24
+
+- User updated tonight's goal: not only door/gate roots; build variants for each validated root direction, then size/canvas expansions after root variants are reviewed.
+- Completed strict-dual door multi-variant review pack: 4 accepted door designs x 2 seed/fill variants.
+- Demo activePack mounted to `SGPRhythmLab_GateVocabularyDoorMultiVarV1Review8Pack`, GUID `85a0f9a3cf9b4a80a712c7db013d4c4f`.
+- Selected CSV: `gate_vocab_door_multivar_v1_review8_selected.csv`; frozen trace: `gate_vocab_door_multivar_v1_review8_frozen_trace_metrics.csv`.
+- Frozen trace result: 8/8 solved, 8/8 strictDualGateCandidate, 8/8 A-tier, 7 TrueHardCandidate + 1 HardPotential. Coverage from selected source rows is `0.1618-0.190`, chains 23-25, avgChoices `3.20-3.58`, maxChoices 6, antiLocal `0.789-0.895`, supportDepth 2-4.
+- This pack is for human review of per-door variants. It should not be counted as non-door root diversity; next work should switch to non-door root families/directions before size/canvas expansion.
+
+## Non-Door Root MultiVar V1 Review11 - 2026-06-24
+
+- After completing strict-dual door variants, switched to non-door root directions per updated goal.
+- Built `non_door_root_variant_base_v1.csv` from one representative each of support_lock, web_crossover, hub_spoke, cascade_relay, split_key and measured current coverage/metrics.
+- Direct directed-fill worked for support_lock only: recovered `non_door_root_var_s1_support_b01_r1_c03` from round trace, 41 chains, avg/max `3.2/7`, antiLocal `0.703`, supportDepth 4, TrueHardCandidate.
+- Direct fill produced no final candidates for web_crossover/hub_spoke/split_key under the quick shared parameter set; these families need their own variant/size route rather than strict-dual-style top-up.
+- Mounted Demo activePack to `SGPRhythmLab_NonDoorRootMultiVarV1Review11Pack`, GUID `d2b359c580fc48a7ab06e61af81a4499`.
+- Pack contains support_lock/web_crossover/hub_spoke/cascade_relay/split_key existing family pairs plus the new support_lock fill variant. Frozen trace: 11/11 solved, all A-tier; 7 TrueHardCandidate, 4 MediumStructure.
+- Interpretation: this pack is for human review of non-door root family/direction difference. It is not a final production-hard filtered pack because cascade and two support_lock baselines remain MediumStructure.
+
+## Gate Vocabulary Door Size Smoke V1 - 2026-06-24
+
+- Ran first non-mirror size expansion smoke from the strict-dual door multivar pack: first 4 roots x `wide30_shift` and `tall40_shift`.
+- Generated 8 size variants with `Build-RootCanvasVariantsV1.ps1`, then traced with absolute-path manifest after discovering relative paths were joined against SourceRoot instead of OutputRoot.
+- Trace result: 8/8 solved, 8/8 strictDualGateCandidate, A-tier; 5 TrueHardCandidate, 1 HardPotential, 2 MediumStructure. Wide shifts are more likely to lower hard class; tall shifts were all TrueHard in this smoke.
+- Frozen size smoke pack: `SGPRhythmLab_GateVocabularyDoorSizeSmokeV1Pack`, GUID `5d0ff4be64c94ad48788fa3766f67593`.
+- Demo was not switched to this pack; current active Demo remains `NonDoorRootMultiVarV1Review11Pack` for root-family review.
+
+## Non-Door Root Size Smoke V1 - 2026-06-24
+
+- Continued active goal by testing non-door root size expansion after building non-door root review pack.
+- Generated non-mirror `wide30_shift` and `tall40_shift` variants for `support_lock`, `web_crossover`, `hub_spoke`, and `split_key` from `non_door_root_variant_base_v1.csv`.
+- Initial trace: 8/8 solved/A. `hub_spoke`, `web_crossover`, and `split_key` kept at least HardPotential/TrueHard in both wide/tall variants; `support_lock` stayed MediumStructure in both size variants and was excluded from the frozen size smoke pack.
+- Frozen pack: `SGPRhythmLab_NonDoorRootSizeSmokeV1Pack`, GUID `6e4a8fbaf2dd4fe9ab2ff1f718737b62`.
+- Frozen trace: 6/6 solved/A; hub_spoke wide=TrueHard/tall=HardPotential, split_key wide=HardPotential/tall=TrueHard, web_crossover wide=HardPotential/tall=TrueHard.
+- Demo activePack was not switched; current Demo remains `SGPRhythmLab_NonDoorRootMultiVarV1Review11Pack` for root-family visual review.
+- Next: support_lock size expansion should use the newly recovered TrueHard support variant (`non_door_root_var_s1_support_b01_r1_c03`) rather than the original Medium support baseline. For web/hub/split, size expansion is viable and can be scaled after human review.
+
+## Non-Door Root Size Smoke V1 Plus Support - 2026-06-24
+
+- Extended the non-door size smoke to include support_lock by using the recovered TrueHard support source `non_door_root_var_s1_support_b01_r1_c03` instead of the original Medium support baseline.
+- Support recovered size trace: wide30_shift kept TrueHardCandidate/supportDepth4; tall40_shift kept HardPotential/supportDepth2. This proves support_lock size expansion is viable when the source parent is strong enough.
+- Frozen pack: `SGPRhythmLab_NonDoorRootSizeSmokeV1PlusSupportPack`, GUID `be8f304517d54a58b8fcdb9295504ce0`.
+- Frozen trace: 8/8 solved/A, covering support_lock, web_crossover, hub_spoke, split_key x wide30/tall40. Result distribution: 4 TrueHardCandidate + 4 HardPotential.
+- Demo activePack was intentionally left on `SGPRhythmLab_NonDoorRootMultiVarV1Review11Pack` so the user can first judge root family differences; the size pack is ready but not mounted.
+- Decision implication: size/canvas expansion should run after a strong per-root parent is selected. For strict-dual and recovered support, tall/wide shifts are viable; for web/hub/split both wide/tall survived, with tall often preserving class better for web/split and wide preserving depth better for hub/support.
+
+## Root Variant Library V1 Core Pack - 2026-06-25
+
+- Consolidated the scattered strict-dual, non-door, and size-smoke outputs into the first core root/variant library pack.
+- Input catalog: `root_variant_library_v1_core_selected.csv`; filtered out MediumStructure diagnostic rows and kept only solved/A candidates with `TrueHardCandidate` or `HardPotential`.
+- Frozen pack: `SGPRhythmLab_RootVariantLibraryV1CorePack`, GUID `a9802eed58384d9eb06618041ff1b457`.
+- Demo activePack is now mounted to this core library pack.
+- Frozen trace: 29/29 solved, 29/29 A-tier, 23 TrueHardCandidate + 6 HardPotential, no MediumStructure. AvgChoices average `3.51`, maxChoices range `6-7`, antiLocal range `0.607-0.895`.
+- Root/variant coverage in the pack: strict_dual_gate door/fill variants and size variants; support_lock recovered fill + size variants; web_crossover existing and size variants; hub_spoke existing and size variants; split_key existing and size variants.
+- This is now the main review artifact for the active goal. Remaining gaps: cascade_relay has only Medium diagnostic samples and is not admitted into the core library; each admitted root still needs human review for perceptual duplication before production admission.
+
+## Campaign500 Hardening Sandbox V3 - 2026-06-25
+
+- User asked to push hardening further than V2 by reducing opening/direct outer exits and average available choices.
+- Implemented V3 in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`: redirect pass for direct-clear outer heads, pressure-scored merge pass, Greedy validation, and rollback fix for rejected merge candidates.
+- Important bug found/fixed: rejected full Greedy merge candidates were leaving their mutated authored data behind when no candidate was accepted, causing false unsolved outputs with `ops=0`.
+- Final mounted demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV3Pack.asset` (GUID `28ab2ac1c2c809d47a3d82be185cb2d9`), 10 original/pressure pairs.
+- Final report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v3_20260625_011430.csv`.
+- Final pressure averages: opening choices `27.3 -> 22.2`, direct clearable outer exits `27.3 -> 22.2`, early avg choices `26.42 -> 21.72`, full avg choices `14.32 -> 11.65`, leak score `602.5 -> 507.6`, Greedy solved 10/10.
+- Demo scene now points to V3. Current limitation: V3 mostly redirects/merges existing chains; bigger “质变” beyond this likely needs a true gate-injection operator, not just local post-processing.
+
+## Campaign500 Hardening Sandbox V4 - 2026-06-25
+
+- User approved trying V4 after V3. Implemented V4 as a gate-fold sandbox, not replacing V3.
+- V4 route: skip oversized sources (`chains > 200`) for this probe, run selected outer-head redirect, then fold opening/free chains into adjacent chains using `FindGateFoldCandidates`; every accepted fold must keep Greedy solved and roll back rejected candidates.
+- Final mounted demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV4Pack.asset` (GUID `be23e479c2ed2c74987c99ebef164ab1`), 10 original/gate-v4 pairs.
+- Final report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v4_20260625_064105.csv`.
+- Final V4 averages: opening choices `27.8 -> 18.1`, direct clearable outer exits `27.8 -> 18.1`, early avg choices `26.78 -> 17.59`, full avg choices `14.71 -> 10.87`, leak score `610.8 -> 413.2`, chains `156.1 -> 151.1`, Greedy solved 10/10.
+- V4 is a clear step beyond V3 in pressure, but it is slower; future productionization should add a cheap gate-fold prefilter or run it only on medium-size/high-leak sources first.
+
+## Campaign500 Hardening Sandbox V4.1/V4.2 Boundary - 2026-06-25
+
+- Continued V4 with a second-pass gate-fold sandbox from V4 outputs. V4.1 pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV41Pack.asset` (GUID `23f5588cd74a74c488e7752bbd4f825e`), 8 V4/V4.1 pairs; current `Assets/ArrowMagic/Scenes/Demo.unity` activePack is intentionally mounted to V4.1 for review.
+- V4.1 report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v41_20260625_071610.csv`.
+- V4.1 averages over the 8 accepted outputs: chains `141.875 -> 140.5`, opening choices `18.75 -> 15.5`, direct clearable outer exits `18.75 -> 15.5`, early avg choices `18.50 -> 16.26`, full avg choices `10.84 -> 10.05`, leak score `422 -> 358.5`, Greedy solved 8/8.
+- Added V4.2 third-pass probe from V4.1 outputs to test remaining headroom. V4.2 produced only 1 meaningful pair out of 8 scanned: opening/direct outer `14 -> 13`, avg choices `8.069 -> 7.908`, leak `301 -> 281`; the other 7 had `ops=0`.
+- V4.2 pack/report are retained as boundary evidence, not the main review pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV42Pack.asset` and `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v42_20260625_072958.csv`.
+- Current conclusion: the local postprocess route (`outer-head redirect + gate-fold chain merge`) is basically saturated at V4.1. Further real difficulty uplift needs a new operator that injects/rebuilds dependency gates or regenerates portions under a trace gate, not another simple repeated fold pass.
+
+## Campaign500 Hardening Sandbox V5 Visible Gate - 2026-06-25
+
+- User reported V4.1 had little visible/feel difference. Implemented V5 as a visible gate-injection sandbox in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`.
+- V5 route: from latest leak-ranked final pack rows, skip very large/low-opening sources, then insert short 2-3 cell hook/bend gate chains into direct outer-exit rays. Every insertion is validated with `AnalyzeLevel`/Greedy and rolled back if it breaks solvability or makes choice pressure explode.
+- Final mounted demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV5Pack.asset` (GUID `045e629960371db42b4407cfdf5e8752`), 6 original/visible-gate pairs; current `Assets/ArrowMagic/Scenes/Demo.unity` activePack points to V5.
+- Final report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v5_20260625_075227.csv`.
+- V5 averages over 6 accepted outputs: chains `125 -> 128`, arrow tiles `917.17 -> 926.17`, opening choices `28 -> 21.83`, direct clearable outer exits `28 -> 21.83`, early avg choices `26.90 -> 19.98`, full avg choices `14.81 -> 9.70`, leak score `602.33 -> 455.83`, Greedy solved 6/6.
+- Interpretation: V5 is the first hardening pass that should be visible to the eye because it adds actual small gate chains. It is slower and only accepted 6/29 scanned rows; productionizing it requires a faster prefilter and probably a more motif-aware gate placement scorer to avoid adding arbitrary-looking small hooks.
+
+## Campaign500 Hardening Sandbox V6 Early Peel Gate - 2026-06-25
+
+- User proposed a better gate direction: first simulate removing the early free layer, continue peeling if many moves remain, then build gates around the leaked early/deep layers. Implemented V6 in `CampaignHardeningAnalyzer.cs`.
+- V6 route: `BuildEarlyPeelResultV6` repeatedly removes current available chains in waves until choice count falls near target or the peel cap is reached, records removed chain wave/depth, then `FindEarlyPeelGateCandidatesV6` places short hook/bend gate chains on rays of wave 1-3 leaked chains. Every candidate is still validated by full `AnalyzeLevel`/Greedy.
+- Final demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV6Pack.asset` (GUID `6e5820f0c0e73ff4bae751486923559b`), 6 original/early-peel-gate pairs; superseded for current Demo review by V7.
+- Final report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v6_20260625_082646.csv`.
+- V6 averages over 6 accepted outputs: chains `125 -> 129`, arrow tiles `917.17 -> 929.17`, opening choices `28 -> 23.33`, direct clearable outer exits `28 -> 23.33`, early avg choices `26.90 -> 21.75`, full avg choices `14.81 -> 10.95`, leak score `602.33 -> 486.67`, Greedy solved 6/6.
+- Operations confirm the intended behavior: accepted gates mostly target `w2/w3` peel waves, not only the initial opening layer. Compared with V5, V6 adds one more gate per level on average but is less aggressive on immediate opener reduction; it should be reviewed for whether deeper staged feel is better than V5's stronger first-screen pressure.
+
+## Campaign500 Hardening Sandbox V7 Opening Peel Gate - 2026-06-25
+
+- User asked why V6 could not push opening choices down enough. Diagnosis: V6 rewarded deeper peel waves and allowed `ops>=3` to pass, so it often changed midgame leakage more than the first-screen opener count.
+- Implemented V7 in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`: current-opening clearable chains are targeted first, a quick pressure prefilter selects gate candidates, and only the top candidates get full Greedy validation. Each accepted opening gate must reduce `OpeningChoices` by at least 1.
+- Initial over-wide V7 candidate search stalled on L387; fixed by adding quick prefilter and reducing the review sample to 4 pairs / max 5 opening gates / no deep-peel add-on for the interactive sandbox.
+- Final mounted demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV7Pack.asset` (GUID `056a052d84fe8794c9d59e7b18ece827`), 4 original/opening-peel-gate pairs; current `Assets/ArrowMagic/Scenes/Demo.unity` activePack points to V7.
+- Final report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v7_20260625_091100.csv`.
+- V7 averages over 4 accepted outputs: chains `122.75 -> 127.75`, arrow tiles `912.75 -> 927.75`, opening choices `30.25 -> 22.5`, direct clearable outer exits `30.25 -> 22.5`, full avg choices `14.41 -> 9.95`, leak score `620 -> 464.75`, Greedy solved 4/4.
+- Interpretation: V7 is the strongest opening-pressure sandbox so far, but it is still a tactical add-chain operator. For production, the next step should test replacing/rewiring some early free chains as lock/key gates instead of only inserting short blockers.
+
+## Campaign500 Hardening Sandbox V8 Opening Rewire Gate - 2026-06-25
+
+- User clarified the goal is qualitative change, not just stronger numbers. Implemented V8 in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`.
+- V8 route: find current opening free/direct chains, find nearby partner chains, optionally bridge through 0-5 empty cells, then merge/rewire the two existing chains into one longer chain. A limited V7 fallback gate is allowed only after at least one rewire path exists, and accepted outputs must include `openingRewire`.
+- Frozen demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV8Pack.asset` (GUID `ec493029142ef3d4c8b34f2c1f28afcf`), 4 original/opening-rewire-gate pairs; current `Assets/ArrowMagic/Scenes/Demo.unity` activePack points to V8.
+- Final report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v8_20260625_092655.csv`.
+- V8 averages over 4 accepted outputs: chains `150 -> 147.25`, arrow tiles `963.25 -> 965`, opening choices `26.75 -> 20`, direct clearable outer exits `26.75 -> 20`, full avg choices `14.70 -> 10.89`, leak score `596.75 -> 466`, Greedy solved 4/4.
+- Compared with V7, V8's visible difference should be stronger because the chain count goes down and original free chains become longer rewired chains; however, most accepted operations are adjacent merges, with only one bridge rewire in the first pack. Next improvement should increase non-adjacent bridge rewires and true key/lock pair rewrites if the visual still feels too close.
+
+## Campaign500 Hardening Sandbox V9 Opening Outer Rewire Gate - 2026-06-25
+
+- User feedback on V8: visible change exists, but there are still too many outer exits. Implemented V9 in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`.
+- V9 route: bulk-flip direct outer heads inward, then run a post opening-rewire pass without fallback add-gates. Sandbox reports now include both clearable outer exits and all direct outer exits.
+- Frozen demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV9Pack.asset` (GUID `9b28502a2d25e23459733bd8fcd480d9`), 4 original/opening-outer-rewire-gate pairs; current `Assets/ArrowMagic/Scenes/Demo.unity` activePack points to V9.
+- Final report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v9_20260625_095945.csv`.
+- V9 averages over 4 accepted outputs: chains `151 -> 150`, arrow tiles `1019 -> 1020.25`, opening choices `28 -> 18.5`, direct clearable outer exits `28 -> 18.5`, all direct outer exits `28 -> 18.5`, full avg choices `14.72 -> 9.87`, leak score `614.5 -> 409`, Greedy solved 4/4.
+- Interpretation: V9 is materially stronger than V8 on outer pressure, but still leaves about 14-25 direct outer exits per sample. The remaining exits are often double-ended boundary chains where flipping the head just moves the outer exit to the other end. Next breakthrough should add endpoint-inset / boundary double-ended chain merge or trim-rebuild operators; more head flipping has diminishing returns.
+
+## Campaign500 Hardening Sandbox V10 Outer Exit Endpoint - 2026-06-25
+
+- User emphasized outer exits must be treated as the priority. Implemented V10 in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`.
+- V10 now starts from the latest V9 accepted outputs instead of rerunning final source hardening. Demo pairs are `V9 before endpoint` then `V10 endpoint output`, so the review focuses only on the additional outer-exit treatment.
+- Operators: `endpointReroute` moves a direct-outer chain head to an adjacent empty cell around the neck; `endpointTrim` removes a short boundary-facing head segment. Every accepted step must keep Greedy solved and reduce all direct outer exits.
+- Frozen demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV10Pack.asset` (GUID `2c430fadb59a22249a45f1bf01814753`), 3 V9-before/V10-endpoint pairs; current `Assets/ArrowMagic/Scenes/Demo.unity` activePack points to V10.
+- Final report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v10_20260625_104309.csv`; source V9 report: `campaign_hardening_sandbox_v9_20260625_095945.csv`.
+- V10 accepted outputs average from V9 source to V10: chains `139.67 -> 139.67`, arrow tiles `997 -> 988.33`, opening choices `18 -> 12.33`, direct clearable outer exits `18 -> 12.33`, all direct outer exits `18 -> 12.33`, full avg choices `10.28 -> 7.31`, leak score `395 -> 275.33`, Greedy solved 3/3.
+- L449 was skipped because endpoint treatment only changed direct outer exits `20 -> 19`; this is intentionally rejected under the new outer-exit-focused gate.
+- Risk/next step: endpoint trim removes some arrow tiles, so visual review must check whether boundary holes look acceptable. If quality is good, production version should add a refill pass after endpoint trim; if it looks too cut-up, prefer reroute/merge over trim.
+
+## Campaign500 Hardening Sandbox V11 Multi-Layer Outer Exit - 2026-06-25
+
+- User asked to also treat chains that become continuously clearable after the initial arrows are removed, not just current-frame outer exits.
+- Implemented V11 in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`: it starts from latest V10 outputs, simulates the first 4 Greedy peel waves, detects future-layer clearable chains whose head ray reaches outside, then applies future-outer orientation flip, endpoint reroute, and trim.
+- Frozen demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV11Pack.asset` (GUID `29a79c0bec2fdd740a603c8e8bf06340`), 3 V10-before/V11 pairs; current `Assets/ArrowMagic/Scenes/Demo.unity` activePack points to V11.
+- Report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v11_20260625_111032.csv`.
+- V11 accepted outputs average from V10 source to V11: chains `139.67 -> 139.67`, arrow tiles `988.33 -> 981`, opening choices `12.33 -> 12.33`, all direct outer exits `12.33 -> 12.33`, peel-layer outer exits `51 -> 37`, future peel outer exits `38.67 -> 24.67`, full avg choices `7.31 -> 5.72`, Greedy solved 3/3.
+- Interpretation: V11 is a qualitative layer over V10. It leaves current direct outer exits roughly unchanged, but reduces the continuous second/third/fourth-layer sweep that appears after the first openings clear.
+
+## Campaign500 Hardening V12 PBE/NEE Classification - 2026-06-25
+
+- Implemented analysis-only V12 in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`: menu entry `Tools/Arrow Magic/Campaign 500/Hardening/Build PBE NEE Classification Report V12`.
+- V12 reads the latest V11 before/after assets and classifies each early peel outer exit into `PBE` (initial board already direct outer) or `NEE` (newly exposed only after earlier peel waves clear).
+- Report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_v12_pbe_nee_20260625_112948.csv`; no new pack and no Demo change.
+- Result over 3 V10-before/V11-after pairs: V10-before averages direct outer `12.33`, peel outer `51`, future outer `38.67`, PBE `12.33`, future PBE `0`, NEE `38.67`; V11-after averages direct outer `12.33`, peel outer `37`, future outer `24.67`, PBE `12.33`, future PBE `0`, NEE `24.67`.
+- Current conclusion: this sample's future-layer leaks are all NEE, not persistent future PBE. Next operator work should split routes: current/wave0 PBE requires boundary structure repair; NEE requires peel-aware propagation gates.
+
+## Campaign500 Hardening Sandbox V12 BDR-lite - 2026-06-25
+
+- Synced V12 classification result back to the GPT advisor conversation; GPT agreed with PBE/NEE routing and recommended prioritizing current-frame PBE because it is the visible first-impression outer-exit problem.
+- Implemented V12 BDR-lite in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`: menu entry `Tools/Arrow Magic/Campaign 500/Hardening/Build Boundary Rewire Sandbox V12`.
+- Operation: start from latest V11 outputs and prepend small one-cell hooks to selected current direct-outer/PBE endpoints. Each accepted step must keep Greedy solved, reduce current direct outer/PBE, and avoid NEE rebound.
+- Frozen demo pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV12BDRPack.asset` (GUID `22d9ef7c9eba2844d8a2af3166daad93`), 3 V11-before/V12BDR pairs; current `Assets/ArrowMagic/Scenes/Demo.unity` activePack points to V12BDR.
+- Report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v12_bdr_20260625_114050.csv`.
+- Result over 3 outputs from V11 to V12BDR: chains `139.67 -> 139.67`, arrow tiles `981 -> 983`, opening choices `12.33 -> 10.67`, all direct outer exits `12.33 -> 10.67`, peel outer exits `37 -> 32`, future peel outer exits `24.67 -> 21.33`, full avg choices `5.72 -> 5.36`, Greedy solved 3/3.
+- Current conclusion: BDR-lite is directionally correct but mild. It reduces current PBE without NEE rebound, but a production-worthy visible shift likely needs stronger boundary double-end restructuring, two-cell hook/stitching, or endpoint merge/rebuild.
+
+## SGP Fullchain Growth Review4 - 2026-06-25
+
+- Active goal: from a verified ~0.30 hard parent, push toward a fuller playable board while preserving solved trace and support-lock motif; GPT alignment favored keeping SGP as packing engine plus minimal decision-time steering, with trace as final gate.
+- Negative result: one-shot high-density adapter (`HeadOnly` / `PenalizeBody`) reached `~0.65-0.68` coverage but all dropped unsolved with `supportClosureBestDepth=0`; plain SGP can fill but destroys temporal motif.
+- Positive route: `Build-IncrementalRoleMapFillCompilerV1.ps1` with commit-based trace validation is viable. It advanced the same parent through `0.426 -> 0.507 -> 0.529 -> 0.537` while keeping `solved=True`, A-tier, `maxChoices=9`, `outerExitSolveRunMax=1`.
+- Best current frozen review pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_TonightFullchainGrowthReview4Pack.asset` (GUID `c40d5f6f69b94b4f8f6dd150ca34f728`), mounted in `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/tonight_fullchain_growth_review4_frozen_trace_metrics.csv`; 4/4 solved/A, first two supportDepth=4 at `~0.507/~0.528`, last two supportDepth=3 at `~0.534/~0.537`.
+- Current boundary: above `~0.53` the same parent still yields occasional valid commits, but candidate space narrows sharply and most topK candidates are MediumStructure/Drop or support-depth preserving but unsolved.
+- Implementation note: `Build-SeededDirectSGPFillBaselineV1.ps1` was extended with `PreActionMaskReservedCellMode` (`Hard/HeadOnly/PenalizeBody`) and `AdapterReservedBodyPenalty`; this proved static mask relaxation is not enough.
+- Next step: do not chase 0.9 with one parent tonight. Either improve incremental compiler selection to prefer motif depth over risk-only, or run the same commit loop across multiple strong parents and keep the highest stable fullchain candidates.
+
+## SGP Fullchain Growth Review5 Boundary - 2026-06-25
+
+- Continued the same verified ~0.30 parent with `Build-IncrementalRoleMapFillCompilerV1.ps1`.
+- Strict-ish A line now reaches coverage `0.5686275` with `solved=True`, A-tier, `supportClosureBestDepth=3`, `avgChoices=5.23`, `maxChoices=10`, `localPatchSolveRunMax=3`, `dependencyFollowRunMax=5`, `outerExitSolveRunMax=1`.
+- Full-batch search at the `0.568` boundary found a depth-4 candidate at coverage `0.5759804`, but it was `processTier=Drop` due local patch/nearby solve bursts (`localPatchSolveRunMax=6`); this is a boundary diagnostic, not production hard.
+- Relaxed density line can continue to coverage `0.5955882` while staying `solved=True`, B-tier/MediumStructure, `supportDepth=3`, `localRun=3`, `outerExitSolveRunMax=1`; quality debt is high (`maxChoices=12`, `followRun=6`, `outerExitHeadCount=5`).
+- From `0.5955882`, both ordinary relaxed and `TraceCavitySplitRecovery` runs failed to find an acceptable next commit; traced candidates became `solved=False` and/or `supportDepth=2`. Current single-parent practical boundary is therefore ~`0.596` for solved Medium and ~`0.568` for A-quality.
+- Frozen review pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_TonightFullchainGrowthReview5Pack.asset`, GUID `17ae8e3c914a41b2be6399f7258be1bf`; Demo in `.worktrees/sgp-rhythm-lab` now points to this pack.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/tonight_fullchain_growth_review5_frozen_trace_metrics.csv`; 6/6 solved, first 4 A-tier growth nodes, last 2 B-tier density-boundary nodes.
+- GPT review after these results: likely issue is high-density candidate-language drift/high-branch contamination, not raw SGP packing or trace gate; next implementation cut should stabilize candidate generation around branch/local complexity and dependency reuse instead of only relaxing gates.
+- Implemented opt-in candidate language stabilizer in `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-IncrementalRoleMapFillCompilerV1.ps1`: `UseCandidateManifoldStabilizer`, `MaxCandidatePathLength`, `MaxCandidateHeadPotential`, `CandidateHeadPotentialPenalty`, `CandidateDependencyTouchReward`, `CandidateSafeOnlyPenalty`.
+- Stabilizer smoke from the `0.5686275` parent selected the cleaner B/Medium node at `0.5747549` (`localRun=3`) and avoided the depth-4/local-burst Drop candidate; it did not raise the density ceiling by itself. Current interpretation: this is a useful guardrail, not the missing high-density generator language.
+
+## Root Variant Library V1.2 Core Pack - 2026-06-25
+
+- Active goal continues: build multiple validated variants for each distinct root direction, then size/canvas extensions after root variants pass review.
+- Recovered cascade_relay into the core-quality pool. Existing cascade diagnostic samples were true cascade shape but Medium; a short recovery fill produced HardPotential cascade candidates while preserving cascade classifier (`fanout<=2`, `branch<=1/2`, no strict dual, no web collapse).
+- Added 3 cascade fill-recovery candidates and 2 cascade tall40 size variants; wide30 cascade size variants stayed solved/cascade but dropped to MediumStructure, so they were excluded from core.
+- Added a second non-size support_lock fill variant from the recovered TrueHard support parent: coverage `0.3174`, solved/A, HardPotential, maxChoices 7, supportDepth 4.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV12CorePack.asset`, GUID `1683b2f5c1aa4a129d36f4bd00e2efff`; Demo in `.worktrees/sgp-rhythm-lab` is mounted to this pack.
+- Frozen trace: `root_variant_library_v1_2_core_frozen_trace_metrics.csv`; 35/35 solved, all A-tier, 23 TrueHardCandidate + 12 HardPotential, avgChoices average `3.386`, maxChoices range `5-7`, antiLocal range `0.607-0.895`.
+- Current library distribution: strict_dual_gate 14, support_lock 4, web_crossover 4, hub_spoke 4, split_key 4, cascade_relay 5. Next priority is not more door/cascade; review V1.2 visually, then generate stronger non-size variants for web_crossover / hub_spoke / split_key if they feel too close.
+
+## Root Variant Library V1.3 Core Pack - 2026-06-25
+
+- Continued active goal by targeting weaker non-door variant coverage for `web_crossover`, `hub_spoke`, and `split_key`.
+- Result: `hub_spoke` produced one new non-size fill variant that passed the family classifier and frozen trace as `TrueHardCandidate` (`avg/max=3.37/7`, antiLocal `0.703`, supportDepth `4`, localRun `2`, followRun `3`, outerExitHeadCount `0`).
+- `web_crossover` produced no legal filler groups under the shared directed-fill operator; this is treated as operator mismatch, not as a reason to mark web invalid.
+- `split_key` produced split-classified candidates, but they dropped to `MediumStructure`; these are retained as diagnostics and not admitted into the core hard library.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV13CorePack.asset`, GUID `ba7c9cf303914fc695b55e69be80763e`; Demo in `.worktrees/sgp-rhythm-lab` is mounted to this pack.
+- Frozen trace: `root_variant_library_v1_3_core_frozen_trace_metrics.csv`; 36/36 solved, all A-tier, 24 TrueHardCandidate + 12 HardPotential, avgChoices average `3.385`, maxChoices range `5-7`, antiLocal range `0.607-0.895`.
+- GPT review agreed with the local decision: admit the hub variant; do not keep burning time on web/split with the same shared directed-fill operator; web/split need family-specific fill policy or should rely on existing strong/size variants until that policy exists.
+
+## Root Variant Library V1.4 Core Pack - 2026-06-25
+
+- After V1.3, ran size smoke for the newly admitted `hub_spoke` non-size variant.
+- `wide30_shift` preserved hub-spoke identity (`hubSpokeCandidate=True`) and remained `TrueHardCandidate`; `tall40_shift` stayed solved/A/HardPotential but failed hub-spoke identity (`not_enough_spokes`) and was kept diagnostic only.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV14CorePack.asset`, GUID `3c1bfa73bb1c4c2c885dfbfca5849f7b`; Demo in `.worktrees/sgp-rhythm-lab` is mounted to this pack.
+- Frozen trace: `root_variant_library_v1_4_core_frozen_trace_metrics.csv`; 37/37 solved, all A-tier, 25 TrueHardCandidate + 12 HardPotential, avgChoices average `3.385`, maxChoices range `5-7`, antiLocal range `0.607-0.895`.
+- Current library distribution: strict_dual_gate 14, hub_spoke 6, cascade_relay 5, support_lock 4, web_crossover 4, split_key 4. Next work should either create a family-specific web/split fill policy or move to the next causal root direction; do not continue shared-fill brute force on web/split.
+
+## Root Variant Library V1.5 Core Pack - 2026-06-25
+
+- Expanded `support_lock` using two strong non-size support parents. Shared directed-fill produced two new support variants at coverage `0.3235` and `0.3248`, both supportDepth `4`, maxChoices `7`, localRun `2`, followRun `3/4`.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV15CorePack.asset`, GUID `f1f40d935d264f729fa7390bde978ac9`; Demo in `.worktrees/sgp-rhythm-lab` is mounted to this pack.
+- Frozen trace: `root_variant_library_v1_5_core_frozen_trace_metrics.csv`; 39/39 solved, all A-tier, 26 TrueHardCandidate + 13 HardPotential.
+- Current library distribution: strict_dual_gate 14, hub_spoke 6, support_lock 6, cascade_relay 5, web_crossover 4, split_key 4.
+- Next priority: do not add more strict_dual/support/hub until web/split/cascade catch up, unless the user wants a larger same-family review pack. Web/split need family-specific fill policy or new root sources; cascade can still accept tall/relay-style variants but should avoid long same-structure duplication.
+
+## Root Variant Library V1.6 Core Pack - 2026-06-25
+
+- Filled the web/split variant gap without using shared directed-fill: generated wide/tall size variants for both existing `web_crossover` and both existing `split_key` sources, traced them, ran family classifiers, then deduped by arrow geometry hash against the existing library.
+- Of 8 size candidates, 4 were exact duplicates of existing V1.5 web/split size rows and 4 were unique. All 4 unique rows passed board trace, hard class, and family classifier.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV16CorePack.asset`, GUID `d6dbde4de6d94b07be26fcb17779ab7e`; Demo in `.worktrees/sgp-rhythm-lab` is mounted to this pack.
+- Frozen trace: `root_variant_library_v1_6_core_frozen_trace_metrics.csv`; 43/43 solved, all A-tier, 27 TrueHardCandidate + 16 HardPotential, avgChoices average `3.402`, maxChoices range `5-7`, antiLocal range `0.571-0.895`.
+- Current library distribution: strict_dual_gate 14, support_lock 6, hub_spoke 6, web_crossover 6, split_key 6, cascade_relay 5.
+- Next best increment: either add one more cascade_relay core-quality variant to balance non-door families at 6 each, or start a separate family-specific fill-policy experiment for web/split if visual review says their size variants are too similar.
+
+## Root Variant Library V1.7 Core Pack - 2026-06-25
+
+- Balanced the final non-door family count by adding one extra cascade_relay recovery candidate (`cascade_relay_recovery_v1_t026_b02_r2_c13`): non-duplicate geometry hash, cascade classifier pass, HardPotential, avg/max `2.71/5`, antiLocal `0.692`, supportDepth `3`, branch/fanout `2/2`, localRun `2`, followRun `4`.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV17CorePack.asset`, GUID `80de53d213124a79b9e87fe1dd4cfe05`; Demo in `.worktrees/sgp-rhythm-lab` is mounted to this pack.
+- Frozen trace: `root_variant_library_v1_7_core_frozen_trace_metrics.csv`; 44/44 solved, all A-tier, 27 TrueHardCandidate + 17 HardPotential, avgChoices average `3.387`, maxChoices range `5-7`, antiLocal range `0.571-0.895`.
+- Current library distribution: strict_dual_gate 14; support_lock, hub_spoke, web_crossover, split_key, cascade_relay each 6.
+- This is the current review artifact for the active root/variant-library goal. Next work should be human review for perceptual duplicates, then either (1) trim strict_dual down for balanced review, (2) build family-specific web/split fill policies, or (3) start larger-canvas/coverage growth per accepted root family.
+
+## Root Variant Library V1.8 Balanced Review Pack - 2026-06-25
+
+- Built a smaller human-review pack from V1.7 by keeping exactly 6 candidates per family: support_lock, strict_dual_gate, hub_spoke, web_crossover, split_key, and cascade_relay.
+- Strict_dual was trimmed from 14 to 6 representative rows: four base door designs plus one wide and one tall size example. Non-door families remain at their 6 V1.7 rows each.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV18BalancedReviewPack.asset`, GUID `56cc167e1e3d4c7e9824595d39f67098`; Demo in `.worktrees/sgp-rhythm-lab` is mounted to this pack.
+- Frozen trace: `root_variant_library_v1_8_balanced_review_frozen_trace_metrics.csv`; 36/36 solved, all A-tier, 21 TrueHardCandidate + 15 HardPotential, avgChoices average `3.371`, maxChoices range `5-7`, antiLocal range `0.571-0.895`.
+- Use V1.8 for manual duplicate/experience review. Keep V1.7 as the broader full core library with all strict_dual variants.
+
+## Root Variant Library V1.9 New Variants Review Pack - 2026-06-25
+
+- Active goal: continue producing non-mirror, non-size experiential variants for each accepted root direction before doing larger canvas/size expansion.
+- Generated V1.8 duplicate audit reports: `root_variant_library_v1_8_balanced_review_geometry_audit.csv`, `root_variant_library_v1_8_balanced_review_similarity.csv`, and `root_variant_library_v1_8_balanced_review_guide.md`. Audit showed `strict_dual_gate` is relatively healthy, while `split_key`/`web_crossover` have only 2 chain-language signatures and several families still contain high-Jaccard variants.
+- Tried `role-zone swap` as a stronger experiential operator; it was too destructive for trace (only 1/6 fast candidates solved and that candidate was MediumStructure), so it is retained as a negative/diagnostic route rather than admitted.
+- `cluster_remap` produced admitted variants for `hub_spoke`, `split_key`, and `strict_dual_gate`; `peripheral_jitter_strong` produced 3 admitted `cascade_relay` variants; `peripheral_jitter_mild` produced admitted variants for `split_key`, `support_lock`, and `web_crossover`.
+- Frozen review pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV19NewVariantsReviewPack.asset`, GUID `dd827c0c9cf148b3840c571946af7fc2`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is now mounted to this pack.
+- Selected CSV: `root_variant_library_v1_9_new_variants_review_selected.csv`; frozen trace: `root_variant_library_v1_9_new_variants_review_frozen_trace_metrics.csv`.
+- Pack contents: 25 levels grouped as source control + new variants: cascade_relay 1+3, hub_spoke 1+1, split_key 1+4, strict_dual_gate 3+3, support_lock 1+1, web_crossover 1+5.
+- Frozen trace result: 25/25 solved, all A-tier, 21 TrueHardCandidate + 4 HardPotential, avgChoices average `3.432`; maxChoices remain in reviewable range. Use this pack for human perceptual review of non-size variants.
+
+## SGP Fullchain Growth Review6 Short-Chain Boundary - 2026-06-25
+
+- Continued the tonight fullchain goal from the same verified ~0.30 parent after Review5 stalled at `~0.596`.
+- Implemented candidate-language fixes: `Build-LocalRoomSGPFillProbeV1.ps1` now supports `-MaxGeneratedChainLength`; `Build-IncrementalRoleMapFillCompilerV1.ps1` passes it through and commit sorting now penalizes lower `processTier` so B candidates beat Drop candidates when both satisfy hard thresholds.
+- Key finding: the previous `0.599` boundary was not a hard parent limit. Short-chain candidates pushed the line through `0.6029`, `0.6066`, `0.6115`, `0.6225`, then strict search reached `0.6384804` while staying solved and preserving `supportClosureBestDepth=4` at the high end.
+- Frozen Review6 pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_TonightFullchainGrowthReview6Pack.asset`, GUID `a2f7314b49f84817970ec0a4a6c65b44`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` now points to this pack.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/tonight_fullchain_growth_review6_frozen_trace_metrics.csv`; 10/10 solved. B-tier clean growth holds through coverage `0.629902`; `0.6335784` and `0.6384804` remain solved/depth4 but Drop due high openers/choice peak/near-outer patch bursts.
+- Current strict practical boundary for this single parent is `~0.6385`. Attempts from `0.6385` with strict and cavity-split recovery candidates traced only unsolved candidates with supportDepth `1-2`; next cut should change candidate language/region scheduling, not simply relax thresholds.
+- GPT second opinion agreed the `0.6385` stall is likely region sampling collapse rather than parent capacity ceiling. A small `-AvoidWindowOffsets` experiment validated this: avoiding repeated failing windows `30,34,23,31` pushed the same parent to `0.6433824` solved/depth4, then to `0.6458333` solved/depth4.
+- A relaxed head-potential run from `0.6458333` reached `0.6507353` solved/depth4 (`avgChoices=6.05`, `maxChoices=12`, `outerExitHeadCount=7`), but it used a high-risk HeadAllowed commit (`headPotentialSum=16`, `riskScore=801`). Treat `0.6507` as a boundary proof, not a clean production candidate.
+- Current artifact mounted in Demo remains Review6 pack (up to frozen `0.6384804`). Latest non-frozen boundary CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/tonight_incremental_from0646_short4_relaxhp_t066_v1_final_selected.csv`.
+
+## Root Variant Library V1.10 Hub/Support Review Pack - 2026-06-25
+
+- Continued active root/variant-library goal by targeting underrepresented non-size variants for `hub_spoke` and `support_lock` after V1.9.
+- Source controls: V1.8 ranks `7,8,11` (`hub_spoke`) and `25,28,29,30` (`support_lock`), saved at `root_variant_library_v1_10_hub_support_source_roots.csv`.
+- `peripheral_jitter_mild` generated 70 variants; frozen trace admitted 6 new A-tier variants: 1 `hub_spoke` and 5 `support_lock`, all depth `4`.
+- `cluster_mild` generated 25 variants; frozen trace admitted 7 new A-tier variants: 6 `hub_spoke` and 1 `support_lock`, all depth `4`.
+- Frozen review pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV110HubSupportReviewPack.asset`, GUID `fd02a36230034d6ea401bed00ded456b`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_10_hub_support_review_selected.csv`; frozen trace: `root_variant_library_v1_10_hub_support_review_frozen_trace_metrics.csv`; joined frozen trace: `root_variant_library_v1_10_hub_support_review_frozen_trace_joined.csv`.
+- Pack contents: 20 levels = 7 source controls + 13 variants. Frozen trace result: 20/20 solved, all A-tier; variants are 8 TrueHardCandidate + 5 HardPotential. Use this pack for manual perceptual review of hub/support non-size variants before size expansion.
+
+## Root Variant Library V1.11 Hub/Support Size Review Pack - 2026-06-25
+
+- Took the 13 V1.10 hub/support non-size variants and generated only non-mirror canvas variants: `wide30_shift` and `tall40_shift`.
+- Size smoke result: 26/26 traced candidates solved/A and preserved hard class; no candidate was admitted by mirror-only transformation.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV111HubSupportSizeReviewPack.asset`, GUID `17f503e6c015427b8dc3e3812422ea66`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_11_hub_support_size_review_selected.csv`; frozen trace: `root_variant_library_v1_11_hub_support_size_review_frozen_trace_metrics.csv`; smoke trace join: `root_variant_library_v1_10_hub_support_size_smoke_joined_trace.csv`.
+- Frozen trace result: 26/26 solved, all A-tier, 8 TrueHardCandidate + 18 HardPotential. This proves size expansion is technically stable for hub/support variants; manual review still needs to decide whether wide/tall changes produce enough experiential difference.
+
+## Root Variant Library V1.12 Other Roots Size Review Pack - 2026-06-25
+
+- Continued active root/variant-library goal by applying non-mirror size expansion to the remaining V1.9 new-variant families: `cascade_relay`, `split_key`, `strict_dual_gate`, and `web_crossover`.
+- Source variants: 15 V1.9 new variants excluding `hub_spoke`/`support_lock`; generated `wide30_shift` and `tall40_shift` only.
+- Smoke trace: 30/30 candidates solved/A, but 7 were excluded from review because they dropped to `MediumStructure` or failed strict-dual identity after size transformation.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV112OtherRootsSizeReviewPack.asset`, GUID `a096dfe33bbc455b96ea4c2c284cdbc9`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_12_other_roots_size_review_selected.csv`; frozen trace: `root_variant_library_v1_12_other_roots_size_review_frozen_trace_metrics.csv`; smoke trace join: `root_variant_library_v1_12_other_roots_size_smoke_joined_trace.csv`.
+- Frozen trace result: 23/23 solved, all A-tier, 13 TrueHardCandidate + 10 HardPotential; avgChoices average `3.608`, maxChoices max `8`, antiLocal range `0.571-0.789`, supportDepth min `3`. Strict-dual size rows retained in this pack all have `strictDualGateCandidate=True`.
+
+## Root Variant Library V1.13 Cascade/Strict Cluster Review Pack - 2026-06-25
+
+- Continued active root/variant-library goal by trying stronger non-size transformations for thinner families after V1.12.
+- Negative route: `Build-RootSpatialRecomposeVariantsV1.ps1` on `cascade_relay`, `split_key`, and `strict_dual_gate` generated 30 candidates, but no candidate survived family-safe review. Cascade/split all dropped or became unsolved; the two solved strict-dual-looking rows failed `strictDualGateCandidate=True`. Keep `root_variant_library_v1_13_thin_roots_spatial_*` as diagnostics only.
+- Positive route: a conservative `cluster_mild` run on frozen V1.8 `cascade_relay` + `strict_dual_gate` sources generated 37 candidates and admitted 4 new variants: 2 `cascade_relay` HardPotential and 2 `strict_dual_gate` variants that keep `strictDualGateCandidate=True`.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV113CascadeStrictClusterReviewPack.asset`, GUID `3d575d3a2da44401807ba42005285ff1`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_13_cascade_strict_cluster_review_selected.csv`; frozen trace: `root_variant_library_v1_13_cascade_strict_cluster_review_frozen_trace_metrics.csv`; joined trace: `root_variant_library_v1_13_cascade_strict_cluster_mild_joined_trace.csv`.
+- Frozen trace result: 7/7 solved, all A-tier: 3 source controls + 4 variants. Use this compact pack for quick perceptual review of whether cluster-remap produces real non-size differences for cascade/strict.
+
+## Root Variant Library V1.14b Consolidated Review Pack - 2026-06-25
+
+- Consolidated current root/variant work from V1.9-V1.13 into a single balanced review library, with geometry-hash dedupe and per-family caps.
+- Input pool: 101 rows from `V1.9_non_size_mixed`, `V1.10_hub_support_non_size`, `V1.11_hub_support_size`, `V1.12_other_roots_size`, and `V1.13_cascade_strict_cluster`.
+- V1.14 first pass exposed one strict-dual identity drift row (`strictDualGateCandidate=False`) after frozen trace; V1.14b replaced it with the V1.13 strict cluster HardPotential row that preserves strict-dual identity.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV114bConsolidatedReviewPack.asset`, GUID `375e9f8eb8e6443d938e245fb558e400`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_14b_consolidated_review_selected.csv`; full input pool: `root_variant_library_v1_14_consolidated_pool_all.csv`; frozen trace: `root_variant_library_v1_14b_consolidated_review_frozen_trace_metrics.csv`; joined trace: `root_variant_library_v1_14b_consolidated_review_frozen_trace_joined.csv`.
+- Frozen trace result: 45/45 solved, all A-tier, 36 TrueHardCandidate + 9 HardPotential; avgChoices average `3.458`, avgChoices max `4.03`, maxChoices max `8`, antiLocal range `0.632-0.895`.
+- Family distribution: cascade_relay 8, hub_spoke 8, strict_dual_gate 8, support_lock 8, web_crossover 8, split_key 5. Split_key remains the only thin family and should be the next targeted non-size/root-variant workstream.
+- Strict-dual audit: all 8 strict_dual_gate rows in V1.14b keep `strictDualGateCandidate=True` after frozen trace.
+
+## Root Variant Library V1.15c Consolidated Review Pack - 2026-06-25
+
+- Continued the active root/variant-library goal by targeting the only thin family in V1.14b: `split_key`.
+- Important correction: V1.14b contained one old `split_key` cluster row that current `Build-SplitKeyRootClassifierV1.ps1` marks `splitKeyCandidate=False`; V1.15c removes that false split row before consolidation.
+- Negative/diagnostic split routes: `role_zone_swap`, `cluster_strong`, and `spatial_recompose` are too destructive or fail split identity under trace; keep their V1.15 reports as diagnostics, not review content. A wrong `SourceRoot` initially caused false parse failures; future trace for `.worktrees/sgp-rhythm-lab` assets must pass `-SourceRoot F:\Unityproject\ArrowLevel-Hand\.worktrees\sgp-rhythm-lab`.
+- Positive split route: `Build-RootCanvasVariantsV1.ps1` non-mirror `wide30_shift/tall40_shift` from split sources produced 10 trace-valid split candidates. V1.15c admits 4 of them to replace the false split and bring `split_key` to 8 true rows.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV115cConsolidatedReviewPack.asset`, GUID `7f7307ed6ac9454186e7115eaaba24c4`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_15c_consolidated_review_selected.csv`; frozen trace: `root_variant_library_v1_15c_consolidated_review_frozen_trace_metrics.csv`; joined trace: `root_variant_library_v1_15c_consolidated_review_frozen_trace_joined.csv`; split gate: `root_variant_library_v1_15c_consolidated_review_frozen_split_gate_split_key_roots.csv`.
+- Frozen trace result: 48/48 solved, all A-tier, 40 TrueHardCandidate + 8 HardPotential; avgChoices average `3.485`, avgChoices max `4.03`, maxChoices max `8`, antiLocal range `0.632-0.895`.
+- Family distribution is now balanced at 8 each: cascade_relay, hub_spoke, split_key, strict_dual_gate, support_lock, web_crossover. All 8 rows labeled `split_key` have `splitKeyCandidate=True` after frozen trace.
+
+## SGP Fullchain Growth Wave/Sink Boundary - 2026-06-25
+
+- Added opt-in Wave envelope fields to `Build-IncrementalRoleMapFillCompilerV1.ps1`: `-UseWaveConstraintEnvelope` scores candidate chains by dependency touch, guard/body touch, head potential, direct outer risk, and dependency-free head risk; report rows now include `waveClass/waveScore`.
+- Small-beam test from Review6 boundary `0.6384804` showed the top Wave candidates are not pure outer exits: anchored `HeadAllowed`, non-direct-outer, `dependencyTouch=3-9`. Manual trace of unique top candidates found 3/7 were `solved=True` and `supportClosureBestDepth=4`, but all were Drop (`maxChoices=12/13`, `followRun=6`).
+- Added experimental `-AllowWaveRecoveryWindow`: from `0.6384804` it committed one `WaveRecovery` step to `0.6421569`, solved/depth4, `avgChoices=6.01`, `maxChoices=12`, `followRun=6`, `outerExitHeadCount=6`; this is a bridge proof, not production quality.
+- Immediate strict payback from the `0.6421569` recovery sample failed: small beam traced 6 candidates and all were unsolved/depth2. GPT review agreed this means recovery commit alone is not a stable production path.
+- Added opt-in Sink-first fields to the compiler: `-UseSinkFirstSelection`, `sinkScore/sinkClass`, and non-increasing choice checks. Sink-first test from the `0.6421569` recovery sample found high sinkScore candidates (`52-116`), but traced 8/8 failed strict acceptance; all were unsolved (some depth4 but no solved). Current conclusion: choice-sink candidates exist as local signals, but the current candidate language cannot turn them into a valid payback step.
+- Raw unconstrained SGP baseline from the same `0.6421569` sample (`tonight_raw_sgp_from0642_unconstrained_t095_v1`) confirms geometry capacity is not the bottleneck: 4/4 candidates reached coverage `0.9498-0.9510` with `187-201` total chains, but 4/4 traced as `solved=False`, `Drop`, `LocalEasy`, `supportClosureBestDepth=0`, `avgChoices=10.3-13.75`, `maxChoices=24-27`, `outerExitHeadCount=24-27`.
+- Tested existing SGP soft adapter as a candidate preference layer (`tonight_softbias_sgp_from0642_t095_v1`): role-map soft scoring kept coverage high (`0.9498-0.9510`) but did not preserve difficulty (`solved=False`, `LocalEasy`, `supportDepth=0`, `avgChoices=11.52-13.6`, `maxChoices=20-25`, `outerExitHeadCount=22-27`). Conclusion: pure soft scoring/ordering is too weak once SGP enters full-density mop-up; the next middle layer needs a small hard release/motif boundary plus soft scoring, not soft scoring alone.
+- Tested simplified Unlock/Release Scaffold SGP from `0.6421569` using `PreActionMaskReserveFullRayOwners=6,26,32,54,87,118` (support closure nodes) plus soft adapter. At target `0.80`, coverage reached `0.800-0.801` and choices were controlled (`avgChoices=4.0-5.24`, `maxChoices=7-8`), but 4/4 were unsolved/LocalEasy with supportDepth `0-1`. At target `0.70`, coverage reached `0.701-0.703`, choices stayed moderate (`avg=5.33-6.11`, `max=9-11`, outerExit=7), but 4/4 were unsolved/supportDepth=0. At target `0.66`, coverage reached `0.664-0.670`, but 4/4 remained unsolved, supportDepth `0-2`. Conclusion: full-ray release scaffold can suppress outer/choice explosion, but the current static reserve form still breaks/rewrites temporal support closure; it is not enough as Unlock Sequence V1.
+- Next cut should avoid treating WaveRecovery as production. Either derive sink/choice-compressor candidates before allowing pressure bridge commits, or change candidate generation to produce explicit sink/pressure pairs. Do not simply expand beam size on the same candidate language.
+
+## Root Variant Library V1.16 Size Nonrecursive Review Pack - 2026-06-25
+
+- Continued active root/variant-library goal by taking V1.15c `source_control` plus `non_size_variant` rows only, avoiding recursive size-on-size transforms.
+- Generated non-mirror canvas variants with `wide30_shift` and `tall40_shift`: 27 source rows -> 54 candidates.
+- Board trace was run in chunks because one-shot 54-level trace exceeded 5 minutes; merged result is 54/54 solved and all A-tier.
+- Family identity gates selected 31 reviewable size variants: cascade_relay 2, hub_spoke 1, split_key 4, strict_dual_gate 8, support_lock 8, web_crossover 8.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV116SizeNonrecursiveReviewPack.asset`, GUID `fe5c4868615449c094b867da86e8417c`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_16_size_nonrecursive_review_selected.csv`; frozen trace: `root_variant_library_v1_16_size_nonrecursive_review_frozen_trace_metrics.csv`; frozen joined audit: `root_variant_library_v1_16_size_nonrecursive_review_frozen_trace_joined.csv`.
+- Frozen trace result: 31/31 solved, all A-tier, 19 TrueHardCandidate + 12 HardPotential; avgChoices average `3.520`, avgChoices max `4.03`, maxChoices max `8`, antiLocal range `0.607-0.895`.
+- Current conclusion: size expansion is stable for strict/support/web/split, but cascade and hub preserve identity poorly under simple wide/tall shifts; those families need dedicated non-size/root-preserving variant work rather than more generic canvas shifting.
+
+## Root Variant Library V1.17 Cascade/Hub Review Pack - 2026-06-25
+
+- Followed V1.16 finding that `cascade_relay` and `hub_spoke` preserve identity poorly under generic canvas shifts; targeted those two families with non-size, core-preserving variants.
+- Source rows: V1.15c frozen `source_control` plus `non_size_variant` rows for cascade/hub only, saved as `root_variant_library_v1_17_cascade_hub_source_frozen.csv`.
+- Route 1 (`peripheral_jitter_v117`): 100 cascade/hub candidates; route 2 (`cluster_remap_v117`): 78 cascade/hub candidates. Trace showed most aggressive moves break solvability or identity; accepted 5 cascade variants.
+- Hub-specific second pass used milder jitter/default cluster. Trace admitted 8 hub candidates, but source cap selected 5 to avoid same-parent repetition.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV117CascadeHubReviewPack.asset`, GUID `e15f131e6a104b1aa3b3fe2093b0206c`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_17_cascade_hub_review_selected.csv`; frozen trace: `root_variant_library_v1_17_cascade_hub_review_frozen_trace_metrics.csv`; frozen joined audit: `root_variant_library_v1_17_cascade_hub_review_frozen_trace_joined.csv`.
+- Frozen trace result: 10/10 solved, all A-tier, 4 TrueHardCandidate + 6 HardPotential; avgChoices average `3.422`, avgChoices max `4.03`, maxChoices max `8`, antiLocal range `0.640-0.750`.
+- Current conclusion: cascade can accept a small mix of cluster remap and jitter, while hub-spoke requires very mild peripheral jitter; cluster/default spatial remap tends to destroy hub identity.
+
+## Root Variant Library V1.18 Cascade/Hub Size Review Pack - 2026-06-25
+
+- Continued the active goal by taking V1.17 frozen cascade/hub review rows and applying non-mirror size expansion (`wide30_shift`, `tall40_shift`) to those newly accepted variants.
+- Generated 20 candidates from 10 V1.17 frozen sources; board trace result was 20/20 solved (`19 A`, `1 S`), showing the geometry survives size expansion.
+- Family identity gates retained 11 candidates: cascade 7 and hub 4. To avoid repetitive same-source output while still preserving the only hub tall pass, final selected pack keeps 9 rows.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV118CascadeHubSizeReviewPack.asset`, GUID `a72095f2ae7d4b598da21dc7e0856ce8`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `root_variant_library_v1_18_cascade_hub_size_review_selected.csv`; frozen trace: `root_variant_library_v1_18_cascade_hub_size_review_frozen_trace_metrics.csv`; frozen joined audit: `root_variant_library_v1_18_cascade_hub_size_review_frozen_trace_joined.csv`.
+- Frozen trace result: 9/9 solved, all A-tier, 3 TrueHardCandidate + 6 HardPotential; avgChoices average `3.363`, avgChoices max `4.03`, maxChoices max `8`, antiLocal range `0.640-0.773`.
+- Current conclusion: cascade V1.17 variants size-expand cleanly, especially tall40; hub-spoke size expansion is much narrower, mostly wide30 with only one tall40 pass. Future hub work should prefer horizontal/spacing-preserving changes or new hub roots rather than generic vertical expansion.
+
+## Root Variant Library V1.19 Consolidated Review Pack - 2026-06-25
+
+- Consolidated V1.15c, V1.17, and V1.18 into a broad root/variant review library for the active goal: multiple candidates per confirmed root direction, plus non-mirror size expansions where identity survives.
+- Selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_19_consolidated_review_selected.csv`; pool CSV: `root_variant_library_v1_19_consolidated_pool_all.csv`.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV119ConsolidatedReviewPack.asset`, GUID `7bb6312a6fa34784be320bebdaad03ba`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_19_consolidated_review_frozen_trace_metrics.csv`; joined audit: `root_variant_library_v1_19_consolidated_review_frozen_trace_joined.csv`.
+- Frozen trace result: 52/52 solved, all A-tier, 42 TrueHardCandidate + 10 HardPotential; avgChoices average `3.504`, range `2.57-4.03`; maxChoices max `8`; antiLocal average `0.718`, range `0.632-0.895`.
+- Intended family gate after frozen trace: cascade_relay 8/10, hub_spoke 8/10, split_key 8/8, strict_dual_gate 8/8, support_lock 8/8, web_crossover 7/8. The 5 failed identity rows remain useful for visual review but must not be counted as target-family production capacity.
+- Current conclusion: V1.19 is a good review/dashboard pack for the root library, not yet a final deduped production pack. The next production cut should either drop or relabel identity-drift rows, then continue creating experiential variants for under-diverse families rather than simple mirror/near-identical shifts.
+
+## Root Variant Library V1.20 Identity-Clean Review Pack - 2026-06-25
+
+- Cut directly from V1.19 by removing the 5 rows whose intended family gate failed after frozen trace. This is the current clean review entry for the active root/variant-library goal.
+- Selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_20_identity_clean_review_selected.csv`.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV120IdentityCleanReviewPack.asset`, GUID `4adcf0892b1b44c4930e971011f750a6`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this clean pack.
+- Frozen trace was run in 6 chunks due 5-minute one-shot timeout, then merged to `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_20_identity_clean_review_frozen_trace_metrics.csv`.
+- Joined audit: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_20_identity_clean_review_frozen_trace_joined.csv`.
+- Result: 47/47 solved, all A-tier, 37 TrueHardCandidate + 10 HardPotential; avgChoices average `3.536`, range `2.57-4.03`; maxChoices max `8`; antiLocal average `0.720`, range `0.632-0.895`.
+- Intended-family gate pass: cascade_relay 8/8, hub_spoke 8/8, split_key 8/8, strict_dual_gate 8/8, support_lock 8/8, web_crossover 7/7. This pack is cleaner for manual review and future production statistics than V1.19.
+
+## Root Variant Library V1.21 Balanced-Clean Review Pack - 2026-06-25
+
+- Balanced V1.20 by adding one trace/family-safe V1.16 web_crossover tall40 non-mirror size variant (`rootvarv116size_24...`), bringing web_crossover back to 8 without using mirror-only variation.
+- Selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_21_balanced_clean_review_selected.csv`.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV121BalancedCleanReviewPack.asset`, GUID `c6e32e5f87e94afba369d42eba62708e`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Frozen trace was run in 6 chunks and merged to `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_21_balanced_clean_review_frozen_trace_metrics.csv`.
+- Joined audit: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_21_balanced_clean_review_frozen_trace_joined.csv`.
+- Result: 48/48 solved, all A-tier, 38 TrueHardCandidate + 10 HardPotential; avgChoices average `3.539`, range `2.57-4.03`; maxChoices max `8`; antiLocal average `0.719`, range `0.632-0.895`.
+- Intended-family gate pass is balanced and clean: cascade_relay 8/8, hub_spoke 8/8, split_key 8/8, strict_dual_gate 8/8, support_lock 8/8, web_crossover 8/8. Treat V1.21 as the current best review pack/root-variant-library baseline.
+
+## Root Variant Library V1.22 Size-Nonrecursive Review Pack - 2026-06-25
+
+- Continued the active root/variant-library goal by applying non-mirror size expansion to V1.21 `source_control` + `non_size_variant` rows only; size-on-size recursion was deliberately excluded.
+- Source rows: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_22_size_source_nonrecursive.csv` (27 rows: cascade 5, hub 6, split 2, strict 5, support 5, web 4).
+- Generated candidates: `root_variant_library_v1_22_size_nonrecursive_candidates.csv` (54 candidates = `wide30_shift` + `tall40_shift`).
+- Candidate trace/gate result: 54/54 traced, all solved; 38 survived quality + intended-family gate. Hub is the narrowest family under generic wide/tall shifts (3/12 pass), while strict/support/web are stable and cascade is mostly stable.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV122SizeNonrecursiveReviewPack.asset`, GUID `ea936cfad65d418aa03d3b6c24855c0e`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` is mounted to this pack.
+- Selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_22_size_nonrecursive_review_selected.csv`.
+- Frozen trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_22_size_nonrecursive_review_frozen_trace_metrics.csv`; joined audit: `root_variant_library_v1_22_size_nonrecursive_review_frozen_trace_joined.csv`.
+- Frozen trace result: 38/38 solved, 37 A + 1 S, 22 TrueHardCandidate + 16 HardPotential; avgChoices average `3.515`, range `2.57-4.03`; maxChoices max `8`; antiLocal average `0.696`, range `0.591-0.895`.
+- Intended-family gate pass after frozen trace: cascade_relay 7/7, hub_spoke 3/3, split_key 4/4, strict_dual_gate 8/8, support_lock 8/8, web_crossover 8/8. Treat this as the current size-expansion review pack; do not infer that generic size expansion is sufficient for hub-spoke.
+
+## Small-Canvas Physical Pin / SGP Fill Probe - 2026-06-25
+
+- Goal: validate the user-proposed route “先打骨架钉子/门锁，再让 SGP 填”，before attempting full near-1 coverage.
+- Negative setup: using the high-density `0.6421569` fullchain boundary sample as a 18x24 compact parent is invalid for this test. Compacting it kept 71 chains at coverage `0.7222` and produced 6/6 `solved=False`, `supportClosureBestDepth=0`; this tests compression damage, not pin strategy.
+- Base scan: compacted V1.15c root library candidates to 18x24 and 20x26 with no fill. 18x24 was too destructive (only 2/48 solved and max support depth 2). 20x26 produced usable thin parents; best test parent was `tonight_compact_rootlib_20x26_baseonly_scan48_b04_c01`, coverage `0.2558`, `solved=True`, `processTier=S`, `supportClosureBestDepth=4`.
+- Physical outer-frame pins + SGP on that 20x26 parent:
+  - No frame, max44: 8/8 solved but all Drop; avg coverage `0.482`, avgChoices `7.07`, avg maxChoices `17.5`, avg outerExitHeadCount `15.62`.
+  - Outer frame 4, max44: 8/8 solved, all Drop; avg coverage `0.504`, avgChoices `6.00`, avg maxChoices `13.12`, avg outerExitHeadCount `13.88`.
+  - Outer frame 8, max44: 8/8 solved, 2 A + 2 B + 4 Drop; avg coverage `0.498`, avgChoices `5.57`, avg maxChoices `11.88`, avg openers `8.5`, avg outerExitHeadCount `10.62`, depth4 in 7/8.
+  - Outer frame 8, max50: 8/8 solved but all Drop/LocalEasy; avg coverage `0.565`, avgChoices `6.66`, avg maxChoices `13.88`, avg outerExitHeadCount `16.12`.
+- Control result: adding `RequireHeadHitsExisting` with the same 20x26 parent and outer frame was worse (1/8 solved, all Drop/LocalEasy, support depth mostly 0-2). A generic head-hit restriction is not a usable pin policy.
+- Current conclusion: pre-generating physical structures can keep solvability and support-lock alive better than pure SGP, but generic outer-frame pins are still exit buffers, not true gate pins. The next cut should generate trace-derived gate pins from the parent’s unlock/escape structure, then hand the remaining constrained space to SGP. Do not continue tuning universal outer frames or head-hit filters as the main route.
+- Trace-derived RayBreaker pin probe:
+  - Generated RayConstraintMap for `tonight_compact_rootlib_20x26_baseonly_scan48_b04_c01`: 7 direct-exit rays, 55 CriticalTimingZone cells, 248 HeadAllowed cells, 0 GuardSlot/BodyOnly cells. Direct ray cells were all CriticalTimingZone, so RayFirst required `AllowCriticalTiming`.
+  - `tonight_tracepin_raybreaker_b04_20x26_critical_smoke24`: allowing CriticalTiming anchors generated 24 one-chain pin candidates; 16/24 solved, 14 S + 2 A, 11/24 preserved supportDepth>=4, 21/24 had `outerExitHeadCount=0`, all had `outerExitHeadCount<=1`. Best examples include c09/c16 with coverage `~0.264`, solved A, supportDepth=4, outer=0.
+  - Follow-up `pin -> SGP max44` (`tonight_pinthen_sgp_b04_20x26_max44_smoke16`) shows one physical pin alone is not enough: 15/16 solved and 12/16 depth4, but all Drop; avg coverage `0.479`, avgChoices `6.62`, avg maxChoices `16.5`, avg openers `16.31`, outer exits returned to `~15-16`.
+- Updated conclusion: trace-derived RayBreaker pins are valid local structures, but they must become a constraint field for SGP, not just one preseeded chain. Otherwise SGP overwrites the pin’s pressure by creating new outer exits elsewhere. Next probe should pass pin/ray ownership into SGP candidate selection: reserve or heavily penalize heads that create new direct-exit rays outside the selected pin release lanes, while allowing SGP body fill around those lanes.
+
+## Pin-Debt Pair Probe - 2026-06-25
+
+- Added independent experimental script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-PinDebtSGPFillProbeV1.ps1`; it emits paired candidates from the same parent and same generated chain `C`: `cOnly` = parent + C, `cPin` = parent + C + a generated ray-blocking Pin.
+- Strict pair probe on `tonight_compact_rootlib_20x26_baseonly_scan48_b04_c01`: `tonight_pindebt_pairprobe_b04_20x26_strict_smoke16_v2`, 16 pairs / 32 assets, trace missing=0.
+- Result: `cOnly` was 16/16 solved and 16/16 S/A, supportDepth=4 for all, avgChoices average `3.202`, maxChoices average `7.875`. `cPin` reduced choices/openers (avgChoices `2.978`, maxChoices `6.562`) but only 5/16 solved S/A; 11/16 became Drop and supportDepth often collapsed to 0.
+- Important nuance: script-level “direct head ray” did not correspond to trace `outerExitHeadCount` in this sample (`outerExitHeadCount=0` for both variants). The pin often solved a geometric ray symptom that was not trace-visible outer pressure, then cut the temporal support/release structure.
+- Current conclusion: “new direct ray creates immediate pin debt” is not safe as an automatic rule. It is promising only as `generate pin alternatives -> core/release gate -> commit one composite candidate`; otherwise use soft penalty or leave the chain unpinned. Next iteration should generate multiple Pin alternatives per C and require support/release preservation before accepting the composite.
+
+## PinField V2 Batch Constraint Probe - 2026-06-25
+
+- Added experimental compiler `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-PinFieldRoleMapV2.ps1`; it transforms RayConstraintMap cells into an adapter role-map so SGP can run in a precompiled field instead of per-chain Pin validation.
+- Test parent remained `tonight_compact_rootlib_20x26_baseonly_scan48_b04_c01` on 20x26. Generated `tonight_pinfield_v2_b04_halo1_directcritical_body_cells.csv`: 93 body-only cells, 224 HeadAllowed, 46 HighRiskFreeHead, 133 occupied.
+- Hard PinField runs (`direct+critical+halo body-only`, `direct-only body-only`, `reserved ray cells with PenalizeBody`) all controlled choices/outer exits but failed solvability:
+  - `tonight_pinfield_v2_b04_t070_max60_smoke8`: 0/8 solved, avg coverage `0.495`, avgChoices `2.83`, outerExitHeadCount `0`, supportAvg `0.25`.
+  - `tonight_pinfield_v2_b04_directonly_t070_max60_smoke8`: 0/8 solved, avg coverage `0.483`, avgChoices `2.67`, outer `0`, supportAvg `0.5`.
+  - `tonight_pinfield_v2_b04_reservedpenalty_t070_max60_smoke8`: 0/8 solved, avg coverage `0.499`, avgChoices `2.73`, outer `0`, supportAvg `0`.
+  - Low-pressure reserved penalty at target `0.50/max44` was also 0/8 solved at avg coverage `0.469`, while prior no-frame max44 was 8/8 solved and outer-frame max44 was 8/8 solved with 2 A.
+- Soft PinField (`no pre-action mask`) restored coverage but collapsed difficulty/outer pressure: `tonight_pinfield_v2_b04_softfield_t070_max60_smoke8` reached avg coverage `0.634` and 2/8 solved, but all Drop, avgChoices `14.33`, avg maxChoices `28.63`, avg outerExitHeadCount `28.25`.
+- Current conclusion: current adapter role-map can express “forbid head / bias body”, but it cannot yet express “preserve temporal release lane”. Hard field kills release; soft field lets SGP reopen outer exits. Next viable route must encode release-lane ownership/order, not just cell role. Do not treat `outer=0 + low choice` as success unless solved/supportDepth survive.
+
+## Lane Compiler V0 / Shuffle Test - 2026-06-25
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-LaneConstraintFieldV0.ps1`; it projects top direct critical rays into lane rows and emits soft role-map, lane-edge reserve CSV, and shuffled reserve CSV for the GPT-recommended lane-shuffle test.
+- Test parent: same 20x26 `b04` support-lock parent. V0 selected top 4 direct critical lanes: owners `0,9,10,11`, each with 3 protected cells.
+- Batch SGP comparison at target `0.70/max60`, 6 candidates each:
+  - Raw SGP: avg coverage `0.670`, 2/6 solved but 0/6 S/A, support4=0, avgChoices `12.68`, avg maxChoices `27`, avg outer `24.5`.
+  - Soft lane: avg coverage `0.662`, 1/6 solved, 0/6 S/A, support4=0, avgChoices `13.44`, avg maxChoices `28`, avg outer `27.67`.
+  - Hard lane head-only: avg coverage `0.495`, 0/6 solved, support4=0, avgChoices `2.60`, avg maxChoices `5.5`, outer `0`.
+  - Shuffled hard head-only: avg coverage `0.491`, 0/6 solved, support4=0, avgChoices `2.54`, avg maxChoices `5.67`, outer `0`.
+- Shuffle test result: true lane hard-head-only and shuffled hard-head-only were effectively equivalent. This means current Lane V0 did not encode meaningful release-lane semantics; it only reduced head freedom globally/locally. Soft lane also did not improve over raw. Next step should not keep tuning owner lists or head-only masks; it needs a different interface where SGP candidates are generated to attach to/continue a lane, not merely avoid lane cells as heads.
+
+## Trace-Bound SGP Probe V0 - 2026-06-25
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-TraceBoundSGPProbeV0.ps1`; it keeps SGP-style random-walk body generation, but constrains each new chain head so its first-hit ray targets an existing trace edge `firstHitOwner`.
+- Test parent remained `tonight_compact_rootlib_20x26_baseonly_scan48_b04_c01` (20x26, base coverage `0.2558`, solved/S, supportDepth=4).
+- Smoke results:
+  - `tonight_tracebound_v0_b04_add02_smoke8`: avg coverage `0.2726`; 1/8 solved/S/supportDepth=4; choices/outer stayed low (`avgChoices≈3.0`, `outer=0`) but most samples broke support.
+  - `tonight_tracebound_v0_b04_add04_smoke8`: avg coverage `0.2916`; 0/8 solved, support4=0; choices/outer stayed low.
+  - `tonight_tracebound_v0_b04_add12_smoke8`: avg coverage `0.3584`; 0/8 solved, support4=0; choices/outer stayed low.
+  - V0b `MaxHitsPerTargetOwner=1` owner de-dup (`add04/add08`) still produced 0/8 solved/support4, so failure is not only repeated pressure on one owner.
+- Current conclusion: binding new chains to trace `firstHitOwner` is stronger than geometry masks for suppressing outer exits, but still lacks release-wave/order semantics. It can produce a low-dose valid sample, yet batch insertion quickly collapses temporal support. Next probe must bind candidate generation to owner ancestry/release wave or a trace-edge continuation mode, not just first-hit owner.
+
+## Trace-Edge Contract V1 Smoke - 2026-06-25
+
+- GPT/Rosetta review agreed with the local conclusion: stop tuning Pin/Lane masks; the next correct test is a minimal trace-edge contract. GPT recommended keeping it small: edge id/parent anchor/release wave/dependency lock mask, then smoke `+2/+4/+8`.
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-TraceBoundSGPProbeV0.ps1` with opt-in `-UseTraceEdgeContract`: new chain heads must be inserted on the original dependency edge ray corridor, so the chain becomes an intermediate node in `edgeOwner -> firstHitOwner` rather than randomly hitting the same owner elsewhere.
+- V1 result on the same 20x26 b04 parent:
+  - plain trace-edge contract `add04`: 1/8 solved, 0/8 supportDepth>=4; better attachment semantics than V0 but still cliff.
+  - wave-filtered V1b (`MinHitWave=1`, `MaxReleaseGap=4`) `add04`: 3/8 solved, 2/8 supportDepth>=4, outer=0, avgChoices about `2.62`. This is a real improvement and confirms release-wave filtering matters.
+  - narrower V1c (`MinHitWave=2`, `MaxReleaseGap=2`) kept 3/8 solved but 0 supportDepth>=4, so over-narrowing wave windows loses the hard motif.
+  - body lock-mask V1d (`ProtectCriticalRayBodyCells`) timed out even at `add03`; the mask is too restrictive for current SGP search language and should not be treated as production-ready.
+- Current conclusion: trace-edge corridor continuation + moderate release-wave filtering is the first semantic interface that improves over firstHitOwner-only. It is not yet production because `add04` still only preserves support in 2/8 cases. Next cut should keep V1b as the baseline and improve body generation/edge scheduling, not hard forbid all critical ray body cells.
+
+## Trace-Edge Contract V1e Edge Scheduling - 2026-06-25
+
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-TraceBoundSGPProbeV0.ps1` with:
+  - `-EdgeSchedulePreset WaveBridgeV1`: choose a small wave-distributed edge plan instead of random eligible edges.
+  - `-SkipFailedScheduledEdges`: skip an edge that cannot generate geometry rather than stalling the whole candidate.
+  - `-AvoidCriticalRayBodyCells`: soft-prefer bodies outside critical ray cells, without hard-forbidding them.
+- V1e smoke on the same b04 parent:
+  - `tbv1e_schedavoidskip4_smoke12`: 12 candidates, avg added chains `2.58`, avg coverage `0.2769`; 10/12 solved S/A and 10/12 supportDepth=4, outer=0, avgChoices `2.755`.
+  - This is a large support-preservation improvement over V1b add04 (2/8 supportDepth=4), but it adds fewer chains than requested because some scheduled edges cannot be geometrically realized by the current SGP body sampler.
+  - Longer-body probe `tbv1e_schedavoid3_len8_smoke12` reached max coverage `0.2942`, but the highest-coverage samples collapsed; stable samples stayed around 2-3 chains. Longer bodies are not a free coverage win.
+- Current conclusion: edge scheduling + soft body avoidance is the most stable trace-semantic interface so far, but current candidate language is still low-throughput. Next work should expand the set of geometrically realizable trace-edge insertions or generate small edge groups/pairs, rather than increasing body length or hardening masks.
+
+## Migration-Aware Acceptance Probe - 2026-06-25
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Select-MigrationAwareTraceCandidatesV1.ps1`; it joins candidate CSV + board trace and classifies rows as `SupportPreserved`, `HardMotifMigrated`, `SupportRootMigrated`, or `Reject`.
+- Acceptance rule used for this probe: solved, choices/outer within limit, and either old supportDepth preserved (`>=4`) or a new hard motif appears via `hardStructureV3Class in {TrueHardCandidate, HardPotential}` or migrated support root (`supportDepth>=3`, root changed).
+- Applied to current trace-edge batches:
+  - V1b add04: 2 selected, both `SupportPreserved`.
+  - V1e scheduled/soft-avoid 12: 10 selected, all `SupportPreserved`.
+  - V1e longer-body 12: 9 selected, all `SupportPreserved`.
+- Scan of recent trace-bound/trace-edge metrics found no `TrueHardCandidate` or `HardPotential` rows. Current candidate language has not yet produced a true migration case; allowing migration does not rescue the current rejects.
+- Current conclusion: migration-aware acceptance is the right gate shape, but the current trace-edge scheduled generator is still a support-preserving micro-fill language, not a motif-migration generator. Next work should explicitly generate candidates that can create a new trace-visible motif or broaden edge groups, rather than merely relaxing supportDepth.
+
+## Root Variant Library V1.23-V1.27 Hub/Split Tonight Pass - 2026-06-25
+
+- Continued active root/variant-library goal by targeting families that generic size expansion under-served: `hub_spoke` and `split_key`.
+- V1.23 hub conservative variants: from V1.21 frozen hub rows, generated 95 candidates (`jitter=64`, `cluster=23`, `zone=8`). Frozen review pack keeps 6 candidates; result `6/6 solved`, `6/6 hubSpokeCandidate`, all A-tier. Pack GUID `a4f8f06e9b88473abf3ed4e58e416723`.
+- V1.24 hub conservative size: size-expanded V1.23 with non-mirror wide/tall shifts. Frozen review pack keeps 4 candidates; result `4/4 solved`, `4/4 hubSpokeCandidate`, all A-tier. Pack GUID `d375fa699a2846f6a20c7a76c12dcc7e`.
+- V1.25 split conservative variants: from V1.21 frozen split rows, generated 105 candidates; only peripheral jitter preserved split-key identity reliably. Frozen review pack keeps 4 source-capped candidates; result `4/4 solved`, `4/4 splitKeyCandidate`, all A-tier. Pack GUID `bc9bff8f450149488a34f9a1347a7c60`.
+- V1.26 split conservative size: added dynamic canvas presets `wideplus6_shift`/`tallplus6_shift` because fixed `wide30_shift` can overflow already-wide sources. Frozen review pack keeps 7 candidates; result `7/7 solved`, `7/7 splitKeyCandidate`, all A-tier. Pack GUID `e6ec4727c8524d9ca53d4aacb3295f98`.
+- V1.27 consolidated tonight review combines V1.23-V1.26 into 21 levels: hub root 6, hub size 4, split root 4, split size 7. Frozen trace: `21/21 solved`, `21/21 intendedFamilyGatePass`; Demo in `.worktrees/sgp-rhythm-lab` is mounted to V1.27. Pack GUID `f73fdf8cefb84ff1aa5571accdd4ccf5`.
+- Engineering conclusion: hub needs conservative identity-preserving jitter/cluster before size expansion; split-key is highly sensitive and should use non-core jitter only, then dynamic size expansion. Role-zone swap is too destructive for these two families in the current form.
+## Campaign500 Hardening V13BDR2 Hybrid - 2026-06-25
+
+- Synced the V12BDR result/next-step question to GPT conversation `6a3be215-05c8-83e8-b5c9-307a492fea69`; GPT advised `two-cell inward hook / endpoint inset` as the next mainline, with double-end stitch deferred and endpoint merge kept as low-frequency auxiliary.
+- Implemented V13BDR2 in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`: menu `Tools/Arrow Magic/Campaign 500/Hardening/Build Boundary Inset Sandbox V13`, pack `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV13BDR2Pack.asset`, GUID `900364ecf4764fe49beacb4d41643f3b`.
+- V13 now starts from latest V11 outputs, applies two-cell boundary inset first, then one-cell V12 hook as fallback. This is a replacement/stronger branch from V11, not an incremental edit after V12BDR.
+- Latest report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v13_bdr2_20260625_115819.csv`.
+- Accepted demo pairs: L387 and L405. L387: direct/PBE `18->12`, opening `18->12`, NEE `33->30`; L405: direct/PBE `10->8`, opening `10->8`, NEE `30->21`. L173 was skipped because PBE only dropped `9->8`, below the 15% gate.
+- Validation: `dotnet build ArrowLevel-Hand.sln` passed with existing warnings only; Unity batch generation passed and `Assets/ArrowMagic/Scenes/Demo.unity` activePack points to V13BDR2.
+
+## Campaign500 Hardening V14CMP Edge Compression - 2026-06-25
+
+- Synced V13BDR2 results and next plan to GPT conversation `6a3be215-05c8-83e8-b5c9-307a492fea69`; GPT agreed that V14 should be a low-frequency endpoint merge/compression pass, strictly limited to boundary redundancy cleanup and not dependency-topology rewriting.
+- Implemented V14CMP in `Assets/ArrowMagic/Editor/CampaignHardeningAnalyzer.cs`: menu `Tools/Arrow Magic/Campaign 500/Hardening/Build Boundary Compression Sandbox V14`, pack `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardeningSandboxV14CMPPack.asset`, GUID `9d95355a84e2c6643a7adc5765763940`.
+- Latest report: `Assets/ArrowMagic/SOData/Reports/Campaign500/Hardening/campaign_hardening_sandbox_v14_cmp_20260625_121057.csv`.
+- Result: L405 accepted with 2 edge-merge ops: chains `167->165`, direct/PBE `8->6`, opening `8->6`, NEE `21->21`, arrow tiles unchanged `1044`, edge-short outer `0->0`, boundary-straight `1->1`. L387 had no safe compression candidate and was skipped.
+- Validation: `dotnet build ArrowLevel-Hand.sln` passed with existing warnings only; Unity batch generation passed and `Assets/ArrowMagic/Scenes/Demo.unity` activePack now points to V14CMP for review.
+
+## Root Variant Library V1.28 Balanced Production Library - 2026-06-25
+
+- Continued active root/variant-library goal by consolidating stable rows from V1.21 baseline, V1.22 size expansion, and V1.27 hub/split conservative passes into a balanced six-family library.
+- Frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV128BalancedProductionLibraryPack.asset`, GUID `c81950ad0c0d43ac9dd91715c9d78ef7`; frozen levels in `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/RootVarV128BalancedProductionFrozen`.
+- Selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_28_balanced_production_library_selected.csv`; frozen manifest: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV128BalancedProductionLibraryPack.csv`.
+- Frozen trace was run in six 12-row chunks and merged to `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_28_balanced_production_frozen_trace_metrics.csv`; joined audit: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_28_balanced_production_frozen_trace_joined.csv`.
+- Result: 72/72 solved and 72/72 intended family gate pass. Distribution is 12 each for `cascade_relay`, `hub_spoke`, `split_key`, `strict_dual_gate`, `support_lock`, and `web_crossover`. Family maxChoices caps stayed <=8; family avgChoices averages stayed roughly `3.25-3.82`; min support depth is >=3 except `split_key` where family classifier permits depth 2 with split-key gate pass.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack now points to V1.28. Treat this as the current balanced root/variant review library and the baseline for next root-direction and size-expansion work.
+
+## Root Variant Library V1.29-V1.30 Four-Family Expansion - 2026-06-25
+
+- Continued the active root/variant-library goal after V1.28 by targeting the four families that still mostly depended on V1.21 baseline + V1.22 size rows: `cascade_relay`, `strict_dual_gate`, `support_lock`, and `web_crossover`.
+- V1.29 source feed: 16 V1.28 frozen parents, 4 per target family, from `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_29_expansion_source_four_families.csv`.
+- V1.29 candidate generation: `peripheral_jitter` generated 96 candidates; `cluster_remap` generated 48 candidates with 80 geometry failures; web-specific mild jitter generated 48 more candidates after strong web perturbation proved fragile. Combined audit: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_29_fourfam_all_joined_trace_gate.csv`.
+- V1.29 frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV129FourFamReviewPack.asset`, GUID `9f604bc426124186bab65ebaf9ccd478`. Frozen result: 16/16 solved and 16/16 intended family gate pass. Distribution: 4 each for cascade/strict/support/web; operators are cascade `cluster_remap:4`, strict `cluster_remap:2 + peripheral_jitter:2`, support `cluster_remap:2 + peripheral_jitter:2`, web `web_mild_jitter:4`.
+- V1.30 size expansion: expanded V1.29 frozen rows with non-mirror `wideplus6_shift` and `tallplus6_shift`; 32 candidates traced, 25 intended-family gate pass, 16 selected.
+- V1.30 frozen pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV130FourFamSizeReviewPack.asset`, GUID `0e14f4e499e54d089e0a92a1a81e7b27`. Frozen result: 16/16 solved and 16/16 intended family gate pass; 4 per target family. `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack now points to V1.30 for review.
+- Engineering conclusion: cluster remap is useful for cascade and partially useful for strict/support, but too destructive for web; web_crossover currently needs mild non-core jitter or size-level variation. Cascade size expansion is also more fragile in wide direction than tall direction.
+
+## Root Variant Library V1.31 Extended Balanced Review - 2026-06-25
+
+- Consolidated the validated library into a larger balanced review pack for the active goal: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV131ExtendedBalancedReviewPack.asset`, GUID `91a29088725441d3b604fa2e66f8d71e`.
+- Selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_31_extended_balanced_review_selected.csv`; frozen manifest: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV131ExtendedBalancedReviewPack.csv`; frozen levels: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/RootVarV131ExtendedBalancedFrozen`.
+- Composition: 108 levels, exactly 18 each for `cascade_relay`, `hub_spoke`, `split_key`, `strict_dual_gate`, `support_lock`, and `web_crossover`.
+- Sources: V1.28 contributes 12 baseline rows per family; V1.29 contributes 3 non-size rows for cascade/strict/support/web; V1.30 contributes 3 size rows for cascade/strict/support/web; V1.27 contributes 6 extra hub and 6 extra split rows.
+- Frozen trace was run in six 18-row chunks and merged to `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_31_extended_balanced_frozen_trace_metrics.csv`; joined audit: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/root_variant_library_v1_31_extended_balanced_frozen_trace_joined.csv`.
+- Verification: 108/108 solved and 108/108 intended family gate pass. Family maxChoices max stayed <=8; family avgChoices averages range `3.16-3.73`; min antiLocal ranges `0.579-0.667` by family; split_key min support depth remains 2 because the split-key classifier permits that family shape.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack now points to V1.31. Treat V1.31 as the current stable root/variant review library for manual visual curation and future量产 sampling.
+
+## SGP Pressure Hard Trial - 2026-06-25
+
+- In main project `F:\Unityproject\ArrowLevel-Hand`, added experimental direct SGP pressure-hard entry in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`.
+- Trial pack path: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset`; report: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_trial_report.csv`.
+- Result: old fallback produced solvable but easy-looking 198-228 chain samples; first traced sample was `Drop/LocalEasy` with `avgChoices=11.16`, `maxChoices=18`, `outerExitHeadCount=16`.
+- Pure pressure profile reduced chain count to 131-158 at high coverage, but 4/4 failed Greedy. Conclusion: hardening SGP by simply favoring blocked heads creates deadlocks; generation needs temporal release/order constraints, not just fewer clear rays.
+- To avoid leaving Demo empty, copied 3 validated SGP hard-library benchmark levels into `Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardBenchmark/` and built `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardBenchmarkPack.asset` (GUID `c8e516eece57cc94ca87c60d18b5b0d3`).
+- Demo activePack now points to `SGPPressureHardBenchmarkPack`. Benchmark trace in `.codex-run/sgp_pressure_benchmark_trace/.../sgp_pressure_hard_benchmark_metrics.csv`: 3/3 solved A-tier; openers `3-5`, avg choices `2.57-2.98`, max `5-6`, outer exits `0/1`.
+- Follow-up v16 trial changed the direct SGP experiment to small near-full long-chain boards (`20x28` to `22x28`/`21x30`, target `55-60` chains), added a release-only pressure profile, a best-candidate flip-gate pass, and cheap early-choice scoring in `NoMaskProceduralGenerator.cs`.
+- Current trial output: `SGPPressureHardTrialPack.asset` (GUID `acd1590a350614a4e86c901d33b5c5dd`) with 4/4 solved B-tier trace rows in `.codex-run/sgp_pressure_trace_v16_scorecurve/.../sgp_pressure_hard_trial_v16_scorecurve_metrics.csv`.
+- v16 metrics: chains `57-63`, openers `3-5`, avg choices `5.26-6.64`, max choices `8-12`, outerExitHeadCount `1-5`, stageLockScore up to `0.641`; Demo activePack now points to the trial pack.
+- Current conclusion: direct SGP can improve when difficulty is scored during candidate selection and the board is sized to 50-60 long chains, but it still lacks benchmark-level support closure/root structure (`HardStructureV3Class` remains `LocalEasy`). Next step should be root/trace-edge semantic generation, not more random blocked-head pressure.
+
+## SGP -> Re-anchor -> SGP Sandwich Probe - 2026-06-25
+
+- Tested the proposed sandwich line: let SGP raise density first, then use existing skeleton/trace tools to re-anchor difficulty before giving control back to SGP.
+- Middle-state sample: `tonight_pinthen_sgp_b04_20x26_max44_smoke16_b01_c05`, coverage `0.4807692`, solved, supportDepth `4`, but Drop due choices (`avgChoices=7.11`, `maxChoices=18`, `outerExitHeadCount=15`).
+- Ray map output: `sandwich_sgp048_c05_raymap_v1_*`; it found 25 `criticalDependencyEdge`, 17 `directExitRay`, and confirmed the failure is choice/outer explosion rather than lack of hard motif.
+- Trace-edge re-anchor test `sandwich_sgp048_c05_reanchor4_v1`: only added `0-1` chains per candidate and did not materially improve choices (`avgChoices≈7`, `maxChoices=18`, all Drop). Critical-edge micro anchors are too weak at this dense middle state.
+- Outer-head subset repair `sandwich_outerhead_c05_subset2_v1`: flipping 2 outer heads reduced best avg choice to `6.27` and outerExitHead to `13` while preserving supportDepth `4`, but all rows still Drop and some became unsolved.
+- Extreme all-outer-head flip `sandwich_outerhead_c05_all_v1`: `avgChoices=2`, `outerExitHead=1`, but unsolved and supportDepth `0`. Outer exits are the correct pressure surface, but geometry-level flip/repair is too destructive.
+- Current conclusion: sandwich route remains plausible, but the re-anchor pass must operate as SGP generation-time outer-exit budget + release-owner/trace contract, not post-hoc geometry flips or small critical-edge additions.
+
+## Wave Peel Re-root Probe V1 - 2026-06-25
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-WavePeelRerootProbeV1.ps1`.
+- User correction captured: do not touch/clear the difficulty skeleton. Script now protects `baseChains` parent owners and trace `supportClosureQualifiedRoots/supportClosureBestRoot` owners before rewriting any opener wave.
+- Negative control: `ReverseEligibleExceptKeep` on c05 compressed choices but made 24/24 unsolved when keep count was 3-6; wider keep 8/10/12/14 only solved a few rows and still stayed Drop. Reversing opener chains is not root refill.
+- Positive control: `DropEligibleExceptKeep` on c05 removed only non-skeleton opener chains. Result: 16/16 solved, mostly A; k0 rows returned to coverage `0.2635`, `avgChoices=2.93`, `maxChoices=7`, supportDepth=4. Useful k2/k4 rows stayed coverage `0.28-0.3577`, A, supportDepth=4.
+- Cycle test: selected `wavepeel_drop_c05_protect_v1_b01_c11_k4` (`coverage=0.3577`, A) and gave it back to SGP. `sandwich_cycle1_sgp_from_k4_v1` filled to coverage `0.5096-0.5596`, all solved/supportDepth=4, but all Drop again with openers `14-17`, avgChoices `6.21-8.30`.
+- Second peel of best cycle row `sandwich_cycle1_sgp_from_k4_v1_b01_c04` again recovered A rows: k0 coverage `0.3577`, `avgChoices=3.44`, supportDepth=4; k2/k4 rows coverage up to `0.45`, A; k6 rows returned to Drop.
+- Current conclusion: SGP repeatedly creates removable non-skeleton opener waves; peeling those waves is a stable way to restore difficulty without killing support. It is not yet a full production solution because coverage drops. The next required primitive is root/gate refill of the peeled cells, not reversal and not leaving holes.
+
+## Wave Peel K4 Refill Probes - 2026-06-25
+
+- Tested refill routes from `wavepeel_drop_c05_protect_v1_b01_c11_k4` (`coverage=0.3577`, solved/A, supportDepth=4) using protected-chain ray map `wavepeel_k4_raymap_p28_v1_*` (`ProtectedChainCount=28`).
+- `Build-TraceBoundSGPProbeV0` with `UseTraceEdgeContract + WaveBridgeV1 + AvoidCriticalRayBodyCells` preserved difficulty perfectly but throughput was too low: 12/12 A/supportDepth=4, yet only `0-1` chain added, best coverage `0.3692`.
+- `Build-HardLockSlotDirectedBatchFillV1` could add a 3-chain group to coverage `0.4000` while keeping solved/A/supportDepth=4, but the best row was still weak (`LocalEasy`, antiLocal `0.393`, `outerExitAvailableChoiceMax=4`) and rejected by outer pressure.
+- `Build-SeededDirectSGPFillBaselineV1` with `PreseedReleaseScaffold` (6 chains) and then with `UseConstraintAdapter + soft budget` both filled to about `0.49-0.56`, but 8/8 Drop/unsolved or LocalEasy with avg choices around `8-10`. Preseed/soft preferences do not stop SGP from recreating open outer/opener waves.
+- `Build-IncrementalRoleMapFillCompilerV1` from the same k4 parent produced three strict commits and stopped at coverage `0.3692`; all accepted commits were 2-cell safe additions (`supportDepth=4`, `avgChoices=3.39/4.06/3.94`, `maxChoices=8`).
+- Current conclusion: safe refill candidates exist, but current trace-edge/local-room candidate language is too narrow. The missing primitive is not reversal, not scaffold-only SGP, and not soft adapter; it is a higher-throughput release-compatible root/gate scaffold generator that can fill the peeled opener cells as groups while preserving the protected skeleton.
+
+## Wave Peel Release Scaffold Group V0 - 2026-06-25
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-WavePeelReleaseScaffoldGroupV0.ps1`. It computes `peeledCells = used(full SGP middle state) - used(peel base)` and only generates new short chains inside that peeled non-skeleton space; each new head must first-hit a protected skeleton owner (`ProtectedChainCount=28` in the k4 probe).
+- Initial k4 group smoke from `wavepeel_drop_c05_protect_v1_b01_c11_k4`: `TargetAddedChains=6` generated 12/12 candidates at coverage `0.398-0.413`, but 12/12 were unsolved/Drop. Throughput exists, but blind 6-chain owner-hit groups break temporal release.
+- Group-size sweep: `add2` produced 2/12 solved A/supportDepth=4 up to coverage `0.3769`; `add3` produced 1/12; `add4/add6` produced no acceptable rows. This proves the peeled-space owner-hit language is not useless, but group size must be release-aware.
+- Iteration test from an accepted `add2` row reached a second solved A/supportDepth=4 step at coverage `0.3923` (4/16 acceptable rows). A third random `add2` step failed 0/20; a `TargetAddedChains=1` probe found one A/supportDepth=4 row at `0.3981`, then another single step reached solved/supportDepth=4 at `0.4038` but only tier B (`localPatchSolveRunMax=5`, `outerExitAvailableChoiceMax=4`).
+- Script now supports `-CountExistingProtectedOwnerHits` to count existing non-skeleton protected-owner hits before adding more; this ruled out simple repeated-owner overuse as the only failure cause.
+- Current conclusion: V0 is a meaningful positive-control over trace-edge micro-fill because it can refill peeled cells in small groups and iterate to ~0.39 A-tier, but it is not yet production. The next primitive must schedule refill by `release wave + owner role`, not just "head hits any protected owner".
+
+## Active Loop To Validate Next - 2026-06-25
+
+- Preserve this loop across context compression: `validated skeleton/root -> SGP density fill -> trace detects explosion -> protect skeleton owners -> peel only SGP-created non-skeleton opener waves -> refill peeled cells with root/gate/blocker chains -> return to SGP`.
+- The immediate next run should execute the loop once end-to-end, even if the current blocker refill is still a V0 placeholder. The value is to measure where the loop breaks: SGP growth, peel recovery, blocker refill, or second SGP pass.
+- Do not use reversal as the refill. Do not clear skeleton/support owners during peel. Do not present owner-hit V0 as final production; use it only to approximate the blocker/root refill step until owner/wave scheduling is implemented.
+
+## SGP Pressure Hard Anti-Local Follow-up - 2026-06-25
+
+- In main project `F:\Unityproject\ArrowLevel-Hand`, pressure-hard direct SGP was extended with early choice-curve diagnostics: avg/max choices, local run, jump distance, near-step rate, plus trace-style local patch stats based on chain bbox/center/micro-region.
+- Pressure profile was changed from high-turn snake to straighter mixed chains, and `EdgeHeadChains` for pressure now uses the trace-like near-outer outward-head口径 rather than only exact boundary heads.
+- Best restored review pack remains `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset` (GUID `acd1590a350614a4e86c901d33b5c5dd`) with 4 levels mounted in `Assets/ArrowMagic/Scenes/Demo.unity`.
+- v18/v23 result: outer exits improved versus the broken light-gate attempts and chain shape is less snake, but internal Status still shows early opener waves (`EarlyChoices≈22-26`, `LocalRun≈6-7`), and trace still has LocalEasy rows.
+- Strong middle blocked-ray gating was tested and rejected: it made 4/4 Greedy fail; light gating produced only 2 valid levels with worse opener explosion. Conclusion: direct SGP scoring alone cannot create the desired hard structure; next step should use release-owner/root-gate scaffold or the protected peel/refill loop.
+
+## Sandwich Loop Full Pass V1 - 2026-06-25
+
+- Executed the approved loop once from `wavepeel_drop_c05_protect_v1_b01_c11_k4` (`coverage=0.3577`, A, supportDepth=4).
+- Step 1 SGP density fill: `loop1_sgp_from_k4_v1` reached coverage `0.521-0.565`, all solved/supportDepth=4 but all Drop (`openers=14-22`, `avgChoices=6.87-9.71`, `maxChoices=15-22`). This confirms SGP can fill but recreates opener/choice explosion rather than killing the skeleton.
+- Step 2 protected peel on representative `loop1_sgp_from_k4_v1_b01_c04`: `loop1_peel_from_sgp_c04_v1` restored A/supportDepth=4. Useful rows: `k2` coverage `0.3904`, avg `3.74`, max `8`; `k4/k6` keep more coverage but outer/avg remained loose.
+- Step 3 blocker/root placeholder refill using `Build-WavePeelReleaseScaffoldGroupV0` on the peeled row `k2`: `loop1_refill_after_peel_c02_v1` added 2 chains; 6/16 solved, 5/16 A/supportDepth=4. Best production-like row: `loop1_refill_after_peel_c02_v1_b01_c15`, coverage `0.4058`, A, MediumStructure, avg `3.36`, max `7`.
+- Step 4 SGP density fill after refill: `loop1_sgp_after_refill_c15_v1` again reached coverage `0.5327-0.5769`, all solved/supportDepth=4 but all Drop. Best choices improved versus the first SGP pass (`avg≈5.96-6.11`, `max=15-16`) but not enough for hard acceptance.
+- Step 5 second protected peel on the second SGP pass: `loop1_peel_after_second_sgp_c05_v1` restored A/supportDepth=4 again at higher coverage. Strong rows: `k2` coverage `0.4346-0.4404`, A, MediumStructure, avg `3.58-3.82`, max not above target; `k0` returns to coverage `0.4058`, A, avg `3.36`.
+- Current conclusion: the loop is operational and the control handle is real. SGP repeatedly adds removable non-skeleton opener waves; protected peel can recover hard structure even after blocker/root placeholder refill. The unresolved bottleneck is the refill primitive: V0 owner-hit reduces the damage but does not yet prevent the next SGP pass from generating another opener wave. Next work should replace V0 with owner/wave-scheduled root/gate blocker refill, or extract SGP growth-order data to guide that scheduler.
+
+## SGP Growth-Order / Low-Opener Refill Probe - 2026-06-25
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPGrowthOrderReportV1.ps1` to compare parent vs SGP full state and label every added chain by append order, head layer/region, firstHit/directExit, firstAvailable/clearStep, and peel status.
+- `loop1_sgp_c04_growth_order_v1`: from k4 parent to first SGP full sample, all 13 added chains were layer-0 direct-exit initial openers; 11/13 were peeled and 2 were kept. This proves the SGP density pass is creating a removable boundary opener wave, not primarily blocking future space.
+- `loop1_second_sgp_c05_growth_order_v1`: after V0 refill, the next SGP pass repeated the pattern; all 11 added chains were layer-0 direct-exit initial openers, 9/11 peeled and 2 kept.
+- `MinHeadLayer=1` control (`loop1_sgp_from_k4_minlayer1_v1`) still failed: SGP simply produced layer-1 direct-exit opener chains, with 15/18 added chains as initial direct exits and most rows unsolved/Drop. Do not treat min-head-layer as the solution.
+- Extended `Build-WavePeelReleaseScaffoldGroupV0.ps1` to output predicted opener/direct-exit counts. `loop1_refill_after_peel_c02_lowopener_v1` confirmed generated refill chains can avoid being openers/direct exits themselves (`predictedAddedOpeners=0`, `predictedAddedDirectExits=0` for 32/32), but only 11/32 traced to A/supportDepth=4. Best remains c15 (`coverage=0.4058`, A, avg `3.36`, max `7`); higher-coverage c31 gave worse next SGP behavior.
+- Current concrete next step: build owner/wave-scheduled root/gate/blocker refill for the peeled direct-exit opener wave. It should keep the V0 “new heads hit protected skeleton owner” positive control, but add release-wave/owner scheduling and choose for low predicted opener + board trace survivability before giving the board back to SGP.
+
+## SGP Gate-Aware Copied Trial - 2026-06-25
+
+- Per user request, did not modify the original `TryBuildPeelChain` SGP path; added a separate copied experiment path in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`.
+- New menu: `Tools/ArrowMagic/Direct Procedural/Build SGP Gate-Aware Trial Pack`; output pack `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPGateAwareTrialPack.asset`, report `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_gate_aware_trial_report.csv`, levels under `Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPGateAwareTrial/`.
+- V1 owner-hit peel proved that chain-head gating alone is insufficient: initial chain openers dropped to `3-4`, but early move choices stayed about `18-21` because released long chains expose many clickable body tiles.
+- V4/V5 added owner fanout caps, short early release chains, and anti-local/cross-region scoring. Current Demo activePack points to `SGPGateAwareTrialPack` GUID `bcc1a50a307b305449e29f21f70a75e6`.
+- Current V5 metrics: 4/4 solved, coverage `0.951-0.954`, chains `84-96`, initial openers `2-3`, edge-heads `6-8`, early average choices about `8.4-10.9`, early max choices `20-30`. This is a real improvement over raw pressure SGP, but local/near release remains high; next step needs explicit release-wave scheduling, not just more score tuning.
+
+## SGP Direct-Cap Negative / Peeled-Wave Refill Boundary - 2026-06-25
+
+- GPT first suggested an opt-in SGP boundary direct-exit emission cap. Implemented `-MaxBoundaryDirectExitOpenersPerPass` in `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`.
+- Direct cap tests from `wavepeel_drop_c05_protect_v1_b01_c11_k4`: cap2/cap4/cap8 all kept coverage around `0.52-0.58` but produced `0/6` solved and `0/6` supportDepth4. The cap lowers openers/choices but changes SGP's packing trajectory and cuts temporal/support semantics.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPOpenerRemovalSensitivityV1.ps1`. On `loop1_sgp_from_k4_v1_b01_c04`, deleting each of 13 non-skeleton openers one at a time yielded `13/13` solved and `13/13` supportDepth4. Thus the opener wave is removable after generation, but unsafe to forbid during generation.
+- Continued low-opener owner-hit refill without returning to SGP: from c15 (`0.4058`, A/supportDepth4), add2 yielded 14/48 A/supportDepth4 up to `0.4231`; add3 from c44 reached `0.44-0.45` geometry but `0/24` solved; add2 from c44 yielded one A/supportDepth4 at `0.4346`; add1 beyond that produced `0/32` solved.
+- Current boundary: V0 owner-hit refill can safely recompile peeled cells from `0.4058` to about `0.423` and occasionally `0.4346`, but fails beyond that. Next primitive must add release-wave/owner scheduling; more random owner-hit candidates or generation-time direct caps are not enough.
+
+## SGP LDF / Block Relation Head Probe - 2026-06-25
+
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1` with opt-in `-UseLocalDifficultyField`, `-EmitLdfHeadReport`, and `-UseLdfSupplementalBlockerHeads`.
+- LDF V1 uses the current SGP candidate language but scores heads with direct-exit penalty, independent opener penalty, first-hit/owner rewards, and escape-ray blocker reward. Smoke reports write `*_ldf_head_report.csv`.
+- Comparison on `pressure_gradient_compiler_v1_adaptive_smoke1_final_selected.csv` to target coverage ~0.52: raw SGP solved 4/4 with supportDepth min 4 but stayed Drop (`avgChoices≈7.16`, `maxChoices=25`, `outerAvg≈16.75`). Strong LDF solved 4/4 with supportDepth min 4 and improved to `avgChoices≈6.30`, `maxChoices=18`, `outerAvg≈14.25`, still Drop.
+- Head report confirmed all native heads were direct exits (`448/448`), though `116/448` had blocker reward. This proves outward-only scoring has limited headroom.
+- Supplemental blocker heads (`first-hit existing`, non-direct) created non-direct candidates and greatly reduced choices/outer, but broke solve/support: high count 64 gave `0/4 solved`, supportDepth `0`; low count 8 also `0/4 solved`. Treat this as evidence that blocker heads need release-wave/owner scheduling, not as a production path.
+
+## SGP Release-Aware Head Provider V2 Probe - 2026-06-25
+
+- Added opt-in `-UseReleaseAwareHeadProviderV2` to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`.
+- V2 reads a trace/ray edge CSV and offers supplemental heads only from `criticalDependencyEdge` ray cells where the current wave map satisfies `ownerWave > hitWave`, `hitWave >= ReleaseAwareMinHitWave`, and `releaseGap <= ReleaseAwareMaxReleaseGap`; the head must currently first-hit the edge's `firstHitOwner` and must not be direct exit.
+- A/B on `wavepeel_drop_c05_k4_selected_input.csv` vs `wavepeel_k4_raymap_p28_v1_edges.csv` to target ~0.52: Control LDF solved `4/4`, supportDepth `4/4`, avgChoices `7.41`, max `21`, outerAvg `15.75`.
+- Release-aware V2 with 4 offered heads solved `4/4` and improved avgChoices to `5.72`, max `17`, outerAvg `12.5`, but supportDepth fell to `2` in all rows. Conservative 1-head/2-head versions solved `4/4`, preserved supportDepth `4` in `3/4`, but one row still fell to depth `2`; body-avoid penalty did not fix it.
+- Current conclusion: release-aware head language has real pressure signal, but head-only is not production-safe. The next primitive must bind at least part of the new chain body to the release edge/corridor or owner/wave schedule; continuing to tune reward/cap is unlikely to solve support drift.
+
+## SGP Head+Body Corridor Contract V1 Probe - 2026-06-25
+
+- Extended the same script with opt-in body corridor bias for release-aware heads: `ReleaseAwareBodyCorridorSteps/Distance/Reward/Penalty`. This keeps normal SGP heads unchanged and only biases the first N body steps of `source=releaseAwareV2` chains near their trace edge corridor.
+- A forced 2-head corridor run accepted 2 release-aware heads per candidate and preserved `4/4 solved`, `4/4 supportDepth=4`, while improving pressure vs LDF control: avgChoices `7.41 -> 6.01`, max `21 -> 17`, outerAvg `15.75 -> 13.75`.
+- A 4-head corridor run improved avgChoices slightly further (`5.89`, outerAvg `12.5`) but collapsed supportDepth to `2` in all rows. This proves the new contract has a safe dose boundary.
+- Current conclusion: head+body corridor is the first positive SGP-base control that preserves support while reducing choice/outer, but it is not yet hard-tier. Next step is not more reward tuning; add per-owner/per-wave budget and scheduled groups so release-aware heads are distributed instead of overloading the same support structure.
+
+## SGP Release-Aware Budget / Wave Window Probe - 2026-06-25
+
+- Added opt-in release-aware scheduling controls to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`: `ReleaseAwareAcceptedPerOwnerBudget`, `ReleaseAwareAcceptedPerHitOwnerBudget`, `ReleaseAwareAcceptedPerHitWaveBudget`, `ReleaseAwareAcceptedPerOwnerWaveBudget`, `ReleaseAwareAcceptedPerEdgeBudget`, `ReleaseAwareAcceptedTotalBudget`, plus provider-side `ReleaseAwareMaxHitWave` and `ReleaseAwareMaxOwnerWave`.
+- Exact per-owner/per-wave/per-edge accepted budget did **not** fix the 4-head collapse: `sgp_release_budget_v1_forced4_budget_exact` matched old forced4 behavior (`4/4 solved`, `0/4 supportDepth=4`, support min `2`, avgChoices `5.892`). The 4 accepted heads were already naturally distributed across different owners/waves, so repeated-owner collision was not the root cause.
+- `ReleaseAwareAcceptedTotalBudget=2` also was not enough: it accepted two heads but sometimes chose late waves (`hitWave=7/10`) and only preserved `1/4 supportDepth=4`.
+- `ReleaseAwareMaxHitWave=3` with 4-head candidate capacity reproduced the safe 2-head corridor result: `4/4 solved`, `4/4 supportDepth=4`, avgChoices `6.012`, max `17`; candidate reports offered/accepted exactly 2 early-wave release heads.
+- Current conclusion: the real control surface is not just “how many release-aware heads” or “which owner”, but the release-wave window. Late-wave release-aware heads are currently unsafe even when owner/corridor-bound. Next step should treat `hitWave<=3` as the safe V1 window, then try raising coverage/pressure inside that window before exploring late-wave contracts.
+
+## SGP Wave Capacity Boundary V1 - 2026-06-25
+
+- Ran the GPT-approved capacity probe with the primitive fixed: strong LDF + protected owners + release-aware head/body corridor + `ReleaseAwareMaxHitWave=3`; only target coverage changed (`0.55/0.60/0.65/0.70`).
+- Baseline safe window at ~`0.52`: `4/4 solved`, `4/4 supportDepth=4`, avgChoices `6.012`, max `17`, outerAvg `13.75`.
+- At `0.55`: still `4/4 solved`, but support already partial (`2/4 supportDepth=4`, min depth `2`) and choice/outer spiked (`avgChoices=9.02`, max `22`, outerAvg `19.5`). This is the first practical capacity failure.
+- At `0.60`: support/solved looked stable (`4/4 solved/supportDepth=4`), but choice/outer collapsed harder (`avgChoices=11.63`, max `29`, outerAvg `23.75`). This means support alone is not sufficient acceptance.
+- At `0.65/0.70`: solvability and support collapsed (`0.65` only `1/4 solved`, support min `0`; `0.70` `0/4 solved`).
+- Current conclusion: early-wave release-aware control is a valid support-preserving kernel, but by itself cannot raise coverage beyond ~`0.52` without raw SGP opener/outer-wave explosion. The next primitive must control the additional non-release-aware SGP fill after the safe early-wave heads, likely via staged wave windows or a second mid-wave contract, not simply by pushing target coverage.
+
+## SGP Stage-2 Emission Controller V1 Probe - 2026-06-25
+
+- Added opt-in Stage-2 soft scoring controls to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`: `UsePostKernelEmissionController`, `PostKernelActivationReleaseAwareHeads`, and post-kernel direct-exit/opener/hits-existing/first-hit/protected-owner/ray-blocker scoring fields.
+- Implementation note: after the activation threshold is reached, the script now restarts head ordering on the same layer so Stage-2 scoring actually applies to subsequent native SGP heads.
+- Probe at target `0.55`: `sgp_stage2_emission_v1_cov055_rerank` preserved structure better than kernel-only (`4/4 solved`, `4/4 supportDepth=4` vs kernel-only `2/4 supportDepth=4`), but still stayed Drop (`avgChoices=8.915`, max `25`, outerAvg `20.25`).
+- Key diagnosis: all accepted post-kernel chains were still direct-exit native heads (`67/67 postKernelDirectExitAccepted`). Therefore stronger soft scoring can improve support but cannot solve choice/outer collapse when SGP's Stage-2 candidate language remains direct-exit dominated.
+- Negative control: enabling small `UseLdfSupplementalBlockerHeads` (`8`) supplied alternative non-direct blocker heads but made `0/4 solved` and support min `1`; uncontracted blocker heads are not a safe candidate language.
+- Current conclusion: Stage-2 needs a release-compatible non-direct candidate language, not just stronger scoring over native direct-exit heads. The next candidate should be weak-owner / bounded-wave heads with a corridor or owner contract, rather than generic supplemental blockers.
+
+## SGP Gate-Aware Lane Cluster V7 - 2026-06-25
+
+- In main project `F:\Unityproject\ArrowLevel-Hand`, extended copied `NoMaskProceduralGenerator` gate-aware trial with a visual rail-lane cluster detector. It now counts long same-axis straight tile streaks across rows/columns, not only single long straight chains.
+- Menu remains `Tools/ArrowMagic/Direct Procedural/Build SGP Gate-Aware Trial Pack`; pack remains `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPGateAwareTrialPack.asset` and Demo still points to GUID `bcc1a50a307b305449e29f21f70a75e6`.
+- V7 report `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_gate_aware_trial_report.csv`: 4/4 solved, coverage `0.953-0.963`, chains `84/88/96/90`, initial openers `3/3/3/2`, `Rails=0`, `Lanes=0`.
+- User screenshot problem was a detector blind spot: multiple shorter chains can align into a long visual highway even when `Rails=0`; `Lanes=0` is the new guard for that.
+- Remaining issue: early local release remains high (`EarlyChoices≈8.4-10.9`, `LocalRun≈7-11`, near rate high). Next step should target release-wave scheduling / local sequential unlocks, not just more straight-line filtering.
+
+## SGP Gate-Aware Wave / Early-Length Trial V8f - 2026-06-25
+
+- Continued only on copied `SGPGateAwareTrial` path in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`; original SGP path remains untouched.
+- Added `GateAwareWaveMetrics` with chain-level and tile-level release-wave stats (`Wave`, `TileChoices`, `TileBand`, local region burst), stronger wave scoring, same-band head penalties, and report fields for `bodyBandReject/parentBandReject`.
+- Hard body/parent band rejection V8d was too strong: it caused failed/over-fragmented candidates (`parentBandReject` in the thousands, chain count/coverage unstable). Kept only a much softer extreme body-band reject and moved parent same-band handling into scoring.
+- V8f changed gate-aware construction order so early released chains stay shorter, with longer chains deferred to later fill. Latest report: 4/4 solved, coverage `0.950-0.953`, chains `95/100/103/99`, initial openers `3/3/3/4`, `Rails=0`, `Lanes=0`.
+- V8f is usable for visual review but not final hard-tier quality: `EarlyChoices≈7.3-7.9`, max choices `10-18`, `TileChoices≈5.8-7.6`, `TileBand≈6-8`. Next likely primitive is an actual release-wave/micro-delay construction pass, not more pure score tuning.
+
+## SGP Gate-Aware Temporal Scheduler V9c - 2026-06-25
+
+- Implemented the GPT-reviewed minimal temporal scheduler on the copied Gate-Aware path: predicted owner wave (`direct=0`, `hit parent wave+1`), early wave budgets, preferred-wave scoring, early wave chain-length limits, and stronger tile-level wave scoring.
+- V9 first run proved the scheduler was too soft (`waveReject=0`) but improved some levels. V9b hard band-wave rejection was too aggressive: coverage dropped in one level (`0.911`) and did not consistently reduce choices. Keep this as a negative result.
+- V9c keeps hard limits for early wave count/early chain length, but moves band-wave balancing back to strong scoring. Latest report: 4/4 solved, coverage `0.952-0.961`, chains `94/104/108/105`, initial openers `3/2/3/3`, max predicted wave `11`.
+- V9c metrics: `EarlyChoices≈6.8/7.9/6.9/7.4`, early max `10/21/13/14`, `TileChoices≈6.9/5.1/7.5/7.1`, `TileBand≈7/6/8/7`. This is a real scheduler insertion but still not a decisive gameplay-quality shift; local-run/near-rate remain high.
+- Current conclusion: SGP can be nudged into temporal scheduling without breaking coverage, but the next true quality jump likely needs a local-run/micro-delay contract that changes *where the next best move appears*, not only how many predicted wave chains exist.
+
+## SGP Gate-Aware Anti-Local Negative Probe V10 - 2026-06-25
+
+- User screenshot confirmed the remaining defect: exits are lower, but play is still mostly continuous local clearing. Tried adding generation-time parent-child anti-local constraints to copied `SGPGateAwareTrial`.
+- V10 hard anti-local from the first owner-hit stage was too strong: after 3 entry chains, owner-hit candidates were almost all rejected (`localReject` thousands), fill collapsed to about `0.013`. This proves the intervention point is real but cannot run before a skeleton exists.
+- V10b delayed hard anti-local until after 22 placed chains. Coverage recovered (`0.950-0.955`) and tile choices improved on some rows, but LocalRun stayed high (`22/19/13/11`) and NearRate remained `0.80-0.97`.
+- V10c strengthened LocalRun/NearRate scoring and narrowed head-pick randomness. It still did not pass: LocalRun remained `13/13/13/11`, and one row dropped coverage to `0.945`.
+- Current conclusion: parent-child distance and scoring are insufficient because Greedy can still find nearby moves through chain bodies / local exposed tiles. Next step should be a true local-run shaping grammar: generate or reserve remote unlock pockets / delayed anchors, or simulate the first N greedy moves during construction and reject candidates that create adjacent next-best moves.
+
+## SGP Gate-Aware LocalRun V11-V15 Negative Boundary - 2026-06-25
+
+- Added V11 diagnostic-only `GateAwareLocalProbeMetrics` on copied `SGPGateAwareTrial`: k-step probe emits `LEP/SJD/RRR/Run/ProbeMaxChoices` into `sgp_gate_aware_trial_report.csv`; compile passed. V11 improved observability but did not produce a quality jump: sample rows still had `RRR=0.80-1.00`, LocalRun high, and one row dropped coverage.
+- V12 tried generation-time parent/ancestor local-run proxy (`ParentOwner`, temporal local penalties/rejects, smaller head window). It was a negative result: first row coverage recovered but `LocalRun=15`, second row failed coverage at `0.893`; reverted the added proxy code.
+- V13 tried aligning the proxy to real pressure `LocalRun` using bbox/4x6 micro patch lineage. It also failed: temporal rejects did not trigger meaningfully and `LocalRun` stayed about `14`; reverted.
+- V14 tried same predicted-wave pressure-patch capacity and V15 tried stronger cross-region owner-hit scoring. Both failed to create a gameplay-level shift: first-row LocalRun stayed `16-21`, NearRate stayed high, and same-region owner hits still dominated. Reverted the failed V12-V15 code/weights; copied path is back to V11 diagnostic state.
+- Current conclusion: low-cost head scoring, predicted wave budgets, parent-child distance, and same-wave patch penalties cannot fix the continuous local clear problem in this SGP language. The next real route should be a new chain-segment/slot grammar that owns head + body + release timing, or the multi-round sandwich cadence (small SGP batch -> immediately rewrite exact added slots -> trace gate), rather than more scoring on the copied SGP head provider.
+
+## SGP Stage-2 Candidate Augmentor V1 - 2026-06-25
+
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1` with `-UsePostKernelCandidateAugmentor`, `PostKernelAugmentor*` wave/protected controls, and `-PostKernelRecomputeAfterChain`.
+- V1/V1B added non-direct, first-hit-owner post-kernel heads. At target `0.55`, they preserved `4/4 solved` and `4/4 supportDepth=4`; best aggregate `sgp_stage2_augment_v1_cov055`: avgChoices `7.978`, max `25`, outerAvg `20`, post-kernel direct ratio `64/70`.
+- V1C added post-kernel state refresh after each committed chain. It preserved `4/4 solved/supportDepth=4` and reduced outer/max slightly (`outerAvg=18`, max `21`), but still stayed Drop/LocalEasy with avgChoices `7.958`; post-kernel direct ratio remained high (`60/64`).
+- Concrete diagnosis: head-level non-direct owner-mediated candidates are safe but too scarce (`4-6` accepted total per 4 candidates). Native direct-exit heads still dominate Stage2, so this is not yet a production fill route.
+- Next step should not be more scoring. Build a segment-level Stage2 grammar: owner-mediated / bridge mini-chain candidates that own both head and first body segment, then feed them into SGP as structured alternatives to direct-exit native heads.
+
+## SGP Sandwich Slot-Refill V2 Probe - 2026-06-25
+
+- Continued the separate “sandwich” line: validated skeleton/root -> raw SGP density fill -> peel non-skeleton opener wave -> refill peeled space with new root/gate chains -> return to SGP.
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-WavePeelReleaseScaffoldGroupV0.ps1` with opt-in slot scheduling: `-UsePeeledSourceChainSlots`, `-FallbackToAllPeeledCells`, and `-MaxChainsPerSourceSlot`. The new mode groups peeled cells by the original SGP source chains, so refill targets the same corridors that SGP had just used.
+- Immediate refill result improved materially over random owner-hit V0: `sandwich_v2_slot_refill_add2_probe1` produced 32 add2 candidates with 19 A/supportDepth4 rows, versus old V0 add2's 5 A/supportDepth4 out of 16. Best immediate row c17 had coverage `0.4058`, A, supportDepth4, avgChoices `3.22`, maxChoices `7`, outerExitHeadCount `6`.
+- Returning slot-refill rows to raw SGP did not solve the sandwich loop. c17 -> raw SGP target `0.56` gave 6/6 solved but all Drop, avgChoices about `10.86`, max about `24.83`, outer about `23.5`. c26 -> raw SGP similarly gave 6/6 solved, all Drop, support4 only 4/6, avgChoices `11.43`, max `24.17`, outer `22.17`.
+- Current conclusion: refill should indeed block/rewrite the SGP-created escape corridor, not just fill holes. Slot-refill helps immediate stability, but SGP still regrows direct-exit opener waves from adjacent/remaining corridor space. Next validation should inspect second-pass growth order and add a no-bypass/halo or next-SGP constraint around refilled source slots before considering a dedicated worktree.
+- Small-step boundary validation changed the working hypothesis. From slot-refill c26, raw SGP with `MaxNewChains=2/4/8/12` showed a sharp boundary: step2 gave 4/4 solved/supportDepth4 with 3 A + 1 B and avgChoices `4.03-4.42`; step4 already produced 3 Drop; step8/12 were all Drop with outer/choice explosion. Growth reports show even step2 adds only layer0 direct-exit openers, but keeping the increment small makes it trace-stable.
+- Targeted refill of just the two step2 SGP slots (`swv2_r3_step2_refill_add2`) produced 8/16 A/supportDepth4, avgChoices `3.55-3.58`, max `8`, outer `6`, coverage `0.4154`. A subsequent SGP step2 from c09 reached coverage `0.4635` with 4/4 solved/supportDepth4, 2 A + 2 B, no Drop. This is the first positive evidence for a multi-round sandwich cadence: SGP adds a small direct-exit layer, refill rewrites those exact slots, then SGP can continue.
+- Important correction: do not require one refill to block all SGP exits or completely close the boundary. The viable cadence is likely “leave controlled exits visible to SGP, let it add a very small batch, then immediately rewrite that batch into protected owner-hit scaffolds.” Refill validation is still too slow because full board trace is used on all candidates; production needs cheap prechecks and full trace only at commit.
+- Follow-up efficiency probe tested whether SGP can add 4-6 chains per cadence. Step4 from the same base had 4/4 solved/supportDepth4 with one A and three Drop; step6 had 4/4 solved/supportDepth4 but all Drop (`avgChoices≈5.2-6.1`, max `12-13`, outer `11-12`). Growth reports show all added step6 chains were again layer0 direct-exit openers.
+- Partial peel on step6 c02 corrected a parameter misunderstanding: `KeepOpenerCounts` means rewrite-eligible openers to keep, not total openers. Keeping 4/5 of 6 added openers (remove 1-2) preserved 16/16 solved/supportDepth4 and reduced avg from `5.21` to as low as `4.42`, but all remained Drop. Refill add1 after partial peel still stayed Drop; loose add2 harmed support. Current conclusion: 6-chain SGP steps are too aggressive for current refill grammar; 4-chain steps may be the next useful cadence, while 2-chain steps are the proven-safe baseline.
+- Standard-level attempt on the 4-chain cadence: starting from a step4 A sample at coverage `0.465`, another SGP step4 reached coverage `0.50` but all rows were Drop. Partial peel of 1-2 of the 4 new direct-exit openers produced one B/supportDepth4 at coverage `0.4846`. Refill add1 on that B row produced 10/12 B/supportDepth4, best coverage `0.4942`, avg `4.33`, max `10`, outer `10`; add2 strict was too tight to generate and loose add2 harmed support in adjacent probes. A subsequent SGP step4 from best B (`0.4942`) preserved solved/supportDepth4 but returned to all Drop (`avg≈5.45-6.04`, max `14`, outer `13-14`).
+- Current boundary: the sandwich cadence has positive signal and can repeatedly preserve solve/support while SGP grows coverage, but with current refill language it does **not** yet reach a standard/full production level. It plateaus around coverage `0.49-0.50` as B/Drop because each next SGP step still emits only layer0 direct-exit heads. The next required primitive is a faster targeted refill that rewrites 4-chain SGP bursts into stronger owner-controlled blockers without relying on exhaustive full trace.
+- Follow-up round validated a stronger “full peel + refill” sandwich variant. From r5/c03, peeling all 4 SGP direct-exit additions and refilling 4 owner-hit chains produced 24 candidates with 8 A/supportDepth4 rows; best rows reached coverage `0.496-0.506`, avg choices `3.64-4.68`, max `8`, outer `9`. This is materially better than keeping 2 bad exits and only refilling around them.
+- Returning the best full-peel/refill row to SGP step4 pushed coverage to `0.546-0.569` and kept `4/4 solved/supportDepth4`, but all rows were Drop (`avg≈5.02-6.17`, max `11-12`, outer `11-13`). A second full peel/refill add4 could recover A-tier on some rows but supportDepth dropped to `2`, so 4-chain bursts are too aggressive for the current refill grammar.
+- Small-step continuation is more stable: from the same A/support4 row, SGP step2 reached coverage `0.515-0.535` with `4/4 solved/supportDepth4` and all B; a step2 peel/refill add2 sample produced several A rows and some supportDepth4 rows around coverage `0.517-0.525`. Another SGP step2 from a support4 row reached coverage `0.55` with `4/4 solved/supportDepth4`, but the next refill exposed a new high-density bottleneck.
+- High-density bottleneck: at coverage `~0.55`, the two peeled SGP opener chains left only `2` peeled cells and one usable source slot. Plain slot-refill and halo1 could only add 1 chain. Added `PeeledSlotHaloRadius` to `Build-WavePeelReleaseScaffoldGroupV0.ps1`; halo2 can add 2 chains quickly, but the sample was `4/4` unsolved/support collapse (`supportDepth 0-1`). Conclusion: beyond `~0.52`, refill needs a support-closure-aware halo/owner contract, not just a larger local construction area.
+- Current sandwich verdict: valuable to continue in a dedicated worktree, but not yet production. Proven useful primitives are `small SGP step2`, `full peel of new unprotected openers`, and `slot refill against peeled SGP source slots`. Open problem is a support-preserving high-density refill grammar that can use halo space without cutting the hard-lock closure.
+- Dedicated clean worktree opened for this line: `.worktrees/sgp-sandwich-refill`, branch `codex/sgp-sandwich-refill`, based on `codex/sgp-rhythm-lab` at `fedc26aa`. It is intentionally clean and does not yet contain the untracked `Tools/`, reports, levels, or generated assets from `sgp-rhythm-lab`; next step is to copy/import only the minimal sandwich toolchain and seed reports needed for a focused validation.
+- New working hypothesis: refill and SGP must target the same outlet pocket instead of fighting globally. Add a `TargetedSGPZonePass` experiment: derive a target zone from the last peeled SGP chains + refill scaffolds + small halo, then force SGP heads to start in that zone, bias/limit body growth to the zone/halo, require first-hit to the intended owner/refill structure, and reject new direct-exit heads outside the zone. Success signal is high next-SGP overlap with the target zone while preserving solved/supportDepth and not spiking choice/outer.
+- Refill optimization direction: stop full-tracing every refill candidate. Use cheap prechecks first (`source-slot/zone overlap`, owner hit, no protected skeleton cell touch, cavity/slot loss, direct-exit delta), trace only top-K candidates, then full trace only at commit. For cadence testing, keep `step2` as safe baseline and test `step4` only with targeted zone + top-K refill, not loose halo expansion.
+- GPT/manual review correction: `TargetedSGPZonePass` should be treated as `FailurePocketAnchoredSGPPass`, not a spatial mask. The pocket is a closure-derived subgraph from the previous SGP failure: last-step direct-exit heads, upstream 1-2 hop support neighborhood, boundary escape rays, refill owners/scaffolds, and local support-disruption footprint. The hard rule should be “new SGP heads first-hit pocket anchors/refill owners” before “stay inside geometric zone”; geometry/halo is only a construction envelope. This prevents the zone pass from degenerating into previous brittle pin/lane/mask failures.
+- `sgp-sandwich-refill` validation 2026-06-25: copied minimal tools into the clean worktree and added opt-in `FailurePocketAnchorMode/Owners` to `Build-SeededDirectSGPFillBaselineV1.ps1`. On the known refill parent `swv2_r6...c15`, raw historical step2 was 4/4 solved/support4 but B-tier (`avg≈4.77-5.50`, max `10`, outer `10-11`). Hard anchor to protected hit owners `30;42` stayed 4/4 solved/support4/A but only added 1 chain (`0.517->0.527`). Expanding anchors to pocket/refill owners `30;42;44;45` restored 2-chain throughput (`0.517->0.527-0.531`), 4/4 solved/support4/A, `boundaryDirectExitUsed=0`, outer fixed at `9`, avg `4.5-4.92`; growth report shows added chains first-hit refill owners `45/44`, no direct exit. A second anchored step from the best row with anchors `30;42;44;45;46;47` reached up to coverage `0.553846`, 4/4 solved/support4/A, outer still `9`, max `9`, and no new direct-exit. A third hard-anchor step with anchors `30;42;44;45;46;47;48;49` added 0 chains, establishing the current pocket capacity boundary.
+- Current sandwich decision: `FailurePocketAnchoredSGPPass` is a real positive control surface and better than loose halo/mask. It can make SGP and refill cooperate inside one failure pocket. The next production step is automatic pocket extraction and rotation: when a hard pocket anchor adds 0 chains, detect the next SGP failure pocket or switch to a controlled `Reward` mode/top-K refill rather than continuing to hard-force the exhausted pocket.
+
+## SGP-3L / Stage-2 Grammar Unit V0 - 2026-06-25
+
+- Implemented opt-in grammar-unit experiment in `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`: `UsePostKernelGrammarUnits`, `PostKernelGrammar*`, and fixed `fixedPrefixCells` support in `Try-BuildChain`.
+- V0 grammar units are 2-4 cell post-kernel mini-chain prefixes with non-direct head, first-hit owner, wave window, optional protected hit, and score bonus. SGP still grows the remaining body after the fixed prefix.
+- Aggressive V0 at target `0.55` accepted many grammar units (`54/85` post-kernel chains grammar, direct ratio `31/85=0.365`) and lowered avg/max/outer (`avgChoices=6.185`, max `13`, outerAvg `11.25`), but broke all rows (`0/4 solved`, supportDepth min `0`).
+- Conservative/protected V0 also failed (`0/4 solved`, support4 `0/4`) despite reducing direct ratio to `33/82=0.402`; best row had low avg/max/outer (`4.39/9/7`) but supportDepth only `1`.
+- Current conclusion: GPT's SGP-3L architecture is directionally correct, and grammar units have real pressure power, but V0 block/bridge units are not spine-safe. Next L2 grammar must bind mini-chain segments to trace-edge/spine-safe release semantics, not merely first-hit/protected owner.
+
+## SGP-3L / TraceEdge Grammar Unit V1 - 2026-06-25
+
+- Added opt-in `UsePostKernelTraceEdgeGrammarUnits` to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`. V1 units are fixed-prefix mini-chains anchored to original `criticalDependencyEdge` ray corridors, with current first-hit back to the edge's original `firstHitOwner`.
+- Initial hybrid with the safe early-wave release kernel (`sgp_stage2_traceedge_grammar_v1_cov055`) preserved `4/4 solved/supportDepth=4`, but offered/accepted `0` trace-edge units. The safe kernel had already occupied/rewritten the available edge corridor slots.
+- Isolated trace-edge grammar without release heads had real throughput (`18` accepted units, direct ratio `0.769`) but collapsed all rows (`0/4 solved`, supportDepth min `0`). This proves edge-corridor anchoring alone is still not enough.
+- Added a cheap commit reachability check for V1: after provisional chain insertion, protected owners must remain wave-reachable, and the original edge owner must remain later than its hit owner. This restored solvability (`4/4 solved`) and improved pressure (`avgChoices=6.603`, outerHeadAvg `15.5`) but supportDepth still degraded (`0/4 supportDepth=4`, min `2`).
+- Tightening V1 to `hitWave<=3` improved support stability (`3/4 supportDepth=4`) but lost most pressure gain (`avgChoices=8.852`, direct ratio `0.857`). Current conclusion: TraceEdge Grammar V1 is a useful diagnostic/control surface but not production-safe. Next step needs a support-closure light check or an explicit support-path non-interference contract, not more owner/first-hit/wave scoring.
+
+## SGP-3L / TraceEdge Support Proxy V2 - 2026-06-25
+
+- Added a support-path non-interference proxy to the TraceEdge grammar commit boundary. It compares affected original `criticalDependencyEdge` rows near the new path and allows only unchanged first-hit edges or a clean relay shape `edgeOwner -> newChain -> originalFirstHitOwner` with wave order preserved.
+- Broad-wave V2 (`sgp_stage2_traceedge_grammar_v2_supportproxy_cov055`) rejected many units (`167` support rejects) and preserved `4/4 solved`, but still failed support closure (`0/4 supportDepth=4`, min `2`). It improved pressure versus baseline (`avgChoices=7.098`, max `20`, outerHeadAvg `15.75`) but did not fix the missing primitive.
+- Early-wave V2 (`sgp_stage2_traceedge_grammar_v2_supportproxy_wave3_cov055`) also rejected candidates (`37` support rejects) but stayed almost identical to early-wave V1: `4/4 solved`, `3/4 supportDepth=4`, avgChoices `8.857`, direct ratio `0.87`.
+- Current conclusion: local edge relay preservation is a useful filter but still not equivalent to supportClosure preservation. Next check must compare support-closure proxy directly, e.g. support root/depth/branch preservation, rather than only local first-hit basin invariance.
+
+## SGP-3L / Closure Shadow Proxy V3 - 2026-06-25
+
+- Added opt-in closure shadow controls to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`: `PostKernelTraceEdgeGrammarUseClosureShadow`, `PostKernelTraceEdgeGrammarClosureDepth`, and `PostKernelTraceEdgeGrammarMinShadowRatio`.
+- First implementation only tracked each candidate's local first-hit basin. It was too local: broad-wave V3 still had `0/4 supportDepth=4`, and wave3 V3 stayed `3/4 supportDepth=4`.
+- Updated V3b to include the current parent’s best protected closure-shadow roots, so the commit check compares support-root propagation, not just the candidate edge. This restored wave3 support stability: `sgp_stage2_traceedge_grammar_v3b_closureshadow_wave3_cov055` and ratio `0.80` both traced `4/4 solved`, `4/4 supportDepth=4`.
+- Negative result: V3b is too strict as a pressure generator. It accepted only `4` TraceEdge grammar units, with `130` closure rejects, and regressed difficulty pressure close to baseline (`avgChoices=10.102`, `outerAvg=20`, direct ratio `0.948`).
+- Broad-wave support-root shadow currently times out under the full 4-candidate run, so this layer is not production-scalable without caching/top-k/lazy evaluation.
+- Current conclusion: closure shadow is the correct safety gate for supportClosure, but not yet a Stage2 candidate language. Next step should build a closure-safe grammar candidate pool or lazy TopK closure evaluation, instead of tuning wave/owner/radius/reward.
+
+## SGP-3L / Closure-Compatible Proposal Prefilter V4 - 2026-06-25
+
+- Added opt-in closure-compatible proposal controls to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`: `PostKernelTraceEdgeGrammarUseClosureCompatiblePrefilter`, `PostKernelTraceEdgeGrammarBasinDepth`, `PostKernelTraceEdgeGrammarBasinDistance`, and `PostKernelTraceEdgeGrammarMaxAffectedRoots`.
+- V4 implementation builds an affected closure-basin field from protected support roots plus the trace edge owner/hit owner, then constrains TraceEdge grammar fixed prefixes and body extension to stay near that field. This changes candidate generation space before the V3 closure shadow commit gate.
+- Wide V4 (`basinDepth=3`, `distance=1`) was ineffective as a prefilter (`prefilterRejects=0`), stayed at only 4 TraceEdge accepts, and degraded support (`2/4 supportDepth=4`). The field was too broad and did not meaningfully change candidate language.
+- Narrow V4b/V4c (`basinDepth=2`, `distance=0`, `maxAffectedRoots=1`, shadow ratio `0.95/1.0`) made the prefilter active (`146` prefilter rejects, TraceEdge offered `8`) and preserved solvability (`4/4 solved`), but still leaked one support-collapse row (`3/4 supportDepth=4`, depths `4,4,4,2`).
+- Key comparison at target `0.55`: Stage2 baseline kept `4/4 supportDepth=4` but directRatio `1.0` and avgChoices `8.915`; V3b kept `4/4 supportDepth=4` but accepted only 4 TraceEdge units and avgChoices `10.102`; V4b/c accepted 4 units, directRatio `0.946`, avgChoices `9.31`, but support dropped to `3/4`.
+- Current conclusion: closure-compatible prefiltering is a real control surface only when narrow, but current closure-basin field still does not encode the full supportDepth invariant. Do not keep tuning shadow ratio/radius as the main route; next step should define a stricter support-depth-preserving grammar unit or add a direct supportDepth/light-trace commit check only for top-ranked grammar candidates.
+
+## SGP-3L / Support Witness Edge Gate V1 - 2026-06-25
+
+- GPT confirmed the next support guard should be edge-survival based rather than full witness-path preservation: keep a compact set of first-hit support witness edges from the support root reverse closure, and allow an optional relay shape `child -> newChain -> oldParent`.
+- Implemented opt-in witness parameters in `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1`: `PostKernelTraceEdgeGrammarUseWitnessGate`, `WitnessDepth`, `WitnessMaxRoots`, `WitnessEdgesPerRoot`, `WitnessMinSurvivalRatio`, and `WitnessAllowRelay`.
+- Exact witness and relay witness experiments at target `0.55` were identical to V4c: `4/4 solved`, `3/4 supportDepth=4`, depths `4,4,4,2`, avgChoices `9.31`, directRatio `0.946`, TraceEdge accepted `4`, witnessRejects `0`.
+- Per-row diagnosis: every row accepted only `1` TraceEdge grammar unit, but also accepted `16-20` native direct post-kernel chains. The failing row had `supportDepth=2` with `traceAccepted=1`, `postDirect=17`, and `witnessRejects=0`.
+- Current conclusion: the supportDepth leak is not caused by the TraceEdge grammar unit cutting the selected witness edge at commit time. It is more likely caused by later native direct-exit Stage2 SGP chains, which are still outside the support witness contract.
+- Next target: apply the cheap witness survival gate, or an equivalent support-depth proxy, to native post-kernel direct chain commits as well as TraceEdge grammar commits. Do not keep adding stricter TraceEdge-only gates until Stage2 native direct chains share the same support contract.
+
+## SGP-3L / Native Direct Commit Control Negative Boundary - 2026-06-25
+
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1` with three opt-in native post-kernel direct controls: `UsePostKernelNativeSupportPressureBudget`, `UsePostKernelNativeDirectIdentityGate`, and `UsePostKernelNativeSupportShadowGate`.
+- SPB hard budget was rejected as a primary mechanism. `spb24` reduced choices/outer (`avgChoices≈7.86`, `outerAvg≈12`) but broke all rows (`0/4 solved`, supportDepth mostly `0`). `spb48` partially recovered (`2/4 solved`) but did not fix the baseline support leak and introduced new support/solve drops.
+- Native direct A/B identity tagging showed the anchor-reuse hypothesis is false for this sample: V7 matched V4c exactly (`4/4 solved`, `3/4 supportDepth=4`, avgChoices `9.31`), and `postKernelNativeDirectPollutionAnchorRejects=0`.
+- Native support-shadow gate also failed to distinguish the leak: V8 evaluated all native direct commits (`70` evals) with `0` rejects and matched V4c exactly, including the `supportDepth=2` row.
+- Current conclusion: the remaining Stage2 leak is not explained by direct-chain count, bad-anchor reuse, or the current support-root shadow proxy. The native direct commit changes closure/release geometry in a way these local proxies do not see.
+- Next direction: stop tuning scalar budgets or current shadow/radius gates on this single-pass Stage2 path. Either build a stronger top-K direct support check that actually predicts `supportClosureBestDepth`, or return to the sandwich cadence where small SGP bursts are peeled/re-written as closure-safe slots before further density growth.
+
+## SGP Gate-Aware WSCU Lite V16 Negative Boundary - 2026-06-25
+
+- Tested V16 on copied `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs` `SGPGateAwareTrial`: anchor segment distance, early body turn/anchor penalties, local parent-head rejection, same-region dependency quota, and dependency length rhythm.
+- V16/V16b produced only weak signal: one sample improved to `LocalRun=13` / `NearRate=0.86`, but coverage fell to `0.923`; other variants either rebounded to `LocalRun=17-25` or dropped coverage.
+- Strong same-region length rhythm fired (`rhythmCap>100`) but exploded chain count to `130-148` and worsened real LocalRun. Cross-region hard quota killed fill entirely, stopping around `8-9` chains / `0.04-0.05` coverage.
+- Cleaned the destructive V16 helpers back out. Restore check generated row 1 again with coverage `0.954`, but real `ComputePressureChoiceCurve` still had `LocalRun=18`, `NearRate=0.86`.
+- Current conclusion: WSCU-lite patches inside the copied SGP head/body picker do not create the needed qualitative shift. Real breakthrough likely requires the separate SGP-3L / sandwich route: tiny SGP bursts followed by slot/trace-edge rewrite with closure-safe support checks.
+
+## Reverse Unlock Skeleton Spike - 2026-06-25
+
+- Added temporary offline probe `.codex-run/reverse_unlock_skeleton_probe.py` to test a Sokoban-style reverse-generation idea without touching Unity assets: start from empty board, add chains in reverse solve order, and require each newly added chain to be clearable against the current board.
+- The probe mirrors the portable `GreedyEscapeSolver` rule: a chain is removable when its head ray to the board edge has no active occupied cells.
+- Positive small-canvas results: `8x12` produced a planned+greedy solved skeleton at coverage `0.75` with planned initial choices `3`, avg `1.33`, max `3`; `10x14` produced coverage `0.707` with planned initial `5`, avg `1.95`, max `5`.
+- Scaling boundary: `12x16` and `14x18` remain planned+greedy solved around coverage `0.58-0.70`, but opening choices typically rise to `7-8+`. Targeted reverse blocker construction helps solvability/coverage but does not yet build a low-opener full-board difficulty net.
+- More important parent-based result: using the validated `0.307598` HardLock030 DynamicOuterGate parent as the seed, reverse blocker extension produced:
+  - add12: coverage `0.4179`, planned+greedy solved, initial choices `3` vs base `5`, avg/max about `3.7/6`.
+  - add20: coverage `0.4865`, planned+greedy solved, initial/max `6/6`, avg about `4.1-4.3`.
+  - add30: coverage `0.5699`, planned+greedy solved, but opener/choice pressure returned (`initial=12`, greedy avg `6.82`, max `12`).
+- Current conclusion: reverse generation is weak from empty board but promising as a parent-expansion primitive. It can preserve guaranteed solvability and add density/pressure around a 0.30 hard parent up to roughly `0.49` before opener回潮; production next step is to convert this offline probe into Unity LevelDefinition output + full board trace, then add structured blocker/gate templates for the `0.49 -> 0.6+` range.
+
+## Reverse Sandwich Production Line V0 - 2026-06-25
+
+- Added formal orchestrator `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-ReverseSandwichProductionLineV0.ps1` and formal reverse refill tool `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-ReverseSlotRefillV1.py`.
+- Production route now matches the current target: 0.30 hard parent -> bounded SGP burst in real fill slots -> growth-order diagnosis -> peel all SGP-added slots -> reverse-valid refill in those slots -> full `Build-SGPRhythmTrace.ps1` -> final growth report.
+- Smoke `reverse_sandwich_prod_v0_smoke02`: SGP reached coverage `0.4252451`, solved/supportDepth4, but growth report showed `addedInitialOpeners=7` and `addedDirectExit=7`; this confirms SGP slot discovery works but raw SGP difficulty collapses via direct-exit opener pollution.
+- Old `WavePeelReleaseScaffoldGroupV0` refill reduced openers/outer but repeatedly became unsolved even with only 3 blockers, so it remains a negative boundary for this route.
+- New `ReverseSlotRefillV1` standalone smoke using the same SGP slot field added 3 reverse-valid chains and formally traced as solved/A: openers `3`, avg/max `3.28/6`, outerExitHeadCount `3`, supportDepth `4`, coverage `0.3247549`.
+- Updated `Build-ReverseSlotRefillV1.py` with `--unity-top-k`; orchestrator smoke `reverse_sandwich_prod_v0_smoke06` exported top8 reverse candidates and traced all 8.
+- `smoke06` result: all top8 reverse candidates were solved/A with openers `3`, avg/max `2.95/6`, outerExitHeadCount `2-3`, coverage `0.3296569`, but this seed group had supportDepth only `2` across all top8. This means top-K export works, but the simplified reverse score/seed still does not guarantee official supportClosure preservation.
+- Next concrete step: add reverse seed sweep / multi-prefix selection to `Build-ReverseSandwichProductionLineV0.ps1`, select by official trace (`solved`, supportDepth, choice/outer), and only then feed the chosen reverse candidate into the next small SGP burst. Do not increase SGP burst size until a supportDepth4 reverse-refill candidate is auto-selected.
+
+## Tonight Full-Level Production Goal - 2026-06-26
+
+- Active target: produce one complete playable level near coverage `0.9` while preserving difficulty; coverage alone is not sufficient.
+- Current main route: SGP finds real fill slots/packing outlets, then reverse slot refill replaces SGP-added direct-exit meat with release-valid blocker/release chains that reduce opener/outer pollution.
+- Official trace remains the commit truth: accept only solved candidates with preserved support/depth signal and controlled choices/outer exits.
+- Immediate implementation target: add reverse seed/topK official-trace selection, then loop `small SGP burst -> peel new direct-exit slots -> reverse refill -> official trace commit`.
+- If reverse cannot produce enough high-support candidates, switch to another difficulty-control layer, but keep the same goal: SGP for coverage/slot discovery, semantic refill/control for difficulty.
+- 2026-06-26 run update:
+  - `Build-ReverseSandwichProductionLineV0.ps1` now supports `ReverseSeedBatches/ReverseSeedStride`; seed sweep can merge reverse candidates and select by official trace.
+  - Seed sweep proof: `reverse_sandwich_prod_v0_seed_sweep02_hit271001` selected a reverse refill at coverage `0.3296569`, `solved=True`, `processTier=A`, `supportDepth=4`, `openers=3`, `avg=3.3`, `max=6`, `outer=2`.
+  - Round2 proof from that parent reached coverage `0.3541667`, `solved=True`, `A`, `supportDepth=4`, `openers=3`, `avg=3.14`, `max=6`, `outer=2`.
+  - Large SGP slot field from a higher parent reaches coverage `0.86-0.88`, but raw SGP is `Drop/unsolved/support0` with openers/outer exploding; useful as slot discovery only.
+  - Added `Build-TailExtensionFillV1.py`: extending existing chain tails without adding heads can raise density. Ray-blocking tail fill reached coverage `0.865` but became unsolved/support0; neutral-only tail fill reached coverage `0.5980392`, `solved=True`, `B`, `supportDepth=3`, `openers=10`, `avg=3.87`, `max=10`, `outer=11`.
+  - Neutral tail slots are exhausted near `0.598`; allowing tail cells that touch even one existing ray caused official unsolved from `0.618+`.
+  - Added `--max-after-choices` and `--slot-ray-density-max` to `Build-ReverseSlotRefillV1.py`. Bulk reverse with choice cap can preserve support but becomes Drop as coverage rises: `0.6225` solved/support4 with openers `14`; `0.6483` solved/support4 with openers `18`.
+  - Ray-coupling diagnosis for `0.598 -> 0.877` SGP slot field: `228` SGP slot cells, `76` neutral slots, `152` ray-touching slots, `0` direct-opener-ray slots. New neutral-slot reverse reached only `0.615` and was Drop.
+  - GPT review on conversation `6a3be215-05c8-83e8-b5c9-307a492fea69`: current route is realistically capped around `0.62-0.68` tonight; to approach `0.9`, insert a ray-aware thinning / release-safe constraint step before reverse instead of trying to repair the already bad SGP full state.
+
+## SGP Sandwich Priority/Boudary Checkpoint - 2026-06-26
+
+- 当前目标仍未完成：未跑通 coverage 接近 `0.9` 的完整难度关卡；今晚 sandwich/refill 线最新稳定点为 coverage `0.6846154`、`solved=True`、`processTier=B`、`supportDepth=4`，入口 CSV 为 `.worktrees/sgp-sandwich-refill/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/fpfast_from0673_break069_o67_candidates.csv` offset `0`。
+- 已把 commit 优先级明确为：`solved + supportDepth4` 为硬门槛；A/S 最优；B 可作为可控债；support2/Drop 只可作为 repair source，不能提交；coverage 只在前述条件内排序。
+- 新增 `Invoke-FailurePocketSchedulerV1.ps1 -AllowRewardDebtCommit`：允许 Reward 本身在 `solved/supportDepth4` 且 A/S/B 债务阈值内时直接进入 commit 候选，避免“SGP 一逃就必须堵”的错误循环。
+- 从 `0.6558` 继续验证：owner65 rewrite 可到 `0.6615 B/support4`；owner66 rewrite 可到 `0.6731 B/support4`；owner67 rewrite 可到 `0.6846 B/support4`。
+- `0.6846` 后出现固定边界：MaxNewChains=1、不同 seed 都只生成同一类新增 owner67 -> firstHit owner18 的非 direct-exit/base-owner-hit 链；该链会让 supportDepth 从 4 掉到 2。
+- 对该固定 owner-hit 做 len6、len10 fast rewrite 均无法恢复 supportDepth4；pair rewrite 对两链变体也只能 supportDepth2；Hard anchor 禁止该口会变成 unsolved/support0。
+- 临时接受 supportDepth2 债再继续补一根，仍只得到 supportDepth2 或 Drop，未观察到后续自然恢复 supportDepth4。
+- 当前判断：sandwich 线在现有 SGP candidate language + fast rewrite 语法下到达局部容量边界；下一个有价值实验不是加深搜索，而是改变 `0.6846` 前后的 SGP 候选语言/owner-hit contract，或设计专门处理 `base-owner-hit but support-shallowing` 的新 rewrite primitive。
+- 2026-06-26 后续验证：在 `Build-SeededDirectSGPFillBaselineV1.ps1` 增加 `FailurePocketAvoidHitMode` 与 `FailurePocketSoftAvoidHitOwners`。从 `0.6846` hard avoid owner18 后，SGP 找到新路并达到 `0.7096154/B/supportDepth4`；稳定入口为 `.worktrees/sgp-sandwich-refill/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/probe0684_avoid18_hard_m1_candidates.csv` offset `5`。
+- 从 `0.7096154` 继续，hard avoid owner18 + soft avoid owner10/28 仍只得到 `0.7134615/B/supportDepth2`，growth 诊断显示新增链改打 firstHitOwner31。再将 31 加入 soft avoid 后 12/12 变 Drop/support0。结论：0.709 后存在 shallow-hit owner 群，单纯黑/灰名单不能继续保 supportDepth4；下一步必须做 owner-hit support-shallowing rewrite primitive 或 pocket-level atomic rewrite。
+- 已在 `Build-FailurePocketFastRewriteV1.ps1` 增加 `SlotExpandRadius/MaxExpandedSlotCells`，把 rewrite 从“原 SGP 链格子内改写”扩展为“原链周围小 pocket 改写”。这修复了 2 格 shallow owner-hit 原本无空间堵链的问题。
+- Expanded pocket rewrite 正结果：从 `0.7096` 的 `probe0709_hard18_soft10_28_m1_b01_c01`（新增 owner68 -> firstHitOwner31，`B/support2`）出发，`fpfast_expand_from0709_o68_r2_len8_b01_c04` 达到 coverage `0.7153846`、`solved=True`、`B`、supportDepth `4`、avg/max `4.97/12`。
+- 继续一轮：从 `0.7154` SGP 暴露 owner69 -> firstHitOwner34 的 Drop/support0 口，expanded rewrite `fpfast_expand_from0715_o69_r2_len10_b01_c01` 修到 coverage `0.7269231`、`solved=True`、`B`、supportDepth `4`、avg/max `5.03/12`。这是当前 sandwich 研究线最新严格稳定点。
+- 下一轮从 `0.7269` SGP 暴露 owner70 -> firstHitOwner10，expanded rewrite 最高可保 supportDepth4 到 `0.7326923`，但 processTier 为 Drop（avg/max `5.34/13`）；`B` 候选仍为 supportDepth2。因此 `0.7269` 是当前严格 commit 点，`0.7327/support4/Drop` 只能作为选择峰值 repair source。
+- Debt-line 复测：从 `0.7327/support4/Drop` 继续 SGP 到 `0.7365` 后全部为 Drop/support2（max `14`）；新增 owner71 -> firstHitOwner28 的 expanded rewrite 只有两个 2-cell 选项，结果为 Drop/support2 或 unsolved/support0。结论：该 Drop 债不可自然回收，也缺少可用 pocket 空间；后续应从 `0.7269/B/support4` 严格线继续，并先控制选择峰值/owner70 口，而不是接受 Drop 父本滚动。
+- 2026-06-26 深夜续测：严格线已推进到 `0.7365385/B/support4`，入口为 `.worktrees/sgp-sandwich-refill/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/fpfast_expand_from0727_o70_r4_len14_var_unique16_candidates.csv` offset `1`。从该点 SGP 新增 owner71，默认 firstHitOwner10；r4/len14 pair rewrite 与 r5/len18 probe24 都没有产生严格可提交的 `B/support4`，只出现 `Drop/support4` 或 `B/support2`。
+- 对 `0.7365` 进行 SGP hard-avoid 复测：hard avoid `18;10` 后 SGP 改打 firstHitOwner28，但仍为 `Drop/support2`；hard avoid `18;10;28` 后 12/12 直接 `unsolved/support0`。结论：0.7365 后的 owner71 口是当前 fast-rewrite/avoid-hit 语法边界，不应继续靠扩大半径或黑名单堆叠盲搜；下一步若继续 sandwich 线，应改变“堵”的目标函数（围绕 opener/choice wave 或新的 owner-hit support-shallowing primitive），而不是把 `Drop/support4` 当正式父本提交。
+- Drop 债恢复测试：从 r5/len18 probe24 中唯一 `support4/Drop` 候选（coverage `0.7423077`）继续 SGP 一链，8/8 变为 `Drop/support2`、coverage `0.7461538`、maxChoices `14`，未观察到回 B/A。当前 commit 规则保持：Drop 不能作为 sandwich strict parent，只能作为失败诊断或新 primitive 的输入。
+
+## SGP Sandwich Tail-Safe Boundary - 2026-06-26
+
+- 深夜继续 sandwich strict 线：从 `0.7365385/B/support4` 转入 no-new-head tail/body extension，不新增 head，只延长现有链尾，并用官方 trace 做单格安全 probe。
+- tail-safe 路线把严格父本推进到 `0.8576923/B/support4`；替代尾部方向还能到 `0.8596154/B/support4`，但再加常见 tail 单格会掉到 `supportDepth2` 或 `unsolved/support0`。
+- 从 `0.8596154/B/support4` 让 SGP raw 冲 `0.89-0.91`：8/8 几何高覆盖但全部 `unsolved/supportDepth0`。growth 诊断显示新增链不是 direct-exit，而是短 owner-hit 链，第一条新增链已使 `supportDepth4 -> supportDepth2`。
+- 对第一条 toxic 新链 owner71 的 expanded rewrite（hit owner18）只得到 `B/support2` 或 `Drop/support2`；hard avoid owner18 会让 SGP 改打 owner63，并直接 `unsolved/support0`；对 hit63 的 expanded rewrite 也不能恢复 supportDepth4。
+- 当前本地结论：sandwich + tail-safe 语法的严格稳定上限约 `0.86`；0.86 后矛盾不再是“SGP 外逃”，而是“SGP owner-hit 候选语言改写 release/support 时序”。继续上推需要新的 support-preserving owner-hit primitive 或让 SGP 在生成阶段具备 support-safe candidate language，不能只靠事后 fast rewrite/avoid hit。
+- 人工体感复核：`tail0857B_alt_ray1_single_c42` 已被用户否决，反馈为“甚至不如量产的”。其 trace 虽为 `coverage=0.8596154/solved=True/B/supportDepth4`，但 `hardStructureV3Class=LocalEasy`，应作为 tail-safe/supportDepth 指标不足以证明高难的负例，不再作为高难候选展示。
+- 已新增 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-OwnerHitGrammarFillV1.py`：主动枚举非直出、first-hit 旧骨架 owner、贪心不过峰的小链候选，再交给官方 trace 决定提交。该工具验证了 0.86 后不是“无路”，而是原生 SGP candidate language 太窄。
+- Owner-hit grammar 连续推进：`0.8596154 -> 0.8673077 -> 0.8750000 -> 0.8826923 -> 0.8903846 -> 0.8980769`，每轮均找到 `solved=True/B/supportDepth4` 候选，且 choice/outer 未爆。
+- 最终用 no-new-head tail 单格收尾得到今晚目标样本：`ownerhit0898_tail_single_c63`，coverage `0.9000000`，官方 trace `solved=True`、`processTier=B`、`supportClosureBestDepth=4`、`avgChoices=4.39`、`choiceP80=7`、`maxChoices=10`、`outerExitHeadCount=10`。
+- Final selected CSV：`.worktrees/sgp-sandwich-refill/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/ownerhit0900_sandwich_final_selected.csv`。Final level asset：`.worktrees/sgp-sandwich-refill/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/OwnerHitGrammarFrom0898B/tail_single/ownerhit0898_tail_single_c63.asset`。
+- 已冻结 review pack 到 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_SandwichOwnerHit0900ReviewPack.asset`，并将 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack 指向该 pack，方便人工查看。
+- 当前生产判断：SGP sandwich 路线可跑通接近满覆盖关卡，但必须把“堵”升级为 support-safe owner-hit grammar selection；优先级为 `solved/supportDepth4` 硬门槛 > A/B tier > choice/outer 曲线 > coverage。
+- 2026-06-26 复核校正：`ownerhit0898_tail_single_c63` 的官方 trace 为 `hardStructureV3Class=LocalEasy`、`hardStructureV3Score=0.071`，虽然 `coverage=0.9000/solved/B/supportDepth4`，但不能作为高难命中；只保留为“高覆盖、支撑未炸但体感/结构未过”的边界样本。
+
+## Geometry Supply Owner-Hit Probe - 2026-06-26
+
+- 目标：验证 `SGPPressureHard` 普通量产样本能否只作为几何/同链边供料，不把其 `LocalEasy` 难度逻辑带入高难验收。
+- 已扩展 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-OwnerHitGrammarFillV1.py` 的 opt-in 参数：`--supply-level`、`--supply-fit exact|center-crop`、`--supply-require-edges`；默认行为不变。供料模式只允许新增 owner-hit 小链落在供料图映射后的空格中，并可要求相邻步沿供料关卡同链边。
+- 小样父本：`orig_seed_usable_v1_01_rolegraph_next5_arrowz_level_154`，base coverage `0.291498`，官方 trace `S/TrueHardCandidate/supportDepth4`。供料图：`sgp_pressure_hard_trial_01_sgp_pressure_hard_rect_lock_buckle`，center-crop `20x28 -> 19x26`，同链边约束。
+- 五轮 traced 正信号：best strict coverage `0.3016194 -> 0.3117409 -> 0.3218623 -> 0.3421053 -> 0.3623482`，均保持 `solved=True/processTier=S/hardStructureV3Class=TrueHardCandidate/supportDepth4`；第五轮 84/84 solved、76/84 TrueHard、61/84 supportDepth4+、61 strict pass。
+- 结论：几何供料 + owner-hit grammar 是高难专项正方向，至少能在低覆盖 root-growth 阶段保住 TrueHard，不像直接 PressureHard 那样 LocalEasy；但当前仍是低覆盖 proof，不挂 Demo，不与普通量产混线。下一步需要自动多轮 scheduler、anti-repeat/choice-wave 控制和更多 supply/root 组合验证。
+- 报告入口：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_root154_lockbuckle_probe_summary.md`；selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_root154_lockbuckle_probe_selected.csv`。
+- 2026-06-26 multi-root 复测：`Build-OwnerHitGrammarFillV1.py` 追加 opt-in bundle 模式（`--bundle-count`、`--bundle-pool-count`、`--bundle-same-hit-cap`、`--bundle-require-old-hit`），一次候选可放多条互不重叠、最终 first-hit 老骨架 owner 的供料链，再由官方 trace 筛。
+- 高覆盖对照 `root05 + core_burst` 可推到 `coverage=0.6419355`、`solved=True/S/MediumStructure/supportDepth4`，证明高覆盖段不必然 LocalEasy，但它不是 TrueHard。
+- 最强高难线为 `root10 + dense_weave + bundle3`：`0.3637681 -> 0.4072464 -> 0.4434783 -> 0.4753623 -> 0.5000000` 均存在 `solved=True/A/TrueHardCandidate/supportDepth4` 候选；最高 coverage 行 `0.5028986` 降为 `HardPotential/support4`。0.50 附近 TrueHard 密度从 r4 的 24/24 降到 r5 的 5/24，说明下一步要加入 class-drift/choice-wave 选择压力。
+- 硬但慢的对照：`root98 + dense_weave` 在 `0.3002451` 仍 24/24 `TrueHard/support4`，但吞吐太低；`root76 + dense_weave` 在 `0.3345588` 有 strict TrueHard/support4 候选，但通过密度低于 root10。
+- Multi-root 报告：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_multi_root_probe_summary.md`；selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_multi_root_probe_selected.csv`。未挂 Demo。
+
+## Tonight High-Coverage Demo Pivot - 2026-06-26
+
+- 本轮从 `0.30` HardLock 父本验证 release-aware SGP：即使 target `0.55/0.60/0.64/0.90`，官方 trace 均为 `solved=False`、`supportClosureBestDepth=0`；父本自身 retrace 为 `5/5 solved/A/supportDepth3`。结论：release-aware SGP 的失败不是 0.598 父本太脆，而是补肉阶段破坏 solve-order/closure。
+- 使用 GPT 会话 `6a3be215-05c8-83e8-b5c9-307a492fea69` 复核：今晚若继续研究型产线，主路线应回到 small SGP burst + reverse commit；release-aware SGP 只能作为辅助，不应继续作为 0.9 直冲主线。
+- 对 `0.5980392` tail-neutral 父本 + `0.877` SGP slot 做 reverse cap 复测：`max-after-choices=10` 补不上新链，保持 `0.5980392/B/support3/openers10/max10/outer11`；`max-after-choices=11` 仅加 1 链到 `0.6053922`，但变 `Drop/openers11/max11/outer12`。结论：当前 reverse slot refill 在 B-tier 约束下增量极小。
+- 可交付 pivot：新增 `Tools/Production/Invoke-SGPPressureHardProductionV1.ps1`，可复跑 Unity `BuildSgpPressureHardTrialPack` 并生成官方 trace input；完整 Unity 生成日志 `.codex-run/sgp_pressure_hard_production_v1_fullrun_unity.log` 已出现 `SGP Pressure Hard Trial finished` 和 `Exiting batchmode successfully now!`；随后 `-SkipUnity` 官方 trace 复核成功，metrics 为 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_hard_production_v1_fullrun_trace_metrics.csv`。
+- 复核后严格筛选：`SGPPressureHardTrialPack` 4 个 high-coverage 候选里，干净命中今晚目标的是 `sgp_pressure_hard_trial_03_sgp_pressure_hard_rect_dense_weave`：source coverage `0.978`，official trace `solved=True/processTier=B/supportDepth3/openers3/avgChoices3.78/maxChoices6`。其它行要么 supportDepth2，要么 Drop，不作为 clean hit。
+- Demo 已切到 filtered 单关包 `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardProductionV1Pack.asset`（GUID `afdb809ddc1a4502910d678912899a75`），用于今晚人工查看 0.9+ coverage 有难度成品关卡。
+- 后续路线区分：`SGPPressureHardTrial` 是当前可演示高覆盖成品线；sandwich/reverse 是研究线，当前稳定上限约 `0.68 B/support4`，需新 owner-hit/support-shallowing rewrite primitive 才可能继续上推。
+- 2026-06-26 再次运行 `Tools/Production/Invoke-SGPPressureHardProductionV1.ps1 -SkipUnity`，official trace 输出 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_hard_production_v1_metrics.csv`。`dense_weave` 仍是 clean hit：source coverage `0.978`、`solved=True`、`B`、supportDepth `3`、avg/max `3.78/6`、outer `6`。
+
+## V1.31 Family Pilot Readiness - 2026-06-26
+
+- 当前推荐主库基线：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV131ExtendedBalancedReviewPack.asset`，GUID `91a29088725441d3b604fa2e66f8d71e`；当前 worktree Demo 已临时切到 Original Seed Merged Usable Root V1 review pack 供人工筛 root。
+- V1.31 复核：108 关，6 个 family，每类 18 个；`root_variant_library_v1_31_extended_balanced_frozen_trace_joined_summary.md` 记录 108/108 solved、108/108 intendedFamilyGatePass。
+- 已抽取每 family 一个 frozen 父本作为小规模生产输入：`.codex-run/v131_frozen_one_root_per_family_recommended.csv`；对应 trace：`.codex-run/v131_frozen_one_root_per_family_trace_metrics.csv`。
+- 现有 `Build-RootCanvasVariantsV1.ps1`、`Build-RootPeripheralJitterVariantsV1.ps1`、`Build-RootClusterRemapVariantsV1.ps1` 能吃该 SourceCsv；jitter/remap 必须显式传 V1.31 frozen trace，不能用默认旧 trace。
+- 性能判断：6-root pilot 不需要先做性能优化；先限 `MaxRoots=6`、小 `VariantsPerRoot`、只 trace 新候选。若扩到百级产量，再做 trace/cache/按 family 分批优化。
+
+## Original Seed Root Merge Review - 2026-06-26
+
+- 已合并原始 seed root 候选源：rolegraph library、rolegraph next/batch、extractable V1、all-seed extractable V2 和 strict role full scan；输出全量表 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_root_merged_usability_v1_all_candidates.csv`。
+- 筛选表 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_root_merged_usable_v1_selected.csv`：按 solved、supportDepth>=3、choice 上限、tier 和 source-level 去重选出 16 个候选。
+- 因 archive 中旧 LevelDefinition 长路径超过 Windows `MAX_PATH`，没有整目录恢复；改为逐条从 `_AssetArchive/20260624_assetdatabase_trim` 精确复制资产，重命名为短 ID 并生成新 GUID。
+- 冻结包：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_OriginalSeedMergedUsableRootV1Pack.asset`，GUID `1096eb72369f4630ba4b9a09bdac9c27`；冻结关卡目录 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/OriginalSeedMergedUsableRootV1Frozen`。
+- 官方 trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_merged_usable_root_v1_frozen_trace_metrics.csv`；结果 16/16 solved，7 S + 9 A，supportClosureBestDepth 全部 3-4。人工筛选 joined audit：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/original_seed_merged_usable_root_v1_frozen_trace_joined.csv`。
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack 当前指向该原始 seed merged review pack，供用户肉眼筛掉同质/勉强样本。注意：该包是人工筛 root 库的候选池，不代表 16 个都已入最终量产 root 库。
+
+## SGP PressureHard Normal Production Closure - 2026-06-26
+
+- 本轮收尾结论：`Tools/Production/Invoke-SGPPressureHardProductionV1.ps1` + `SGPPressureHardTrialPack` 可作为“高覆盖、普通难度”量产线的 V1 基座；它不是高难产线，但已从研究线转为可生产普通关卡的实用突破。
+- 当前主项目与 `.worktrees/sgp-rhythm-lab` 的 Demo activePack 均指向 `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset`，GUID `acd1590a350614a4e86c901d33b5c5dd`，用于 4 关人工评审；filtered 单关 `SGPPressureHardProductionV1Pack` 仍保留为 clean-hit 示例，不再是当前 Demo 目标。
+- 完整 speedcheck：Unity 生成 4 关约 `198.491s`，trace-only 约 `59.986s`；合计约 4.3 分钟/4 关。日志 `.codex-run/sgp_pressure_hard_production_v1_speedcheck_unity.log` 成功退出，trace metrics 为 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_hard_production_v1_speedcheck_trace_metrics.csv`。
+- 4 关 source coverage 均接近满铺：`lock_buckle 0.991/58 chains`、`section_unlock 0.994/61`、`dense_weave 0.978/58`、`core_burst 0.990/61`，portable solved 全部 True。
+- 官方 trace：4/4 solved；普通量产口径 `solved + coverage>=0.97 + processTier A/B` 可保留 3/4（`lock_buckle`、`dense_weave`、`core_burst`）；更严格 `supportDepth>=3 + A/B + maxChoices<=8` 仅 `dense_weave`。`section_unlock` 为 Drop，应作为诊断或人工挑选边界，不默认入库。
+- 人工体验判断：样本不是无脑爽关，已有一定选择/节奏压力，但 trace 仍多判为 `LocalEasy`，因此定位为“普通难度批量生产”，而不是“hard-core 高难量产”。
+- 后续正式拆两条线：普通线优先批量跑 `SGPPressureHardProductionV1`、人工/trace 筛出 A/B 且 coverage>=0.97 的关；高难线继续单独研究 validated root / sandwich / reverse / support-preserving owner-hit primitive，不再拿普通产线指标强行证明高难。
+- 链条语言（长链、少弯折、蛇形等）可以作为普通量产线的风格控制层继续加，但先不阻塞当前产线收束；加完必须仍按 official trace + 人工体验筛选。
+
+## PSG/SGP PressureHard as Sandwich Supply Review - 2026-06-26
+
+- 复核 `Tools/Production/Invoke-SGPPressureHardProductionV1.ps1`：当前 PressureHard 生产线通过 Unity `NoMaskProceduralGenerator.BuildSgpPressureHardTrialPack` 生成 4 个高覆盖普通关，再由 `Build-SGPRhythmTrace.ps1` 官方 trace 复验。
+- 生产逻辑核心在 `NoMaskProceduralGenerator.TryBuildPeelChain`：从 remaining 空域中选 head/second 并做 peel-style random walk；PressureHard profile 会惩罚外圈 out-head、早期选择峰、local run、近距离连续解，并有 `TryApplyPressureHardFlipGatePass` 后处理翻掉早期开口。
+- 最新 source 指标：`SGPPressureHardTrialPack` 4 关 coverage `0.978-0.994`、portable solved 4/4；official trace 4/4 solved，3/4 为 A/B，但全部 `hardStructureV3Class=LocalEasy`。cleanest `dense_weave` 为 `B/supportDepth3/avg3.78/max6/outer6`，但 `localPatchSolveRunMax=13`、`dependencyBraidBadLocalRate=0.742`，不能当真高难。
+- 补充复核 `SGPGateAwareTrial` 4 个 asset：official trace 4/4 solved，但 1 B + 3 Drop，supportDepth `0-2`，全部 `LocalEasy`，`localPatchSolveRunMax=10-24`、`dependencyBraidBadLocalRate=0.875-0.983`；GateAware 当前不是高难成品线。
+- 正向结论：PressureHard/PSG 更适合作为 sandwich 的“几何/同链边供料器”，而不是直接继承其解题逻辑。已有 `Geometry Supply Owner-Hit Probe root154 + lock_buckle` 证明该用法可从 hard root coverage `0.2915` 推到 `0.3623`，仍保持 `S/TrueHardCandidate/supportDepth4`。
+- 下一步若目标是真难关，应使用 validated hard root + PressureHard geometry supply + owner-hit grammar/scheduler：验收以 `TrueHardCandidate + supportDepth>=4 + localPatch/outer/dependencyBraid` 为硬线，coverage 后置；不要把 `coverage>=0.97 + A/B` 当高难验收。
+
+## Mask Production Line Inventory Baseline - 2026-06-26
+
+- 本对话 scope：只处理 mask 关卡产线；不继续 PSG/Pressure-SGP 普通量产线，也不继续 root/sandwich 高难研究线。
+- 盘点到 mask 资源入口：`Assets/ArrowMagic/Masks/`、`Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/`、`Assets/ArrowMagic/SOData/Levels/Production/HoleMask/`、`Assets/ArrowMagic/SOData/Levels/Generated/MaskPreview/HoleV13Top5/`、`Assets/ArrowMagic/SOData/Levels/ShapeExperiment/`。
+- 当前 HoleMask 资产池：`Production/HoleMask/Candidates` 68 个、`Early` 2 个、`Early30To40` 1 个；`hole_mask_early_front_manifest.csv` 有 70 行，playableFill `0.602-0.779`、boardFill `0.451-0.721`、chains `22-97`。
+- 历史 manifest 引用的 `Assets/ArrowMagic/SOData/Packs/Production/HoleMask/HoleMask_FinalScreening_EarlyFront.asset` 在当前主项目缺失；不能假设旧 HoleMask 正式包已存在，应先重建一个非破坏性 review pack。
+- `SeedMaskPatchWindow.RunHoleMaskProductionBatch` 是最接近现有正式 mask 生成的入口，依赖/目录存在；但它会清空 `Assets/ArrowMagic/SOData/Levels/Production/HoleLongOuterStrong/Candidates`，且当前 report 只看到一个 accepted 资产、未看到同步 pack，暂定为“可跑但未闭环稳定”。
+- `CampaignHoleProceduralGenerator` 可生成固定 hole-blocker candidates；当前 HoleProcedural 报告显示高覆盖/可解，但 opener/初始可动偏高，适合作 baseline/参考，不等于任意 mask shape 产线。
+- 建议 baseline：先从现有 HoleMask 资产重建小 review pack，用 `CampaignSingleLevelValidator.RunValidationForPack` 和 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` 复核；之后再做隔离输出目录的 SeedMask 小批次 smoke。

@@ -79,6 +79,15 @@ namespace PixelBug.ArrowMagic.EditorTools
         private const string DirectPureTopupOutputRoot = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/PureTopupCandidates";
         private const string DirectPureTopupPackRoot = "Assets/ArrowMagic/SOData/Packs/DirectProcedural";
         private const string DirectPureTopupReportRoot = "Assets/ArrowMagic/SOData/Reports/DirectProcedural";
+        private const string SgpPressureHardOutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardTrial";
+        private const string SgpPressureHardPackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset";
+        private const string SgpPressureHardReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_trial_report.csv";
+        private const string SgpPressureHardBenchmarkFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardBenchmark";
+        private const string SgpPressureHardBenchmarkPackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardBenchmarkPack.asset";
+        private const string SgpGateAwareOutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPGateAwareTrial";
+        private const string SgpGateAwarePackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPGateAwareTrialPack.asset";
+        private const string SgpGateAwareReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_gate_aware_trial_report.csv";
+        private const int GateAwareTrackedWaveCount = 12;
 
         private enum NoMaskType
         {
@@ -290,6 +299,118 @@ namespace PixelBug.ArrowMagic.EditorTools
             public int PortableInitialOpeners;
             public float PortableScore;
             public string PortableQualityFlags = "not-run";
+        }
+
+        private sealed class PressureGateEval
+        {
+            public BuildMetrics Metrics;
+            public List<int> MovableChainIndices = new();
+            public List<int> EarlyGreedyChainIndices = new();
+            public float EarlyAvgChoices;
+            public int EarlyMaxChoices;
+            public int EarlyLocalRunMax;
+            public float EarlyAvgJumpDistance;
+            public float EarlyNearStepRate;
+            public int GreedyMoves;
+            public int Score;
+        }
+
+        private sealed class PressureChainTraceStat
+        {
+            public int MinX;
+            public int MaxX;
+            public int MinY;
+            public int MaxY;
+            public float CenterX;
+            public float CenterY;
+            public int Region;
+            public int MicroRegion;
+        }
+
+        private sealed class GateAwareWaveMetrics
+        {
+            public int Step0ChainChoices;
+            public int EarlyMaxChainChoices;
+            public float EarlyAvgChainChoices;
+            public int Step0TileChoices;
+            public int EarlyMaxTileChoices;
+            public float EarlyAvgTileChoices;
+            public float WaveBurstIndex;
+            public int EarlyBandMax;
+            public float BandSynchronyScore;
+            public int EarlyTileBandMax;
+            public float TileBandSynchronyScore;
+            public int LocalRegionBurstMax;
+            public string Summary => $"Wave={WaveBurstIndex:0.0} ChainChoices={EarlyAvgChainChoices:0.0}/{EarlyMaxChainChoices} Step0={Step0ChainChoices} Band={EarlyBandMax}/{BandSynchronyScore:0.00} TileChoices={EarlyAvgTileChoices:0.0}/{EarlyMaxTileChoices} TileStep0={Step0TileChoices} TileBand={EarlyTileBandMax}/{TileBandSynchronyScore:0.00} Region={LocalRegionBurstMax}";
+        }
+
+        private sealed class GateAwareLocalProbeMetrics
+        {
+            public int Steps;
+            public float LocalEntropyPersistence;
+            public float AvgStepJumpDistance;
+            public float RegionRevisitRate;
+            public int MaxLocalRun;
+            public int MaxChoices;
+            public string Summary => $"ProbeSteps={Steps} LEP={LocalEntropyPersistence:0.00} SJD={AvgStepJumpDistance:0.0} RRR={RegionRevisitRate:0.00} Run={MaxLocalRun} ProbeMaxChoices={MaxChoices}";
+        }
+
+        private sealed class GateAwareHeadCandidate
+        {
+            public int Head;
+            public int Second;
+            public Dir OutDir;
+            public int FirstHitOwner;
+            public int PredictedWave;
+            public int Score;
+        }
+
+        private sealed class GateAwarePlacedInfo
+        {
+            public int Owner;
+            public int HeadIndex;
+            public int SecondIndex;
+            public int MinX;
+            public int MaxX;
+            public int MinY;
+            public int MaxY;
+            public float CenterX;
+            public float CenterY;
+            public int Region;
+            public int MicroRegion;
+            public Dir OutDir;
+            public int Length;
+            public int Wave;
+        }
+
+        private sealed class GateAwareBuildStats
+        {
+            public int EntryChains;
+            public int OwnerHitChains;
+            public int CrossRegionHits;
+            public int SameRegionHits;
+            public int DirectExitChains;
+            public int FutureBlockedRejected;
+            public int OwnerFanoutRejected;
+            public int LongRailRejected;
+            public int BodyBandRejected;
+            public int ParentBandRejected;
+            public int AnchorSegmentRejected;
+            public int AnchorSegmentPenalized;
+            public int AnchorBodyPenalized;
+            public int LocalUnlockRejected;
+            public int LocalUnlockPenalized;
+            public int WaveBudgetRejected;
+            public int BandWaveRejected;
+            public int EarlyWaveLengthRejected;
+            public int WaveSchedulePenalized;
+            public int LazyDelayed;
+            public int MaxPredictedWave;
+            public int WaveBandPenalized;
+            public int NoGateCandidateFallbacks;
+            public int FailedPeels;
+            public int RejectedShort;
+            public string Summary => $"entry={EntryChains} ownerHit={OwnerHitChains} cross={CrossRegionHits} same={SameRegionHits} direct={DirectExitChains} maxWave={MaxPredictedWave} futureReject={FutureBlockedRejected} fanoutReject={OwnerFanoutRejected} railReject={LongRailRejected} bodyBandReject={BodyBandRejected} parentBandReject={ParentBandRejected} anchorReject={AnchorSegmentRejected} anchorPenalty={AnchorSegmentPenalized} bodyAnchorPenalty={AnchorBodyPenalized} localReject={LocalUnlockRejected} localPenalty={LocalUnlockPenalized} waveReject={WaveBudgetRejected} bandWaveReject={BandWaveRejected} waveLenReject={EarlyWaveLengthRejected} waveSchedule={WaveSchedulePenalized} lazyDelay={LazyDelayed} wavePenalty={WaveBandPenalized} fallback={NoGateCandidateFallbacks}";
         }
 
         [MenuItem("Tools/ArrowMagic/No Mask Procedural/Build Type Preview Pack")]
@@ -784,6 +905,69 @@ namespace PixelBug.ArrowMagic.EditorTools
                 "DirectProceduralPolishExtremeLong");
         }
 
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Pressure Hard Trial Pack")]
+        public static void BuildSgpPressureHardTrialPack()
+        {
+            BuildStyleSpecPack(
+                CreateSgpPressureHardTrialSpecs(),
+                SgpPressureHardOutputFolder,
+                SgpPressureHardPackPath,
+                SgpPressureHardReportPath,
+                "sgp_pressure_hard_trial",
+                "sgp_pressure_hard_trial",
+                "SGP Pressure Hard Trial",
+                "SGPPressureHardTrial");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Gate-Aware Trial Pack")]
+        public static void BuildSgpGateAwareTrialPack()
+        {
+            BuildSgpGateAwareStyleSpecPack(
+                CreateSgpGateAwareTrialSpecs(),
+                SgpGateAwareOutputFolder,
+                SgpGateAwarePackPath,
+                SgpGateAwareReportPath,
+                "sgp_gate_aware_trial",
+                "sgp_gate_aware_trial",
+                "SGP Gate-Aware Trial",
+                "SGPGateAwareTrial");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Pressure Hard Benchmark Pack")]
+        public static void BuildSgpPressureHardBenchmarkPack()
+        {
+            EnsureFolderExists(SgpPressureHardBenchmarkFolder);
+            EnsureFolderExists(Path.GetDirectoryName(SgpPressureHardBenchmarkPackPath)?.Replace("\\", "/"));
+            AssetDatabase.Refresh();
+
+            string[] guids = AssetDatabase.FindAssets("t:LevelDefinition", new[] { SgpPressureHardBenchmarkFolder });
+            Array.Sort(guids, (a, b) =>
+            {
+                string pa = AssetDatabase.GUIDToAssetPath(a);
+                string pb = AssetDatabase.GUIDToAssetPath(b);
+                return string.Compare(pa, pb, StringComparison.OrdinalIgnoreCase);
+            });
+
+            var levels = new List<LevelDefinition>();
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+                LevelDefinition level = AssetDatabase.LoadAssetAtPath<LevelDefinition>(path);
+                if (level != null)
+                    levels.Add(level);
+            }
+
+            LevelPack pack = SavePackAt(
+                levels,
+                SgpPressureHardBenchmarkPackPath,
+                "sgp_pressure_hard_benchmark",
+                $"SGP Pressure Hard Benchmark ({levels.Count})");
+            AttachPackToDemo(pack, "SGPPressureHardBenchmark");
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log($"[NoMaskProcedural] SGP Pressure Hard Benchmark finished. levels={levels.Count}, pack={SgpPressureHardBenchmarkPackPath}");
+        }
+
         [MenuItem("Tools/ArrowMagic/Direct Procedural/Build Structural Differentiation 120 Pack")]
         public static void BuildDirectStructuralDifferentiation120Pack()
         {
@@ -1139,13 +1323,14 @@ namespace PixelBug.ArrowMagic.EditorTools
 
                 levels.Add(level);
                 Debug.Log($"[NoMaskProcedural] Built direct {spec.Id}: chains={metrics.Chains}, coverage={metrics.Coverage:0.000}, outer={metrics.OuterBandCoverage:0.000}, initial={metrics.InitialMovableChains}, edgeHeads={metrics.EdgeHeadChains}");
+                string successStatus = IsSgpPressureHardSpec(spec) ? status : "ok";
                 report.Add(
                     $"{i + 1},{spec.Id},{EscapeCsv(level.levelId)},{EscapeCsv(assetPath)},{spec.Width},{spec.Height}," +
                     $"{metrics.Chains},{metrics.ArrowCount},{metrics.Coverage:0.000},{spec.TargetCoverage:0.000},{metrics.OuterBandCoverage:0.000}," +
                     $"{metrics.InitialMovableChains},{metrics.EdgeHeadChains},{metrics.ShortEdgeChains},{metrics.GreedyMoves}," +
                     $"{metrics.AverageChainLength:0.00},{metrics.MaxChainLength},{metrics.Straightness:0.000}," +
                     $"{metrics.BlockLinks},{metrics.PortableGreedySolved},{metrics.PortableInitialOpeners},{metrics.PortableScore:0.0},{EscapeCsv(metrics.PortableQualityFlags)}," +
-                    $"{metrics.Attempts},ok");
+                    $"{metrics.Attempts},{EscapeCsv(successStatus)}");
                 File.WriteAllLines(reportPath, report);
             }
 
@@ -1153,7 +1338,76 @@ namespace PixelBug.ArrowMagic.EditorTools
             AssetDatabase.ImportAsset(reportPath);
 
             LevelPack pack = SavePackAt(levels, packPath, packId, $"{displayName} ({levels.Count})");
-            AttachPackToDemo(pack, logTag);
+            if (levels.Count > 0)
+            {
+                AttachPackToDemo(pack, logTag);
+            }
+            else
+            {
+                Debug.LogWarning($"[NoMaskProcedural] {displayName} produced no levels; Demo active pack was left unchanged.");
+            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log($"[NoMaskProcedural] {displayName} finished. levels={levels.Count}, pack={packPath}, report={reportPath}");
+        }
+
+        private static void BuildSgpGateAwareStyleSpecPack(
+            StyleSpec[] specs,
+            string outputFolder,
+            string packPath,
+            string reportPath,
+            string levelIdPrefix,
+            string packId,
+            string displayName,
+            string logTag)
+        {
+            EnsureFolderExists(outputFolder);
+            EnsureFolderExists(Path.GetDirectoryName(packPath)?.Replace("\\", "/"));
+            EnsureFolderExists(Path.GetDirectoryName(reportPath)?.Replace("\\", "/"));
+
+            var levels = new List<LevelDefinition>();
+            var report = new List<string>
+            {
+                "Index,Type,LevelId,AssetPath,Width,Height,Chains,Arrows,Coverage,TargetCoverage,OuterBandCoverage,InitialMovableChains,EdgeHeadChains,ShortChains,GreedyMoves,AvgChain,MaxChain,Straightness,BlockLinks,PortableSolved,PortableOpeners,PortableScore,PortableQuality,Attempts,Status"
+            };
+
+            for (int i = 0; i < specs.Length; i++)
+            {
+                StyleSpec spec = specs[i];
+                Debug.Log($"[NoMaskProcedural] Building gate-aware {i + 1}/{specs.Length}: {spec.Id}");
+                if (!TryBuildSgpGateAwareLevelAt(spec, i + 1, outputFolder, levelIdPrefix, out LevelDefinition level, out string assetPath, out BuildMetrics metrics, out string status))
+                {
+                    report.Add($"{i + 1},{spec.Id},,,{spec.Width},{spec.Height},0,0,0,{spec.TargetCoverage:0.000},0,0,0,0,0,0,0,0,0,False,0,0,fail,0,{EscapeCsv(status)}");
+                    File.WriteAllLines(reportPath, report);
+                    Debug.LogWarning($"[NoMaskProcedural] Failed gate-aware {spec.Id}: {status}");
+                    continue;
+                }
+
+                levels.Add(level);
+                Debug.Log($"[NoMaskProcedural] Built gate-aware {spec.Id}: chains={metrics.Chains}, coverage={metrics.Coverage:0.000}, outer={metrics.OuterBandCoverage:0.000}, initial={metrics.InitialMovableChains}, edgeHeads={metrics.EdgeHeadChains}");
+                report.Add(
+                    $"{i + 1},{spec.Id},{EscapeCsv(level.levelId)},{EscapeCsv(assetPath)},{spec.Width},{spec.Height}," +
+                    $"{metrics.Chains},{metrics.ArrowCount},{metrics.Coverage:0.000},{spec.TargetCoverage:0.000},{metrics.OuterBandCoverage:0.000}," +
+                    $"{metrics.InitialMovableChains},{metrics.EdgeHeadChains},{metrics.ShortEdgeChains},{metrics.GreedyMoves}," +
+                    $"{metrics.AverageChainLength:0.00},{metrics.MaxChainLength},{metrics.Straightness:0.000}," +
+                    $"{metrics.BlockLinks},{metrics.PortableGreedySolved},{metrics.PortableInitialOpeners},{metrics.PortableScore:0.0},{EscapeCsv(metrics.PortableQualityFlags)}," +
+                    $"{metrics.Attempts},{EscapeCsv(status)}");
+                File.WriteAllLines(reportPath, report);
+            }
+
+            File.WriteAllLines(reportPath, report);
+            AssetDatabase.ImportAsset(reportPath);
+
+            LevelPack pack = SavePackAt(levels, packPath, packId, $"{displayName} ({levels.Count})");
+            if (levels.Count > 0)
+            {
+                AttachPackToDemo(pack, logTag);
+            }
+            else
+            {
+                Debug.LogWarning($"[NoMaskProcedural] {displayName} produced no gate-aware levels; Demo active pack was left unchanged.");
+            }
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -2412,6 +2666,146 @@ namespace PixelBug.ArrowMagic.EditorTools
             return list.ToArray();
         }
 
+        private static StyleSpec[] CreateSgpPressureHardTrialSpecs()
+        {
+            return new[]
+            {
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "lock_buckle",
+                    "Lock Buckle",
+                    20,
+                    28,
+                    55,
+                    331001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.SectionUnlock,
+                    "section_unlock",
+                    "Section Unlock",
+                    22,
+                    28,
+                    58,
+                    332001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "dense_weave",
+                    "Dense Weave",
+                    21,
+                    30,
+                    60,
+                    333001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "core_burst",
+                    "Core Burst",
+                    20,
+                    30,
+                    56,
+                    334001)
+            };
+        }
+
+        private static StyleSpec[] CreateSgpGateAwareTrialSpecs()
+        {
+            return new[]
+            {
+                CreateSgpGateAwareTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "lock_buckle",
+                    "Lock Buckle",
+                    20,
+                    28,
+                    84,
+                    431001),
+                CreateSgpGateAwareTrialSpec(
+                    NoMaskType.SectionUnlock,
+                    "section_unlock",
+                    "Section Unlock",
+                    22,
+                    28,
+                    92,
+                    432001),
+                CreateSgpGateAwareTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "dense_weave",
+                    "Dense Weave",
+                    21,
+                    30,
+                    94,
+                    433001),
+                CreateSgpGateAwareTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "core_burst",
+                    "Core Burst",
+                    20,
+                    30,
+                    88,
+                    434001)
+            };
+        }
+
+        private static StyleSpec CreateSgpGateAwareTrialSpec(
+            NoMaskType type,
+            string id,
+            string displayName,
+            int width,
+            int height,
+            int targetChains,
+            int seed)
+        {
+            return new StyleSpec
+            {
+                Type = type,
+                Id = $"sgp_gateaware_rect_{id}",
+                DisplayName = $"SGP Gate-Aware {displayName}",
+                Width = width,
+                Height = height,
+                TargetChains = targetChains,
+                MinLength = 3,
+                MaxLength = 12,
+                TargetCoverage = 0.950f,
+                TurnBias = type == NoMaskType.DenseWeave ? 0.58f : 0.52f,
+                BlockWeight = type == NoMaskType.LockBuckle ? 5.6f : 4.8f,
+                EdgeOpeningBias = 0.06f,
+                OuterBandTarget = 0.930f,
+                MaxInitialMovableChains = Mathf.Clamp(Mathf.CeilToInt(targetChains * 0.055f), 3, 6),
+                MaxShortEdgePatchChains = 3,
+                MaxShortFillPatchChains = 6,
+                Seed = seed
+            };
+        }
+
+        private static StyleSpec CreateSgpPressureHardTrialSpec(
+            NoMaskType type,
+            string id,
+            string displayName,
+            int width,
+            int height,
+            int targetChains,
+            int seed)
+        {
+            return new StyleSpec
+            {
+                Type = type,
+                Id = $"sgp_pressure_hard_rect_{id}",
+                DisplayName = $"SGP Pressure Hard {displayName}",
+                Width = width,
+                Height = height,
+                TargetChains = targetChains,
+                MinLength = 3,
+                MaxLength = 11,
+                TargetCoverage = 0.965f,
+                TurnBias = type == NoMaskType.DenseWeave ? 0.62f : 0.58f,
+                BlockWeight = type == NoMaskType.LockBuckle ? 5.2f : 4.4f,
+                EdgeOpeningBias = 0.10f,
+                OuterBandTarget = 0.950f,
+                MaxInitialMovableChains = Mathf.CeilToInt(targetChains * 0.08f),
+                MaxShortEdgePatchChains = 3,
+                MaxShortFillPatchChains = 6,
+                Seed = seed
+            };
+        }
+
         private static StyleSpec CreateDirectPolishSpec(
             NoMaskType type,
             string id,
@@ -3538,13 +3932,40 @@ namespace PixelBug.ArrowMagic.EditorTools
                         profile.TargetInitialMax);
                     float openingRatio = current.Chains > 0 ? current.InitialMovableChains / (float)current.Chains : 0f;
                     float openingCeiling = current.Chains <= 50 ? Mathf.Max(profile.OpeningCeiling, 0.32f) : profile.OpeningCeiling;
+                    bool pressureHardSpec = IsSgpPressureHardSpec(spec);
+                    float pressureEarlyAvgChoices = 0f;
+                    int pressureEarlyMaxChoices = 0;
+                    int pressureEarlyLocalRunMax = 0;
+                    float pressureEarlyAvgJumpDistance = 0f;
+                    float pressureEarlyNearStepRate = 0f;
+                    if (pressureHardSpec)
+                        ComputePressureChoiceCurve(
+                            board,
+                            ruleset,
+                            authored,
+                            32,
+                            out pressureEarlyAvgChoices,
+                            out pressureEarlyMaxChoices,
+                            out pressureEarlyLocalRunMax,
+                            out pressureEarlyAvgJumpDistance,
+                            out pressureEarlyNearStepRate);
+                    if (pressureHardSpec)
+                        openingCeiling = Mathf.Min(openingCeiling, 0.12f);
                     int openingPenalty = Mathf.RoundToInt(
                         Mathf.Abs(current.InitialMovableChains - targetInitial) * 125f
                         + Mathf.Max(0f, openingRatio - openingCeiling) * 4200f);
-                    int chainPenalty = Mathf.Abs(current.Chains - spec.TargetChains) * 220;
+                    if (pressureHardSpec)
+                    {
+                        openingPenalty = Mathf.RoundToInt(
+                            Mathf.Abs(current.InitialMovableChains - targetInitial) * 260f
+                            + Mathf.Max(0f, openingRatio - openingCeiling) * 9000f);
+                    }
+                    int chainPenalty = Mathf.Abs(current.Chains - spec.TargetChains) * (pressureHardSpec ? 900 : 220);
                     int shortPenalty = Mathf.Max(0, current.ShortEdgeChains - 5) * 360;
-                    int edgeHeadCeiling = Mathf.Max(10, Mathf.CeilToInt(current.Chains * 0.32f));
-                    int edgeHeadPenalty = Mathf.Max(0, current.EdgeHeadChains - edgeHeadCeiling) * 520;
+                    int edgeHeadCeiling = pressureHardSpec
+                        ? Mathf.Max(4, Mathf.CeilToInt(current.Chains * 0.08f))
+                        : Mathf.Max(10, Mathf.CeilToInt(current.Chains * 0.32f));
+                    int edgeHeadPenalty = Mathf.Max(0, current.EdgeHeadChains - edgeHeadCeiling) * (pressureHardSpec ? 1250 : 520);
                     int straightPenalty = current.Straightness > 0.72f ? profile.StraightPenalty : 0;
                     int score = current.ArrowCount * 100
                         - chainPenalty
@@ -3553,6 +3974,17 @@ namespace PixelBug.ArrowMagic.EditorTools
                         - edgeHeadPenalty
                         - straightPenalty
                         + Mathf.RoundToInt(current.OuterBandCoverage * 1200f);
+                    if (pressureHardSpec)
+                    {
+                        score -= current.InitialMovableChains * 220;
+                        score -= current.EdgeHeadChains * 520;
+                        score -= Mathf.RoundToInt(pressureEarlyAvgChoices * 900f);
+                        score -= pressureEarlyMaxChoices * 320;
+                        score -= pressureEarlyLocalRunMax * 620;
+                        score -= Mathf.RoundToInt(Mathf.Max(0f, 6f - pressureEarlyAvgJumpDistance) * 520f);
+                        score -= Mathf.RoundToInt(pressureEarlyNearStepRate * 950f);
+                        score += current.BlockLinks * 28;
+                    }
 
                     if (score > bestScore)
                     {
@@ -3560,7 +3992,9 @@ namespace PixelBug.ArrowMagic.EditorTools
                         bestMetrics = current;
                         bestSeed = candidateSeed;
                         bestScore = score;
-                        bestDetails = $"Style={profile.DisplayName} | Score={score} | TargetInitial={targetInitial} | OpeningRatio={openingRatio:0.000} | {buildDetails}";
+                        bestDetails = pressureHardSpec
+                            ? $"Style={profile.DisplayName} | Score={score} | TargetInitial={targetInitial} | OpeningRatio={openingRatio:0.000} | EarlyChoices={pressureEarlyAvgChoices:0.0}/{pressureEarlyMaxChoices} | LocalRun={pressureEarlyLocalRunMax} | Jump={pressureEarlyAvgJumpDistance:0.0} | NearRate={pressureEarlyNearStepRate:0.00} | {buildDetails}"
+                            : $"Style={profile.DisplayName} | Score={score} | TargetInitial={targetInitial} | OpeningRatio={openingRatio:0.000} | {buildDetails}";
                     }
 
                     if (current.Coverage >= spec.TargetCoverage
@@ -3568,7 +4002,13 @@ namespace PixelBug.ArrowMagic.EditorTools
                         && DirectChainTargetSatisfied(spec, current.Chains)
                         && openingRatio <= openingCeiling
                         && current.Straightness <= 0.70f
-                        && current.ShortEdgeChains <= 7)
+                        && current.ShortEdgeChains <= 7
+                        && (!pressureHardSpec || (current.EdgeHeadChains <= Mathf.Max(10, Mathf.CeilToInt(current.Chains * 0.10f))
+                            && pressureEarlyAvgChoices <= 6.5f
+                            && pressureEarlyMaxChoices <= 10
+                            && pressureEarlyLocalRunMax <= 4
+                            && pressureEarlyAvgJumpDistance >= 5.0f
+                            && pressureEarlyNearStepRate <= 0.62f)))
                     {
                         profileIndex = profiles.Length;
                         break;
@@ -3588,6 +4028,17 @@ namespace PixelBug.ArrowMagic.EditorTools
                 return false;
             }
 
+            if (IsSgpPressureHardSpec(spec)
+                && TryApplyPressureHardFlipGatePass(spec, bestAuthored, ruleset, out AuthoredLevelData gatedBest, out string gateDetails)
+                && TryEvaluatePressureGateAuthored(spec, gatedBest, ruleset, out PressureGateEval gatedEval))
+            {
+                int attempts = bestMetrics.Attempts;
+                bestAuthored = gatedBest;
+                bestMetrics = gatedEval.Metrics;
+                bestMetrics.Attempts = attempts;
+                bestDetails = $"{bestDetails} | FlipGate={gateDetails}";
+            }
+
             metrics = bestMetrics;
             string levelId = $"{levelIdPrefix}_{index:00}_{spec.Id}";
             if (!TryPreparePortableLevel(spec, null, bestAuthored, levelId, bestSeed, metrics, out ArrowLevelData portable, out string portableStatus))
@@ -3598,6 +4049,205 @@ namespace PixelBug.ArrowMagic.EditorTools
 
             level = SavePortableGeneratedLevel(assetPath, portable, spec, bestSeed, metrics, levelId);
             status = bestDetails;
+            return true;
+        }
+
+        private static bool TryBuildSgpGateAwareLevelAt(
+            StyleSpec spec,
+            int index,
+            string outputFolder,
+            string levelIdPrefix,
+            out LevelDefinition level,
+            out string assetPath,
+            out BuildMetrics metrics,
+            out string status)
+        {
+            level = null;
+            assetPath = $"{outputFolder}/{levelIdPrefix}_{index:00}_{spec.Id}.asset";
+            metrics = new BuildMetrics();
+            status = string.Empty;
+
+            var ruleset = new ArrowMagicRuleset(new ArrowMagicRulesetConfig
+            {
+                travelMode = SignalTravelMode.ThroughEmpty
+            });
+
+            PeelStyleProfile profile = CreateSgpGateAwareProfile();
+            AuthoredLevelData bestAuthored = null;
+            BuildMetrics bestMetrics = null;
+            GateAwareBuildStats bestGateStats = null;
+            GateAwareWaveMetrics bestWaveMetrics = null;
+            int bestSeed = spec.Seed;
+            int bestScore = int.MinValue;
+            int attemptsTried = 0;
+            string bestDetails = string.Empty;
+
+            for (int attempt = 0; attempt < profile.Attempts; attempt++)
+            {
+                attemptsTried++;
+                int candidateSeed = spec.Seed + index * 13007 + profile.SeedSalt + attempt * 104729;
+                if (!TryBuildGateAwareRectanglePeelAuthored(spec, candidateSeed, profile, out AuthoredLevelData authored, out GateAwareBuildStats gateStats, out string buildDetails))
+                {
+                    if (bestAuthored == null)
+                        bestDetails = buildDetails;
+                    continue;
+                }
+
+                if (!AuthoredLevelBuilder.TryBuildBoard(authored, out BoardState board, out string buildError))
+                {
+                    if (bestAuthored == null)
+                        bestDetails = $"BoardBuildFailed={buildError} | {buildDetails}";
+                    continue;
+                }
+
+                if (!GreedyValidator.TryClearAllByGreedy(CloneBoard(board), ruleset, maxMoves: 900, out List<Move> moves))
+                {
+                    if (bestAuthored == null)
+                        bestDetails = $"GreedyFailed | {buildDetails}";
+                    continue;
+                }
+
+                BuildMetrics current = BuildMetricsFromAuthored(spec, authored);
+                current.InitialMovableChains = CountInitialMovableChains(board, authored);
+                current.GreedyMoves = moves != null ? moves.Count : 0;
+                current.Attempts = attemptsTried;
+                ComputePressureChoiceCurve(
+                    board,
+                    ruleset,
+                    authored,
+                    36,
+                    out float earlyAvgChoices,
+                    out int earlyMaxChoices,
+                    out int earlyLocalRunMax,
+                    out float earlyAvgJumpDistance,
+                    out float earlyNearStepRate);
+                int longRailChains = CountGateAwareLongRailChains(authored);
+                int railLaneClusters = CountGateAwareRailLaneClusters(board);
+                GateAwareWaveMetrics waveMetrics = ComputeGateAwareWaveMetrics(board, ruleset, authored, 24);
+                GateAwareLocalProbeMetrics localProbe = ComputeGateAwareLocalProbeMetrics(board, ruleset, maxSteps: 6);
+
+                int targetInitial = Mathf.Clamp(Mathf.CeilToInt(current.Chains * 0.07f), 3, 6);
+                float openingRatio = current.Chains > 0 ? current.InitialMovableChains / (float)current.Chains : 1f;
+                int edgeHeadCeiling = Mathf.Max(4, Mathf.CeilToInt(current.Chains * 0.09f));
+                int directExitCeiling = Mathf.Max(3, Mathf.CeilToInt(current.Chains * 0.08f));
+                int chainPenalty = Mathf.Abs(current.Chains - spec.TargetChains) * 320;
+                int openingPenalty = Mathf.Abs(current.InitialMovableChains - targetInitial) * 520
+                    + Mathf.RoundToInt(Mathf.Max(0f, openingRatio - 0.11f) * 12000f);
+                int choicePenalty = Mathf.RoundToInt(earlyAvgChoices * 1500f)
+                    + earlyMaxChoices * 1150
+                    + earlyLocalRunMax * 5200
+                    + Mathf.Max(0, earlyLocalRunMax - 10) * 6200
+                    + Mathf.RoundToInt(earlyNearStepRate * 9500f)
+                    + Mathf.RoundToInt(Mathf.Max(0f, earlyNearStepRate - 0.78f) * 18000f)
+                    + Mathf.RoundToInt(Mathf.Max(0f, 6.5f - earlyAvgJumpDistance) * 1800f);
+                int edgePenalty = Mathf.Max(0, current.EdgeHeadChains - edgeHeadCeiling) * 1350
+                    + Mathf.Max(0, gateStats.DirectExitChains - directExitCeiling) * 1100
+                    + Mathf.Max(0, current.ShortEdgeChains - 20) * 120;
+                int straightPenalty = Mathf.RoundToInt(Mathf.Max(0f, current.Straightness - 0.70f) * 2500f)
+                    + Mathf.RoundToInt(Mathf.Max(0f, 0.24f - current.Straightness) * 1300f)
+                    + longRailChains * 8200
+                    + railLaneClusters * 18000;
+                int wavePenalty = ScoreGateAwareWavePenalty(waveMetrics);
+                int localProbePenalty = ScoreGateAwareLocalProbePenalty(localProbe);
+                int gateBonus = gateStats.OwnerHitChains * 360
+                    + gateStats.CrossRegionHits * 420
+                    + gateStats.SameRegionHits * 80
+                    - gateStats.NoGateCandidateFallbacks * 520;
+                int score = current.ArrowCount * 100
+                    - chainPenalty
+                    - openingPenalty
+                    - choicePenalty
+                    - edgePenalty
+                    - straightPenalty
+                    - wavePenalty
+                    - localProbePenalty
+                    + gateBonus
+                    + current.BlockLinks * 34
+                    + Mathf.RoundToInt(current.OuterBandCoverage * 1500f);
+
+                bool better = score > bestScore;
+                if (better)
+                {
+                    bestAuthored = authored;
+                    bestMetrics = current;
+                    bestGateStats = gateStats;
+                    bestWaveMetrics = waveMetrics;
+                    bestSeed = candidateSeed;
+                    bestScore = score;
+                    bestDetails =
+                        $"GateAware style={profile.DisplayName} score={score} targetInitial={targetInitial} openingRatio={openingRatio:0.000} " +
+                        $"EarlyChoices={earlyAvgChoices:0.0}/{earlyMaxChoices} LocalRun={earlyLocalRunMax} Jump={earlyAvgJumpDistance:0.0} NearRate={earlyNearStepRate:0.00} {localProbe.Summary} {waveMetrics.Summary} Rails={longRailChains} Lanes={railLaneClusters} " +
+                        $"GateStats={gateStats.Summary} | {buildDetails}";
+                }
+
+                if (current.Coverage >= spec.TargetCoverage
+                    && current.OuterBandCoverage >= spec.OuterBandTarget
+                    && Mathf.Abs(current.Chains - spec.TargetChains) <= 24
+                    && current.InitialMovableChains <= Mathf.Max(5, spec.MaxInitialMovableChains)
+                    && current.EdgeHeadChains <= edgeHeadCeiling
+                    && gateStats.DirectExitChains <= directExitCeiling
+                    && longRailChains <= 1
+                    && railLaneClusters == 0
+                    && earlyAvgChoices <= 7.5f
+                    && earlyMaxChoices <= 15
+                    && earlyLocalRunMax <= 6
+                    && earlyNearStepRate <= 0.72f
+                    && waveMetrics.Step0ChainChoices <= 5
+                    && waveMetrics.EarlyMaxChainChoices <= 9
+                    && waveMetrics.EarlyBandMax <= 3
+                    && waveMetrics.Step0TileChoices <= 14
+                    && waveMetrics.EarlyMaxTileChoices <= 15
+                    && waveMetrics.EarlyTileBandMax <= 7
+                    && waveMetrics.LocalRegionBurstMax <= 4
+                    && localProbe.MaxLocalRun <= 4
+                    && localProbe.RegionRevisitRate <= 0.58f
+                    && localProbe.LocalEntropyPersistence <= 0.42f
+                    && localProbe.AvgStepJumpDistance >= 4.8f)
+                {
+                    break;
+                }
+            }
+
+            if (bestAuthored == null || bestMetrics == null)
+            {
+                status = string.IsNullOrWhiteSpace(bestDetails) ? "No gate-aware candidate" : bestDetails;
+                return false;
+            }
+
+            int chainTolerance = 30;
+            if (Mathf.Abs(bestMetrics.Chains - spec.TargetChains) > chainTolerance)
+            {
+                status = $"GateAwareChainTargetMiss chains={bestMetrics.Chains} target={spec.TargetChains} tolerance={chainTolerance} | {bestDetails}";
+                return false;
+            }
+
+            if (bestMetrics.Coverage < spec.TargetCoverage - 0.04f)
+            {
+                status = $"GateAwareCoverageLow coverage={bestMetrics.Coverage:0.000} target={spec.TargetCoverage:0.000} | {bestDetails}";
+                return false;
+            }
+
+            metrics = bestMetrics;
+            string levelId = $"{levelIdPrefix}_{index:00}_{spec.Id}";
+            if (!TryPreparePortableLevel(spec, null, bestAuthored, levelId, bestSeed, metrics, out ArrowLevelData portable, out string portableStatus))
+            {
+                status = $"{portableStatus} | {bestDetails}";
+                return false;
+            }
+
+            portable.metadata["generator"] = "NoMaskProceduralGenerator.SGPGateAwareTrial";
+            portable.metadata["gateAware"] = "owner-hit-peel";
+            if (bestGateStats != null)
+                portable.metadata["gateAwareStats"] = bestGateStats.Summary;
+            if (bestWaveMetrics != null)
+                portable.metadata["gateAwareWave"] = bestWaveMetrics.Summary;
+
+            string weak = metrics.InitialMovableChains > Mathf.Max(5, spec.MaxInitialMovableChains)
+                || metrics.EdgeHeadChains > Mathf.Max(5, Mathf.CeilToInt(metrics.Chains * 0.10f))
+                ? "GateAwareWeak "
+                : string.Empty;
+            level = SavePortableGeneratedLevel(assetPath, portable, spec, bestSeed, metrics, levelId);
+            status = $"{weak}{bestDetails}";
             return true;
         }
 
@@ -3915,7 +4565,7 @@ namespace PixelBug.ArrowMagic.EditorTools
                 1,
                 20,
                 28,
-                18,
+                6,
                 4,
                 2,
                 8,
@@ -3992,6 +4642,36 @@ namespace PixelBug.ArrowMagic.EditorTools
                 0.28f,
                 6,
                 950);
+
+            var pressureHard = new PeelStyleProfile(
+                "pressure_hard",
+                "PressureHard",
+                42137,
+                420,
+                5,
+                7,
+                0,
+                45,
+                5,
+                12,
+                -24,
+                10,
+                -2,
+                2,
+                10,
+                11,
+                12,
+                4,
+                10,
+                5,
+                2,
+                5,
+                0.07f,
+                4,
+                12,
+                0.12f,
+                8,
+                1200);
 
             var extremeLongChain = new PeelStyleProfile(
                 "extreme_long_chain",
@@ -4113,6 +4793,9 @@ namespace PixelBug.ArrowMagic.EditorTools
                 3,
                 850);
 
+            if (IsSgpPressureHardSpec(spec))
+                return new[] { pressureHard };
+
             if (IsDirectAdvancedSpec(spec))
                 return new[] { highChain, compactNormal, mediumNormal };
 
@@ -4151,6 +4834,54 @@ namespace PixelBug.ArrowMagic.EditorTools
             return spec?.Id != null && spec.Id.StartsWith("direct_arch_", StringComparison.OrdinalIgnoreCase);
         }
 
+        private static bool IsSgpPressureHardSpec(StyleSpec spec)
+        {
+            return spec?.Id != null && spec.Id.StartsWith("sgp_pressure_hard_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsSgpGateAwareSpec(StyleSpec spec)
+        {
+            return spec?.Id != null && spec.Id.StartsWith("sgp_gateaware_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsPressureHardProfile(PeelStyleProfile profile)
+        {
+            return profile != null && profile.Id.StartsWith("pressure_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static PeelStyleProfile CreateSgpGateAwareProfile()
+        {
+            return new PeelStyleProfile(
+                "gate_aware_pressure",
+                "GateAwarePressure",
+                73117,
+                680,
+                2,
+                3,
+                8,
+                64,
+                3,
+                18,
+                -18,
+                14,
+                2,
+                2,
+                10,
+                10,
+                5,
+                10,
+                12,
+                8,
+                3,
+                8,
+                0.07f,
+                3,
+                6,
+                0.12f,
+                8,
+                1100);
+        }
+
         private static bool ShouldChunkDirectDiffMotif(StyleSpec spec)
         {
             if (!IsDirectDiffSpec(spec))
@@ -4171,6 +4902,7 @@ namespace PixelBug.ArrowMagic.EditorTools
                 || spec.Id.StartsWith("direct_polish_", StringComparison.OrdinalIgnoreCase)
                 || spec.Id.StartsWith("direct_diff_", StringComparison.OrdinalIgnoreCase)
                 || spec.Id.StartsWith("direct_arch_", StringComparison.OrdinalIgnoreCase)
+                || spec.Id.StartsWith("sgp_pressure_hard_", StringComparison.OrdinalIgnoreCase)
                 || spec.Id.StartsWith("level3_tiny_", StringComparison.OrdinalIgnoreCase)
                 || spec.Id.StartsWith("level3_thirty_", StringComparison.OrdinalIgnoreCase);
         }
@@ -4195,6 +4927,8 @@ namespace PixelBug.ArrowMagic.EditorTools
             if (spec == null)
                 return 18;
 
+            if (spec.Id != null && spec.Id.StartsWith("sgp_pressure_hard_", StringComparison.OrdinalIgnoreCase))
+                return spec.TargetChains < 80 ? 10 : 24;
             if (spec.Id != null && spec.Id.StartsWith("direct_polish_extreme_", StringComparison.OrdinalIgnoreCase))
                 return 150;
             if (spec.Id != null && spec.Id.StartsWith("direct_polish_hard_", StringComparison.OrdinalIgnoreCase))
@@ -4233,6 +4967,10 @@ namespace PixelBug.ArrowMagic.EditorTools
             if (!IsDirectTunedSpec(spec))
                 return int.MinValue;
 
+            if (spec.Id.StartsWith("sgp_pressure_hard_", StringComparison.OrdinalIgnoreCase))
+                return spec.TargetChains < 80
+                    ? Mathf.Max(24, spec.TargetChains - 10)
+                    : Mathf.Max(120, spec.TargetChains - 24);
             if (spec.Id.StartsWith("direct_advanced_extreme_", StringComparison.OrdinalIgnoreCase))
                 return 251;
             if (spec.Id.StartsWith("direct_advanced_veryhard_", StringComparison.OrdinalIgnoreCase))
@@ -4343,6 +5081,1395 @@ namespace PixelBug.ArrowMagic.EditorTools
             float ratio = filled / (float)area;
             details = $"Peel style={profile.DisplayName} seed={seed} fill={filled}/{area}({ratio:0.000}) chains={authored.arrows.Count} remaining={remainingCount} rejectedShort={rejectedShort} failedPeels={failedPeels}";
             return authored.arrows.Count > 0 && ratio >= 0.88f;
+        }
+
+        private static bool TryBuildGateAwareRectanglePeelAuthored(
+            StyleSpec spec,
+            int seed,
+            PeelStyleProfile profile,
+            out AuthoredLevelData authored,
+            out GateAwareBuildStats stats,
+            out string details)
+        {
+            authored = null;
+            stats = new GateAwareBuildStats();
+            details = string.Empty;
+
+            int area = Mathf.Max(1, spec.Width * spec.Height);
+            var remaining = new bool[area];
+            for (int i = 0; i < remaining.Length; i++)
+                remaining[i] = true;
+
+            var placedOwnerByCell = new int[area];
+            for (int i = 0; i < placedOwnerByCell.Length; i++)
+                placedOwnerByCell[i] = -1;
+
+            var rng = new System.Random(seed);
+            var chains = new List<List<int>>(Mathf.Max(8, area / 9));
+            var placedInfos = new List<GateAwarePlacedInfo>(Mathf.Max(8, area / 9));
+            var dependentCountByOwner = new List<int>(Mathf.Max(8, area / 9));
+            int remainingCount = area;
+            int filledCount = 0;
+            int guard = area * 4;
+            int entryTarget = Mathf.Clamp(Mathf.CeilToInt(Mathf.Min(spec.Width, spec.Height) / 8f), 2, 3);
+            int targetFillCells = Mathf.Clamp(Mathf.CeilToInt(area * spec.TargetCoverage), 2, area);
+
+            while (remainingCount >= 2 && filledCount < targetFillCells && guard-- > 0)
+            {
+                bool requirePlacedHit = chains.Count >= entryTarget;
+                int targetLength = PickGateAwareTargetLength(area, chains.Count, entryTarget, rng, profile);
+                if (!TryBuildGateAwarePeelChain(
+                        remaining,
+                        placedOwnerByCell,
+                        placedInfos,
+                        dependentCountByOwner,
+                        spec.Width,
+                        spec.Height,
+                        rng,
+                        targetLength,
+                        profile,
+                        requirePlacedHit,
+                        ownerFanoutCap: 1,
+                        out List<int> chain,
+                        out GateAwareHeadCandidate picked,
+                        stats))
+                {
+                    if (requirePlacedHit)
+                    {
+                        stats.NoGateCandidateFallbacks++;
+                        if (!TryBuildGateAwarePeelChain(
+                                remaining,
+                                placedOwnerByCell,
+                                placedInfos,
+                                dependentCountByOwner,
+                                spec.Width,
+                                spec.Height,
+                                rng,
+                                targetLength,
+                                profile,
+                                requirePlacedHit: true,
+                                ownerFanoutCap: 2,
+                                out chain,
+                                out picked,
+                                stats))
+                        {
+                            stats.NoGateCandidateFallbacks++;
+                            if (!TryBuildGateAwarePeelChain(
+                                    remaining,
+                                    placedOwnerByCell,
+                                    placedInfos,
+                                    dependentCountByOwner,
+                                    spec.Width,
+                                    spec.Height,
+                                    rng,
+                                    targetLength,
+                                    profile,
+                                    requirePlacedHit: false,
+                                    ownerFanoutCap: 2,
+                                    out chain,
+                                    out picked,
+                                    stats))
+                            {
+                                stats.FailedPeels++;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        stats.FailedPeels++;
+                        break;
+                    }
+                }
+
+                if (chain == null || chain.Count < 2)
+                {
+                    stats.RejectedShort++;
+                    break;
+                }
+
+                if (IsGateAwareLongRailChain(chain, spec.Width, spec.Height))
+                {
+                    stats.LongRailRejected++;
+                    continue;
+                }
+
+                int predictedWave = ComputeGateAwarePredictedWave(picked, placedInfos);
+                if (ShouldRejectGateAwareEarlyWaveLength(chain.Count, predictedWave, stats))
+                    continue;
+
+                if (ShouldRejectGateAwareLocalUnlockChain(
+                        chain,
+                        picked,
+                        placedInfos,
+                        spec.Width,
+                        spec.Height,
+                        predictedWave,
+                        stats))
+                {
+                    continue;
+                }
+
+                if (ShouldRejectGateAwareBodyBandChain(
+                        chain,
+                        spec.Width,
+                        spec.Height,
+                        picked,
+                        placedInfos,
+                        chains.Count,
+                        entryTarget,
+                        stats))
+                {
+                    continue;
+                }
+
+                int owner = chains.Count;
+                for (int i = 0; i < chain.Count; i++)
+                {
+                    int idx = chain[i];
+                    remaining[idx] = false;
+                    placedOwnerByCell[idx] = owner;
+                }
+
+                remainingCount -= chain.Count;
+                filledCount += chain.Count;
+                chains.Add(chain);
+                GateAwarePlacedInfo placedInfo = BuildGateAwarePlacedInfo(owner, chain, spec.Width, spec.Height, picked != null ? picked.OutDir : Dir.Up);
+                placedInfo.Wave = predictedWave;
+                placedInfos.Add(placedInfo);
+                dependentCountByOwner.Add(0);
+                stats.MaxPredictedWave = Mathf.Max(stats.MaxPredictedWave, predictedWave);
+                if (predictedWave >= 2)
+                    stats.LazyDelayed++;
+
+                if (picked != null && picked.FirstHitOwner >= 0)
+                {
+                    if (picked.FirstHitOwner < dependentCountByOwner.Count)
+                        dependentCountByOwner[picked.FirstHitOwner]++;
+                    stats.OwnerHitChains++;
+                    int sourceRegion = ComputeGateAwareRegion(Pos(picked.Head, spec.Width), spec.Width, spec.Height);
+                    int targetRegion = picked.FirstHitOwner < placedInfos.Count
+                        ? placedInfos[picked.FirstHitOwner].Region
+                        : sourceRegion;
+                    if (targetRegion != sourceRegion)
+                        stats.CrossRegionHits++;
+                    else
+                        stats.SameRegionHits++;
+                }
+                else
+                {
+                    stats.DirectExitChains++;
+                    if (owner < entryTarget)
+                        stats.EntryChains++;
+                }
+            }
+
+            authored = new AuthoredLevelData
+            {
+                width = spec.Width,
+                height = spec.Height,
+                arrows = new List<AuthoredArrowData>(chains.Count),
+                blockIndices = new List<int>()
+            };
+
+            int filled = 0;
+            for (int i = 0; i < chains.Count; i++)
+            {
+                if (chains[i] == null || chains[i].Count < 2)
+                    continue;
+
+                authored.arrows.Add(new AuthoredArrowData
+                {
+                    indices = new List<int>(chains[i]),
+                    colorIndex = i % 8
+                });
+                filled += chains[i].Count;
+            }
+
+            float ratio = filled / (float)area;
+            float minRatio = Mathf.Max(0.88f, spec.TargetCoverage - 0.07f);
+            details = $"GateAwarePeel style={profile.DisplayName} seed={seed} fill={filled}/{area}({ratio:0.000}) chains={authored.arrows.Count} remaining={remainingCount} {stats.Summary}";
+            return authored.arrows.Count > 0 && ratio >= minRatio;
+        }
+
+        private static int PickGateAwareTargetLength(
+            int area,
+            int placedChainCount,
+            int entryTarget,
+            System.Random rng,
+            PeelStyleProfile profile)
+        {
+            if (placedChainCount < entryTarget)
+                return rng.Next(2, 4);
+
+            if (placedChainCount < entryTarget + 10)
+                return rng.Next(3, 5);
+
+            if (placedChainCount < entryTarget + 28)
+                return rng.Next(4, 7);
+
+            if (placedChainCount < entryTarget + 44)
+                return rng.Next(5, 9);
+
+            return PickPeelTargetLength(area, rng, profile);
+        }
+
+        private static int CountGateAwareLongRailChains(AuthoredLevelData authored)
+        {
+            if (authored?.arrows == null)
+                return 0;
+
+            int count = 0;
+            for (int i = 0; i < authored.arrows.Count; i++)
+            {
+                AuthoredArrowData arrow = authored.arrows[i];
+                if (arrow?.indices == null || arrow.indices.Count < 2)
+                    continue;
+
+                if (IsGateAwareLongRailChain(arrow.indices, authored.width, authored.height))
+                    count++;
+            }
+
+            return count;
+        }
+
+        private static int CountGateAwareRailLaneClusters(BoardState board)
+        {
+            if (board == null || board.tiles == null || board.width <= 0 || board.height <= 0)
+                return 0;
+
+            int horizontalThreshold = Mathf.Max(7, Mathf.CeilToInt(board.width * 0.34f));
+            int verticalThreshold = Mathf.Max(9, Mathf.CeilToInt(board.height * 0.32f));
+            int clusters = 0;
+
+            for (int y = 0; y < board.height; y++)
+            {
+                int streak = 0;
+                for (int x = 0; x < board.width; x++)
+                {
+                    int index = board.Index(x, y);
+                    if (IsGateAwareStraightAxisTile(board.tiles[index], horizontal: true))
+                    {
+                        streak++;
+                        continue;
+                    }
+
+                    if (streak >= horizontalThreshold)
+                        clusters++;
+                    streak = 0;
+                }
+
+                if (streak >= horizontalThreshold)
+                    clusters++;
+            }
+
+            for (int x = 0; x < board.width; x++)
+            {
+                int streak = 0;
+                for (int y = 0; y < board.height; y++)
+                {
+                    int index = board.Index(x, y);
+                    if (IsGateAwareStraightAxisTile(board.tiles[index], horizontal: false))
+                    {
+                        streak++;
+                        continue;
+                    }
+
+                    if (streak >= verticalThreshold)
+                        clusters++;
+                    streak = 0;
+                }
+
+                if (streak >= verticalThreshold)
+                    clusters++;
+            }
+
+            return clusters;
+        }
+
+        private static bool IsGateAwareStraightAxisTile(TileState tile, bool horizontal)
+        {
+            if (tile.type != TileType.Arrow)
+                return false;
+
+            bool outAxis = horizontal
+                ? tile.arrow.outDir == Dir.Left || tile.arrow.outDir == Dir.Right
+                : tile.arrow.outDir == Dir.Up || tile.arrow.outDir == Dir.Down;
+            bool inAxis = horizontal
+                ? tile.arrow.inDir == Dir.Left || tile.arrow.inDir == Dir.Right
+                : tile.arrow.inDir == Dir.Up || tile.arrow.inDir == Dir.Down;
+            return outAxis && inAxis;
+        }
+
+        private static bool IsGateAwareLongRailChain(List<int> chain, int width, int height)
+        {
+            if (chain == null || chain.Count < 8 || width <= 0 || height <= 0)
+                return false;
+
+            int minX = width;
+            int maxX = 0;
+            int minY = height;
+            int maxY = 0;
+            int maxStraightCells = 1;
+            int currentStraightCells = 1;
+            Vector2Int previousDir = default;
+            bool hasPreviousDir = false;
+
+            for (int i = 0; i < chain.Count; i++)
+            {
+                Vector2Int p = Pos(chain[i], width);
+                minX = Mathf.Min(minX, p.x);
+                maxX = Mathf.Max(maxX, p.x);
+                minY = Mathf.Min(minY, p.y);
+                maxY = Mathf.Max(maxY, p.y);
+
+                if (i <= 0)
+                    continue;
+
+                Vector2Int prev = Pos(chain[i - 1], width);
+                Vector2Int dir = p - prev;
+                if (hasPreviousDir && dir == previousDir)
+                {
+                    currentStraightCells++;
+                }
+                else
+                {
+                    currentStraightCells = 2;
+                    previousDir = dir;
+                    hasPreviousDir = true;
+                }
+
+                maxStraightCells = Mathf.Max(maxStraightCells, currentStraightCells);
+            }
+
+            int spanX = maxX - minX + 1;
+            int spanY = maxY - minY + 1;
+            int longHorizontal = Mathf.Max(8, Mathf.CeilToInt(width * 0.45f));
+            int longVertical = Mathf.Max(10, Mathf.CeilToInt(height * 0.42f));
+
+            bool horizontalRail = spanY <= 2 && spanX >= longHorizontal;
+            bool verticalRail = spanX <= 2 && spanY >= longVertical;
+            bool almostStraightLong = maxStraightCells >= Mathf.Min(12, Mathf.Max(9, chain.Count - 2))
+                && (spanX <= 2 || spanY <= 2);
+
+            return horizontalRail || verticalRail || almostStraightLong;
+        }
+
+        private static bool ShouldRejectGateAwareBodyBandChain(
+            List<int> chain,
+            int width,
+            int height,
+            GateAwareHeadCandidate picked,
+            List<GateAwarePlacedInfo> placedInfos,
+            int placedCount,
+            int entryTarget,
+            GateAwareBuildStats stats)
+        {
+            if (chain == null || chain.Count < 6 || width <= 0 || height <= 0)
+                return false;
+
+            bool protectedOpening = placedCount < entryTarget + 5;
+            int[] rowCounts = new int[height];
+            int[] colCounts = new int[width];
+            int[] hBandCounts = new int[6];
+            int[] vBandCounts = new int[6];
+            float sumX = 0f;
+            float sumY = 0f;
+
+            for (int i = 0; i < chain.Count; i++)
+            {
+                Vector2Int p = Pos(chain[i], width);
+                if (!InBounds(p.x, p.y, width, height))
+                    continue;
+
+                rowCounts[p.y]++;
+                colCounts[p.x]++;
+                hBandCounts[ComputeGateAwareHorizontalBand(p.y, height)]++;
+                vBandCounts[ComputeGateAwareVerticalBand(p.x, width)]++;
+                sumX += p.x;
+                sumY += p.y;
+            }
+
+            int maxRow = MaxCount(rowCounts);
+            int maxCol = MaxCount(colCounts);
+            int maxHBand = MaxCount(hBandCounts);
+            int maxVBand = MaxCount(vBandCounts);
+            int maxRowWindow = MaxSlidingCount(rowCounts, 3);
+            int maxColWindow = MaxSlidingCount(colCounts, 3);
+
+            int exactLimit = Mathf.Max(7, Mathf.CeilToInt(chain.Count * 0.62f));
+            int windowLimit = Mathf.Max(10, Mathf.CeilToInt(chain.Count * 0.82f));
+            int bandLimit = Mathf.Max(11, Mathf.CeilToInt(chain.Count * 0.88f));
+            bool bodyBandHeavy = !protectedOpening
+                && chain.Count >= 10
+                && (maxRow >= exactLimit
+                    || maxCol >= exactLimit
+                    || maxRowWindow >= windowLimit
+                    || maxColWindow >= windowLimit
+                    || maxHBand >= bandLimit
+                    || maxVBand >= bandLimit);
+
+            if (picked != null
+                && picked.FirstHitOwner >= 0
+                && placedInfos != null
+                && picked.FirstHitOwner < placedInfos.Count
+                && chain.Count >= 6)
+            {
+                GateAwarePlacedInfo parent = placedInfos[picked.FirstHitOwner];
+                float centerX = sumX / Mathf.Max(1, chain.Count);
+                float centerY = sumY / Mathf.Max(1, chain.Count);
+                int chainHBand = ComputeGateAwareHorizontalBand(centerY, height);
+                int chainVBand = ComputeGateAwareVerticalBand(centerX, width);
+                int parentHBand = ComputeGateAwareHorizontalBand(parent.CenterY, height);
+                int parentVBand = ComputeGateAwareVerticalBand(parent.CenterX, width);
+                bool sameReleaseBand = chainHBand == parentHBand || chainVBand == parentVBand;
+                bool extremeSameBandBurst = sameReleaseBand
+                    && chain.Count >= 12
+                    && (maxRowWindow >= Mathf.Max(11, Mathf.CeilToInt(chain.Count * 0.84f))
+                        || maxColWindow >= Mathf.Max(11, Mathf.CeilToInt(chain.Count * 0.84f))
+                        || maxHBand >= Mathf.Max(12, Mathf.CeilToInt(chain.Count * 0.90f))
+                        || maxVBand >= Mathf.Max(12, Mathf.CeilToInt(chain.Count * 0.90f)));
+                if (!protectedOpening && extremeSameBandBurst)
+                {
+                    if (stats != null)
+                        stats.ParentBandRejected++;
+                    return true;
+                }
+            }
+
+            if (bodyBandHeavy)
+            {
+                if (stats != null)
+                    stats.BodyBandRejected++;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool ShouldRejectGateAwareLocalUnlockChain(
+            List<int> chain,
+            GateAwareHeadCandidate picked,
+            List<GateAwarePlacedInfo> placedInfos,
+            int width,
+            int height,
+            int predictedWave,
+            GateAwareBuildStats stats)
+        {
+            if (chain == null
+                || picked == null
+                || picked.FirstHitOwner < 0
+                || placedInfos == null
+                || picked.FirstHitOwner >= placedInfos.Count
+                || width <= 0
+                || height <= 0)
+            {
+                return false;
+            }
+
+            if (placedInfos.Count < 22)
+                return false;
+
+            int wave = ClampGateAwareWave(predictedWave);
+            if (wave > 5)
+                return false;
+
+            GateAwarePlacedInfo parent = placedInfos[picked.FirstHitOwner];
+            int minX = int.MaxValue;
+            int maxX = int.MinValue;
+            int minY = int.MaxValue;
+            int maxY = int.MinValue;
+            int sumX = 0;
+            int sumY = 0;
+            for (int i = 0; i < chain.Count; i++)
+            {
+                Vector2Int p = Pos(chain[i], width);
+                minX = Mathf.Min(minX, p.x);
+                maxX = Mathf.Max(maxX, p.x);
+                minY = Mathf.Min(minY, p.y);
+                maxY = Mathf.Max(maxY, p.y);
+                sumX += p.x;
+                sumY += p.y;
+            }
+
+            float centerX = sumX / (float)Mathf.Max(1, chain.Count);
+            float centerY = sumY / (float)Mathf.Max(1, chain.Count);
+            int centerDistance = Mathf.RoundToInt(Mathf.Abs(centerX - parent.CenterX) + Mathf.Abs(centerY - parent.CenterY));
+            int bboxGapX = minX > parent.MaxX ? minX - parent.MaxX : parent.MinX > maxX ? parent.MinX - maxX : 0;
+            int bboxGapY = minY > parent.MaxY ? minY - parent.MaxY : parent.MinY > maxY ? parent.MinY - maxY : 0;
+            int bboxGap = bboxGapX + bboxGapY;
+            var center = new Vector2Int(Mathf.RoundToInt(centerX), Mathf.RoundToInt(centerY));
+            int childMicro = ComputeGateAwareMicroRegion(center, width, height);
+            int childRegion = ComputeGateAwareRegion(center, width, height);
+            int remoteDistance = Mathf.Max(5, Mathf.RoundToInt(Mathf.Min(width, height) * (wave <= 2 ? 0.32f : 0.26f)));
+
+            bool sameMicro = childMicro == parent.MicroRegion;
+            bool sameRegionClose = childRegion == parent.Region && centerDistance < remoteDistance + 3;
+            bool touchingParent = bboxGap <= 1 && centerDistance < remoteDistance + 4;
+            bool tooClose = centerDistance < remoteDistance;
+
+            if (wave <= 3 && (sameMicro || tooClose || touchingParent))
+            {
+                if (stats != null)
+                    stats.LocalUnlockRejected++;
+                return true;
+            }
+
+            if (wave <= 5 && sameRegionClose && touchingParent)
+            {
+                if (stats != null)
+                    stats.LocalUnlockRejected++;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static int MaxCount(int[] counts)
+        {
+            int best = 0;
+            if (counts == null)
+                return best;
+
+            for (int i = 0; i < counts.Length; i++)
+                best = Mathf.Max(best, counts[i]);
+            return best;
+        }
+
+        private static int MaxSlidingCount(int[] counts, int window)
+        {
+            if (counts == null || counts.Length == 0)
+                return 0;
+
+            window = Mathf.Clamp(window, 1, counts.Length);
+            int sum = 0;
+            for (int i = 0; i < window; i++)
+                sum += counts[i];
+
+            int best = sum;
+            for (int i = window; i < counts.Length; i++)
+            {
+                sum += counts[i] - counts[i - window];
+                best = Mathf.Max(best, sum);
+            }
+
+            return best;
+        }
+
+        private static bool TryBuildGateAwarePeelChain(
+            bool[] remaining,
+            int[] placedOwnerByCell,
+            List<GateAwarePlacedInfo> placedInfos,
+            List<int> dependentCountByOwner,
+            int width,
+            int height,
+            System.Random rng,
+            int targetLength,
+            PeelStyleProfile profile,
+            bool requirePlacedHit,
+            int ownerFanoutCap,
+            out List<int> chain,
+            out GateAwareHeadCandidate picked,
+            GateAwareBuildStats stats)
+        {
+            chain = null;
+            picked = null;
+            var candidates = new List<GateAwareHeadCandidate>(64);
+            CollectGateAwareHeadCandidates(
+                remaining,
+                placedOwnerByCell,
+                placedInfos,
+                dependentCountByOwner,
+                width,
+                height,
+                rng,
+                requirePlacedHit,
+                ownerFanoutCap,
+                profile,
+                candidates,
+                stats);
+
+            if (candidates.Count == 0)
+                return false;
+
+            candidates.Sort((a, b) => b.Score.CompareTo(a.Score));
+            int pickWindow = profile != null ? profile.HeadPickWindow : 18;
+            int pickCount = Mathf.Min(candidates.Count, Mathf.Max(1, pickWindow));
+            picked = candidates[rng.Next(pickCount)];
+
+            chain = new List<int>(Mathf.Max(2, targetLength))
+            {
+                picked.Head,
+                picked.Second
+            };
+
+            var inPath = new HashSet<int>
+            {
+                picked.Head,
+                picked.Second
+            };
+
+            int current = picked.Second;
+            int previous = picked.Head;
+            int localGuard = targetLength * 7 + 14;
+            while (chain.Count < targetLength && localGuard-- > 0)
+            {
+                if (!TryPickGateAwareSegmentNextCell(remaining, width, height, rng, current, previous, inPath, chain.Count, profile, picked, placedInfos, stats, out int next))
+                    break;
+
+                chain.Add(next);
+                inPath.Add(next);
+                previous = current;
+                current = next;
+            }
+
+            return chain.Count >= 2;
+        }
+
+        private static void CollectGateAwareHeadCandidates(
+            bool[] remaining,
+            int[] placedOwnerByCell,
+            List<GateAwarePlacedInfo> placedInfos,
+            List<int> dependentCountByOwner,
+            int width,
+            int height,
+            System.Random rng,
+            bool requirePlacedHit,
+            int ownerFanoutCap,
+            PeelStyleProfile profile,
+            List<GateAwareHeadCandidate> candidates,
+            GateAwareBuildStats stats)
+        {
+            candidates.Clear();
+            int[] horizontalBandCounts = new int[6];
+            int[] verticalBandCounts = new int[6];
+            int[] recentHorizontalBandCounts = new int[6];
+            int[] recentVerticalBandCounts = new int[6];
+            int[] microRegionCounts = new int[16];
+            int[] waveCounts = new int[GateAwareTrackedWaveCount];
+            int[,] waveHorizontalBandCounts = new int[GateAwareTrackedWaveCount, 6];
+            int[,] waveVerticalBandCounts = new int[GateAwareTrackedWaveCount, 6];
+            int[,] waveMicroRegionCounts = new int[GateAwareTrackedWaveCount, 16];
+            if (placedInfos != null)
+            {
+                int recentStart = Mathf.Max(0, placedInfos.Count - 18);
+                for (int i = 0; i < placedInfos.Count; i++)
+                {
+                    GateAwarePlacedInfo info = placedInfos[i];
+                    int hBand = ComputeGateAwareHorizontalBand(info.CenterY, height);
+                    int vBand = ComputeGateAwareVerticalBand(info.CenterX, width);
+                    int micro = Mathf.Clamp(info.MicroRegion, 0, microRegionCounts.Length - 1);
+                    int wave = ClampGateAwareWave(info.Wave);
+                    horizontalBandCounts[hBand]++;
+                    verticalBandCounts[vBand]++;
+                    microRegionCounts[micro]++;
+                    waveCounts[wave]++;
+                    waveHorizontalBandCounts[wave, hBand]++;
+                    waveVerticalBandCounts[wave, vBand]++;
+                    waveMicroRegionCounts[wave, micro]++;
+                    if (i >= recentStart)
+                    {
+                        recentHorizontalBandCounts[hBand]++;
+                        recentVerticalBandCounts[vBand]++;
+                    }
+                }
+            }
+
+            for (int idx = 0; idx < remaining.Length; idx++)
+            {
+                if (!remaining[idx])
+                    continue;
+
+                int x = idx % width;
+                int y = idx / width;
+                var head = new Vector2Int(x, y);
+                for (int d = 0; d < 4; d++)
+                {
+                    Dir outDir = (Dir)d;
+                    Vector2Int outOffset = DirToOffset(outDir);
+                    int secondX = x - outOffset.x;
+                    int secondY = y - outOffset.y;
+                    if (!InBounds(secondX, secondY, width, height))
+                        continue;
+
+                    int secondIdx = secondX + secondY * width;
+                    if (!remaining[secondIdx])
+                        continue;
+
+                    int frontX = x + outOffset.x;
+                    int frontY = y + outOffset.y;
+                    if (InBounds(frontX, frontY, width, height) && remaining[frontX + frontY * width])
+                        continue;
+
+                    bool rayHitsRemaining = PeelRayHitsRemaining(remaining, width, height, frontX, frontY, outOffset);
+                    if (rayHitsRemaining)
+                    {
+                        if (stats != null)
+                            stats.FutureBlockedRejected++;
+                        continue;
+                    }
+
+                    int firstHitOwner = FindFirstPlacedRayHitOwner(placedOwnerByCell, width, height, frontX, frontY, outOffset);
+                    if (requirePlacedHit && firstHitOwner < 0)
+                        continue;
+
+                    int hitFanout = 0;
+                    if (firstHitOwner >= 0 && dependentCountByOwner != null && firstHitOwner < dependentCountByOwner.Count)
+                        hitFanout = dependentCountByOwner[firstHitOwner];
+
+                    if (firstHitOwner >= 0)
+                    {
+                        int hardFanoutCap = Mathf.Max(1, ownerFanoutCap);
+                        if (hitFanout >= hardFanoutCap)
+                        {
+                            if (stats != null)
+                                stats.OwnerFanoutRejected++;
+                            continue;
+                        }
+                    }
+
+                    int clearedRayCells = CountPeelClearedRayCells(remaining, width, height, frontX, frontY, outOffset);
+                    int score = 100 + rng.Next(23);
+                    score += firstHitOwner >= 0 ? 115 : 28;
+                    score += Mathf.Min(36, clearedRayCells * 3);
+                    score += IsPeelBoundaryCell(remaining, width, height, secondX, secondY)
+                        ? (profile != null ? profile.HeadBoundaryBonus : 10)
+                        : 0;
+                    score -= CountPeelRemainingNeighbors(remaining, width, height, x, y)
+                        * (profile != null ? profile.HeadNeighborPenalty : 2);
+                    score += ComputePeelCenterScore(x, y, width, height) * (profile != null ? profile.CenterHeadBonus : 0);
+
+                    if (IsOuterBandOutHead(head, outDir, width, height, 1))
+                        score -= 56;
+                    if (IsBoardEdge(x, y, width, height))
+                        score -= 22;
+
+                    int headHorizontalBand = ComputeGateAwareHorizontalBand(y, height);
+                    int headVerticalBand = ComputeGateAwareVerticalBand(x, width);
+                    int headMicro = ComputeGateAwareMicroRegion(head, width, height);
+                    int sameHorizontalBand = horizontalBandCounts[headHorizontalBand];
+                    int sameVerticalBand = verticalBandCounts[headVerticalBand];
+                    int recentHorizontalBand = recentHorizontalBandCounts[headHorizontalBand];
+                    int recentVerticalBand = recentVerticalBandCounts[headVerticalBand];
+                    int sameMicro = microRegionCounts[Mathf.Clamp(headMicro, 0, microRegionCounts.Length - 1)];
+                    int predictedWave = ComputeGateAwarePredictedWave(firstHitOwner, placedInfos);
+                    if (ShouldRejectGateAwareWaveScheduleCandidate(
+                            predictedWave,
+                            firstHitOwner < 0,
+                            placedInfos != null ? placedInfos.Count : 0,
+                            width,
+                            height,
+                            headHorizontalBand,
+                            headVerticalBand,
+                            headMicro,
+                            waveCounts,
+                            waveHorizontalBandCounts,
+                            waveVerticalBandCounts,
+                            waveMicroRegionCounts,
+                            stats))
+                    {
+                        continue;
+                    }
+
+                    int anchorPenalty = ComputeGateAwareAnchorSegmentPenalty(
+                        head,
+                        new Vector2Int(secondX, secondY),
+                        placedInfos,
+                        width,
+                        height,
+                        predictedWave,
+                        stats,
+                        out bool rejectAnchor);
+                    if (rejectAnchor)
+                        continue;
+                    if (anchorPenalty > 0)
+                        score -= anchorPenalty;
+
+                    int waveSchedulePenalty = ComputeGateAwareWaveSchedulePenalty(
+                        predictedWave,
+                        firstHitOwner < 0,
+                        placedInfos != null ? placedInfos.Count : 0,
+                        headHorizontalBand,
+                        headVerticalBand,
+                        headMicro,
+                        waveCounts,
+                        waveHorizontalBandCounts,
+                        waveVerticalBandCounts,
+                        waveMicroRegionCounts,
+                        stats);
+                    if (waveSchedulePenalty > 0)
+                        score -= waveSchedulePenalty;
+
+                    int bandPenalty = ComputeGateAwareHeadBandPenalty(
+                        sameHorizontalBand,
+                        sameVerticalBand,
+                        recentHorizontalBand,
+                        recentVerticalBand,
+                        sameMicro,
+                        placedInfos != null ? placedInfos.Count : 0,
+                        head,
+                        outDir,
+                        width,
+                        height);
+                    if (bandPenalty > 0)
+                    {
+                        score -= bandPenalty;
+                        if (stats != null)
+                            stats.WaveBandPenalized++;
+                    }
+
+                    if (firstHitOwner >= 0 && firstHitOwner < placedInfos.Count)
+                    {
+                        GateAwarePlacedInfo hit = placedInfos[firstHitOwner];
+                        int region = ComputeGateAwareRegion(head, width, height);
+                        int ownerAge = placedInfos.Count - 1 - firstHitOwner;
+                        int headDistanceToHit = Mathf.Abs(Mathf.RoundToInt(hit.CenterX) - x) + Mathf.Abs(Mathf.RoundToInt(hit.CenterY) - y);
+                        int localDistanceFloor = Mathf.Max(6, Mathf.RoundToInt(Mathf.Min(width, height) * (predictedWave <= 2 ? 0.40f : 0.30f)));
+                        int hitHorizontalBand = ComputeGateAwareHorizontalBand(hit.CenterY, height);
+                        int hitVerticalBand = ComputeGateAwareVerticalBand(hit.CenterX, width);
+                        if (hitHorizontalBand == headHorizontalBand)
+                            score -= 150 + sameHorizontalBand * 10 + recentHorizontalBand * 18;
+                        if (hitVerticalBand == headVerticalBand)
+                            score -= 120 + sameVerticalBand * 8 + recentVerticalBand * 14;
+                        if (headDistanceToHit < localDistanceFloor)
+                        {
+                            score -= (localDistanceFloor - headDistanceToHit) * (predictedWave <= 3 ? 180 : 90);
+                            if (stats != null)
+                                stats.LocalUnlockPenalized++;
+                        }
+
+                        score += hit.Region != region ? 260 : -210;
+                        score += hit.MicroRegion != headMicro ? 190 : -460;
+                        score += hitFanout == 0 ? 58 : -120;
+                        score += ownerAge <= 10 ? Mathf.Max(0, 8 - ownerAge) : -Mathf.Min(70, (ownerAge - 10) * 4);
+                        score += Mathf.Clamp(
+                            Mathf.RoundToInt((Mathf.Abs(hit.CenterX - x) + Mathf.Abs(hit.CenterY - y)) * 16f),
+                            0,
+                            380);
+                        if (hit.OutDir == outDir)
+                            score -= 12;
+                    }
+                    else if (requirePlacedHit)
+                    {
+                        score -= 300;
+                    }
+
+                    candidates.Add(new GateAwareHeadCandidate
+                    {
+                        Head = idx,
+                        Second = secondIdx,
+                        OutDir = outDir,
+                        FirstHitOwner = firstHitOwner,
+                        PredictedWave = predictedWave,
+                        Score = score
+                    });
+                }
+            }
+        }
+
+        private static int ComputeGateAwareAnchorSegmentPenalty(
+            Vector2Int head,
+            Vector2Int second,
+            List<GateAwarePlacedInfo> placedInfos,
+            int width,
+            int height,
+            int predictedWave,
+            GateAwareBuildStats stats,
+            out bool reject)
+        {
+            reject = false;
+            if (placedInfos == null || placedInfos.Count == 0 || width <= 0 || height <= 0)
+                return 0;
+
+            int entryTarget = Mathf.Clamp(Mathf.CeilToInt(Mathf.Min(width, height) / 8f), 2, 3);
+            int wave = ClampGateAwareWave(predictedWave);
+            int recentStart = Mathf.Max(0, placedInfos.Count - 14);
+            int minDistance = Mathf.Max(5, Mathf.RoundToInt(Mathf.Min(width, height) * 0.30f));
+            int overlapCount = 0;
+            int closeCount = 0;
+            int penalty = 0;
+            int headMicro = ComputeGateAwareMicroRegion(head, width, height);
+
+            for (int i = recentStart; i < placedInfos.Count; i++)
+            {
+                GateAwarePlacedInfo info = placedInfos[i];
+                if (info == null || info.HeadIndex < 0)
+                    continue;
+
+                Vector2Int otherHead = Pos(info.HeadIndex, width);
+                Vector2Int otherSecond = info.SecondIndex >= 0 ? Pos(info.SecondIndex, width) : otherHead;
+                int segmentDistance = MinGateAwareSegmentDistance(head, second, otherHead, otherSecond);
+                if (segmentDistance <= 4)
+                {
+                    overlapCount++;
+                    penalty += wave <= 3 ? 1300 : 560;
+                }
+
+                int headDistance = Mathf.Abs(head.x - otherHead.x) + Mathf.Abs(head.y - otherHead.y);
+                if (headDistance < minDistance)
+                {
+                    closeCount++;
+                    penalty += (minDistance - headDistance) * (wave <= 3 ? 150 : 70);
+                }
+
+                if (headMicro == info.MicroRegion)
+                    penalty += wave <= 3 ? 420 : 160;
+            }
+
+            bool afterSkeleton = placedInfos.Count >= entryTarget + 8;
+            reject = false;
+            if (reject)
+            {
+                if (stats != null)
+                    stats.AnchorSegmentRejected++;
+                return 0;
+            }
+
+            if (penalty > 0 && stats != null)
+                stats.AnchorSegmentPenalized++;
+            return penalty;
+        }
+
+        private static int MinGateAwareSegmentDistance(
+            Vector2Int a0,
+            Vector2Int a1,
+            Vector2Int b0,
+            Vector2Int b1)
+        {
+            int d00 = Mathf.Abs(a0.x - b0.x) + Mathf.Abs(a0.y - b0.y);
+            int d01 = Mathf.Abs(a0.x - b1.x) + Mathf.Abs(a0.y - b1.y);
+            int d10 = Mathf.Abs(a1.x - b0.x) + Mathf.Abs(a1.y - b0.y);
+            int d11 = Mathf.Abs(a1.x - b1.x) + Mathf.Abs(a1.y - b1.y);
+            return Mathf.Min(Mathf.Min(d00, d01), Mathf.Min(d10, d11));
+        }
+
+        private static bool TryPickGateAwareSegmentNextCell(
+            bool[] remaining,
+            int width,
+            int height,
+            System.Random rng,
+            int current,
+            int previous,
+            HashSet<int> inPath,
+            int pathCount,
+            PeelStyleProfile profile,
+            GateAwareHeadCandidate picked,
+            List<GateAwarePlacedInfo> placedInfos,
+            GateAwareBuildStats stats,
+            out int next)
+        {
+            next = -1;
+            int currentX = current % width;
+            int currentY = current / width;
+            int previousX = previous % width;
+            int previousY = previous / width;
+            var currentDir = new Vector2Int(currentX - previousX, currentY - previousY);
+            Vector2Int anchorHead = picked != null ? Pos(picked.Head, width) : new Vector2Int(previousX, previousY);
+            Vector2Int anchorSecond = picked != null ? Pos(picked.Second, width) : new Vector2Int(currentX, currentY);
+            float anchorX = (anchorHead.x + anchorSecond.x) * 0.5f;
+            float anchorY = (anchorHead.y + anchorSecond.y) * 0.5f;
+            int previousAnchorDistance = Mathf.RoundToInt(Mathf.Abs(currentX - anchorX) + Mathf.Abs(currentY - anchorY));
+
+            int bestScore = int.MinValue;
+            int tieCount = 0;
+            for (int d = 0; d < 4; d++)
+            {
+                Vector2Int offset = DirToOffset((Dir)d);
+                int nx = currentX + offset.x;
+                int ny = currentY + offset.y;
+                if (!InBounds(nx, ny, width, height))
+                    continue;
+
+                int nidx = nx + ny * width;
+                if (!remaining[nidx] || inPath.Contains(nidx))
+                    continue;
+
+                int score = rng.Next(19);
+                bool sameDirection = offset == currentDir;
+                if (sameDirection)
+                    score += pathCount <= 3
+                        ? (profile != null ? profile.SameDirectionEarlyBonus : 12)
+                        : (profile != null ? profile.SameDirectionLaterBonus : 2);
+                else
+                    score += pathCount >= 3
+                        ? (profile != null ? profile.TurnLaterBonus : 15)
+                        : (profile != null ? profile.TurnEarlyBonus : 2);
+
+                if (pathCount >= 2 && pathCount <= 4)
+                    score += sameDirection ? -150 : 220;
+
+                if (IsPeelBoundaryCell(remaining, width, height, nx, ny))
+                    score += profile != null ? profile.BoundaryStepBonus : 14;
+
+                int neighborCount = CountPeelRemainingNeighbors(remaining, width, height, nx, ny);
+                score += Mathf.Max(0, 4 - neighborCount) * (profile != null ? profile.SparseNeighborWeight : 3);
+                score += ComputePeelCenterScore(nx, ny, width, height) * (profile != null ? profile.CenterStepBonus : 0);
+
+                int anchorDistance = Mathf.RoundToInt(Mathf.Abs(nx - anchorX) + Mathf.Abs(ny - anchorY));
+                int chebyshevAnchor = Mathf.Max(Mathf.Abs(nx - anchorHead.x), Mathf.Abs(ny - anchorHead.y));
+                if (pathCount >= 3)
+                {
+                    score += Mathf.Clamp(anchorDistance - previousAnchorDistance, -2, 3) * 30;
+                    if (chebyshevAnchor <= 2)
+                        score -= pathCount >= 5 ? 420 : 180;
+                    else if (chebyshevAnchor <= 3)
+                        score -= pathCount >= 6 ? 160 : 50;
+
+                    if (sameDirection && chebyshevAnchor <= 4)
+                        score -= 120;
+
+                    if (stats != null && chebyshevAnchor <= 3)
+                        stats.AnchorBodyPenalized++;
+                }
+
+                if (placedInfos != null && pathCount <= 6)
+                {
+                    int recentStart = Mathf.Max(0, placedInfos.Count - 8);
+                    for (int i = recentStart; i < placedInfos.Count; i++)
+                    {
+                        GateAwarePlacedInfo info = placedInfos[i];
+                        if (info == null || info.HeadIndex < 0)
+                            continue;
+
+                        Vector2Int otherHead = Pos(info.HeadIndex, width);
+                        int dHead = Mathf.Abs(nx - otherHead.x) + Mathf.Abs(ny - otherHead.y);
+                        if (dHead <= 3)
+                            score -= 150;
+                    }
+                }
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    next = nidx;
+                    tieCount = 1;
+                }
+                else if (score == bestScore)
+                {
+                    tieCount++;
+                    if (rng.Next(tieCount) == 0)
+                        next = nidx;
+                }
+            }
+
+            return next >= 0;
+        }
+
+        private static int FindFirstPlacedRayHitOwner(
+            int[] placedOwnerByCell,
+            int width,
+            int height,
+            int x,
+            int y,
+            Vector2Int offset)
+        {
+            if (placedOwnerByCell == null)
+                return -1;
+
+            while (InBounds(x, y, width, height))
+            {
+                int idx = x + y * width;
+                if ((uint)idx < (uint)placedOwnerByCell.Length && placedOwnerByCell[idx] >= 0)
+                    return placedOwnerByCell[idx];
+
+                x += offset.x;
+                y += offset.y;
+            }
+
+            return -1;
+        }
+
+        private static GateAwarePlacedInfo BuildGateAwarePlacedInfo(
+            int owner,
+            List<int> chain,
+            int width,
+            int height,
+            Dir outDir)
+        {
+            int minX = int.MaxValue;
+            int minY = int.MaxValue;
+            int maxX = int.MinValue;
+            int maxY = int.MinValue;
+            int sumX = 0;
+            int sumY = 0;
+            for (int i = 0; i < chain.Count; i++)
+            {
+                Vector2Int p = Pos(chain[i], width);
+                minX = Mathf.Min(minX, p.x);
+                maxX = Mathf.Max(maxX, p.x);
+                minY = Mathf.Min(minY, p.y);
+                maxY = Mathf.Max(maxY, p.y);
+                sumX += p.x;
+                sumY += p.y;
+            }
+
+            float centerX = chain.Count > 0 ? sumX / (float)chain.Count : 0f;
+            float centerY = chain.Count > 0 ? sumY / (float)chain.Count : 0f;
+            var center = new Vector2Int(Mathf.RoundToInt(centerX), Mathf.RoundToInt(centerY));
+            return new GateAwarePlacedInfo
+            {
+                Owner = owner,
+                HeadIndex = chain != null && chain.Count > 0 ? chain[0] : -1,
+                SecondIndex = chain != null && chain.Count > 1 ? chain[1] : -1,
+                MinX = minX,
+                MaxX = maxX,
+                MinY = minY,
+                MaxY = maxY,
+                CenterX = centerX,
+                CenterY = centerY,
+                Region = ComputeGateAwareRegion(center, width, height),
+                MicroRegion = ComputeGateAwareMicroRegion(center, width, height),
+                OutDir = outDir,
+                Length = chain != null ? chain.Count : 0
+            };
+        }
+
+        private static int ComputeGateAwareRegion(Vector2Int cell, int width, int height)
+        {
+            int rx = Mathf.Clamp(cell.x * 3 / Mathf.Max(1, width), 0, 2);
+            int ry = Mathf.Clamp(cell.y * 3 / Mathf.Max(1, height), 0, 2);
+            return rx + ry * 3;
+        }
+
+        private static int ComputeGateAwareMicroRegion(Vector2Int cell, int width, int height)
+        {
+            int rx = Mathf.Clamp(cell.x * 4 / Mathf.Max(1, width), 0, 3);
+            int ry = Mathf.Clamp(cell.y * 4 / Mathf.Max(1, height), 0, 3);
+            return rx + ry * 4;
+        }
+
+        private static int ComputeGateAwareHorizontalBand(float y, int height)
+        {
+            return Mathf.Clamp(Mathf.FloorToInt(y * 6f / Mathf.Max(1, height)), 0, 5);
+        }
+
+        private static int ComputeGateAwareVerticalBand(float x, int width)
+        {
+            return Mathf.Clamp(Mathf.FloorToInt(x * 6f / Mathf.Max(1, width)), 0, 5);
+        }
+
+        private static int ClampGateAwareWave(int wave)
+        {
+            return Mathf.Clamp(wave, 0, GateAwareTrackedWaveCount - 1);
+        }
+
+        private static int ComputeGateAwarePredictedWave(GateAwareHeadCandidate picked, List<GateAwarePlacedInfo> placedInfos)
+        {
+            return picked != null ? ComputeGateAwarePredictedWave(picked.FirstHitOwner, placedInfos) : 0;
+        }
+
+        private static int ComputeGateAwarePredictedWave(int firstHitOwner, List<GateAwarePlacedInfo> placedInfos)
+        {
+            if (firstHitOwner < 0 || placedInfos == null || firstHitOwner >= placedInfos.Count)
+                return 0;
+
+            return ClampGateAwareWave(placedInfos[firstHitOwner].Wave + 1);
+        }
+
+        private static int GateAwareWaveBudget(int wave)
+        {
+            wave = ClampGateAwareWave(wave);
+            if (wave <= 0)
+                return 3;
+            if (wave == 1)
+                return 4;
+            if (wave == 2)
+                return 5;
+            if (wave == 3)
+                return 6;
+            if (wave <= 5)
+                return 8;
+            return 12;
+        }
+
+        private static int GateAwareBandWaveBudget(int wave)
+        {
+            wave = ClampGateAwareWave(wave);
+            if (wave <= 1)
+                return 2;
+            if (wave <= 3)
+                return 3;
+            return 4;
+        }
+
+        private static int GateAwareMicroWaveBudget(int wave)
+        {
+            wave = ClampGateAwareWave(wave);
+            return wave <= 2 ? 2 : 3;
+        }
+
+        private static bool ShouldRejectGateAwareEarlyWaveLength(
+            int chainLength,
+            int predictedWave,
+            GateAwareBuildStats stats)
+        {
+            int wave = ClampGateAwareWave(predictedWave);
+            int maxLength = wave switch
+            {
+                0 => 3,
+                1 => 4,
+                2 => 5,
+                3 => 7,
+                _ => int.MaxValue
+            };
+
+            if (chainLength <= maxLength)
+                return false;
+
+            if (stats != null)
+                stats.EarlyWaveLengthRejected++;
+            return true;
+        }
+
+        private static int FindPreferredGateAwareWave(int[] waveCounts)
+        {
+            if (waveCounts == null || waveCounts.Length == 0)
+                return 1;
+
+            int maxSearch = Mathf.Min(7, waveCounts.Length - 1);
+            for (int wave = 1; wave <= maxSearch; wave++)
+            {
+                if (waveCounts[wave] < GateAwareWaveBudget(wave))
+                    return wave;
+            }
+
+            return maxSearch;
+        }
+
+        private static bool ShouldRejectGateAwareWaveScheduleCandidate(
+            int predictedWave,
+            bool directExit,
+            int placedCount,
+            int width,
+            int height,
+            int horizontalBand,
+            int verticalBand,
+            int microRegion,
+            int[] waveCounts,
+            int[,] waveHorizontalBandCounts,
+            int[,] waveVerticalBandCounts,
+            int[,] waveMicroRegionCounts,
+            GateAwareBuildStats stats)
+        {
+            int entryTarget = Mathf.Clamp(Mathf.CeilToInt(Mathf.Min(width, height) / 8f), 2, 3);
+            if (directExit && placedCount >= entryTarget + 4)
+            {
+                if (stats != null)
+                    stats.WaveBudgetRejected++;
+                return true;
+            }
+
+            int wave = ClampGateAwareWave(predictedWave);
+            int waveCount = waveCounts != null && wave < waveCounts.Length ? waveCounts[wave] : 0;
+            int waveBudget = GateAwareWaveBudget(wave);
+            if ((wave <= 2 && waveCount >= waveBudget)
+                || (wave == 3 && waveCount >= waveBudget + 1))
+            {
+                if (stats != null)
+                    stats.WaveBudgetRejected++;
+                return true;
+            }
+
+            int bandBudget = GateAwareBandWaveBudget(wave);
+            int hCount = waveHorizontalBandCounts != null ? waveHorizontalBandCounts[wave, Mathf.Clamp(horizontalBand, 0, 5)] : 0;
+            int vCount = waveVerticalBandCounts != null ? waveVerticalBandCounts[wave, Mathf.Clamp(verticalBand, 0, 5)] : 0;
+            if (wave <= 1 && (hCount >= bandBudget + 2 || vCount >= bandBudget + 2))
+            {
+                if (stats != null)
+                    stats.BandWaveRejected++;
+                return true;
+            }
+
+            int micro = Mathf.Clamp(microRegion, 0, 15);
+            int microCount = waveMicroRegionCounts != null ? waveMicroRegionCounts[wave, micro] : 0;
+            if (wave <= 2 && microCount >= GateAwareMicroWaveBudget(wave) + 1)
+            {
+                if (stats != null)
+                    stats.BandWaveRejected++;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static int ComputeGateAwareWaveSchedulePenalty(
+            int predictedWave,
+            bool directExit,
+            int placedCount,
+            int horizontalBand,
+            int verticalBand,
+            int microRegion,
+            int[] waveCounts,
+            int[,] waveHorizontalBandCounts,
+            int[,] waveVerticalBandCounts,
+            int[,] waveMicroRegionCounts,
+            GateAwareBuildStats stats)
+        {
+            int wave = ClampGateAwareWave(predictedWave);
+            int waveCount = waveCounts != null && wave < waveCounts.Length ? waveCounts[wave] : 0;
+            int preferredWave = FindPreferredGateAwareWave(waveCounts);
+            int penalty = 0;
+
+            int overWave = Mathf.Max(0, waveCount + 1 - GateAwareWaveBudget(wave));
+            penalty += overWave * (wave <= 3 ? 1300 : 520);
+
+            int hBand = Mathf.Clamp(horizontalBand, 0, 5);
+            int vBand = Mathf.Clamp(verticalBand, 0, 5);
+            int micro = Mathf.Clamp(microRegion, 0, 15);
+            int hOver = Mathf.Max(0, (waveHorizontalBandCounts != null ? waveHorizontalBandCounts[wave, hBand] : 0) + 1 - GateAwareBandWaveBudget(wave));
+            int vOver = Mathf.Max(0, (waveVerticalBandCounts != null ? waveVerticalBandCounts[wave, vBand] : 0) + 1 - GateAwareBandWaveBudget(wave));
+            int microOver = Mathf.Max(0, (waveMicroRegionCounts != null ? waveMicroRegionCounts[wave, micro] : 0) + 1 - GateAwareMicroWaveBudget(wave));
+            penalty += (hOver + vOver) * (wave <= 3 ? 1100 : 360);
+            penalty += microOver * (wave <= 2 ? 720 : 220);
+
+            if (wave < preferredWave)
+                penalty += (preferredWave - wave) * 760;
+            else if (wave == preferredWave)
+                penalty -= 120;
+            else
+                penalty += Mathf.Min(3, wave - preferredWave) * 60;
+
+            if (directExit && placedCount > GateAwareWaveBudget(0))
+                penalty += 1800 + placedCount * 18;
+
+            if (penalty > 0 && stats != null)
+                stats.WaveSchedulePenalized++;
+            return Mathf.Max(0, penalty);
+        }
+
+        private static int ComputeGateAwareHeadBandPenalty(
+            int sameHorizontalBand,
+            int sameVerticalBand,
+            int recentHorizontalBand,
+            int recentVerticalBand,
+            int sameMicroRegion,
+            int placedCount,
+            Vector2Int head,
+            Dir outDir,
+            int width,
+            int height)
+        {
+            int softHorizontalBudget = placedCount < 30 ? 3 : 5;
+            int softVerticalBudget = placedCount < 30 ? 4 : 6;
+            int penalty = 0;
+            penalty += Mathf.Max(0, sameHorizontalBand - softHorizontalBudget) * (placedCount < 30 ? 58 : 28);
+            penalty += Mathf.Max(0, sameVerticalBand - softVerticalBudget) * (placedCount < 30 ? 42 : 22);
+            penalty += Mathf.Max(0, recentHorizontalBand - 3) * 82;
+            penalty += Mathf.Max(0, recentVerticalBand - 3) * 60;
+            penalty += Mathf.Max(0, sameMicroRegion - 2) * 72;
+
+            bool horizontalOut = outDir == Dir.Left || outDir == Dir.Right;
+            bool verticalOut = outDir == Dir.Up || outDir == Dir.Down;
+            if (horizontalOut && sameHorizontalBand >= softHorizontalBudget + 2)
+                penalty += 180;
+            if (verticalOut && sameVerticalBand >= softVerticalBudget + 2)
+                penalty += 150;
+
+            if (IsOuterBandOutHead(head, outDir, width, height, 1))
+                penalty += Mathf.Max(0, sameHorizontalBand - 2) * 110
+                    + Mathf.Max(0, sameVerticalBand - 3) * 70;
+
+            return penalty;
         }
 
         private static bool TryBuildConstrainedRectanglePeelAuthored(
@@ -5432,6 +7559,61 @@ namespace PixelBug.ArrowMagic.EditorTools
             return rng.Next(min, max + 1);
         }
 
+        private enum PressurePeelPhase
+        {
+            None,
+            ReleaseEntry,
+            GateMiddle,
+            ReleaseExit
+        }
+
+        private static PressurePeelPhase GetPressurePeelPhase(bool[] remaining, int width, int height)
+        {
+            int area = Mathf.Max(1, width * height);
+            int remainingCount = 0;
+            for (int i = 0; i < remaining.Length; i++)
+            {
+                if (remaining[i])
+                    remainingCount++;
+            }
+
+            float remainingRatio = remainingCount / (float)area;
+            if (remainingRatio >= 0.975f)
+                return PressurePeelPhase.ReleaseEntry;
+            if (remainingRatio <= 0.28f)
+                return PressurePeelPhase.ReleaseExit;
+            return PressurePeelPhase.GateMiddle;
+        }
+
+        private static bool ShouldPreferPressureClearRay(PressurePeelPhase phase, System.Random rng)
+        {
+            return phase switch
+            {
+                PressurePeelPhase.ReleaseEntry => true,
+                PressurePeelPhase.ReleaseExit => true,
+                PressurePeelPhase.GateMiddle => true,
+                _ => true
+            };
+        }
+
+        private static int PressureRayScore(
+            PressurePeelPhase phase,
+            bool rayHitsRemaining,
+            int clearedRayCells,
+            int width,
+            int height)
+        {
+            int longClearRayThreshold = Mathf.Max(4, Mathf.Min(width, height) / 4);
+            return phase switch
+            {
+                PressurePeelPhase.ReleaseEntry => rayHitsRemaining ? -30 : 22,
+                PressurePeelPhase.ReleaseExit => rayHitsRemaining ? -18 : 18,
+                PressurePeelPhase.GateMiddle => (rayHitsRemaining ? -8 : 8)
+                    + (clearedRayCells >= longClearRayThreshold ? -4 : 0),
+                _ => 0
+            };
+        }
+
         private static bool TryBuildPeelChain(
             bool[] remaining,
             int width,
@@ -5443,9 +7625,20 @@ namespace PixelBug.ArrowMagic.EditorTools
         {
             chain = null;
             var candidates = new List<PeelHeadCandidate>(64);
-            CollectPeelHeadCandidates(remaining, width, height, rng, requireClearRay: true, profile, candidates);
-            if (candidates.Count == 0)
-                CollectPeelHeadCandidates(remaining, width, height, rng, requireClearRay: false, profile, candidates);
+            if (IsPressureHardProfile(profile))
+            {
+                PressurePeelPhase phase = GetPressurePeelPhase(remaining, width, height);
+                bool preferClearRay = ShouldPreferPressureClearRay(phase, rng);
+                CollectPeelHeadCandidates(remaining, width, height, rng, preferClearRay, profile, phase, candidates);
+                if (candidates.Count == 0)
+                    CollectPeelHeadCandidates(remaining, width, height, rng, !preferClearRay, profile, phase, candidates);
+            }
+            else
+            {
+                CollectPeelHeadCandidates(remaining, width, height, rng, requireClearRay: true, profile, PressurePeelPhase.None, candidates);
+                if (candidates.Count == 0)
+                    CollectPeelHeadCandidates(remaining, width, height, rng, requireClearRay: false, profile, PressurePeelPhase.None, candidates);
+            }
 
             if (candidates.Count == 0)
                 return false;
@@ -5491,6 +7684,7 @@ namespace PixelBug.ArrowMagic.EditorTools
             System.Random rng,
             bool requireClearRay,
             PeelStyleProfile profile,
+            PressurePeelPhase pressurePhase,
             List<PeelHeadCandidate> candidates)
         {
             candidates.Clear();
@@ -5520,19 +7714,29 @@ namespace PixelBug.ArrowMagic.EditorTools
                     if (InBounds(frontX, frontY, width, height) && remaining[frontX + frontY * width])
                         continue;
 
-                    if (requireClearRay && PeelRayHitsRemaining(remaining, width, height, frontX, frontY, outOffset))
+                    bool rayHitsRemaining = PeelRayHitsRemaining(remaining, width, height, frontX, frontY, outOffset);
+                    if (requireClearRay && rayHitsRemaining)
                         continue;
 
+                    int clearedRayCells = CountPeelClearedRayCells(remaining, width, height, frontX, frontY, outOffset);
+                    bool pressureHard = IsPressureHardProfile(profile);
                     int score = 100;
                     score += IsBoardEdge(x, y, width, height) ? (profile != null ? profile.HeadBoardEdgeBonus : 40) : 0;
-                    score += CountPeelClearedRayCells(remaining, width, height, frontX, frontY, outOffset)
-                        * (profile != null ? profile.HeadClearRayMultiplier : 3);
+                    score += clearedRayCells * (profile != null ? profile.HeadClearRayMultiplier : 3);
                     score += IsPeelBoundaryCell(remaining, width, height, secondX, secondY)
                         ? (profile != null ? profile.HeadBoundaryBonus : 10)
                         : 0;
                     score -= CountPeelRemainingNeighbors(remaining, width, height, x, y)
                         * (profile != null ? profile.HeadNeighborPenalty : 2);
                     score += ComputePeelCenterScore(x, y, width, height) * (profile != null ? profile.CenterHeadBonus : 0);
+                    if (pressureHard)
+                    {
+                        score += PressureRayScore(pressurePhase, rayHitsRemaining, clearedRayCells, width, height);
+                        if (IsOuterBandOutHead(new Vector2Int(x, y), outDir, width, height, 1))
+                            score += pressurePhase == PressurePeelPhase.GateMiddle ? -48 : -28;
+                        if (IsBoardEdge(x, y, width, height))
+                            score += pressurePhase == PressurePeelPhase.GateMiddle ? -20 : -8;
+                    }
                     score += rng.Next(17);
 
                     candidates.Add(new PeelHeadCandidate
@@ -5647,7 +7851,7 @@ namespace PixelBug.ArrowMagic.EditorTools
                 maxLength = Mathf.Max(maxLength, arrow.indices.Count);
                 if (arrow.indices.Count <= 4)
                     shortEdgeChains++;
-                if (TryGetOutDir(path[0], path[1], out Dir outDir) && IsBoundaryOutHead(spec, path[0], outDir))
+                if (TryGetOutDir(path[0], path[1], out Dir outDir) && IsScoredOuterExitHead(spec, path[0], outDir))
                     edgeHeadChains++;
                 CountStraightSegments(path, ref straightSegments, ref totalSegments);
             }
@@ -5941,7 +8145,7 @@ namespace PixelBug.ArrowMagic.EditorTools
                 authored.arrows.Add(arrow);
 
                 arrowCount += chain.HeadToTail.Count;
-                if (IsBoundaryOutHead(spec, chain.HeadToTail[0], chain.OutDir))
+                if (IsScoredOuterExitHead(spec, chain.HeadToTail[0], chain.OutDir))
                     edgeHeadChains++;
                 if (chain.HeadToTail.Count <= 4)
                     shortEdgeChains++;
@@ -6073,7 +8277,7 @@ namespace PixelBug.ArrowMagic.EditorTools
             if (path.Count >= 5)
                 score += 1;
 
-            bool boundaryOut = IsBoundaryOutHead(spec, path[0], outDir);
+            bool boundaryOut = IsScoredOuterExitHead(spec, path[0], outDir);
             if (boundaryOut)
                 score += path.Count <= 4 ? -6 : 1;
 
@@ -6203,7 +8407,7 @@ namespace PixelBug.ArrowMagic.EditorTools
                 authored.arrows.Add(arrow);
 
                 arrowCount += chain.HeadToTail.Count;
-                if (IsBoundaryOutHead(spec, chain.HeadToTail[0], chain.OutDir))
+                if (IsScoredOuterExitHead(spec, chain.HeadToTail[0], chain.OutDir))
                     edgeHeadChains++;
                 if (chain.HeadToTail.Count <= 4)
                     shortEdgeChains++;
@@ -6521,7 +8725,7 @@ namespace PixelBug.ArrowMagic.EditorTools
             if (!IsEmpty(firstBody, spec.Width, spec.Height, occupied))
                 return false;
 
-            return edgeHead || !IsBoundaryOutHead(spec, head, outDir);
+            return edgeHead || !IsScoredOuterExitHead(spec, head, outDir);
         }
 
         private static bool TryPickPatchHead(
@@ -6582,7 +8786,7 @@ namespace PixelBug.ArrowMagic.EditorTools
             for (int i = 0; i < 4; i++)
             {
                 Dir dir = (Dir)i;
-                bool edge = IsBoundaryOutHead(spec, cell, dir);
+                bool edge = IsScoredOuterExitHead(spec, cell, dir);
                 if (!CanUsePatchHead(spec, cell, dir, occupied, edge))
                     continue;
 
@@ -6778,6 +8982,25 @@ namespace PixelBug.ArrowMagic.EditorTools
                    (outDir == Dir.Down && head.y == 0) ||
                    (outDir == Dir.Right && head.x == spec.Width - 1) ||
                    (outDir == Dir.Left && head.x == 0);
+        }
+
+        private static bool IsScoredOuterExitHead(StyleSpec spec, Vector2Int head, Dir outDir)
+        {
+            if (spec == null)
+                return false;
+
+            return IsSgpPressureHardSpec(spec) || IsSgpGateAwareSpec(spec)
+                ? IsOuterBandOutHead(head, outDir, spec.Width, spec.Height, 1)
+                : IsBoundaryOutHead(spec, head, outDir);
+        }
+
+        private static bool IsOuterBandOutHead(Vector2Int head, Dir outDir, int width, int height, int band)
+        {
+            band = Mathf.Max(0, band);
+            return (outDir == Dir.Up && head.y >= height - 1 - band) ||
+                   (outDir == Dir.Down && head.y <= band) ||
+                   (outDir == Dir.Right && head.x >= width - 1 - band) ||
+                   (outDir == Dir.Left && head.x <= band);
         }
 
         private static int CountOccupiedNeighbors(StyleSpec spec, Vector2Int cell, bool[] occupied)
@@ -6986,7 +9209,7 @@ namespace PixelBug.ArrowMagic.EditorTools
             if (edgeHead)
                 return true;
 
-            if (allowBlockedRay && !IsBoundaryOutHead(spec, head, outDir))
+            if (allowBlockedRay && !IsScoredOuterExitHead(spec, head, outDir))
                 return true;
 
             return RayClear(spec.Width, spec.Height, head, outDir, occupied);
@@ -7295,7 +9518,18 @@ namespace PixelBug.ArrowMagic.EditorTools
                 travelMode = SignalTravelMode.ThroughEmpty
             });
 
-            int movable = 0;
+            return CountInitialMovableChainIndices(board, authored, ruleset).Count;
+        }
+
+        private static List<int> CountInitialMovableChainIndices(
+            BoardState board,
+            AuthoredLevelData authored,
+            ArrowMagicRuleset ruleset)
+        {
+            var movable = new List<int>();
+            if (board == null || authored?.arrows == null || ruleset == null)
+                return movable;
+
             for (int i = 0; i < authored.arrows.Count; i++)
             {
                 var arrow = authored.arrows[i];
@@ -7305,10 +9539,853 @@ namespace PixelBug.ArrowMagic.EditorTools
                 BoardState clone = CloneBoard(board);
                 Vector2Int head = Pos(arrow.indices[0], authored.width);
                 if (ruleset.TryApplyMove(clone, new Move(head), out MoveDelta delta) && delta.changes.Count > 0)
-                    movable++;
+                    movable.Add(i);
             }
 
             return movable;
+        }
+
+        private static bool TryApplyPressureHardFlipGatePass(
+            StyleSpec spec,
+            AuthoredLevelData source,
+            ArrowMagicRuleset ruleset,
+            out AuthoredLevelData result,
+            out string details)
+        {
+            result = source;
+            details = string.Empty;
+            if (spec == null || source?.arrows == null || ruleset == null)
+                return false;
+
+            AuthoredLevelData working = CloneAuthoredLevelData(source);
+            if (!TryEvaluatePressureGateAuthored(spec, working, ruleset, out PressureGateEval current))
+                return false;
+
+            int targetInitial = Mathf.Clamp(Mathf.CeilToInt(current.Metrics.Chains * 0.035f), 3, 5);
+            int maxOps = Mathf.Clamp(current.Metrics.Chains / 12, 7, 14);
+            int startInitial = current.Metrics.InitialMovableChains;
+            int startEdge = current.Metrics.EdgeHeadChains;
+            int ops = 0;
+            var flipped = new HashSet<int>();
+
+            while (ops < maxOps && current.Metrics.InitialMovableChains > targetInitial)
+            {
+                var movableSet = new HashSet<int>(current.MovableChainIndices);
+                var earlySet = new HashSet<int>(current.EarlyGreedyChainIndices);
+                AuthoredLevelData bestAuthored = null;
+                PressureGateEval bestEval = null;
+                int bestIndex = -1;
+
+                for (int i = 0; i < working.arrows.Count; i++)
+                {
+                    if (flipped.Contains(i))
+                        continue;
+
+                    AuthoredArrowData arrow = working.arrows[i];
+                    if (arrow?.indices == null || arrow.indices.Count < 4)
+                        continue;
+
+                    bool candidateChain = movableSet.Contains(i)
+                        || earlySet.Contains(i)
+                        || IsAuthoredBoundaryOutChain(spec, arrow, working.width);
+                    if (!candidateChain)
+                        continue;
+
+                    AuthoredLevelData candidate = CloneAuthoredLevelData(working);
+                    candidate.arrows[i].indices.Reverse();
+                    if (!TryEvaluatePressureGateAuthored(spec, candidate, ruleset, out PressureGateEval candidateEval))
+                        continue;
+
+                    bool improvedInitial = candidateEval.Metrics.InitialMovableChains < current.Metrics.InitialMovableChains;
+                    bool improvedEdge = candidateEval.Metrics.EdgeHeadChains < current.Metrics.EdgeHeadChains;
+                    bool improvedEarlyChoices = candidateEval.EarlyAvgChoices <= current.EarlyAvgChoices - 0.25f
+                        || candidateEval.EarlyMaxChoices < current.EarlyMaxChoices;
+                    bool improvedLocalFlow = candidateEval.EarlyLocalRunMax < current.EarlyLocalRunMax
+                        || candidateEval.EarlyAvgJumpDistance >= current.EarlyAvgJumpDistance + 0.5f
+                        || candidateEval.EarlyNearStepRate <= current.EarlyNearStepRate - 0.08f;
+                    if (!improvedInitial && !improvedEdge && !improvedEarlyChoices && !improvedLocalFlow)
+                        continue;
+
+                    if (candidateEval.Score <= current.Score + 250)
+                        continue;
+
+                    if (bestEval == null || candidateEval.Score > bestEval.Score)
+                    {
+                        bestAuthored = candidate;
+                        bestEval = candidateEval;
+                        bestIndex = i;
+                    }
+                }
+
+                if (bestAuthored == null || bestEval == null)
+                    break;
+
+                working = bestAuthored;
+                current = bestEval;
+                flipped.Add(bestIndex);
+                ops++;
+            }
+
+            if (ops <= 0)
+                return false;
+
+            result = working;
+            details = $"ops={ops} initial={startInitial}->{current.Metrics.InitialMovableChains} edgeHeads={startEdge}->{current.Metrics.EdgeHeadChains} earlyChoices={current.EarlyAvgChoices:0.0}/{current.EarlyMaxChoices} localRun={current.EarlyLocalRunMax} jump={current.EarlyAvgJumpDistance:0.0} near={current.EarlyNearStepRate:0.00} targetInitial={targetInitial}";
+            return true;
+        }
+
+        private static bool TryEvaluatePressureGateAuthored(
+            StyleSpec spec,
+            AuthoredLevelData authored,
+            ArrowMagicRuleset ruleset,
+            out PressureGateEval eval)
+        {
+            eval = null;
+            if (!AuthoredLevelBuilder.TryBuildBoard(authored, out BoardState board, out _))
+                return false;
+
+            if (!GreedyValidator.TryClearAllByGreedy(CloneBoard(board), ruleset, maxMoves: 700, out List<Move> moves))
+                return false;
+
+            BuildMetrics metrics = BuildMetricsFromAuthored(spec, authored);
+            List<int> movable = CountInitialMovableChainIndices(board, authored, ruleset);
+            metrics.InitialMovableChains = movable.Count;
+            metrics.GreedyMoves = moves != null ? moves.Count : 0;
+            ComputePressureChoiceCurve(
+                board,
+                ruleset,
+                authored,
+                32,
+                out float earlyAvgChoices,
+                out int earlyMaxChoices,
+                out int earlyLocalRunMax,
+                out float earlyAvgJumpDistance,
+                out float earlyNearStepRate);
+
+            eval = new PressureGateEval
+            {
+                Metrics = metrics,
+                MovableChainIndices = movable,
+                EarlyGreedyChainIndices = CollectEarlyGreedyChainIndices(authored, moves, 24),
+                EarlyAvgChoices = earlyAvgChoices,
+                EarlyMaxChoices = earlyMaxChoices,
+                EarlyLocalRunMax = earlyLocalRunMax,
+                EarlyAvgJumpDistance = earlyAvgJumpDistance,
+                EarlyNearStepRate = earlyNearStepRate,
+                GreedyMoves = metrics.GreedyMoves,
+                Score = ScorePressureGateEval(metrics, earlyAvgChoices, earlyMaxChoices, earlyLocalRunMax, earlyAvgJumpDistance, earlyNearStepRate)
+            };
+            return true;
+        }
+
+        private static List<int> CollectEarlyGreedyChainIndices(
+            AuthoredLevelData authored,
+            List<Move> moves,
+            int maxMoves)
+        {
+            var result = new List<int>();
+            if (authored?.arrows == null || moves == null || moves.Count == 0)
+                return result;
+
+            var headToChain = new Dictionary<int, int>(authored.arrows.Count);
+            for (int i = 0; i < authored.arrows.Count; i++)
+            {
+                AuthoredArrowData arrow = authored.arrows[i];
+                if (arrow?.indices == null || arrow.indices.Count == 0)
+                    continue;
+
+                headToChain[arrow.indices[0]] = i;
+            }
+
+            var seen = new HashSet<int>();
+            int take = Mathf.Min(maxMoves, moves.Count);
+            for (int i = 0; i < take; i++)
+            {
+                Vector2Int pos = moves[i].pos;
+                int idx = pos.x + pos.y * authored.width;
+                if (headToChain.TryGetValue(idx, out int chainIndex) && seen.Add(chainIndex))
+                    result.Add(chainIndex);
+            }
+
+            return result;
+        }
+
+        private static int ScorePressureGateEval(
+            BuildMetrics metrics,
+            float earlyAvgChoices,
+            int earlyMaxChoices,
+            int earlyLocalRunMax,
+            float earlyAvgJumpDistance,
+            float earlyNearStepRate)
+        {
+            return -metrics.InitialMovableChains * 950
+                - metrics.EdgeHeadChains * 720
+                - Mathf.RoundToInt(earlyAvgChoices * 420f)
+                - earlyMaxChoices * 160
+                - earlyLocalRunMax * 760
+                - Mathf.RoundToInt(Mathf.Max(0f, 6f - earlyAvgJumpDistance) * 620f)
+                - Mathf.RoundToInt(earlyNearStepRate * 1200f)
+                - Mathf.Max(0, metrics.ShortEdgeChains - 8) * 90
+                + metrics.BlockLinks * 18
+                - Mathf.RoundToInt(Mathf.Max(0f, 0.20f - metrics.Straightness) * 1400f)
+                - Mathf.RoundToInt(Mathf.Max(0f, metrics.Straightness - 0.68f) * 500f);
+        }
+
+        private static void ComputePressureChoiceCurve(
+            BoardState board,
+            ArrowMagicRuleset ruleset,
+            AuthoredLevelData authored,
+            int maxSteps,
+            out float avgChoices,
+            out int maxChoices,
+            out int localRunMax,
+            out float avgJumpDistance,
+            out float nearStepRate)
+        {
+            avgChoices = 0f;
+            maxChoices = 0;
+            localRunMax = 0;
+            avgJumpDistance = 0f;
+            nearStepRate = 0f;
+            if (board == null || ruleset == null)
+                return;
+
+            BoardState state = CloneBoard(board);
+            Dictionary<int, PressureChainTraceStat> statsByHead = BuildPressureTraceStatsByHead(authored);
+            int sumChoices = 0;
+            int steps = 0;
+            int guard = Mathf.Max(1, maxSteps);
+            int nearThreshold = Mathf.Max(4, Mathf.RoundToInt(Mathf.Min(state.width, state.height) * 0.24f));
+            Vector2Int previousPos = default;
+            bool hasPreviousPos = false;
+            PressureChainTraceStat previousStat = null;
+            int localRun = 0;
+            int jumpCount = 0;
+            int nearCount = 0;
+            int jumpDistanceSum = 0;
+            for (int step = 0; step < guard; step++)
+            {
+                if (ruleset.IsSolved(state))
+                    break;
+
+                Move bestMove = default;
+                int bestClear = 0;
+                int bestDistance = int.MaxValue;
+                int choices = 0;
+                foreach (Move move in ruleset.GetLegalMoves(state))
+                {
+                    if (!ruleset.TryApplyMove(state, move, out MoveDelta delta))
+                        continue;
+
+                    int cleared = CountClearedArrowTiles(delta);
+                    delta.Undo(state);
+                    if (cleared <= 0)
+                        continue;
+
+                    choices++;
+                    int distance = hasPreviousPos
+                        ? Mathf.Abs(move.pos.x - previousPos.x) + Mathf.Abs(move.pos.y - previousPos.y)
+                        : int.MaxValue;
+                    if (cleared > bestClear || (cleared == bestClear && distance < bestDistance))
+                    {
+                        bestClear = cleared;
+                        bestMove = move;
+                        bestDistance = distance;
+                    }
+                }
+
+                if (choices <= 0 || bestClear <= 0)
+                    break;
+
+                sumChoices += choices;
+                maxChoices = Mathf.Max(maxChoices, choices);
+                steps++;
+
+                if (hasPreviousPos)
+                {
+                    int distance = Mathf.Abs(bestMove.pos.x - previousPos.x) + Mathf.Abs(bestMove.pos.y - previousPos.y);
+                    jumpDistanceSum += distance;
+                    jumpCount++;
+                    int headIndex = bestMove.pos.x + bestMove.pos.y * state.width;
+                    statsByHead.TryGetValue(headIndex, out PressureChainTraceStat currentStat);
+                    bool localPatch = previousStat != null
+                        && currentStat != null
+                        && IsPressureLocalPatch(previousStat, currentStat, state.width, state.height);
+                    if (distance <= nearThreshold || localPatch)
+                    {
+                        localRun++;
+                        nearCount++;
+                    }
+                    else
+                    {
+                        localRun = 1;
+                    }
+
+                    previousStat = currentStat;
+                }
+                else
+                {
+                    localRun = 1;
+                    int headIndex = bestMove.pos.x + bestMove.pos.y * state.width;
+                    statsByHead.TryGetValue(headIndex, out previousStat);
+                }
+
+                localRunMax = Mathf.Max(localRunMax, localRun);
+                previousPos = bestMove.pos;
+                hasPreviousPos = true;
+
+                if (!ruleset.TryApplyMove(state, bestMove, out MoveDelta applied) || CountClearedArrowTiles(applied) <= 0)
+                    break;
+            }
+
+            avgChoices = steps > 0 ? sumChoices / (float)steps : 0f;
+            avgJumpDistance = jumpCount > 0 ? jumpDistanceSum / (float)jumpCount : 0f;
+            nearStepRate = jumpCount > 0 ? nearCount / (float)jumpCount : 0f;
+        }
+
+        private static int ScoreGateAwareWavePenalty(GateAwareWaveMetrics metrics)
+        {
+            if (metrics == null)
+                return 0;
+
+            return Mathf.RoundToInt(metrics.WaveBurstIndex * 1450f)
+                + metrics.Step0ChainChoices * 800
+                + metrics.EarlyMaxChainChoices * 650
+                + metrics.Step0TileChoices * 360
+                + metrics.EarlyMaxTileChoices * 850
+                + metrics.EarlyBandMax * 1600
+                + metrics.EarlyTileBandMax * 2300
+                + metrics.LocalRegionBurstMax * 1700
+                + Mathf.RoundToInt(metrics.BandSynchronyScore * 3000f)
+                + Mathf.RoundToInt(metrics.TileBandSynchronyScore * 5800f);
+        }
+
+        private static int ScoreGateAwareLocalProbePenalty(GateAwareLocalProbeMetrics metrics)
+        {
+            if (metrics == null || metrics.Steps <= 0)
+                return 0;
+
+            return metrics.MaxLocalRun * 5200
+                + Mathf.Max(0, metrics.MaxLocalRun - 3) * 7800
+                + Mathf.RoundToInt(metrics.LocalEntropyPersistence * 22000f)
+                + Mathf.RoundToInt(metrics.RegionRevisitRate * 26000f)
+                + Mathf.RoundToInt(Mathf.Max(0f, 5.2f - metrics.AvgStepJumpDistance) * 5200f)
+                + Mathf.Max(0, metrics.MaxChoices - 8) * 900;
+        }
+
+        private static GateAwareLocalProbeMetrics ComputeGateAwareLocalProbeMetrics(
+            BoardState board,
+            ArrowMagicRuleset ruleset,
+            int maxSteps)
+        {
+            var metrics = new GateAwareLocalProbeMetrics();
+            if (board == null || ruleset == null)
+                return metrics;
+
+            BoardState state = CloneBoard(board);
+            int guard = Mathf.Max(1, maxSteps);
+            int localRadius = Mathf.Max(4, Mathf.RoundToInt(Mathf.Min(state.width, state.height) * 0.24f));
+            Vector2Int previousPos = default;
+            int previousMicro = -1;
+            int previousRegion = -1;
+            bool hasPrevious = false;
+            int transitionCount = 0;
+            int localTransitionCount = 0;
+            int revisitCount = 0;
+            int jumpDistanceSum = 0;
+            int localRun = 0;
+            float localEntropySum = 0f;
+
+            for (int step = 0; step < guard; step++)
+            {
+                if (ruleset.IsSolved(state))
+                    break;
+
+                Move bestMove = default;
+                int bestClear = 0;
+                int bestDistance = int.MaxValue;
+                int choices = 0;
+                int localChoices = 0;
+
+                foreach (Move move in ruleset.GetLegalMoves(state))
+                {
+                    if (!ruleset.TryApplyMove(state, move, out MoveDelta delta))
+                        continue;
+
+                    int cleared = CountClearedArrowTiles(delta);
+                    delta.Undo(state);
+                    if (cleared <= 0)
+                        continue;
+
+                    choices++;
+                    int distance = hasPrevious
+                        ? Mathf.Abs(move.pos.x - previousPos.x) + Mathf.Abs(move.pos.y - previousPos.y)
+                        : int.MaxValue;
+                    int micro = ComputeGateAwareMicroRegion(move.pos, state.width, state.height);
+                    if (hasPrevious && (distance <= localRadius || micro == previousMicro))
+                        localChoices++;
+
+                    if (cleared > bestClear || (cleared == bestClear && distance < bestDistance))
+                    {
+                        bestClear = cleared;
+                        bestMove = move;
+                        bestDistance = distance;
+                    }
+                }
+
+                if (choices <= 0 || bestClear <= 0)
+                    break;
+
+                metrics.Steps++;
+                metrics.MaxChoices = Mathf.Max(metrics.MaxChoices, choices);
+                if (hasPrevious)
+                {
+                    int distance = Mathf.Abs(bestMove.pos.x - previousPos.x) + Mathf.Abs(bestMove.pos.y - previousPos.y);
+                    int micro = ComputeGateAwareMicroRegion(bestMove.pos, state.width, state.height);
+                    int region = ComputeGateAwareRegion(bestMove.pos, state.width, state.height);
+                    bool local = distance <= localRadius || micro == previousMicro;
+                    bool revisit = local || region == previousRegion;
+
+                    transitionCount++;
+                    jumpDistanceSum += distance;
+                    if (local)
+                    {
+                        localTransitionCount++;
+                        localRun++;
+                    }
+                    else
+                    {
+                        localRun = 1;
+                    }
+
+                    metrics.MaxLocalRun = Mathf.Max(metrics.MaxLocalRun, localRun);
+                    localEntropySum += choices > 0 ? localChoices / (float)choices : 0f;
+                    previousMicro = micro;
+                    previousRegion = region;
+                    if (revisit)
+                        revisitCount++;
+                }
+                else
+                {
+                    localRun = 1;
+                    metrics.MaxLocalRun = 1;
+                    previousMicro = ComputeGateAwareMicroRegion(bestMove.pos, state.width, state.height);
+                    previousRegion = ComputeGateAwareRegion(bestMove.pos, state.width, state.height);
+                }
+
+                previousPos = bestMove.pos;
+                hasPrevious = true;
+
+                if (!ruleset.TryApplyMove(state, bestMove, out MoveDelta applied) || CountClearedArrowTiles(applied) <= 0)
+                    break;
+            }
+
+            metrics.AvgStepJumpDistance = transitionCount > 0 ? jumpDistanceSum / (float)transitionCount : 0f;
+            metrics.RegionRevisitRate = transitionCount > 0 ? revisitCount / (float)transitionCount : 0f;
+            metrics.LocalEntropyPersistence = transitionCount > 0 ? localEntropySum / transitionCount : 0f;
+            return metrics;
+        }
+
+        private static GateAwareWaveMetrics ComputeGateAwareWaveMetrics(
+            BoardState board,
+            ArrowMagicRuleset ruleset,
+            AuthoredLevelData authored,
+            int maxSteps)
+        {
+            var metrics = new GateAwareWaveMetrics();
+            if (board == null || ruleset == null || authored?.arrows == null)
+                return metrics;
+
+            int[] ownerByCell = BuildAuthoredOwnerByCell(authored);
+            List<PressureChainTraceStat> statsByOwner = BuildPressureTraceStatsByOwner(authored);
+            BoardState state = CloneBoard(board);
+            int guard = Mathf.Max(1, maxSteps);
+            int sumChoices = 0;
+            int sumChoiceSquares = 0;
+            int sumTileChoices = 0;
+            int sumTileChoiceSquares = 0;
+            int steps = 0;
+            float bestBandRatio = 0f;
+            float bestTileBandRatio = 0f;
+
+            for (int step = 0; step < guard; step++)
+            {
+                if (ruleset.IsSolved(state))
+                    break;
+
+                var clearableOwners = new HashSet<int>();
+                var clearableTileIndices = new List<int>();
+                Move bestMove = default;
+                int bestClear = 0;
+
+                foreach (Move move in ruleset.GetLegalMoves(state))
+                {
+                    int moveIndex = move.pos.x + move.pos.y * state.width;
+                    int owner = (uint)moveIndex < (uint)ownerByCell.Length ? ownerByCell[moveIndex] : -1;
+                    if (owner < 0)
+                        continue;
+
+                    if (!ruleset.TryApplyMove(state, move, out MoveDelta delta))
+                        continue;
+
+                    int cleared = CountClearedArrowTiles(delta);
+                    delta.Undo(state);
+                    if (cleared <= 0)
+                        continue;
+
+                    clearableOwners.Add(owner);
+                    clearableTileIndices.Add(moveIndex);
+                    if (cleared > bestClear)
+                    {
+                        bestClear = cleared;
+                        bestMove = move;
+                    }
+                }
+
+                if (clearableOwners.Count <= 0 || bestClear <= 0)
+                    break;
+
+                int choices = clearableOwners.Count;
+                if (step == 0)
+                {
+                    metrics.Step0ChainChoices = choices;
+                    metrics.Step0TileChoices = clearableTileIndices.Count;
+                }
+
+                sumChoices += choices;
+                sumChoiceSquares += choices * choices;
+                sumTileChoices += clearableTileIndices.Count;
+                sumTileChoiceSquares += clearableTileIndices.Count * clearableTileIndices.Count;
+                steps++;
+                metrics.EarlyMaxChainChoices = Mathf.Max(metrics.EarlyMaxChainChoices, choices);
+                metrics.EarlyMaxTileChoices = Mathf.Max(metrics.EarlyMaxTileChoices, clearableTileIndices.Count);
+
+                int horizontalBandMax = 0;
+                int verticalBandMax = 0;
+                int localRegionMax = 0;
+                CountGateAwareWaveBands(
+                    clearableOwners,
+                    statsByOwner,
+                    authored.width,
+                    authored.height,
+                    out horizontalBandMax,
+                    out verticalBandMax,
+                    out localRegionMax);
+
+                int bandMax = Mathf.Max(horizontalBandMax, verticalBandMax);
+                metrics.EarlyBandMax = Mathf.Max(metrics.EarlyBandMax, bandMax);
+                metrics.LocalRegionBurstMax = Mathf.Max(metrics.LocalRegionBurstMax, localRegionMax);
+                if (choices > 0)
+                    bestBandRatio = Mathf.Max(bestBandRatio, bandMax / (float)choices);
+
+                CountGateAwareTileWaveBands(
+                    clearableTileIndices,
+                    state.width,
+                    state.height,
+                    out int tileHorizontalBandMax,
+                    out int tileVerticalBandMax,
+                    out int tileLocalRegionMax);
+                int tileBandMax = Mathf.Max(tileHorizontalBandMax, tileVerticalBandMax);
+                metrics.EarlyTileBandMax = Mathf.Max(metrics.EarlyTileBandMax, tileBandMax);
+                metrics.LocalRegionBurstMax = Mathf.Max(metrics.LocalRegionBurstMax, tileLocalRegionMax);
+                if (clearableTileIndices.Count > 0)
+                    bestTileBandRatio = Mathf.Max(bestTileBandRatio, tileBandMax / (float)clearableTileIndices.Count);
+
+                if (!ruleset.TryApplyMove(state, bestMove, out MoveDelta applied) || CountClearedArrowTiles(applied) <= 0)
+                    break;
+            }
+
+            metrics.EarlyAvgChainChoices = steps > 0 ? sumChoices / (float)steps : 0f;
+            metrics.EarlyAvgTileChoices = steps > 0 ? sumTileChoices / (float)steps : 0f;
+            float variance = 0f;
+            float tileVariance = 0f;
+            if (steps > 0)
+            {
+                float meanSquares = sumChoiceSquares / (float)steps;
+                variance = Mathf.Max(0f, meanSquares - metrics.EarlyAvgChainChoices * metrics.EarlyAvgChainChoices);
+                float tileMeanSquares = sumTileChoiceSquares / (float)steps;
+                tileVariance = Mathf.Max(0f, tileMeanSquares - metrics.EarlyAvgTileChoices * metrics.EarlyAvgTileChoices);
+            }
+
+            metrics.BandSynchronyScore = bestBandRatio;
+            metrics.TileBandSynchronyScore = bestTileBandRatio;
+            metrics.WaveBurstIndex = metrics.EarlyMaxChainChoices
+                + variance * 0.35f
+                + metrics.EarlyBandMax * 0.85f
+                + metrics.LocalRegionBurstMax * 0.55f
+                + metrics.EarlyMaxTileChoices * 0.28f
+                + tileVariance * 0.08f
+                + metrics.EarlyTileBandMax * 0.45f;
+            return metrics;
+        }
+
+        private static void CountGateAwareWaveBands(
+            HashSet<int> owners,
+            List<PressureChainTraceStat> statsByOwner,
+            int width,
+            int height,
+            out int horizontalBandMax,
+            out int verticalBandMax,
+            out int localRegionMax)
+        {
+            horizontalBandMax = 0;
+            verticalBandMax = 0;
+            localRegionMax = 0;
+            if (owners == null || statsByOwner == null)
+                return;
+
+            var horizontalCounts = new int[6];
+            var verticalCounts = new int[6];
+            var localCounts = new int[16];
+
+            foreach (int owner in owners)
+            {
+                if ((uint)owner >= (uint)statsByOwner.Count)
+                    continue;
+
+                PressureChainTraceStat stat = statsByOwner[owner];
+                if (stat == null)
+                    continue;
+
+                int hBand = ComputeGateAwareHorizontalBand(stat.CenterY, height);
+                int vBand = ComputeGateAwareVerticalBand(stat.CenterX, width);
+                int local = Mathf.Clamp(stat.MicroRegion, 0, localCounts.Length - 1);
+                horizontalBandMax = Mathf.Max(horizontalBandMax, ++horizontalCounts[hBand]);
+                verticalBandMax = Mathf.Max(verticalBandMax, ++verticalCounts[vBand]);
+                localRegionMax = Mathf.Max(localRegionMax, ++localCounts[local]);
+            }
+        }
+
+        private static void CountGateAwareTileWaveBands(
+            List<int> tileIndices,
+            int width,
+            int height,
+            out int horizontalBandMax,
+            out int verticalBandMax,
+            out int localRegionMax)
+        {
+            horizontalBandMax = 0;
+            verticalBandMax = 0;
+            localRegionMax = 0;
+            if (tileIndices == null || width <= 0 || height <= 0)
+                return;
+
+            var horizontalCounts = new int[6];
+            var verticalCounts = new int[6];
+            var localCounts = new int[16];
+
+            for (int i = 0; i < tileIndices.Count; i++)
+            {
+                int index = tileIndices[i];
+                if (index < 0)
+                    continue;
+
+                int x = index % width;
+                int y = index / width;
+                if (!InBounds(x, y, width, height))
+                    continue;
+
+                int hBand = ComputeGateAwareHorizontalBand(y, height);
+                int vBand = ComputeGateAwareVerticalBand(x, width);
+                int local = ComputeGateAwareMicroRegion(new Vector2Int(x, y), width, height);
+                horizontalBandMax = Mathf.Max(horizontalBandMax, ++horizontalCounts[hBand]);
+                verticalBandMax = Mathf.Max(verticalBandMax, ++verticalCounts[vBand]);
+                localRegionMax = Mathf.Max(localRegionMax, ++localCounts[local]);
+            }
+        }
+
+        private static int[] BuildAuthoredOwnerByCell(AuthoredLevelData authored)
+        {
+            int width = Mathf.Max(1, authored != null ? authored.width : 1);
+            int height = Mathf.Max(1, authored != null ? authored.height : 1);
+            var ownerByCell = new int[width * height];
+            for (int i = 0; i < ownerByCell.Length; i++)
+                ownerByCell[i] = -1;
+
+            if (authored?.arrows == null)
+                return ownerByCell;
+
+            for (int owner = 0; owner < authored.arrows.Count; owner++)
+            {
+                AuthoredArrowData arrow = authored.arrows[owner];
+                if (arrow?.indices == null)
+                    continue;
+
+                for (int i = 0; i < arrow.indices.Count; i++)
+                {
+                    int index = arrow.indices[i];
+                    if ((uint)index < (uint)ownerByCell.Length)
+                        ownerByCell[index] = owner;
+                }
+            }
+
+            return ownerByCell;
+        }
+
+        private static List<PressureChainTraceStat> BuildPressureTraceStatsByOwner(AuthoredLevelData authored)
+        {
+            var result = new List<PressureChainTraceStat>();
+            if (authored?.arrows == null || authored.width <= 0 || authored.height <= 0)
+                return result;
+
+            for (int i = 0; i < authored.arrows.Count; i++)
+            {
+                AuthoredArrowData arrow = authored.arrows[i];
+                result.Add(BuildPressureTraceStat(arrow, authored.width, authored.height));
+            }
+
+            return result;
+        }
+
+        private static Dictionary<int, PressureChainTraceStat> BuildPressureTraceStatsByHead(AuthoredLevelData authored)
+        {
+            var result = new Dictionary<int, PressureChainTraceStat>();
+            if (authored?.arrows == null || authored.width <= 0 || authored.height <= 0)
+                return result;
+
+            for (int i = 0; i < authored.arrows.Count; i++)
+            {
+                AuthoredArrowData arrow = authored.arrows[i];
+                if (arrow?.indices == null || arrow.indices.Count == 0)
+                    continue;
+
+                PressureChainTraceStat stat = BuildPressureTraceStat(arrow, authored.width, authored.height);
+                if (stat != null)
+                    result[arrow.indices[0]] = stat;
+            }
+
+            return result;
+        }
+
+        private static PressureChainTraceStat BuildPressureTraceStat(
+            AuthoredArrowData arrow,
+            int width,
+            int height)
+        {
+            if (arrow?.indices == null || arrow.indices.Count == 0 || width <= 0 || height <= 0)
+                return null;
+
+            int minX = width;
+            int maxX = 0;
+            int minY = height;
+            int maxY = 0;
+            float sumX = 0f;
+            float sumY = 0f;
+            for (int p = 0; p < arrow.indices.Count; p++)
+            {
+                Vector2Int cell = Pos(arrow.indices[p], width);
+                minX = Mathf.Min(minX, cell.x);
+                maxX = Mathf.Max(maxX, cell.x);
+                minY = Mathf.Min(minY, cell.y);
+                maxY = Mathf.Max(maxY, cell.y);
+                sumX += cell.x;
+                sumY += cell.y;
+            }
+
+            float cx = sumX / Mathf.Max(1, arrow.indices.Count);
+            float cy = sumY / Mathf.Max(1, arrow.indices.Count);
+            int regionX = Mathf.Min(2, Mathf.Max(0, Mathf.FloorToInt(cx * 3f / Mathf.Max(1, width))));
+            int regionY = Mathf.Min(2, Mathf.Max(0, Mathf.FloorToInt(cy * 3f / Mathf.Max(1, height))));
+            int microX = Mathf.Min(3, Mathf.Max(0, Mathf.FloorToInt(cx * 4f / Mathf.Max(1, width))));
+            int microY = Mathf.Min(5, Mathf.Max(0, Mathf.FloorToInt(cy * 6f / Mathf.Max(1, height))));
+            return new PressureChainTraceStat
+            {
+                MinX = minX,
+                MaxX = maxX,
+                MinY = minY,
+                MaxY = maxY,
+                CenterX = cx,
+                CenterY = cy,
+                Region = regionY * 3 + regionX,
+                MicroRegion = microY * 4 + microX
+            };
+        }
+
+        private static bool IsPressureLocalPatch(
+            PressureChainTraceStat a,
+            PressureChainTraceStat b,
+            int width,
+            int height)
+        {
+            if (a == null || b == null)
+                return false;
+            if (a.MicroRegion == b.MicroRegion)
+                return true;
+            if (PressureBoxGap(a, b) <= 2)
+                return true;
+
+            float jump = Mathf.Abs(a.CenterX - b.CenterX) + Mathf.Abs(a.CenterY - b.CenterY);
+            float threshold = Mathf.Max(5f, Mathf.Min(width, height) * 0.28f);
+            return jump <= threshold && a.Region == b.Region;
+        }
+
+        private static int PressureBoxGap(PressureChainTraceStat a, PressureChainTraceStat b)
+        {
+            int dx = 0;
+            if (a.MaxX < b.MinX)
+                dx = b.MinX - a.MaxX;
+            else if (b.MaxX < a.MinX)
+                dx = a.MinX - b.MaxX;
+
+            int dy = 0;
+            if (a.MaxY < b.MinY)
+                dy = b.MinY - a.MaxY;
+            else if (b.MaxY < a.MinY)
+                dy = a.MinY - b.MaxY;
+
+            return dx + dy;
+        }
+
+        private static int CountClearedArrowTiles(MoveDelta delta)
+        {
+            int cleared = 0;
+            if (delta?.changes == null)
+                return cleared;
+
+            for (int i = 0; i < delta.changes.Count; i++)
+            {
+                var change = delta.changes[i];
+                if (change.before.type == TileType.Arrow && change.after.type == TileType.Empty)
+                    cleared++;
+            }
+
+            return cleared;
+        }
+
+        private static AuthoredLevelData CloneAuthoredLevelData(AuthoredLevelData source)
+        {
+            var clone = new AuthoredLevelData
+            {
+                width = source.width,
+                height = source.height,
+                arrows = new List<AuthoredArrowData>(source.arrows != null ? source.arrows.Count : 0),
+                blockIndices = source.blockIndices != null ? new List<int>(source.blockIndices) : new List<int>()
+            };
+
+            if (source.arrows != null)
+            {
+                for (int i = 0; i < source.arrows.Count; i++)
+                {
+                    AuthoredArrowData arrow = source.arrows[i];
+                    clone.arrows.Add(new AuthoredArrowData
+                    {
+                        indices = arrow?.indices != null ? new List<int>(arrow.indices) : new List<int>(),
+                        colorIndex = arrow != null ? arrow.colorIndex : 0
+                    });
+                }
+            }
+
+            return clone;
+        }
+
+        private static bool IsAuthoredBoundaryOutChain(StyleSpec spec, AuthoredArrowData arrow, int width)
+        {
+            if (spec == null || arrow?.indices == null || arrow.indices.Count < 2)
+                return false;
+
+            Vector2Int head = Pos(arrow.indices[0], width);
+            Vector2Int second = Pos(arrow.indices[1], width);
+            return TryGetOutDir(head, second, out Dir outDir) && IsScoredOuterExitHead(spec, head, outDir);
         }
 
         private static BoardState CloneBoard(BoardState src)
