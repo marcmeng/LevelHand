@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: Campaign500HardeningSandboxV13BDR2Pack
+  m_EditorClassIdentifier: 
+  packId: campaign500_hardening_sandbox_v13_bdr2
+  displayName: Campaign 500 Hardening Sandbox V13 BDR2 (4)
+  levels:
+  - {fileID: 11400000, guid: c23188784744014448fc7c42c23ea596, type: 2}
+  - {fileID: 11400000, guid: c51f193ed85daa14abc2baf695d63a2f, type: 2}
+  - {fileID: 11400000, guid: 4d9d510a1ed98d2499ee3ffcd160d09d, type: 2}
+  - {fileID: 11400000, guid: e2f997368c8210e4fa92f8553f183ed8, type: 2}

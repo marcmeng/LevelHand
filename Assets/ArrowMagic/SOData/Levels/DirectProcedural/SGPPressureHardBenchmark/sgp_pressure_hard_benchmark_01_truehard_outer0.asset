@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: rootvarv128prod_57_rootvarv122_27_root_variant_library_v1_22_size_nonrecursive_43_s_bd4f6820
+  m_EditorClassIdentifier: 
+  levelId: rootvarv128prod_57_rootvarv122_27_root_variant_library_v1_22_size_nonrecursive_43_s_bd4f6820
+  source: 1
+  board:
+    width: 30
+    height: 34
+    seed: 2659053
+  generation:
+    arrowCoverage: 0.236275
+    initialMovableArrowCount: 4
+    targetDifficultyScore: 300
+    fixedGenerationSeed: 973113
+    minPathLen: 4
+    maxPathLength: 18
+    twistiness: 0.42
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 30
+    height: 34
+    arrows:
+    - indices: 71000000720000005400000055000000
+      colorIndex: 0
+    - indices: 9b0300009c030000ba030000bb030000
+      colorIndex: 1
+    - indices: 0c0200000d0200000e020000f0010000ef010000ee010000
+      colorIndex: 2
+    - indices: eb010000ea010000cc010000cb010000ad010000
+      colorIndex: 3
+    - indices: 7201000054010000530100003501000034010000
+      colorIndex: 4
+    - indices: 6f0100006e010000500100004f010000
+      colorIndex: 5
+    - indices: 7701000059010000580100003a01000039010000
+      colorIndex: 6
+    - indices: 5c0100005d0100003f0100004001000022010000
+      colorIndex: 7
+    - indices: 02010000e4000000e3000000c5000000
+      colorIndex: 0
+    - indices: 86020000a4020000a5020000c3020000c4020000
+      colorIndex: 1
+    - indices: 890200008a020000a8020000a9020000c7020000
+      colorIndex: 2
+    - indices: 010300001f0300001e0300003c030000
+      colorIndex: 3
+    - indices: 8a0300006c0300006d0300004f030000
+      colorIndex: 4
+    - indices: ae000000ad000000cb000000ca000000
+      colorIndex: 5
+    - indices: d9000000da000000f8000000f9000000
+      colorIndex: 6
+    - indices: 5e0300005d0300003f0300003e030000
+      colorIndex: 7
+    - indices: 9e0000009d0000009c000000ba000000d8000000f6000000
+      colorIndex: 0
+    - indices: 1d0100001c0100001b0100001a01000019010000fb000000dd000000bf000000a100000083000000
+      colorIndex: 1
+    - indices: 4301000044010000450100002701000009010000eb000000cd000000af000000
+      colorIndex: 2
+    - indices: b9020000d7020000f5020000130300001403000015030000
+      colorIndex: 3
+    - indices: c0020000de020000fc020000fb020000fa020000f9020000
+      colorIndex: 4
+    - indices: a5000000a4000000a3000000c1000000df000000fd000000
+      colorIndex: 5
+    - indices: 7d0300007e0300007f030000610300004303000025030000
+      colorIndex: 6
+    - indices: ea0000000801000026010000250100002401000023010000
+      colorIndex: 7
+    - indices: 9c0200009b0200009a02000099020000b7020000d5020000
+      colorIndex: 0
+    - indices: e6000000c8000000aa0000008c0000008d0000008e0000008f000000
+      colorIndex: 1
+    - indices: 1202000013020000140200001502000016020000170200003502000053020000710200008f020000ad020000
+      colorIndex: 2
+    - indices: ab010000aa010000a90100008b0100006d010000
+      colorIndex: 3
+    - indices: 8e010000ac010000ca010000c9010000c8010000c7010000c6010000
+      colorIndex: 4
+    - indices: d7010000b90100009b0100009c0100009d0100009e010000
+      colorIndex: 5
+    - indices: 7f0000007e0000007d0000009b000000b9000000d7000000f500000013010000
+      colorIndex: 6
+    - indices: 60030000420300002403000006030000e8020000ca020000c9020000c8020000
+      colorIndex: 7
+    - indices: 1401000015010000160100001701000018010000fa000000dc000000be000000
+      colorIndex: 0
+    - indices: 6d0200004f020000310200003202000033020000
+      colorIndex: 1
+    - indices: 31030000300300002f0300002e03000010030000f2020000d4020000b6020000
+      colorIndex: 2
+    - indices: 53030000540300005503000056030000380300001a030000
+      colorIndex: 3
+    - indices: 9f010000bd010000db010000da010000d9010000d8010000
+      colorIndex: 4
+    - indices: 2a0200004802000066020000650200006402000063020000
+      colorIndex: 5
+    - indices: 5c0200003e02000020020000210200002202000023020000
+      colorIndex: 6
+    - indices: a2020000a1020000a00200009f020000bd020000db020000
+      colorIndex: 7
+    - indices: 22030000210300002003000002030000e4020000c6020000
+      colorIndex: 0
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 0
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

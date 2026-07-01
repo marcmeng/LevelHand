@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: PSGTraceOrderBalancedV1ReviewPack
+  m_EditorClassIdentifier: 
+  packId: psg_trace_order_balanced_v1_review
+  displayName: PSG Trace Order Balanced V1 Review
+  levels:
+  - {fileID: 11400000, guid: 8012292e91ba67146b96e57dbbe02a0f, type: 2}
+  - {fileID: 11400000, guid: a8c49c652a0e26a4bb0442ac25c4bb80, type: 2}

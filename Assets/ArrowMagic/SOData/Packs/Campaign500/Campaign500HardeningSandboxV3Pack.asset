@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: Campaign500HardeningSandboxV3Pack
+  m_EditorClassIdentifier: 
+  packId: campaign500_hardening_sandbox_v3
+  displayName: Campaign 500 Hardening Sandbox V3 (20)
+  levels:
+  - {fileID: 11400000, guid: f2fd36a2b3d384045817d79f61d5016f, type: 2}
+  - {fileID: 11400000, guid: 4eb1d719cc908884cb63f162c7f508b7, type: 2}
+  - {fileID: 11400000, guid: da9c93259d577bf46bd878ecbe4166c5, type: 2}
+  - {fileID: 11400000, guid: 7f99c3db08948174097cf2eae0106297, type: 2}
+  - {fileID: 11400000, guid: 73e6f2138980c384d8e4277669dd75dc, type: 2}
+  - {fileID: 11400000, guid: 0016deb91d7656f41a4171681bf6cb6f, type: 2}
+  - {fileID: 11400000, guid: 8f35abc5cef07784fa5890e271f11187, type: 2}
+  - {fileID: 11400000, guid: 5646b81fb5ec3c443b29c5a240e0dd1d, type: 2}
+  - {fileID: 11400000, guid: 1a06f6d9fd9ca3a42a50cc293323c895, type: 2}
+  - {fileID: 11400000, guid: f5aeaaf1b829f3548b1efc5c993fa2a1, type: 2}
+  - {fileID: 11400000, guid: 23ce449c83f4ec84ab62bebeac983bdb, type: 2}
+  - {fileID: 11400000, guid: 1ad3f227a9860f14caf8c11adce1bbfa, type: 2}
+  - {fileID: 11400000, guid: a4ffd84bfe4555c4180d244053d71f5e, type: 2}
+  - {fileID: 11400000, guid: e96e4cd1fab583e4db874d6c7478228e, type: 2}
+  - {fileID: 11400000, guid: 02745de80219e994b975fe106f70b98f, type: 2}
+  - {fileID: 11400000, guid: 48da024993c153b4cb9ce4a2bae1a96c, type: 2}
+  - {fileID: 11400000, guid: 02f0317497464dc45b8be2f01cde655c, type: 2}
+  - {fileID: 11400000, guid: 8e330373163d8444d8addb433a658d5a, type: 2}
+  - {fileID: 11400000, guid: 18b56a8a1e590c7419eed5ea4f3a02bd, type: 2}
+  - {fileID: 11400000, guid: 956f672b17be19a43a5b86db3ad47846, type: 2}

@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf5d0718fd044de98603996e639c0b0, type: 3}
+  m_Name: campaign500_longchain_prod200_pool_v1_01_l003_long_normal_a_normal_s01_slot_headmix_outerclean
+  m_EditorClassIdentifier: 
+  levelId: campaign500_longchain_prod200_pool_v1_01_l003_long_normal_a_normal_s01_slot_headmix_outerclean
+  source: 1
+  board:
+    width: 12
+    height: 16
+    seed: 0
+  generation:
+    arrowCoverage: 0.9375
+    initialMovableArrowCount: 8
+    targetDifficultyScore: 443
+    fixedGenerationSeed: 0
+    minPathLen: 2
+    maxPathLength: 34
+    twistiness: 0.62
+    validateWithGreedy: 1
+  authoredLevel:
+    width: 12
+    height: 16
+    arrows:
+    - indices: b9000000ad000000a1000000a0000000ac000000b8000000
+      colorIndex: 0
+    - indices: 260000002500000031000000
+      colorIndex: 1
+    - indices: 2400000018000000190000000d00000001000000000000000c000000
+      colorIndex: 1
+    - indices: bf000000b3000000a7000000a6000000
+      colorIndex: 2
+    - indices: 6a000000690000007500000076000000770000008300000082000000810000008d0000008c00000098000000
+      colorIndex: 3
+    - indices: 0a0000001600000017000000
+      colorIndex: 4
+    - indices: 2f0000003b0000003a000000390000002d0000002e0000002200000021000000150000001400000008000000070000000600000012000000110000000500000004000000100000001c0000001d0000001e0000002a0000003600000035000000340000002800000029000000
+      colorIndex: 4
+    - indices: b4000000a8000000a9000000b5000000b6000000b7000000ab0000009f0000009300000094000000
+      colorIndex: 5
+    - indices: 5400000055000000
+      colorIndex: 6
+    - indices: 020000000e0000000f0000001b0000002700000033000000320000003e0000003d0000003c00000048000000490000004a0000004b0000004c000000400000003f000000
+      colorIndex: 7
+    - indices: 47000000460000004500000044000000430000004f000000500000005100000052000000530000005f0000005e0000005d0000005c0000005b0000005a0000006600000065000000590000004d00000041000000420000004e000000
+      colorIndex: 0
+    - indices: 8e0000008f0000009b0000009a00000099000000a5000000b1000000b2000000be000000bd000000bc000000b0000000a4000000a3000000af000000ae000000ba000000bb000000
+      colorIndex: 1
+    - indices: aa0000009e00000092000000910000009d0000009c00000090000000840000008500000086000000870000007b0000006f0000006e0000007a000000790000006d0000006c00000060000000610000006200000056000000570000005800000064000000700000007c00000088000000890000008a0000008b0000009700000096000000a2000000
+      colorIndex: 2
+    - indices: 800000007f0000007e0000007200000073000000740000006800000067000000
+      colorIndex: 3
+    - indices: 38000000370000002b0000002c000000200000001f00000013000000
+      colorIndex: 4
+    blockIndices: 
+  lose:
+    blockedLoseLimit: 3
+  masking:
+    spawnMask: {fileID: 0}
+    alphaThreshold: 0.5
+    useAlphaOnly: 1
+    luminanceThreshold: 0.5
+    useMaskToDefineBoardSize: 1
+  introSettings: {fileID: 0}
+  palette: {fileID: 0}
+  arrowColorMode: 0
+  arrowColorMaskQuantizeSteps: 16
+  tintOnHit: 1
+  hitTint: {r: 1, g: 1, b: 1, a: 1}

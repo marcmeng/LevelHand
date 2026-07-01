@@ -1,4 +1,4 @@
-﻿# Level Index
+# Level Index
 
 路径以仓库根目录为基准。这里记录关卡、包、报告、掩码和配置入口，不复制资源内容。
 
@@ -26,6 +26,16 @@
 | `Assets/ArrowMagic/SOData/Packs/Production/` | 生产 pack 根 | 正式包引用和交付检查 |
 | `Assets/ArrowMagic/SOData/Reports/Campaign500/` | Campaign500 报告根 | campaign 优化、baseline、shape pass、外部主题报告 |
 | `Assets/ArrowMagic/SOData/Reports/Campaign500/OptimizationRound_20260618/` | 2026-06-18 Campaign500 优化轮次报告 | 排查当天优化结果和 shape refresh 批次 |
+| `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardReview6Pack.asset` | PSG normal 6 关普通小批 review 包 | 人工审查普通 PSG baseline 小批链条语言和体感 |
+| `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_review6_report.csv` | PSG normal Review6 source report | 查看 6 关 baseline 小批 coverage/chains/source status |
+| `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterference6Pack.asset` | PSG normal 近邻同向扰动 6 关实验包 | 对比 Review6，人工审查“同方向/近距离箭头扰动”是否改善链条语言 |
+| `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference6_report.csv` | PSG normal Interference6 source report | 查看扰动小批 coverage/chains/source status；需配合 trace 判断 choices 是否爆 |
+| `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterferenceV2SixPack.asset` | PSG normal 动态 flow-spread 6 关实验包 | 对比 Interference6，人工审查“同区/同轴连续消除 run”是否被打散 |
+| `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference_v2_six_report.csv` | PSG normal Flow-spread V2 source report | 查看 FlowRun/FlowJump/FlowNear source status；需配合 trace joined 表判断 keep |
+| `.codex-run/psg_pressure_interference_v2_six_flow_20260627_joined.csv` | PSG normal Flow-spread V2 joined audit | 6/6 solved、6 B、source coverage `0.975-0.984`、5/6 keep；第 5 关 `maxChoices=11` 需人工特例或排除 |
+| `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterferenceV3SixPack.asset` | PSG normal region-flow V3 6 关实验包 | 诊断 head-region/同区连续消除调度；当前 0/6 keep，不作为量产候选线 |
+| `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference_v3_six_report.csv` | PSG normal region-flow V3 source report | 查看 V3 HeadFlow source coverage/status；第 4 关 coverage `0.968` 已低于普通门槛 |
+| `.codex-run/psg_pressure_interference_v3_six_20260627_joined.csv` | PSG normal region-flow V3 joined audit | 6/6 solved，但 5 Drop + 1 B、maxChoicesMax `15`、普通 keep `0/6`；仅作负例/诊断 |
 | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/` | SGP 节奏/难度实验报告 | 查看静态节奏分类、真实过程 choice curve、伪深度风险和 process keep 候选 |
 | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_PressureReadOrientationPreviewPack.asset` | PressureRead 结构化 demo pack | 查看远依赖/低选择/结构化直链小批 demo；Demo 场景当前挂此包 |
 | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/PressureReadOrientation/` | PressureRead 结构化候选关卡 | 查看通过头尾方向重组生成的候选 LevelDefinition |
@@ -228,6 +238,22 @@
 | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/PTDAHardProduction78V16ProductiveRefitAllHistory/` | V16 productive refit all-history 冻结关卡目录 | `HardProduction78V16ProductiveRefitAllHistoryPack` 对应 LevelDefinition 副本 |
 
 | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_PressureReadStageLockHardProduction81V17ProductiveRetryPack.asset` | V17 Productive Retry 81 关硬关审查包 | 当前 Demo activePack；V16 78 + productive retry 新增 3 个 S 级中长链 hard candidates |
+
+## Campaign500 Normal Full V1 - 2026-06-30
+
+| Path | 用途 | 什么时候看 |
+| --- | --- | --- |
+| `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/` | Campaign500 normal full V1 LevelDefinition 候选目录 | 全量 200 normal slot x 3 variants 的 source assets；按 shard 子目录保存。 |
+| `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_report.csv` | Campaign500 normal full V1 merged source report | 查看 600 行 source 候选、slot/order、lane、style/chain metadata 和 variant 信息。 |
+| `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_normal_full_v1_metrics.csv` | Campaign500 normal full V1 combined official trace metrics | 6 个 100-row chunk trace 合并结果；600/600 solved，process tier A/B/Drop 见 summary。 |
+| `.worktrees/nutation-flow-peel-production/.codex-run/campaign500_normal_full_v1_trace_joined.csv` | Campaign500 normal full V1 source+trace joined audit | 查看每个候选的 trace、style、risk、rank、reject/keep 字段。 |
+| `.worktrees/nutation-flow-peel-production/.codex-run/campaign500_normal_full_v1_trace_best_per_slot.csv` | Campaign500 normal full V1 best-per-slot CSV | 200 行，每个 normal slot 选 1 个机器 best，用于 ReviewPack。 |
+| `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_review.csv` | Campaign500 normal full V1 review manifest | 200 行 ReviewPack 输入，LongChainProbe 已排除。 |
+| `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_production_keep.csv` | Campaign500 normal full V1 machine ProductionKeep manifest | 86 行 trace-order preferred keep，用于候选池审查。 |
+| `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_production_strict_keep.csv` | Campaign500 normal full V1 strict ProductionKeep manifest | 70 行更严格质量门槛 keep，用于更干净的投产候选池。 |
+| `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalFullV1ReviewPack.asset` | Campaign500 normal full V1 ReviewPack | 200 levels，每个 normal slot 一个 best candidate，适合人工全量审查。 |
+| `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalFullV1ProductionKeepPack.asset` | Campaign500 normal full V1 ProductionKeepPack | 86 levels，machine keep 候选池。 |
+| `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalFullV1ProductionStrictKeepPack.asset` | Campaign500 normal full V1 ProductionStrictKeepPack | 70 levels，严格质量门槛候选池；不自动挂 Demo。 |
 | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/pressure_read_stage_lock_v17_productive_retry_notes.md` | V17 Productive Retry 复盘报告 | 查看 orientable-history 筛源、strong-chain 负结果、3 个新增候选和下一步 orientation-risk cache 计划 |
 | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/pressure_read_stage_lock_hard_production_v17_probe_productive_retry_merge.csv` | V17 Productive Retry 合并 CSV | `HardProduction81V17ProductiveRetryPack` 的冻结输入，81 个去重 hard candidates |
 
@@ -1566,19 +1592,30 @@
 - Contents: 3 copied validated hard-library benchmark levels; trace result 3/3 solved A-tier, openers `3-5`, avg choices `2.57-2.98`, max choices `5-6`, outer exits `0/1`. Demo currently points to the benchmark pack for review.
 - Current trial contents: v16 direct SGP small long-chain pressure trial, 4/4 solved B-tier; chains `57-63`, openers `3-5`, avg choices `5.26-6.64`, max choices `8-12`. Demo currently points to the trial pack after the latest run.
 
-## SGP Pressure Hard Production V1 - 2026-06-26
+## PSG / Pressure-SGP Normal Production V1 - 2026-06-26
 
+- Formal lane name: `PSG` / `Pressure-SGP`; core commit `aa1564bd Add PSG pressure hard production lane`.
 - Production wrapper: `Tools/Production/Invoke-SGPPressureHardProductionV1.ps1`
+- Unity generation method: `NoMaskProceduralGenerator.BuildSgpPressureHardTrialPack`
 - Current review pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset`
 - Current review pack GUID: `acd1590a350614a4e86c901d33b5c5dd`
+- Current STS production keep pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardProductionKeepPack.asset`
+- Current STS production keep CSV: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_production_keep.csv`
 - Current levels: `Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardTrial/`
 - Source report: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_trial_report.csv`
+- Official trace script: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1`
+- Four-pool production batch wrapper: `Tools/Production/Invoke-SGPPressureProductionBatchV1.ps1`
+- Four-pool fast STS trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_batch4_faststs_20260627_metrics.csv`
+- Four-pool final joined audit: `.codex-run/sgp_pressure_batch4_faststs_final2_pack_20260627_trace_joined.csv`
 - Speedcheck Unity log: `.codex-run/sgp_pressure_hard_production_v1_speedcheck_unity.log`
 - Speedcheck trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_hard_production_v1_speedcheck_trace_metrics.csv`
 - Current contents: 4 high-coverage normal-production review candidates: `lock_buckle` coverage `0.991`, `section_unlock` `0.994`, `dense_weave` `0.978`, `core_burst` `0.990`; all portable solved.
 - Verification result: official trace 4/4 solved. Practical normal-production filter `coverage>=0.97 + solved + processTier A/B` keeps 3/4 (`lock_buckle`, `dense_weave`, `core_burst`). Stricter high-support filter `supportDepth>=3 + A/B + maxChoices<=8` keeps only `dense_weave`.
+- 2026-06-27 four-pool STS production result: Trial/Review6/Interference6/InterferenceV2Six 合并 22 关，fast STS trace 22/22 成功；修正 maxChoices 硬闸后 `TraceOrderKeep=15`（trial 2、review6 4、interference6 5、interference_v2_six 4），pack level refs=15，production keep 最大 `maxChoices=10`。
+- 2026-06-28 style/flow tagging update: final joined audit and canonical production keep now include `styleFamily`、`generatorVariant`、`generatorGrammar`、`chainLanguage`、`chainTags`、`flowLanguage`、`flowTags`、`riskTags`、`styleRiskBand`。Current keep mix is core_burst 6 / lock_buckle 6 / dense_weave 3; flow mix is staged_unlock 7 / region_alternating_flow 3 / flow_spread 3 / local_collapse 2.
+- 2026-06-28 diversity candidate: `.codex-run/psg_diversity_strict12_keep.csv` is a 12-row strict cap review output, with style mix core_burst 5 / lock_buckle 4 / dense_weave 3 and risk mix clean 4 / watch 5 / high_risk 3. It is not yet synced to canonical keep or Demo pack.
 - Filtered clean-hit pack retained for single-level demo/reference: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardProductionV1Pack.asset`, GUID `afdb809ddc1a4502910d678912899a75`, containing `sgp_pressure_hard_trial_03_sgp_pressure_hard_rect_dense_weave.asset`.
-- Demo scene `Assets/ArrowMagic/Scenes/Demo.unity` and `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` currently point to the 4-level `SGPPressureHardTrialPack` for review.
+- Demo scene `Assets/ArrowMagic/Scenes/Demo.unity` currently points to the 15-level `SGPPressureHardProductionKeepPack` after the latest pack build; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` may still point to its lab review pack.
 
 ## SGP Sandwich Tail Safe 0859 Review Pack - 2026-06-26
 
@@ -1633,6 +1670,90 @@
   - `root76 + dense_weave`: strict `TrueHard/support4` candidate at `0.3345588`, lower pass density than root10.
 - Demo status: not mounted. Use this as high-difficulty research evidence and scheduler input only.
 
+## Geometry Supply Owner-Hit Scheduler root10 + dense_weave - 2026-06-26
+
+- Scheduler: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeometrySupplyOwnerHitSchedulerV1.ps1`
+- Candidate levels root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeometrySupplyOwnerHitV1/`
+- Supply level: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardTrial/sgp_pressure_hard_trial_03_sgp_pressure_hard_rect_dense_weave.asset`
+- Key summaries:
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0471_hardmargin_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0495_ownerspread_tail_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0515_ownerspread_tail_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0534_ownerspread_tail_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0549_ownerspread_tail_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0562_ownerspread_tail_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0576_ownerspread_tail_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0576_all48_v1_metrics.csv`
+- Current best strict selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0562_ownerspread_tail_v1_selected.csv`
+- Current best strict level: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeometrySupplyOwnerHitV1/geosupply_sched_root10_dens_be1afe84/r1/geosupply_sched_root10_dens_be1afe84_r1_c015.asset`
+- Current best strict metrics: `coverage=0.5768116`, `solved=True`, `processTier=A`, `hardStructureV3Class=TrueHardCandidate`, `hardStructureV3Score=0.686`, `supportClosureBestDepth=4`, `openers=2`, `avgChoices=2.84`, `maxChoices=6`, `outerExitHeadCount=0`.
+- Efficiency finding: Top-only tracing can miss the only strict row after `0.50` (`from0495` top16 all HardPotential, top48 found rank45 TrueHard). `TraceSelectionMode OwnerSpread` with head/tail hitOwner sampling re-finds the same class with top8/24 and continued the strict chain to `0.5768116`. Not mounted in Demo.
+- Boundary check: from `0.5768116`, OwnerSpread top24 found no strict; full top48 trace also found no `TrueHardCandidate/supportDepth4`. The best TrueHard row had supportDepth3, while supportDepth4 rows were HardPotential/MediumStructure. Current strict chain is not considered runnable past `0.5768` with the same grammar/settings.
+
+## Geometry Supply Owner-Hit Adaptive root10 + section_unlock - 2026-06-26
+
+- Base parent: `geosupply_sched_root10_dens_be1afe84_r1_c015`, coverage `0.5768116`, `A/TrueHardCandidate/supportDepth4`.
+- Supply level: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardTrial/sgp_pressure_hard_trial_02_sgp_pressure_hard_rect_section_unlock.asset`
+- Key summaries:
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_from0576_section_bundle2_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_from0584_section_bundle2_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_from0589_section_bundle2_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_from0607_section_bundle1_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_from0610_section_bundle1_v1_summary.md`
+  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_from0613_section_bundle1_v1_summary.md`
+- Adaptive result: `section_unlock + bundle2` pushed `0.5768116 -> 0.5840580 -> 0.5898551 -> 0.6072464`; after bundle2 drifted to HardPotential, `section_unlock + bundle1` micro-commit pushed `0.6072464 -> 0.6101449 -> 0.6130435 -> 0.6159420`.
+- Current best strict selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_from0613_section_bundle1_v1_selected.csv`
+- Current best strict level: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeometrySupplyOwnerHitV1/geosupply_sched_root10_from_40eb0da7/r1/geosupply_sched_root10_from_40eb0da7_r1_c038.asset`
+- Current best strict metrics: `coverage=0.6159420`, `solved=True`, `processTier=A`, `hardStructureV3Class=TrueHardCandidate`, `hardStructureV3Score=0.725`, `supportClosureBestDepth=4`, `openers=2`, `avgChoices=3.00`, `maxChoices=8`, `outerExitHeadCount=0`.
+- Flow finding: after `0.5768`, adding PSG supply difficulty by switching supply shape matters more than brute trace. Dense supply remains support4 but drifts to HardPotential; section_unlock restores TrueHard. After `0.607`, bundle2 is too coarse and bundle1 micro-commit is required. Not mounted in Demo.
+
+## Generated-Root Whole-Board Planner V0 - 2026-06-27
+
+- Candidate assets root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV0/`.
+- Solved pair asset folder: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV0/smoke_solved_pair/`.
+- Solved pair candidate CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/generated_root_wbp_v0_solved_pair_candidates.csv`.
+- Whole-board role plan: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/generated_root_wbp_v0_solved_pair_cell_plan.csv`.
+- Chain plan and planned relation audit: `generated_root_wbp_v0_solved_pair_chain_plan.csv` and `generated_root_wbp_v0_solved_pair_planned_relations.csv` in the same report folder.
+- Official trace: `generated_root_wbp_v0_solved_pair_trace_metrics.csv` and `generated_root_wbp_v0_solved_pair_trace_steps.csv`; result 6/6 solved, process A, 2 TrueHardCandidate + 4 HardPotential, supportDepth4.
+- Relation audit: `generated_root_wbp_v0_solved_pair_relation_audit_summary.md` plus `_levels.csv`, `_parents.csv`, `_edges.csv`; c005/c006 pass `passesTrueHardRelationGate`.
+- Boundary/negative outputs: `generated_root_wbp_v0_smoke1_*` structural 4-5 chain smoke exists as unsolved diagnostic only; do not treat it as accepted.
+
+## Generated-Root Whole-Board Planner V1 - 2026-06-27
+
+- Candidate assets root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV1/`.
+- Guarded pair asset folder: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV1/pair_guarded/`.
+- Guarded pair candidate CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/generated_root_wbp_v1_pair_guarded_candidates.csv`.
+- Whole-board role plan / chain plan / planned relation: `generated_root_wbp_v1_pair_guarded_cell_plan.csv`, `generated_root_wbp_v1_pair_guarded_chain_plan.csv`, `generated_root_wbp_v1_pair_guarded_planned_relations.csv`.
+- Compatibility and single-option audit: `generated_root_wbp_v1_pair_guarded_compatibility_report.csv`; use it to inspect release-impact failures and B2 single-option deadlocks.
+- Official trace: `generated_root_wbp_v1_pair_guarded_trace_metrics.csv` and `generated_root_wbp_v1_pair_guarded_trace_steps.csv`; result 8/8 solved, process A, 8/8 HardPotential, supportDepth4, coverage from candidate CSV `0.6275362-0.6289855`.
+- Relation audit: `generated_root_wbp_v1_pair_guarded_relation_audit_summary.md` plus `_levels.csv`, `_parents.csv`, `_edges.csv`; added chains appear in official edges such as `20 -> 58`, `7 -> 59`, `59 -> 22`, `33 -> 60`.
+- Boundary outputs: `generated_root_wbp_v1_triple_guarded_*` documents guarded 3-chain failure with 0 candidates. Treat this as the current next-step boundary, not as an accepted pack.
+
+## Generated-Root Whole-Board Planner V2 - 2026-06-27
+
+- Candidate assets root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV2/`.
+- Main positive asset folder: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV2/b2safe_smoke5_fivechain_widepool/`.
+- Main positive candidate CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_candidates.csv`; 3 candidates, rootPreserved=True, coverage `0.6463768`, 5 added short semantic chains, 4 contracts, 3 B2 safe chains.
+- Whole-board role plan / selected chain plan / planned relation: `generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_cell_plan.csv`, `generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_chain_plan.csv`, `generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_planned_relations.csv`.
+- Compatibility and B2 release audit: `generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_compatibility_report.csv` and `generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_b2_release_profile.csv`; use these to inspect `releaseProfile/releaseStackOwners/plannedSolved/keyBlocked`.
+- Official trace: `generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_trace_metrics.csv` and `_trace_steps.csv`; result 3/3 solved, process A, supportDepth4, avg/max choices about `3.08-3.22/8-9`, outerExitHeadCount 0, but hardStructureV3Class remains MediumStructure.
+- Relation audit: `generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_relation_audit_summary.md` plus `_levels.csv`, `_parents.csv`, `_edges.csv`; added chains appear in official edges such as `7 -> 60/61 -> 22`, `0 -> 59/60/62/63`, `59/60 -> 48/2`, `63 -> 30`.
+- Boundary outputs: `generated_root_wbp_v2_b2safe_smoke6_sixchain_widepool_*` documents current 6-chain failure with 0 candidates. Treat this as evidence for B2 contract strength / spatial lane allocation next, not as a solved/high-coverage pack.
+
+## Generated-Root Whole-Board Planner V3 - 2026-06-27
+
+- Candidate assets root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV3/`.
+- Instrumentation baseline outputs: `generated_root_wbp_v3_strength_smoke2_instrumented_*`; use these to compare against V2 5-chain and inspect B2 strength/lane fields without changing default selection behavior.
+- Topology smoke asset folder: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV3/topology_smoke3_fourchain_diverse/`.
+- Topology candidate CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/generated_root_wbp_v3_topology_smoke3_fourchain_diverse_candidates.csv`; 4 candidates, rootPreserved=True, coverage `0.6449275-0.6463768`, 4 semantic contracts, 2 B2 safe/strong, `b2ReleaseOwnerCount=2`.
+- Selected chain plan: `generated_root_wbp_v3_topology_smoke3_fourchain_diverse_chain_plan.csv`; selected B2 chains include owner0 `B2_DELAYS_B3` plus `B2T95004` with first-hit releaseOwner 14 and semanticReleaseOwner 30.
+- B2 release profile: `generated_root_wbp_v3_topology_smoke3_fourchain_diverse_b2_release_profile.csv`; inspect `semanticReleaseOwner`, `semanticReleaseStep`, `releaseStackOwners`, `b2Strength`, and `laneKeys` to distinguish topology chains from old owner0-only B2S chains.
+- Official trace: `generated_root_wbp_v3_topology_smoke3_fourchain_diverse_trace_metrics.csv`; result 4/4 solved, process A, supportDepth4, outerExitHeadCount 0, avg/max choices about `3.05-3.21/8-9`, but hardStructureV3Class remains MediumStructure.
+- Relation audit: `generated_root_wbp_v3_topology_smoke3_fourchain_diverse_relation_audit_summary.md` plus `_levels.csv`, `_parents.csv`, `_edges.csv`; 244 edges / 164 parent rows, with added topology chain edges such as `30 -> 61` and `61 -> 53`.
+- Difficulty attribution: `generated_root_wbp_v3_topology_smoke3_fourchain_diverse_difficulty_attribution_summary.md` plus `_chains.csv` and `_levels.csv`; confirms V3 B2 owner diversity (`0:1;30:1`) but also shows `supportCarrierCount=0` and `local_penalty_dense;no_added_support_carrier`.
+- V2 comparison attribution: `generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_difficulty_attribution_summary.md`; shows V2 B2 owners collapsed to `0:3`, dominant share 1.0, with the same no-added-support-carrier boundary.
+- Boundary: V3 proves release-topology allocation can break the owner0 B2 collapse, but it is still low coverage and MediumStructure. Treat it as the next primitive proof; do not treat it as final full-board success.
+
 ## Mask Line Inventory Baseline - 2026-06-26
 
 - Current HoleMask assets: `Assets/ArrowMagic/SOData/Levels/Production/HoleMask/Candidates` (68), `Assets/ArrowMagic/SOData/Levels/Production/HoleMask/Early` (2), `Assets/ArrowMagic/SOData/Levels/Production/HoleMask/Early30To40` (1).
@@ -1640,3 +1761,1350 @@
 - Runnable/reference packs currently present: `Assets/ArrowMagic/SOData/Packs/HoleV13Top5DemoPack.asset`, `Assets/ArrowMagic/SOData/Packs/Production/HoleProcedural/HoleProceduralCandidatePack.asset`, `Assets/ArrowMagic/SOData/Packs/Production/HoleProcedural/HoleProceduralPreviewTop50Pack.asset`, `Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch11CandidatePack.asset`, `Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch12CandidatePack.asset`.
 - Partial SeedMask production output: `Assets/ArrowMagic/Reports/Production/HoleLongOuterStrong/HoleLongOuterStrong_Production_Report.txt` records one accepted `22x34_long` candidate in `Assets/ArrowMagic/SOData/Levels/Production/HoleLongOuterStrong/Candidates`; no synced pack was found under `Assets/ArrowMagic/SOData/Packs/Production/HoleLongOuterStrong/`.
 - Baseline pack should be rebuilt non-destructively from existing HoleMask assets, then checked with `CampaignSingleLevelValidator` and official trace before any Demo attachment or larger SeedMask generation.
+
+## Mask PSG Baseline Assets - 2026-06-26
+
+- Direct constrained PSG baseline pack: `Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureBaselinePack.asset`; current contents 0 levels. Report: `Assets/ArrowMagic/SOData/Reports/MaskPressure/mask_pressure_baseline_report.csv`; result 3/3 failed Greedy despite high fill, so this is a negative baseline/reference only.
+- PSG seed patch baseline pack: `Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselinePack.asset`; current contents 3 high-fill levels, generated in `Assets/ArrowMagic/SOData/Levels/Production/MaskPressureSeedPatchBaseline/Candidates/`. Baseline generation report: `Assets/ArrowMagic/SOData/Reports/MaskPressure/mask_pressure_seed_patch_baseline_report.txt`; current gates are `maskFill>=0.95` and `maskBoundaryFill>=0.98`.
+- Current accepted high-fill levels: `psg_mask_patch_22x34_long_02_sgp_pressure_hard_trial_03_sgp_pressure_hard_rect_dense_weave.asset` (`456/480=0.950`), `psg_mask_patch_24x36_long_04_sgp_pressure_hard_trial_01_sgp_pressure_hard_rect_lock_buckle.asset` (`559/588=0.951`), and `psg_mask_patch_24x40_long_01_sgp_pressure_hard_trial_02_sgp_pressure_hard_rect_section_unlock 1.asset` (`643/676=0.951`); all have `maskBoundaryFill=1.000`.
+- Validation outputs: `Assets/ArrowMagic/SOData/Reports/MaskPressure/Validation/mask_pressure_seed_patch_validation_summary.csv` (0 Green / 3 Yellow / 0 Red), `mask_pressure_seed_patch_validation_flags.csv`, `mask_pressure_seed_patch_pressure_gate.csv` (0/3 internal pressure gate).
+- Official trace outputs: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/mask_pressure_seed_patch_highfill_trace_metrics.csv` and `_summary.md`; result 3/3 solved but tiers Drop/Drop/Drop and all LocalEasy, so the pack is a high-fill visual/solvable baseline, not a formal PSG-standard production pack.
+
+## Campaign500 PSG Regeneration Template - 2026-06-26
+
+- Template folder: `Exports/Campaign500_PSG_Template_20260626_095625/`
+- Zip: `Exports/Campaign500_PSG_Template_20260626_095625.zip`
+- Main CSV: `Exports/Campaign500_PSG_Template_20260626_095625/campaign500_psg_regeneration_template.csv`
+- Split CSVs: `campaign500_psg_template_normal.csv`, `campaign500_psg_template_shape.csv`, `campaign500_psg_template_hole.csv`
+- Pacing summary: `campaign500_psg_template_section10_summary.csv`
+- Source snapshots: `source_campaign500_final_v11_manifest.csv`, `source_campaign500_final_v11_shape_usage.csv`
+- Purpose: 500-slot template for PSG regeneration, preserving order/category/difficulty/experience role/target size/target chains/shape and hole presentation fields without requiring old level assets.
+
+## Campaign500 PSG Normal Pure Pilot - 2026-06-26
+
+- Worktree: `.worktrees/campaign500-psg-normal`, branch `codex/campaign500-psg-normal`.
+- Full pilot pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalPureProfilePilotPack.asset` (19 generated candidates from 10 normal slots x strict/relaxed modes; one relaxed maze failed generation).
+- Keep review pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalPureProfilePilotKeepPack.asset` (12 trace-filtered ordinary PSG normal candidates; Demo in this worktree points here).
+- Source report: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_pure_profile_pilot_report.csv`.
+- Trace metrics: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_pure_profile_pilot_metrics.csv`; joined filter table: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_pure_profile_pilot_trace_joined.csv`; keep CSV: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_pure_profile_pilot_keep.csv`.
+- Result summary: 19/19 traced solved, process tiers 1 A / 16 B / 2 Drop; conservative keep rule `coverage>=0.97 && processTier in A/B && maxChoices<=10` kept 12. All are `LocalEasy`, expected for ordinary PSG normal, not high-difficulty root line.
+
+## Campaign500 PSG Normal Language Pilot - 2026-06-26
+
+- Worktree: `.worktrees/campaign500-psg-normal`, branch `codex/campaign500-psg-normal`.
+- Full language pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalLanguagePilotPack.asset` (10/10 generated from language-strict PSG normal profiles).
+- Keep review pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalLanguagePilotKeepPack.asset` (7 trace-filtered candidates, excludes Drop and maxChoices>10 rows).
+- Candidate levels: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/LanguagePilot/`.
+- Source report: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_language_pilot_report.csv`.
+- Trace metrics: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_language_pilot_metrics.csv`; joined filter table: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_language_pilot_trace_joined.csv`; keep CSV: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_language_pilot_keep.csv`.
+- Result summary: 10/10 solved, tiers 1 A / 8 B / 1 Drop; conservative keep kept 7/10. Use this pack for manual chain-language review before expanding PSG normal full production.
+
+## Campaign500 PSG Normal Calibration50 - 2026-06-26
+
+- Worktree: `.worktrees/campaign500-psg-normal`, branch `codex/campaign500-psg-normal`.
+- Full calibration pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalCalibration50Pack.asset` (131 generated candidates from 50 section-calibration slots / 160 attempted rows).
+- Keep review pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalCalibration50KeepPack.asset` (26 trace-filtered ordinary PSG normal candidates, max 2 per template order).
+- Candidate levels: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Calibration50/`.
+- Source report: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_calibration50_report.csv`.
+- Trace metrics: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_calibration50_metrics.csv`; joined filter table: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_calibration50_trace_joined.csv`; keep CSV: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_calibration50_keep.csv`.
+- Result summary: 131/131 traced solved, tiers 2 A / 64 B / 65 Drop, all LocalEasy. Conservative keep rule `coverage>=0.97 && processTier in A/B && maxChoices<=10` found 30 pass rows; keep pack keeps 26 across 19 orders.
+
+## Campaign500 PSG Normal Production20 - 2026-06-27
+
+- Worktree: `.worktrees/campaign500-psg-normal`, branch `codex/campaign500-psg-normal`.
+- Candidate pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProduction20Pack.asset` (48 generated candidates from the first 20 non-tutorial normal template slots; 61 attempts total).
+- Keep review pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProduction20KeepPack.asset` (10 selected candidates; Demo in this worktree points here).
+- Candidate levels: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/`.
+- Source report: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production20_report.csv`.
+- Trace metrics: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_normal_production20_metrics.csv`; process keep: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_normal_production20_process_keep.csv`; summary: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_normal_production20_summary.md`.
+- Joined filter table: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production20_trace_joined.csv`; keep CSV: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production20_keep.csv`.
+- Result summary: 48/48 traced solved, tiers 7 A / 33 B / 8 Drop; hard keep 33; visual keep 16 after stripe/directional/local/near-outer filter; final keep 10 across normal/lock/section/sweep/maze/dense, shell skipped. `edgeInwardSweepSide/startSideHint` records the dominant clear-from side.
+
+## Campaign500 PSG Normal ProductionNext10 - 2026-06-27
+
+- Worktree: `.worktrees/campaign500-psg-normal`, branch `codex/campaign500-psg-normal`.
+- Candidate pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProductionNext10Pack.asset` (39 generated candidates from template orders `31,33,34,35,36,39,40,41,42,44`; 44 attempts total).
+- Keep review pack: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProductionNext10KeepPack.asset` (7 selected candidates; Demo in this worktree points here).
+- Candidate levels: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/ProductionNext10/`.
+- Source report: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production_next10_report.csv`.
+- Trace metrics: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_normal_production_next10_metrics.csv`; summary: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_normal_production_next10_summary.md`.
+- Joined filter table: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production_next10_trace_joined.csv`; keep CSV: `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production_next10_keep.csv`.
+- Result summary: 39/39 traced solved, tiers 29 B / 10 Drop; hard keep 14, visual keep 7. Final keep covers dense/lock/section and includes a visible-width `section layout_soft 23x29`; sweep order 31 skipped due high stripe risk despite one good choice curve.
+
+## PSG Project Seed Style Profile V3 - 2026-06-28
+
+- Seed source root: `Assets/ArrowMagic/SOData/Levels/Seeds/`; current fast profile parsed 951/951 assets with 0 missing.
+- Profile output: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/project_seed_style_v3_initial951_20260628_profile.csv`.
+- Cluster output: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/project_seed_style_v3_initial951_20260628_clusters.csv`; current cluster mix is `seed_long_maze` 574, `seed_sparse_tutorial` 155, `seed_flow_spread` 57, `seed_medium_long_patchwork` 45, `seed_long_weave` 31, `seed_dense_weave` 27, `seed_long_lock` 25, `seed_fragmented_lock_like` 16, plus small core/mixed/outer clusters.
+- PSG match output: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/project_seed_style_v3_initial951_20260628_psg_match.csv`; current PSG production keep 15 rows all map to `seed_fragmented_lock_like` / `medium_long_patchwork_carrier`, with low spine concentration versus original seed `long_maze/long_lock`.
+- Summary: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/project_seed_style_v3_initial951_20260628_summary.md`; use this before designing PSG StyleProfile soft generation targets.
+
+## PSG Style Lane Export V1 - 2026-06-28
+
+- Stable script: `Tools/Production/Export-PSGStyleLaneKeepsV1.ps1`; it exports lane CSVs from joined PSG source/trace output and does not change canonical keep or Demo pack.
+- Current smoke input: `.codex-run/sgp_pressure_batch4_faststs_final2_pack_20260627_trace_joined.csv`.
+- Current output index: `.codex-run/psg_style_lanes_v1_current_lane_index.csv`; summary: `.codex-run/psg_style_lanes_v1_current_lane_summary.md`.
+- Lane outputs: `.codex-run/psg_style_lanes_v1_current_lane_patchwork_lock_keep.csv`, `_core_burst_keep.csv`, `_dense_weave_keep.csv`, `_flow_spread_keep.csv`, `_staged_unlock_keep.csv`.
+- Current TraceOrderKeep counts: patchwork_lock 6, core_burst 6, dense_weave 3, flow_spread 6, staged_unlock 7. Lane CSVs are independent by default; use `-UniqueAcrossLanes` for a duplicate-free mixed pack candidate.
+
+## Campaign500 PSG Normal Unified QTrace Prod200 - 2026-06-28
+
+- Candidate pool: `_CodexRun/campaign500_psg_normal_prod200_unified_qtrace_candidate_pool.csv`; four official prod200 reports only, smoke excluded.
+- Trace input: `_CodexRun/campaign500_psg_normal_prod200_unified_qtrace_trace_input.csv`; 200 rows after section quota, absolute asset paths point back to D worktrees.
+- Trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_normal_prod200_unified_qtrace_metrics.csv`; 200/200 solved, A=5/B=105/Drop=90.
+- Joined audit: `_CodexRun/campaign500_psg_normal_prod200_unified_qtrace_trace_joined.csv`; source summary `_trace_joined_summary.md`, best-per-slot `_best_by_slot_raw.csv`, raw production keep `_production_keep_raw.csv`.
+- Strict selected-by-slot manifest: `_CodexRun/campaign500_psg_normal_prod200_unified_qtrace_selected_by_slot.csv`; 10 non-high-risk TraceOrderKeep rows only, orders `16,41,44,66,68,100,102,106,116,254`.
+- Style lanes: `_CodexRun/campaign500_psg_normal_prod200_unified_qtrace_style_lanes/`; eligible rows=10, dense_weave=2, flow_spread=3, staged_unlock=6, patchwork_lock/core_burst=0.
+- Important caveat: 190/200 joined rows are `styleRiskBand=high_risk`, mostly same-axis/same-dir/high-choice/collapse risks; this is a diagnostic production run, not a complete 200-slot final pack.
+- High-risk manual review pack in D c01 worktree: `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Packs\Campaign500\Campaign500PSGNormal_UnifiedQTraceHighRiskReview12Pack.asset`; source CSV `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Reports\Campaign500\PSGNormal\campaign500_psg_normal_unified_qtrace_highrisk_review12.csv`. Contains 12 high-risk rows for threshold/feel review and is mounted to that worktree's Demo.
+- Strict keep10 manual review pack in D c01 worktree: `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Packs\Campaign500\Campaign500PSGNormal_UnifiedQTraceKeep10Pack.asset`; source CSV `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Reports\Campaign500\PSGNormal\campaign500_psg_normal_unified_qtrace_keep10.csv`. Contains the 10 non-high-risk selected rows and is currently mounted to that worktree's Demo.
+
+## Campaign500 PSG Normal RhythmScore20 Cap120B - 2026-06-28
+
+- Worktree: `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal`.
+- Candidate label: `rhythmscore20_cap120b_o011_s000_n020`; order 11 起 20 个 normal slots，source rhythm score-only，`ProfileMaxAttempts=120`，短 trace 前缀 `rg20c120b_trace`。
+- Source report: `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Reports\Campaign500\PSGNormal\campaign500_psg_normal_rhythmscore20_cap120b_o011_s000_n020_report.csv`; 76 attempt rows / 49 built / 16 orders built.
+- Trace metrics: `F:\Unityproject\ArrowLevel-Hand\.worktrees\sgp-rhythm-lab\Assets\ArrowMagic\SOData\Reports\SGPRhythmLab\rg20c120b_trace_metrics.csv`; 49/49 traced after `subst P:` short root and 4-way parallel trace.
+- Joined audit: `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Reports\Campaign500\PSGNormal\campaign500_psg_normal_rhythmscore20_cap120b_o011_s000_n020_trace_joined.csv`; 49 rows, styleRiskBand `watch=4/high_risk=45`.
+- Keep CSV/pack: `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Reports\Campaign500\PSGNormal\campaign500_psg_normal_rhythmscore20_cap120b_o011_s000_n020_keep.csv`; `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Packs\Campaign500\Campaign500PSGNormal_rhythmscore20_cap120b_o011_s000_n020_KeepPack.asset`. Contains 3 watch rows, orders `16,18,22`, mounted in D worktree Demo.
+- Caveat: order 18 is the cleanest; order 16/22 still have same-axis/same-dir watch. This is a validation pack, not a green light to resume 200-slot production.
+
+## PSG Long Seed Mutation Source Pool V1 - 2026-06-28
+
+- Worktree: `.worktrees/psg-long-seed-mutation`, branch `codex/psg-long-seed-mutation`.
+- Source selector: `.worktrees/psg-long-seed-mutation/Tools/Production/Export-PSGLongSeedMutationSourcePoolV1.ps1`.
+- Input profile: `.worktrees/psg-long-seed-mutation/Assets/ArrowMagic/SOData/Reports/DirectProcedural/project_seed_style_v3_initial951_20260628_profile.csv`.
+- Output pool: `.worktrees/psg-long-seed-mutation/.codex-run/psg_long_seed_mutation_source_pool_v1_pool.csv`; cluster summary: `_cluster_summary.csv`; summary: `_summary.md`.
+- Default result: 951 source rows -> 222 eligible -> 49 selected mutation sources. Cluster mix: `seed_long_maze` 24, `seed_long_lock` 9, `seed_long_weave` 16. This is a read-only source pool; no mutated assets or pack yet.
+
+## Generated-Root Whole-Board Planner V4 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV4/`. Use short run names such as `grwbp_v4_s5` to avoid Windows MAX_PATH when writing `.asset/.meta`.
+- Current positive review assets: `grwbp_v4_s5/` (4-chain, coverage `0.6493-0.6507`, official 4/4 solved, process A, HardPotential `0.653`, supportDepth4). These are research candidates, not Demo-mounted levels.
+- 5-chain negative/boundary assets: `grwbp_v4_s9_5c_safe/` (solved/A/support4 but MediumStructure `0.507` due B2 owner/lane stacking) and `grwbp_v4_s10_5c_cap_summary.md` (lane/release cap gives 0 candidates).
+- Earlier diagnostics: `generated_root_wbp_v4_support_smoke2_fourchain_narrow/` produced greedy-unsolved 4-chain assets; keep as a cautionary negative that planned support alone can choose deadlock-prone combinations.
+- Next asset-producing step should only happen after adding cross-lane safe carrier grammar; do not mount V4 research assets to Demo or treat them as high-coverage production content.
+
+## Generated-Root Whole-Board Planner V5 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV5/`.
+- `grwbp_v5_s14_topocarrier_candidate3/`: 2 solved/process A research assets, coverage `0.6406/0.6420`; positive proof that non-owner0 topology carrier can become an official parent, but hard class remains MediumStructure.
+- `grwbp_v5_s20_stateactual_audit/`: stateActual audit assets for the same shallow carrier family; candidate rows show max state actual carrier depth `2` and score `0.294`.
+- `grwbp_v5_s21_stateactual_gate/`: strict stateActual gate run; 0 candidates when requiring actual added carrier depth>=3/score>=0.45.
+
+## Generated-Root Whole-Board Planner V6 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV6/`.
+- `grwbp_v6_s7_pairrelay_anylate/`: first V6 pair relay research assets; 2 candidates, coverage `0.6536/0.6551`, official trace 2/2 solved/process A, but hard class MediumStructure and relay remains ReleasedLeaf.
+- V6 negative strict relay diagnostics: `grwbp_v6_s3_pairrelay_targetblock/`, `grwbp_v6_s4_pairrelay_prefixblock/`, `grwbp_v6_s5_pairrelay_forwardclear/`, `grwbp_v6_s8_pairrelay_directunlock/`, and `grwbp_v6_s10_pairrelay_b2parent_fixed/` all produce 0 valid pair relays under stricter gates. Use their summaries to understand why direct support relay is not yet available.
+- V6 assets are research outputs, not Demo-mounted production levels. Do not treat `pairRelay>0` as success unless pair/state audit or official attribution proves added support carrier.
+
+## Generated-Root Whole-Board Planner V7 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV7/`.
+- `grwbp_v7_s2_frontier_smoke.asset`: first state-frontier positive proof; coverage `0.6333333`, official solved/process A/HardPotential,新增链 `59/60` are official parents released by root owner `24`.
+- `grwbp_v7_s3_frontier_diverse_c001.asset` and `_c002.asset`: frontier + B2 safe boundary assets; coverage `0.6449275`, official solved/process A but MediumStructure, used as negative proof that owner0 B2 capacity refill dilutes difficulty.
+- V7 assets are research outputs, not Demo-mounted production levels. Current accepted continuation is target/basin diversity for state-frontier contracts, not mounting these assets or treating s3 coverage gain as success.
+
+## Generated-Root Whole-Board Planner V8 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV8/`.
+- `grwbp_v8_s1c_single_frontier_c001`..`c006`: single state-frontier proof assets, official 6/6 solved/process A/HardPotential; coverage `0.6217-0.6275`.
+- `grwbp_v8_s2d_frontier_pair_seed_c001`..`c008`: current positive pair-seed assets, each with two `STATE_FRONTIER_B1_TO_B2` chains (`24->51` + `24->42`), official 8/8 solved/process A/HardPotential; coverage `0.6319-0.6348`.
+- V8 assets are research outputs, not Demo-mounted production levels. Next asset-producing step should expand pair seed into bundle/all-owner frontier contracts while preserving official solved/A/HardPotential; do not use B2 safe/capacity refill to chase coverage.
+
+## Generated-Root Whole-Board Planner V9 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV9/`.
+- Positive bundle proof: `grwbp_v9_s1b_bundle3_b1b2_c001`..`c008`; each uses 3 state-frontier chains, coverage `0.6377-0.6391`, official trace `8/8 solved`, process `A`, hard class `6 HardPotential + 2 MediumStructure`.
+- V9 s1b reports: candidates `grwbp_v9_s1b_bundle3_b1b2_candidates.csv`, chain plan `_chain_plan.csv`, official trace `_trace_metrics.csv` / `_trace_steps.csv`, relation audit `_relation_audit_summary.md`, difficulty attribution `_difficulty_attribution_summary.md`.
+- 4-chain boundary diagnostics: `grwbp_v9_s1_bundle4_b1b2`, `grwbp_v9_s1c_bundle4_sameedge_diag`, and `grwbp_v9_s2_bundle4_allbasin` all produce 0 candidates; rejection is dominated by depth-4 cell overlap, not by distinct-edge, same-edge, or basin-filter choice.
+- Edge audit: `grwbp_v9_s3_edgeaudit_allbasin_carrier_profile.csv` includes `state_frontier_edge_scan` rows. It shows 24 ranked root-graph edges but actual generated state-frontier options still only for `24->26/33/42/51`.
+- V9 assets are research outputs, not Demo-mounted production levels. Next asset-producing step should implement slot/direction-aware bundle cutting before trying to climb added-chain count or coverage.
+
+## Generated-Root Whole-Board Planner V10 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV10/`.
+- Valid slot-aware baseline: `grwbp_v10_s4_slotaware_bundle4_wide_fixed_c001`..`c008`; each preserves generated root `geosupply_sched_root10_from_40eb0da7_r1_c038`, adds 4 short/medium `STATE_FRONTIER_*` chains with strict slot offsets `0/1/2/3`, coverage `0.6449275`, addedCells `20`, official trace 8/8 solved, process A, all HardPotential.
+- s4 reports: candidates `grwbp_v10_s4_slotaware_bundle4_wide_fixed_candidates.csv`, chain plan `_chain_plan.csv`, official trace `_trace_metrics.csv` / `_trace_steps.csv`, relation audit `_relation_audit_summary.md`, difficulty attribution `_difficulty_attribution_summary.md`.
+- Negative/boundary diagnostics: `grwbp_v10_s1_slotaware_bundle4` and `grwbp_v10_s2_slotaware_bundle4_sameedge` produce 0 candidates with per-edge 24; s3 wide run before the `option_int(0)` fix is diagnostic only and must not be used as a baseline.
+- Current limitation: valid s4 still uses activation owner `24` only and target edges `24->26/33/42/51`; supportCarrierCount remains 0 and collapse risk is `local_penalty_dense;no_added_support_carrier`. V10 assets are research outputs, not Demo-mounted production levels.
+
+## Generated-Root Whole-Board Planner V11 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV11/`.
+- Negative/boundary run: `grwbp_v11_s6d_bundle4_extend1_v1fast_b1b2` generates 5-chain candidates by appending `B2_CONVERGE_CHOKE` to the V10-style 4 frontier bundle. Official trace solves/process A, but all rows are MediumStructure; use it as proof that B2 safe extension is not the coverage path.
+- Positive 5-chain run: `grwbp_v11_s7_bundle4_extend1_v1only_b1b2` disables B2 safe and appends non-B2 owner10/owner7 V1 semantic chains. Official trace is 4/4 solved, process A, all HardPotential; attribution shows support carrier for 3/4 rows.
+- Current positive 6-chain run: `grwbp_v11_s8_bundle4_extend2_v1only_b1b2` uses 4 owner24 state-frontier chains plus owner10 `B1_CONVERGE_CHOKE` and owner7 `B1_BLOCKS_B2`. Coverage `0.6565-0.6580`, official 4/4 solved/process A/HardPotential, all added chains official touched, difficulty attribution includes `SupportCrossCarrier=4`.
+- Key reports for s8: candidates `_candidates.csv`, chain plan `_chain_plan.csv`, trace `_trace_metrics.csv` / `_trace_steps.csv`, relation audit `_relation_audit_summary.md`, difficulty attribution `_difficulty_attribution_summary.md`. These are research assets, not Demo-mounted production levels and not a 0.95 coverage solution.
+
+## Generated-Root Whole-Board Planner V12 Assets - 2026-06-28
+
+- Worktree asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/`.
+- Current activation-pattern proof/boundary run: `grwbp_v12_s8y_activationpattern_frontier_edgegate_c001`..`c008`; each preserves generated root `geosupply_sched_root10_from_40eb0da7_r1_c038` and selects 4 short/medium `STATE_FRONTIER_B1_TO_B1` chains with activation owners `24/24/24/7`.
+- s8y reports: candidates `grwbp_v12_s8y_activationpattern_frontier_edgegate_candidates.csv`, chain plan `_chain_plan.csv`, carrier profile `_carrier_profile.csv`, planned relations `_planned_relations.csv`, root identity `_root_identity.csv`, summary `_summary.md`.
+- Official full8 trace: `grwbp_v12_s8y_activationpattern_frontier_edgegate_trace_full8_metrics.csv` / `_summary.md`; 8/8 solved, process A/tight A, maxChoices avg 6, but 8/8 MediumStructure with hardV3 avg about `0.406`.
+- Current positive hard-preserving run: `grwbp_v12_s10e_edgepattern_extend2_v1only_candidate6_c001`..`c008`; each preserves generated root `geosupply_sched_root10_from_40eb0da7_r1_c038`, uses 6 short/medium semantic chains, and combines ordered V10 hard edges with owner10 `B1_CONVERGE_CHOKE` plus owner7 `B1_BLOCKS_B2`.
+- s10e reports: candidates `grwbp_v12_s10e_edgepattern_extend2_v1only_candidate6_candidates.csv`, chain plan `_chain_plan.csv`, carrier profile `_carrier_profile.csv`, relation audit `_relation_audit_summary.md`, and difficulty attribution `_difficulty_attribution_summary.md`.
+- s10e official full8 trace: `grwbp_v12_s10e_edgepattern_extend2_v1only_candidate6_trace_full8_metrics.csv` / `_summary.md`; 8/8 solved, process A, 8/8 HardPotential, coverage `0.6551-0.6580`, hardV3 avg about `0.568`, maxChoices avg 7.
+- Runner positive reproduction: `grwbp_v12_runner_hardbase_ext_t4i_v1only_c001`..`c004`; generated by `Invoke-GeneratedRootWBPV12HardbaseProfile.ps1`, coverage `0.6565-0.6580`, 6 short/medium semantic chains, no B2 filler. Official trace `grwbp_v12_runner_hardbase_ext_t4i_v1only_trace_full4_metrics.csv` is 4/4 solved, process A, 4/4 HardPotential.
+- Runner negative boundary: `grwbp_v12_runner_hardbase_ext_t4h_mincontract2` allows `CARRIER_*` extension and is official 4/4 solved/A but 4/4 MediumStructure; use it as proof that generic carrier/weak support extension is not hard-preserving.
+- Secondary diagnostic baseline: `grwbp_v12_runner_secondary_t2a_v1only` produced activation and extension seed states but 0 secondary-source states/candidates; initial summary recorded `child_head_not_allowed`, `blocked_to_parent`, and `child_no_path`.
+- Secondary duty-zone/multidir diagnostics: `grwbp_v12_secondary_duty_t2a`, `grwbp_v12_secondary_multidir_diag_t2a`, `grwbp_v12_secondary_relaxed_L_diag_t2a`, `grwbp_v12_secondary_geometryonly_L_diag_t2a`, and `grwbp_v12_secondary_addedhit_L_diag_t2a` are negative diagnostics. They show duty-zone adds 0 new cells because the V0 plan is already dense, `U/R/D/L` still produce secondarySource=0, and even relaxed geometry fails through root/selected/out-of-board occupation plus first-hit mismatch.
+- Planned added-hit diagnostics: `grwbp_v12_secondary_plannedhit_L_diag_t2b` and `grwbp_v12_secondary_plannedhit_L_diag_t2c` are negative diagnostics. Enabling planned added-first-hit changes the terminal reject to `child_planned_added_hit_greedy_unsolved=6`; reject samples show child `SSF99501` accidentally blocks `O00089 / B1_BLOCKS_B2` at `(8,15)` and full Greedy is unsolved.
+- Cluster exact6 positive/boundary run: `grwbp_v12_cluster_edge7_support_exact6_probe_t1_c001`..`c004`; each preserves generated root `geosupply_sched_root10_from_40eb0da7_r1_c038`, keeps chain legality, and uses 6 short/medium semantic chains: 4 owner24 hard-frontier chains, owner7 `STATE_FRONTIER_B1_TO_B1 7->22`, and owner7 `B1_BLOCKS_B2 7->53`. Coverage is `0.6579710-0.6594203`, addedDagCycleCount=0.
+- Cluster exact6 reports: candidates `grwbp_v12_cluster_edge7_support_exact6_probe_t1_candidates.csv`, chain plan `_chain_plan.csv`, carrier profile `_carrier_profile.csv`, planned relations `_planned_relations.csv`, root identity `_root_identity.csv`, and summary `_summary.md`.
+- Cluster exact6 official trace: `grwbp_v12_cluster_edge7_support_exact6_probe_t1_trace_full4_metrics.csv` / `_summary.md`; 4/4 solved, process A/tight A, maxChoices avg 7, but all MediumStructure with `CounterfactualLocalFlow`. Treat as source-frontier cluster mechanism proof, not a hard/coverage success.
+- Cluster exact7 boundary: `grwbp_v12_cluster_edge7_support_exact7_probe_t1` produced 0 candidates; extra3 rejected mainly on cell overlap and greedy unsolved. Current plateau is geometry/ray/duty-plan limited, not a simple chain-count knob.
+- Rootlang planned added-DAG proof: `grwbp_v12_rootlang_edgepattern5_plannedaddedhit_t1_c001`..`c004`; each preserves generated root `rootlang_root10_0615_section_short_r1_c024`, adds 5 short/medium `STATE_FRONTIER_*` chains from edges `7->22,24->55,24->26,24->42,24->33`, has chainLegalityOk=True, addedChainLoopRiskCount=0, plannedAddedFirstHitCount=1, addedDagCycleCount=0, and coverage `0.6536-0.6551`.
+- Rootlang planned added-DAG reports: candidates `grwbp_v12_rootlang_edgepattern5_plannedaddedhit_t1_candidates.csv`, chain plan `_chain_plan.csv`, carrier profile `_carrier_profile.csv`, planned relations `_planned_relations.csv`, root identity `_root_identity.csv`, summary `_summary.md`, and official trace `grwbp_v12_rootlang_edgepattern5_plannedaddedhit_t1_trace_full4_metrics.csv` / `_summary.md`.
+- Rootlang planned added-DAG official trace: 4/4 solved, process A/tight A, maxChoices avg 6, but all MediumStructure with hardV3 avg about `0.419` and risk `DependencyFollowRun`; treat as a formal planned-DAG mechanism proof, not a HardPotential or coverage success.
+- Rootlang 6-edge boundary: `grwbp_v12_rootlang_edgepattern6_plannedaddedhit_t1` adds `24->51` to the planned 5-edge pattern and produces 0 candidates. Summary reports `disjointFull=0` and `disjoint_lookahead_dead=5`; carrier profile reports `maxDisjointDistinctEdge=5`. This confirms current rootlang cell plan cannot support a sixth independent semantic frontier edge.
+- Rootlang strict duty/ray capacity boundary: `grwbp_v12_rootlang_dutyray_probe_t3_alldirs_allbasins_cuttable_noloop_impact.csv` is the current strict evidence file. It uses V12 cuttable preflight, added loop-risk rejection, and release-impact safety; current/all-empty modes both cap at `maxDisjointDistinctEdge=5`, with best edges `36->11,24->33,24->51,24->42,24->26`.
+- Rootlang duty-seed diagnostic proof: `grwbp_v12_rootlang_dutyseed_onlypool_t1_carrier_profile.csv` injects probe-derived `SFD*` options and proves the old frontier option enumerator can miss globally friendly candidates. It is diagnostic only; the apparent sixth corridor is invalid after loop-risk/release-impact gates.
+- Rootlang duty-seed negative outputs: `grwbp_v12_rootlang_edgepattern6_dutyseed_seedonly_t1_summary.md` shows the 6-edge seed-only attempt writes 0 candidates because one seed is added loop-risk, and `grwbp_v12_rootlang_edgepattern6_dutyseed_multidir_t1_summary.md` shows the multidir attempt is rejected by `blocks_pre_release_owner`.
+- Duty/ray diagnostic output directories: `grwbp_v12_rootlang_dutyseed_onlypool_t1/`, `grwbp_v12_rootlang_edgepattern6_dutyseed_seedonly_t1/`, and `grwbp_v12_rootlang_edgepattern6_dutyseed_multidir_t1/` under the V12 GeneratedRootWholeBoardPlanner level root are no-candidate or diagnostic outputs, not production candidates.
+- Strict duty/ray root gate top6: `grwbp_v12_strict_dutyray_root_gate_top6_t1_summary.csv` ranks the first 6 generated hard roots by strict duty/ray capacity. `geosupply_sched_root10_dens_c6277f51_r1_c007` is the best in this slice with `bestChainDisjoint=6`, `bestReserveDisjoint=6`, and bestEdges `21->11,24->32,17->8,24->26,24->29,5->15`; other top6 roots are 4-5.
+- Strict duty/ray quality top12: `grwbp_v12_strict_dutyray_quality_top12_t1_summary.csv` adds relation-quality tags to the strict gate. Top12 distribution is strict chain capacity `6 x1 / 5 x8 / 4 x3`; every row is tagged `capacity_lt_8`. `c6277` has the only 6 but is tagged low root footprint, weak cross/choke share, same-release dense, early B1 cluster, and support proxy <=1. Rootlang-style rows have better footprint/cross material but still cap at 5 and repeat owner24 early B1.
+- Strict duty/ray quality-aware top3: `grwbp_v12_strict_dutyray_qualityaware_top3_t1_summary.csv` uses probe-native `chain_quality/reserve_quality` set selection and wrapper `-UseQualityDisjointSet`. c6277 stays at `bestChainDisjoint=6` but chooses `21->11,24->32,17->9,5->15,24->26,24->29`, improving cross/choke/support proxy tags versus score-only selection. All top3 still have `bestChainQualityGatePass=False`; this is a gate/selection improvement, not a new asset-producing success.
+- Trace-wide root pool: `grwbp_v12_root_pool_tracewide_excl12_t1.csv` and `_summary.md` are built from historical trace metrics while excluding the old 12-root shortlist. They select 48 generated roots and expose new `root154_*` candidates around root coverage `0.57-0.61`.
+- Trace-wide strict scans: `grwbp_v12_strict_dutyray_tracewide_excl12_qualityaware_top4_t1_summary.csv` and `grwbp_v12_strict_dutyray_tracewide_windowed_r5_r8_qualityaware_t1_summary.csv` find additional strict-6 roots (`root154_core_sched0564_v1_r1_c016/c038`) with better relation quality, but still no 8+ quality pass.
+- High-footprint negative: `grwbp_v12_strict_dutyray_tracewide_highfootprint_qualityaware_top4_t1_summary.csv` tests roots around coverage `0.66-0.70` and collapses to strict disjoint 1, proving root footprint cannot be rewarded monotonically; overfilled roots consume duty/ray corridor space.
+- Occlusion audit reports: `grwbp_v12_occlusion_tracewide_top3_t1_summary.csv` and `grwbp_v12_occlusion_highfootprint_top1_t1_summary.csv` add root/out-of-board/plan blocker totals. Current/all_empty capacities are identical and planBlockedTotal is 0 on tested roots, so the missing corridor capacity must be fixed in generated root/cell-plan construction, not by broadening post-hoc allowed cells.
+- Corridor demand bridge: `grwbp_v12_corridor_demand_occlusion_c016_vs_highfoot_t1.csv` and `_summary.md` convert occlusion probe rows into root/owner/cell/edge demand. Use them as generation-side reservation constraints (`root_generation_corridor_hole`, head-neighborhood reserve, boundary-safe head/second space), not as permission to delete root cells after verification.
+- Reservation-fit bridge: `grwbp_v12_reservation_fit_tracewide_from_c016_demand_t1.csv`, `_summary.md`, and `_top12_root_pool.csv` rank real generated roots by same-board natural openness against c016 corridor demand. The completed strict reuse summary `grwbp_v12_reservationfit_strict_t1_summary.csv` reaches best strict `7/7` on low-footprint roots, still below 8+ and still far from 0.95 coverage; treat this as evidence for root-generation reservation, not as a cutter baseline.
+- Reserved-root generated asset roots: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/ReservedRootGeneratorV1_diag1/`, `ReservedRootGeneratorV1_preserve_top16_t1/`, `ReservedRootGeneratorV1_preserve_top8_t1/`, `ReservedRootGeneratorV1_semantic_top8_t1/`, `ReservedRootGeneratorV1_semdiv_top8_t1/`. These are experimental root-generation diagnostics only; none are official WBP final levels or Demo-mounted packs. Key boundary: top8 preserve best reaches strict 5, semantic low-choice roots drop to strict 2-3, so next work must be source-basin-first generation.
+- Source-basin generated asset roots: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/SourceBasinRootGeneratorV1_t1b/`, `SourceBasinRootGeneratorV1_t2b/`, `SourceBasinRootGeneratorV1_t3/`, `SourceBasinRootGeneratorV1_t3b/`, `SourceBasinRootGeneratorV1_t4a/`, `SourceBasinRootGeneratorV1_t4b/`, `SourceBasinRootGeneratorV1_t4c/`, `SourceBasinRootGeneratorV1_t4c_basinproxy/`, `SourceBasinRootGeneratorV1_t5/`, `SourceBasinRootGeneratorV1_t5_smoke/`, `SourceBasinRootGeneratorV1_t5_cuttable_smoke/`, `SourceBasinRootGeneratorV1_t6_cuttable/`, `SourceBasinRootGeneratorV1_t8_slot_nopreflight_smoke/`, `SourceBasinRootGeneratorV1_t9c_audit_smoke/`. These are experimental root-generation diagnostics only; none are official WBP final levels or Demo-mounted packs. Boundary: t1b is too open (16 openers, strict 0-1); t2b is low-choice/multi-top-root but strict only 2-3; t4/t5/t6 proxies overestimate strict capacity; t8 no-preflight semantic slots can pass source-basin chain audit but formal preflight collapses to 1, so the next root generator must plan release-order/root-DAG-compatible slots.
+- Source-basin slot/preflight reports: `grwbp_v12_sourcebasin_rootgen_v1_t8_slot_nopreflight_smoke_root_pool.csv`, `_strict_summary.csv`, `_nopreflight_summary.csv`, `_corepreflight_summary.csv`, `_nofrontier_summary.csv`, `_nopreflight_source_basin_audit_summary.md`, and `grwbp_v12_sourcebasin_rootgen_v1_t9c_audit_smoke_root_pool.csv`. t8 no-preflight quality chain row reaches disjoint 6 with 4 activation top roots and 3 cross-top-root edges; release-order/first-hit core preflight and no-frontier both drop to quality 5, while full strict drops to 1. t9c is only an audit-field smoke.
+- c6277 exact6 duty-seed output: `grwbp_v12_c6277_strictduty6_seedonly_t1_c001` is a 6-chain diagnostic candidate generated only from strict duty seed options. It preserves root, is chain-legal, has added loop-risk 0, Greedy solved, and coverage `0.5492754`.
+- c6277 exact6 official trace: `grwbp_v12_c6277_strictduty6_seedonly_t1_trace_full1_metrics.csv` is solved/process A/tight A with maxChoices 5, but class is `MediumStructure` (`hardV3=0.429`, risk `DependencyFollowRun`). Attribution summary shows all 6 added chains official touched, but support carrier is only 1 and local penalty remains dense. Treat this as capacity/seed-injection proof, not a hard or coverage success.
+- Current secondary conclusion: post-hoc secondary extension is rejected as the 0.95 route. Next asset-producing step should co-select added-to-added delay/block DAG clusters before hardbase is frozen, rather than appending a child chain after a 6-chain state.
+- V12 assets are research outputs, not Demo-mounted production levels and not a 0.95 solution. Use s8y as activation-pattern/frontier-only boundary and s10e as current hard-preserving positive baseline; next work must expand whole-board duty grammar beyond the 0.658 coverage plateau.
+
+## RCH Experiment Line Archive - 2026-06-27
+
+- RCH/high-root and Reverse-CSSC level, pack, report, trace, and audit entries have been moved out of the active level index.
+- See `.agents/memory/RCH_EXPERIMENT_LINE_ARCHIVE_20260627.md` for the high-level archive and `.agents/memory/RCH_LONGCHAIN_NO_ROOT_RECORDS.md` for long-chain/no-root/polluted-baseline negatives.
+- Do not use old RCH/Reverse-CSSC level/report rows as current baseline or continuation point unless the user explicitly restarts that line.
+
+## PSG Trace Order Balanced V1 Main Review Pack - 2026-06-28
+
+- Pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGTraceOrderBalancedV1ReviewPack.asset`; copied from `.worktrees/psg-long-seed-mutation`, current GUID `ff6cc93ffa894eaa9f152857e252318c`.
+- Contents: 2 refs, PSG trial 02 `sgp_pressure_hard_trial_02_sgp_pressure_hard_rect_section_unlock` and trial 04 `sgp_pressure_hard_trial_04_sgp_pressure_hard_rect_core_burst`.
+- Demo: `Assets/ArrowMagic/Scenes/Demo.unity` previously pointed `activePack` to this pack for manual review; current mounted review pack is recorded in the NutationPeelV1 entry below.
+- Boundary: this is a review selection of unchanged PSG trial assets using same-level `RegionDiverseBalanced` metrics; not a generator-side PSG topology change.
+
+## NutationPeelV1 Smoke Pack - 2026-06-28
+
+- Full source pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelV1Pack.asset`; copied from `.worktrees/nutation-peel` v1c smoke run.
+- Review keep pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelV1ProductionKeepPack.asset`; 2 refs, current Demo active pack.
+- GUID note: main project level refs are `a9e5408e3bef68243b086a3dede0e7cf` for lock_buckle and `aeb585a74758e7f4aa8ee2d84e18e87c` for core_burst; pack refs were repaired after a worktree-to-main GUID mismatch caused an empty runtime board.
+- Level assets: `Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationPeelV1/`.
+- Source report: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_v1_report.csv`.
+- Production keep CSV: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_v1_production_keep.csv`.
+- Joined comparison: `.codex-run/nutation_peel_v1c_wt_smoke_trace_joined.csv`; PSG comparison joined `.codex-run/nutation_compare_psg_trial_v1c_wt_trace_joined.csv`; summary `.codex-run/nutation_peel_v1c_wt_smoke_vs_psg_summary.md`.
+- v1c result: 4/4 traced, 2/4 TraceOrderKeep. Keep rows are `nutation_peel_v1_01_lock_buckle` and `nutation_peel_v1_04_core_burst`; section/dense are diagnostic rejects due choices/process. This is a review/smoke pack, not final mass-production approval.
+
+## PSG Long Stripe-Coil Negative Assets - 2026-06-28
+
+- Worktree: `.worktrees/psg-long-seed-mutation`, branch `codex/psg-long-seed-mutation`.
+- Rejected pack family: `PSGLongMazeSelfMadeV3FillProbeV2StagedReviewPack` and related `PSGLongMazeSelfMadeV2/V3`, `PSGStyleSkeletonLong*`, `CrossColumn`, `CrossColumnAlt`, and staged fill-probe outputs.
+- Rejected level root: `.worktrees/psg-long-seed-mutation/Assets/ArrowMagic/SOData/Levels/DirectProcedural/PSGLongMazeSelfMadeV3FillProbeV2Staged/`.
+- Rejected source report: `.worktrees/psg-long-seed-mutation/Assets/ArrowMagic/SOData/Reports/DirectProcedural/psg_long_maze_selfmade_v3_fill_probe_v2_staged_source_report.csv`.
+- Rejected trace metrics: `.worktrees/psg-long-seed-mutation/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/psg_long_maze_selfmade_v3_fill_probe_v2_staged_trace_smoke_metrics.csv`.
+- Status: negative only. Do not use these assets as visual target, production input, positive baseline, or Demo review candidate. They are retained only as evidence for the stripe/coil reject rule and for the `source: 1` authored LevelDefinition format pitfall.
+
+## PeelRailV1 Review Pack - 2026-06-28
+
+- Pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/PeelRailV1Pack.asset`; current GUID `df09839fe95847d4f8cf1bcece58f36d`.
+- Level assets: `Assets/ArrowMagic/SOData/Levels/DirectProcedural/PeelRailV1/`.
+- Source report: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/peel_rail_v1_report.csv`.
+- Production keep CSV: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/peel_rail_v1_production_keep.csv`.
+- Smoke/join reports: `.codex-run/peel_rail_v1_smoke4_trace_joined.csv` and `.codex-run/peel_rail_v1_smoke4_trace_joined_summary.md`.
+- Demo: `Assets/ArrowMagic/Scenes/Demo.unity` currently points `activePack` to this pack for manual review.
+- Smoke4 result: 4/4 solved; 4/4 `styleFamily=peel_layered`; 4/4 `chainLanguage=rail_chain`; rank classes are `TraceOrderKeep=2`, `VisualKeep=1`, `Reject=1`; production keep rows=2.
+- Source shape summary: coverage average about `0.992`, chains average `59.5`, avgChain about `10.1`, maxChain `20`, straightness average about `0.700`. Compared with `NutationPeelV2` straightness about `0.118`, this is the current positive proof that Peel topology can be rendered with rail-chain language.
+
+## NutationPeelRailV1 Worktree Review Pack - 2026-06-28
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelRailV1Pack.asset`; current GUID `01eedf2fe3c8460448527f68a81bf6c4`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationPeelRailV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_rail_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_rail_v1_production_keep.csv`.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_peel_rail_v1_smoke4_trace_joined.csv` and `_summary.md`.
+- Demo in worktree points `activePack` to `NutationPeelRailV1Pack.asset`.
+- Smoke4 result: 4/4 solved; 4/4 `rail_chain`; rank classes `TraceOrderKeep=1`, `VisualKeep=1`, `Reject=2`; current status is review/prototype, not production approval.
+
+## PSG Long Lock Planned Corridor Duty V1 Smoke Pack - 2026-06-28
+
+- Worktree: `.worktrees/psg-long-lock-role-grammar`, branch `codex/psg-long-lock-role-grammar`.
+- Pack: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGLongLockRoleGrammarV1Pack.asset`; worktree Demo activePack points to this pack.
+- Level assets: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Levels/DirectProcedural/PSGLongLockRoleGrammarV1/psg_long_lock_role_v1_01_tall_lock_a.asset` and `.../psg_long_lock_role_v1_02_wide_lock_a.asset`.
+- Source report: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/psg_long_lock_role_grammar_v1_report.csv`; source summary same folder `_summary.md`.
+- Source result: 2/2 accepted on first attempt. Tall/wide coverage `0.7009/0.7477`, maxChain `45/55`, initialOpeners `2/2`, max fanout `3/3`, supportCorridorChains `4/6`, crossRegionCarrierChains `2/2`, releaseCorridorEmptyCells `70/87`.
+- Planned-duty fields: `plannedCorridorPlaced=1/3`, `plannedCrossRegionPlaced=1/3`, `plannedDutyReleaseCells=5/34`; longVisualCellShare `0.531/0.449`; midShortSupportChains `15/19`; solvableEmptyShare `0.781/0.829`.
+- Official trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/psg_long_lock_role_grammar_v1_planduty_v1d_smoke2_metrics.csv`; missing/failed 0.
+- Joined summary: `.worktrees/psg-long-lock-role-grammar/.codex-run/psg_long_lock_role_grammar_v1_planduty_v1d_smoke2_trace_joined_summary.md`; production keep: `.worktrees/psg-long-lock-role-grammar/.codex-run/psg_long_lock_role_grammar_v1_planduty_v1d_smoke2_production_keep.csv`.
+- Trace/join result: 2/2 solved and 2/2 `TraceOrderKeep`. Wide row is A/clean, avg/max choices `3.68/6`, STS `0.917`, collapse `0.108`; tall row is B/watch, avg/max choices `4.25/7`, STS `0.950`, collapse `0.049`.
+- Status: current best self-produced long-lock smoke pack; planned corridor duty works, but coverage is still below real seed_long_lock pool parity.
+
+## NutationLongChainSpineV1 Worktree Review Pack - 2026-06-28
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainSpineV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainSpineV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_spine_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_spine_v1_production_keep.csv`.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_longchain_spine_v1_smoke3_trace_joined.csv` and `_summary.md`.
+- Demo in worktree points `activePack` to `NutationLongChainSpineV1Pack.asset` after smoke3.
+- Smoke3 result: 4/4 solved; 4/4 `styleFamily=maze_long_chain`; 4/4 `chainLanguage=spine_chain`; rank classes `TraceOrderKeep=2`, `Reject=2`; production keep rows=2.
+- Source shape summary: average coverage about `0.928`, chains about `41.0`, avgChain about `14.56`, maxChain about `27.8`, openers about `4.75`. This is a style/language proof and not yet PSG-level coverage production.
+
+## NutationHubSpokeV1 Worktree Style Proof Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v1_production_keep.csv` currently has 0 rows under TraceOrderPreferred.
+- Current trace/join reports: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v1_current_trace_trace_joined.csv` and `_summary.md`.
+- Current result: 3/3 solved; 3/3 `styleFamily=hub_spoke`; 3/3 `chainLanguage=patch_chain`; rank classes `VisualKeep=1`, `ProcessKeep=1`, `Reject=1`; production keep rows=0.
+- Source style signal: fanout `maxFanout=4-5`, `hubOwners=19-22`, `ownerHit=84-98`, `cross=11-19`. Boundary: joined rows remain `local_collapse/high_risk`, so this is a style proof and not production approval.
+
+## NutationHubSpokeV2 Worktree Anti-Collapse Probe Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV2Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV2/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v2_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v2_production_keep.csv` currently has 0 rows under TraceOrderPreferred.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v2_smoke4_trace_joined.csv` and `_summary.md`.
+- Smoke4 result: 3/4 source rows traceable; 3/3 solved; 3/3 `styleFamily=hub_spoke`; 3/3 `chainLanguage=patch_chain`; rank classes `VisualKeep=1`, `ProcessKeep=1`, `Reject=1`; production keep rows=0.
+- Comparison note: V2 lowers V1 localPatchRun average `9.0 -> 8.33` and same-axis/same-dir max `15/12 -> 10/10`, but remains `local_collapse/high_risk` with 0 STS pass.
+
+## NutationFlowCurveV1 Worktree Baseline Review Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationFlowCurveV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationFlowCurveV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_flow_curve_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_flow_curve_v1_production_keep.csv` uses Flow review mode, not strict production.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_flow_curve_v1_smoke1_trace_joined.csv` and `_summary.md`.
+- Smoke1 result: 4/4 solved; 4/4 `styleFamily=flow_continuous`; 4/4 `chainLanguage=curve_chain`; Flow review keep rows=4 under Drop-allowed VisualOnly mode.
+- Source shape summary: coverage `0.982-0.992`, avgChain `9.12-9.84`, maxChain `18-19`, straightness `0.123-0.153`.
+
+## NutationMazePatchV1 Worktree Style Proof Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMazePatchV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationMazePatchV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_patch_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_patch_v1_production_keep.csv` currently has 0 rows under TraceOrderPreferred.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_maze_patch_v1_smoke3_trace_joined.csv` and `_summary.md`.
+- Smoke3 result: 4/4 solved; 4/4 `styleFamily=constraint_maze`; 4/4 `chainLanguage=patch_chain`; rank classes `Reject=4`; production keep rows=0.
+- Source shape summary: coverage `0.905-0.924`, chains `92-101`, avgChain `5.93-6.10`, maxChain `10-11`, straightness `0.195-0.224`, openers `3`. Boundary: joined rows remain `local_collapse/high_risk`, so this is style proof only.
+
+## NutationPeelPatchV1 Worktree Near-Miss Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelPatchV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationPeelPatchV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_patch_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_patch_v1_production_keep.csv` currently has 0 rows under TraceOrderPreferred.
+- Current smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_peel_patch_v1_smoke6_trace_joined.csv` and `_summary.md`.
+- Smoke6 result: 4/4 solved; 4/4 `styleFamily=peel_layered`; 4/4 `chainLanguage=patch_chain`; 4/4 STS pass; rank classes `Reject=4`; production keep rows=0.
+- Source shape summary: coverage `0.979-0.987`, chain count about `75-85`, avgChain about `7.3-7.4`, maxChain `13`, straightness about `0.40-0.47`, short patch chains `25-29`.
+- Best row `core_patch`: coverage `0.987`, choices `7.25/11`, local/nearOuter `4/4`, directionalRisk `0.155`, STS `0.858`, collapse `0.170`, sameAxis `6`, sameDir `5`. Boundary: only strict near-miss; not production-approved.
+- Negative smoke5 note: stronger opening/edge-head 回压 got one `ProcessKeep` but regressed into `local_collapse` and STS pass 2/4, so do not use local opener crushing as the next route.
+
+## Nutation Style Matrix V1 Worktree Reports - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Exporter: `.worktrees/nutation-peel/Tools/Production/Export-NutationStyleMatrixV1.ps1`.
+- Matrix CSV: `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_matrix.csv`.
+- Best rows CSV: `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_best_rows.csv`.
+- Strict keep rows CSV: `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_strict_keep_rows.csv`.
+- Combined rows CSV: `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_combined_rows.csv`.
+- Summary: `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_summary.md`.
+- Strict review pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationStyleMatrixStrictReviewPack.asset`; last refreshed pack still has 12 refs from before LongChainPatch, while current strict keep CSV has 15 rows.
+- Default inputs: FlowCurve smoke1, FlowRail smoke1, FlowPatch smoke1, PeelCurve v1c, PeelRail smoke7, PeelPatch smoke6, LongChainSpine smoke3, LongChainCurve smoke1, LongChainRail smoke2, LongChainPatch smoke1, HubCurve smoke1, HubRail smoke2, HubSpokeV4 smoke4, HubSpokeV3 smoke1, HubSpokeV2 smoke4, MazeRail smoke4, MazeCurve smoke1, MazePatchV2 smoke2, MazePatchV1 smoke3 joined CSVs.
+- Result: 19 lanes / 73 rows; FlowCurve/FlowRail/FlowPatch are review-only, PeelCurve/PeelRail/LongChainSpine/LongChainCurve/LongChainRail/LongChainPatch are strict-review-ready, PeelPatch is strict-near-miss, and HubCurve/HubRail/HubSpokeV4/V3/V2 plus MazeCurve/MazeRail/MazePatchV2/V1 need solve-time control or remain style-proof only.
+
+## NutationFlowRailV1 Worktree Review Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationFlowRailProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationFlowRailV1Pack`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationFlowRailV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationFlowRailV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_flow_rail_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_flow_rail_v1_production_keep.csv` has 3 rows under VisualOnly review mode.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_flow_rail_v1_smoke1_trace_joined.csv` and `_summary.md`; official metrics in sibling rhythm lab as `nutation_flow_rail_v1_smoke1_metrics.csv`.
+- Smoke1 result: 4/4 traced solved, 4/4 `flow_continuous`, 4/4 `rail_chain`/`flow_rail_chain`, 4 TraceOrderKeep under Flow VisualOnly review mode. Source straightness `0.598-0.654`; review-only, not strict production.
+
+## NutationFlowPatchV1 Worktree Review Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationFlowPatchProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationFlowPatchV1Pack`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationFlowPatchV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationFlowPatchV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_flow_patch_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_flow_patch_v1_production_keep.csv` has 3 rows under VisualOnly review mode.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_flow_patch_v1_smoke1_trace_joined.csv` and `_summary.md`; official metrics in sibling rhythm lab as `nutation_flow_patch_v1_smoke1_metrics.csv`.
+- Smoke1 result after light opener/chain-count retune: 4/4 traced solved, 4/4 `flow_continuous`, 4/4 `patch_chain`/`flow_patch_chain`, 2 TraceOrderKeep + 1 VisualKeep + 1 Reject. Review-only; use as Flow patch-language comparison, not strict production.
+
+## NutationHubCurveV1 Worktree Style Proof Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubCurveProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationHubCurveV1Pack`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubCurveV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubCurveV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_curve_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_curve_v1_production_keep.csv` currently has 0 rows under TraceOrderPreferred.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_hub_curve_v1_smoke1_trace_joined.csv` and `_summary.md`.
+- Smoke1 result: 3 traceable rows / 3 solved; 3/3 `styleFamily=hub_spoke`; 3/3 `chainLanguage=curve_chain`; 3/3 `chainLanguageDetail=hub_curve_chain`; rank classes `ProcessKeep=2 / Reject=1`; production keep rows=0.
+- Best proof row is `dual_curve`: STS `0.823`, collapse `0.262`, sameAxis `8`, sameDir `6`, source straightness `0.210`, but local/nearOuter `9/7`, directionalRisk `0.515`, dependencyLocal `0.677`; style-proof only, not production.
+
+## NutationMazeCurveV1 Worktree Style Proof Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationMazeCurveProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationMazeCurveV1Pack`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMazeCurveV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationMazeCurveV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_curve_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_curve_v1_production_keep.csv` currently has 0 rows under TraceOrderPreferred.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_maze_curve_v1_smoke1_trace_joined.csv` and `_summary.md`.
+- Smoke1 result: 4 specs, 1 traceable row / 1 solved; `styleFamily=constraint_maze`; `chainLanguage=curve_chain`; `chainLanguageDetail=maze_curve_chain`; rank class `VisualKeep`; production keep rows=0.
+- Boundary: low-yield style/language proof only, not production-approved. Main blockers are same-axis, STS/collapse boundary, and local-collapse.
+
+## NutationMazeRailV1 Worktree Style Proof Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationMazeRailProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationMazeRailV1Pack`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMazeRailV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationMazeRailV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_rail_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_rail_v1_production_keep.csv` currently has 0 rows under TraceOrderPreferred.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_maze_rail_v1_smoke4_trace_joined.csv` and `_summary.md`.
+- Smoke4 result: 3 traceable rows / 3 solved; 3/3 `styleFamily=constraint_maze`; 3/3 `chainLanguage=rail_chain`; rank classes `ProcessKeep=1 / Reject=2`; production keep rows=0.
+- Best proof row is `core_rail_maze`: STS `0.887`, collapse `0.206`, sameAxis `8`, sameDir `6`, stripeRisk `0.023`, but processTier `Drop`; style-proof only, not production.
+
+## NutationLongChainCurveV1 Worktree Strict Review Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Wrapper: `Tools/Production/Invoke-NutationLongChainCurveProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationLongChainCurveV1Pack`.
+- Pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainCurveV1Pack.asset`.
+- Level assets: `Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCurveV1/`.
+- Source report: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_curve_v1_report.csv`.
+- Production keep CSV: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_curve_v1_production_keep.csv` has 3 rows under TraceOrderPreferred.
+- Smoke/join reports: `.codex-run/nutation_longchain_curve_v1_smoke1_trace_joined.csv` and `_summary.md`; official metrics in sibling rhythm lab as `nutation_longchain_curve_v1_smoke1_metrics.csv`.
+- Smoke1 second pass result: 4/4 traced solved, 4/4 `maze_long_chain`, 4/4 `curve_chain`/`long_curve_chain`, 3 TraceOrderKeep + 1 Reject. Source straightness `0.343-0.389`, avgChain `11.55-12.56`, maxChain `21-24`.
+- Style matrix: `.codex-run/nutation_style_matrix_v1_current_summary.md` now covers 15 lanes / 57 rows with 9 strict keeps: LongChainCurve 3, LongChainSpine 2, PeelCurve 2, PeelRail 2.
+
+## NutationLongChainRailV1 Worktree Strict Review Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Wrapper: `Tools/Production/Invoke-NutationLongChainRailProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationLongChainRailV1Pack`.
+- Pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainRailV1Pack.asset`.
+- Level assets: `Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainRailV1/`.
+- Source report: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_rail_v1_report.csv`.
+- Production keep CSV: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_rail_v1_production_keep.csv` has 3 rows under TraceOrderPreferred.
+- Smoke/join reports: `.codex-run/nutation_longchain_rail_v1_smoke2_trace_joined.csv` and `_summary.md`; official metrics in sibling rhythm lab as `nutation_longchain_rail_v1_smoke2_metrics.csv`.
+- Smoke2 result: 4/4 traced solved, 4/4 `maze_long_chain`, 4/4 `rail_chain`/`long_rail_chain`, 4/4 visualPass, 3 TraceOrderKeep + 1 VisualKeep. Source straightness `0.408-0.490`, avgChain `12.45-13.43`, maxChain `22-23`.
+- Style matrix at this checkpoint covered 16 lanes / 61 rows with 12 strict keeps: LongChainCurve 3, LongChainRail 3, LongChainSpine 2, PeelCurve 2, PeelRail 2. Current matrix summary is updated later to 19 lanes / 73 rows after FlowRail/FlowPatch and LongChainPatch.
+
+## NutationLongChainPatchV1 Worktree Strict Review Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationLongChainPatchProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationLongChainPatchV1Pack`.
+- Pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainPatchV1Pack.asset`.
+- Level assets: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainPatchV1/`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_patch_v1_report.csv`.
+- Production keep CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_patch_v1_production_keep.csv` has 3 rows under TraceOrderPreferred.
+- Smoke/join reports: `.worktrees/nutation-peel/.codex-run/nutation_longchain_patch_v1_smoke1_trace_joined.csv` and `_summary.md`; official metrics in sibling rhythm lab as `nutation_longchain_patch_v1_smoke1_metrics.csv`.
+- Smoke1 result: 4/4 traced solved, 4/4 `maze_long_chain`, 4/4 `patch_chain`/`long_patch_chain`, 3 TraceOrderKeep + 1 Reject. Source straightness `0.288-0.316`, avgChain `9.66-11.48`, maxChain `21-22`.
+- Boundary: strict-review-ready for LongChain-specific style/language comparison, not general hard-feel proof.
+
+## Nutation Hub/Maze Anti-Collapse Review V1 - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Exporter: `.worktrees/nutation-peel/Tools/Production/Export-NutationAntiCollapseReviewV1.ps1`.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubMazeAntiCollapseReviewV1.ps1`.
+- Ranked CSV: `.worktrees/nutation-peel/.codex-run/nutation_hubmaze_anticollapse_v1_current_ranked.csv`.
+- Review rows CSV: `.worktrees/nutation-peel/.codex-run/nutation_hubmaze_anticollapse_v1_current_review_rows.csv`.
+- Gap report: `.worktrees/nutation-peel/.codex-run/nutation_hubmaze_anticollapse_v1_current_gap_report.md`.
+- Review pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMazeAntiCollapseReviewPack.asset`; 6 refs and worktree Demo activePack points here.
+- Result: 33 Hub/Maze rows ranked from 9 joined CSVs, 6 selected for controlled review by `Style x ChainLanguage`: Hub rail/patch/curve and Maze rail/curve/patch. HubRail `center_rail` is current best Hub row (`score=109.139`); Hub V3 patch remains a near-miss (`score=102.406`); HubCurve best score is `91.497`; MazeRail `core_rail_maze` is current best Maze row (`score=94.748`, only `tier_drop` gap); MazeCurve best score is `77.836`; MazePatchV2 best score is `49.725`.
+- Boundary: this is not a production keep pack. Main blockers are collapse, same-axis/same-dir run, local run, directional risk, and `flow_local_collapse`.
+
+## SGP Pressure Hard High-Coverage Probe Baseline - 2026-06-29
+
+- Worktree: `.worktrees/psg-long-lock-role-grammar`; source method `NoMaskProceduralGenerator.BuildSgpPressureHardTrialPack` invoked by `Tools/Production/Invoke-SGPPressureHardProductionV1.ps1`.
+- Source report: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_trial_report.csv`.
+- Level root: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardTrial/`.
+- Trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_hard_highcov_probe_v1_metrics.csv`.
+- Source result: 4 rows, coverage `0.978-0.994`, chains `58-61`, avgChain `9.57-10.62`, maxChain `21`, portable solved true.
+- Trace result: 4/4 solved. Keepable process examples: dense_weave B with avg/max choices `3.78/6`, core_burst B `4.93/8`, lock_buckle A `5.31/8`; section_unlock drops due maxChoices `16`.
+- Status: coverage/densify capability baseline only. Do not treat as final long-lock product because the chain language is dense/medium, not `seed_long_lock` long-spine visual.
+
+## PSG Long Lock Longify V1 0.95 Review Pack - 2026-06-29
+
+- Worktree: `.worktrees/psg-long-lock-role-grammar`, branch `codex/psg-long-lock-role-grammar`.
+- Pack: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGLongLockLongifyV1Pack.asset`.
+- Level root: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Levels/DirectProcedural/PSGLongLockLongifyV1/`.
+- Source report: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/psg_long_lock_longify_v1_report.csv`; summary same folder `_summary.md`.
+- Trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/psg_long_lock_longify_v1_trace_metrics.csv`.
+- Joined summary: `.worktrees/psg-long-lock-role-grammar/.codex-run/psg_long_lock_longify_v1_trace_joined_summary.md`; production keep: `.worktrees/psg-long-lock-role-grammar/.codex-run/psg_long_lock_longify_v1_production_keep.csv`.
+- Source result: 4/4 selected, coverage `0.9778-0.9951`, avg `0.9894`, chains `42`, maxChain `52-75`, longVisualCellShare avg `0.488`, midShortSupportChains avg `28.00`.
+- Trace/join result: 4/4 solved, `TraceOrderKeep=2 / VisualKeep=1 / Reject=1`; two keep rows are core_burst (`coverage=0.992`, `maxChain=75`, A, avg/max choices `4.93/9`) and lock_buckle (`coverage=0.993`, `maxChain=52`, A, avg/max choices `5.24/10`).
+- Demo in worktree points `activePack` to `PSGLongLockLongifyV1Pack.asset` for visual review.
+
+## PSG Long Lock Longify V1 Production Keep Pack - 2026-06-29
+
+- Worktree: `.worktrees/psg-long-lock-role-grammar`, branch `codex/psg-long-lock-role-grammar`.
+- Full generated pack: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGLongLockLongifyV1Pack.asset`.
+- Production keep pack: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGLongLockLongifyV1ProductionKeepPack.asset`; 32 refs, pack id `psg_long_lock_longify_v1_production_keep`.
+- Level root: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Levels/DirectProcedural/PSGLongLockLongifyV1/`.
+- Source report: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/psg_long_lock_longify_v1_report.csv`; 48/48 selected, coverage `0.9778-0.9951`, avg `0.9894`.
+- Official trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/psg_long_lock_longify_v1_full_split_trace_metrics.csv`; 48/48 solved.
+- Strict joined summary: `.worktrees/psg-long-lock-role-grammar/.codex-run/psg_long_lock_longify_v1_full_split_trace_joined_summary.md`; production keep CSV: `.worktrees/psg-long-lock-role-grammar/.codex-run/psg_long_lock_longify_v1_full_split_trace_production_keep.csv`.
+- Keep mix: `core_burst=12`, `lock_buckle=12`, `section_unlock=6`, `dense_weave=2`; dense rows require `runbreak` split and keep generated greedy axis/dir runs at `6/6`.
+- Worktree `Demo.unity` activePack points to `PSGLongLockLongifyV1ProductionKeepPack.asset` for visual review.
+
+## Generated-Root WBP V12 t11 Core-Guard Root - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Level asset root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t11_coreguard/`.
+- Root pool: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t11_coreguard_root_pool.csv`.
+- Growth log / summary: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t11_coreguard_growth_log.csv`, `t11_coreguard_summary.md`.
+- Strict summaries: `t11_coreguard_corepreflight_summary.csv` and `t11_coreguard_strict_summary.csv`.
+- Frontier diagnostic summary: `t11_coreguard_frontierdiag_summary.csv`; detailed probe rows: `t11_coreguard_frontierdiag_01_t11_coreguard_c001.csv`.
+- Source-basin audit: `t11_coreguard_corepreflight_source_basin_audit.csv` and `_summary.md`.
+- Result: `t11_coreguard_c001` is authored-clean and Greedy solved at coverage `0.313765`; final planned slot core preflight is `4/4`. Corepreflight duty/ray gate reaches chain `7` / reserve `6` and source-basin audit passes; full strict still drops to chain `1`, so this is a frontier-profile blocker diagnostic, not a final candidate.
+
+## Generated-Root WBP V12 t12 Frontier/Cross-Frontier Diagnostics - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Level roots kept for review: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t12_frontierquad_seedscan1/`, `t12_frontiertriple_guard1/`, and failed generator smoke `t12_crossfrontier_slot5/`.
+- Direct-child frontier reports: `t12_frontierquad_seedscan1_root_pool.csv`, `t12_frontierquad_seedscan1_strict_summary.csv`, and `t12_frontierquad_seedscan1_strict_source_basin_audit_summary.md`.
+- Profile probes: `t12_crosstopq1_quad_frontier_allbasin_probe.csv`, `t12_crosstopq1_quad_fullstrict_allbasin_probe.csv`, `t12_crosstopq1_quad_nofrontier_allbasin_probe.csv`, and `t12_crosstopq1_quad_crossfrontier_allbasin_probe.csv`.
+- Cross-frontier wrapper/audit: `t12_crossfrontier_slot5_gate_summary.csv` and `t12_crossfrontier_slot5_gate_source_basin_audit_summary.md`.
+- Result: direct-child strict frontier can find local edges but fails source-basin audit with 0 cross-top-root edges. Cross-frontier profile passes the chain audit with disjoint 7, 3 activation top roots, and 4 cross-top-root edges. Generator `t12_crossfrontier_slot5` still selected 0, so this is a gate/profile proof and next-step blocker, not a final whole-board candidate.
+
+## Generated-Root WBP V12 t13 Cross-Frontier Roots And Duty-Seed Smoke - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Guarded generated roots: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t13_crossfrontier_chain_guard2/` and `t13_crossfrontier_chain_guard3_cov32/`.
+- Key root: `t13_crossfrontier_chain_guard3_cov32_c001`, coverage `0.3259109`, 22 root chains, authored-clean, Greedy solved, final strict slot audit `5/0`, external chain source-basin audit pass.
+- Duty-seed whole-board candidates: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t13_crossfrontier_cov32_dutyseed4_t1/`.
+- Duty-seed 4-chain result: 4 root-preserved candidates at coverage `0.3765182`, 26 total chains, 4 added state-frontier contracts, official trace 4/4 solved and process A, but all `LocalEasy` due no support carrier / shallow closure.
+- Duty-seed 5/6-chain result: no candidates, despite 9 exact disjoint seed capacity; final bundle layer fails by `greedy_unsolved`, added first-hit mismatch, overlap, and same-edge interaction.
+- Status: mechanism proof plus hardness-collapse diagnostic only. Do not promote to pack or use as final baseline; next candidate should add support-closure/anti-local gates before raising chain count or coverage.
+
+## Generated-Root WBP V12 t14 Closure-Core Extension Reports - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Candidate level roots: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t14_crossfrontier_cov32_closurebias4_t1/`, `t14_crossfrontier_cov32_closurebias5_wide2_t1/`, `t14_crossfrontier_cov32_closurecore4_ext1_t1/`, and `t14_crossfrontier_cov32_closurecore4_ext2_t1/`.
+- Report prefixes: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t14_crossfrontier_cov32_closurebias4_t1_*`, `...closurebias5_wide2_t1_*`, `...closurecore4_ext1_t1_*`, and `...closurecore4_ext2_t1_*`.
+- Positive current sample: `t14_crossfrontier_cov32_closurecore4_ext2_t1` has coverage `0.427-0.429`, 28 total chains, 6 added semantic chains, official trace `4/4` solved, process S/tight A, supportDepth `2`, antiLocality `0.435`, and hardV3 `0.321`.
+- Negative contrast: `t14_crossfrontier_cov32_closurebias5_wide2_t1` proves 5 frontier chains can be cut and official solved, but it drops to `LocalEasy` with supportDepth `0`; do not use pure frontier leaf expansion as the next baseline.
+- Status: still below target coverage and HardPotential. It is the current best WBP route shape: closure-positive frontier core plus semantic non-frontier extensions, followed by a required real support-carrier/far-CUD improvement.
+
+## Generated-Root WBP V12 t21-t24 Secondary Boundary Reports - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Strict exact10 2-carrier negative: report prefix `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t16br_t21_seed10_recon2_*`; `summary.md` shows 4 chain-plan seed states accepted after option-id identity/row reconstruction, but 0 candidates due real stateActual/corridor blockers.
+- Relaxed exact10 B1 local secondary: report prefix `.../t16br_t22_seed10_sec1_*`; candidates `t16br_t22_seed10_sec1_candidates.csv`, chain plan `_chain_plan.csv`, official trace `_trace_wt_metrics.csv` / `_steps.csv`, relation audit `_relation_audit_summary.md`, difficulty attribution `_difficulty_attribution_summary.md`. Result: coverage `0.4676-0.4696`, official 4/4 solved, process A, MediumStructure, but only 1 real added support carrier; B1->B1 secondary is weak/local.
+- No-B1 exact10 secondary: report prefix `.../t16br_t23_seed10_no_b1sec_*`; candidates/chain plan/trace/relation audit/difficulty attribution all present. Result: coverage `0.4696356`, official 4/4 solved, process S/tight A, hardV21 `0.724`, same-axis/same-dir run `4`, but still MediumStructure with 1 support carrier; B1->CHOKE improves rhythm but is not a second hub.
+- No-B1 exact11 boundary: report prefix `.../t16br_t24_seed11_no_b1sec_*`; no candidates. Summary/compatibility show nonlocal secondary capacity exhausted by occupied root/selected cells, no-path, duplicate-target, and target-not-blocked reasons.
+- Status: these are research reports, not Demo-mounted production levels. They establish the current generated-root WBP scaling boundary around exact10 on `t13_crossfrontier_chain_guard3_cov32_c001`.
+
+## Generated-Root WBP V12 t27-t29 Secondary Demand And Reserved-Root Reports - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Demand diagnostic prefix: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t16br_t27_seed11_no_b1sec_demand_reason_*`; key files are `_carrier_profile.csv`, `_demand_analysis.csv`, `_demand_analysis.md`, `_summary.md`, and `_compatibility.csv`.
+- Secondary cell demand: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t16br_t27_seed11_no_b1sec_secondary_cell_demand.csv`; roles include `release_corridor_conflict`, `body_corridor_gap`, `secondary_corridor`, and `target_ray_corridor`.
+- Reservation fit: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t16br_t27_seed11_no_b1sec_secondary_reservation_fit.csv` and `_secondary_reservation_fit.md`; current t13 root has openDemandShare `0.737481` but occupied demand weight `865`.
+- Scratch reserved-root smoke levels: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t28_secondary_reserved_root_smoke/`; reports `t28_secondary_reserved_root_smoke_root_pool.csv`, `_summary.md`, and `t28_secondary_reserved_root_gate_summary.csv`. Result: Greedy-solved generated roots at coverage `0.342-0.352`, but strict capacity only `0-2`; negative baseline.
+- Preserve-nonreserve reserved-root smoke levels: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t29_secondary_preserve_reserved_root_smoke/`; reports `t29_secondary_preserve_reserved_root_smoke_root_pool.csv`, `_summary.md`, `t29_secondary_preserve_reserved_root_gate_01_t29_secondary_preserve_reserved_root_smoke_c001.csv`, and partial `t29_secondary_preserve_reserved_root_gate_summary.csv`.
+- t29 partial result: c001 has root coverage `0.346154`, 23 root chains, strict `bestChainDisjoint=4` on edges `19->11,19->9,19->2,12->7`, but fails capacity/diversity tags. Full four-root gate timed out and was stopped; do not treat t29 as official or baseline.
+- Status: these reports establish that secondary corridors must be co-planned before exact10 seed closure. They are not Demo-mounted production levels and have no final official trace/difficulty claim.
+
+## Generated-Root WBP V12 t30-t48 Demand-Scored Root/Basin Reports - 2026-06-29
+
+- Demand-scored t13 exact11/e10 reports: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t16br_t30_seed11_no_b1sec_demandscore_smoke_*`, `t16br_t31_seed10_no_b1sec_demandscore_*`, `t16br_t32_seed11_from_t31_demandscore_*`, `t16br_t33_seed10_demandcap700_probe_*`, `t16br_t34_seed9_from_t14_demandscore_*`, `t16br_t35_seed10_from_t34_demandscore_*`, and `t16br_t36_seed11_from_t35_demandscore_*`.
+- t13 boundary probes: `t16br_t37_seed10_from_t34_delay_choke_probe_*`, `t16br_t38_seed10_from_t34_delay_choke_generic_probe_*`, `t16br_t39_seed10_from_t34_secondary_wide_probe_*`, and `t16br_t40_seed10_from_t34_secondary_all_empty_probe_*`. Result: CHOKE is required for exact10, and widened/empty secondary search still uses the same left-edge demand cells.
+- Root-fit rankings: `t41_fit_t13_crossfrontier_chain_guard3_cov32_root_pool.*`, `t41_fit_t13_crossfrontier_chain_guard2_root_pool.*`, `t41_fit_t28_secondary_reserved_root_smoke_root_pool.*`, and `t41_fit_t29_secondary_preserve_reserved_root_smoke_root_pool.*`. Use `t29_secondary_preserve_reserved_root_smoke_c004` as a demand-fit probe only.
+- t29 WBP probe levels/reports: `t16br_t42_t29c004_wbp_exact4_smoke_*`, `t16br_t43_t29c004_wbp_exact5_smoke_*`, `t16br_t44_t29c004_wbp_exact5_generic_smoke_*`, `t16br_t45_t29c004_wbp_exact6_generic_smoke_*`, `t16br_t46_t29c004_wbp_exact6_lowfrontier_probe_*`, `t16br_t47_t29c004_wbp_exact7_lowfrontier_probe_*`, and `t16br_t48_t29c004_wbp_exact8_lowfrontier_probe_*`.
+- Best t29 probe: `t16br_t47_t29c004_wbp_exact7_lowfrontier_probe` writes 4 Greedy-solved exact7 candidates at coverage `0.449-0.451`, maxLen `9`, and `stateDemandOverlapWeight=0`. It is not official/difficulty-approved and stalls at exact8, but it proves the root-basin demand-fit direction is viable.
+- Status: current active WBP research branch should build a new generated-root/root-basin pool with t13-like cross-frontier/support capacity plus t29-like demand openness; none of these t30-t48 outputs are production packs.
+
+## Generated-Root WBP V12 t49 Root/Demand Audit Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- Lightpool root trace: `t49b_sbrg_t13_lightpool_root_trace_*`; 6/6 solved, process `4 A + 2 B`, but all `LocalEasy`. Treat as negative/root-quality diagnostic.
+- c001 branch: `t49c_c001_wbp_exact4_smoke_*`, `t49d_c001_wbp_exact5_smoke_*`, `t49d2_c001_wbp_exact5_demand0_*`, `t49e_c001_wbp_exact4_demand0_*`, and `t49d_c001_wbp_exact5_nodemand_trace_*`. Result: no-demand exact5 solved/process A/S but LocalEasy and consumes t27 demand cells; demand0 exact4/exact5 has 0 candidates.
+- c003 demand0 branch: `t49e_c003_wbp_exact4_demand0_*`, `t49f_c003_wbp_exact5_demand0_*`, `t49g2_c003_wbp_exact6_demand0_depth6_*`, `t49h2_c003_wbp_exact7_demand0_depth7_noseedbonus_*`, and `t49g2_c003_wbp_exact6_demand0_trace_*`. Result: exact6 coverage about `0.324-0.328`, demand overlap 0, official solved/process B, LocalEasy/supportDepth 0; exact7 has 0 candidates.
+- c002 demand0 branch: `t49i_c002_wbp_exact4_demand0_*`, `t49j_c002_wbp_exact5_demand0_*`, `t49k_c002_wbp_exact6_demand0_depth6_*`, and `t49j_c002_wbp_exact5_demand0_trace_*`. Result: exact5 coverage about `0.385`, demand overlap 0, official solved/process A, LocalEasy/supportDepth 1; exact6 has 0 candidates.
+- Hard-root references to resume from: `grwbp_v8_root_input.csv` includes `geosupply_sched_root10_from_40eb0da7_r1_c038` at coverage `0.615942`, process A, `TrueHardCandidate`, supportDepth 4. `grwbp_v12_rootlang_edgepattern5_plannedaddedhit_t1_*` and `grwbp_v12_rootlang_edgepattern5_plannedaddedhit_t1_trace_full4_metrics.csv` show a hard-root extension to coverage `0.653-0.655`, official A, `MediumStructure`.
+- Status: t49 closes the lightpool/demand-only branch. Resume with hard-root pool selection plus demand/reservation/source-basin audit, not with these t49 candidates as production or baseline.
+
+## Generated-Root WBP V12 t50 Hard-Root Demand-Fit Smoke Reports - 2026-06-29
+
+- Root pool selector output: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t50_hardroot_pool_fromtrace.csv` and `_summary.md`; selected 80 official-hard generated roots from trace metrics.
+- Reservation fit output: `t50_hardroot_pool_fromtrace_reservation_fit.csv`, `_reservation_fit.md`, and selected top12 `t50_hardroot_pool_fromtrace_fit_top12_root.csv`.
+- Partial strict gate output: `t50_hardroot_fit_strict_t1_summary.csv`, `t50_hardroot_fit_strict_t1_01_root154_core_sched0564_v1_r1_c016.csv`, and `t50_hardroot_fit_strict_t1_02_root154_section_sched_v2_r5_c062.csv`. The top12 wrapper timed out on root 3 and the residual python probe was stopped.
+- Best partial root: `root154_section_sched_v2_r5_c062`, coverage `0.546559`, process S, `TrueHardCandidate`, hardV3 `0.783`, supportDepth `4`, bestChainDisjoint `7`, reserve `6`; quality gate still fails `capacity_lt_8;low_root_footprint;early_b1_cluster`.
+- Status: t50 is a positive route smoke, not a baseline. It should feed the next root selector/audit iteration, where hard identity, demand fit, root footprint, and strict semantic capacity are ranked together.
+
+## Generated-Root WBP V12 t51-t52 Short Semantic Whole-Board Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- Duty/ray probe reports: `t51_highfoot_strict_root154_core0589_c043.csv`, `t51_highfoot_strict_geosupply40eb_c038.csv`, `t51_highfoot_strict_rootlang0615_c024.csv`, `t51_crossfrontier_strict_root154_section_r5_c062.csv`, and key positive `t52_shortsemantic_strict_root154_section_r5_c062.csv`.
+- Key t52 probe result: `t52_shortsemantic_strict_root154_section_r5_c062.csv` reaches `chainQualityDisjoint=8` with short semantic chains (`min-chain-length=3`) and relation mix across B1/B2/CHOKE; it is a duty candidate pool, not a final level pack.
+- Exact8 WBP levels: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t52c062_e8d/`; reports `t52c062_e8d_candidates.csv`, `_chain_plan.csv`, `_planned_relations.csv`, `_summary.md`, `_trace_wt_metrics.csv`, `_trace_wt_steps.csv`, `_relation_audit_*`, and `_difficulty_attribution_*`.
+- Exact8 result: 4 candidates, coverage `0.6275304`, rootPreserved `True`, chainLegalityOk `True`, 8 added short/medium semantic chains, Greedy solved, official trace `4/4` solved with process/tight `S/S`, but all `LocalEasy` with hardV3 `0.356` due `antiLocal<0.55` / `local_penalty_dense`.
+- Negative controls: `t52c062_e8q_*` forces the theoretical t52 chain-quality edge pattern and gets 0 candidates (`disjoint_lookahead_dead` under slot-aware placement); `t52c062_e9x_*` adds one non-frontier extension and traces solved/process A but worsens hardV3 to `0.351`; `t52c062_e10y_*` forms exact9 final states but no exact10 candidate.
+- Status: mechanism proof and hardness-collapse diagnostic only. Resume from these reports when implementing anti-local/support-preserving whole-board scoring or new root/basin co-planning; do not use e9x/generic extension as coverage-scaling baseline.
+
+## Generated-Root WBP V12 t53-t54 Gap-Aware Root Capacity Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- Anti-local controls for c062: `t53c062_e8local0_actual1_*`, `t53c062_e8local0_only_*`, `t53c062_e8antilocal_score1_*`, `t53c062_e8antilocal_mild1_*`, and `t53c062_e8antilocal_option1_*`. Only option-level mild scoring writes candidates, and it reproduces the same chain set as `t52c062_e8d`.
+- Root probe reports: `t53_shortsemantic_strict_root154_core_sched0564_v1_r1_c016.csv`, `t53_shortsemantic_strict_geosupply_oh_root154_from055_section_c008.csv`, `t53_shortsemantic_strict_root154_core_sched0589_v1_r3_c043.csv`, `t53_shortsemantic_strict_root154_core_sched0589_v1_r3_c038.csv`, `t53_shortsemantic_strict_root154_section_sched_v2_r5_c056.csv`, `t53_shortsemantic_strict_root154_section_sched_v1_r3_c073.csv`, `t53_shortsemantic_strict_geosupply_sched_root10_from_40eb0da7_r1_c038.csv`, `t53_shortsemantic_strict_rootlang_root10_0615_section_short_r1_c024.csv`, and other nearby t53 strict probe CSVs.
+- Best exact8 WBP so far: `t53c016_e8d_*` from root `root154_core_sched0564_v1_r1_c016`; level dir `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t53c016_e8d/`; reports include `_candidates.csv`, `_chain_plan.csv`, `_trace_wt_metrics.csv`, `_relation_audit_*`, and `_difficulty_attribution_*`. Result: coverage `0.6518219`, official solved `4/4`, class `MediumStructure 0.476`, still `local_penalty_dense`.
+- Other exact8 WBP: `t53oh008_e8d_*` from root `geosupply_oh_root154_from055_section_c008`; official solved but weaker (`MediumStructure 0.359`, antiLocal `0.405`). `t53c016_e9x_*` exact9 has 0 candidates; `t53c016_e8local0_*` has 0 candidates.
+- Gap-aware probe reports: `t54_shortsemantic_gap2all_*` and `t54_shortsemantic_gap3all_*`. Key result: with both root/closure and source-owner min step gap set to 2, tested exact8 roots drop to at most 6 disjoint; with gap 3 they drop to at most 4. Use these as evidence that nonlocal capacity must be generated/selected before WBP chain cutting.
+
+## Generated-Root WBP V12 t55-t56 Gap2 Source-Basin Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- t55 gap-aware root audit reports: `t55_gapaware_smoke_gap2_top2.*`, `t55_gapaware_gap2_top32.*`, `t55_gapaware_gap2_rank33_80.*`, and combined `t55_gapaware_gap2_top80.csv`. Result: `t50_hardroot_pool_fromtrace` top80 has no gap2 capacity `>=8`; best capacity is `6`.
+- t56 source-basin rootgen low-coverage cap8 assets: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t56_sbrg_gap2_cap8_smoke1/`; root reports `t56_sbrg_gap2_cap8_smoke1_root_pool.csv`, `_growth_log.csv`, `_summary.md`, and `_basin_plan.csv`.
+- Selected generated roots: `t56_sbrg_gap2_cap8_smoke1_c001` coverage `0.2692308`, and `t56_sbrg_gap2_cap8_smoke1_c002` coverage `0.2834008`; both are mechanics-clean roots with gap2 `strictCuttableProxy=8`, but not official-hard baselines.
+- Independent gap2 duty probes: `t56_shortsemantic_gap2_t56_sbrg_gap2_cap8_smoke1_c001.csv` and `t56_shortsemantic_gap2_t56_sbrg_gap2_cap8_smoke1_c002.csv`; c002 reaches `chainDisjoint=8 / chainQuality=8`, c001 reaches `7 / 8`.
+- WBP exact8 negative: `t56c002_e8gap2_*` has 0 candidates. Summary shows depth7 can form, but final exact8 fails from slot-state conflicts (`cell_overlap`, `same_edge`, `slot_offset_mismatch`, `first_hit_owner_mismatch_added`).
+- WBP exact7 diagnostic: level dir `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t56c002_e7gap2/`; reports include `t56c002_e7gap2_candidates.csv`, `_chain_plan.csv`, `_trace_wt_metrics.csv`, `_trace_wt_steps.csv`, `_relation_audit_*`, and `_difficulty_attribution_*`.
+- Exact7 result: 4 candidates, coverage `0.3765182`, official `4/4` solved, process/tight `A/A`, but all `LocalEasy 0.168`; difficulty attribution reports added support `0`, local penalty `3`, and risk `local_penalty_dense;no_added_support_carrier`. Use this as a negative for solved/process-A weak-dependency plans.
+
+## Generated-Root WBP V12 t57 Reserve-Aware Source-Basin Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- Strict growth guard negative: `t57_sbrg_gap2_slot8_smoke1_*`; early strict slot growth guard selected 0 and starved coverage, so do not use early strict guard as default.
+- Late reserve slot audit: `t57_sbrg_gap2_slot8_late2_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; selected 0. It proves t56 seeds have chain-level cap8 but reserve/slot capacity only `4/5`.
+- Chain-only false-positive control: `t57_sbrg_gap2_slot8_chainset2_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; selected `t57_sbrg_gap2_slot8_chainset2_c001` only when slot set is `chain`, with `cuttableSlotPlanned=8` but reserve-quality `5`.
+- Reserve gate smoke after script update: `t57_sbrg_gap2_reservegate2_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; selected 0 and emits new growth fields `strictCuttableProxySelectedReserveDisjoint` / `strictCuttableProxyReserveQualityDisjoint`. The command hit 120s timeout, so use it as field/gate smoke rather than a full reproducible root scan.
+- Status: t57 reports define the next resume point: scan/generated roots must satisfy reserve-aware gap2 cap8 or final strict slot preflight cap8 before WBP exact8+ chain cutting.
+
+## Generated-Root WBP V12 t58-t59 Reserve-First Source-Basin Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- Reserve-first single-seed smoke: `t58_sbrg_gap2_reservefirst_seed560123_rq5_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; selected 0. This run verifies the new reserve-first fields/gate shape but does not reproduce the old t56 geometry, so do not treat it as a reserve-aware scan.
+- Current-code scan: `t59_sbrg_gap2_reservefirst_scan3_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; generated levels under `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t59_sbrg_gap2_reservefirst_scan3/`.
+- t59 result: 3 selected mechanics-clean generated roots, coverage `0.2732794-0.3117409`, authored/import OK and Greedy solved, but reserve-first strictCuttable is weak: best row `t59_sbrg_gap2_reservefirst_scan3_c001` has `selectedChain=2`, `selectedReserve=2`, `chainQuality=2`, `reserveQuality=2`, `crossTopRootEdges=0`, activation dominance `1.000`; other rows are `0/0`.
+- Status: t58/t59 are boundary reports. They show final-only reserve auditing is not enough; next useful assets should come from a source-basin/root generator that plans reserve slots and cell roles before growth/cutting.
+
+## Generated-Root WBP V12 t61-t67 Light-Role Reserve Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- Negative probes: `t61_sbrg_gap2_lightrole_seed560120_*` soft penalty only planned 2 and consumed 4; `t62_sbrg_gap2_lightrole_hardprotect_seed560120_*` full reserve hard protect planned 8/consumed 0 but stalled at coverage `0.2226721`; `t63_sbrg_gap2_lightrole_raycore_seed560120_*` ray-only hard protect selected coverage `0.2631579` but reserveQuality `1`.
+- Better single-seed probes: `t64_sbrg_gap2_lightrole_rayhard_anchorsoft_seed560120_*`, `t65_sbrg_gap2_lightrole_diverse_seed560120_*`, and `t66_sbrg_gap2_lightrole_diverse_nodirect_seed560120_*`. t65 has lightRole `8/8/0`, activationTopRoots `4`, dominance `0.375`, but direct-child strict reserveQuality `1`; t66 no-direct-child raises selectedChain to `4`, selectedReserve/reserveQuality to `3`, crossTop `3`.
+- Main small scan: `t67_sbrg_gap2_lightrole_diverse_nodirect_scan3_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; generated levels under `.../GeneratedRootWBPV12/t67_sbrg_gap2_lightrole_diverse_nodirect_scan3/`.
+- t67 result: selected 2/3 mechanics-clean generated roots. c001 coverage `0.2732794`, lightRole `8/8/0`, activationTopRoots `4`, reserveQuality `3`; c002 coverage `0.2813765`, lightRole `7/7/0`, activationTopRoots `3`, selectedChain `10` but selectedReserve/reserveQuality `3`. Treat as cell-plan progress, not WBP baseline.
+- Status: t67 is the current resume point for light-role source-basin rootgen. Next report should target reserveQuality `>=8` by converting planned role edges into actual candidate-chain slot availability.
+
+## Generated-Root WBP V12 t68-t69 Planned Role Slot Audit Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t68 planned-edge audit scan: `t68_sbrg_gap2_lightrole_slotaudit_scan3_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; selected 0 because the stricter reproduction had consumed-cell/coverage misses, but growth log contains the planned-edge audit metrics.
+- t68 result from growth log: seeds `560120/560121/560122` have lightRole planned `8/6/7`, while `lightRoleSlotReserveQualityDisjoint` is only `1/3/1`. This is the key evidence that preserved light-role cells are not yet slot-fit role chains.
+- t69 relaxed single-seed audit: `t69_sbrg_gap2_lightrole_slotaudit_relaxed_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; generated level under `.../GeneratedRootWBPV12/t69_sbrg_gap2_lightrole_slotaudit_relaxed_seed560120/`.
+- t69 result: coverage `0.2874494`, chains `20`, authored OK, Greedy `7/3.200/7`, lightRole `8/8/1`, but role slot only `1/1/1`; generic strictCuttableReserve remains `3/3`. It is a diagnostic row only, not a WBP baseline.
+- Status: resume by making light-role planning slot-fit-aware before growth/cutting. Use `lightRoleSlotPreflightRejectReasons` and `lightRoleSlotGeometryRejectReasons` to target first-hit owner mismatch, release/pre-release blocking, and no-path/occupied-corridor blockers.
+
+## Generated-Root WBP V12 t70-t74 Slot-Fit Selection Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- Positive diagnostic: `t70_sbrg_gap2_lightrole_slotfit_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; generated level under `.../GeneratedRootWBPV12/t70_sbrg_gap2_lightrole_slotfit_seed560120/`. Result: selected 1, coverage `0.2874494`, lightRole `8/8/1`, role slot `3/3/3`, generic strict reserve `3/3`.
+- Slot-fit no-cap control: `t74_sbrg_gap2_lightrole_slotfit_nocap_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; generated level under `.../GeneratedRootWBPV12/t74_sbrg_gap2_lightrole_slotfit_nocap_seed560120/`. Result matches t70, so activation-top cap is not the current bottleneck.
+- Early slot-reserve packing control: `t73_sbrg_gap2_lightrole_slotfit_pack_once_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; generated level under `.../GeneratedRootWBPV12/t73_sbrg_gap2_lightrole_slotfit_pack_once_seed560120/`. It completes faster but only reaches lightRole `2/2/0` and role slot `1/1/1`, so after-seed early lock is too restrictive.
+- Timeout negatives: t71 slot reserve cell inclusion and t72 slot-reserve selection timed out; partial `basin_plan` files were removed, so there are no persistent t71/t72 report artifacts to resume from.
+- Status: t70/t74 are route diagnostics, not baselines. Resume by exporting/auditing slot-fit edge supply and root-growth blockers, then make growth create more slot-fit edges before attempting WBP exact8+ or coverage scaling.
+
+## Campaign500 Long-Chain Pilot3 V1 Worktree Review - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`.
+- Replacement plan: `.codex-run/campaign500_longchain_pilot3_replacement_plan_v1.csv`; sections `3/25/45`, 9 target slots total.
+- Full generated pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V1Pack.asset`; level root `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V1/`.
+- Source report/summary: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v1_report.csv` and `_summary.md`; selected 30/36 review candidates, coverage `0.9504-0.9766`, avg longVisualCellShare `0.626`.
+- Full lightweight trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v1_full4_fast_metrics.csv`; result 30/30 solved, missing/failed `0`.
+- Demo9 trace-aware keep CSV/summary: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v1_demo9_trace_keep.csv` and `_summary.md`; 9/9 solved, one selected level per target order.
+- Demo9 review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V1Demo9Pack.asset`, GUID `be527d4b7cfa0934aa8dccd1f24a1d55`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here.
+- Boundary: Demo9 is for visual review of the first 3 campaign sections, not final production keep. Most rows are solved but process tier `Drop` because choice pressure is still high.
+
+## Nutation Hub V3 / Maze V2 Worktree Review - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Hub V3 pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV3Pack.asset`; source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v3_report.csv`; joined `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v3_smoke1_trace_joined.csv`.
+- Hub V3 result: 7/7 traced solved; rank `VisualKeep=1 / ProcessKeep=6 / Reject=0`; production keep rows 0. Best row `nutation_hub_spoke_v3_07_nutation_hub_spoke_v3_rect_woven_hub_a` has STS `0.805`, collapse `0.320`, local `7`, but fails sameAxis/sameDir/dependency-local strict gates.
+- Maze V2 pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMazePatchV2Pack.asset`; source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_patch_v2_report.csv`; joined `.worktrees/nutation-peel/.codex-run/nutation_maze_patch_v2_smoke2_trace_joined.csv`.
+- Maze V2 result: 4/4 traced solved; rank `ProcessKeep=1 / Reject=3`; production keep rows 0. Best row `nutation_maze_patch_v2_03_nutation_maze_patch_v2_rect_dense_lattice` has coverage `0.908`, choices `3.82/9`, local `9`, but STS `0.678`, collapse `0.460`, sameAxis `14`, sameDir `11`.
+- Updated Hub/Maze review pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMazeAntiCollapseReviewPack.asset`; mounted in worktree Demo; style-proof/gap review only, not production.
+
+## Nutation Hub V4 Worktree Anti-Axis Prototype - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Hub V4 pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV4Pack.asset`; levels `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV4/`; source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v4_report.csv`.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubSpokeProductionV4.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationHubSpokeV4Pack`.
+- Current joined report: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v4_smoke4_trace_joined.csv`; summary `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v4_smoke4_trace_joined_summary.md`; production keep CSV has 0 rows.
+- Smoke4 result: 4/4 traced solved; rank `VisualKeep=2 / ProcessKeep=1 / Reject=1`; 4/4 `styleFamily=hub_spoke`, 4/4 `chainLanguage=patch_chain`.
+- Best row `nutation_hub_spoke_v4_01_nutation_hub_spoke_v4_rect_woven_axis_a`: coverage `0.916`, choices `5.19/10`, local `5`, directionalRisk `0.157`, STS `0.809`, collapse `0.260`, sameDir `6`, dependencyLocal `0.545`, but sameAxisRun `20`; not production-approved.
+
+## Campaign500 Long-Chain Pilot3 V2 Worktree Review - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`.
+- Full V2 pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V2Pack.asset`; level root `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V2/`.
+- Source report/summary: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v2_report.csv` and `_summary.md`; selected `43/54`, coverage avg `0.9631`, maxChain avg `66.19`, maxChain range `34-94`.
+- Full trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v2_full_fast_metrics.csv`; `43/43 solved`, process tiers `A=4/B=2/Drop=37`.
+- Demo9 keep CSV/summary: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v2_demo9_trace_keep.csv` and `_summary.md`; `9/9 solved`, maxChain avg `54.78`, maxChain max `74`, edgeStraightRunMax avg `7.11`.
+- Demo9 review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V2Demo9Pack.asset`, GUID `6d069bd44eb6790439cb69f27a485c2b`; worktree `Demo.unity` activePack points here.
+- Boundary: visual/review only. V2 addresses “do not make chains too long” and “avoid continuous edge straight stacks”; most rows still process `Drop`, so it is not production keep.
+
+## Campaign500 Long-Chain Pilot3 V3 Worktree Review - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`.
+- Full V3 pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V3Pack.asset`; level root `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V3/`.
+- Source report/summary: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v3_report.csv` and `_summary.md`; selected `43/54`, coverage avg `0.9631`, maxChain avg `66.19`, `outerExitRunMax avg/max=1.00/1`, `outerExitSideMax avg/max=1.28/2`.
+- Full trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v3_full_fast_metrics.csv`; `43/43 solved`, process tiers `A=4/B=2/Drop=37`.
+- Demo9 keep CSV/summary: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v3_demo9_trace_keep.csv` and `_summary.md`; `9/9 solved`, maxChain range `34-74`, all rows `outerExitRunMax=1`.
+- Demo9 review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V3Demo9Pack.asset`; worktree `Demo.unity` activePack points here. Review only: choice pressure remains high on many late/challenge rows.
+
+## Nutation Reader-Rhythm V1 Worktree Review - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Review manifest: `.worktrees/nutation-peel/.codex-run/nutation_reader_rhythm_v1_review_rows.csv`; ranked candidates: `.worktrees/nutation-peel/.codex-run/nutation_reader_rhythm_v1_ranked.csv`; summary: `.worktrees/nutation-peel/.codex-run/nutation_reader_rhythm_v1_summary.md`.
+- Review pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationReaderRhythmV1ReviewPack.asset`; pack GUID `24f51485e38d01c4ab417c0477b027e9`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here.
+- Rows: 10 total, all selected from solved trace rows; LongChain 6 (`NutationLongChainCurveV1` 2, `NutationLongChainSpineV1` 2, `NutationLongChainRailV1` 2) + Peel 4 (`NutationPeelRailV1` 1, `NutationPeelCurveCurrent` 2, `NutationPeelPatchV1` 1).
+- Aggregate review metrics: `avgChoices=5.125`, `maxChoicesAvg=8.5`, `localPatchRunAvg=4.5`, `nearOuterRunAvg=3.8`, `stripeRiskAvg=0.085`, `directionalRiskAvg=0.132`; row 10 is a deliberate `Reject/high_risk` patch-chain near-miss for visual review only.
+- Boundary: this pack is for user feel-check of "visual read-chain difficulty + rhythm break"; it is not production keep and should not replace `NutationStyleMatrixStrictReviewPack` until user approves the direction.
+
+## Generated-Root WBP V12 t76 Slot-Fit Supply Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; source roots remain t70/t74 generated roots under `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t70 root-row supply audit: `t76_t70_lightrole_slotfit_supply.csv`, `_summary.csv`, `_summary.md`. Result: coverage `0.2874494`, lightRole `8/8/1`, only `3/8` planned edges have slot-fit candidates, planned-edge reserve remains `3/3/3`; successful edges are `8->12`, `3->10`, `12->11`.
+- t74 no-cap root-row supply audit: `t76_t74_lightrole_slotfit_supply.csv`, `_summary.csv`, `_summary.md`. Result matches t70, so activation-top cap is not the bottleneck.
+- Main blocker evidence: t70 top preflight rejects are `first_hit_owner_mismatch_base`, `blocks_release_owner`, `frontier_target_not_unlocked_after_carrier_clear`, and `first_hit_exits_board`; top blockers are owner12/owner8/owner13/owner3 corridor/head cells. This supports moving slot-fit blocker/corridor pressure earlier than WBP chain cutting.
+- t77 blocker-penalty smoke produced only a partial `basin_plan` before timeout; the partial was deleted and should not be used. Next report should use a lighter offline selector or staged growth experiment rather than full rootgen with repeated blocker scans.
+
+## Generated-Root WBP V12 t78-t80 Slot-Fit Feedback Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t78 old-root pressure map: `t78_slotfit_blocker_feedback_edges.csv`, `_cells.csv`, `_owners.csv`, `_details.csv`, `_summary.md`. It coalesces t70+t74 by generation and shows 7 failed planned edges; owner12 pressure `4932`, top cells `8,17 / 7,17 / 8,19 / 6,18`, secondary blockers owner8/13/6/9.
+- t79 staged growth with static t78 map: root reports `t79_sbrg_lightrole_blockermap_growth_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; generated level under `.../GeneratedRootWBPV12/t79_sbrg_lightrole_blockermap_growth_seed560120/`. Result: coverage `0.3016194`, chains `22`, Greedy `8/4.318/8`, lightRole `8/8/0`.
+- t79 post-hoc supply audit: `t79_sbrg_lightrole_blockermap_growth_slotfit_supply.csv`, `_summary.csv`, `_summary.md`. It improves supply to `5/8` planned edges with slot-fit candidates and `66` candidates, but role-slot reserve/quality remains `2/2`; activationTopRoots is only `2`.
+- t79 new blocker pressure: `t79_slotfit_blocker_feedback_edges.csv`, `_cells.csv`, `_owners.csv`, `_details.csv`, `_summary.md`. Failed edges shrink to 3 and move to owner5 group (`5->1/5->4/5->8`), with owner5 pressure `1766.7` and hotspot `0,15`.
+- t80 combined-map + activation cap: root reports `t80_sbrg_lightrole_blockermap_cap_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; generated level under `.../GeneratedRootWBPV12/t80_sbrg_lightrole_blockermap_cap_seed560120/`. Result: lightRole `8/8/9`, activationTopRoots `4`, dominance `0.250`, Greedy `6/3.350/6`.
+- t80 post-hoc supply audit is a negative: `t80_sbrg_lightrole_blockermap_cap_slotfit_supply.csv`, `_summary.csv`, `_summary.md` reports `0/8` slot-fit edges and `0/0` reserve. Top reject is target-not-unlocked/exit/release timing/no-candidate-path, so activation cap alone is not a route.
+- Status: t79 is a positive staged-growth signal; t80 is a complete negative control. Resume with a joint planned-edge selector that balances slot supply, reserve packing, activation spread, and first-hit/release preflight before running exact8+ or coverage scaling.
+
+## Tight Choice Bottleneck V1 Worktree Review - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Review manifest: `.worktrees/nutation-peel/.codex-run/tight_choice_bottleneck_v1_review_rows.csv`; ranked candidates: `.worktrees/nutation-peel/.codex-run/tight_choice_bottleneck_v1_ranked.csv`; summary: `.worktrees/nutation-peel/.codex-run/tight_choice_bottleneck_v1_summary.md`.
+- Review pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/TightChoiceBottleneckV1ReviewPack.asset`; pack GUID `d9d5bbf2ec25433fbe7985a3238fdb26`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here.
+- Rows: 10 total, selected from solved trace rows with real choice-control metrics; order is 5 clean LongChain rows (`NutationLongChainRailV1` 4 + `NutationLongChainSpineV1` 1), 4 Hub extreme-tight rows (`NutationHubSpokeV2/V3/V4`), and 1 PSG control row (`SGPPressureHardTrial` lock_buckle).
+- Clean LongChain rows have `avgChoices 2.73-3.41`, `maxChoices 5-7`, `lowChoiceRunMax 4-7`, and controlled `local/near/outer` runs; Hub rows are stronger bottleneck probes with `lowChoiceRunMax 4-15` but remain risk-review rows because same-axis/same-dir/local-collapse can still be visible.
+- Boundary: review-only pack for the user's “continuous 1-2 choices” feel-check; not production approval and not a new generator core yet.
+
+## Tight Choice Bottleneck V1 Correction - 2026-06-29
+
+- Correction: the LongChain rows above are no longer valid as general difficulty evidence. Their low-choice curve can be caused by chain length itself, so they may only be used for LongChain-specific comparison/control.
+- Corrected manifest and summary remain at `.worktrees/nutation-peel/.codex-run/tight_choice_bottleneck_v1_review_rows.csv` and `_summary.md`; summary must show `long-chain included as general evidence: False`.
+- Corrected pack remains `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/TightChoiceBottleneckV1ReviewPack.asset`, GUID `d9d5bbf2ec25433fbe7985a3238fdb26`, display name `Tight Choice Bottleneck V1 Review (10, Non-LongChain)`.
+- Corrected rows are Hub/Maze diagnostic probes plus 1 PSG control. Several rows remain process `Drop` or carry local/same-axis risk, so this is a feel-check pack only and does not prove a production-ready general hard route.
+- Current open `.worktrees/nutation-peel/Assets/ArrowMagic/Scenes/Demo.unity` is dirty and activePack points to `NutationHubRailV1Pack` GUID `da5940226b5d6914e83642b69162d3cd`; verify or remount before manual review.
+
+## No-Long-Chain Causal Hardlock5 V1 Calibration - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Review pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_NoLongChainCausalHardlock5V1Pack.asset`; GUID `b68b791db5d34c1bad43700d61c90ceb`; kept as calibration, no longer the current Demo mount.
+- Level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/NoLongChainCausalHardlock5V1/`; restored from `_AssetArchive/20260624_assetdatabase_trim/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/CausalHardlockDiverseReviewV1Cov28Frozen/`.
+- Report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/no_long_chain_causal_hardlock5_v1_selected.csv`; summary `no_long_chain_causal_hardlock5_v1_summary.md`.
+- Metrics: 5 rows, `34` chains, `229-232` arrows, `maxChain=9-15`, `singleClearShare=0.039-0.065`, `avgChoices=2.79-3.12`, `maxChoices=5-6`, `localPatchSolveRunMax=1-2`, `nearOuterPatchSolveRunMax=0-1`.
+- Use when checking whether short/mid carrier causal locks create real difficulty after rejecting LongChain low-choice false positives. Review-only, not production approval.
+
+## Skeleton Gate V1 DenseDep Negative Reference - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Negative reference pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_PressureReadStageLockSkeletonGateV1DenseDepReview2Pack.asset`; GUID `bf0bd14c0af14f15be0f52ea999855d0`; current `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack at time of rejection.
+- Level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/PTDASkeletonGateV1DenseDepReview2/`; restored from `_AssetArchive/20260624_assetdatabase_trim`.
+- Reports: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/pressure_read_stage_lock_skeleton_gate_v1_dense_dep_review2_frozen_trace_metrics.csv`, `pressure_read_stage_lock_skeleton_gate_v1_dense_dep_review2_input.csv`, and `hard_lane_skeleton_gate_v1_dense_dep_review2_notes_20260621.md`.
+- Metrics: 2/2 solved, process `S/S`, 15x24 and 15x25, `24` chains each, prior notes coverage about `0.805-0.822`, `avgChoices=2.12/3.00`, `maxChoices=5/4`, `stageLockScore=0.927/0.767`.
+- User rejection: this pack does not match the user's prior skeleton concept and feels like a long chain being blocked once. Do not use it as proof that skeletons can become complete hard levels; keep only as a negative example for misleading "skeleton" labels and long-chain block difficulty.
+
+## V1.31 Extended Balanced Hardest Focus10 - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`.
+- Source pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV131ExtendedBalancedReviewPack.asset`; GUID `91a29088725441d3b604fa2e66f8d71e`; 108 refs from 6 families x 18.
+- Focus pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV131HardestFocus10Pack.asset`; GUID `a9f34884d0a54b4ca10e3b42fa8aa131`; current `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack on disk.
+- Focus manifest: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/v131_extended_balanced_hardest_focus10_20260629.csv`; summary: `v131_extended_balanced_hardest_focus10_20260629_summary.md`.
+- Static audit for all 108: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/v131_extended_balanced_review108_static_hardness_audit_20260629.csv`.
+- Top24 trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/v131_extended_balanced_review108_top24_lighttrace_20260629_metrics.csv`; summary: `v131_extended_balanced_review108_top24_lighttrace_20260629_summary.md`.
+- Shortlist ranks: `85, 88, 90, 106, 107, 103, 74, 86, 67, 70`; selected to mix short-chain low-choice, high-structure Web/FourFam delayed dependency, and short-chain stage-lock probes.
+- Boundary: review-only. The selected rows avoid long-chain false positives (`maxChain=9-15`, `singleClearShare=0.0456-0.0657`) but still require manual feel review.
+
+## Generated-Root WBP V12 t81-t86/t84/t85/t86 Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t81 staged selector over t79: `t81_offline_joint_t79_root_pool.csv`, `t81_offline_joint_t79_edges.csv`, `t81_offline_joint_t79_summary.md`; audit reports `t81_offline_joint_t79_slotfit_supply.csv`, `_summary.csv`, `_summary.md`. Result: selected 5 planned edges, `2/5` slot-fit edges, roleSlot reserve `2/2`.
+- t81 feedback from patched t79: `t81_offline_joint_t79_slotfit_edge_pressure.csv`, `_cell_pressure.csv`, `_owner_pressure.csv`, `_blocker_detail.csv`, `_blocker_feedback_summary.md`. Top blocked edge is `5->1`; owner5/cell `0,15` dominates.
+- t81 semantic cell plan artifact: `t81_offline_joint_t79_semantic_cell_plan.csv`, `t81_offline_joint_t79_semantic_edge_plan.csv`, `t81_offline_joint_t79_semantic_cell_plan_summary.md`. It records board `19x26`, rootCells `149`, selectedEdges `5`, slotFitSelectedEdges `2`, plannedNonRootCells `72`, rootPlanConflicts `0`.
+- t82 owner5-feedback rootgen: root reports `t82_sbrg_lightrole_owner5_feedback_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; level under `.../GeneratedRootWBPV12/t82_sbrg_lightrole_owner5_feedback_seed560120/`. Result: coverage `0.3178138`, chains `22`, Greedy `7/4.136/7`, lightRole `8/8/0`; supply audit only `3/8`, reserve `2/2`.
+- t82 offline selector/audit: `t82_offline_joint_root_pool.csv`, `t82_offline_joint_edges.csv`, `t82_offline_joint_summary.md`, plus `t82_offline_joint_slotfit_supply.csv/_summary.*`. It selects 7 edges but still only `2/7` slot-fit edges, so it is a negative for diversity-without-supply.
+- t83 multi-map hard feedback rootgen reports: `t83_sbrg_lightrole_multimap_feedback_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; no selected roots because lightRole only reached `7/8`.
+- t84 soft multi-map rootgen reports: `t84_sbrg_lightrole_multimap_soft_seed560120_root_pool.csv`, `_growth_log.csv`, `_summary.md`, `_basin_plan.csv`; level under `.../GeneratedRootWBPV12/t84_sbrg_lightrole_multimap_soft_seed560120/`. Result: coverage `0.3016194`, lightRole `8/8/12`, but supply audit `1/8`, reserve `1/1`. Feedback files use prefix `t84_sbrg_lightrole_multimap_soft_seed560120_slotfit_*`.
+- t85/t86 hard reserve negatives: `t85_sbrg_lightrole_hardreserve_seed560120_*` and `t86_sbrg_lightrole_hardray_seed560120_*` reports. Full reserve hard-exclude stalls around coverage `0.208`; ray-only hard-exclude reaches about `0.287` but does not pass the 8-edge gate. Keep as negative evidence, not baselines.
+- t87 low-budget live slot-fit scan timed out and its partial reports were deleted. Do not resume from t87 artifacts.
+
+## Generated-Root WBP V12 t88 Semantic Slot Preplan Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- t81 preplan outputs: `t81_offline_joint_t79_semantic_slot_preplan_cells.csv`, `_edges.csv`, `_constraints.csv`, `_summary.md`. Result: selectedEdges `5`, slotReady `2`, unmet `3`, constraints `72`, demandRootConflicts `6`; top demand owners are owner5/owner2, top cells `0,15`, `1,15`, `1,14`, `0,23-25`.
+- t84 negative preplan outputs: `t84_offline_joint_semantic_slot_preplan_cells.csv`, `_edges.csv`, `_constraints.csv`, `_summary.md`. Result: selectedEdges `8`, slotReady `1`, unmet `7`, constraints `70`, demandRootConflicts `13`; demand spreads across owner9/21/7/1/11/8.
+- Comparison summary: `t88_semantic_slot_preplan_compare_summary.md`. It records t81 as the stronger staged base because unmet constraints are concentrated and two cross-basin contracts are slot-ready; t84 confirms that pressure-map avoidance without slot creation broadens conflicts.
+- Use these files as the next root-growth/cutter input: preserve slot-ready reserve/chain cells, and avoid or relocate top demand blocker cells before adding more semantic chains. They are not final levels and do not claim coverage/difficulty success.
+
+## Generated-Root WBP V12 t89 Semantic Preplan Consumer Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t89_sbrg_semantic_preplan_seed560120/`.
+- Rootgen outputs: `t89_sbrg_semantic_preplan_seed560120_root_pool.csv`, `_basin_plan.csv`, `_growth_log.csv`, `_summary.md`; selected level `t89_sbrg_semantic_preplan_seed560120_c001` has coverage `0.3036437`, chains `21`, topRoots/openers `8/8`, lightRole `8/8/0`, Greedy `8/4.143/8`.
+- Supply audit: `t89_sbrg_semantic_preplan_seed560120_slotfit_supply.csv`, `_summary.csv`, `_summary.md`; result `slotFit edges 3/8`, candidate count `36`, role-slot reserve/quality `3/3/3`.
+- Offline 8-edge selector outputs: `t89_offline_joint_root_pool.csv`, `t89_offline_joint_edges.csv`, `t89_offline_joint_summary.md`; patched audit files `t89_offline_joint_slotfit_supply.csv`, `_summary.csv`, `_summary.md` still report `3/8` selected slot-ready edges and `3/3/3` reserve.
+- Semantic preplan outputs: `t89_offline_joint_semantic_slot_preplan_cells.csv`, `_edges.csv`, `_constraints.csv`, `_summary.md`; result `selected=8`, `slotReady=3`, `unmet=5`, `constraints=131`, `demandRootConflicts=16`.
+- Feedback outputs: `t89_offline_joint_slotfit_edge_pressure.csv`, `_cell_pressure.csv`, `_owner_pressure.csv`, `_blocker_detail.csv`, `_blocker_feedback_summary.md`; top blocked edge is `10->17` with slot `0` and pressure `540.6`.
+- Status: diagnostic positive, not final candidate. Use for next rootgen/preplan pass aimed at increasing ready semantic contracts before high-coverage cutting.
+
+## Generated-Root WBP V12 t90-t97 Repair / Slot Capacity Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated negative root dirs include `.../GeneratedRootWBPV12/t90_sbrg_repair_preplan_seed560120/` and `t97_sbrg_t92_repair_soft_seed560120/`.
+- t90 repair classifier outputs: `t90_semantic_repair_plan_edges.csv`, `_owners.csv`, `_cells.csv`, `_constraints.csv`, `_summary.md`. It classified four `10->*` edges as one shared activation corridor bundle and `13->1` as first-hit/exit timing. Direct t90 rootgen with these constraints was negative: coverage `0.2854251`, topRoots/openers `6/6`, supply `3/8`, reserve `2/2`.
+- t91/t92 repair-aware selector outputs: `t91_repair_policy_offline_*`, `t91_repair_policy_semantic_slot_preplan_*`, `t92_semantic_repair_plan_*`, and `t92_drop_redundant_*`. Key results: t91 `3/5` ready, t92 detected `13->1` redundant with ready `13->15`, and t92 clean core is `3/4` ready with reserve `3/3` and demandRootConflicts `8`.
+- t93 wide recompute supply outputs: `t93_recompute_from_t92_root_slotfit_supply.csv/_summary.*`. Recompute mode scanned `80` edge rows with `18` slot-fit edges and `100` candidates. Repair-aware wide selector `t93_wide_repair_policy_*` reached `4/8` slot-ready, role-slot reserve `4/4`, and semantic preplan `4 ready / 4 unmet`.
+- t94 repair/wide selector outputs: `t94_semantic_repair_plan_*` and `t94_wide_repair_policy_*`. It identifies a new owner20 shared bundle; selector remains at `4/8` slot-ready but improves activationTopRoots to `6` and dominance to `0.250`.
+- t96 candidate-variant supply/capacity outputs: `t96_recompute_variant_from_t92_root_slotfit_supply.csv/_summary.*`, `t96_bestrow_slot_capacity_*`, and `t96_variant_slot_capacity_*`. Variant audit sees `100` slot variants over `18` slot edges but max disjoint slot capacity is still `4`, selected edges `13->15,0->13,14->8,20->19`; top overlap cells are `8,12`, `9,12`, `7,12`, `6,12`, `5,12`, `8,16`.
+- Status: best current generated root is still diagnostic only. Current blocker is proven slot-capacity ceiling `4`, so the next rootgen pass must explicitly create at least five independent slot/corridor bands before selector/preplan can pass the `5-6/8` feasibility gate.
+
+## Generated-Root WBP V12 t98 Slot-Capacity Layout Breakthrough Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated level root for positive smoke: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/t98c_sbrg_slot_capacity_layout_seed560120/`.
+- Layout outputs: `t98_slot_capacity_layout.csv` and `_summary.md`; inputs were t96 variant capacity selected/overlap CSV plus the t92/t89 root row. The layout preserves 60 existing selected reserve cells, avoids 37 overlap cells, and targets 3 new vertical open bands.
+- Negative smoke outputs: `t98b_sbrg_slot_capacity_layout_seed560120_*`, `t98b_recompute_variant_slotfit_supply*`, and `t98b_variant_slot_capacity_*`. It hard-excluded old selected reserves plus new bands and dropped to coverage `0.2449393`, supply `9/76`, max disjoint `3`; use only as a boundary reference.
+- Positive rootgen outputs: `t98c_sbrg_slot_capacity_layout_seed560120_root_pool.csv`, `_basin_plan.csv`, `_growth_log.csv`, `_summary.md`. Selected root `t98c_sbrg_slot_capacity_layout_seed560120_c001` has coverage `0.3056680`, 23 chains, topRoots/openers `7/7`, authored OK, Greedy `7/5.174/7`, lightRole `8/8/9`.
+- Positive capacity outputs: `t98c_recompute_variant_slotfit_supply.csv/_summary.*` and `t98c_variant_slot_capacity_*`. Variant audit reports `112` variants, `19` slot edges, and max disjoint slot capacity `5` with selected edges `6->10,16->18,17->7,2->15,13->5`.
+- Variant-aware selector outputs: `t98c_variant_slot_core5_*` reaches `5/5` slot core; `t98c_variant_joint8_*` reaches `selected=8`, `slotEdges=5`, `activationTopRoots=5`. Non-variant `t98c_joint_edges*` remains `4/8`, so use variant-aware selector for this line.
+- Semantic preplan/repair outputs: `t98c_variant_joint8_semantic_slot_preplan_*` reports `selected=8`, `slotReady=5`, `unmet=3`, `constraints=141`, `demandRootConflicts=8`; `t98c_semantic_repair_plan_*` classifies the 3 unmet owner19 tail edges as `root_flex_relocate_blockers` / `repair_edge` and emits only preserve constraints.
+- Status: diagnostic breakthrough, not final level. Next useful step is t99: either variant-aware replacement/defer for owner19 tail edges or another slot-capacity layout/rootgen pass targeting `6/8` before high-coverage chain cutting.
+
+## Nutation Hub Dense AntiDir V1 Review - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Review pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubDenseAntiDirV1ReviewPack.asset`; GUID `40d17a2c8ce14dbdbdbf7f7b03a03848`; displayName `Nutation Hub Dense AntiDir V1 Review (10)`.
+- Review manifest: `.worktrees/nutation-peel/.codex-run/nutation_hub_dense_antidir_v1_review_rows.csv`; ranked candidates: `.worktrees/nutation-peel/.codex-run/nutation_hub_dense_antidir_v1_ranked.csv`; summary: `.worktrees/nutation-peel/.codex-run/nutation_hub_dense_antidir_v1_summary.md`.
+- Latest selector result: `18/18` joined files matched, `60` solved Hub/Maze rows audited, `25` unique levelIds, `1` strict Hub row, `10` watch Hub rows, `10` selected rows.
+- Selected rows target user feedback by preferring better core fill and lower outer-exit clustering: core coverage `0.900-0.963`, center empty component max `1-6`, outer-exit spatial run `1-2`.
+- Remaining risk: solve same-axis/same-dir runs still reach `18/12`, static same-dir component reaches `30`, and strict rows are too scarce. Review-only; do not treat as Hub production approval.
+- Current open `.worktrees/nutation-peel/Assets/ArrowMagic/Scenes/Demo.unity` was dirty and still pointed at `NutationHubRailV1Pack`; this pack was created on disk but not force-mounted.
+
+## Campaign500 Long-Chain Pilot3 V4 Perimeter Edge Repair - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`.
+- Full/partial visual review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V4Pack.asset`; level root `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V4/`.
+- Source report/summary: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v4_report.csv` and `_summary.md`; stopped after 38 rows, `16` selected across sections `3/25/45`.
+- Official trace input: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v4_full_trace_input.csv`; trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v4_full_fast_metrics.csv`; result `16/16 solved`, missing/failed `0`.
+- Demo9 keep CSV/summary: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v4_demo9_trace_keep.csv` and `_summary.md`; `9/9 solved`, `edgeStraightRunMax max=5`, process tiers `B=5, Drop=4`.
+- Demo9 review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V4Demo9Pack.asset`, GUID `e720679226003104c837b62bb9156487`; worktree Demo activePack points here.
+
+## Nutation Hub/Maze SolveFlow2 Reports - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Code under test: `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs` Hub/Maze `antiCollapseDebt` and `gateAwareSolveFlow` metadata; PSG assets and PSG source reports are unchanged.
+- HubRail solveflow2 source copy: `.worktrees/nutation-peel/.codex-run/nutation_hub_rail_v1_solveflow2_source_report.csv`; joined: `.worktrees/nutation-peel/.codex-run/nutation_hub_rail_v1_solveflow2_trace_joined.csv`; summary: `.worktrees/nutation-peel/.codex-run/nutation_hub_rail_v1_solveflow2_trace_joined_summary.md`; production keep CSV has 0 rows.
+- MazeRail solveflow2 source copy: `.worktrees/nutation-peel/.codex-run/nutation_maze_rail_v1_solveflow2_source_report.csv`; joined: `.worktrees/nutation-peel/.codex-run/nutation_maze_rail_v1_solveflow2_trace_joined.csv`; summary: `.worktrees/nutation-peel/.codex-run/nutation_maze_rail_v1_solveflow2_trace_joined_summary.md`; production keep CSV has 0 rows.
+- HubSpokeV4 solveflow2 source copy: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v4_solveflow2_source_report.csv`; joined: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v4_solveflow2_trace_joined.csv`; summary: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v4_solveflow2_trace_joined_summary.md`; production keep CSV has 0 rows.
+- MazePatchV2 solveflow2 source copy: `.worktrees/nutation-peel/.codex-run/nutation_maze_patch_v2_solveflow2_source_report.csv`; joined: `.worktrees/nutation-peel/.codex-run/nutation_maze_patch_v2_solveflow2_trace_joined.csv`; summary: `.worktrees/nutation-peel/.codex-run/nutation_maze_patch_v2_solveflow2_trace_joined_summary.md`; production keep CSV has 0 rows.
+- Temporary generation worktree `F:\Unityproject\ArrowLevel-Hand\.worktrees\nutation-peel-runner` was removed after the source reports were copied back; paths inside the joined summaries may still reference the removed temp source root, so use the copied source CSVs above for durable lookup.
+
+## Campaign500 Long-Chain Pilot3 V5 Perimeter Rail Review - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`.
+- Full V5 pack/report: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V5Pack.asset`; report `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v5_report.csv`; level root `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V5/`.
+- Official trace input: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v5_full_trace_input.csv`; trace metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v5_full_fast_metrics.csv`; result `25/25 solved`.
+- Demo9 keep CSV/summary: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v5_demo9_trace_keep.csv` and `_summary.md`; `9/9 solved`, `B=7/Drop=2`, coverage avg `0.954`, `edgeRailRunMax avg=9.778/max=14`.
+- Demo9 review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V5Demo9Pack.asset`, GUID `66d31b360efa8c943971353810116171`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here.
+
+## Generated-Root WBP V12 t99/t100 Capacity Rerank Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated root level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t99b layout outputs: `t99b_slot_capacity_layout.csv` and `_summary.md`. This was a negative diagnostic because orientation cap alone still selected only vertical bands.
+- t99c layout outputs: `t99c_slot_capacity_layout.csv` and `_summary.md`; true mixed layout with `BAND1 vertical 2`, `BAND2 horizontal 15`, `BAND3 vertical 5`, `BAND4 horizontal 19`.
+- t99c rootgen outputs: `t99c_sbrg_slot_capacity_layout_seed560420_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, `_growth_log.csv`; level dir `GeneratedRootWBPV12/t99c_sbrg_slot_capacity_layout_seed560420/`. It selected 3 Greedy-solved roots, but post-hoc supply was poor.
+- t99c supply/capacity outputs: `t99c_c001_recompute_variant_slotfit_supply*`, `t99c_c002_recompute_variant_slotfit_supply*`, `t99c_c003_recompute_variant_slotfit_supply*`, and `t99c_c003_variant_slot_capacity_*`. Best c003 only reached `9/80` slot-fit edges and max disjoint slot capacity `2`.
+- t100a partial output: `t100a_sbrg_slotaware_seed560120_basin_plan.csv` only. Rootgen-internal full slot-fit/audit timed out before writing a root pool; the residual process was stopped. Do not resume t100a as an in-loop full-audit route.
+- Current continuation point: create a larger cheap generated-root pool with the t98c viable slot-capacity layout profile, then run post-hoc variant slot-fit/capacity audit per selected root and rerank before variant-aware selector/preplan.
+
+## Generated-Root WBP V12 t101-t103 Target-Diversity Capacity Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated root level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t101a cheap pool reports: `t101a_sbrg_cheap_pool_seed560520_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, `_growth_log.csv`; per-root post-hoc supply/capacity outputs use `t101a_c00*_recompute_variant_slotfit_supply*` and `t101a_c00*_variant_slot_capacity_*`. Result: no root exceeded t98c capacity `5`.
+- t102b local hot-bucket layout reports: `t102b_slot_capacity_hotbucket_layout.csv` and `_summary.md`. Rootgen reports use `t102b_sbrg_hotbucket_seed560720_*`; post-hoc supply/capacity outputs use `t102b_c00*_recompute_variant_slotfit_supply*` and `t102b_c00*_variant_slot_capacity_*`. Result: best raw supply reached `24/80`, but max disjoint stayed `3-4`.
+- t103a target-diversity rootgen reports: `t103a_sbrg_targetdiv_hotbucket_seed560820_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, `_growth_log.csv`; level dir `GeneratedRootWBPV12/t103a_sbrg_targetdiv_hotbucket_seed560820/`.
+- t103a c001 post-hoc audit files: `t103a_c001_recompute_variant_slotfit_supply.csv/_summary.*` and `t103a_c001_variant_slot_capacity_*`; result max disjoint slot capacity `5`.
+- t103a c001 wide selector/preplan files: `t103a_c001_variant_joint8_wide_*`; selector result `selected=8`, `slotEdges=5`, `activationTopRoots=6`; semantic preplan result `slotReady=5`, `unmet=3`, `constraints=155`, `demandRootConflicts=14`.
+- t103a c001 repair files: `t103a_c001_variant_joint8_wide_semantic_repair_plan_*`; repair-drop selector files: `t103a_c001_variant_joint8_wide_repairdrop_*`. These confirm selector-only repair stays at `5` slot edges, so the next root pool should target capacity `6`.
+
+## Nutation HubSpoke V5 Control Experiment Reports - 2026-06-29
+
+- Worktree: `.worktrees/nutation-hub-v5-control`, branch `codex/nutation-hub-v5-control`; isolated from `.worktrees/nutation-peel`.
+- Generated level root: `.worktrees/nutation-hub-v5-control/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV5/`; pack path `.worktrees/nutation-hub-v5-control/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5Pack.asset`.
+- Source report: `.worktrees/nutation-hub-v5-control/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_report.csv`; production keep CSV is empty because smoke4 had no keep rows.
+- Smoke2 joined outputs: `.worktrees/nutation-hub-v5-control/.codex-run/nutation_hub_spoke_v5_smoke2_trace_joined.csv` and `_summary.md`; `4/4` official solved, `0` production keep, same-axis/same-dir still high.
+- Smoke4 joined outputs: `.worktrees/nutation-hub-v5-control/.codex-run/nutation_hub_spoke_v5_smoke4_trace_joined.csv` and `_summary.md`; `5/5` official solved, `5/5 Reject`, `5/5 local_collapse`, `0` process/visual/STS/production keep.
+- Smoke4 static quality is useful as diagnostic evidence: core coverage roughly `0.915-0.954`, max core hole `1-3`, same-direction neighbor rate `~0.227-0.266`, outer-exit run `1-3`. Playability trace still fails due local/near runs `10-13`, same-axis `11-24`, same-dir `8-21`, and dependency-local rate `0.605-0.687`.
+- Status: diagnostic only. Do not present the V5 pack for player review unless a future solve-order scheduler rerun produces strict keep rows.
+
+## V1.31 Skeleton PSG Corridor/Fill Bridge Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; level root for materialized probes: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/SkeletonPSGCorridorConnectorCutterV1/` and `.../SkeletonPSGSeededSGPFillV1/`.
+- Current positive low-coverage proof: `v131_rank85_skeleton_psg_connector_cutter_v1_latehit18_rayclean_candidates.csv` / `_lighttrace_metrics.csv`. Row `cc_cea8273a_a403f2e932_top04` has 4 selected connector units, static contract `4/4 firstHit + 4/4 corridorClear`, official trace `solved=True`, `processTier=A`, `hardStructureV3Class=TrueHardCandidate`, hardV3 `0.762`, avg/max choices `2.89/5`, coverage `0.2441176`.
+- Corridor plan inputs: `v131_rank85_skeleton_psg_corridor_wave_plan_v1_latehit18_rayclean_selected_corridors.csv` and `_summary.md`; key fix is dynamic base-ray-block rejection (`earlyBaseRayBlocks=0`) so connector cells do not stand on a base owner escape ray before that owner clears.
+- Fill bridge constraints: `v131_rank85_skeleton_psg_fill_constraints_top04_v1_reserve_edges.csv`, `_reserved_cells.csv`, and `_minimal_rolemap_cells.csv`; these are compatible with `Build-SeededDirectSGPFillBaselineV1.ps1` reserve/rolemap inputs.
+- Generic high-coverage fill negative: `v131_rank85_skeleton_psg_seeded_sgp_fill_top04_v1_reserveonly_candidates.csv` reached coverage `0.882-0.905`, but manual trace `..._reserveonly_manualtrace_metrics.csv` is `4/4 solved=False`, `4/4 Drop/LocalEasy`, max choices `53-61`. Contract audit `..._reserveonly_contract_audit_summary.md` says all rows are `ContractPreservedButFillerOpenerExplosion`: connector contract still `4/4`, but filler contributes `53-61` initial open heads and `40-41` dynamic base-ray blocks.
+- Direct-exit cap boundary: `v131_rank85_skeleton_psg_seeded_sgp_fill_top04_v1_directcap8_candidates.csv` with `MaxBoundaryDirectExitOpenersPerPass=8` only reaches coverage `0.599-0.626`; manual trace `..._directcap8_manualtrace_metrics.csv` is still `4/4 Drop/LocalEasy/unsolved`, max choices `16-17`.
+- Release-aware edge-provider boundary: `v131_rank85_skeleton_psg_seeded_sgp_fill_top04_v1_releaseaware_cap8_candidates.csv` consumes `v131_completefill_wholeplan_rank85_rolemap_smoke1_edges.csv` and accepts `16-19` release-aware heads, but coverage only reaches `0.622-0.654`; contract audit still reports `ContractPreservedButFillerOpenerExplosion` with `10-11` filler open heads and `38-39` dynamic base-ray blocks.
+- Status: no complete high-coverage Skeleton->PSG level exists yet. Current evidence proves the integration point is real at low coverage, and also proves `reserve corridor + generic SeededDirectSGP fill` is not enough. Next route must add a generation-time PSG filler contract: bounded opener supply, dynamic base-ray block rejection/controlled timed blockers, and a scheduled filler DAG rather than native Dense mop-up.
+
+## V1.31 Skeleton PSG Scheduled DAG Fill Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/SkeletonPSGScheduledDAGFillV1/`.
+- New script: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SkeletonPSGScheduledDAGFillV1.py`. It is isolated from original PSG and adds filler through a PSG-style dependency contract: owner-hit DAG, opener budget, filler edge insertion, and optional full ray-blocker DAG cycle guard.
+- Freeze negative/boundary: `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_strict_smoke_candidates.csv` with strict base-ray and frozen filler corridors preserved all planned edges and kept filler openers at `0`, but stalled at coverage `~0.40`; freezing every filler corridor consumes too much board space.
+- Unguarded insert boundary: `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_insert_smoke_candidates.csv` reached coverage `0.55-0.58` with `0` filler openers and all planned edges passing, but `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_insert_t550_*trace*` showed `solved=False`. Cause: first-hit DAG is insufficient because later blockers on the same ray create hidden full-ray dependencies/cycles.
+- Guarded strict positive: `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_insert_guarded_smoke_candidates.csv` with `insert + --full-ray-dag-guard + base-ray strict` produced solved B candidates. Official traces: `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_insert_guarded_t500_official_trace_metrics.csv` for coverage `0.5029412` is `solved=True`, `processTier=B`, openers `3`, avg/max choices `3.91/11`; `..._t542_official_trace_metrics.csv` for coverage `0.5421569` is `solved=True`, `processTier=B`, openers `3`, avg/max `4.01/10`.
+- Guarded head-ray positive: `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_insert_guarded_headray_smoke_candidates.csv` allows filler bodies, but not heads, on base schedule ray cells. Row `sdag_rt_guarded_headray_smoke_32_top04_t700_v01` reaches coverage `0.6294118`, keeps `initialFillerOpenHeads=0`, and official trace `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_insert_guarded_headray_t629_official_trace_metrics.csv` is `solved=True`, `processTier=B`, openers `2`, avg/max `4.15/10`.
+- Base-ray-off negative: `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_insert_guarded_baserayoff_smoke_candidates.csv` stalled lower (`0.465-0.473`) because allowing heads on base dynamic ray cells creates full-ray cycles quickly. Fan-in relaxed probe `..._headray_fanin4_smoke_candidates.csv` also did not beat the default head-ray run.
+- Contract audit: `v131_rank85_skeleton_psg_scheduled_dag_fill_v1_insert_guarded_contract_audit_*` shows connector contract remains `4/4` and filler openers remain `0`. Its `baseScheduleAddedRayBlockCount=5` matches the top04 connector baseline recheck, so strict guarded filler did not add new base-ray pollution beyond the materialized connector baseline.
+- Current status: route is proven for solvable B-level partial completion up to `0.629` coverage from the rank85 top04 skeleton, but not yet full/high coverage. Next useful work is timed base-ray blocker ownership and a capacity strategy for full ray-blocker DAG space; do not return to reserve+dense fill.
+
+## V1.31 Skeleton PSG Solver Topology / Realizer Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; realizer level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/SkeletonPSGTopologyRealizerV1/`.
+- Abstract release-lane topology outputs: `v131_rank85_skeleton_psg_solver_topology_v1_lanes4_smoke_*`, `v131_rank85_skeleton_psg_solver_topology_v1_lanes4_timed020_smoke_*`, and `v131_rank85_skeleton_psg_solver_topology_v1_lanes4_timed000_smoke_*`. The `lanes4` smoke proves abstract A/B full-ray topology at 0.88/0.94; `timed000` is the best current geometry source.
+- Geometry realizer script: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SkeletonPSGTopologyRealizerV1.py`; it writes candidates/chain plans and partial LevelDefinition assets without touching PSG production code.
+- Stable positive route proof: `v131_skelpsg_toporeal_t940v02_t0_selfguard_neutral_pos1_candidates.csv` and `_chain_plan.csv`; generated asset `SkeletonPSGTopologyRealizerV1/real_guard_neutral_pos1__a_a403f2e932_top04_t940_v02.asset`; coverage `0.7274510`, `107` generated chains, `fullRayDagPass=True`.
+- Official light trace for the positive: `v131_skelpsg_toporeal_t940v02_t0_selfguard_neutral_pos1_trace_light_metrics.csv`; result `solved=True`, process/tight tier `B/B`, openers `2`, avg/p80/max choices `2.86/4/7`, no choice peaks. Boundary: `LocalEasy`, `dependencyFollowRunMax=7`, `localPatchSolveRunMax=7`; not a final hard-feel keep.
+- Capacity audit outputs for the positive: `v131_skelpsg_topocapaudit_t940v02_t0_pos1_summary.csv`, `_node_capacity.csv`, `_chain_risk.csv`, `_target_pressure.csv`, and `_summary.md`. Key result: placed `107/207`, failure at topo owner `155` rank `31`; failed node has only `5/980` planned-target ray checks and `0` path variants, while generated local first-hit rate is `0.8505`.
+- V2 realizer probe outputs: `v131_skelpsg_toporeal_v2_t940v02_capaware_smoke1_lite_*`, `v131_skelpsg_toporeal_v2_t940v02_shadowcost_smoke6_lite_*`, `v131_skelpsg_toporeal_v2_t940v02_shadowcost_w64_smoke8_*`, plus strict-shadow/light-frontier negative smokes. `capaware_smoke1_lite` reached coverage `0.7333333` / `127` generated / planned local hit `0.4567`, but official trace remained `LocalEasy` with `localPatchSolveRunMax=9`; audit showed final actual first-hit relocalized. `shadowcost_smoke6_lite` solved/B at coverage `0.6745098`, but still `LocalEasy` and `dependencyFollowRunMax=10`.
+- Negative/control outputs: `v131_rank85_skeleton_psg_topology_realizer_v1_t940v02_timed000_selfguard_antilocal_smoke180_loose_*` improves some collapse diagnostics but drops to coverage `0.7009804` and official `processTier=Drop`; timed-heavy realizer smokes (`timed020`, default timed) stall at timed base-ray slot intersections.
+- Important audit: pre-selfguard timed000 realizer produced a `0.7245` full-ray-DAG-pass asset that official trace marked unsolved; self-ray audit found generated chains whose bodies occupied their own head ray. Future realizer/slot code must keep `rejectSelfRayBody`.
+
+## Campaign500 Long-Chain Pilot3 V7 - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`.
+- Full V7 pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V7Pack.asset`; level root `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V7/`.
+- Source report/summary: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v7_report.csv` and `_summary.md`; section3 selected orders `22/30/25`, coverage avg `0.9643`, source outer-exit head counts `8/10/16`.
+- Official trace input: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v7_section3_trace_input.csv`; official trace metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v7_section3_fast_metrics.csv`; result `3/3 solved`, process tiers `A/B/Drop`.
+- Demo review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V7Demo9Pack.asset`, GUID `fc08a06ec1e285a4abd7f7ecc810bb70`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here.
+- Boundary: visual-review only. Use V7 to inspect whether total outward heads now feel acceptable; do not treat the challenge row as production keep until opener/outer-exit pressure improves beyond the current Drop trace.
+
+## Generated-Root WBP V12 t104-t105 Target-Basin Capacity Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated root level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t104d target-diversity gate reports: `t104d_sbrg_targetdiv_gate_hotbucket_seed560800_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; generated levels under `GeneratedRootWBPV12/t104d_sbrg_targetdiv_gate_hotbucket_seed560800/`.
+- t104d per-root post-hoc capacity reports: `t104d_sbrg_targetdiv_gate_hotbucket_seed560800_c00*_recompute_variant_slotfit_supply.csv` plus `t104d_sbrg_targetdiv_gate_hotbucket_seed560800_c00*_variant_slot_capacity_*`. Best repeatable result is c002 max disjoint `5`; c003/c004 are lower.
+- t105 target-basin layout diagnostics: `t105a_target_basin_partition_layout*` through `t105e_target_basin_partition_layout*`. t105e is the useful layout: `targetBasinBuckets=6`, including owner4 center rank `4` at `5,4` to avoid owner0's `4,6` bucket.
+- t105f rootgen smoke: `t105f_sbrg_targetbasin6_seed561120_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; generated level dir `GeneratedRootWBPV12/t105f_sbrg_targetbasin6_seed561120/`. It selected `t105f_sbrg_targetbasin6_seed561120_c001` with coverage `0.3137652`, Greedy solved, strict-edge target owners/top roots `7/4`, and target dominance `0.438`.
+- t105f post-hoc supply/capacity: `t105f_c001_recompute_variant_slotfit_supply.csv`, `_summary.*`, and `t105f_c001_variant_slot_capacity_*`. Result: raw supply `20/80` slot-fit edges and `114` candidates, but max disjoint slot capacity only `4`; use as evidence that old-root static target basins do not bind to new-root owner identity.
+
+## Campaign500 Long-Chain Pilot3 V8 Opener Reduction Review - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`.
+- Full V8 pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V8Pack.asset`; level root `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V8/`.
+- Source report/summary: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v8_report.csv` and `_summary.md`; section3 selected orders `22/25/30`, coverage avg `0.9643`, source outer-exit head counts `8/14/9`, source initial openers `8/14/9`.
+- Official trace input: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v8_section3_trace_input.csv`; official trace metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v8_section3_fast_metrics.csv`; result `3/3 solved`, process tiers by order `22=A`, `30=B`, `25=Drop`.
+- Demo review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V8Demo9Pack.asset`, GUID `e69b0d21ce1cda0489bac71c2de49348`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here.
+- Boundary: visual-review only. V8 improves V7 challenge outward opener pressure but is not production strict because the challenge row still has `openers=14` and official `Drop`.
+
+## Campaign500 Long-Chain Pilot3 V9 Challenge-Only Opener Review - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`.
+- Full V9 pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V9Pack.asset`; level root `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V9/`.
+- Source report/summary: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v9_report.csv` and `_summary.md`; V9e selected `5/9`, orders `22/25/30`.
+- Official trace input: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v9e_selected_trace_input.csv`; official trace metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v9e_section3_metrics.csv`; selected rows all solved, process tiers include order22 `A`, order30 `B`, and challenge variants still `Drop`.
+- Demo3 manifest: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v9e_demo3_trace_input.csv`; chosen challenge row is `campaign500_longchain_pilot3_v9_03_l025_lock_buckle_pressure_slot_balanced` with source openers/head `11/11`.
+- Demo review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V9Demo9Pack.asset`, GUID `e2a38df3a9e55d6488a272b642a9ca39`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here.
+- Boundary: visual/metric review only. V9e improves challenge opener/max-choice metrics but does not improve process tier; do not expand until low-opener and low-choice branches are combined.
+
+## Generated-Root WBP V12 t106 Current-Root Target-Basin Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated root level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t106a recomputed t105f with current-root slot-fit target metrics: `t106a_c001_recompute_variant_slotfit_supply.csv`, `_summary.csv`, and `_summary.md`. Result: slot-fit `20/80`, current target owners/top roots/basin keys `5/4/5`, dominance `0.350`; role-slot reserve `3/3`.
+- t106a current-root target-basin layout diagnostic: `t106a_current_root_target_basin_layout.csv` and `_summary.md`. It produced only `5` target-basin buckets (`layoutRows=120`, preserve `49`, avoid `46`, target `25`), proving t105f had already collapsed at the current-root basin layer.
+- t106b current-target rootgen: `t106b_sbrg_currenttarget_seed561240_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; level dir `GeneratedRootWBPV12/t106b_sbrg_currenttarget_seed561240/`. It selected `t106b_sbrg_currenttarget_seed561240_c001`, Greedy solved at coverage `0.3036`, but post-hoc supply/capacity (`t106b_c001_recompute_variant_slotfit_supply*`, `t106b_c001_variant_slot_capacity_*`) collapsed to current target owners/basin keys `3/3` and max disjoint `3`.
+- t106c soft old-target-basin feedback: `t106c_sbrg_soft_targetbasin6_seed561360_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; level dir `GeneratedRootWBPV12/t106c_sbrg_soft_targetbasin6_seed561360/`. Post-hoc outputs `t106c_c001_recompute_variant_slotfit_supply*` and `t106c_c001_variant_slot_capacity_*` collapsed harder to target owners/basin keys `2/2` and max disjoint `2`.
+- t106d light-role activation gate fresh band: `t106d_sbrg_lightrole_gate_seed561520_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; selected `0`. Use as boundary evidence only; fresh seed band mostly missed strict target diversity before the new gate mattered.
+- t106e light-role activation gate replay band: `t106e_sbrg_lightrole_gate_seed560800_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; level dir `GeneratedRootWBPV12/t106e_sbrg_lightrole_gate_seed560800/`. Selected `t106e_sbrg_lightrole_gate_seed560800_c001`, Greedy solved at coverage `0.3117`, with planned light-role activation top roots `2`, but post-hoc outputs `t106e_c001_recompute_variant_slotfit_supply*` and `t106e_c001_variant_slot_capacity_*` still collapsed to target owners/basin keys `3/3` and max disjoint `2`.
+- Current conclusion: old-root target-basin layouts and cheap strict-edge diversity are false positives for the new generated root. The next root-pool rerank gate must use current-root post-hoc slot-fit target owners/basin keys plus max disjoint capacity; t103a/t104d c002 remain the best known max-disjoint `5` class, with t107 later refining their current supply target shape to `5/4/6`. The next milestone is a generated root with current-root capacity `6+`.
+
+## Generated-Root WBP V12 t107 Batch Current-Root Rerank Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated root level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t107a batch rerank outputs: `t107a_current_root_capacity_rerank.csv`, `_summary.md`, and per-root audit folder `t107a_current_root_capacity_rerank/`. It audits 14 selected roots from t103a/t104d/t105f/t106b/t106c/t106e. Result: `0/14` pass the current-root promotion gate; best rows are t103a c001 and t104d c002 at current supply targets `5/4/6`, dominance `0.455`, max disjoint `5`.
+- t107b strict proxy reconstruction outputs: `t107b_sbrg_rerank_seed561680_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; selected `0`. Use as evidence that proxy dominance `0.45` plus the reconstructed hotbucket layout is too narrow for this seed band.
+- t107c relaxed proxy rootgen outputs: `t107c_sbrg_rerank_seed561680_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; generated level dir `GeneratedRootWBPV12/t107c_sbrg_rerank_seed561680/`. It selected `t107c_sbrg_rerank_seed561680_c001`, Greedy solved at coverage `0.3036437`, but current-root rerank outputs `t107c_current_root_capacity_rerank.csv`, `_summary.md`, and folder `t107c_current_root_capacity_rerank/` show supply targets `3/2/3` and max disjoint `3`.
+- t107c blocker diagnostics now appear in the rerank CSV: top blocked targets `7:12,10:6,16:6`, top blocked basins `B3->CHOKE:12,B2->CHOKE:6,B1->B2:6`, and top overlap cells `9,4:18,7,4:14,8,4:14,16,3:12,15,3:12`. Use these for the next current-root feedback layout/rootgen pass.
+- Status: no `capacity 6+` generated root exists yet. t107 establishes the automated promotion/audit surface; next work should consume rerank blocker/overlap diagnostics rather than promoting strict-edge proxy roots directly.
+
+## Generated-Root WBP V12 t108 Owner-Basin Feedback Layout Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated root level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t108a feedback layout outputs: `t108a_current_root_ownerbasin_feedback_layout.csv` and `_summary.md`. It consumes t107a rank1 (`t103a_sbrg_targetdiv_hotbucket_seed560820_c001`) selected/overlap/supply, uses `target-basin-group-key=owner_basin`, and emits `6` target-basin buckets from current-root supply. This is a representation fix: owner20 appears as both `B2->B3` and `B1->B3`.
+- t108b soft owner-basin feedback rootgen outputs: `t108b_sbrg_ownerbasin_soft_seed561840_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, and `_growth_log.csv`; selected `0` at root coverage `0.30` / min `0.28`.
+- t108c low-root soft feedback outputs: `t108c_sbrg_ownerbasin_soft_lowroot_seed561840_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, `_growth_log.csv`; generated level dir `GeneratedRootWBPV12/t108c_sbrg_ownerbasin_soft_lowroot_seed561840/`. It selected `t108c_sbrg_ownerbasin_soft_lowroot_seed561840_c001`, but rerank outputs `t108c_current_root_capacity_rerank.csv`, `_summary.md`, and folder `t108c_current_root_capacity_rerank/` show current targets `3/2/3`, dominance `0.467`, max disjoint `3`.
+- t108d hard owner-basin feedback outputs: `t108d_sbrg_ownerbasin_hard_seed561920_root_pool.csv`, `_summary.md`, `_basin_plan.csv`, `_growth_log.csv`; generated level dir `GeneratedRootWBPV12/t108d_sbrg_ownerbasin_hard_seed561920/`. Rerank outputs `t108d_current_root_capacity_rerank.csv`, `_summary.md`, and folder `t108d_current_root_capacity_rerank/`; best row c002 reaches only current targets `4/4/4`, dominance `0.600`, max disjoint `3`.
+- Status: t108 proves owner-basin grouping is useful for diagnostics, but static migrated feedback layouts still do not bind the next generated root's owner identity. Continue with t107-style batch promotion or in-generation current-root slot-fit approximation, not more static bucket transfer alone.
+
+## Generated-Root WBP V12 t109 Root-Pool Capacity Search Reports - 2026-06-29
+
+- Worktree/report root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; generated root level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWBPV12/`.
+- t109 root-pool search script: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Run-GeneratedRootWBPV12RootPoolCapacitySearchV1.py`.
+- t109d smoke outputs: `t109d_rootpool_capacity_smoke_*`. One selected root at coverage `0.2854251`; current-root rerank was `3/3/3`, max disjoint `3`.
+- t109g two-band search outputs: `t109g_rootcap2_aggregate_rerank.csv`, `t109g_rootcap2_bands.csv`, and `t109g_rootcap2_summary.md`; per-band reranks `t109g_rootcap2_s560800_crcap*` and `t109g_rootcap2_s560880_crcap*`.
+- t109g best root: `t109g_rootcap2_s560880_c001`, coverage `0.2854251`, current-root supply targets `7/6/7`, dominance `0.467`, max disjoint `4`, selected edges `16->10,12->11,10->3,1->8`. It does not pass the capacity `6+` gate but proves relation diversity can be present while slot capacity still collapses.
+- t109g best overlap diagnostics live under `t109g_rootcap2_s560880_crcap/001_t109g_rootcap2_s560880_c001_slot_capacity_overlap_cells.csv`; top cells include `9,3:38`, `8,3:32`, `4,3:20`, `7,3:18`, `4,19:18`, `4,20:18`.
+- t109h overlap-feedback probe outputs: `t109h_overlap_feedback_*`; it consumed the t109g overlap map through the slot-fit blocker-map path and loaded `12` cells, but reproduced the same root and same capacity `4`. Treat it as evidence that soft overlap penalties alone are not enough.
+
+## Nutation HubSpoke V5 Pool Reports - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`. Active Hub V5 pool output is separate from the original `NutationHubSpokeV5Pack`.
+- Full Pool level root: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV5Pool/`; full Pool pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5PoolPack.asset`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_pool_report.csv`; it contains `24/24` generated rows from 6 seed-offset variants of 4 Hub V5 specs.
+- Trace outputs: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_pool_smoke1_traceonly_trace_joined.csv`, `_summary.md`, `_trace_best_per_slot.csv`, and `_production_keep.csv`; official metrics live at `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_spoke_v5_pool_smoke1_traceonly_metrics.csv`.
+- Result: official trace `24/24 solved`, `9` processKeep, `2` TraceOrderKeep / production keep. The two keeps improve Hub V5 same-axis/same-dir to `7/6` and `6/6`, but both still carry local/directional review risks.
+- Review pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5PoolProductionKeepPack.asset`, GUID `ca27d341c7fff2c4981fd411dbc9df75`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here. Boundary: review/prototype keep, not final strict production.
+
+## Nutation HubSpoke V5 LocalBreak Reports - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`. LocalBreak is a Hub V5.1 review/prototype lane, separate from V5 and V5Pool.
+- Full level root: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV5LocalBreak/`; full pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5LocalBreakPack.asset`, GUID `fc62c0876adad0a42b083d855ca6226a`.
+- Source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_localbreak_report.csv`; smoke4 source has `16` generated rows.
+- Trace outputs: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_localbreak_smoke4_trace_joined.csv`, `_summary.md`, `_trace_best_per_slot.csv`, and `_production_keep.csv`; official metrics live at `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_spoke_v5_localbreak_smoke4_metrics.csv`.
+- Smoke4 result: `16/16` official solved, `6` processKeep, `1` VisualKeep, `1` TraceOrderKeep, `1` TraceOrder production keep. No strict overlap yet: VisualKeep is local-cleaner but misses STS/same-axis/dependency gates; TraceOrderKeep has stronger STS but misses local/directional visual gates.
+- Review manifest: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_localbreak_review.csv` contains the VisualKeep and TraceOrderKeep representative rows. The separate review-pack build was blocked by an already-open Unity instance; the full LocalBreak pack exists but the currently open/dirty Demo activePack was not force-switched.
+
+## Nutation Production Readiness Matrix / Representative Pack - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`.
+- Matrix outputs: `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_matrix.csv`, `_summary.md`, `_best_rows.csv`, `_strict_keep_rows.csv`, `_representative_rows.csv`, and `_production_readiness.md`.
+- Current matrix includes Hub V5 Pool and covers `20` joined CSVs / `97` rows. Strict keep rows are `17`; representative style-chain rows are `16`.
+- Representative review pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationStyleMatrixRepresentativeReviewPack.asset`, GUID `2d8a4da775c84f85bc9575d170512392`, display name `Nutation Style Matrix Representative Review (16)`.
+- Demo scene: `.worktrees/nutation-peel/Assets/ArrowMagic/Scenes/Demo.unity` activePack points to the representative pack. If Unity was already open, refresh/reopen the scene to see the new asset.
+- Production-ready review lanes: LongChain curve/rail/patch/spine and Peel curve/rail. Controlled mix lanes: Flow curve/rail/patch. Hub, Maze, and PeelPatch are not production-ready yet.
+- Main project production preview pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationProductionPreviewV1Pack.asset`, GUID `5c44ad9e7d9a43e9a602d115e4d99a71`, display name `Nutation Production Preview V1 (9)`. It contains one review sample each for Flow curve/patch/rail, Peel curve/rail, and LongChain curve/patch/rail/spine; main `Assets/ArrowMagic/Scenes/Demo.unity` points here.
+- Main production preview manifest: `.codex-run/nutation_production_preview_v1_rows.csv`; summary: `.codex-run/nutation_production_preview_v1_summary.md`.
+- Main Mixed canvas preview pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMixedCanvasPreviewV1Pack.asset`, GUID `c25181a4948c4cdcb0a1af617f62c55c`, display name `Nutation Mixed Canvas Preview V1 (3)`. It contains 3 traced quality-gate rows for small/medium/large canvas review and current main `Demo.unity` points here.
+- Main Mixed canvas preview manifest: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_mixed_canvas_preview_v1_rows.csv`.
+- Main Mixed neutral preview pack V1: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMixedNeutralPreviewV1Pack.asset`, GUID `5cfb432cf3fb4fcda59ec3c241bfdb3d`, display name `Nutation Mixed Neutral Preview V1 (3)`. It contains 3 PSG-like neutral rows with long/short chain blend; retained for comparison.
+- Main Mixed neutral preview manifest: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_mixed_neutral_preview_v1_rows.csv`.
+- Main Mixed neutral preview pack V2: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMixedNeutralPreviewV2Pack.asset`, GUID `75478b0f8cae412ea77652e3c0b260fb`, display name `Nutation Mixed Neutral Preview V2 (3)`. It contains 3 additional PSG-like neutral rows and current main `Demo.unity` points here.
+- Main Mixed neutral preview V2 manifest: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_mixed_neutral_preview_v2_rows.csv`.
+- Campaign500 normal 4-slot plan V1: `Exports/Campaign500_PSG_Template_20260626_095625/campaign500_normal_4slot_plan_v1.csv` with summary `campaign500_normal_4slot_plan_v1_summary.md`. It defines 200 normal-only slot targets, 4 per section.
+- Campaign500 normal Pilot20 plan V1: `Exports/Campaign500_PSG_Template_20260626_095625/campaign500_normal_pilot20_plan_v1.csv` with summary `campaign500_normal_pilot20_plan_v1_summary.md`. It is the first production smoke input for sections 1, 5, 15, 30, and 45.
+
+## Campaign500 Long-Chain Pilot3 V10-V12 - 2026-06-29
+
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V10/` - V10 lowchoice-pressure probe assets. Negative: `slot_lowchoice_pressure` was static-clean but official trace choice pressure worsened.
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V11/` - V11 headmix-outerclean probe assets. `slot_headmix_outerclean` was not selected; outerRingRun/side failed review.
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V12/` - Current V12 section3 assets. Selected review rows include order22 headmix, order30 balanced, order25 balanced, plus challenge spine alternative.
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V12Demo9Pack.asset` - Current mounted worktree Demo3 pack, GUID `c603006a701c4034abfbf970e8016ea7`; contains order22 headmix, order25 balanced, order30 balanced.
+- `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v12_demo3_trace_input.csv` - Current Demo3 keep manifest for `BuildCampaign500Pilot3DemoPackBatch`.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v12_section3_metrics.csv` - Official V12 selected trace metrics; result `4/4 solved`, process tiers `A/B/Drop/Drop`.
+
+## Campaign500 Long-Chain Pilot3 V13 Style3x3 Preview - 2026-06-29
+
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V13/` - V13 preview level assets; selected 9 rows across three roles: `section_long_lock`, `lock_light_negative_space`, `lock_buckle_pressure`.
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v13_report.csv` - V13 source report; selected `9/21` before stopping generation after each role had 3 rows.
+- `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_style3x3_plan_v1.csv` - 9-slot preview plan, 3 rows per role.
+- `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v13_style3x3_trace_input.csv` - V13 Demo9 keep/trace input used for official trace and demo-pack build.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v13_style3x3_metrics.csv` - Official trace metrics; `9/9 solved`, tiers `LongNormalA=A/A/B`, `LongNormalB=Drop/Drop/Drop`, `LongChallenge=Drop/Drop/Drop`.
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V13Demo9Pack.asset` - Current mounted V13 style3x3 Demo pack, GUID `0ca183baef294684596e53d9591491d5`; worktree `Demo.unity` activePack points here.
+
+## Nutation Hub V5 Hybrid Review Reports - 2026-06-29
+
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_v5_hybrid_review_v1_ranked.csv` - Hub V5 Pool + LocalBreak hybrid-ranked report; `40` rows, `0` HybridStrict.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_v5_hybrid_review_v1_review_rows.csv` - Eight diagnostic near-miss review rows; not a production keep and no pack mounted.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_v5_hybrid_review_v1_summary.md` - Summary showing the best LocalBreak row is VisualNearTrace and best Pool row is TraceNearVisual; next Hub V5 work should target generation-side convergence of those metrics.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV5Hybrid/` - Current Hub V5.2 Hybrid generated level assets, restored to smoke4 code/asset state after smoke5 negative test.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5HybridPack.asset` - Full Hybrid pack from the restored smoke4-code generation run.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_hybrid_report.csv` - Current Hybrid source report, restored to smoke4-code behavior.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_hybrid_smoke2_trace_joined_summary.md` - Previous best Hybrid trace summary: `19` rows, `1` TraceOrderKeep, strict gap `nearOuterRun+1`.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_hybrid_smoke3_trace_joined_summary.md` - Negative local/near counterweight run: `20` rows, `0` production keep.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_hybrid_smoke4_trace_joined_summary.md` - Current kept Hybrid trace summary: `20` rows, `9` processKeep, `1` TraceOrderKeep / production keep, strict gap `localPatchRun+1`.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_hybrid_smoke5_trace_joined_summary.md` - Negative local/micro escalation run: `20` rows, `1` VisualKeep, `0` STS pass / `0` production keep.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_hybrid_smoke6_trace_joined_summary.md` - Negative recent-micro head-prior run: `20` rows, `4` processKeep, `0` STS pass / `0` production keep; code and assets were restored to smoke4 afterward.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_v5_hybrid_review_with_v52_smoke4_summary.md` - Pool + LocalBreak + Hybrid smoke4 rerank: `60` rows, `0` HybridStrict, `10` near rows.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV5HybridSearch/` - Hub V5 Hybrid Search smoke1 diagnostic assets; `24/24` generated and traced, but `0` production keep.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5HybridSearchPack.asset` - Full Search smoke1 pack, GUID `16fbc52dbee92724eae8efd25a7f41e9`; negative diagnostic only, not current Demo baseline.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_hybrid_search_report.csv` - Search smoke1 source report; coverage range around `0.881-0.907`.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_hybrid_search_smoke1_trace_joined.csv` and `_summary.md` - Search smoke1 joined audit: `24/24` solved, `9` processKeep, `0` production keep; local/directional/same-axis regressed versus smoke4.
+- `.worktrees/nutation-peel/.codex-run/nutation_hub_v5_hybrid_review_with_search_smoke1_summary.md` - Pool + LocalBreak + smoke4 + Search rerank: `84` rows, `0` HybridStrict; smoke4 remains best same-row trace candidate.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_hybrid_production_keep.csv` - Current Hybrid 1-row review keep copied from smoke4 keep after smoke5 was rejected.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5HybridProductionKeepPack.asset` - 1-row Hybrid smoke4 review pack, GUID `a2be47b7e6cfd6b488ae343b81e997b0`; worktree `Demo.unity` activePack points here.
+
+## Campaign500 Long-Chain Pilot3 V14 Family Expansion - 2026-06-30
+
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainPilot3V14/` - Clean V14 family-expansion smoke assets. The selected rows prove `headmix_outerclean`, `seedlock_gate_carrier`, `seedmaze_chamber_corridor`, and `seedweave_braid_carrier` can all enter the pool.
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V14Pack.asset` - Clean V14 selected pack from the filtered 3-slot family smoke; not mounted to Demo at this checkpoint.
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v14_report.csv` - Clean V14 source report; selected `6/12`, coverage avg `0.9608`, chains avg `26.67`, maxChain avg `43.33`, longVisualCellShare avg `0.493`.
+- `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v14_summary.md` - Clean V14 source summary.
+- `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v14_filter4_p3_trace_input.csv` - Trace input for the six selected V14 rows.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v14_filter4_p3_metrics_metrics.csv` - Official trace metrics; `6/6 solved`, missing/failed `0`, process tiers `A=1 / B=3 / Drop=2`.
+
+## Campaign500 Long-Chain Family Expand V2 - 2026-06-30
+
+- `.worktrees/campaign500-longchain-family-expand-v2/.codex-run/campaign500_longchain_family_expand_v2_source_pool.csv` - V2 source-grammar pool, 120 rows / 12 lanes; no seed coordinate copy.
+- `.worktrees/campaign500-longchain-family-expand-v2/.codex-run/campaign500_longchain_family_expand_v2_family_lanes.csv` - Lane count/metric summary for the 120-row source pool.
+- `.worktrees/campaign500-longchain-family-expand-v2/.codex-run/campaign500_longchain_family_expand_v2_reverse_plan.csv` - Reverse Campaign500 plan, 50 sections / 200 rows / 4 candidates per section from normal-category slots.
+- `.worktrees/campaign500-longchain-family-expand-v2/.codex-run/campaign500_longchain_family_expand_v2_reverse_plan_summary.md` - Plan summary: aspect `0.700-0.892`, role counts 50 each for LongNormalA/LongNormalB/LongHard/LongVeryHard.
+- `.worktrees/campaign500-longchain-family-expand-v2/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_family_expand_v2_report.csv` - Current fixed Unity source report path; overwritten by each V2 batch, so durable copies live in `.codex-run`.
+- `.worktrees/campaign500-longchain-family-expand-v2/.codex-run/campaign500_longchain_family_expand_v2_positive_vs_lowchoice_trace_compare.csv` - Source + official trace comparison for V2 reset audit; `16` selected rows, showing V14-style seed-source baseline `4 A / 1 B`, positive expanded lanes `1 A / 1 B / 3 Drop`, and lowchoice variants `6 Drop`.
+- `.worktrees/campaign500-longchain-family-expand-v2/.codex-run/campaign500_longchain_family_expand_v2_goal_reset_execution_summary.md` - Short handoff for the reset execution, lowchoice negative, and stalled V2 Unity launch attempts.
+
+## Nutation Hub/Maze Mixed Isolated - 2026-06-30
+
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1/` - Hub mixed generated level assets from the latest isolated seed-retry run. Current source pack has all `36/36` logical slots built after per-slot seed retry; use joined CSV for keep selection rather than the full pack.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1Pack.asset` - Full Hub mixed pack from the isolated worktree; prototype/review, not strict production.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1ProductionKeepPack.asset` - 1-level Hub mixed TraceOrderKeep outer-band review pack built from smoke2 production keep CSV, GUID `7a3621e2f99f046449576dcecfd12941`; isolated worktree `Demo.unity` activePack points here.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_report.csv` - Latest Hub mixed source report from `seed36_retry_source1`: `36/36` built/portable-solved; retry distribution `1:27`, `2:7`, `3:1`, `4:1`.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_production_keep.csv` - Outer-band smoke2 1-row Hub mixed keep manifest feeding `NutationHubMixedV1ProductionKeepPack.asset`.
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_outerband_smoke2_trace_joined.csv` and `_summary.md` - Current official joined audit; `1` TraceOrderKeep row, coverage `0.953`, outer `0.949`, local/near `5/5`, STS/collapse `0.828/0.184`, sameAxis/sameDir `7/5`.
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_coverlift_smoke3_trace_joined.csv` and `_summary.md` - Previous comparison audit; `1` TraceOrderKeep row, coverage `0.940`, outer `0.903`, local/near `5/5`, STS/collapse `0.831/0.184`, sameAxis/sameDir `7/5`.
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_isolated_smoke5_trace_joined.csv` and `_summary.md` - Previous lower-coverage comparison; `2` TraceOrderKeep rows, best coverage `0.925/0.911`, sameAxis/sameDir `8/5`, residual stripe/local warnings.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1CandidateReviewPack.asset` - 12-level Hub mixed seed36 retry relaxed-trace review pack mounted in isolated Demo, GUID `046c506d72b03054bacaa7f592cb1f8d`; built from the current seed-retry TraceOrderKeep rows.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_candidate_review.csv` - 12-row candidate review manifest copied from `seed36_retry_fasttrace1_production_keep.csv`; all rows are `TraceOrderKeep` under relaxed same-axis/same-dir gates.
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_seed36_retry_fasttrace1_trace_joined.csv` and `_summary.md` - Current official trace joined audit with reduced counterfactual sampling for speed: `36/36` solved, `28` processKeep, `24` STS pass, `12` TraceOrderKeep / production keep; source yield is now `36/36`.
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_quality_probe_b14_trace1_joined.csv` and `_summary.md` - Minimal B14 seed-variant quality probe. Four source variants produced two buildable rows; official trace solved both, but r04 was `TraceOrderKeep` while r03 was only `ProcessKeep`, proving per-slot best-of selection can reduce local/collapse risk. Diagnostic only; Demo active pack was not changed.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_mixed_v1_quality_probe_b14_trace1_metrics.csv` - Official fast trace metrics for the B14 quality probe (`2/2` solved).
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_bestof_probe_report.csv` - Production-aligned B14 best-of probe source report. Current 6-retry run selected retry `4/6`, but only `1/6` retries source-succeeded, so it is a source-yield diagnostic rather than quality proof.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1BestOfProbePack.asset` - Diagnostic single-row best-of probe pack; not mounted to Demo and not production.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_mixed_v1_bestof_probe_trace3_metrics.csv` - Official fast trace for the production-aligned B14 best-of probe; solved but Drop (`maxChoices=15`, `sameAxis=19`, STS `0.885`, collapse `0.272`).
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_seed36_unique_source_audit.csv` - Source audit for the 36-slot unique seed run: `27/36` generated and portable-solved; failures are source-generation yield/collapse, not official trace failure.
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_seed36_unique_relaxedtrace1_trace_joined.csv` and `_summary.md` - Official trace joined audit with reduced counterfactual sampling for speed: `27/27` solved, `23` processKeep, `18` STS pass, `11` TraceOrderKeep / production keep after relaxing `sameAxisRun` to `18` and `sameDirRun` to `14`.
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_prod10_aspect_fasttrace1_trace_joined.csv` and `_summary.md` - Previous fast trace audit for the old 10-row candidate pack: `12/12` solved, `9` processKeep, `2` VisualKeep, `0` TraceOrderKeep / production keep; blockers were same-axis/same-dir/local-collapse.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationMazeMixedV1/` - Maze mixed generated level assets from smoke1.
+- `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMazeMixedV1Pack.asset` - Full Maze mixed diagnostic pack; not production-ready.
+- `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_maze_mixed_v1_isolated_smoke1_trace_joined.csv` and `_summary.md` - Official joined audit; `0` production keep, all rows `local_collapse/high_risk`.
+
+## Campaign500 Normal Pilot20 Nutation - 2026-06-30
+
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Levels/Campaign500NormalPilot20/` - Generated Pilot20 LevelDefinition assets, `20/20` rows from sections `1,5,15,30,45`.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalPilot20Pack.asset` - Source pack containing all 20 generated rows before trace quality selection.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalPilot20ReviewPack.asset` - 20-row visual review pack, GUID `553fb17c72739f1409149e1fc5c920ed`; worktree Demo activePack points here.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalPilot20ProductionKeepPack.asset` - 6-row strict production keep pack, GUID `8843a1f3452c91441b3a2bc17414f659`.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalPilot20/campaign500_normal_pilot20_report.csv` - Source generation report; generated all 20 rows.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalPilot20/campaign500_normal_pilot20_review.csv` - Review manifest feeding the 20-row ReviewPack.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalPilot20/campaign500_normal_pilot20_production_keep.csv` - Production keep manifest; `6` TraceOrderKeep rows under current gates.
+- `.worktrees/nutation-flow-peel-production/.codex-run/campaign500_normal_pilot20_v1b_trace_joined.csv` and `_summary.md` - Official joined audit; `20/20` solved, rank counts `TraceOrderKeep=6`, `VisualKeep=1`, `Reject=13`.
+## Campaign500 Long-Chain Complement Pool V1 - 2026-06-30
+
+- Worktree: `.worktrees/campaign500-longchain-complement-pool`, branch `codex/campaign500-longchain-complement-pool`.
+- Complement purpose: supplement the separate `campaign500-longchain-prod200-pool` 200-candidate route with differentiated lock/support/runbreak/inner-carrier profiles.
+- Generator output folder: `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/SOData/Levels/Campaign500LongChainComplementPoolV1/`.
+- Pack paths: `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainComplementPoolV1Pack.asset` and `Campaign500LongChainComplementPoolV1ReviewPack.asset`.
+- Report paths: `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_complement_pool_v1_report.csv` and `_summary.md`.
+- Handoff/checkpoint: `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_pool_v1_handoff.md`.
+- Current validation is setup-only: PowerShell parser OK and plan-only s45-s50 generated; no official trace rows yet.
+
+## Campaign500 Long-Chain Family Profile Lab - 2026-06-30
+
+- Worktree: `.worktrees/campaign500-longchain-family-profile-lab`, branch `codex/campaign500-longchain-family-profile-lab`.
+- Purpose: profile/family expansion only; this is not a final production pack.
+- Handoff: `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_handoff.md`.
+- Plan-only outputs: `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_planonly_s45_s50_plan.csv` and `_family_lanes.csv`; full plan check `campaign500_longchain_family_profile_lab_planonly_s01_s50_plan.csv` and `_family_lanes.csv`.
+- Lane catalog is now `21` root lanes, adding `slot_seedlock_keyhole_carrier`, `slot_seedlock_staggered_gates`, `slot_seedmaze_broken_chambers`, `slot_inner_spine_branches`, and `slot_seedweave_support_lattice`.
+- Valid short-path smoke assets: `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Levels/C5LCFamLabV1/`.
+- Valid short-path source pack: `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Packs/Campaign500/C5LCFamLabV1Pack.asset`.
+- Valid smoke summary: `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_s02_smoke2_shortpath_summary.md`; all-selected `10/10` solved and `6/10` trace-gate, postselected `4/4` solved and `3/4` trace-gate.
+- Valid joined reports: `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_s02_smoke2_shortpath_allselected_trace_joined.csv` and `_postselected_trace_joined.csv`.
+- Passing postselected lanes in this smoke: `slot_seedlock_keyhole_carrier`, `slot_seedweave_braid_carrier`, and `slot_seedweave_support_lattice`; `slot_seedlock_dual_gate_buckle` solved but failed choice gates.
+- Ignore the earlier `campaign500_longchain_family_profile_lab_s02_smoke1_retry1` family-quality result; it used long asset names and hit Windows path-length trace misses.
+
+## Campaign500 Long-Chain Complement 21-Family Merge Smoke - 2026-06-30
+
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_merge_planonly_s01_s50_plan.csv` - Complement 21-lane full plan check; `200` rows and `21/21` unique planned root lanes.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_merge_planonly_s45_s50_plan.csv` - Late-window plan check; `24` rows for sections `45-50`, naturally covers `4/5` added lanes.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s03_lock_smoke1_summary.md` - Lock-family smoke summary; `7` all-selected rows, `3/7` solved, `1/7` trace-gate. Keyhole/staggered generated and solved but failed choice gates.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s03_lock_smoke1_allselected_trace_joined.csv` - Official joined rows for keyhole/staggered/cross-carrier smoke.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s05_broken_smoke1_summary.md` - Broken/support smoke summary; `9` all-selected rows, `7/9` solved, `5/9` trace-gate. Support lattice passed; broken chambers generated but trace-missing.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s05_broken_smoke1_allselected_trace_joined.csv` - Official joined rows for broken/support smoke.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s43_partial_trace1_summary.md` - Partial late-window trace; `inner_spine_branches` solved but failed choice gates.
+
+## Campaign500 Long-Chain Complement s50 Small Production - 2026-06-30
+
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_smallprod1_summary.md` - Completed one-section s50 complement small production. Source `5/5`, all-selected solved `1/5`, trace-gate `0/5`; postselected `1/1` solved but `0/1` gate. Treat as negative/diagnostic for high-section outer-ring and opener pressure, not production keep.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_smallprod1_allselected_trace_joined.csv` - Official joined all-selected rows. `support_lattice` planned rows became near/fallback rows and failed trace; surviving solved spine-gate row rejected by `sourceOuterRing`.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_smallprod1_postselected_trace_joined.csv` - Single postselected row, solved but rejected by `sourceOuterRing`.
+- `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_complement_pool_v1_report.csv` and `_summary.md` - Latest source report overwritten by `s50_smallprod1`; coverage avg `0.9417`, outerRingLineFill avg `0.873`, outerExitHeadCount avg `28.20`.
+- `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainComplementPoolV1Pack.asset` - Latest source pack from `s50_smallprod1`; diagnostic only, not a keep pack.
+
+## Campaign500 Long-Chain Complement s50 Outerfix1 - 2026-06-30
+
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix1_summary.md` - Outerfix1 validation summary. Source selected `1/6`; all-selected `1/1` solved and `1/1` trace-gate; postselected `1/1` solved and `1/1` trace-gate.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix1_allselected_trace_joined.csv` - Official joined all-selected row. Keep row is order `495`, `LongVeryHard`, `slot_seedlock_spine_gate`, coverage `0.9407`, outerRingLineFill/run `0.817/14`, outerExit heads/run/side `12/2/5`, choices avg/p80/max `10.87/14/17`.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix1_postselected_trace_joined.csv` - Postselected exact trace joined row; same row, traceGate `True`.
+- `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_complement_pool_v1_report.csv` and `_summary.md` - Latest source report overwritten by `s50_outerfix1`; non-keep near rows are `selected=0` with `near_rejected=...`.
+- `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainComplementPoolV1Pack.asset` and `Campaign500LongChainComplementPoolV1ReviewPack.asset` - Latest source/review packs from `s50_outerfix1`; review pack contains only traceGate postselected rows after wrapper fix.
+
+## Campaign500 Long-Chain Complement s50 Outerfix4 Diagnostic - 2026-06-30
+
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix4_plan.csv` - Section 50 plan used for the failed late/large outer-head diagnostic.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix4_unity.log` - Unity log for the diagnostic run. Wrapper stopped before trace because no selected rows existed.
+- `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_complement_pool_v1_report.csv` - After outerfix4, overwritten source report contains `6` rejected rows and `0` selected. Treat as diagnostic only, not candidate supply.
+
+## Campaign500 Long-Chain Complement s50 Outerfix5-8 Diagnostics - 2026-06-30
+
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix5_unity.log` - Direct section-50 smoke. It was stopped after the first two normal rows plus enough evidence; diagnostic only.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix6_sourceprobe_unity.log` - One-row, one-merge source/crop probe before raising late source coverage; chamber order `491` crop coverage `0.8114`.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix7_sourceprobe_unity.log` - One-row, one-merge source/crop probe after raising late source coverage/candidate count; chamber order `491` crop coverage improved to `0.8870` but still failed.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix7_onefull_unity.log` - One-row full merge probe for chamber order `491`; chains/maxChain became acceptable (`87`/`68`) but coverage/openers/outer ring still failed.
+- `.worktrees/campaign500-longchain-complement-pool/_CodexRun/campaign500_longchain_complement_family21_s50_outerfix8_sourceprobe_unity.log` - Lower source outer-band diagnostic; same chamber sourceprobe result as outerfix7, so not a candidate source.
+
+## Campaign500 Long-Chain Family Profile Lab Target50 - 2026-06-30
+
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_target50_area_plan_v2.csv` - 50-row area-priority target plan, aspect `0.724-0.879`, avg `0.803`.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_target50_area_v2_cut49_trace1_source_report.csv` and `_source_summary.md` - Preserved multi-lane partial source pool, `49/54` selected, avg coverage `0.9367`, avg chains `55.71`.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_target50_area_v2_cut49_trace1_allselected_trace_joined.csv` - Official trace joined all-selected rows: `49/49` solved, `21/49` trace-gate.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_target50_area_v2_cut49_trace1_postselected_trace_joined.csv` and `_postselected_trace_gate_keep.csv` - Postselected rows: `19/19` solved, `13/19` trace-gate; strongest lanes are keyhole, maze chamber, and dense support.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_target50_singlelane_plan_v2.csv` - Corrective 50-row single-lane plan, one root lane per slot; lane mix `maze=19`, `keyhole=15`, `dense=6`, `support=8`, `dual_gate=2`.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_target50_singlelane_v2_prod1_source_report.csv` and `_source_summary.md` - Completed singlelane source run: `45/50` selected, avg coverage `0.9419`, avg chains `65.84`, avg outerExitRunMax `2.44`.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_target50_singlelane_v2_prod1_allselected_trace_joined.csv` and `_postselected_trace_joined.csv` - Completed singlelane official trace: `45/45` solved, `12/45` trace-gate. Main rejects are `choiceP80`, `maxChoices`, and `sourceOuterRing`.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_target50_singlelane_v2_prod1_postselected_trace_gate_keep.csv` - 12 trace-gate rows from the completed singlelane run; useful as family evidence, not enough as a final 50 keep pool.
+- `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Packs/Campaign500/C5LCFamLabV1ReviewPack.asset` - Mounted 12-row review pack from the singlelane trace-gate keep CSV; keep intact when testing new straight-spine language.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_straight_spine_probe_plan_v1.csv` and `_summary.md` - Plan-only straight-spine primary probe (`13` rows, aspect `0.704-0.838`, area `391-1147`, planned chains `26-94`). No Unity assets or official trace yet; use isolated output args before generation.
+- `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Packs/Campaign500/C5LCFamLabStraightProbeV1ReviewPack.asset` - Isolated straight-spine V1 gate-only review pack, rebuilt to `6` trace-gate rows. Useful for visual inspection, not production-ready straight-family evidence.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_straight_spine_probe_v1_gen1_postselected_trace_joined.csv` and `_postselected_trace_gate_keep.csv` - V1 official trace joined/keep rows; `13/13` solved, `6/13` trace-gate.
+- `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Packs/Campaign500/C5LCFamLabStraightProbeV2ReviewPack.asset` - Isolated straight-spine V2 gate-only review pack, `4` trace-gate rows. V2 improves choice pressure versus V1 but has lower yield and still does not improve straightness.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_straight_spine_probe_v2_gen1_postselected_trace_joined.csv` and `_postselected_trace_gate_keep.csv` - V2 official trace joined/keep rows; `11/11` solved, `4/11` trace-gate.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_candidate_pool_v1_plus_straight_v1_18.csv` and `_summary.md` - Main family-lab candidate pool after review: old 12 gate rows plus straight V1 6 rows tagged `light_clean_carrier`; `18` rows total. Treat straight V1 as differentiated light/clean flavor, not proven straight-chain family.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_reserve_cut49_extra5_same_family.csv` and `_summary.md` - Reserve-only same-family hard/veryhard variants from cut49; `5` rows, not a new structure breakthrough.
+
+## Campaign500 Long-Chain Family Profile Lab Inner-Straight Probe - 2026-06-30
+
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_inner_straight_probe_plan_v1.csv` and `_summary.md` - 8-row explicit `slot_inner_straight_carrier` probe plan; aspect `0.727-0.833`, area avg `770.4`, roles `LongNormalA=4`, `LongHard=2`, `LongVeryHard=2`.
+- `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Levels/C5LCFamLabInnerStraightProbeV1/` - V1 generated LevelDefinition assets. Official trace `8/8` solved, `2/8` trace-gate.
+- `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Packs/Campaign500/C5LCFamLabInnerStraightProbeV1ReviewPack.asset` - V1 gate-only review/proof pack, GUID `06bd1a1c4a1405a46b285ce4360bb630`; contains 2 trace-gate rows. Not mounted to Demo by default.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_inner_straight_probe_v1_gen1_postselected_trace_joined.csv` and `_postselected_trace_gate_keep.csv` - V1 official joined/keep rows; all rows process `Drop`, rejects dominated by `choiceP80|maxChoices`.
+- `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Levels/C5LCFamLabInnerStraightProbeV2/` - V2 generated LevelDefinition assets after opener/outer-head pressure retune. Official trace stayed `8/8` solved and `2/8` trace-gate.
+- `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/SOData/Packs/Campaign500/C5LCFamLabInnerStraightProbeV2ReviewPack.asset` - V2 gate-only review/proof pack, GUID `815b64309dce83d47864c2816433bb15`; passing rows are identical to V1. Not production-ready.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_inner_straight_probe_v1_shape_summary.csv` - Shape audit: old12 avg maxStraightRun `7.33`, straight V1/V2 `6.33/6.25`, inner all8 `14.0`, inner gate2 `13.0`. Use this as the straight-language proof and the choice-pressure caveat.
+- `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_inner_straight_probe_v1_v2_compare_summary.csv` and `_shape_rows.csv` - V1/V2 comparison; V2 did not improve gate yield, so avoid further scalar score nudges before adding solve-order/low-choice scheduling.
+
+## Nutation LongChain Strict50 / Holefix - 2026-07-01
+
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_strict50.csv` - Final 50-row strict candidate manifest. Selected from 320 audited rows across Candidate80 + Holefix S1/S2/S3; `StrictA=35`, `StrictB=15`.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainStrict50Pack.asset` - Mounted Demo review pack, `50` levels, GUID `46de8f0720f60854ba75a7a8615864e1`.
+- `.worktrees/nutation-peel/.codex-run/nutation_longchain_strict50_summary.md` and `_audit.csv` - Strict50 selection summary/audit. Key averages: coverage `0.9471`, maxChoices `8.42`, STS `0.8791`, collapse `0.1767`, maxHole avg/max `4.86/9`.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/`, `...HolefixS2V1/`, `...HolefixS3V1/` - Holefix source candidate assets. Each batch has 80 generated LevelDefinition assets with independent seed offsets.
+- `.worktrees/nutation-peel/.codex-run/nutation_longchain_candidate80_holefix_v1_trace_joined.csv`, `_holefix_s2_v1_trace_joined.csv`, `_holefix_s3_v1_trace_joined.csv` - Fast official trace joined inputs used by Strict50 selector.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_strict_reserve10.csv` and `NutationLongChainStrictReserve10Pack.asset` - Next-best 10 strict rows as backup candidates. Demo is mounted to this pack for reserve review; GUID `b512f2a2510148cda13496fdbf7b0b11`.
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_strict60.csv` and `NutationLongChainStrict60Pack.asset` - Combined `50 + 10 reserve` pool for handoff/production bookkeeping.
+- `.worktrees/nutation-peel/.codex-run/nutation_longchain_strict60_sync_handoff.md` - Detailed LongChain sync handoff for other Codex/GPT conversations, including Strict50, Reserve10, Strict60 paths, GUIDs, gates, metrics, and current Demo mount state.
+## Nutation HubMixed Strict30 Transform Wide Pack - 2026-07-01
+
+- Worktree: `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`.
+- Final pack: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1Strict30TransformWideProductionKeepPack.asset`; Demo in that worktree currently references this pack.
+- Level assets: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30TransformWidePool/`.
+- Candidate source report: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_transform_wide_pool_report.csv`; 144/144 portable solved, coverage `0.925-0.967`.
+- Production keep CSV: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_transform_wide_production_keep.csv`; 30 rows, all `visualPass=True`, `keepCandidate=True`, `stsKeepCandidate=True`.
+- Official trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_mixed_v1_strict30_transform_wide_visual1_metrics.csv`.
+- Joined audit: `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_strict30_transform_wide_visual1_trace_joined.csv`; summary `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_strict30_transform_wide_visual1_trace_joined_summary.md`.
+- Gate note: `VisualOnly` with `MaxLocalPatchSolveRun=10`; pure `localPatchRun<=8` only gave 24/144 VisualKeep and did not meet the 30-candidate goal.
+## Campaign500 Normal Full V1 Strict152 - 2026-06-30
+
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_production_strict_keep.csv` - final strict manifest, `152` rows, `152` unique target orders, all `TraceOrderKeep`.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_production_keep.csv` - mirrored strict production keep manifest, also `152` rows, all `TraceOrderKeep`.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_review.csv` - review manifest for visual pass, also `152` strict rows.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalFullV1ReviewPack.asset` - final visual review pack, display name `Campaign500 Normal full_v1_strict152 Review (152)`, mounted in the worktree Demo.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalFullV1ProductionKeepPack.asset` - production keep pack, `152` levels.
+- `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalFullV1ProductionStrictKeepPack.asset` - strict production keep pack, `152` levels.
+- Main project copies live at the same `Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/` and `Assets/ArrowMagic/SOData/Packs/Campaign500/` relative paths; main `Assets/ArrowMagic/Scenes/Demo.unity` points to `Campaign500NormalFullV1ReviewPack.asset`.
+
+## Nutation HubMixed Strict30 Refill Pack - 2026-07-01
+
+- Worktree: `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`.
+- Final refill pack: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1Strict30RefillProductionKeepPack.asset`; Demo in that worktree references this pack, GUID `da8a0f3e4d71f4f41a3a1ac875059c77`.
+- Refill level assets: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/`.
+- Refill pool report: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_refill_pool_report.csv`; `120` rows, `4` refill variants for each original strict30 source.
+- Shortlist report: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_refill_shortlist_report.csv`; `60` rows, `2` static-best variants per original source.
+- Final keep CSV: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_refill_production_keep.csv`; `30/30` solved, visualPass, and stsKeepCandidate under local9 postselection.
+- Trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_mixed_v1_strict30_refill_shortlist1_metrics.csv`; joined summary `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_strict30_refill_shortlist1_local9_summary.md`.
+- Result summary: coverage avg `0.961`, max empty component avg `5.0`, outer empty cells avg `6.033`, localPatch avg/max `7.8/9`.
+
+## Campaign500 HardGate Until0910 - 2026-07-01
+
+- `Exports/Campaign500_HardGateUntil0910_20260701_0910/` - Final-prep delivery folder for this timeboxed run. Contains the no-quality-drop 500-row manifest, 145 replacements, 55 missing target slots, 28 excluded legacy rows, section summary, GUID replacement audit, pack manifest, and README.
+- `.codex-run/campaign500_hardgate_until0910_v1.csv` - Current hard-gate normal replacement truth: `145` rows / `145` unique orders / `0` failures under the latest strict gate.
+- `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalHardGateUntil0910V1ReviewPack.asset` - 145-level normal candidate review pack.
+- `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardGateUntil0910V1FinalPreviewPack.asset` - 500-level preview pack built from `Campaign500FinalPack.asset` plus the 145 hard-gate replacements; GUID `aa230c66e2734d8d9f4ceeb6bd7c079e`; main `Demo.unity` points here.
+- `Exports/Campaign500_StrictUntil0910_20260701_0910/` and `.codex-run/campaign500_strict_until0910_v1.csv` - Audit-only 173-row timebox manifest. Do not treat as no-quality-drop production surface because 28 legacy TraceOrderKeep rows fail the current hard gate.
+
+## Campaign500 First Assembly V1 - 2026-07-01
+
+- `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/` - CSV/README planning surface for the first integrated Campaign500 assembly after candidate sync. It does not copy external assets or build a Unity pack.
+- `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/campaign500_first_assembly_v1_500_manifest.csv` - 500-row planned manifest with `assembly*` source/gate/copy/gap columns.
+- `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/campaign500_first_assembly_v1_replacements.csv` - `286` active planned replacements with source labels. Order `62` is filled by an exact NormalFullV1 v01 variant that passes current Campaign hard gate.
+- `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/campaign500_first_assembly_v1_remaining_gaps.csv` - `14` remaining gaps: `13` ordinary normal target slots and shape `073` windmill fallback.
+- `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/campaign500_first_assembly_v1_gap_demand_by_lane.csv` - Lane-level demand for the next candidate sync pass.
+- `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/campaign500_first_assembly_v1_candidate_sync_request.md` - Human-readable request for the other production conversation: prioritize front300 ordinary NormalA/NormalB gaps; no Hard/Peak gap remains.
+- `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/campaign500_first_assembly_v1_external_asset_copy_queue.csv` - `140` rows that reference assets currently living in worktrees; copy/import these before building a playable pack.
+- `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/campaign500_first_assembly_v1_hard_peak_ramp.csv` - Hard/Peak source and metric audit for checking stage difficulty ramp.
+
+## Campaign500 Front300 Priority V3 - 2026-07-01
+
+- `Exports/Campaign500_FirstAssembly_20260701_Front300PriorityV3/` - Front300-first Campaign500 assembly folder. Use this version when reviewing the current first-300 quality pass; V1 is superseded for front300 normal placement.
+- `Exports/Campaign500_FirstAssembly_20260701_Front300PriorityV3/campaign500_first_assembly_front300_priority_v3_500_manifest.csv` - 500-row V3 manifest. Front300 `category=normal` rows are `210/210` active replacements; all 145 `Campaign500_HardGateUntil0910` candidates are placed in front300.
+- `Exports/Campaign500_FirstAssembly_20260701_Front300PriorityV3/campaign500_first_assembly_front300_priority_v3_front300_normal_plan.csv` - Front300 normal assignment table with source pool, source class, STS, local/choice, and old/new level ids.
+- `Exports/Campaign500_FirstAssembly_20260701_Front300PriorityV3/campaign500_first_assembly_front300_priority_v3_after300_deferred.csv` - 47 after300 hard-gate placements reclaimed for front300 and reverted to original for now.
+- `Exports/Campaign500_FirstAssembly_20260701_Front300PriorityV3/campaign500_first_assembly_front300_priority_v3_pack_build_report.csv` - Unity pack build report; confirms `210/210` front300 normal rows loaded as manifest assets and not fallback.
+- `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyFront300PriorityV3PreviewPack.asset` - Current playable 500-level V3 preview pack, GUID `824de2923fd048c48ae83f881c760b4d`; main `Demo.unity` activePack points here.
+
+## Campaign500 Rhythm V4 Placement - 2026-07-01
+
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4/` - Current rhythm-aware Campaign500 assembly folder. Use this when reviewing the version that keeps order 1 and rebalances front300 normal by template chain ramp, 10-level waves, long-chain effective load, and style/chain-language diversity.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4/campaign500_first_assembly_rhythm_v4_500_manifest.csv` - 500-row V4 manifest. Front300 normal has `209` active replacements plus order `1` keep-current/base fallback.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4/campaign500_first_assembly_rhythm_v4_front300_normal_plan.csv` - Slot-level V4 normal assignment table with stage target chains, actual chains, effective load, style group, chain language, and placement reason.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4/campaign500_first_assembly_rhythm_v4_section10_profile.csv` - Section-by-section rhythm audit for target chain avg/min/max, actual chain avg/min/max, wave roles, style mix, and chain mix.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4/campaign500_first_assembly_rhythm_v4_front20_compare.csv` - Front20 audit showing order `1` keep-current and softened low-load replacements for the remaining early normal rows.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4/campaign500_first_assembly_rhythm_v4_pack_build_report.csv` - Unity pack build report; total load modes are `333` manifest assets and `167` base-preview fallbacks. Front300 normal is `209` manifest assets + order `1` fallback.
+- `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyRhythmV4PreviewPack.asset` - Current playable 500-level V4 preview pack, GUID `b63fbf4040cd570418f60950bc21525a`; main `Demo.unity` activePack points here.
+
+## Campaign500 Rhythm V4 Final - 2026-07-01
+
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4Final/` - Current final Campaign500 assembly folder after the order-19 benchmark adjustment.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4Final/campaign500_first_assembly_rhythm_v4_final_500_manifest.csv` - 500-row final manifest. Same Rhythm V4 placement philosophy, with order `19` upshifted to a `79`-chain `strict_peak_chain` candidate and order `1` kept current.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4Final/campaign500_first_assembly_rhythm_v4_final_front20_compare.csv` - Front20 final audit; order `19` is the front20 benchmark row.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4Final/campaign500_first_assembly_rhythm_v4_final_front300_normal_plan.csv` - Final front300 assignment plan.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4Final/campaign500_first_assembly_rhythm_v4_final_pack_build_report.csv` - Unity final pack build report.
+- `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyRhythmV4FinalPreviewPack.asset` - Current final playable 500-level preview pack, GUID `6314e181422e089488110d180f31b44f`; main `Demo.unity` activePack points here.
+- `Exports/C5V4F/` - Short-path sync/import bundle for other projects. `U/Assets/...` contains the final pack and all actual LevelDefinition config assets referenced by the pack, with file `.meta`.
+- `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_per_level_config_index.csv` - 500-row per-level config map; use this to see the exact `.asset` configuration file used by each order.
+- `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_template_replacement_diff.csv` - 500-row old-vs-final replacement map with explicit replacement marks and source/metric fields.
+- `Exports/C5V4F.zip` - Zipped import bundle for transfer.
+## Campaign500 Rhythm V4 Final StrictComplete - 2026-07-01
+
+- `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyRhythmV4FinalStrictCompletePreviewPack.asset` - StrictComplete playable 500-level preview pack for C5V4F gapfill; GUID `719ae0a2f039476da86ceca58b1e7d8d`; main Demo points here.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4FinalStrictComplete/campaign500_first_assembly_rhythm_v4_final_strict_complete_500_manifest.csv` - 500-row final manifest after filling all normal target gaps and after300 deferred normal rows.
+- `Exports/Campaign500_FirstAssembly_20260701_RhythmV4FinalStrictComplete/campaign500_first_assembly_rhythm_v4_final_strict_complete_55_patch_audit.csv` - 55-row patch audit for the strict-complete fill; all rows pass the strict gate.
+- `Exports/C5V4FSC/` - Short-path sync/import bundle for the strict-complete version. `U/Assets/...` contains the final pack and all referenced LevelDefinition assets plus `.meta` files.
+- `Exports/C5V4FSC/Docs/campaign500_rhythm_v4_final_strict_complete_per_level_config_index.csv` - 500-row per-level config map for the strict-complete package.
+- `Exports/C5V4FSC/Docs/campaign500_rhythm_v4_final_strict_complete_template_replacement_diff.csv` - 500-row old-vs-strict-complete replacement map; `KEPT_TARGET_GAP=0` and after300 deferred markers are cleared.
+- `Exports/C5V4FSC.zip` - Zipped strict-complete import bundle for transfer.

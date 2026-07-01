@@ -1,0 +1,1242 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-admin" at "2026-07-01T03:08:10.3072725Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 17356, path: "H:/UnityEditorFromG/unity/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.16.2+bdef8f5
+  Session Id:              6b15fe0d612d45529939299132f32b05
+  Correlation Id:          7ca1905ad7eee30a28dcc4b9c44b183f
+  External correlation Id: 2466356527180252778
+  Machine Id:              KyWCacI71HsTcmMU7ROxAWRbkWo=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-admin" (connect: 0.00s, validation: 0.01s, handshake: 0.09s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-admin-notifications" at "2026-07-01T03:08:10.4102882Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Error: Code 500 while processing request (status: Unable to update licenses. Errors: Request (POST https://license.unity3d.com/update/poll?cmd=2&tx_id=6b0a98c617784dd68e01a2750e357086) failed [400 Bad Request]: Bad ULF signature - suspect foul play,Token not found in cache)
+[Licensing::Client] Error: Code 500 while updating license in client (status: Unable to update licenses. Errors: Request (POST https://license.unity3d.com/update/poll?cmd=2&tx_id=6b0a98c617784dd68e01a2750e357086) failed [400 Bad Request]: Bad ULF signature - suspect foul play,Token not found in cache)
+Built from '2022.3/staging' branch; Version is '2022.3.62f1 (4af31df58517) revision 4911901'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19045) 64bit Professional' Language: 'zh' Physical Memory: 32700 MB
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Serial number assigned to: "F4-QKO8-KK5T-GXJU-BE2Q-XXXX"
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+[Licensing::Client] Successfully resolved entitlement details
+
+COMMAND LINE ARGUMENTS:
+H:\UnityEditorFromG\unity\Editor\Unity.exe
+-batchmode
+-quit
+-projectPath
+F:\Unityproject\ArrowLevel-Hand
+-executeMethod
+PixelBug.ArrowMagic.EditorTools.Campaign500FirstAssemblyPreviewBuilder.BuildFront300PriorityV3PreviewPack
+-logFile
+Exports\Campaign500_FirstAssembly_20260701_Front300PriorityV3\campaign500_front300_priority_v3_pack_unity.log
+Successfully changed project path to: F:\Unityproject\ArrowLevel-Hand
+F:/Unityproject/ArrowLevel-Hand
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [34392]  Target information:
+
+Player connection [34392]  * "[IP] 172.18.16.36 [Port] 55505 [Flags] 2 [Guid] 2728560412 [EditorId] 2728560412 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-UAT1V2Q) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [34392] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [34392] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[Package Manager] UpmClient::Connect -- Connected to IPC stream "Upm-48004" after 0.0 seconds.
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 55 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.collab-proxy@2.7.1 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.collab-proxy@2.7.1)
+    com.unity.ide.rider@3.0.36 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.ide.rider@3.0.36)
+    com.unity.ide.visualstudio@2.0.22 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.ide.visualstudio@2.0.22)
+    com.unity.test-framework@1.1.33 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.test-framework@1.1.33)
+    com.unity.textmeshpro@3.0.7 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.textmeshpro@3.0.7)
+    com.unity.timeline@1.7.7 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.timeline@1.7.7)
+    com.unity.visualscripting@1.9.4 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.visualscripting@1.9.4)
+    com.unity.ext.nunit@1.0.6 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.ext.nunit@1.0.6)
+    com.unity.2d.animation@9.2.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.animation@9.2.0)
+    com.unity.2d.pixel-perfect@5.1.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.pixel-perfect@5.1.0)
+    com.unity.2d.psdimporter@8.1.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.psdimporter@8.1.0)
+    com.unity.2d.spriteshape@9.1.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.spriteshape@9.1.0)
+    com.unity.2d.tilemap.extras@3.1.3 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.tilemap.extras@3.1.3)
+    com.unity.2d.aseprite@1.1.9 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.aseprite@1.1.9)
+    com.unity.2d.common@8.1.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.common@8.1.0)
+    com.unity.mathematics@1.2.6 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.mathematics@1.2.6)
+    com.unity.collections@1.2.4 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.collections@1.2.4)
+    com.unity.burst@1.8.21 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.burst@1.8.21)
+  Built-in packages:
+    com.unity.feature.2d@2.0.1 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.feature.2d@2.0.1)
+    com.unity.ugui@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.ugui@1.0.0)
+    com.unity.modules.ai@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.ai@1.0.0)
+    com.unity.modules.androidjni@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.androidjni@1.0.0)
+    com.unity.modules.animation@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.animation@1.0.0)
+    com.unity.modules.assetbundle@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.assetbundle@1.0.0)
+    com.unity.modules.audio@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.audio@1.0.0)
+    com.unity.modules.cloth@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.cloth@1.0.0)
+    com.unity.modules.director@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.director@1.0.0)
+    com.unity.modules.imageconversion@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.imageconversion@1.0.0)
+    com.unity.modules.imgui@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.imgui@1.0.0)
+    com.unity.modules.jsonserialize@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.jsonserialize@1.0.0)
+    com.unity.modules.particlesystem@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.particlesystem@1.0.0)
+    com.unity.modules.physics@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.physics@1.0.0)
+    com.unity.modules.physics2d@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.physics2d@1.0.0)
+    com.unity.modules.screencapture@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.screencapture@1.0.0)
+    com.unity.modules.terrain@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.terrain@1.0.0)
+    com.unity.modules.terrainphysics@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.terrainphysics@1.0.0)
+    com.unity.modules.tilemap@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.tilemap@1.0.0)
+    com.unity.modules.ui@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.ui@1.0.0)
+    com.unity.modules.uielements@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.uielements@1.0.0)
+    com.unity.modules.umbra@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.umbra@1.0.0)
+    com.unity.modules.unityanalytics@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.unityanalytics@1.0.0)
+    com.unity.modules.unitywebrequest@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.unitywebrequest@1.0.0)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle@1.0.0)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.unitywebrequestaudio@1.0.0)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.unitywebrequesttexture@1.0.0)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.unitywebrequestwww@1.0.0)
+    com.unity.modules.vehicles@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.vehicles@1.0.0)
+    com.unity.modules.video@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.video@1.0.0)
+    com.unity.modules.vr@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.vr@1.0.0)
+    com.unity.modules.wind@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.wind@1.0.0)
+    com.unity.modules.xr@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.xr@1.0.0)
+    com.unity.modules.subsystems@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.modules.subsystems@1.0.0)
+    com.unity.2d.sprite@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.sprite@1.0.0)
+    com.unity.2d.tilemap@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\Library\PackageCache\com.unity.2d.tilemap@1.0.0)
+  Embedded packages:
+    com.pixelbug.arrow-level-generator@file:F:\Unityproject\ArrowLevel-Hand\Packages\com.pixelbug.arrow-level-generator (location: F:\Unityproject\ArrowLevel-Hand\Packages\com.pixelbug.arrow-level-generator)
+[Subsystems] No new subsystems found in resolved package list.
+Package Manager log level set to [2]
+[Package Manager] Done registering packages in 0.95 seconds
+Refreshing native plugins compatible for Editor in 463.96 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2022.3.62f1 (4af31df58517)
+[Subsystems] Discovering subsystems at path H:/UnityEditorFromG/unity/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path F:/Unityproject/ArrowLevel-Hand/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1660 SUPER (ID=0x21c4)
+    Vendor:   NVIDIA
+    VRAM:     5966 MB
+    Driver:   32.0.15.9597
+[Licensing::Client] Successfully resolved entitlement details
+Initialize mono
+Mono path[0] = 'H:/UnityEditorFromG/unity/Editor/Data/Managed'
+Mono path[1] = 'H:/UnityEditorFromG/unity/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'H:/UnityEditorFromG/unity/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56004
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: H:/UnityEditorFromG/unity/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.081829 seconds.
+- Loaded All Assemblies, in  0.445 seconds
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.244 seconds
+Domain Reload Profiling: 687ms
+	BeginReloadAssembly (121ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (35ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (133ms)
+	LoadAllAssembliesAndSetupDomain (142ms)
+		LoadAssemblies (117ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (139ms)
+			TypeCache.Refresh (138ms)
+				TypeCache.ScanAssembly (125ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (245ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (196ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (7ms)
+			SetLoadedEditorAssemblies (7ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (2ms)
+			ProcessInitializeOnLoadAttributes (134ms)
+			ProcessInitializeOnLoadMethodAttributes (46ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:80
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: F:\Unityproject\ArrowLevel-Hand\
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 60.9118ms
+Starting: H:\UnityEditorFromG\unity\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: F:/Unityproject/ArrowLevel-Hand
+DisplayProgressbar: Compiling Scripts
+ExitCode: 4 Duration: 4s181ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+*** Tundra requires additional run (3.69 seconds), 0 items updated, 0 evaluated
+Starting: H:\UnityEditorFromG\unity\Editor\Data\Tools\netcorerun\netcorerun.exe "H:\UnityEditorFromG\unity\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: F:/Unityproject/ArrowLevel-Hand
+ExitCode: 0 Duration: 3s783ms
+Starting: H:\UnityEditorFromG\unity\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: F:/Unityproject/ArrowLevel-Hand
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "H:\UnityEditorFromG\unity\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "H:\UnityEditorFromG\unity\Editor\Data\NetStandard\Extensions\2.0.0\System.Runtime.InteropServices.WindowsRuntime.dll"
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "H:\UnityEditorFromG\unity\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.ComponentModel.Composition.dll" in favor of "H:\UnityEditorFromG\unity\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.ComponentModel.Composition.dll"
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library\PackageCache\com.unity.burst@1.8.21\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 179.2052ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 118 defines and 268 references
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil.Rocks, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library\PackageCache\com.unity.burst@1.8.21\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc - - 200 - application/grpc 460.3699ms
+ExitCode: 0 Duration: 24s
+Finished compiling graph: 659 nodes, 9047 flattened edges (7271 ToBuild, 104 ToUse), maximum node priority 659
+[361/656    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.rsp
+[513/656    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[BUSY       6s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[652/656    9s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+Assets\ArrowMagic\Editor\MaskPreviewPackBuilder_Experiment.cs(4960,13): warning CS0162: Unreachable code detected
+[653/656    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 118 defines and 268 references
+
+processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[654/656    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[655/656    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (24.87 seconds), 6 items updated, 656 evaluated
+Assets\ArrowMagic\Editor\MaskPreviewPackBuilder_Experiment.cs(4960,13): warning CS0162: Unreachable code detected
+AssetDatabase: script compilation time: 35.476872s
+Begin MonoManager ReloadAssembly
+Total cache size 70787664
+Total cache size after purge 70787664
+- Loaded All Assemblies, in 10.648 seconds
+Refreshing native plugins compatible for Editor in 9.05 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Start importing Assets/ArrowMagic/SOData/Levels/C5LCFamLabV1 using Guid(906cfba7dd1c294419f2fd0267eefad9) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '66644baf053adf31ceeb0b68e418bd43') in 0.012318 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1 using Guid(d4d27284823a4d243836f5750c5345e5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'dae4f608182fa52f9219b1caaf6c004a') in 0.003668 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFirst10 using Guid(807755041b28516469889f17530be1f0) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '83611dfee7713973d10b3d74be86550c') in 0.003229 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1 using Guid(91e3e99073848244fbeddb8e87bbfd2e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5fdd96451beff5edc5883fde8856f548') in 0.002762 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h05r using Guid(f104a740eb774624ab220db50d035def) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '730b622d50a2d27ff4a996cb86051e4d') in 0.003139 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3 using Guid(92280e34d81ad284eaddbc6bcedba700) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ab7f329809fab4a82784a8095530e215') in 0.003073 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingHardR3 using Guid(a3eed3147b55edc4ea9a2f584c3e0cca) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ac4f64d845e1bdacf40ebfbe0dc77c8d') in 0.003477 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h04r using Guid(04dc0d5ffd61e7d41b8a57a515a05df2) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c56df2b3b244805c73dd54f9202689ca') in 0.002961 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool using Guid(e5a0e5972f7d1dc4aa25d2287148bba5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '516fccdbd6d33014c9460dfc3ada0a41') in 0.003794 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h01r using Guid(664d599bd0b34c541a62e53b17dcf8f4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6da165c1bae33399fb26d90142cf6c4a') in 0.003306 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1 using Guid(769a0e5e3352c334c8b082b533f5a78f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '32bbeeccf09c0cb062d5cb457fc382bc') in 0.003278 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10E using Guid(c6f9e4e048b0c3f40b609378aa16a279) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'feddb9d2e4b862a3fb2ca65001c37d6c') in 0.003473 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1 using Guid(17a7b683d9d09c14eac356083c145109) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '39647d11f52214f9ec63d0df81e51d03') in 0.004130 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10C using Guid(c7da127af07a8744b988cf168d20f879) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '41034666fa00634dbc02c900f34a997d') in 0.002971 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFinal6 using Guid(08142880af92a85468a19fd29ebe7b7b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1fa38d674d2f1b0eb4f8aad3a415f12b') in 0.002672 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR4 using Guid(887dcdb854a562349a4add0ae8339582) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f97d768b332d46fc1af254c8749617eb') in 0.002595 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgDirection3 using Guid(49f0af07e3c286a49a85a9728144ec82) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '87dd817902a4dbc3436d004bb9512bf1') in 0.005043 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10D using Guid(a924b6d385fe43b4592aa3a63e9bd874) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1ab1de67205eb16200d837e9b9539126') in 0.004686 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10G using Guid(b955d91e5aee2574b9a03ce13fd78ce6) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '35b751124e82696bba1ac261546a80c8') in 0.005204 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10B using Guid(0a69fddd845dac345b356ce745b3015c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'eacb7765b8a564e61b4a8ef15af86c59') in 0.005596 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h03r using Guid(ba520c94704412c4b9c98baa2777cfe5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2cc99e556fe78ddf89c0e9fa9602a845') in 0.004348 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNewbie4 using Guid(bb8d18fdfb015c740abdd095559456ba) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9d3e1702b66fcc087d3268ebeb6fa341') in 0.004387 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1 using Guid(cb5b27d80d0005b458c5a026eb6f09f4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e05de69f445eede623f4acda414ae412') in 0.002431 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10Tail9 using Guid(eb7af20f67057ab48b8e5dbcce4c568c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e491f027a800937d810796ab7298431d') in 0.002863 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue using Guid(5cbc5ac3ceb40bb4db60f1dfaf79a0c3) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b7b13f69d0747ec728c68ad80ea4e7f5') in 0.007074 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10H using Guid(ac8977be4e653754d8711c6276f3bf5d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5d248201a264a2151254686e800359ed') in 0.002920 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR5 using Guid(fc4a3d76f3c4765439d1e7d762953382) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b9e8be8972b52e6cd5af0def516f718b') in 0.002645 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h02r using Guid(8d93158cce9c0784eaaf5c323cd94981) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7844b76d2f3e06af9ecdb64c3aa63fc9') in 0.002740 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30TransformWidePool using Guid(fd374663e95e4364facfc8af9d8ec3fd) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0101acd97c1c1d2fd2d328ef1700bf52') in 0.002396 seconds
+Start importing Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs using Guid(a83e40e7ddee9b047b50dfd0e8edb0b7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '842ed22ce8293ea9d5a722c3b47b9aac') in 0.004883 seconds
+Refreshing native plugins compatible for Editor in 11.16 ms, found 4 plugins.
+Native extension for WindowsStandalone target not found
+[Licensing::Client] Successfully resolved entitlement details
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in 10.847 seconds
+Domain Reload Profiling: 21488ms
+	BeginReloadAssembly (172ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (7ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (29ms)
+	RebuildCommonClasses (36ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (52ms)
+	LoadAllAssembliesAndSetupDomain (10370ms)
+		LoadAssemblies (10262ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (196ms)
+			TypeCache.Refresh (166ms)
+				TypeCache.ScanAssembly (150ms)
+			ScanForSourceGeneratedMonoScriptInfo (21ms)
+			ResolveRequiredComponents (8ms)
+	FinalizeReload (10847ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (10673ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (7ms)
+			SetLoadedEditorAssemblies (16ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (70ms)
+			ProcessInitializeOnLoadAttributes (10497ms)
+			ProcessInitializeOnLoadMethodAttributes (76ms)
+			AfterProcessingInitializeOnLoad (7ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (7ms)
+Start importing Assets/ArrowMagic/Scenes/Demo.unity using Guid(2836e63d9d67642549a558eb7747c789) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'fb6898a2294572c5b1b89b374cd2e1e3') in 0.001377 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalHardGateUntil0910V1ReviewPack.asset using Guid(004343fd96d64c77b977f93ab05630d7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '32ae11a6873434df307c02c9b34c7dab') in 0.340721 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_186_L487_sun_dense.asset using Guid(10598b43a1cacab4f863871fa56cb93f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6bf6ee03b9af45c4795ea6a17c7c45f5') in 0.133043 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_16_nutation_longchain_spine_v1_rect_c80hf3_04_d1_core_spine.asset using Guid(106a5c1c5a6c2e94e9857b70b9669a5a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '8a23d521b7a62bb86e3372beaa5ec9ea') in 0.018671 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_24_nutation_longchain_spine_v1_rect_c80hf3_06_d2_lock_spine.asset using Guid(103f401411543fb4ead30a6d48f911d1) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4f15d610d4a37adb5763f36ff8ce9f4a') in 0.006616 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_164_l212_long_normal_b_maze_s22_slot_seedmaze_chamber_corridor.asset using Guid(30331b7e9131df84684f2734f344ed0d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1248e1c03868ca4f2bea73757722f073') in 0.004497 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_24_l031_long_normal_a_sweep_s04_slot_seedlock_gate_carrier.asset using Guid(30e349e983eb81b419acdac89819a913) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '13d7a63da2325dab286b7750dee38760') in 0.004251 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10H/campaign500_shape_psg_next10h_08_L458_star.asset using Guid(50f721a2d7f25884aa9cb7b91e41030b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '43faa48d0e6a7b95f0b6e2e958442a4f') in 0.090965 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_25_L127_mushroom_lock.asset using Guid(60521cf1677fbdc4caf9ae8681256e56) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9b332bd984f3aaab689d7fde30fe57dc') in 0.036164 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_58_L423_artistpalette_r2lock.asset using Guid(604f96ddba62a4f4ca3ff562df2f52f7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9ba47cc80b2079cbd08d0f99477311cb') in 0.025986 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_93_L298_rocketvarianta_dense.asset using Guid(700a3eecb52971b49a7f393b1ba8ebc4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'eae2548bfadf98421524653231e9a564') in 0.106926 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_18_nutation_longchain_rail_v1_rect_c80hf_05_d1_section_rail.asset using Guid(70caad4555ac2e843886263e77cadc66) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '8bd507ee9b22de5fa90bb9f5f0f67572') in 0.003278 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10B/campaign500_shape_psg_next10b_03_L133_musicnote.asset using Guid(80fd94542b34c114395e227dcb03053e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '61556415b42f0b1d71d583a9224ed129') in 0.050661 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_31_L327_compass_r2lock.asset using Guid(a0138e2e02148b9419aeef791c714fd7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'db24c2032ac217a6b96ffd2cd4454fc7') in 0.085963 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_48_s12_r04.asset using Guid(a0f508d3e189c2847ab5ac349b1ff6a8) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4e12d256c68385150bc7fa45cfe1fbeb') in 0.005839 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_05_nutation_longchain_curve_v1_rect_c80hf3_02_d1_maze_curve.asset using Guid(a0eb6bf031fe84940ae477515a811438) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a8e9d17094885d49c4b55715c8fc5d10') in 0.008280 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_57_L213_wizardhat_dual.asset using Guid(b093e10e5a2b5cd4187327f46d05e813) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '346b5faeb8a1f2cebe0b3dfc250db0d7') in 0.025408 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalStrictUntil0910V1ReviewPack.asset using Guid(b049e419e79c42bda85ba0d37526a3ba) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2ae4ba7074b971b820a5b1352c981187') in 0.042842 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_07_L078_pencil_section.asset using Guid(b03a1da65f95b6b43ba8ca6e85983ded) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1d66eea4ad2ec3cd1341b7bb8e334f4a') in 0.021574 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h03r/c5hole_lowchoice_v1_h03r_38_nutation_strict_mixed_choiceclamp_v1_rect_s15_o148_v01_strictmixedchoiceclamp_choice_clamp_chain_hf1.asset using Guid(c0a482e94f1483145b3e9c2031aa8475) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '8351f325e98996462a80cafeaafed461') in 0.003630 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_15_nutation_longchain_patch_v1_rect_c80hf_04_d1_core_patch.asset using Guid(e013be978a31c7b40b77f8605098837b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '57789fea713ef10f846cb632ba29168d') in 0.004567 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_39_s10_r03.asset using Guid(f09fd9fae18b0584295c1d5aedbfa394) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9defd9b1ac32deff31c9a939ad6a65e8') in 0.004172 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalStrictUntil0910V1ProductionKeepPack.asset using Guid(0172f83249734019ba7a175226e22966) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'edef2b8671f41a340d8bae5cdb6577d3') in 0.004124 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_11_L093_wrappedcandy_sweep.asset using Guid(41ecea7fab88e0747821860edf8782f3) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9c5ecc668baeca01db5e91987dce1f69') in 0.005267 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_01_L038_suspensionbridge_section.asset using Guid(61718c1ac2f37f64e9de0915aa23e42b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '282cdce5a7ac4f5cd310cee9a1ce5cc3') in 0.028754 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_01_nutation_longchain_curve_v1_rect_c80hf_01_d1_lock_curve.asset using Guid(6188eb968fb5dc241abfa43005fb139d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9dfdc474018cb31fc6e6917536ec4461') in 0.004493 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_44_L178_shell_core.asset using Guid(61d809e917c3b434cb557f3ae2e3ca38) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ab7291be6ac2e9376e392a1822c967e8') in 0.016097 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_26_nutation_longchain_rail_v1_rect_c80hf_07_d2_maze_rail.asset using Guid(71863fbf163500f49b429457e4e8dfca) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4003bb54e78cbe4cd3dd35c74fe96623') in 0.004157 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalHardGateUntil0910V1ProductionKeepPack.asset using Guid(9127e77bc0494b5fbb81f57efab15c5f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'eef8c80090830da18f1605f0dc655db7') in 0.003755 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR4/campaign500_shape_psg_no_b_r4_46_L427_treasurechest_r4sweep.asset using Guid(914fe9745ff275e479758bc8e6d25e04) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ae4b98fd4ea06e99f2e5a97d84e96146') in 0.024795 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_72_nutation_longchain_spine_v1_rect_c80_18_d4_weave_spine.asset using Guid(b146e1837c00f914d9843ab7e2b21379) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c63b81e02c0eac402ca7f9848d9d8e6b') in 0.010682 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_62_nutation_longchain_rail_v1_rect_c80hf2_16_d3_lock_rail.asset using Guid(b1563ce679e4337418c251631d3b4464) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4590c0d1da8b70d469f5a8e5e6efec5f') in 0.006831 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_39_nutation_longchain_patch_v1_rect_c80hf2_10_d2_section_patch.asset using Guid(c1d50362dcce03045aa5052258825fd4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0ccb710d8a5fe9c1f521526be155514c') in 0.009529 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h02r/c5hole_lowchoice_v1_h02r_34_nutation_strict_mixed_peak_v1_rect_s09_o089_v03_strictmixedpeak_strict_peak_chain_hf1.asset using Guid(d17e3dc6d7a7ff74590915efca9632a6) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6ad4e901c0fb9ee0bd6b8c5bc0a11909') in 0.003651 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_06_nutation_longchain_rail_v1_rect_c80hf_02_d1_maze_rail.asset using Guid(e16da78260d80c84f8de995c58a021e9) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5c6285980f4079a8abc44b56c3d7f255') in 0.005724 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_101_L313_apple_sweep.asset using Guid(f1d209986e60ca44ca90afdbe74dfe6c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c27c4c201946d27c1f6aa84b8822d832') in 0.023107 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_20_nutation_longchain_spine_v1_rect_c80hf3_05_d1_section_spine.asset using Guid(f196628f717fb074a873529460f3d2a4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c4ef1a3e0523d20266d3349875de267a') in 0.007077 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/C5LCFamLabV1/c5lcf_06_l045_long_normal_b_lock_s05_slot_seedlock_keyhole_carrier.asset using Guid(f1aa5b45786d8a3478ae53c09c944325) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd42cf6b2360cb6dafa89e5b05e1fa900') in 0.003795 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10C/campaign500_shape_psg_next10c_06_L198_headphones.asset using Guid(0202aff6ed1eb454aa7a83eadaac19ae) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '44efc6a146908999aae678507d7b176f') in 0.012174 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10D/campaign500_shape_psg_next10d_04_L238_cactus.asset using Guid(02a7cc6483ef0ad4194e6f786f77268e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '12a420c73b93114ebbb70bbe3e447687') in 0.029820 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_08_nutation_longchain_spine_v1_rect_c80hf_02_d1_maze_spine.asset using Guid(02c7175deee0d5b45bab1869b6259e01) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '319c5638249fe2b0b1211878f4713ad7') in 0.004110 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_10_s03_r02.asset using Guid(0289b0f7dd4952e42b94e3e584286fd1) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '77a7089f8b68288c098ad4c9ca23daac') in 0.006672 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_99_s25_r03.asset using Guid(12c3776c943c7cb43b8eea20b0aac422) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'eb9130e230a66e28df9c714965d20284') in 0.004094 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10D/campaign500_shape_psg_next10d_03_L233_trafficcone.asset using Guid(2252055417df275448f6611a91156028) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5291fbe29451130709a5b997c7e6e3b3') in 0.025549 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNewbie4/campaign500_shape_psg_newbie4_03_L009_ruler.asset using Guid(2225599075eb5c24f94f323070d3b62c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e618e3f1c0296e08b5f3828348225b57') in 0.002927 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_12_s03_r04.asset using Guid(52f662f4a918c274bbbb29fb48f7f173) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ad51cd5323acbba6f7df9fbe75f75220') in 0.003034 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_65_s17_r01.asset using Guid(52dd7d25cd16a7c468c3c6874b6752fe) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7b83d76e83bf6ed92e96cd266efdf610') in 0.003010 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_02_nutation_longchain_rail_v1_rect_c80hf_01_d1_lock_rail.asset using Guid(925cdd8ba41fbb84eb567351d7a4dc5c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5b0b329ce8c6715bdaaa969ee16db500') in 0.003224 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h03r/c5hole_lowchoice_v1_h03r_31_nutation_strict_mixed_peak_v1_rect_s14_o136_v00_strictmixedpeak_strict_peak_chain_hf1.asset using Guid(925e54cf56adaf34b8d7e6f01e22d355) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1d9c3e03c561d24938ed09ea8c5fbe9c') in 0.003160 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_04_nutation_longchain_spine_v1_rect_c80hf_01_d1_lock_spine.asset using Guid(a252842571f713042b79f81e76957e05) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '73e6c19b94ad92649cf35a3f74ea2206') in 0.003801 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_68_s17_r04.asset using Guid(033bbec6aab909647a5f04b791e381a3) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6739ed69acd6c1b3a70d9a6ab6ae1128') in 0.003070 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h05r/c5hole_lowchoice_v1_h05r_05_nutation_strict_mixed_choiceclamp_v1_rect_s20_o196_v04_strictmixedchoiceclamp_choice_clamp_chain_hf1.asset using Guid(3387df42f9a155a4889e30afba507b2e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '8aa606150b730d236ea5152c004aac7f') in 0.003302 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10Tail9/campaign500_shape_psg_next10_tail9_03_L087_racingkart.asset using Guid(435b984b426860243ab41597c101903f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd4cf969bf2d054aaeb0d11c53f89d855') in 0.037665 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_46_L183_airplane_sweep.asset using Guid(63872e9018245ca489ab1bae0c7a696f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '73c7c2d9c812e50fd417206d5ec42051') in 0.038617 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_01_l003_long_normal_a_normal_s01_slot_seedweave_braid_carrier.asset using Guid(63dff09dc6a45cb4cad98abe1f558951) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '22c458bb91a2de44dcd171185266b138') in 0.003694 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_33_nutation_longchain_curve_v1_rect_c80hf_09_d2_core_curve.asset using Guid(73a971f8f3ec7c84fa36a28bb6c1cb5e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '56c0efc41635b52485845856c5678db2') in 0.005297 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_07_L187_waterdrop_r2core.asset using Guid(830d6a87255644f4a837ccb41e78f791) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd1a3c7404966c917c05748f19951c1b8') in 0.045922 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR4/campaign500_shape_psg_no_b_r4_08_L228_icecreamcone_r4sym.asset using Guid(b3f5812c503f5304c8141c6ffe1fc2b8) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '58fb1ca7456f4d504b57c7a7f4189b3c') in 0.025926 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_23_nutation_longchain_patch_v1_rect_c80_06_d2_lock_patch.asset using Guid(b376af9c7297ac8498f58805780ed119) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e157aaf605be49b16942ae3f2c86fdb5') in 0.005517 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFirst10/campaign500_shape_psg_first10_05_L043_sunglasses.asset using Guid(b3886fab3f454a94db01ce28ef10810f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd31d1b6f95323ebd66838b73f8c60bc6') in 0.020565 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_27_s07_r03.asset using Guid(d3c1ceda9d1972640a0d37fbf647af11) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f2c62b08c0afa5c3c7179f91b15a8a06') in 0.003571 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_06_s02_r02.asset using Guid(d313dc43f4790e14eb434fc23609b364) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '8770e426c72325aaa3c8b907cf27346d') in 0.004189 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_06_l005_long_normal_b_normal_s01_slot_seedweave_braid_carrier.asset using Guid(d3e46304cdc49bc43b1818cb9f281915) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '714e4992dacbf83c32bc3100709aa90c') in 0.003990 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_19_L118_carrot_section.asset using Guid(f3ff9e1e0fb0b1140a5aae99cf4cf4b8) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e8cad14e90dfc255f1ff74fd7ef5faed') in 0.024646 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_19_nutation_longchain_patch_v1_rect_c80hf3_05_d1_section_patch.asset using Guid(0444eb48c8cbfec47ac6334d0ad81233) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e992ade00c268021a622913eb3093e15') in 0.006445 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_01_l003_long_normal_a_normal_s01_slot_headmix_outerclean.asset using Guid(1437d7d623afe224a99085d38d138db9) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2587a0c0de1d5b5b4681c68555638181') in 0.003903 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h02r/c5hole_lowchoice_v1_h02r_38_nutation_strict_mixed_axisbreak_v1_rect_s11_o105_v01_strictmixedaxisbreak_axis_break_chain_hf1.asset using Guid(14eeabde55453d94187b38e67b3e3ac1) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7c017f586767a98ca02fb8715c58eb4e') in 0.003176 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_80_l106_long_normal_b_section_s11_slot_seedmaze_chamber_corridor.asset using Guid(44e8e2b8af278cf4482cf40118f11c1c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9544f6bc877b9d314a32f368ac358fe7') in 0.004458 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_04_nutation_longchain_spine_v1_rect_c80hf3_01_d1_lock_spine.asset using Guid(6470d5c74aff5c2449fcb3f18a76d9d2) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a8a946ff08ad0795cb3ebfcfee5b760a') in 0.005749 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalStrictUntil0910V1ProductionStrictKeepPack.asset using Guid(844efa81ef944149a7d0bd4a50d74499) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2c49eed3c4324b79748f66d9a14b7d7a') in 0.005211 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgDirection3/campaign500_shape_psg_direction3_02_L027_crownvarianta.asset using Guid(940d4bf35338d604ebeb2f799b3fb904) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4db22266d5482148d0a256ee5e1aaa89') in 0.024443 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_159_L418_crystalcluster_dense.asset using Guid(a4b1ff3034b83864a8bd0ffd2a22e067) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ee868cee719ddb105874bdf58f7ca89b') in 0.033960 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10H/campaign500_shape_psg_next10h_07_L453_fish.asset using Guid(a4036af41c398ef41a2e1c67272ce372) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '8fae1ce5bc869cf5b8ef3ef7d52c101d') in 0.040664 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_21_nutation_longchain_curve_v1_rect_c80_06_d2_lock_curve.asset using Guid(c46a37ced9486204b9a14948a3234128) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '83cb99f9e9d73e2fec45eed8bd43f5df') in 0.008055 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFirst10/campaign500_shape_psg_first10_09_L063_sailboat.asset using Guid(d4e547f80b4a5984a8847dff05e1b953) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '87858ec062515fbf8791855485b97d1f') in 0.014910 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR4/campaign500_shape_psg_no_b_r4_20_L373_glove_r4core.asset using Guid(050b68f2f122ac6468edcc9958f6e81e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '224661e20e9db0d1375c7d368c0ce89a') in 0.007556 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_50_l064_long_normal_b_maze_s07_slot_headmix_outerclean.asset using Guid(15752237b68b25244a4b832b03562ed3) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ee654b4fa3fb5b140d89c2fd36853934') in 0.005406 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h04r/c5hole_lowchoice_v1_h04r_25_nutation_strict_mixed_choiceclamp_v1_rect_s18_o172_v00_strictmixedchoiceclamp_choice_clamp_chain_hf1.asset using Guid(251297417ba94c340ac9ff501c20f181) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '238888bf8cb1191503adaa66a147c993') in 0.004536 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_95_s24_r03.asset using Guid(25bdc1550b06fd1439489f6678c2d0c8) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3dfb5697be1f6c89d0c44f2b47efcbca') in 0.005443 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10C/campaign500_shape_psg_next10c_07_L203_microphone.asset using Guid(3566e2a42cb45fe4892a3ba526ca7356) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e5423d8ee42016e641c592f30917fc16') in 0.018138 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_04_s01_r04.asset using Guid(7520a6af5d9b02d4ebc246f7c8cf418e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2bdc341b949207437adca82c8a93930c') in 0.005604 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h02r/c5hole_lowchoice_v1_h02r_10_nutation_strict_mixed_hard_v1_rect_s07_o070_v03_strictmixedhard_strict_hard_chain_hf1.asset using Guid(95547c5e4a927474da1b452a84942227) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5f117a4b87fff7461f83e015c2064f92') in 0.004454 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_86_L283_volcano_sweep.asset using Guid(a55cb1b3da4c76845ba4540b4f8d5d5f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd9615251015acbf110958902a6389712') in 0.007008 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30TransformWidePool/nutation_hub_mixed_v1_strict30_transform_wide_08_s02_rot180.asset using Guid(b5b183691196ffa4e8c5a351d3328554) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '44d0cc7234dbba7cee952dd32377af6a') in 0.006621 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10H/campaign500_shape_psg_next10h_06_L447_magicbook.asset using Guid(b55b51da3be50fb4cb11486a3744e9b5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '364da670a35f4f502d8bad4adad4669d') in 0.007155 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h03r/c5hole_lowchoice_v1_h03r_11_nutation_strict_mixed_peak_v1_rect_s12_o112_v04_strictmixedpeak_strict_peak_chain_hf1.asset using Guid(c54f4ff1485e6454ba87d5239d2d3aa3) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '029935b841704df27d7aeddee7d29005') in 0.004950 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10B/campaign500_shape_psg_next10b_06_L147_caveentrance.asset using Guid(d5a2388773b8ea848b8587f56d931556) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd95742072b20fb9cb8dda641ed8a6e89') in 0.007631 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_35_L333_leaf_r2section.asset using Guid(06cdec609320648469dd2d96ef0b46d0) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f8ded7329c8036968b12028da5012f9c') in 0.008391 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_36_nutation_longchain_spine_v1_rect_c80hf_09_d2_core_spine.asset using Guid(46ddfdeb477fcb9468974a31575dc5f3) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0fccb9ff61846da013ac5cca641fd63a') in 0.006730 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_22_L123_car_core.asset using Guid(66e922aa802282044a1e862bbb3d9609) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '74846b69bd16eb4b27a802ec8cc7f88e') in 0.006635 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_16_nutation_longchain_spine_v1_rect_c80hf_04_d1_core_spine.asset using Guid(661b7d09f00b07245912818f2dc68f9c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6ecebb3bb0684c1120fef35d3171f1d2') in 0.005186 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10Tail9/campaign500_shape_psg_next10_tail9_02_L083_ballmouse.asset using Guid(8629ba81fd601964386344907767e956) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6fb1299ddabc21c2199eb19ae80028f4') in 0.023340 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_137_L378_pretzel_sweep.asset using Guid(96d04854831cc7b4ab89b5c8dc4deaf2) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '420d7f75105bdfd10a740a47e1b568fa') in 0.019328 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_03_nutation_longchain_patch_v1_rect_c80hf_01_d1_lock_patch.asset using Guid(96a7518bf91909e4c9ee5a40342b780e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f84dd03e84c682e9841811d8c1d4a93f') in 0.005228 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_30_L143_watermelonslice_dense.asset using Guid(c6e4c7fdb3227924fae4d42e1dd5cac5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '014c619e930fef47ed7aac577423153c') in 0.006760 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_29_L303_virtualpetkeychain_r2dense.asset using Guid(d6d88b1b42a43f743a26b21a6a700def) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f0eccd803edea9300423831f567f1789') in 0.025057 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_121_l155_long_normal_a_dense_s16_slot_seedlock_gate_carrier.asset using Guid(d6e87b9d4a8a8ac40a6a66820ae24162) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '40d51ae14e58d92eef8fc17524f47059') in 0.005012 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_182_L483_heart_sweep.asset using Guid(e6e6ebabfd8217a478b2e273c043eb99) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ae8c6e758837d8a74da64b055cb16a62') in 0.053253 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_18_l022_long_normal_b_section_s03_slot_seedweave_dense_support.asset using Guid(075836b3f3b34f3438f59fbc7b909f46) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5297b0411e343decb6d3e707059aa7e8') in 0.004521 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_05_l005_long_normal_b_normal_s01_slot_seedmaze_chamber_corridor.asset using Guid(37244031406c31148a0310c93047db9a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '12a13048413c52fbb33a76e4bc3e09b3') in 0.004917 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_16_L108_hammer_lock.asset using Guid(7713dbe22b01e144c807f50cf5341b60) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '11781bf5b225e34ccf4ab1820917eac2') in 0.026101 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_17_l022_long_normal_b_section_s03_slot_seedweave_braid_carrier.asset using Guid(774c8417579e9f849aba4c7ba7a0d579) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'dcf1b3cc3dcb38ed1630bbc8d7e7da7e') in 0.004766 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_11_L207_magnetvarianta_r2section.asset using Guid(777d249e9b9edcd43ae5ea50060952ed) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4d77b6612530ebfc2b3673a64773d490') in 0.006227 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_91_s23_r03.asset using Guid(a7f1134c8990c1f47b2995fe859affb2) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2df0c6903bae576a5713eaa15501afe2') in 0.005897 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_11_nutation_longchain_patch_v1_rect_c80_03_d1_weave_patch.asset using Guid(a78adc50d494fad489d3b090e0ac42db) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f6516170e144cd2aa8282dbb40367d65') in 0.004148 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_15_l021_long_normal_a_sweep_s03_slot_seedlock_section_bridge.asset using Guid(a72c1f8d34ec7964f8d94138e2d5f535) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '47c01a1b03e4c09655a4e3f17565d367') in 0.004813 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_20_nutation_longchain_spine_v1_rect_c80hf_05_d1_section_spine.asset using Guid(a75e34f37f4b83a4bbc39449a4c6e162) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9e4627e691e057953a93554f4821ec33') in 0.005534 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_99_L307_pear_dense.asset using Guid(b78546513f8081442ad2140a659dc216) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '63ad1ee00b64c1ef9ffc779779545c56') in 0.006382 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_36_nutation_longchain_spine_v1_rect_c80_09_d2_core_spine.asset using Guid(b7957398c13b6ca4c8ec10e3f5a99cf4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6263a19450a839b6f67c3ecd48ce8eea') in 0.004617 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingHardR3/campaign500_shape_psg_remaining_hard_r3_37_L438_giftbox_r3lock.asset using Guid(d7aaca864b24ff84da6807949572cf3d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd291dd1d39b052cfa2c8768ed028c7de') in 0.007988 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_05_l005_long_normal_b_normal_s01_slot_seedweave_braid_carrier.asset using Guid(e796a0a42cf355447bb2b38784de0e19) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '37f970525d94aeafcb4ef19e114d9630') in 0.005013 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_14_L103_paperplane_core.asset using Guid(f7be01618e5c88845b196e23a9b69e44) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3139046157519375b4954c9f2b8663fb') in 0.006658 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_72_l092_long_normal_a_lock_s10_slot_headmix_outerclean.asset using Guid(08a6f780142c19142962ceb8f59e5b52) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '191e26bdc7a011625e6e27c9b80c2c43') in 0.005231 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10E/campaign500_shape_psg_next10e_10_L318_flame.asset using Guid(18303a5f0fcd42b47a4901080b839d08) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'eeebe125b41202ee65af30d87db882e6') in 0.019998 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_47_nutation_longchain_patch_v1_rect_c80hf2_12_d3_maze_patch.asset using Guid(18a604a8d455e974f81198451ef8d5f7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '71197b5458c8c020de3d44edea177ac3') in 0.009217 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_09_nutation_longchain_curve_v1_rect_c80hf3_03_d1_weave_curve.asset using Guid(487a263bf0aa8fd498ddc8ce6eb72093) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '42f7a26cba1a619db42c29e46d4833d6') in 0.057687 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_172_L463_castletower_section.asset using Guid(58316465886219a44b1a646bbd9554e8) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a2857f7b495ab5c22496e6b63eeaf593') in 0.007762 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_104_L323_hotairballoon_core.asset using Guid(68d68afe217662e43b1a75abe11b2b7d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '35f58929de60ebe6f0be52c97bd43c25') in 0.006638 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10B/campaign500_shape_psg_next10b_04_L138_bowlingpin.asset using Guid(68db4ae306134404a839e1bbc0890728) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c3e539b9a90b6179ed651fde572081ec') in 0.024222 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_176_L468_boombox_sweep.asset using Guid(686df552c0320b843a737eb31b7c1f96) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '297af03d4d4928858e1d61ed772b75af') in 0.032620 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_32_nutation_longchain_spine_v1_rect_c80hf_08_d2_weave_spine.asset using Guid(78420e0c194d0ca46bc1f2280126ca68) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'fe84208cea34587bbadd231ddc44609f') in 0.004392 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgDirection3/campaign500_shape_psg_direction3_03_L032_wavecrest.asset using Guid(886e8b8365360ba4d94c8238422884db) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '34d762f49cb137fa60b1f16084a950cb') in 0.022137 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_33_l041_long_normal_a_dense_s05_slot_seedmaze_section_weave.asset using Guid(98b7a49bc2a7c184e8490c6a9932cdc7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '63ea07fcc9ca38c74b604d7eddbfe4c6') in 0.005066 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_02_nutation_longchain_rail_v1_rect_c80hf3_01_d1_lock_rail.asset using Guid(b8f4e511ce6aba54baba8a00a0862dbc) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c6ede149be478975d69614656f14a59d') in 0.005885 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_45_nutation_longchain_curve_v1_rect_c80hf3_12_d3_maze_curve.asset using Guid(c8f9a93b4a04a7644bfd177c6d945135) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e88c104446079892e40c9d190b89b586') in 0.011624 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFirst10/campaign500_shape_psg_first10_06_L048_kite.asset using Guid(e8f522174fc9b274192017c166d7ad02) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '17a200b2dbb21eaa7aa83d751116da0c') in 0.005784 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10E/campaign500_shape_psg_next10e_02_L278_tree.asset using Guid(e8478b5a12fab2b46a78542f60a0cc6b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '257985543d27a4cdc21228d9e1917ddd') in 0.007161 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_06_nutation_longchain_rail_v1_rect_c80hf3_02_d1_maze_rail.asset using Guid(f88b0a26cc3ef6d429734335cf28842a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'be326d4edd0321acda425ffa5bf73a99') in 0.005262 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_60_nutation_longchain_spine_v1_rect_c80hf2_15_d3_section_spine.asset using Guid(f8ff24d3fe13a9f44b0453ed562403b2) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2536e82e57fc4e0ca313a3a7e4325a01') in 0.007245 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR5/campaign500_shape_psg_no_b_r5_12_L387_d20die_r5mazeA.asset using Guid(19beaa61100d0d440b0f6660bb5a0780) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '40072d35dba488ff0e6b8780e50a6bc8') in 0.053416 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_11_nutation_longchain_patch_v1_rect_c80hf_03_d1_weave_patch.asset using Guid(59ea405427d468648a587067b92ea7c3) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '573d3c89f8e80e6f7769bab6cc35dec8') in 0.004703 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h03r/c5hole_lowchoice_v1_h03r_13_nutation_strict_mixed_axisbreak_v1_rect_s13_o129_v00_strictmixedaxisbreak_axis_break_chain_hf1.asset using Guid(69b6f9ee27a675542b451fab02682d91) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '199dcac14bdb2c4ca01953e5c6cfd93d') in 0.002799 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_26_nutation_longchain_rail_v1_rect_c80hf3_07_d2_maze_rail.asset using Guid(69bcb585957b98347a7a7cb9c9703d33) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e812d731a9afb6185505418a18a24be1') in 0.004892 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_44_nutation_longchain_spine_v1_rect_c80hf_11_d2_lock_spine.asset using Guid(9910607b120216b4884d479bad0bf260) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5a6a0d364b927171e374f420761edd36') in 0.005119 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_29_nutation_longchain_curve_v1_rect_c80hf_08_d2_weave_curve.asset using Guid(99b33d7b9abe85246acbc38e40de612f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'cadaf689a10ef2d4b72dd2b70191e61a') in 0.004467 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_130_L368_hourglass_sweep.asset using Guid(99870461e93cb9a49b9907bc3cf083b9) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd426b21fd54cbd4ee4f8d1ba226baf4a') in 0.007751 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalHardGateUntil0910V1ProductionStrictKeepPack.asset using Guid(b91c18fdbdcb4b1882fa8ac203b8010b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4a22a6120cb446d7d830d39ad1e0e504') in 0.005434 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_27_nutation_longchain_patch_v1_rect_c80_07_d2_maze_patch.asset using Guid(c9a8b32dc7d76ed459299bfa0a952171) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '10299f669f9f33a7e655633618319ed5') in 0.005472 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10E/campaign500_shape_psg_next10e_04_L288_knighthelmet.asset using Guid(d92013e750c84bd40986687b3ced0640) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ed1ca66299724cb91ce05bf582262973') in 0.006636 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_25_l031_long_normal_a_sweep_s04_slot_seedmaze_chamber_corridor.asset using Guid(d95e96cef45e224419a0f0f6273aef52) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '088d2c5f67b0cb085396ce3f4a54f60e') in 0.004715 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_100_s25_r04.asset using Guid(e9e7f48e6e1779144ba9eae18656347a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3651c71b6ea22e21da7cf3d987d3a040') in 0.018922 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_175_l234_long_normal_b_sweep_s24_slot_seedmaze_chamber_corridor.asset using Guid(f9fc7a8560338174a92214766601f1ac) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'af1d915b786f433f760a1b456e754075') in 0.003145 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h01r/c5hole_lowchoice_v1_h01r_37_nutation_strict_mixed_choiceclamp_v1_rect_s06_o056_v00_strictmixedchoiceclamp_choice_clamp_chain_hf1.asset using Guid(2a427baf5d0f77942a0e953ea5306484) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7b49f1a7bf26c2c59bfe610c52ce72ac') in 0.003050 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10B/campaign500_shape_psg_next10b_07_L153_pumpkin.asset using Guid(3a27091de8a6c2d46b674a27f5840aff) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0d1d73274f2dbb83537e70f6ad89bb19') in 0.076753 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_23_s06_r03.asset using Guid(3ab92059c7c56434984e224d6aa3ed1a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '83757227edb675d9b8bc3ccc756b6045') in 0.003615 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_125_L358_clover_sweep.asset using Guid(4a8315c0d935fdf41a64c8523c843af7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '986c293140760df1d01e1cbe98264602') in 0.005104 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_20_nutation_longchain_spine_v1_rect_c80hf2_05_d1_section_spine.asset using Guid(6ac21552eaa963d4cb23309897770133) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0d330a70868d2fb9712e94f99662aee8') in 0.006333 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10Tail9/campaign500_shape_psg_next10_tail9_08_L113_lightningbolt.asset using Guid(7a195fc58784ebd40ba12069aae5b496) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '021e120e02a9568507fa253bbadbaa8f') in 0.151812 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10G/campaign500_shape_psg_next10g_06_L398_butterfly.asset using Guid(7a9a3303a4021814d9d2e081407101a0) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '900f816d72441307e6a752225814e3c0') in 0.057407 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFinal6/campaign500_shape_psg_final6_05_L493_dragonhead.asset using Guid(7a2f73de45b6804488cbc5f7fa384641) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3d42ca55368a79947dcef6ea64790150') in 0.004098 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_77_L268_boot_sweep.asset using Guid(8aa78f4d0c39b3c49bdb06792013a051) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '55ba73460d3462427907878452e74d0f') in 0.004371 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardGateUntil0910V1FinalPreviewPack.asset using Guid(aa230c66e2734d8d9f4ceeb6bd7c079e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '81e855dba02bb86bc62e3b17a1bac0b7') in 17.779953 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_178_L478_flag_section.asset using Guid(aa8499f5ff208674abc8a85c9e992531) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '538d85f2db180dac32a2186efffcf562') in 0.017950 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_139_L383_alarmclock_lock.asset using Guid(aa3bcf5bee7f541459786b450357aee8) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e6888ee7838eb1d62ef4b0d28f484a7b') in 0.024507 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h01r/c5hole_lowchoice_v1_h01r_19_nutation_strict_mixed_peak_v1_rect_s04_o039_v00_strictmixedpeak_strict_peak_chain_hf1.asset using Guid(aa5bacea994a26f458434fb415cdaf98) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '83ad9806226077fb8ead305dc4ad2981') in 0.002785 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingHardR3/campaign500_shape_psg_remaining_hard_r3_24_L403_dialphone_r3dense.asset using Guid(bad3b1f2049ef0a45a2c6c1f5ea5d391) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '706d378fd5f1613ddab0ce734a05ee2b') in 0.027370 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10G/campaign500_shape_psg_next10g_09_L413_payphone.asset using Guid(cada97d8b93ac2d4c8cba2bdb7e52b35) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '23a76c56425f2da5a6823fc7cff15c43') in 0.063816 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR5/campaign500_shape_psg_no_b_r5_14_L433_filmroll_r5coreA.asset using Guid(ca3fb9873e1b7424f8658f9dcd79541d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c0a64f6320e9f2fa7983b2171c6f3a0c') in 0.092501 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR4/campaign500_shape_psg_no_b_r4_33_L393_chessknight_r4lock.asset using Guid(da657434047071f4d8a58aafe7ede64a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '813bde178485205c414bcbc87a4da8db') in 0.029383 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_69_s18_r01.asset using Guid(da481d711dbd5674aa5a14b9da9dceeb) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6baa1af2cff9d19f043ec106fd5fa708') in 0.003355 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNewbie4/campaign500_shape_psg_newbie4_01_L004_crystalball.asset using Guid(eaba78ee4bab22847a2ce9b36a31ec32) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6aadf124c335add1f019623113a50cfb') in 0.041579 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_24_nutation_longchain_spine_v1_rect_c80_06_d2_lock_spine.asset using Guid(1b1ee7b63da1fdc458588c21212b393e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '42f951b205cd419eb45f4952b759ccc9') in 0.003298 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_152_L408_arcadecabinet_sweep.asset using Guid(2ba01719526340d46beedfb3791d8210) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd6d5024d51b4839d9770168c98db4bbb') in 0.022328 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingHardR3/campaign500_shape_psg_remaining_hard_r3_12_L348_donut_r3lock.asset using Guid(2ba28a6e74daff84bae225d16b7a1ce8) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3c5cf61f8fe04fb282a6b12d3eab6447') in 0.025018 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_28_s07_r04.asset using Guid(2b0bde282d46b144da04d24afc1fb8ed) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '8389694aba97720f9701b6880b0c9d2f') in 0.003247 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10D/campaign500_shape_psg_next10d_08_L258_questionmarkvarianta.asset using Guid(3b0420ffba1c0e8449d09ad03b43040c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ea0e8cddd8bd0480edb81e2258368298') in 0.011307 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_09_l011_long_normal_a_normal_s02_slot_seedmaze_chamber_corridor.asset using Guid(4b1252d81f9246b4cab70bdb06035889) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ba917c9beee65b5e1d560523a1cb61f6') in 0.004139 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_70_L253_gear_dense.asset using Guid(4b06220a646c0d940952c3dd64a2f930) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6fcc118e36af4057a606c78d1d70b2b0') in 0.047275 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_10_l011_long_normal_a_normal_s02_slot_seedmaze_chamber_corridor.asset using Guid(5bc4491a89e3c8d40a98e5841172edfe) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a25075a60f39e97430bc98d50d507295') in 0.003678 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_26_L293_potionbottle_r2dense.asset using Guid(5b3875dae69cdcb4e96ae5ce5ad9da4a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '32de5a74fa243a20d05b2ba7d7a44601') in 0.008086 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_02_l003_long_normal_a_normal_s01_slot_seedweave_braid_carrier.asset using Guid(5b69a6445e550cd4dadf612854d415ba) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'cc9a1ccae00c6bbba64a1d0825ce7891') in 0.005017 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_05_L173_teapot_r2dense.asset using Guid(5b2f2152a43cc9c44bd8f2d442c0a45c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'dac2ad1c3bb8ed16dc01ff3b5deb0b27') in 0.017303 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_17_L247_lollipop_r2section.asset using Guid(6b9cd4b3fbb5045449ed3ae2274a62c5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '30ec157481e2ac080a416e58b5733f59') in 0.049503 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNewbie4/campaign500_shape_psg_newbie4_02_L006_potionbottle.asset using Guid(7b12cc727e6e3f946867411a083f8502) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0a096fd9cc8b2dc0e206edb4e83c9e33') in 0.102118 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_60_nutation_longchain_spine_v1_rect_c80hf3_15_d3_section_spine.asset using Guid(9b33591f60517484b8a5713d93bb4cb7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '049eb0c77fdade4090d74b5f73fbb8d2') in 0.005004 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_40_s10_r04.asset using Guid(9bb80d117f635be4ea5756dfb2589199) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'bfae35ed06df759d4e38e7ba1bb989c9') in 0.003900 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_41_s11_r01.asset using Guid(cbf9088acf5f6b748ac702b577378e0c) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0b11082fb0ddcedf91c497465bb05127') in 0.004470 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_64_nutation_longchain_spine_v1_rect_c80hf3_16_d3_lock_spine.asset using Guid(cb8bd7086ffd5584da28a31fd6d2fa6f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7c89c5d1db5375e1f0135b21ddb9eed1') in 0.005618 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_04_L058_bicycle_dense.asset using Guid(cbaf0ee4700033845bd79437d739fb52) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b38c88a9cc53895941188a96d9d6c364') in 0.083678 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_36_s09_r04.asset using Guid(eb41b6d709d66f248a49f803a6a43cee) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'fb3808ecb1a2de1cda41a6468e94b096') in 0.003746 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_28_nutation_longchain_spine_v1_rect_c80hf3_07_d2_maze_spine.asset using Guid(eb76f8e0c00850b4abf4d4ff4511b6f2) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c8aca4750138dfa7d98a8a746059b2f5') in 0.005436 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_11_nutation_longchain_patch_v1_rect_c80hf3_03_d1_weave_patch.asset using Guid(fbe703b7f8182d447a694943429921df) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ccfef3fb34bbed83c883219550ff1860') in 0.005719 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_113_L338_television_sweep.asset using Guid(5c8319b31dd54234fb2888851f4b98e1) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'bb5b2fa7b18180bf3f8d8185dd4910f3') in 0.004933 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_45_s12_r01.asset using Guid(6c96c79ee25487743ba005cd48523318) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e55dfed59754048d25918a329ad81d43') in 0.003314 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_52_nutation_longchain_spine_v1_rect_c80_13_d3_weave_spine.asset using Guid(6c6a2ad90ab59624596d5618c00b2b50) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '70091764f3c1f80a1e4c84122cd8224b') in 0.003118 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_35_s09_r03.asset using Guid(7c708dd6cba0a8f4fb69bac7dabb0f46) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c881e33e8d02a3f8ffacac149abf1cdd') in 0.003621 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10B/campaign500_shape_psg_next10b_08_L158_starfish.asset using Guid(bc55670a8c206af489ef8fa400562581) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4294ce48e0d58e4962787fe6f708ddb7') in 0.005083 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_07_nutation_longchain_patch_v1_rect_c80hf2_02_d1_maze_patch.asset using Guid(cc95ee8d4f4d1d5469bd47e05f77ae54) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ddaa8045261a136ddd0a316ca3815d57') in 0.023318 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_129_L363_bell_core.asset using Guid(cc18ece81a96b1c4ea95faa0f57c39e0) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a772b40fe876ac80a64a4bfac271054d') in 0.034005 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_72_s18_r04.asset using Guid(cc4c211e076bd5d4088a771b75818104) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '40591501170dcb082dfe196f487427d6') in 0.004786 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFirst10/campaign500_shape_psg_first10_07_L053_camera.asset using Guid(dc3c3fc78d573eb49aa83ae9a461f057) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6932db6627f6683f7c1eb6aea12e1aa8') in 0.041322 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_115_L343_skeletonskull_lock.asset using Guid(fc8db6bee31fac342980ab289a5695fa) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '27b4997f7f3d97995b75bf962de414d7') in 0.072823 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_14_nutation_longchain_rail_v1_rect_c80hf2_04_d1_core_rail.asset using Guid(0d226f94b7238e14f9c62eaf81ba4d41) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '12d5fd9696c0f939f869ab9dd55db9ae') in 0.003405 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_12_nutation_longchain_spine_v1_rect_c80hf_03_d1_weave_spine.asset using Guid(0dd582aa7dab5764fae93689da6c5d4e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4270c1d38172ace8ca108382c1cef7c6') in 0.003453 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10H/campaign500_shape_psg_next10h_05_L443_ufo.asset using Guid(3d6d27dc652d12b43a1295c70778a62b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd0b6ab0375ddff482fb94826dcbf62b7') in 0.121299 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNoBR4/campaign500_shape_psg_no_b_r4_15_L353_slimecrown_r4stair.asset using Guid(4d1ef6d4ce656274f88fbdd6b68abc68) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3e31c75f340a3a39b7b0538add2c34a5') in 0.099482 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10Tail9/campaign500_shape_psg_next10_tail9_05_L098_phonehandset.asset using Guid(5da0baa1c0c5d7544a586f736199afda) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5467c6c68237683599c8dc328e83b216') in 0.029010 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_22_nutation_longchain_rail_v1_rect_c80hf_06_d2_lock_rail.asset using Guid(6df2a36a490dc6a46b78a40db1af29fb) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c036bb4d7fce92ae6e7999505ba453b1') in 0.004256 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_48_l062_long_normal_a_dense_s07_slot_headmix_outerclean_near.asset using Guid(6d3a5d16c3010a44586021925c3fb35e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4464e66b0ef0c2d72e7730cebdd0a9c5') in 0.004107 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_14_s04_r02.asset using Guid(7d94d3fd0c1d4e849a30ffb1b457aa13) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '41215f2ae5647a87c1c35b1f08e01423') in 0.003737 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_39_L168_brickcellphone_lock.asset using Guid(7dddf6513821cc745aaddbb8298add7a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'bc7badbc7fa2f1936009bcb7c8c632dd') in 0.052499 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_02_L163_ring_r2dense.asset using Guid(bd61dd4f178af9447b968af0a1f7ff24) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'cb9a8c6027ff965b1994a405f3663aab') in 0.043657 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10D/campaign500_shape_psg_next10d_05_L243_house.asset using Guid(bd710b58977dcdd44a9a0f8a9cf54fb7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '112bef2f010b9225d63acd159e0c413c') in 0.004781 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_20_s05_r04.asset using Guid(cdab859aef3a4634581b52e0f8e56c01) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '292fadacbab17a33913b0bd77d7aaf0c') in 0.003808 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h04r/c5hole_lowchoice_v1_h04r_18_nutation_strict_mixed_choiceclamp_v1_rect_s17_o166_v05_strictmixedchoiceclamp_choice_clamp_chain_hf1.asset using Guid(ddb63bcfbc4e5274da6436f534a7a9da) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3d4a990a94b465b39c74736bbd4cb564') in 0.002849 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_03_nutation_longchain_patch_v1_rect_c80hf3_01_d1_lock_patch.asset using Guid(ed186efd93a0352469520254e28fff86) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c64e7b5ed209313a242821a2217d0933') in 0.005392 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNewbie4/campaign500_shape_psg_newbie4_04_L013_magicwand.asset using Guid(fd689808545c7f74aba24f8da94c56e5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6de198855b66ea20e8f421b38755f590') in 0.003564 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_08_s02_r04.asset using Guid(fd1ece74332b30d4899225d51f421f94) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a05b6b06a894d5e55a0ad113e9803c41') in 0.003372 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10C/campaign500_shape_psg_next10c_10_L218_mailbox.asset using Guid(1eb999e3ed375b642ab3fcdbe93b9188) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '71d0edada12d4d180bd19703c9f0cd2d') in 0.091133 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_04_nutation_longchain_spine_v1_rect_c80hf2_01_d1_lock_spine.asset using Guid(2efffda94bf00904ba88607d0b430e3d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'abeada8597d422dc9693c1d24610bd5e') in 0.031026 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h01r/c5hole_lowchoice_v1_h01r_36_nutation_strict_mixed_peak_v1_rect_s05_o047_v05_strictmixedpeak_strict_peak_chain_hf1.asset using Guid(3e13210f2c15fd04782aebf9c132780e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '70c21a37f1fdbe21cdf7639f2837e0a7') in 0.002897 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFinal6/campaign500_shape_psg_final6_01_L473_mug.asset using Guid(5e2d0819f0c75ec419b10c2d138d1876) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c18c4acb14143d128d4d9746d2fb974c') in 0.061019 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h01r/c5hole_lowchoice_v1_h01r_08_nutation_strict_mixed_hard_v1_rect_s03_o025_v01_strictmixedhard_strict_hard_chain_hf1.asset using Guid(6ed8a15fb8bc1964d9ed774d89c973c0) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '20f676b01102b17a07c746923e6bb1f1') in 0.002612 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_08_nutation_longchain_spine_v1_rect_c80hf3_02_d1_maze_spine.asset using Guid(7e3815d36bec9294b9953d511f2b37a7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a5154a7983197af474441712bfe11534') in 0.005374 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h04r/c5hole_lowchoice_v1_h04r_43_nutation_strict_mixed_localbreak_v1_rect_s19_o182_v00_strictmixedlocalbreak_local_break_chain_hf1.asset using Guid(7ecc0ec7e1744aa4cb4147568c72139b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '383f09a7f1539d2b269d68aea7b3c048') in 0.002795 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80V1/nutation_longchain_candidate80_v1_08_nutation_longchain_spine_v1_rect_c80_02_d1_maze_spine.asset using Guid(aec13838f3baaea4cb6aa1222a5dd7e7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '37ebda230ccfb3a90a9c87a13e4bd4bc') in 0.003408 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_59_L223_magnifier_sweep.asset using Guid(ae378a5d3df123348acfb5e1b53e0d84) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '11e3b77f69d8bdfda5be70372de10a53') in 0.131461 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_21_nutation_longchain_curve_v1_rect_c80hf_06_d2_lock_curve.asset using Guid(ae2a046517ac97342abdde4b5c3c3e81) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '07b350c544bc36d40e237e2769e385d5') in 0.002762 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_37_nutation_longchain_curve_v1_rect_c80hf_10_d2_section_curve.asset using Guid(be6703660a5a1ce4e878b67b37eb9e1b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'eeb23a6b1e735ee320fe9d03f5e42151') in 0.003635 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500StrictUntil0910V1FinalPreviewPack.asset using Guid(de43b07b970d4b1193ddf7364f6cb357) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6587b8649745d123a7eb98cc436897e7') in 0.004838 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_96_s24_r04.asset using Guid(de071f9d258984c42985838e252b2a83) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9f29aad9014e49e16f45a083df583721') in 0.003664 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_25_nutation_longchain_curve_v1_rect_c80hf2_07_d2_maze_curve.asset using Guid(ee030cf8723adf141a0326ce7fed7e75) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '4fff0d34ea3e43258af89af5bd6681f7') in 0.004835 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingDropTop3/campaign500_shape_psg_remaining_drop_top3_23_L273_gameportal_r2section.asset using Guid(0fbb35f2e2dc0e64fa9534ad41f76e65) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0330cb344851ce9ab7fc0fadb60c425f') in 0.035465 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgRemainingHardR3/campaign500_shape_psg_remaining_hard_r3_06_L263_cherries_r3section.asset using Guid(1fbfd525ed22a4c4dbe77706cc6a078e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6c6ff510101967dfb8b7ef8d7db1940a') in 0.034222 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgFirst10/campaign500_shape_psg_first10_10_L067_pager.asset using Guid(2ff153625fe4b7b4e9a5c201bf9f44da) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '936244f95aad1e1e7d98399fd24ad25e') in 0.034994 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_19_s05_r03.asset using Guid(3f00380164927df478edf6e619cea9af) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9ce218f1a187d2b18e7c29b1a56af531') in 0.003858 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500NormalFullV1/h04r/c5hole_lowchoice_v1_h04r_09_nutation_strict_mixed_hard_v1_rect_s16_o152_v02_strictmixedhard_strict_hard_chain_hf1.asset using Guid(3f425dbaad1c2584ab1b8037e5d455bd) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2b6c77438cd55ee1c88f31cfca2a739e') in 0.004253 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_02_s01_r02.asset using Guid(4f9dae2bc4a57154e831b79a940d907b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a2fc80d171b6a6e916acf7f7c8ff1aa8') in 0.006485 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_44_s11_r04.asset using Guid(6f0dd7c9323856c448298c9b183680ed) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5828beb11b4b7935f4df3b7a19c7a88a') in 0.003918 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_26_l031_long_normal_a_sweep_s04_slot_seedweave_braid_carrier.asset using Guid(7f0226bd0aaf3624e8afc61d28a9443b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1b5dafc162c939c806ac137cea570fa3') in 0.003448 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgNext10C/campaign500_shape_psg_next10c_05_L193_robothead.asset using Guid(9f4a2d88a499a4746a0f912ad8f750f8) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'bc60fda462b006797b5fe6ad505a2daa') in 0.044633 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgDirection3/campaign500_shape_psg_direction3_01_L023_train.asset using Guid(9f2bda30d1d97484a9c98b1e3e7039b0) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ba0e929f7ef56c802b9149b2feae30b3') in 0.051519 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubMixedV1Strict30RefillPool/nutation_hub_mixed_v1_strict30_refill_16_s04_r04.asset using Guid(cf212166c9d74df4fbc9d5a6a4be3aad) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f4a846a27b338f9ea6e9cfb72b74b3bc') in 0.002951 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_34_nutation_longchain_rail_v1_rect_c80hf_09_d2_core_rail.asset using Guid(dfab3bb46de81e24faed16c14983bcd1) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6c1c611c663bf5840b490e6e6d08df9c') in 0.002729 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS2V1/nutation_longchain_candidate80_holefix_s2_v1_06_nutation_longchain_rail_v1_rect_c80hf2_02_d1_maze_rail.asset using Guid(efe6e526bf9b8d042b30f8f13ce905cf) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7b2e3519f0344e85d15c14f8c8638a1c') in 0.002872 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixV1/nutation_longchain_candidate80_holefix_v1_17_nutation_longchain_curve_v1_rect_c80hf_05_d1_section_curve.asset using Guid(ff5571904818d564b8cceb4b1e157667) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7984554446670328728b23aaea889b51') in 0.002579 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Production/Campaign500ShapePsgReviewTop3Rescue/campaign500_shape_psg_review_top3_rescue_188_L498_banana_core.asset using Guid(ff29834b5eecae54cbca746bf273e66a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '36dd6b38e6a8bfc96d89161db47b0940') in 0.029005 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500LongChainProd200PoolV1/campaign500_longchain_prod200_pool_v1_129_l161_long_normal_a_sweep_s17_slot_seedmaze_section_weave.asset using Guid(ffcdd2b1324bc2441ad96c41e42b0e74) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c8ebf228a7ac8057f69619cc1e11704e') in 0.004990 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationLongChainCandidate80HolefixS3V1/nutation_longchain_candidate80_holefix_s3_v1_25_nutation_longchain_curve_v1_rect_c80hf3_07_d2_maze_curve.asset using Guid(ff8e17157c0848546b6b508037e14d34) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9027a6997cde4369467539016876d903') in 0.006764 seconds
+Start importing Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_hardgate_until0910_v1_review.csv using Guid(9050bef52f464b649a99792ac3b9788d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1bb8a56e0b5d250077c67b058f3e030b') in 0.006325 seconds
+Start importing Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_strict_until0910_v1_review.csv using Guid(9294d2614d766c44791349deedf03050) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f7e78d3b92af2fd97d172a1277d9baf6') in 0.006694 seconds
+Start importing Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_hardgate_until0910_v1_production_strict_keep.csv using Guid(e2050578acac8fb409f185fc3da3a37f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9c928756186650d32103b39c2f0ba4d8') in 0.007493 seconds
+Start importing Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_strict_until0910_v1_production_strict_keep.csv using Guid(f53aa0d0cd8a9f345a9c0a88c82cfc44) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'f737d0ce338eac9566d71e49c0ec3a39') in 0.007158 seconds
+Start importing Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_strict_until0910_v1_production_keep.csv using Guid(17cfdbdb718344e4c8fb6334764e562d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2081e2abe4157e1c39477dc291de559a') in 0.006006 seconds
+Start importing Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_hardgate_until0910_v1_production_keep.csv using Guid(3e15da0cf4afcf4489a4e618e9fe3607) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '765bd39ac40648e31a351b3a9750cac5') in 0.006432 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalHardGateUntil0910V1ReviewPack.asset using Guid(004343fd96d64c77b977f93ab05630d7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ea23c7ee09257ac336bcafaad6b0e28d') in 0.003461 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalStrictUntil0910V1ReviewPack.asset using Guid(b049e419e79c42bda85ba0d37526a3ba) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9514eb9ae0aa6d68aad0665e29162194') in 0.003138 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalStrictUntil0910V1ProductionKeepPack.asset using Guid(0172f83249734019ba7a175226e22966) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e712528acd23a1da85f35071ddc84749') in 0.003154 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalHardGateUntil0910V1ProductionKeepPack.asset using Guid(9127e77bc0494b5fbb81f57efab15c5f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '938dfb581a26161c4c1ca26c5947ab32') in 0.003215 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalStrictUntil0910V1ProductionStrictKeepPack.asset using Guid(844efa81ef944149a7d0bd4a50d74499) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5804b06ea6a7bb36a48ba85556a83054') in 0.003372 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalHardGateUntil0910V1ProductionStrictKeepPack.asset using Guid(b91c18fdbdcb4b1882fa8ac203b8010b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2669950b260bdace08117977992b6e5a') in 0.003324 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500HardGateUntil0910V1FinalPreviewPack.asset using Guid(aa230c66e2734d8d9f4ceeb6bd7c079e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '99342acf7c0d90b05e2d8f7481a43821') in 0.004311 seconds
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500StrictUntil0910V1FinalPreviewPack.asset using Guid(de43b07b970d4b1193ddf7364f6cb357) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd02cff9e3ec76a936cc620c234ff89b3') in 0.004495 seconds
+Refreshing native plugins compatible for Editor in 9.84 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=6a30bec4c7c960a4788d4c1757416456): Total: 146.345 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=283 (actual=283, local cache=0, cache server=0)
+		Asset DB Process Time: managed=38 ms, native=88106 ms
+		Asset DB Callback time: managed=369 ms, native=41 ms
+		Scripting: domain reloads=1, domain reload time=22233 ms, compile time=35480 ms, other=76 ms
+		Project Asset Count: scripts=5250, non-scripts=9092
+		Asset File Changes: new=274, changed=283, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 2.813ms
+	ApplyChangesToAssetFolders: 0.092ms
+	Scan: 19445.726ms
+	OnSourceAssetsModified: 5.924ms
+	GetAllGuidsForCategorization: 4.049ms
+	CategorizeAssets: 1418.609ms
+	ImportOutOfDateAssets: 35267.929ms (-23576.833ms without children)
+		ImportManagerImport: 23317.302ms (189.311ms without children)
+			ImportInProcess: 23126.325ms
+			UpdateCategorizedAssets: 1.666ms
+		CompileScripts: 35479.684ms
+		ReloadNativeAssets: 0.714ms
+		UnloadImportedAssets: 37.519ms
+		ReloadImportedAssets: 0.045ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 6.918ms
+		InitializingProgressBar: 0.014ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.003ms
+		OnDemandSchedulerStart: 2.563ms
+	PostProcessAllAssets: 393.281ms
+	Hotreload: 11.132ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.000ms
+	UnloadStreamsBegin: 0.527ms
+	PersistCurrentRevisions: 2.099ms
+	UnloadStreamsEnd: 0.082ms
+	GenerateScriptTypeHashes: 0.635ms
+	Untracked: 89792.850ms
+Application.AssetDatabase Initial Refresh End
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.13 seconds
+Scanning for USB devices : 1.858ms
+Initializing Unity extensions:
+[Licensing::Client] Successfully resolved entitlement details
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-ArrowLevel-Hand
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ProgressiveSceneManager::Cancel()
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 614 unused Assets / (0.8 MB). Loaded Objects now: 4583.
+Memory consumption went from 143.4 MB to 142.5 MB.
+Total: 5.273000 ms (FindLiveObjects: 0.347500 ms CreateObjectMapping: 0.408600 ms MarkObjects: 3.590500 ms  DeleteObjects: 0.925500 ms)
+
+Asset Pipeline Refresh (id=69d6f0ff48d88454b84e485bf8ef61a4): Total: 0.045 seconds - Initiated by RefreshV2(ForceUpdate)
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyFront300PriorityV3PreviewPack.asset using Guid(824de2923fd048c48ae83f881c760b4d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0f6fd84b9e51dc57acf9b835406fbbab') in 0.004624 seconds
+Refreshing native plugins compatible for Editor in 10.85 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f2993d81ff56f7d448140255b97b3862): Total: 0.071 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyFront300PriorityV3PreviewPack.asset using Guid(824de2923fd048c48ae83f881c760b4d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0f6fd84b9e51dc57acf9b835406fbbab') in 0.005401 seconds
+Refreshing native plugins compatible for Editor in 12.86 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=263d1b505f7f8354c9bf6fc254c45e57): Total: 0.065 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/ArrowMagic/Scenes/Demo.unity'
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/ArrowMagic/Scenes/Demo.unity'
+	Deserialize:            1187.271 ms
+	Integration:            323.067 ms
+	Integration of assets:  41.632 ms
+	Thread Wait Time:       -0.549 ms
+	Total Operation Time:   1551.421 ms
+Unloading 315 unused Assets / (190.1 KB). Loaded Objects now: 5184.
+Memory consumption went from 145.1 MB to 144.9 MB.
+Total: 14.064000 ms (FindLiveObjects: 0.508300 ms CreateObjectMapping: 0.491900 ms MarkObjects: 12.164700 ms  DeleteObjects: 0.898100 ms)
+
+Start importing Assets/ArrowMagic/Scenes/Demo.unity using Guid(2836e63d9d67642549a558eb7747c789) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd9f9e94ea3e59c8c17b8a1a8e87d6b4b') in 0.001604 seconds
+Refreshing native plugins compatible for Editor in 9.64 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=2f07d1aac135ed443ad51f9b4e3a3629): Total: 0.062 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Campaign500FirstAssemblyPreviewBuilder] Attached pack to demo: Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyFront300PriorityV3PreviewPack.asset
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PixelBug.ArrowMagic.EditorTools.Campaign500FirstAssemblyPreviewBuilder:AttachPackToDemo (PixelBug.ArrowMagic.LevelPack) (at Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs:270)
+PixelBug.ArrowMagic.EditorTools.Campaign500FirstAssemblyPreviewBuilder:BuildPreviewPack (string,string,string,string,string,string,string) (at Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs:173)
+PixelBug.ArrowMagic.EditorTools.Campaign500FirstAssemblyPreviewBuilder:BuildFront300PriorityV3PreviewPack () (at Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs:46)
+
+(Filename: Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs Line: 270)
+
+Asset Pipeline Refresh (id=30b1fc9fd86b7104fb871937f92b5310): Total: 0.012 seconds - Initiated by RefreshV2(ForceUpdate)
+[Campaign500Front300PriorityV3] Built Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyFront300PriorityV3PreviewPack.asset with 500 levels. manifestLoaded=334, baseFallback=166
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PixelBug.ArrowMagic.EditorTools.Campaign500FirstAssemblyPreviewBuilder:BuildPreviewPack (string,string,string,string,string,string,string) (at Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs:190)
+PixelBug.ArrowMagic.EditorTools.Campaign500FirstAssemblyPreviewBuilder:BuildFront300PriorityV3PreviewPack () (at Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs:46)
+
+(Filename: Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs Line: 190)
+
+Batchmode quit successfully invoked - shutting down!
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-admin-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-admin channel disconnected successfully.
+Cleanup mono
+abort_threads: Failed aborting id: 0000000000006878, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 000000000000B7E0, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 0000000000006878, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 000000000000B7E0, mono_thread_manage will ignore it
+
+debugger-agent: Unable to listen on 5168
+[Performance] WinEditorMain                                                                                                  :        1 samples, Peak.  3.02 s (1.0x), Avg.  3.02 s, Total. 3.017 s (1.8%)
+[Performance] WinEditorMain.ConfigureCrashHandler                                                                            :        1 samples, Peak.  29.8 us (1.0x), Avg.  29.8 us, Total. 29.80 us (0.0%)
+[Performance] WinEditorMain.CurlRequestInitialize                                                                            :        1 samples, Peak.   965 us (1.0x), Avg.   965 us, Total. 965.4 us (0.0%)
+[Performance] WinEditorMain.SetupLogFile                                                                                     :        1 samples, Peak.  2.14 ms (1.0x), Avg.  2.14 ms, Total. 2.144 ms (0.0%)
+[Performance] WinEditorMain.RunNativeTestsIfRequiredAndExit                                                                  :        1 samples, Peak.   300 ns (1.0x), Avg.   300 ns, Total. 300.0 ns (0.0%)
+[Performance] WinEditorMain.Licensing                                                                                        :        1 samples, Peak.  2.92 s (1.0x), Avg.  2.92 s, Total. 2.919 s (1.8%)
+[Performance] WinEditorMain.InitializeCrashHandler                                                                           :        1 samples, Peak.  12.4 ms (1.0x), Avg.  12.4 ms, Total. 12.44 ms (0.0%)
+[Performance] WinEditorMain.CreateApplication                                                                                :        1 samples, Peak.   414 us (1.0x), Avg.   414 us, Total. 413.5 us (0.0%)
+[Performance] Application.InitializeProject                                                                                  :        1 samples, Peak.   157 s (1.0x), Avg.   157 s, Total. 157.2 s (95.8%)
+[Performance] Application.PackageManager.StartServer                                                                         :        1 samples, Peak.  25.1 ms (1.0x), Avg.  25.1 ms, Total. 25.11 ms (0.0%)
+[Performance] Application.AcquireProjectLock                                                                                 :        1 samples, Peak.  23.0 ms (1.0x), Avg.  23.0 ms, Total. 22.98 ms (0.0%)
+[Performance] Application.InitializeEngineNoGraphics                                                                         :        1 samples, Peak.  74.8 ms (1.0x), Avg.  74.8 ms, Total. 74.79 ms (0.0%)
+[Performance] Application.PackageManager.Initialize                                                                          :        1 samples, Peak.   144 us (1.0x), Avg.   144 us, Total. 143.7 us (0.0%)
+[Performance] Connecting to Package Manager                                                                                  :        1 samples, Peak.  53.2 us (1.0x), Avg.  53.2 us, Total. 53.20 us (0.0%)
+[Performance] Application.EngineGraphics.Initialize                                                                          :        1 samples, Peak.   640 ms (1.0x), Avg.   640 ms, Total. 639.6 ms (0.4%)
+[Performance] Application.GI.Initialize                                                                                      :        1 samples, Peak.  4.76 ms (1.0x), Avg.  4.76 ms, Total. 4.764 ms (0.0%)
+[Performance] Application.LoadAllDefaultResourcesFromEditor                                                                  :        1 samples, Peak.  2.17 ms (1.0x), Avg.  2.17 ms, Total. 2.174 ms (0.0%)
+[Performance] Application.LoadMonoAssemblies                                                                                 :        1 samples, Peak.   713 ms (1.0x), Avg.   713 ms, Total. 713.4 ms (0.4%)
+[Performance] RestoreManagedReferences                                                                                       :        2 samples, Peak.  55.7 ms (2.0x), Avg.  27.8 ms, Total. 55.67 ms (0.0%)
+[Performance] InitializeOnLoad DrivenRectTransformUndo                                                                       :        2 samples, Peak.   434 us (1.0x), Avg.   415 us, Total. 829.4 us (0.0%)
+[Performance] InitializeOnLoad SceneSearch                                                                                   :        2 samples, Peak.   149 us (1.2x), Avg.   126 us, Total. 252.4 us (0.0%)
+[Performance] InitializeOnLoad CloudBuild                                                                                    :        2 samples, Peak.  5.70 us (1.2x), Avg.  4.70 us, Total. 9.400 us (0.0%)
+[Performance] InitializeOnLoad NativeFormatImporterUtility                                                                   :        2 samples, Peak.  2.57 ms (1.2x), Avg.  2.21 ms, Total. 4.427 ms (0.0%)
+[Performance] InitializeOnLoad SearchService                                                                                 :        2 samples, Peak.   129 us (1.2x), Avg.   110 us, Total. 220.5 us (0.0%)
+[Performance] InitializeOnLoad SettingsService                                                                               :        2 samples, Peak.  11.5 us (1.3x), Avg.  8.55 us, Total. 17.10 us (0.0%)
+[Performance] InitializeOnLoad WindowLayout                                                                                  :        2 samples, Peak.   763 us (1.1x), Avg.   710 us, Total. 1.421 ms (0.0%)
+[Performance] InitializeOnLoad AssetStoreContext                                                                             :        2 samples, Peak.  27.2 ms (1.0x), Avg.  26.2 ms, Total. 52.50 ms (0.0%)
+[Performance] InitializeOnLoad PoolManager                                                                                   :        2 samples, Peak.   596 us (1.1x), Avg.   562 us, Total. 1.125 ms (0.0%)
+[Performance] InitializeOnLoad MixerEffectDefinitionReloader                                                                 :        2 samples, Peak.  2.34 ms (1.2x), Avg.  2.01 ms, Total. 4.013 ms (0.0%)
+[Performance] InitializeOnLoad ProjectSearch                                                                                 :        2 samples, Peak.   117 us (1.4x), Avg.  81.5 us, Total. 163.1 us (0.0%)
+[Performance] InitializeOnLoad UISystemProfilerRenderService                                                                 :        2 samples, Peak.  10.3 us (1.2x), Avg.  8.55 us, Total. 17.10 us (0.0%)
+[Performance] InitializeOnLoad EditMode                                                                                      :        2 samples, Peak.   394 us (1.0x), Avg.   394 us, Total. 788.7 us (0.0%)
+[Performance] InitializeOnLoad UnityConnect                                                                                  :        2 samples, Peak.  56.6 us (1.0x), Avg.  54.8 us, Total. 109.6 us (0.0%)
+[Performance] InitializeOnLoad ManagedDebugger                                                                               :        2 samples, Peak.   661 us (1.0x), Avg.   634 us, Total. 1.268 ms (0.0%)
+[Performance] InitializeOnLoad ShortcutIntegration                                                                           :        2 samples, Peak.  62.6 us (1.0x), Avg.  60.9 us, Total. 121.8 us (0.0%)
+[Performance] InitializeOnLoad AddComponentWindow                                                                            :        2 samples, Peak.   141 us (1.2x), Avg.   120 us, Total. 239.2 us (0.0%)
+[Performance] InitializeOnLoad ManagedDebuggerWindow                                                                         :        2 samples, Peak.   139 us (1.0x), Avg.   138 us, Total. 276.8 us (0.0%)
+[Performance] InitializeOnLoad CacheServerWindow                                                                             :        2 samples, Peak.  13.8 us (1.4x), Avg.  10.0 us, Total. 20.10 us (0.0%)
+[Performance] InitializeOnLoad PlayModeDownload                                                                              :        2 samples, Peak.  5.98 ms (1.9x), Avg.  3.09 ms, Total. 6.187 ms (0.0%)
+[Performance] InitializeOnLoad MenuItems                                                                                     :        2 samples, Peak.  91.6 us (1.0x), Avg.  89.6 us, Total. 179.1 us (0.0%)
+[Performance] InitializeOnLoad PrefabInstanceChangedListener                                                                 :        2 samples, Peak.   142 us (1.0x), Avg.   137 us, Total. 274.4 us (0.0%)
+[Performance] InitializeOnLoad ObjectSelectorSearch                                                                          :        2 samples, Peak.  52.8 us (1.1x), Avg.  45.9 us, Total. 91.90 us (0.0%)
+[Performance] InitializeOnLoad EditorMonitor                                                                                 :        2 samples, Peak.   709 us (1.3x), Avg.   564 us, Total. 1.127 ms (0.0%)
+[Performance] InitializeOnLoad RetainedMode                                                                                  :        2 samples, Peak.  2.40 ms (1.1x), Avg.  2.28 ms, Total. 4.559 ms (0.0%)
+[Performance] InitializeOnLoad EditorShaderLoader                                                                            :        2 samples, Peak.   759 us (1.1x), Avg.   703 us, Total. 1.406 ms (0.0%)
+[Performance] InitializeOnLoad EditorDelegateRegistration                                                                    :        2 samples, Peak.   582 us (1.2x), Avg.   505 us, Total. 1.010 ms (0.0%)
+[Performance] InitializeOnLoad UIDocumentHierarchyWatcher                                                                    :        2 samples, Peak.  84.9 us (1.0x), Avg.  81.7 us, Total. 163.5 us (0.0%)
+[Performance] InitializeOnLoad LiveReloadTrackerCreator                                                                      :        2 samples, Peak.   206 us (1.2x), Avg.   172 us, Total. 343.8 us (0.0%)
+[Performance] InitializeOnLoad UxmlObjectEditorFactories                                                                     :        2 samples, Peak.   517 us (1.1x), Avg.   465 us, Total. 929.3 us (0.0%)
+[Performance] InitializeOnLoad UXMLEditorFactories                                                                           :        2 samples, Peak.  74.2 ms (1.2x), Avg.  63.8 ms, Total. 127.6 ms (0.1%)
+[Performance] InitializeOnLoad PurchasingService                                                                             :        2 samples, Peak.  7.39 ms (1.1x), Avg.  6.88 ms, Total. 13.76 ms (0.0%)
+[Performance] InitializeOnLoad CloudBuildPoller                                                                              :        2 samples, Peak.   122 us (1.1x), Avg.   111 us, Total. 221.4 us (0.0%)
+[Performance] InitializeOnLoad EditorGameServicesAnalytics                                                                   :        2 samples, Peak.  2.68 ms (1.5x), Avg.  1.74 ms, Total. 3.476 ms (0.0%)
+[Performance] InitializeOnLoad AnalyticsService                                                                              :        2 samples, Peak.   202 us (1.0x), Avg.   199 us, Total. 397.4 us (0.0%)
+[Performance] InitializeOnLoad BuildService                                                                                  :        2 samples, Peak.   173 us (1.0x), Avg.   165 us, Total. 330.7 us (0.0%)
+[Performance] InitializeOnLoad AdsService                                                                                    :        2 samples, Peak.   432 us (1.1x), Avg.   405 us, Total. 810.6 us (0.0%)
+[Performance] InitializeOnLoad UDPService                                                                                    :        2 samples, Peak.   187 us (1.1x), Avg.   170 us, Total. 340.2 us (0.0%)
+[Performance] InitializeOnLoad CrashService                                                                                  :        2 samples, Peak.   173 us (1.1x), Avg.   159 us, Total. 318.6 us (0.0%)
+[Performance] InitializeOnLoad ServicesRepository                                                                            :        2 samples, Peak.   600 ns (1.2x), Avg.   500 ns, Total. 1.000 us (0.0%)
+[Performance] InitializeOnLoad SearchWindow                                                                                  :        2 samples, Peak.   143 us (1.2x), Avg.   123 us, Total. 246.1 us (0.0%)
+[Performance] InitializeOnLoad CustomIndexers                                                                                :        2 samples, Peak.  17.3 ms (1.1x), Avg.  16.2 ms, Total. 32.37 ms (0.0%)
+[Performance] InitializeOnLoad SearchMonitor                                                                                 :        2 samples, Peak.  2.28 ms (1.5x), Avg.  1.51 ms, Total. 3.029 ms (0.0%)
+[Performance] InitializeOnLoad ParameterControllerEditor                                                                     :        2 samples, Peak.  16.2 us (1.0x), Avg.  15.5 us, Total. 30.90 us (0.0%)
+[Performance] InitializeOnLoad LayerSettingsWindow                                                                           :        2 samples, Peak.  33.1 us (1.8x), Avg.  18.7 us, Total. 37.40 us (0.0%)
+[Performance] InitializeOnLoad PackageManagerHookGUIDConverter.RegisterPackagesEventHandler                                  :        2 samples, Peak.   709 us (1.7x), Avg.   429 us, Total. 858.7 us (0.0%)
+[Performance] InitializeOnLoad EditorDragAndDrop.RegisterEditorClient                                                        :        2 samples, Peak.   263 us (1.2x), Avg.   217 us, Total. 433.9 us (0.0%)
+[Performance] InitializeOnLoad EditorEventCallbacks.InitializeFontAssetResourceChangeCallBacks                               :        2 samples, Peak.  1.69 ms (1.2x), Avg.  1.44 ms, Total. 2.884 ms (0.0%)
+[Performance] InitializeOnLoad SceneTemplateService.Init                                                                     :        2 samples, Peak.  1.09 ms (1.0x), Avg.  1.07 ms, Total. 2.136 ms (0.0%)
+[Performance] InitializeOnLoad DiagnosticSwitchesConsoleMessage.Init                                                         :        2 samples, Peak.  5.43 ms (1.8x), Avg.  2.97 ms, Total. 5.947 ms (0.0%)
+[Performance] InitializeOnLoad PackageManagerWindow.EditorInitializedInSafeMode                                              :        2 samples, Peak.  25.1 ms (2.0x), Avg.  12.6 ms, Total. 25.28 ms (0.0%)
+[Performance] InitializeOnLoad ToolShortcutContext.Init                                                                      :        2 samples, Peak.   155 us (1.1x), Avg.   143 us, Total. 285.1 us (0.0%)
+[Performance] InitializeOnLoad MemoryProfilerCompilationGuard.InjectCompileGuard                                             :        2 samples, Peak.   145 us (1.3x), Avg.   116 us, Total. 231.6 us (0.0%)
+[Performance] InitializeOnLoad AssetPostprocessingInternal.RefreshCustomDependencies                                         :        2 samples, Peak.  2.97 ms (1.2x), Avg.  2.47 ms, Total. 4.931 ms (0.0%)
+[Performance] InitializeOnLoad SysrootManager.Initialize                                                                     :        2 samples, Peak.   531 us (1.2x), Avg.   457 us, Total. 914.6 us (0.0%)
+[Performance] InitializeOnLoad ScopedRegistryAddedPopup.SubscribeToRegistriesAdded                                           :        2 samples, Peak.  10.7 ms (2.0x), Avg.  5.40 ms, Total. 10.81 ms (0.0%)
+[Performance] InitializeOnLoad SceneVisibilityManager.Initialize                                                             :        2 samples, Peak.  6.46 ms (1.7x), Avg.  3.73 ms, Total. 7.470 ms (0.0%)
+[Performance] InitializeOnLoad EditorWindow.Initialize                                                                       :        2 samples, Peak.   431 us (1.1x), Avg.   389 us, Total. 778.5 us (0.0%)
+[Performance] AssemblyReloadEvents.afterAssemblyReload: UnityEditor.SceneTemplate.SceneTemplateService.AfterAssemblyReload   :        2 samples, Peak.  4.19 ms (1.8x), Avg.  2.33 ms, Total. 4.657 ms (0.0%)
+[Performance] ProcessService.EditorAfterLoadAllAssemblies                                                                    :        2 samples, Peak.   490 us (1.1x), Avg.   441 us, Total. 882.1 us (0.0%)
+[Performance] Application.ReadLicenseInfo                                                                                    :        1 samples, Peak.  15.2 ms (1.0x), Avg.  15.2 ms, Total. 15.21 ms (0.0%)
+[Performance] Application.InitialRefresh                                                                                     :        1 samples, Peak.   146 s (1.0x), Avg.   146 s, Total. 146.3 s (89.2%)
+[Performance] BuilderAssetModificationProcessor.OnWillCreateAsset                                                            :       61 samples, Peak.   953 us (22.0x), Avg.  43.3 us, Total. 2.643 ms (0.0%)
+[Performance] ShaderImporter.SourceAssetModified                                                                             :        5 samples, Peak.  10.3 us (3.0x), Avg.  3.44 us, Total. 17.20 us (0.0%)
+[Performance] ShaderIncludeImporter.SourceAssetModified                                                                      :        5 samples, Peak.  19.9 us (3.1x), Avg.  6.40 us, Total. 32.00 us (0.0%)
+[Performance] Compiling Scripts                                                                                              :        1 samples, Peak.  35.5 s (1.0x), Avg.  35.5 s, Total. 35.48 s (21.6%)
+[Performance] AssemblyReloadEvents.beforeAssemblyReload: UnityEditor.SceneTemplate.SceneTemplateService.BeforeAssemblyReload :        1 samples, Peak.   700 us (1.0x), Avg.   700 us, Total. 699.8 us (0.0%)
+[Performance] PSDImporterAssetPostProcessor.OnPreprocessAsset                                                                :      286 samples, Peak.  1.32 ms (59.5x), Avg.  22.2 us, Total. 6.337 ms (0.0%)
+[Performance] PresetManagerPostProcessor.OnPreprocessAsset                                                                   :      286 samples, Peak.   349 us (24.6x), Avg.  14.2 us, Total. 4.060 ms (0.0%)
+[Performance] CancelSplashScreenOnAssetChange.OnPreprocessAsset                                                              :      286 samples, Peak.   149 us (44.5x), Avg.  3.36 us, Total. 960.1 us (0.0%)
+[Performance] SpritePostProcess.OnPreprocessAsset                                                                            :      286 samples, Peak.  2.14 ms (67.7x), Avg.  31.6 us, Total. 9.027 ms (0.0%)
+[Performance] InitializeOnLoad DirectArchitecturePreviewAutoRunner                                                           :        1 samples, Peak.   232 us (1.0x), Avg.   232 us, Total. 232.3 us (0.0%)
+[Performance] InitializeOnLoad BurstLoader                                                                                   :        1 samples, Peak.  9.47 s (1.0x), Avg.  9.47 s, Total. 9.468 s (5.8%)
+[Performance] InitializeOnLoad BackgroundWatcher                                                                             :        1 samples, Peak.   220 us (1.0x), Avg.   220 us, Total. 220.5 us (0.0%)
+[Performance] InitializeOnLoad UnityTestProtocolStarter                                                                      :        1 samples, Peak.   249 us (1.0x), Avg.   249 us, Total. 249.1 us (0.0%)
+[Performance] InitializeOnLoad TestStarter                                                                                   :        1 samples, Peak.   796 us (1.0x), Avg.   796 us, Total. 796.1 us (0.0%)
+[Performance] InitializeOnLoad RerunCallbackInitializer                                                                      :        1 samples, Peak.  4.44 ms (1.0x), Avg.  4.44 ms, Total. 4.441 ms (0.0%)
+[Performance] InitializeOnLoad EditorToolManager                                                                             :        1 samples, Peak.  4.32 ms (1.0x), Avg.  4.32 ms, Total. 4.318 ms (0.0%)
+[Performance] InitializeOnLoad VSUsageUtility                                                                                :        1 samples, Peak.   104 ms (1.0x), Avg.   104 ms, Total. 104.5 ms (0.1%)
+[Performance] InitializeOnLoad VisualStudioEditor                                                                            :        1 samples, Peak.  18.7 ms (1.0x), Avg.  18.7 ms, Total. 18.72 ms (0.0%)
+[Performance] InitializeOnLoad TestRunnerApiListener                                                                         :        1 samples, Peak.   826 us (1.0x), Avg.   826 us, Total. 826.2 us (0.0%)
+[Performance] InitializeOnLoad VisualStudioIntegration                                                                       :        1 samples, Peak.  2.22 ms (1.0x), Avg.  2.22 ms, Total. 2.218 ms (0.0%)
+[Performance] InitializeOnLoad PrefabLayoutRebuilder                                                                         :        1 samples, Peak.   309 us (1.0x), Avg.   309 us, Total. 308.6 us (0.0%)
+[Performance] InitializeOnLoad SpriteSkinCompositeStartup                                                                    :        1 samples, Peak.  20.6 ms (1.0x), Avg.  20.6 ms, Total. 20.61 ms (0.0%)
+[Performance] InitializeOnLoad RiderScriptEditor                                                                             :        1 samples, Peak.  6.03 ms (1.0x), Avg.  6.03 ms, Total. 6.025 ms (0.0%)
+[Performance] InitializeOnLoad CallbackInitializer                                                                           :        1 samples, Peak.  1.95 ms (1.0x), Avg.  1.95 ms, Total. 1.950 ms (0.0%)
+[Performance] InitializeOnLoad SpriteEditorWindow                                                                            :        1 samples, Peak.   664 us (1.0x), Avg.   664 us, Total. 663.6 us (0.0%)
+[Performance] InitializeOnLoad PlasticPlugin                                                                                 :        1 samples, Peak.   251 ms (1.0x), Avg.   251 ms, Total. 250.6 ms (0.2%)
+[Performance] InitializeOnLoad UnityAnalyticsStorage                                                                         :        1 samples, Peak.  2.31 ms (1.0x), Avg.  2.31 ms, Total. 2.306 ms (0.0%)
+[Performance] InitializeOnLoad BoneGizmoInitializer                                                                          :        1 samples, Peak.  7.08 ms (1.0x), Avg.  7.08 ms, Total. 7.082 ms (0.0%)
+[Performance] InitializeOnLoad Analytics                                                                                     :        1 samples, Peak.   720 us (1.0x), Avg.   720 us, Total. 720.2 us (0.0%)
+[Performance] InitializeOnLoad ToolbarBootstrap                                                                              :        1 samples, Peak.   455 ms (1.0x), Avg.   455 ms, Total. 455.0 ms (0.3%)
+[Performance] InitializeOnLoad BackgroundImport                                                                              :        1 samples, Peak.   188 us (1.0x), Avg.   188 us, Total. 187.9 us (0.0%)
+[Performance] InitializeOnLoad SceneDragAndDrop                                                                              :        1 samples, Peak.   235 us (1.0x), Avg.   235 us, Total. 235.1 us (0.0%)
+[Performance] InitializeOnLoad SpriteShapeUpdateCache                                                                        :        1 samples, Peak.   605 us (1.0x), Avg.   605 us, Total. 605.2 us (0.0%)
+[Performance] InitializeOnLoad SpriteShapeUnityAnalyticsStorage                                                              :        1 samples, Peak.  32.6 us (1.0x), Avg.  32.6 us, Total. 32.60 us (0.0%)
+[Performance] InitializeOnLoad IKEditorManager.CreateInstance                                                                :        1 samples, Peak.  2.78 ms (1.0x), Avg.  2.78 ms, Total. 2.781 ms (0.0%)
+[Performance] InitializeOnLoad $BurstDirectCallInitializer.Initialize                                                        :        7 samples, Peak.  20.6 ms (3.8x), Avg.  5.39 ms, Total. 37.72 ms (0.0%)
+[Performance] InitializeOnLoad SceneViewGridManager.Initialize                                                               :        1 samples, Peak.  5.32 ms (1.0x), Avg.  5.32 ms, Total. 5.318 ms (0.0%)
+[Performance] InitializeOnLoad TilemapPrefabStageHelper.Initialize                                                           :        1 samples, Peak.  2.55 ms (1.0x), Avg.  2.55 ms, Total. 2.546 ms (0.0%)
+[Performance] InitializeOnLoad SceneViewOpenTilePaletteHelper.Initialize                                                     :        1 samples, Peak.  1.99 ms (1.0x), Avg.  1.99 ms, Total. 1.990 ms (0.0%)
+[Performance] InitializeOnLoad TileDragAndDropManager.Initialize                                                             :        1 samples, Peak.  1.26 ms (1.0x), Avg.  1.26 ms, Total. 1.257 ms (0.0%)
+[Performance] InitializeOnLoad BackgroundImport.Setup                                                                        :        1 samples, Peak.  1.97 ms (1.0x), Avg.  1.97 ms, Total. 1.969 ms (0.0%)
+[Performance] InitializeOnLoad TestJobDataHolder.ResumeRunningJobs                                                           :        1 samples, Peak.  1.29 ms (1.0x), Avg.  1.29 ms, Total. 1.295 ms (0.0%)
+[Performance] InitializeOnLoad AnalyticsReporter.RegisterCallbacks                                                           :        1 samples, Peak.   273 us (1.0x), Avg.   273 us, Total. 273.0 us (0.0%)
+[Performance] InitializeOnLoad VisualStudioEditor.LegacyVisualStudioCodePackageDisabler                                      :        1 samples, Peak.   713 us (1.0x), Avg.   713 us, Total. 712.8 us (0.0%)
+[Performance] DidReloadScriptsTestRunnerWindow.CompilationCallback                                                           :        1 samples, Peak.   635 us (1.0x), Avg.   635 us, Total. 635.1 us (0.0%)
+[Performance] DidReloadScriptsTestListCache.ScriptReloaded                                                                   :        1 samples, Peak.  1.86 ms (1.0x), Avg.  1.86 ms, Total. 1.863 ms (0.0%)
+[Performance] DidReloadScriptsAdvancedDropdownWindow.OnScriptReload                                                          :        1 samples, Peak.   294 us (1.0x), Avg.   294 us, Total. 294.1 us (0.0%)
+[Performance] AssemblyReloadEvents.afterAssemblyReload: UnityEditor.U2D.Animation.BoneGizmo.OnAfterAssemblyReload            :        1 samples, Peak.   990 us (1.0x), Avg.   990 us, Total. 990.4 us (0.0%)
+[Performance] PaletteAssetModificationProcessor.OnWillSaveAssets                                                             :       32 samples, Peak.  2.39 ms (29.2x), Avg.  81.9 us, Total. 2.622 ms (0.0%)
+[Performance] StateMacroSavedEvent.OnWillSaveAssets                                                                          :       32 samples, Peak.   263 us (14.2x), Avg.  18.6 us, Total. 594.7 us (0.0%)
+[Performance] AssetModificationProcessor.OnWillSaveAssets                                                                    :       32 samples, Peak.   440 us (28.3x), Avg.  15.5 us, Total. 496.4 us (0.0%)
+[Performance] UnityCloudProjectLinkMonitor.OnWillSaveAssets                                                                  :       32 samples, Peak.   292 us (27.7x), Avg.  10.5 us, Total. 337.5 us (0.0%)
+[Performance] FlowMacroSavedEvent.OnWillSaveAssets                                                                           :       32 samples, Peak.   186 us (16.2x), Avg.  11.5 us, Total. 367.8 us (0.0%)
+[Performance] BuilderAssetModificationProcessor.OnWillSaveAssets                                                             :       32 samples, Peak.   598 us (27.7x), Avg.  21.6 us, Total. 690.9 us (0.0%)
+[Performance] TerrainModificationProcessor.OnWillSaveAssets                                                                  :       32 samples, Peak.  1.01 ms (30.1x), Avg.  33.4 us, Total. 1.069 ms (0.0%)
+[Performance] VersionControl.Task.Wait                                                                                       :        1 samples, Peak.  13.6 us (1.0x), Avg.  13.6 us, Total. 13.60 us (0.0%)
+[Performance] AssetDatabase.ImportAssets                                                                                     :       10 samples, Peak.   174 us (9.8x), Avg.  17.7 us, Total. 177.1 us (0.0%)
+[Performance] TMPro_TexturePostProcessor.OnPostprocessAllAssets                                                              :        8 samples, Peak.  4.04 ms (4.1x), Avg.   983 us, Total. 7.866 ms (0.0%)
+[Performance] AssetPostprocessor.OnPostprocessAllAssets                                                                      :        8 samples, Peak.  1.31 ms (4.0x), Avg.   330 us, Total. 2.642 ms (0.0%)
+[Performance] BuilderAssetPostprocessor.OnPostprocessAllAssets                                                               :        8 samples, Peak.  17.3 ms (4.0x), Avg.  4.34 ms, Total. 34.69 ms (0.0%)
+[Performance] ArtifactBrowserPostProcessor.OnPostprocessAllAssets                                                            :        8 samples, Peak.   828 us (4.0x), Avg.   208 us, Total. 1.666 ms (0.0%)
+[Performance] AssetEvents.OnPostprocessAllAssets                                                                             :       16 samples, Peak.   399 us (6.6x), Avg.  60.6 us, Total. 969.7 us (0.0%)
+[Performance] AudioMixerPostprocessor.OnPostprocessAllAssets                                                                 :        8 samples, Peak.   360 us (3.9x), Avg.  91.3 us, Total. 730.4 us (0.0%)
+[Performance] StyleCatalogPostProcessor.OnPostprocessAllAssets                                                               :        8 samples, Peak.  78.0 ms (4.0x), Avg.  19.5 ms, Total. 156.1 ms (0.1%)
+[Performance] BuildCatalog                                                                                                   :        1 samples, Peak.  76.7 ms (1.0x), Avg.  76.7 ms, Total. 76.73 ms (0.0%)
+[Performance] ModelImporterPostProcessor.OnPostprocessAllAssets                                                              :        8 samples, Peak.  3.45 ms (4.0x), Avg.   872 us, Total. 6.975 ms (0.0%)
+[Performance] RetainedModeAssetPostprocessor.OnPostprocessAllAssets                                                          :        8 samples, Peak.  2.74 ms (4.0x), Avg.   692 us, Total. 5.533 ms (0.0%)
+[Performance] AssetChangedListener.OnPostprocessAllAssets                                                                    :        8 samples, Peak.  2.47 ms (3.7x), Avg.   666 us, Total. 5.328 ms (0.0%)
+[Performance] SpeedTreePostProcessor.OnPostprocessAllAssets                                                                  :        8 samples, Peak.  2.18 ms (3.9x), Avg.   553 us, Total. 4.424 ms (0.0%)
+[Performance] TextAssetPostProcessor.OnPostprocessAllAssets                                                                  :        8 samples, Peak.  1.80 ms (3.9x), Avg.   459 us, Total. 3.671 ms (0.0%)
+[Performance] AssetProcessor.OnPostprocessAllAssets                                                                          :       24 samples, Peak.   758 us (6.7x), Avg.   114 us, Total. 2.733 ms (0.0%)
+[Performance] SpriteLibraryAssetPostprocessor.OnPostprocessAllAssets                                                         :        8 samples, Peak.   255 us (3.9x), Avg.  65.5 us, Total. 524.0 us (0.0%)
+[Performance] PSDImporterAssetPostProcessor.OnPostprocessAllAssets                                                           :        8 samples, Peak.   118 us (3.8x), Avg.  31.3 us, Total. 250.5 us (0.0%)
+[Performance] PSDImportPostProcessor.OnPostprocessAllAssets                                                                  :        8 samples, Peak.   143 us (3.8x), Avg.  37.2 us, Total. 297.9 us (0.0%)
+[Performance] SpriteEditorTexturePostprocessor.OnPostprocessAllAssets                                                        :        8 samples, Peak.   394 us (1.8x), Avg.   216 us, Total. 1.731 ms (0.0%)
+[Performance] SpriteShapeAssetPostProcessor.OnPostprocessAllAssets                                                           :        8 samples, Peak.   436 us (2.1x), Avg.   209 us, Total. 1.675 ms (0.0%)
+[Performance] SyncVS.PostprocessSyncProject                                                                                  :        4 samples, Peak.   234 ms (4.0x), Avg.  58.6 ms, Total. 234.4 ms (0.1%)
+[Performance] EditorApplication.projectChanged: UnityEditor.Audio.MixerEffectDefinitionReloader.OnProjectChanged             :        2 samples, Peak.   400 us (1.0x), Avg.   392 us, Total. 784.5 us (0.0%)
+[Performance] Application.ImportPackagesAndSetTemplateWhenCreatingProject                                                    :        1 samples, Peak.  15.2 ms (1.0x), Avg.  15.2 ms, Total. 15.23 ms (0.0%)
+[Performance] Application.SyncCurrentColorSpace                                                                              :        1 samples, Peak.   477 ms (1.0x), Avg.   477 ms, Total. 477.4 ms (0.3%)
+[Performance] Application.OnUsbDevicesChanged                                                                                :        1 samples, Peak.  1.91 ms (1.0x), Avg.  1.91 ms, Total. 1.908 ms (0.0%)
+[Performance] Application.AssetInstanceCacheUpdate                                                                           :        1 samples, Peak.   200 ns (1.0x), Avg.   200 ns, Total. 200.0 ns (0.0%)
+[Performance] Application.UnityExtensions.Initialize                                                                         :        1 samples, Peak.  4.77 ms (1.0x), Avg.  4.77 ms, Total. 4.770 ms (0.0%)
+[Performance] CodeEditorProjectSync.SyncEditorProject                                                                        :        1 samples, Peak.   205 ms (1.0x), Avg.   205 ms, Total. 204.8 ms (0.1%)
+[Performance] Application.ExecuteStartups                                                                                    :        1 samples, Peak.  94.3 ms (1.0x), Avg.  94.3 ms, Total. 94.33 ms (0.1%)
+[Performance] Menu.RegisterMenuInterface                                                                                     :       26 samples, Peak.  1.60 us (7.8x), Avg.   204 ns, Total. 5.300 us (0.0%)
+[Performance] Gizmo.RebuildRenderers                                                                                         :        1 samples, Peak.  91.7 ms (1.0x), Avg.  91.7 ms, Total. 91.73 ms (0.1%)
+[Performance] Gizmo.AddGizmoRenderers                                                                                        :       86 samples, Peak.  1.37 ms (50.0x), Avg.  27.3 us, Total. 2.351 ms (0.0%)
+[Performance] Application.editorInitializingProject                                                                          :        1 samples, Peak.   248 ms (1.0x), Avg.   248 ms, Total. 248.3 ms (0.2%)
+[Performance] Application.InitializeMenu                                                                                     :        1 samples, Peak.   143 ms (1.0x), Avg.   143 ms, Total. 143.0 ms (0.1%)
+[Performance] Menu.RebuildAll                                                                                                :        1 samples, Peak.   143 ms (1.0x), Avg.   143 ms, Total. 143.0 ms (0.1%)
+[Performance] Menu.BuildRegisteredMenuInterfaces                                                                             :        1 samples, Peak.   140 ms (1.0x), Avg.   140 ms, Total. 140.4 ms (0.1%)
+[Performance] Menu.FilterMenuItem                                                                                            :      866 samples, Peak.  73.3 ms (862.5x), Avg.  85.0 us, Total. 73.63 ms (0.0%)
+[Performance] UpdateAllMenus                                                                                                 :        1 samples, Peak.   527 us (1.0x), Avg.   527 us, Total. 526.9 us (0.0%)
+[Performance] Menu.RebuildOSMainMenu                                                                                         :        2 samples, Peak.  2.74 ms (1.2x), Avg.  2.31 ms, Total. 4.615 ms (0.0%)
+[Performance] EditorSceneManager.sceneClosing: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnSceneClosing           :        2 samples, Peak.   259 us (2.0x), Avg.   131 us, Total. 262.0 us (0.0%)
+[Performance] GUIView.RepaintAll.PlayerLoopController                                                                        :        1 samples, Peak.   800 ns (1.0x), Avg.   800 ns, Total. 800.0 ns (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneTemplate.SceneTemplateService.OnNewSceneCreated           :        1 samples, Peak.   235 us (1.0x), Avg.   235 us, Total. 235.2 us (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnNewSceneCreated     :        1 samples, Peak.   293 us (1.0x), Avg.   293 us, Total. 292.5 us (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneManagement.StageNavigationManager.OnNewSceneCreated       :        1 samples, Peak.  79.0 us (1.0x), Avg.  79.0 us, Total. 79.00 us (0.0%)
+[Performance] Application.InvokeFinishedLoadingProject                                                                       :        1 samples, Peak.  34.9 ms (1.0x), Avg.  34.9 ms, Total. 34.87 ms (0.0%)
+[Performance] ProcessService.OnProjectLoaded                                                                                 :        1 samples, Peak.  63.5 us (1.0x), Avg.  63.5 us, Total. 63.50 us (0.0%)
+[Performance] AssetDatabase.Refresh                                                                                          :        2 samples, Peak.  45.1 ms (1.6x), Avg.  28.4 ms, Total. 56.81 ms (0.0%)
+[Performance] PaletteAssetModificationProcessor.OnWillCreateAsset                                                            :        3 samples, Peak.   124 us (2.6x), Avg.  47.3 us, Total. 141.9 us (0.0%)
+[Performance] AssetDatabase.ImportAsset                                                                                      :        2 samples, Peak.  65.0 ms (1.0x), Avg.  63.7 ms, Total. 127.4 ms (0.1%)
+[Performance] EditorSceneManager.sceneOpening: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnSceneOpening           :        1 samples, Peak.   161 us (1.0x), Avg.   161 us, Total. 161.3 us (0.0%)
+[Performance] Inspector.InitOrRebuild                                                                                        :        1 samples, Peak.   606 us (1.0x), Avg.   606 us, Total. 606.5 us (0.0%)
+[Performance] EditorSceneManager.sceneOpened: UnityEditor.SceneTemplate.SceneTemplateService.OnSceneOpened                   :        1 samples, Peak.   228 us (1.0x), Avg.   228 us, Total. 228.2 us (0.0%)
+[Performance] EditorSceneManager.sceneOpened: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnSceneOpened             :        1 samples, Peak.   129 us (1.0x), Avg.   129 us, Total. 129.4 us (0.0%)
+[Performance] EditorSceneManager.sceneOpened: UnityEditor.SceneManagement.StageNavigationManager.OnSceneOpened               :        1 samples, Peak.  54.7 us (1.0x), Avg.  54.7 us, Total. 54.70 us (0.0%)
+[Performance] EditorSceneManager.sceneSaving: callback in UnityEditor.U2D.SpriteShapeUpdateCache                             :        1 samples, Peak.  1.57 ms (1.0x), Avg.  1.57 ms, Total. 1.573 ms (0.0%)
+[Performance] EditorSceneManager.sceneSaving: UnityEditor.SceneTemplate.SceneTemplateService.OnSceneSaving                   :        1 samples, Peak.   278 us (1.0x), Avg.   278 us, Total. 278.4 us (0.0%)
+[Performance] EditorSceneManager.sceneSaving: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnSceneSaving             :        1 samples, Peak.   133 us (1.0x), Avg.   133 us, Total. 132.8 us (0.0%)
+[Performance] EditorSceneManager.sceneSaved: UnityEditor.SceneTemplate.SceneTemplateService.OnSceneSaved                     :        1 samples, Peak.   263 ms (1.0x), Avg.   263 ms, Total. 262.7 ms (0.2%)
+[Performance] EditorSceneManager.sceneSaved: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnSceneSaved               :        1 samples, Peak.   130 us (1.0x), Avg.   130 us, Total. 129.8 us (0.0%)
+[Performance] EditorApplication.quitting: Unity.Burst.Editor.BurstLoader.OnEditorApplicationQuitting                         :        1 samples, Peak.  32.3 us (1.0x), Avg.  32.3 us, Total. 32.30 us (0.0%)
+[Performance] EditorApplication.quitting: UnityEditor.Tilemaps.SceneViewGridManager.EditorQuitting                           :        1 samples, Peak.  86.7 us (1.0x), Avg.  86.7 us, Total. 86.70 us (0.0%)
+[Performance] EditorApplication.quitting: callback in UnityEditor.TextCore.Text.EditorEventCallbacks                         :        1 samples, Peak.  15.2 ms (1.0x), Avg.  15.2 ms, Total. 15.23 ms (0.0%)
+[Performance] Application.Shutdown.PauseProfilerSession                                                                      :        1 samples, Peak.  26.4 us (1.0x), Avg.  26.4 us, Total. 26.40 us (0.0%)
+[Performance] Application.Shutdown.PauseAssetImportWorkers                                                                   :        1 samples, Peak.   365 us (1.0x), Avg.   365 us, Total. 364.9 us (0.0%)
+[Performance] Application.Shutdown.SaveAssets                                                                                :        1 samples, Peak.  4.66 ms (1.0x), Avg.  4.66 ms, Total. 4.660 ms (0.0%)
+[Performance] Application.Shutdown.CleanupRenderPipeline                                                                     :        1 samples, Peak.  6.90 us (1.0x), Avg.  6.90 us, Total. 6.900 us (0.0%)
+[Performance] Application.Shutdown.StopPreloadManager                                                                        :        1 samples, Peak.  9.93 ms (1.0x), Avg.  9.93 ms, Total. 9.930 ms (0.0%)
+[Performance] Application.Shutdown.DestroyWorld                                                                              :        1 samples, Peak.  7.74 ms (1.0x), Avg.  7.74 ms, Total. 7.743 ms (0.0%)
+[Performance] Application.Shutdown.CleanupAfterLoad                                                                          :        1 samples, Peak.   164 ms (1.0x), Avg.   164 ms, Total. 164.2 ms (0.1%)
+[Performance] Application.Shutdown.Progress                                                                                  :        1 samples, Peak.  6.00 us (1.0x), Avg.  6.00 us, Total. 6.000 us (0.0%)
+[Performance] Application.Shutdown.GICleanupManagers                                                                         :        1 samples, Peak.   532 us (1.0x), Avg.   532 us, Total. 532.4 us (0.0%)
+[Performance] Application.Shutdown.MenuCleanupClass                                                                          :        1 samples, Peak.   292 us (1.0x), Avg.   292 us, Total. 291.7 us (0.0%)
+[Performance] Application.Shutdown.ADBSaveStateBeforeShutdown                                                                :        1 samples, Peak.  6.80 us (1.0x), Avg.  6.80 us, Total. 6.800 us (0.0%)
+[Performance] Application.Shutdown.RemoteShutdown                                                                            :        1 samples, Peak.   600 ns (1.0x), Avg.   600 ns, Total. 600.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupVCProvider                                                                         :        1 samples, Peak.  11.2 us (1.0x), Avg.  11.2 us, Total. 11.20 us (0.0%)
+[Performance] Application.Shutdown.InputShutdown                                                                             :        1 samples, Peak.   600 ns (1.0x), Avg.   600 ns, Total. 600.0 ns (0.0%)
+[Performance] Application.Shutdown.GizmoManagerDestroy                                                                       :        1 samples, Peak.   616 us (1.0x), Avg.   616 us, Total. 615.7 us (0.0%)
+[Performance] Application.Shutdown.ProfilerSession                                                                           :        1 samples, Peak.   136 us (1.0x), Avg.   136 us, Total. 136.1 us (0.0%)
+[Performance] Application.Shutdown.ReleaseGfxWindowOnAllGUIViews                                                             :        1 samples, Peak.   200 ns (1.0x), Avg.   200 ns, Total. 200.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupEngine                                                                             :        1 samples, Peak.  87.5 ms (1.0x), Avg.  87.5 ms, Total. 87.54 ms (0.1%)
+[Performance] Application.Shutdown.CleanupAssetDatabase                                                                      :        1 samples, Peak.  74.2 ms (1.0x), Avg.  74.2 ms, Total. 74.19 ms (0.0%)
+[Performance] Application.Shutdown.ScriptCompilationCleanUp                                                                  :        1 samples, Peak.  17.5 ms (1.0x), Avg.  17.5 ms, Total. 17.46 ms (0.0%)
+[Performance] Application.Shutdown.DestroyJobSystem                                                                          :        1 samples, Peak.   210 us (1.0x), Avg.   210 us, Total. 210.0 us (0.0%)
+[Performance] Application.Shutdown.CleanupPersistentManager                                                                  :        1 samples, Peak.  1.60 ms (1.0x), Avg.  1.60 ms, Total. 1.597 ms (0.0%)
+[Performance] Application.Shutdown.CleanupAsyncReadManager                                                                   :        1 samples, Peak.   238 us (1.0x), Avg.   238 us, Total. 237.7 us (0.0%)
+[Performance] Application.Shutdown.CleanupProgressBar                                                                        :        1 samples, Peak.   300 ns (1.0x), Avg.   300 ns, Total. 300.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupMono                                                                               :        1 samples, Peak.   111 ms (1.0x), Avg.   111 ms, Total. 111.2 ms (0.1%)
+[Performance] Application.Shutdown.CleanupStdConverters                                                                      :        1 samples, Peak.  8.80 us (1.0x), Avg.  8.80 us, Total. 8.800 us (0.0%)
+[Performance] Application.Shutdown.UnloadAllPlatformSupportModuleNativeDlls                                                  :        1 samples, Peak.   500 ns (1.0x), Avg.   500 ns, Total. 500.0 ns (0.0%)
+[Performance] Application.Shutdown.UnloadAllPlatformSupportNativeLibraries                                                   :        1 samples, Peak. 100.0 ns (1.0x), Avg. 100.0 ns, Total. 100.00 ns (0.0%)
+[Performance] Application.Shutdown.CleanupAutoDocumentation                                                                  :        1 samples, Peak.   399 us (1.0x), Avg.   399 us, Total. 399.2 us (0.0%)
+[Performance] Application.Shutdown.ShaderNameManagerDestroy                                                                  :        1 samples, Peak.  51.4 us (1.0x), Avg.  51.4 us, Total. 51.40 us (0.0%)
+[Performance] Application.Shutdown.CleanupCacheServer                                                                        :        1 samples, Peak.   100 ns (1.0x), Avg.   100 ns, Total. 100.0 ns (0.0%)
+[Performance] Application.Shutdown.Virtualization_Shutdown                                                                   :        1 samples, Peak.   300 ns (1.0x), Avg.   300 ns, Total. 300.0 ns (0.0%)
+[Performance] Application.Shutdown.DevConnections                                                                            :        1 samples, Peak.   102 us (1.0x), Avg.   102 us, Total. 102.2 us (0.0%)
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

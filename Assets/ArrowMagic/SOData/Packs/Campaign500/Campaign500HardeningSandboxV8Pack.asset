@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d436460122dc5424e9baa0dad136f725, type: 3}
+  m_Name: Campaign500HardeningSandboxV8Pack
+  m_EditorClassIdentifier: 
+  packId: campaign500_hardening_sandbox_v8
+  displayName: Campaign 500 Hardening Sandbox V8 (8)
+  levels:
+  - {fileID: 11400000, guid: d170aec39d84d6e4190905a74414e8bd, type: 2}
+  - {fileID: 11400000, guid: ab492027806143545bbd1df21dbbf9e5, type: 2}
+  - {fileID: 11400000, guid: 4899b7f81353fe441b2cc31c94f9a501, type: 2}
+  - {fileID: 11400000, guid: 8c35fd7632d1ad143a6a771dbafc78b4, type: 2}
+  - {fileID: 11400000, guid: 47b03fb4477c5ba4cb2ccfb1da9c1745, type: 2}
+  - {fileID: 11400000, guid: 305c5e2ae43c9d74db5823e7df2edc66, type: 2}
+  - {fileID: 11400000, guid: cac40f4a9c38e76429ad5f8181a2da22, type: 2}
+  - {fileID: 11400000, guid: 934e7d7089ee25d4cb44cbdd5ac18156, type: 2}

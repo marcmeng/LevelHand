@@ -1,4 +1,4 @@
-﻿# Current Status
+# Current Status
 
 ## Snapshot - 2026-06-18
 
@@ -28,6 +28,72 @@
 - GPT 只作为 second opinion；项目侧最终判断仍以用户目标、仓库事实、项目记忆和实测数据为准。
 - 若 GPT 方案不被认可，不直接实现；补充目标、证据、失败分布、约束和验收指标继续追问，直到形成可验证共识或记录未达成一致。
 - 达成共识后才落项目规范：原则/取舍写入 `DECISIONS.md`，流程写入 `WORKFLOW.md`，新入口写入 index，当前执行状态写入 `CURRENT_STATUS.md`。
+
+## PSG Normal Production Correction - 2026-06-26
+
+- 本对话范围只处理普通难度关卡量产；不要混高难 root/sandwich/reverse 研究，也不要混 mask 关卡。
+- 正式普通量产线命名为 `PSG / Pressure-SGP`：用 SGP 做高覆盖填充，再用 pressure/trace 筛选普通难度可玩关卡。
+- PSG 核心已提交：`aa1564bd Add PSG pressure hard production lane`；当前主项目路径仍为 `F:\Unityproject\ArrowLevel-Hand`。
+- 优先入口固定为 `Tools/Production/Invoke-SGPPressureHardProductionV1.ps1`，Unity 方法为 `NoMaskProceduralGenerator.BuildSgpPressureHardTrialPack`。
+- 标准产物为 `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset`，source report 为 `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_trial_report.csv`。
+- trace 使用 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1`；当前 trace 诊断字段可用于识别 stripe/edge-inward/long-low-turn 风险，但不改变 PSG 正式入口。
+- 之前因用户口误 `GSP` 而追到旧 architecture/root/seeded fill 方向属于误分支；后续本线程不得用 `codex/architectural-linework`、V131 root、sandwich/reverse/mask 作为普通 PSG 候选来源。
+- 普通量产筛选口径：`solved=True`、`coverage>=0.97`、`processTier A/B` 优先、`maxChoices` 不爆；`Drop` 默认不入库，只做诊断或人工特例；最终必须人工看链条语言和体感。
+- 已移除误开的临时 worktree `.worktrees/architectural-linework`；不作为后续候选来源。
+- 官方 wrapper rebaseline（SkipUnity）：`psg_normal_official_rebaseline_20260626_metrics.csv`，4/4 solved；按普通口径 `lock_buckle(A)`、`dense_weave(B)`、`core_burst(B)` 可保留，`section_unlock(Drop, maxChoices=16, localPatchRun=7)` 先排除。
+- 诊断观察：当前官方 4 关 `stripeVisualRiskScore=0.086-0.233`，明显低于截图坏样本的 `0.752`；后续候选可先用 stripe/long-low-turn/edge-inward 指标挡掉“长竖条/单区连消”样本，再人工看图。
+- 小批 review6 已生成并挂 Demo：`Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardReview6Pack.asset`；source report 为 `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_review6_report.csv`。
+- review6 trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/psg_pressure_review6_20260626_metrics.csv`；6/6 solved，coverage `0.978-0.991`，processTier `2 A + 4 B`，maxChoices `6-10`，machine keep 6/6。`dense_weave_a` 的 `localPatchRun=13/directionalSweepRisk=0.52` 需人工看体感。
+- 新增 PSG normal opt-in 生成实验 `BuildSgpPressureHardInterference6Pack`：在 PressureHard peel 生成侧加入近邻同向惩罚、近邻错向/转向扰动奖励，只对 `sgp_pressure_hard_*_interfere_*` spec 生效，不改变正式 trial/review6。
+- Interference6 已生成并挂 Demo：`Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterference6Pack.asset`；source report 为 `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference6_report.csv`。
+- Interference6 trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/psg_pressure_interference6_20260627_metrics.csv`；6/6 solved，coverage `0.979-0.988`，processTier `1 A + 5 B`，machine keep 5/6。
+- 对比结论：Interference6 把 `stripeAvg 0.109->0.034`、`stripeMax 0.233->0.104`、`localPatchMax 13->8`、`directionalRiskMax 0.52->0.303`，但 `avgChoices 4.66->5.54`、`maxChoicesMax 10->12`；方向有用，下一步应做“扰动 + choice ceiling/开口压力回压”的 V2。
+- Interference V2 静态 first-blocker 远距方案为负例：在 PSG normal `0.96+` 高覆盖下，逃逸射线第一阻挡链天然贴近；把它作为硬评分会导致 coverage 降、开口/choice 爆，不适合作为生成目标。
+- 当前可用小批为动态 flow-spread V2：`BuildSgpPressureHardInterferenceV2SixPack`，source report `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference_v2_six_report.csv`，pack `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterferenceV2SixPack.asset`。
+- Flow-spread V2 trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/psg_pressure_interference_v2_six_flow_20260627_metrics.csv`；6/6 solved，processTier `6 B`，source coverage `0.975-0.984`，按普通口径 keep 5/6（第 5 关 maxChoices=11）。
+- Flow-spread V2 对比 Interference6：`localPatchMax 8->6`、`directionalRiskMax 0.303->0.234`、`maxChoicesMax 12->11`，但 `avgChoices 5.54->5.69`、`stripeMax 0.104->0.112`；方向正确但收益有限。下一步应把 FlowRun/localPatch/nearOuter/maxChoices 做 trace 后筛选，V2 生成侧只作为候选扩样，不直接全量入库。
+- 2026-06-27 追加 V3 opt-in `BuildSgpPressureHardInterferenceV3SixPack`：在 V2 基础上加入 head-region/3x3/4x4 区域调度，目标是减少同区/同轴连续消除；不改变正式 Trial/Review/V2 入口。
+- V3 source report `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference_v3_six_report.csv`，pack `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterferenceV3SixPack.asset`；source coverage `0.968-0.978`，仅 5/6 达到 `coverage>=0.97`。
+- V3 trace `psg_pressure_interference_v3_six_20260627_metrics.csv`：6/6 solved，但 tiers 为 `1 B + 5 Drop`，普通 keep `0/6`；`avgChoicesAvg 8.37`、`maxChoicesMax 15`，明显高于 V2 的 `5.69/11`。
+- V3 对比 V2：`nearOuterMax 5->3`、`directionalRiskMax 0.234->0.176`、`stripeRiskMax 0.112->0.012` 有改善，但 `coverageMin 0.975->0.968`、`avgChoicesAvg 5.69->8.37`、`keep 5/6->0/6`。结论：区域调度方向可作为诊断/后筛特征，但当前 V3 生成侧约束过强，不适合作为 PSG normal 量产候选线。
+
+## Campaign500 PSG Normal Calibration50 Rejection - 2026-06-26
+
+- 当前 worktree：`.worktrees/campaign500-psg-normal`，branch `codex/campaign500-psg-normal`；任务范围仅限普通难度 PSG normal 量产，不混 hard/root/sandwich/reverse/mask。
+- Calibration50 小批跑出 131 个候选，trace 131/131 solved，初筛 A/B 通过 66 个，宽松 keep 26 个；人工看图反馈整体很差，严格筛后仅 1 个 sweep 候选仍呈长竖条/矩形 peel 语言。
+- 代码复查确认 Campaign500 Calibration50 入口 `BuildCampaign500PsgNormalCalibration50Pack -> BuildCampaignPsgProfileCandidate -> TryBuildLevelAt -> TryBuildRectanglePeelAuthored`，实际落在 rectangle/peel 生成路径，不是预期的 GSP/SGP 填充能力。
+- 结论：本批 Calibration50 及其 keep pack 不进入 Campaign500 替换池；不能把该结果解释为 GSP 能力退化，而是入口适配/命名误导导致用了错误生成路径。
+- 下一步：暂停当前 Calibration50 PSG normal 菜单入口；先核验正式 `Invoke-SGPPressureHardProductionV1.ps1` / `BuildSgpPressureHardTrialPack` 是否也走 peel。若是，必须回到真正 SGP/GSP 生成源或重建 normal adapter，再用 3-5 关 smoke 人工看图后再跑 50/全量。
+- 已复跑官方 wrapper trace（SkipUnity，因主项目已有 Unity 实例）：`sgp_pressure_hard_production_v1_languagediag_20260626_metrics.csv`。确认正式 wrapper 入口同样经 `BuildSgpPressureHardTrialPack -> TryBuildLevelAt -> TryBuildRectanglePeelAuthored`，source report status 明确包含 `Peel style=PressureHard`。
+- 已在 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` 增加只读诊断字段：`solveVectorRunMax`、`solveVectorChangeRate`、`edgeInwardSweepRunMax`、`edgeInwardSweepSide`、`directionalSweepRiskScore`、`straightLikeChainRate`、`longLowTurnChainRate`、`dominantHeadDirRate`、`stripeVisualRiskScore`。
+- row57 截图坏样本复验：`stripeVisualRiskScore=0.752`、`straightLikeChainRate=0.447`、`longLowTurnCellRate=0.638`，而官方 4 关 `stripeVisualRiskScore=0.086-0.233`；说明截图问题主要是静态条纹/peel 链条语言，不是单纯“从一边往里扫”的过程问题。
+
+## Campaign500 PSG Normal Production20 - 2026-06-27
+
+- 当前 worktree：`.worktrees/campaign500-psg-normal`，branch `codex/campaign500-psg-normal`；仅用于普通 PSG normal 量产候选，不混 root/high/mask。
+- 本轮按模板前 20 个非教程普通 slot 试跑：orders `3,5,7,8,10,11,12,14,15,16,18,19,20,21,22,24,25,28,29,30`，覆盖 normal/lock/section/sweep/maze/dense/shell。
+- Source generation：61 行 attempt，48 个候选生成成功，13 个失败（12 `ChainTargetMiss` + 1 `LanguageGateMiss`）；成功风格分布 dense 4、lock 16、maze 4、normal 8、section 11、shell 1、sweep 4。
+- Official trace：`campaign500_psg_normal_production20_metrics.csv`，48/48 solved；tiers 为 7 A / 33 B / 8 Drop；硬口径 `coverage>=0.97 && solved && tier A/B && maxChoices<=10` 过 33 行。
+- 视觉/语言二筛加入 `stripeRisk<=0.18`、`directionalRisk<=0.32`、`localPatchRun<=8`、`nearOuterRun<=5` 后保留 16 行；每个 template order 最多选 1 个后 keep pack 为 10 关。
+- Keep pack：`.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProduction20KeepPack.asset`，Demo in this worktree 已挂载；候选 pack 为 `Campaign500PSGNormalProduction20Pack.asset`。
+- Keep CSV：`.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production20_keep.csv`；已记录 `edgeInwardSweepSide/startSideHint`，用于人工看“从哪边开始消除”。
+- Keep 风格覆盖 normal 3、lock 3、section 1、sweep 1、maze 1、dense 1；shell 没有过线样本，先跳过。侧向分布为 L 4、R 2、T 1、B 3。
+- `layout_soft` 画布变化候选已生成但未进正式 keep：一个 17x23 section 仅因 coverage 0.969 差一点，一个 23x33 lock 因 directionalRisk 0.356 偏高；后续可作为候选扩样，不默认强制替换细长画布。
+- 人工反馈追加：小画布外出口要控制并可略提难度；细长与略宽画布混排是有效节奏变化，但宽版需要更明显，且仍保持竖屏 portrait，不做横向宽关。
+- 已在 `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs` 调整下一批口径：Campaign500 PSG normal 增加小画布 opener/edge-head final gate 和评分惩罚；`layout_soft` 变体从微宽改为更明显的 portrait-wide，并限制最大宽高比约 `0.82`。
+- Rerun completed with the adjusted口径：Production20 source report 64 rows / 50 built / 14 failed；official trace 50/50 solved，tiers 6 A / 33 B / 11 Drop，hard keep 31，visual keep 16。
+- 新 keep pack 仍为 `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProduction20KeepPack.asset`，Demo 已挂载；keep CSV 10 关含 shell A 样本和明显宽版 `maze layout_soft 21x26`，不再保留旧 9x14 opener=7 小画布样本。
+
+## Campaign500 PSG Normal ProductionNext10 - 2026-06-27
+
+- 当前 worktree：`.worktrees/campaign500-psg-normal`，branch `codex/campaign500-psg-normal`；仍只处理普通 PSG normal，不混 root/high/mask。
+- 本轮承接 Production20 后继续往下 10 个非教程普通 slot：orders `31,33,34,35,36,39,40,41,42,44`，风格分布 sweep/dense/lock/section。
+- 新增独立入口：`BuildCampaign500PsgNormalProductionNext10Pack` 和 `BuildCampaign500PsgNormalProductionNext10KeepPack`；产物目录为 `Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/ProductionNext10/`，不覆盖 Production20。
+- Source generation：44 行 attempt，39 built，5 failed（1 opener/edge gate miss + 4 language gate miss）；built 分布 dense 15、lock 15、section 4、sweep 5。
+- Official trace：`campaign500_psg_normal_production_next10_metrics.csv`，39/39 solved，tiers 29 B / 10 Drop；hard keep 14，visual keep 7。
+- Keep pack：`.worktrees/campaign500-psg-normal/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProductionNext10KeepPack.asset`，Demo 已挂载；keep CSV 为 `campaign500_psg_normal_production_next10_keep.csv`。
+- Final keep 7 关：orders `44(section layout_soft 23x29)`, `41(dense)`, `34(lock)`, `36(lock)`, `42(dense)`, `39(lock)`, `40(lock)`；sweep order 31 虽有 choices 好的 `language_c`，但 `stripeRisk=0.592`，不硬塞。
+- 下一批若继续“往下 10”，应从 normal template 的第 31 个非教程 slot 开始，即 order `45` 起继续。
 
 ## AssetDatabase Trim - 2026-06-24
 
@@ -130,6 +196,30 @@
 - 状态：待验证 - 旧项目路径尚未在仓库记忆中确认；如后续确认迁移来源，需要更新路径迁移记录。
 - 状态：待验证 - 现有未跟踪关卡、掩码、报告、导出包哪些是正式交付、哪些是实验产物，需要按具体任务确认。
 - 状态：待验证 - 若要提交项目记忆，需要先确认是否同时提交既有 dirty worktree 中的其他内容。
+
+## Campaign500 Normal Full V1 Production - 2026-06-30
+
+- 当前生产 worktree：`.worktrees/nutation-flow-peel-production`，branch `codex/nutation-flow-peel-production`；范围是 Campaign500 模板中的 `normal` slot，不替换 hard/root/mask 线。
+- 全量 source 已完成：`200` 个 normal slot x `3` variants = `600` rows，`600/600` official trace solved；`LongChainProbe` 已从最终 source/join/keep 全部排除，原 LongChainProbe slot 用 `PeelHard` replacement 进入正式候选。
+- Official trace 因单进程 600 行过慢，实际采用 6 个 100-row chunk 并行/分段跑完，再合并为 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_normal_full_v1_metrics.csv`；chunk trace 均 `missing/failed=0`。
+- Trace 结果：process tier 为 `A=23 / B=236 / Drop=341`；joined rows `600`，best-per-slot `200`，machine ProductionKeep `86`，StrictKeep `70`。
+- 主要产物在 `.worktrees/nutation-flow-peel-production`：Review CSV `Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_review.csv`，ProductionKeep CSV `campaign500_normal_full_v1_production_keep.csv`，StrictKeep CSV `campaign500_normal_full_v1_production_strict_keep.csv`。
+- Pack 已生成：`Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalFullV1ReviewPack.asset`（200 levels）、`Campaign500NormalFullV1ProductionKeepPack.asset`（86 levels）、`Campaign500NormalFullV1ProductionStrictKeepPack.asset`（70 levels）。
+- 机器 keep 86 行分布：`NeutralMixed=55 / FlowRail=13 / PeelMid=9 / PressurePeak=4 / PeelHard=2 / PeelLight=2 / FlowCurve=1`；StrictKeep 70 行分布：`NeutralMixed=46 / FlowRail=11 / PeelMid=6 / PressurePeak=3 / PeelLight=2 / FlowCurve=1 / PeelHard=1`。
+- 验证：`dotnet build .\nutation-flow-peel-production.sln --no-restore -v:minimal` 通过（仅既有 warning），`git diff --check` 通过，Unity pack log 显示 Review/Keep/StrictKeep batchmode 成功，无残留 Campaign500 full production 进程。
+- 注意：两个尾部分片因精确截停/快速退出有少量 `.asset.meta` 未从 source worktree 复制；merge 脚本已容忍缺失 meta，`.asset` 本体存在且 pack 构建成功。收尾时已用长路径写入补齐主生产 worktree 内 18 个缺失 meta。
+
+## RCH Experiment Line Archived - 2026-06-27
+
+- RCH/high-root 实验线已从主接续线移出，默认新对话不要继续这条线，也不要把旧 RCH 结论当当前 baseline、clean floor 或生产母体。
+- 高信号归档见 `.agents/memory/RCH_EXPERIMENT_LINE_ARCHIVE_20260627.md`；长链/无 root/污染 baseline 负例见 `.agents/memory/RCH_LONGCHAIN_NO_ROOT_RECORDS.md`。
+- 实际脚本、报告、关卡资产暂未移动或删除；如后续要清理 `.worktrees/sgp-rhythm-lab` 里的 RCH 产物，需要单独确认来源和保留范围。
+
+## Reverse-CSSC Predecessor Archived - 2026-06-27
+
+- Reverse-CSSC / full-grid reverse compiler 是 RCH/high-root 实验线的前置分支，已随 RCH 一起降为 archive-only。
+- 主状态不再展开 `Build-ReverseCSSC*`、`reverse_cssc_*` 或 Reverse-CSSC relation audit 作为当前接续点；需要复盘时先读 `.agents/memory/RCH_EXPERIMENT_LINE_ARCHIVE_20260627.md`。
+- `Build-ChainRelationAuditV1.py` 作为通用诊断工具仍可按具体任务使用，但 Reverse-CSSC 的旧审计结果不再是当前路线依据。
 
 ## SGP Sandwich Failure-Pocket Scheduler Probe - 2026-06-25
 
@@ -3970,6 +4060,15 @@
 - 最强高难线为 `root10 + dense_weave + bundle3`：`0.3637681 -> 0.4072464 -> 0.4434783 -> 0.4753623 -> 0.5000000` 均存在 `solved=True/A/TrueHardCandidate/supportDepth4` 候选；最高 coverage 行 `0.5028986` 降为 `HardPotential/support4`。0.50 附近 TrueHard 密度从 r4 的 24/24 降到 r5 的 5/24，说明下一步要加入 class-drift/choice-wave 选择压力。
 - 硬但慢的对照：`root98 + dense_weave` 在 `0.3002451` 仍 24/24 `TrueHard/support4`，但吞吐太低；`root76 + dense_weave` 在 `0.3345588` 有 strict TrueHard/support4 候选，但通过密度低于 root10。
 - Multi-root 报告：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_multi_root_probe_summary.md`；selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_multi_root_probe_selected.csv`。未挂 Demo。
+- 2026-06-26 性能/效率优化：新增 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeometrySupplyOwnerHitSchedulerV1.ps1`，把 `Build-OwnerHitGrammarFillV1.py -> Build-SGPRhythmTrace.ps1 -> strict parent selection` 自动化。调度器支持短 asset run name，修复长路径 `.asset.meta` 写入失败；支持 `SelectionMode HardMargin` 和 `TraceSelectionMode OwnerSpread`。
+- 关键效率结论：Top-only trace 会漏真硬候选；从 `0.4956522/A/TrueHard/support4` 父本出发，Top-only top16 全为 `HardPotential`，top48 才发现 rank45 strict。首尾 hitOwner `OwnerSpread` 后，同类 rank45 strict 可在 top8/24 里被抓到。
+- 新 strict 推进链：`0.4956522 -> 0.5159420 -> 0.5347826 -> 0.5492754 -> 0.5623188 -> 0.5768116`，均为 `solved=True/processTier=A/hardStructureV3Class=TrueHardCandidate/supportDepth4`。
+- 当前最佳严格父本：`geosupply_sched_root10_dens_be1afe84_r1_c015`，asset `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeometrySupplyOwnerHitV1/geosupply_sched_root10_dens_be1afe84/r1/geosupply_sched_root10_dens_be1afe84_r1_c015.asset`；selected CSV `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0562_ownerspread_tail_v1_selected.csv`。指标：coverage `0.5768116`、A、TrueHard、hardV3 `0.686`、support4、openers2、avg/max `2.84/6`、outer0。
+- 2026-06-26 继续从 `0.5768116` 父本跑 OwnerSpread + HardMargin：dense_weave 同参数 top8/top24 没有 strict；对同一 48 个候选全量 trace 后也没有 `TrueHardCandidate/supportDepth4`。dense bundle2 仍只得到 `HardPotential/support4`。结论：dense 后段不是 trace 不够，而是供料/补法稀释 hard class。
+- 流程优化正结果：切换到 `section_unlock` 供料并降 bundle 后可继续推进。`section_unlock + bundle2` 将 root10 严格线推进到 `0.5840580 -> 0.5898551 -> 0.6072464`，均为 `solved=True/processTier=A/TrueHardCandidate/supportDepth4`。
+- 0.607 后 `section_unlock + bundle2` 再次掉为 `HardPotential/support4`；降到 `section_unlock + bundle1` micro-commit 后继续推进到 `0.6101449 -> 0.6130435 -> 0.6159420`，均为 `A/TrueHardCandidate/supportDepth4`。当前 root10 最新严格父本为 `geosupply_sched_root10_from_40eb0da7_r1_c038`。
+- 当前 root10 best：asset `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeometrySupplyOwnerHitV1/geosupply_sched_root10_from_40eb0da7/r1/geosupply_sched_root10_from_40eb0da7_r1_c038.asset`；selected CSV `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_from0613_section_bundle1_v1_selected.csv`。指标：coverage `0.6159420`、A、TrueHard、hardV3 `0.725`、support4、openers2、avg/max `3.00/8`、outer0。
+- 下一步：将 root10 lane 的手工策略固化为 adaptive schedule：dense/bundle3 负责 0.50 前中段，`section_unlock/bundle2` 负责 0.58-0.60 解锁，`section_unlock/bundle1` 负责 0.607 后 micro-commit；若 micro 继续变慢，再尝试 core_burst/lock_buckle 或 support-preserving prefix gate。普通 PSG/PressureHard 量产线仍不能混入高难验收。
 
 ## Tonight High-Coverage Demo Pivot - 2026-06-26
 
@@ -4018,6 +4117,41 @@
 - 补充复核 `SGPGateAwareTrial` 4 个 asset：official trace 4/4 solved，但 1 B + 3 Drop，supportDepth `0-2`，全部 `LocalEasy`，`localPatchSolveRunMax=10-24`、`dependencyBraidBadLocalRate=0.875-0.983`；GateAware 当前不是高难成品线。
 - 正向结论：PressureHard/PSG 更适合作为 sandwich 的“几何/同链边供料器”，而不是直接继承其解题逻辑。已有 `Geometry Supply Owner-Hit Probe root154 + lock_buckle` 证明该用法可从 hard root coverage `0.2915` 推到 `0.3623`，仍保持 `S/TrueHardCandidate/supportDepth4`。
 - 下一步若目标是真难关，应使用 validated hard root + PressureHard geometry supply + owner-hit grammar/scheduler：验收以 `TrueHardCandidate + supportDepth>=4 + localPatch/outer/dependencyBraid` 为硬线，coverage 后置；不要把 `coverage>=0.97 + A/B` 当高难验收。
+- 2026-06-26 续跑验证：沿 `orig_seed_usable_v1_01_rolegraph_next5_arrowz_level_154` hard root 继续使用 PressureHard 几何供料，`lock_buckle` 单供料可稳定推进到 `0.4493927/S/TrueHardCandidate/supportDepth4`。
+- 多供料试验：从 `0.4493927` 父本分别引入 `lock_buckle/section_unlock/dense_weave/core_burst` 同链边供料。`section_unlock` 和 `dense_weave` 明显更适合后段增长；合并 top 候选后最佳 strict 到 `0.4898785/S/TrueHardCandidate/supportDepth4`，`avgChoices≈2.9-3.2`、`maxChoices<=6`。
+- 当前 selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_root154_psg_multi_r12_selected.csv`。最佳行 `geosupply_oh_root154_multi_r12_section_len10_c002/c003`，coverage `0.4898785`，仍为真难候选而非 `LocalEasy`。
+- 生产判断更新：PSG sandwich 正方向不是“PSG 先满铺再修”，而是“validated hard root + PSG geometry supply + owner-hit grammar stepwise growth”。下一步需要自动 multi-supply scheduler、供料切换策略和 top-k trace 节流；目标先验证能否越过 `0.55/0.60` 仍保持 `TrueHardCandidate`。
+- 2026-06-26 续跑：`root154 + core_burst` geometry supply 已越过 `0.65` 且保持高难结构。路径为 `0.5647773 -> 0.5890688 -> 0.6133603 -> 0.6356275 -> 0.6538462 -> 0.6578947 -> 0.6619433`，最新 selected CSV 为 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_root154_core_scheduler_from0657_v1_selected.csv`。
+- 最新严格父本：`root154_core_sched0657_v1_r1_c018`，coverage `0.6619433`，official trace `solved=True/processTier=A/hardStructureV3Class=TrueHardCandidate/supportClosureBestDepth=4`，`openers=3`、`avgChoices=3.72`、`choiceP80=5`、`maxChoices=8`、`outerExitHeadCount=1`、`localPatchSolveRunMax=2`。同批 coverage `0.6639676` 仅为 `HardPotential/support4`，不作为 strict 父本。
+- 这证明 PSG/PressureHard 作为“geometry/same-chain-edge supply”接 owner-hit grammar/scheduler 可以稳定越过 `0.60/0.65`，不是普通 PSG 的 `LocalEasy` 直产逻辑。下一步应从该 selected CSV 继续尝试 `0.70` 边界，并加入多 supply 切换/anti-repeat，而不是回到普通 PressureHard 直产。
+- 2026-06-26 续跑更新：使用 `Build-OwnerHitGrammarFillV1.py` + multi-supply top-k trace，strict 父本从 `0.6619433` 逐步推进到 `0.6821862 -> 0.6902834 -> 0.6963563 -> 0.7004049`；随后 `Build-TailExtensionFillV1.py --max-blocker-value 0` 从 `0.7004049` 白捡到 `0.7145749`，仍为 `A/TrueHardCandidate/supportDepth4`。`--max-blocker-value 1` 可到约 `0.7854`，但 official trace 为 unsolved/LocalEasy/support0，不可用。
+- 当前最高 strict 父本：`root154_from0718_dense_c003`，coverage `0.7246964`，selected CSV `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_root154_from0724_selected.csv`，official trace 来自 `geosupply_root154_from0718_top8x4_metrics.csv`，结果 `solved=True/processTier=A/hardStructureV3Class=TrueHardCandidate/supportClosureBestDepth=4`、`hardStructureV3Score=0.682`、`openers=3`、`avgChoices=4.25`、`choiceP80=6`、`maxChoices=9`、`outerExitHeadCount=1`、`localPatchSolveRunMax=2`。
+- 当前边界：从 `0.7246964` 继续 owner-hit 单链增长，top8x4 全部掉为 `HardPotential/Medium`；最佳 support4 候选 `root154_from0724_lock_c006` coverage `0.7307692` 仅 `HardPotential`。以该 HardPotential 作为临时台阶继续补一轮，top4x4 仍全部 `HardPotential`，暂未看到“先掉 HardPotential 后回 TrueHard”的证据。
+- 指标诊断：`0.7247 TrueHard` 到 `0.7308 HardPotential` 的 supportClosure 细项几乎不变（depth4/node10/edge11/score0.966），掉分主要来自 causal anti-locality、cross-region、direction-change 等 causal quality 变浅。说明 0.72+ 的主问题不是无解或骨架 collapse，而是新增链条把因果边局部化/浅化，导致 `hardStructureV3Score` 低于 TrueHard 阈值。
+- 被中断的低排名多样候选实验：已生成 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_root154_from0724_rank09_16x4_candidates.csv`，但 trace 被用户中断，未产出 metrics。该实验目标是检查低 grammarScore/更分散位置是否能避免 causal 浅化，仍可作为后续 cheap proxy/attribution 分析输入。
+- 新增 GSP 外接选择层脚本：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GSPCandidateRankV1.py`（候选 trace 前重排/owner-region-side 分散抽样）与 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-HardnessDeltaAttributionV1.py`（trace 后相对父本做 hard/causal/support/local delta attribution）。
+- GSP 从 `0.7246964` 父本重排 92 个候选并 trace top24，成功在原 top8x4 失败后捞到新 strict：`root154_from0724_section_c018`，coverage `0.7287449`，`A/TrueHardCandidate/supportDepth4`，`hardScore=0.690`，cells `16,5;16,6`，attribution=`LockLike`，`causalQualityDelta=-0.019`。selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_root154_from0728_gsp_selected.csv`。
+- GSP 从 `0.7287449` 再推进一轮（四供料生成、GSP top24 trace）未找到 strict：24/24 均为 `HardPotential/Medium`，最高 coverage `0.7368421` 但仍非 TrueHard。结论：GSP 重排能补一次“低排名漏检”，但当前候选语法继续往 0.73+ 仍会 causal shallow；后续需要更强的 GSP 结构语法/anti-shortcut 生成，而不只是重排现有 owner-hit 候选。
+- 2026-06-26 补链能力+效率 V-next 冒烟：新增 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-CausalIntentRefillV1.py`（主动生成 `BLOCK/RELAY/ANTI_LOCAL` intent 候选）和 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GSPStagedSelectorV2.py`（cheap features + micro greedy probe 后输出少量 trace 输入）。
+- 从 `0.7287449` 父本运行 CausalIntentRefillV1：扫描 1674 条路径、生成 123 raw、选出 90 候选；实际只有 `BLOCK` 79 和 `RELAY` 11，未产出 `ANTI_LOCAL`。再混合四路 owner-hit 候选共 179 条，经 GSPStagedSelectorV2 选 top8 official trace，用时约 2 分钟，较 top24 约 7 分钟明显提速，但 8/8 均为 `HardPotential/Medium`。
+- 为排除 selector 错杀，又按 intent 桶直接 trace `BLOCK` top6 + `RELAY` top6：12/12 仍无 strict，最佳 `root154_from0728gsp_intent_c020` 为 `HardPotential/support3/hardScore0.665`；高分 `BLOCK` 多为 `ShortcutLike`，causalDelta 约 `-0.108`。结论：效率分层可用，但 CausalIntentRefillV1 的候选仍是“伪耦合”，未真正产生保持/提升 causal quality 的补链；下一步应改生成目标而非继续调 selector。
+- 2026-06-26 继续执行补链能力优化：新增 `Build-CausalIntentRefillV2.py`，把 V1 的 intent 改为 shortcut risk + causal disruption score + forced ANTI_LOCAL coverage；同父本 `root154_from0724_section_c018` 生成 41 个候选，分布为 `ANTI_LOCAL=30/BLOCK=8/RELAY=3`，修复了 V1 `ANTI_LOCAL=0` 的候选空间缺口。
+- V2 official trace 结果：GSPStagedSelectorV2 top12 与“低 shortcut + 空间分散”top12 各跑一包，均 12/12 solved/A，但 strict=0；最好仍是 `HardPotential`，最高 hardScore 约 `0.672`，多数 supportDepth=4，说明 V2 没有把结构打死，但也没有让 causal quality 回正。
+- V2 attribution 结论：`ANTI_LOCAL` 标签目前主要是 proxy 层成立，trace 后仍多为 `ShortcutLike` 或 `SupportRegression`；`BLOCK/RELAY` 最好是 `NeutralOrShallow`，没有出现 `LockLike`。因此 0.7287 后边界不是采样漏检，也不是 official trace 节流问题，而是“候选结构语言仍不能生成真正 causal-path 重构”。
+- 当前最高 strict 仍为 `root154_from0724_section_c018`，coverage `0.7287449`，selected CSV `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_root154_from0728_gsp_selected.csv`；V2 产物保留为负例/诊断，不作为新父本。
+- 2026-06-26 继续按 GPT 建议验证 trace-conditioned repair operator：新增 `Build-TraceConditionedRepairOperatorV1.py`，从 V2 失败候选中抽取 recurring local sweep owners，再在 strict 父本上生成 `CASCADE_BREAKER/PATH_RESEQUENCER/CROSS_CLUSTER_ANCHOR`。V1b 排除已失败 cells 后 raw=101、selected=27，top16 official trace 16/16 solved/A，但 strict=0；最好 `root154_from0728gsp_tro_v1b_c011` 为 `HardPotential 0.661/supportDepth4`、`NeutralOrShallow`。
+- 追加 pair-bundle probe：新增 `Build-TraceConditionedBundleProbeV1.py`，组合不同 operator/owner/bucket 的两条 TRO 链，coverage 可到 `0.7409-0.7429` 且 16/16 solved/A，但 strict=0，最好约 `HardPotential 0.593`，多为 `ShortcutLike`。结论：当前 TRO 单链/双链能保持可解和部分 support，但不能把 causal quality 拉回 TrueHard，叠加局部补丁反而更 shallow。
+- 当前边界判断更新：0.7287 后不是“没有定位 failure pattern”，而是“添加链式 operator 无法重构核心 causal path”。下一步若继续高难满铺，应考虑替换/重写已有浅化链段或更高层 solve-order graph rewrite，而不是继续单纯 add-chain / pair add-chain。
+- 2026-06-26 验证 V4 最小 rewrite：新增 `Build-SolveOrderRewriteProbeV1.py`，对 `root154_from0728gsp_intentv2_c013/c016/c025` 等 0.73+ HardPotential 候选只替换最后新增链，不再加链。c013 能产 32 个 greedy solved rewrite 变体，top16 official trace 仍 strict=0，最好 `root154_from0728gsp_sor_v1_c016` 为 `HardPotential 0.672/supportDepth4/NeutralOrShallow`。结论：“只改最后新增链”不足以恢复 TrueHard，若走 V4 必须能重写更早/更核心的浅化链段，而不是末端补丁。
+- 0.66->0.7287 填充复盘：从相邻 selected asset diff 看，后段增长是机会式 first-hit/geometry-supply 填洞，而非事前 reserve 过的全局 solve-order plan。关键新增分布：0.6619->0.6822 加 10 格散在 top/right/mid-late buckets；0.6903/0.6964 主要右侧竖向局部；0.7004 补左上角；0.7146 是多处 tail/single-cell 补洞；0.7186、0.7247、0.7287 分别补底左、左侧、右上局部。当前卡点与“后段没有预留可重写/可施压空间”高度一致。
+- 阶段判断：不是一开始 root 难度绝对不够，而是早期只保证 `TrueHard/support4`，没有把未来 fill 的 pressure corridor / solve-order rewrite slots 预留出来；到 0.72+ 剩余空间只够局部补洞，add-chain 和末端 rewrite 都只能制造 HardPotential。
+- 2026-06-26 V5-lite 验证：新增 `Build-SolveOrderPlanSelectorV1.py`，只在候选选择层按 solve-order window 重排，不改 generator。0.661 父本候选 plan top12 结果 12/12 solved/A、6/12 `TrueHardCandidate`；0.682 多供料 plan top8 结果 8/8 solved/A、2/8 `TrueHardCandidate`，最高 strict 与旧路线同为 `root154_from0682_lock_c001`；0.700 多供料 plan top8 结果 8/8 solved/A 但 8/8 `HardPotential`，而同父本 tail-safe fill `root154_from0700_tail0_c01` 可到 coverage `0.7145749` 且仍 `TrueHardCandidate/support4`。结论：V5 的“解序优先”方向匹配问题，但仅做 selector/重排不能突破后段边界；真正下一步必须在 0.66 左右生成/保留 explicit anchors/pressure corridors，而不是在 0.70+ owner-hit 候选里挑。
+- 2026-06-26 two-basin micro proof：新增 `Build-TwoBasinBundleProbeV1.py`。从 0.661 existing owner-hit 候选组合可生成 5 个 cross-talk bundle，official trace 5/5 solved/A/support4，但只有 1/5 `TrueHardCandidate`，coverage 约 `0.670-0.672`，弱于既有 0.682 路线；从 0.682 组合可生成 58 个，top8 official trace 8/8 solved/A 但 0 strict（5 HardPotential、3 MediumStructure）。强 reciprocal synth 模式要求 A/B 两条新链互相穿过对方 owner ray，0.661 父本 len4 与 len5 均 0 候选。结论：当前 owner-hit/短连续链语法能造单向 cross-talk，但缺少真正“受控分叉 + 互锁 + 汇聚”的双向 basin 材料；V6/two-basin 若继续，需要在更早父本显式预留 basin anchor/room，不能从 0.66+ 残余空洞里拼出来。
+- 2026-06-26 solve-order backbone synthesis V1：新增 `Build-SolveOrderBackboneSynthesisV1.py`，直接生成 SOG operator：新链 first-hit 较早 owner，同时链身阻挡更晚 owner 的 ray，形成 `early owner -> new chain -> late owner`。从 0.661 父本单 operator top16 为 16/16 solved/A、11/16 `TrueHardCandidate`；bundle2 到 coverage `0.6821862` 仅 2/12 strict，说明同批多 operator 会互扰。按单 operator 逐轮推进可到 `sog_from0686_r4_c010`，coverage `0.6963563`、`A/TrueHardCandidate/supportDepth4`、hardScore `0.694`；下一轮 0.70+ top12 全部 HardPotential/Medium。当前结论：SOG operator 是目前最干净的新生成变量，优于 selector/two-basin 拼接，但仍未突破 0.70+；下一步应做 stateful SOG scheduler/anti-repeat/region budget，而不是回到 owner-hit 或 basin。
+- 2026-06-26 stateful SOG scheduler 验证：新增 `Invoke-SolveOrderBackboneSchedulerV1.ps1`，串联 SOG 生成、official trace、strict parent commit，加入尾部探索和已用 pred/succ owner 避让。smoke 从 `0.6619433` 父本 1 轮选出 `0.6720648/TrueHard/support4`，证明闭环可运行。
+- SOG scheduler full run：从 `root154_core_sched0657_v1_r1_c018` 自动推进 6 轮到 `sog_sched_from0661_v1_r6_c021`，coverage `0.708502`、`A/TrueHardCandidate/supportDepth4`、avg/max choices `3.77/8`、outer `1`。继续从该父本推进到 `sog_sched_from0708_v1_r2_c042`，coverage `0.7206478`、`A/TrueHardCandidate/supportDepth4`、avg/max choices `3.89/9`、outer `1`。
+- SOG scheduler 边界验证：从 `0.7206478` 父本继续生成 40 个候选，40/40 official trace 均为 HardPotential/Medium，无 strict；从既有最高 strict `root154_from0724_section_c018`（coverage `0.7287449`）出发生成并 trace 46 个 SOG 候选，同样 0 strict（40 HardPotential、6 MediumStructure）。
+- 当前高难结论更新：SOG operator + 调度是有效突破（解决了 0.70 前手工路径和 trace 抽样问题），但当前“单链 early-owner -> late-owner-ray”语言在 0.72+ 只会保持 solved/A/support4、难度退到 HardPotential；它不是接近 0.9 的完整成品路线。下一步若继续高难满铺，应做 planned multi-cell segment/room-slot/SIG 级别的 solve-order 结构预留，而不是继续单链 SOG 或盲跑更多 trace。
 
 ## Mask Production Line Inventory Baseline - 2026-06-26
 
@@ -4028,3 +4162,2320 @@
 - `SeedMaskPatchWindow.RunHoleMaskProductionBatch` 是最接近现有正式 mask 生成的入口，依赖/目录存在；但它会清空 `Assets/ArrowMagic/SOData/Levels/Production/HoleLongOuterStrong/Candidates`，且当前 report 只看到一个 accepted 资产、未看到同步 pack，暂定为“可跑但未闭环稳定”。
 - `CampaignHoleProceduralGenerator` 可生成固定 hole-blocker candidates；当前 HoleProcedural 报告显示高覆盖/可解，但 opener/初始可动偏高，适合作 baseline/参考，不等于任意 mask shape 产线。
 - 建议 baseline：先从现有 HoleMask 资产重建小 review pack，用 `CampaignSingleLevelValidator.RunValidationForPack` 和 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` 复核；之后再做隔离输出目录的 SeedMask 小批次 smoke。
+
+## Campaign500 PSG Normal Prod200 Run - 2026-06-28
+
+- 当前目标：从 `Exports/Campaign500_PSG_Template_20260626_095625/campaign500_psg_template_normal.csv` 的 normal 队列中，从 order>=11 开始量产前 200 个 slot；旧 1-10/此前 demo 批次不算入。
+- 已在 D 盘实现并验证 `Tools/Production/Invoke-Campaign500PSGNormalChunkV1.ps1` + Unity `BuildCampaign500PsgNormalConfiguredChunkPack/KeepPack`；入口读取 `CHUNK_LABEL/MIN_ORDER/SKIP_NORMAL/SLOT_COUNT/SEED_BASE`，支持 worktree 分片。
+- wrapper 已改为调用 `F:\Unityproject\ArrowLevel-Hand\Tools\Production\Join-SGPPressureTraceMetrics.ps1`，并额外调用 `Export-PSGStyleLaneKeepsV1.ps1 -EligibleMode TraceOrderKeep -ExcludeHighRisk`，确保吃到 `psgRankScore/rankClass/styleRiskBand/chainLanguage/flowLanguage/STS` 等 PSG 筛选逻辑。
+- 5-slot smoke `prod200_smoke5_o011`：候选 14、trace 13、PSG join 后 `stsKeepCandidate=6`、非 high-risk TraceOrder eligible=4、最终 keep=3；keep 覆盖 tall/balanced/wide 三种画布 band，含 1 个 `layout_soft`。
+- 已准备并启动 4 个 D 盘 worktree 分片：c01 `skip=0,count=50`，c02 `skip=50,count=50`，c03 `skip=100,count=50`，c04 `skip=150,count=50`；c03/c04 为独立 branch `codex/campaign500-psg-normal-dssd-c03/c04`，只同步 generator、chunk wrapper 和 normal template。
+- 2026-06-28 08:23 左右状态：c01 完成 trace/join/keep，173 joined、15 final keep（watch only；tall/balanced/wide=6/4/5；layout_soft=4）；c02 214 source/190 trace input 正在 trace；c03 217 source/199 trace input 正在 trace；c04 189 行/44 slots/order 224-286 仍在候选生成；无 stderr。
+- 画布策略：候选生成保留 template 接近值并为细长/大画布补 `layout_soft`；最终选择在 PSG trace 合格候选内按 section canvas quota 优先保留合格的 balanced/wide portrait，不硬塞失败候选。
+
+## Mask PSG Baseline Result - 2026-06-26
+
+- 用户校正：mask 线不能沿用纯 SGP 生产；最低应按 PSG/PressureHard 普通难度标准筛，PSG 只能作为源/供料参考，不能直接假设 mask patch 后仍有 PSG 难度。
+- 新增直接 mask-constrained PSG baseline：`Tools/ArrowMagic/Mask Production/Build PSG Pressure Mask Baseline Pack`，代码在 `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`。结果：`Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureBaselinePack.asset` 为 0 关；`mask_pressure_baseline_report.csv` 显示 3 个 shell mask 都能高 maskFill 生成候选，但全部 GreedyFailed。结论：直接在 mask 内跑 constrained peel 不稳定，不能作为正式入口。
+- 新增 PSG seed -> mask patch smoke：`Tools/ArrowMagic/Mask Production/Run PSG Seed Mask Patch Baseline`，复用 `SeedMaskPatchWindow` 的 HoleBlock deep repair，不清理历史目录，输出 `Assets/ArrowMagic/SOData/Levels/Production/MaskPressureSeedPatchBaseline/Candidates/` 和 `Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselinePack.asset`。
+- 用户补充校正：mask 视觉完整性要求高于普通 coverage；本轮已把 mask baseline 门槛提高为 `maskFill>=0.95` 且 `maskBoundaryFill>=0.98`。旧 `0.900-0.901` seed-patch 冒烟样本降级为 legacy smoke，不再算 mask 产线候选。
+- 高覆盖 seed-patch rerun 结果：3 个 mask 全部有 accepted 候选，`maskFill=0.950/0.951/0.951`，`maskBoundaryFill=1.000/1.000/1.000`，Greedy pass，block ray hits 0，chains `65/62/70`；Demo 当前挂到 `MaskPressureSeedPatchBaselinePack.asset` 仅供 baseline 目视，不代表正式达标。
+- Campaign validator：`Assets/ArrowMagic/SOData/Reports/MaskPressure/Validation/mask_pressure_seed_patch_validation_summary.csv` 为 0 Green / 3 Yellow / 0 Red，flags 为 `StartFakeWide|BottleneckHeavy`、`StartTooNarrow`、`StartTooNarrow`；内部 pressure gate 为 0/3，主要失败是 opening / early choices / early local run 过宽。
+- PSG 复核：官方 trace 输出 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/mask_pressure_seed_patch_highfill_trace_metrics.csv`，3/3 solved，但 3/3 都是 `processTier=Drop`、`hardStructureV3Class=LocalEasy`。三关 openers `9-14`，avg choices `6.57-8.86`，max choices `13-16`，不达 PSG/PressureHard 正式筛选标准。
+- 当前判断：现有 mask seed-patch 工具已经能产“边缘完整、整体高填充、可解、视觉形状可看”的样本，但 seed-patch 仍会把 PSG seed 退化成 Drop/LocalEasy；正式 mask 量产必须把 official trace 纳入硬门槛，至少拒绝 Drop，并记录 A/B、openers、avg/max choices、supportDepth/localEasy 风险。
+- 建议下一步最小产线：扩大 PSG parent seed pool -> SeedMask preview/deep patch -> `CampaignSingleLevelValidator` -> `Build-SGPRhythmTrace.ps1` -> 只保留 `solved && maskFill>=0.95 && maskBoundaryFill>=0.98 && processTier in A/B && maxChoices<=10` 的候选；若仍 0 命中，应新增“trace-aware refill/selection”小层，而不是回退到纯 SGP 或放低 maskFill。
+
+## Mask PSG Worktree Setup - 2026-06-26
+
+- 已创建独立 worktree：`F:\Unityproject\ArrowLevel-Hand\.worktrees\mask-psg-production`，分支 `codex/mask-psg-production`；用于后续单独跑 Unity mask 关卡，避免占用主项目 Unity。
+- worktree 已应用 mask baseline 菜单/验证代码与 memory/index 更新，并复制 `Assets/ArrowMagic/SOData/Reports/MaskPressure`、`Packs/Production/MaskPressure`、`Levels/Production/MaskPressureSeedPatchBaseline`、`Levels/Production/MaskPressureBaseline`。
+- worktree 的 `Assets/ArrowMagic/Scenes/Demo.unity` 已指向 `MaskPressureSeedPatchBaselinePack.asset`（GUID `66e9bf41c024abf41884b6cf054e350a`），仅作高覆盖视觉/可解 baseline，不代表正式量产达标。
+- 下一步在该 worktree 跑 mask production：先扩大 PSG parent seed pool 并保持 `maskFill>=0.95`、`maskBoundaryFill>=0.98`，再由 official trace 筛 `processTier A/B`；若仍 0 命中，进入最小 trace-aware refill/selection 层。
+
+## Campaign500 PSG Regeneration Template - 2026-06-26
+
+- 已从 V11 最终 500 关交付包和当前 `G:/bm/Excels_ArrawGame/G_关卡.xlsx` 抽出 PSG 重生成模板。
+- 输出目录：`Exports/Campaign500_PSG_Template_20260626_095625/`；zip：`Exports/Campaign500_PSG_Template_20260626_095625.zip`。
+- 主模板：`campaign500_psg_regeneration_template.csv`，500 行，保留顺序、关卡类别、难度码、体验角色、目标宽高、目标链条数、shape/hole 展示字段和 V11 来源引用。
+- 拆分表：normal 350、shape 100、hole 50；难度码分布为 1=314、2=94、3=59、4=33。
+- PSG 重跑时建议把 `order/category/difficultyCode/experienceRole/targetWidth/targetHeight/targetChains` 作为槽位合同；`sourceV11*` 仅作对照，不应绑死旧资源。
+
+## Campaign500 PSG Normal Root Comparison Pilot - 2026-06-26
+
+- 已创建独立 worktree：`F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal`，分支 `codex/campaign500-psg-normal`；仅用于普通 PSG normal 量产实验，不混 mask 和高难 root/sandwich 研究。
+- 小样本使用 normal 模板 L169（lock，25x40，targetChains=124）做同尺寸同风格对照：pure PSG vs root-seeded PSG（split_key root）。
+- Unity 报告：`Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_root_comparison_pilot_report.csv`；pure solved/coverage 0.986/chains 130，root solved/chains 133 但 coverage 0.900，按普通量产 `coverage>=0.97` 不可入库。
+- 官方 trace：`Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_normal_rootcmp_pilot_metrics.csv`；两者 2/2 solved，但均为 `processTier=Drop`、`hardStructureV3Class=LocalEasy`，pure avg/max choices 8.17/17，root 8.82/15。
+- 当前判断：直接把 V1.31 root 嵌入 PSG normal 不带来普通线可用收益，反而损 coverage；模板链数密度下 pure PSG 也会选择数偏高。下一步应先跑 pure PSG 的“低选择压力 profile/链数放宽”小批，再决定 root 是否仅做人工特例/诊断源。
+
+## Campaign500 PSG Normal Pure Profile Pilot - 2026-06-26
+
+- 在 `.worktrees/campaign500-psg-normal` 新增普通 PSG normal 小批入口：`Tools/ArrowMagic/Campaign500/PSG Normal/Build Pure Profile Pilot Pack` 和 `Build Pure Profile Keep Pack`；只跑 pure PSG，不混 root/mask。
+- 小批选 10 个 normal 槽位（section/lock/sweep/maze/dense），每个跑 `strict` 模板链数与 `relaxed` 约 85% 链数目标；Unity 输出 19/20 generated，19/19 portable solved，source coverage 多数 `0.974-0.991`，L64 strict 为 `0.968`，L64 relaxed 未生成。
+- 官方 trace：`Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_pure_profile_pilot_metrics.csv`；19/19 solved，process tiers `1 A + 16 B + 2 Drop`，全部 `LocalEasy`（符合普通 PSG normal 定位）。
+- 保守 keep 规则 `coverage>=0.97 && processTier in A/B && maxChoices<=10` 保留 12/19；keep CSV：`Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_pure_profile_pilot_keep.csv`，joined 表：`campaign500_psg_normal_pure_profile_pilot_trace_joined.csv`。
+- Keep review pack：`Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalPureProfilePilotKeepPack.asset`，12 关，已挂到该 worktree 的 Demo；人工优先看这 12 个的链条语言和体感。
+- 当前判断：pure PSG normal 线成立，明显优于 root-seeded；strict/relaxed 各保留 6 个，section/lock/sweep/maze 表现好，dense 在本批都因 `maxChoices>10` 或 Drop 未进保守 keep。下一步建议专门做 dense profile 降峰，以及把 pure pilot 扩到 50-80 normal 槽位估算稳定入库率。
+
+## Campaign500 PSG Normal Language Pilot - 2026-06-26
+
+- 用户反馈 pure PSG normal 难度基本可，但链条语言区分不够明显；在 `.worktrees/campaign500-psg-normal` 新增 language pilot，不混 root/mask/high-hard。
+- 新增入口：`Tools/ArrowMagic/Campaign500/PSG Normal/Build Language Pilot Pack` 与 `Build Language Keep Pack`；language mode 对 `section/lock/sweep/maze/dense` 使用 style-specific profile、language hard gate 和 style-aware chain tolerance。
+- V2 小批仍用 10 个 normal 槽位（15/16/21/28/33/44/52/56/64/75），Unity 10/10 generated，coverage `0.970-0.993`，全部 portable solved；full pack：`Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalLanguagePilotPack.asset`。
+- 官方 trace：`Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_psg_language_pilot_metrics.csv`；10/10 solved，process tiers `1 A + 8 B + 1 Drop`，全部仍为 `LocalEasy`（普通 PSG normal 定位）。
+- 保守 keep 规则 `coverage>=0.97 && processTier in A/B && maxChoices<=10` 保留 7/10；keep pack：`Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalLanguagePilotKeepPack.asset`；joined 表：`Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_language_pilot_trace_joined.csv`；keep CSV：`campaign500_psg_normal_language_pilot_keep.csv`。
+- Drop/Reject 细节：L056 dense 为 Drop（avg/max choices `7.42/12`）；L021 sweep 与 L028 maze 为 B 但 `maxChoices=11`，按保守规则暂不入库。保留样本覆盖 section/lock/dense/maze/sweep，建议人工优先看 keep pack 的链条语言差异，再决定是否把 language profile 作为 PSG normal 默认。
+
+## V1.31 Root Direct PSG Validation - 2026-06-26
+
+- 用户要求从 V1.31 root library 先取两个 root 小规模验证 PSG/SGP 补满能力；选用 `strict_dual_gate` 与 `support_lock`，临时 base CSV：`.codex-run/v131_root_psg_two_roots_base.csv`。
+- 使用 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1` 做 root-seeded LDF/pressure-style fill 到 target `0.60`，并用 `Build-SGPRhythmTrace.ps1` 官方 trace。结果 6/6 到约 `0.60`，4/6 solved，但全为 `Drop`；avg choices `19.38-26.11`，max `45-57`，outer `43-56`，说明 0.60 已出现选择/外口爆炸。
+- 复用既有 `v131_full095_rawsgp_smoke_candidates.csv` 中这两个 root 的 0.95 raw SGP 候选，补跑官方 trace：coverage `0.8517-0.9049`，4/4 unsolved/Drop/LocalEasy，supportDepth 全为 `0`。
+- 结构签名补充：`v131_two_root_psg_direct_validation_signature_summary.md` 与 `v131_two_root_psg_direct_validation_backbone_summary.md` 显示 0.60 部分仍可保局部 support-like backbone 但 rhythm 已 `choiceLoose`；0.95 raw 大多退化为 `no_causal_backbone/closureWeak`。
+- 汇总 CSV：`.codex-run/v131_two_root_psg_direct_validation_summary.csv`。当前判断：V1.31 root 不能直接交给 PSG/SGP 满铺作为稳定普通/高难生产入口；PSG 适合 pure normal 量产，root 若要用，应作为 hard-root/GSP geometry-supply 或需要专门 root-seeded constraint adapter。
+- 失败机制补充：后续复查 `support_lock` GSP 父本直接 PSG 到 0.90 的候选，父本 47 链，PSG 新增 126/132 链，其中 `boundaryDirectExitUsed=59/52`，`releaseAwareHeadsAccepted=0`、`postKernelChainsAccepted=0`。该路径实质是“在骨架旁边自由铺 direct-exit opener”，不是沿 root 的 owner/release/support edge 扩张。
+
+## V1.31 Root-Flavored GSP Validation - 2026-06-26
+
+- 为验证“root 只做差异化风味锚点，最终只要求 A/B 而非 TrueHard”的思路，选用 V1.31 `support_lock` 与 `strict_dual_gate` 两个 root，分别接 GSP owner-hit geometry supply 小样。
+- `support_lock + dense_weave supply` 使用 `Invoke-GeometrySupplyOwnerHitSchedulerV1.ps1` 跑 3 轮小步：coverage `0.2510 -> 0.2618 -> 0.2725`，均为 `solved=True/processTier=A/TrueHardCandidate`，supportDepth `3/4/4`，avg choices `2.4-2.86`，outer `0`。激进 bundle8 一轮仍可 A/TrueHard，但 selected coverage 仅 `0.2637`，说明大 bundle 会被 trace gate 打回保守候选。
+- `strict_dual_gate + section_unlock supply` 跑 2 轮：coverage `0.1850 -> 0.2047`，均为 `solved=True/processTier=A/TrueHardCandidate`，supportDepth `3/4`，avg choices `2.82-2.92`，outer `0`。说明两个 root 都能与 owner-hit GSP 接上，但当前吞吐极低。
+- 关键负结果：从 `support_lock` GSP 第 3 轮父本再用 seeded PSG/LDF 直接冲 `0.90`，两条候选 coverage `0.893/0.894`，但 2/2 `unsolved/Drop/LocalEasy/supportDepth=0`，avg choices `28-31`、outer `50+`。因此“GSP 打底 -> PSG cleanup 满铺”目前不成立。
+- 汇总 CSV：`.codex-run/v131_rootflavored_gsp_validation_summary.csv`。当前判断：root+GSP 的结合点存在，但只是“低覆盖、保 root 风味/难度的小步增长”；若要做 A/B 差异化普通成品，下一步需要提高 GSP 吞吐或设计 root-flavored cleanup，而不是直接交回 PSG 满铺。
+- 追加 root-flavored medium cleanup 验证：从 `support_lock+dense_weave` 的 relaxed GSP 父本 `0.2765/A/MediumStructure/support3` 出发，用 `Build-OwnerHitGrammarFillV1.py` 连续 3 轮 cleanup。里程碑 CSV：`.codex-run/v131_rootflavor_support_medium_cleanup_milestones.csv`。
+- 结果：r1 选出 `0.3137/B/MediumStructure/support3/avg1.89/max4/outer0`，r2 选出 `0.3539/B/MediumStructure/support3/avg2.09/max5/outer0`；r3 最高到 `0.3961/B/support3/outer0`，但 16/16 已转为 `LocalEasy`。
+- 当前细化判断：root-flavored GSP/owner-hit cleanup 能稳定做出 `A/B + supportDepth>=3 + outer0` 的 root 风味中低覆盖样本，且比 strict 小步 GSP 吞吐高；但当前候选语言在 `~0.35` 后会明显浅化，不能直接作为满覆盖量产路线。
+- 下一步若继续本线，不应再直接冲 0.9；优先从 `0.3539` 父本扩大候选/换 supply，硬筛 `class != LocalEasy && support>=3`，确认 `0.39` 浅化是 top16 bias 还是结构上限。
+- 止损验证 PSG 是否只是“没开 release-aware”：为 `support_lock` GSP r3 父本生成 `v131_support_lock_r3_releaseaware_smoke_raymap_edges.csv`，再用 `Build-SeededDirectSGPFillBaselineV1.ps1` 打开 `UseReleaseAwareHeadProviderV2`、body corridor、direct-exit budget。
+- 结果 1：target 0.60 严格版外口压到 `boundaryDirectExitUsed=0`，但只到 coverage `0.49-0.52` 且 4/4 unsolved/support0；target 0.45 严格版同样 4/4 unsolved/support0。说明“完全压外口”会把 release 口也压死。
+- 结果 2：target 0.35 放松少量外口后，4 个候选中 1 个可用：`0.3549/solved=True/B/MediumStructure/supportDepth4/openers5/avg2.34/max5/outer4`。这证明 release-aware PSG 不是完全不能接 root，但必须小步 commit。
+- 结果 3：以上述 `0.3549` 为父本重建 raymap 后继续到 target 0.45，4 个候选中仅 1 个 solved：`0.4520/B/LocalEasy/supportDepth4/openers9/avg3.27/max10/outer9`，其余 support0。说明 PSG 小步能保可解/support，但增长很快浅化；相比 GSP/owner-hit cleanup，吞吐略快但 root/medium 结构保持更差。
+- 当前判断：PSG 给骨架的失败不是单纯参数没开；即使打开 release-aware，forward-fill 的 native/random-walk 候选仍会在 `0.35 -> 0.45` 阶段浅化或打断 closure。PSG 仍适合 pure normal 高覆盖；root 风味线优先继续 GSP/owner-hit 或专门 root adapter，不建议把 PSG 作为 root-preserving 主线。
+- Root Solve-Order Compiler 最小 proof：复用现有 `Build-SolveOrderBackboneSynthesisV1.py` 作为 slot 语法底座，在同一 `support_lock` GSP r3 父本上生成 `early owner -> new chain -> late owner ray` 的 SOG operator。len3 single top8 official trace：8/8 solved/A，7/8 `TrueHardCandidate`，supportDepth 4，outer 0。
+- SOG bundle4 len3 第一轮：从 coverage `0.2725` 到 `0.2843`，top8 official trace 8/8 solved，supportDepth 3/4，outer 0；其中 1 个 `TrueHardCandidate`、3 个 `HardPotential`、4 个 `MediumStructure`。
+- SOG bundle4 len3 第二轮：选第一轮 c005 为父本，继续到 `0.2951-0.2961`；top8 official trace 8/8 solved，supportDepth 3/4，outer 0；其中 1 个 `TrueHardCandidate`、7 个 `MediumStructure`。说明 solve-order slot 语法能连续保 root/support，但当前吞吐极慢，每轮约 +0.01 coverage。
+- 当前判断：这条线比 PSG 直接补更符合“root-aware fill”本质；它证明了 slot/wave 合同可行，但要走向满关必须把 slot 从 len3 短链升级为更大吞吐的 planned segment / room-slot / cleanup-slot，而不是继续单纯短 SOG bundle。
+
+## RSG Root-Solve Generator Architecture Calibration - 2026-06-26
+
+- 新路线命名：`RSG` / Root-Solve Generator。定位不是更复杂的 SGP，而是 root-aware 解序编译器：`root -> solve-order graph -> slot plan -> grammar unit realization -> staged full-board fill -> official trace validation`。
+- 关键校准：SGP/PSG 在 RSG 中只能作为 geometry supply / packing physics，不再决定结构语义；RSG 先决定 slot、wave、owner、target ray、exit mode 和 grammar，再让几何层实现。
+- 风险校准：当前 slot plan 仍偏 assignment problem，只能表达“这个区域放什么”，还不足以表达 TrueHard 需要的“slot 之间互相阻止/延迟/制造捷径冲突”。因此需要后续 `SIG` / Slot Interaction Graph，但它属于 V2 高难上限层，不应一开始把 V1 做重。
+- RSG V1 目标：先验证 root-aware 高吞吐，不追满 TrueHard；从 V1.31 `support_lock` 这类 root 出发，做 staged slot growth 到 `0.55-0.65`，要求 `solved=True`、`processTier A/B`、`supportDepth>=3`、非明显 Drop，优先证明 planned segment / room-slot 比 len3 SOG bundle 有更高吞吐。
+- RSG V2 目标：引入 SIG，把 slot 从 DAG/链式 unlock 升级为 conflict graph。SIG 字段至少包括 `blockTargets`、`delayTargets`、`shortcutTargets`、`interferenceTargets`，用于冲突网络和 TrueHard 上限。
+- 当前判断：RSG 是 root 满铺方向的正确终局雏形；但没有 SIG 时，预计可做结构稳定的中等/偏难 A/B 满铺探索，未必能稳定到 0.9+ TrueHard。下一步先做 RSG V1 的 larger-slot proof，再决定是否接 SIG。
+
+## RSG Larger-Slot Segment Smoke - 2026-06-26
+
+- 新增脚本：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RootSolveGeneratorV1.py`。它不全局枚举 path，而是从 `early owner` 的 first-hit 阻挡点与 `late owner` 的 escape ray 反推 5-8 cell segment，再按 bundle 生成候选。
+- Base：V1.31 `support_lock` GSP r3 父本 `v131_rf_support_dense_v1_r3_c003`，coverage 约 `0.2725`。
+- bundle4 smoke：r1 top4 official trace 4/4 solved/A/support4，coverage max `0.3020`，class 为 3 MediumStructure + 1 HardPotential；r2 4/4 solved/A/support3，coverage max `0.3304`；r3 4/4 solved/B/support3，coverage max `0.3539`。
+- bundle6 smoke：r1 4/4 solved/A/support3，coverage max `0.3108`；r2 4/4 solved/A/support3，coverage max `0.3471`。bundle6 早期可用，但吞吐没有随 bundle 数线性增长，说明 owner/region 去重和可用 slot 容量开始约束增长。
+- 结论：RSG larger-slot segment proof 成立，明显优于 len3 SOG bundle 的 +0.01/轮吞吐，且不出现 PSG direct-exit/support0 崩塌；但 hardStructure 会稀释到 MediumStructure，当前 V1 只能证明 root-aware 中等难度增长，不能证明 TrueHard 满铺。
+- 下一步：把单次 smoke 升级为 stateful RSG scheduler：保留 early bundle6、后续 bundle4/2，加入 class-drift selection、owner/region anti-repeat 和 optional SIG-lite conflict fields；目标先冲 `0.45-0.55`，再评估是否进入 SIG V2。
+
+## RSG Compiler Pipeline V1 Smoke - 2026-06-26
+
+- 新增脚本：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-RSGCompilerPipelineV1.py`，把 RSG 结构从 proof generator 拆成 compile-once pipeline：`SolveOrderPlan -> SlotPlan -> per-slot geometry -> light validator -> final official trace`。
+- 第一版 micro-only validator 负结果：`v131_support_lock_rsg_compiler_smoke1_top3_metrics.csv` 中 3/3 unsolved/Drop，说明 micro greedy 不能替代全局 Greedy 可解性检查。
+- 已加入 single-slot Greedy survival 与 candidate Greedy gate；first compile round `v131_support_lock_rsg_compiler_smoke3_s4` 产生 19 个候选，top4 official trace 4/4 solved/support4，其中 1 个 `A/HardPotential`、其余 MediumStructure。
+- 二阶段性能问题已定位并修复：原 `c014` 父本全量 owner-pair compile 会超时；加入 `--max-owner-pairs` 后，`maxOwnerPairs=220` 在约 30s 内编出 5 个 slot/5 个候选，official trace 5/5 solved，supportDepth 3-4，1 个 A、4 个 B，均为 MediumStructure。
+- 已加入 cheap greedy sequence proxy：`greedyLocalRunMax`、`greedyFollowRunMax`、`greedyRegionTransitionRate`。二阶段唯一 A 样本正好是 proxy local/follow 最低候选，说明它适合作 compile-time 排序；但 proxy 不能完全预测 supportClosure。
+- 三阶段边界：从二阶段 A/support4 父本继续只剩 4 个 slot，候选 official trace 为 `A/MediumStructure/supportDepth2`；换另一 support4 父本可编出 5 个 slot/5 个候选，trace 5/5 solved/B/MediumStructure，其中 1 个 supportDepth4、4 个 supportDepth2。说明 RSG Compiler V1 可多轮保可解，但 strict/support 可靠性在约 `0.35` 附近出现边界。
+- 当前判断：RSG compile-once 方向成立，已比 runtime refill/trace loop 更清晰；但 V1 slot 仍是 sequential assignment，不是 inter-slot conflict。下一步若继续 root-hard，应加 `SIG-lite`/closure-aware conflict slot，而不是继续扩大普通 slot 或把 full trace 放回 ranking loop。
+
+## CSSC Minimal Proof - 2026-06-26
+
+- 新增脚本：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-CSSCMinimalProofV1.py`，把 RSG 编译器降级为 CSSC 的单-basin/slot realization 子模块，并在其上做 3-basin existence proof。
+- Base：`geosupply_sched_root10_from_40eb0da7_r1_c038`，coverage `0.615942`，`A/TrueHardCandidate/supportDepth4`。CSSC 按 greedy solve order 切 B1/B2/B3，生成非对称 contracts：`B1_BLOCKS_B2`、`B2_DELAYS_B3`、`B1_BLOCKS_B3_SHORTCUT`、`B1/B2_CONVERGE_CHOKE`。
+- Smoke1 负结果：segment 长度/命中距离过窄时 B1 contracts 有 slot，但 `B2_DELAYS_B3=0`，候选为 0；说明失败点是 candidate grammar capacity，不是 CSSC 概念本身。
+- Smoke2 放宽 segment 到 3-12 后生成 16 候选；official trace top8 为 8/8 solved/A，7/8 supportDepth4，最佳 `cssc_root10_0615_smoke2_wide_c010` 达到 coverage `0.6507246`、`A/TrueHardCandidate/supportDepth4`、outer `0`、avg/max choices `3.06/7`，并同时含 `B1_BLOCKS_B2;B2_DELAYS_B3;B1_BLOCKS_B3_SHORTCUT;B1_CONVERGE_CHOKE`。
+- 续推 r2 从 `c010` 出发可到 coverage `0.668-0.671`，official trace top3 为 3/3 solved/A/supportDepth4/outer0，但全部回落 `MediumStructure`，contracts 只剩 B1-driven 三件套，`B2_DELAYS_B3=0`。这说明 CSSC 第一刀是真突破，续推边界是 mid-basin/B2 contract capacity 和 convergence choke 语言不足。
+- CPL V0 已接入同一脚本：新增 `--persistent-contracts`、`--min-persistent-contract-options`、`--allow-missing-persistent-contracts`、`--contract-status-csv`。当指定 `--persistent-contracts B2_DELAYS_B3` 时，0.615 父本仍可产 8 个候选，contract status 显示 `B2_DELAYS_B3=ready/options=3`；official trace top3 为 3/3 solved/A/support4/outer0，2 个 HardPotential、1 个 MediumStructure。
+- CPL V0 对 0.6507 父本续推会正确停止：contract status 显示 `B2_DELAYS_B3=decayed/options=0`，candidate=0。它证明“contract persistence guardrail”能阻止 B2 消失后的伪增长，但不能自己制造 B2 容量或稳定 TrueHard。
+- CTG V0 已接入：新增 `--enable-b2-contract-propagation`、`--ctg-propagation-depth`、`--ctg-allow-basin-hit`、`ctgStrength/Footprint/Influence` 输出。诊断发现 r2 原本有大量 raw segment 几何，但 1028 个 raw options 中 955 个被 exact release-owner first-hit 杀掉，因此把 `B2_DELAYS_B3` 的 first-hit 合法性从单 release owner 放宽为 B2 basin owner set。
+- CTG V0 r2 结果：在 0.6507 父本上，`B2_DELAYS_B3` 从 0 options 恢复为 4 options，完整 4-contract 组合生成 8 候选；official trace top8 为 8/8 solved/A/supportDepth4/outer0，coverage `0.6695-0.6754`，但 class 为 1 HardPotential + 7 MediumStructure，未恢复 TrueHard。
+- 当前判断：CSSC proof 成立但还不是 0.95 production generator。CPL 能防伪增长，CTG 能恢复 B2 容量；下一步应提升 B2 contract strength / propagation quality 和 `B2_CONVERGE_CHOKE`，验证 0.65+ 是否能保持 TrueHard，而不是只保持 support/solved。
+
+## CSSC + PSG Combination Probe - 2026-06-26
+
+- 从 `cssc_root10_0615_smoke2_wide_c010`（coverage `0.6507`、A/TrueHardCandidate/support4）生成 ray/role 保护场：`cssc_root10_0650_c010_contractfield_*`。
+- 直接 contract-preserving PSG cleanup 负结果：target `0.75` 的 `cssc_root10_0650_c010_cp_psg_t075_soft1` 到 coverage `0.70-0.735`，生成侧 `boundaryDirectExitUsed=0`，但 official trace 4/4 unsolved/Drop/support0；target `0.67` 的 `cssc_root10_0650_c010_cp_psg_t067_micro1` 也 8/8 unsolved/Drop。说明“给 PSG 一个保护场直接填肉”仍会破 release/closure。
+- 诊断要点：第一轮 release-aware head 实际 accepted=0；第二/三轮 release-aware accepted=3-4 后仍死锁，说明失败不只是没开 release-aware，而是 PSG 批量 commit 语言本身不保持 CSSC 解序合同。
+- 正向结合点：把 PSG 高覆盖普通样本 `sgp_pressure_hard_trial_03_sgp_pressure_hard_rect_dense_weave` 只当 geometry supply，使用 `Invoke-GeometrySupplyOwnerHitSchedulerV1.ps1` 的 owner-hit grammar 从同一父本续推；bundle4 一轮选中 `cssc_c010_psg_supply_oh_r1_c038`，coverage `0.6638`、A/TrueHardCandidate/support4/outer0。
+- bundle8 从 `0.6638` 父本继续可到 `~0.69` 且 top12 12/12 solved、support 多数 4，但全部 MediumStructure，说明较大 bundle 能提高吞吐但会稀释 hard class。当前路线应是 PSG-as-geometry-supply + CSSC/RSG/owner-hit 提交，而不是 PSG-as-cleanup-generator。
+
+## Campaign500 PSG Normal Calibration50 - 2026-06-26
+
+- 本对话 scope：只处理普通 PSG normal 量产，不混 high-root/sandwich/reverse/mask；当前 worktree 仍是 `.worktrees/campaign500-psg-normal`。
+- 新增入口：`Tools/ArrowMagic/Campaign500/PSG Normal/Build Calibration 50 Candidate Pack` 与 `Build Calibration 50 Keep Pack`，代码在 `.worktrees/campaign500-psg-normal/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`。
+- Calibration50 从 normal 模板每个 `section10` 抽 1 个槽，按 `section/lock/dense/maze/sweep` 风格循环，风险风格跑 3 个 language seed + 1 个 relaxed 备胎；稳定风格跑 2 个 language seed。
+- Unity full generation：160 行候选记录，131 个 LevelDefinition 成功生成；full pack `Campaign500PSGNormalCalibration50Pack.asset`，candidate levels 在 `Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Calibration50/`。
+- Official trace：`campaign500_psg_calibration50_metrics.csv` 为 131/131 solved，process tiers `2 A / 64 B / 65 Drop`，全部 `LocalEasy`，符合普通线定位。
+- 保守 keep 规则 `coverage>=0.97 && solved=True && processTier in A/B && maxChoices<=10`：30 个候选过线；每个 order 最多保留 2 个后 keep pack 为 26 关、覆盖 19 个 template 槽。
+- Keep review pack：`Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalCalibration50KeepPack.asset`；keep CSV `campaign500_psg_normal_calibration50_keep.csv`；joined 表 `campaign500_psg_normal_calibration50_trace_joined.csv`。
+- keep 分布：dense 8、sweep 10、lock 5、section 3、maze 0；说明 maze 与尾段高链 sweep/lock 需后续调宽或人工特例，dense/sweep relaxed 备胎有实际价值。
+- 生产效率观察：冷 Unity batch 导入约数分钟，160 候选生成耗时较长；131 关单进程 official trace 约 100 分钟。后续 350 normal 全量应使用热 worktree + trace 分片并行。
+- 下一步：人工先看 26 关 keep pack 的链条语言和体感，再决定默认使用 language profile、是否放宽 maze/high-chain sweep、以及是否把 relaxed 作为正式备胎。
+
+## Campaign500 PSG Normal Regeneration Handoff - 2026-06-27
+
+- 用户准备在新对话重新生成 Campaign500 PSG normal；后续只处理普通 PSG normal，不混 high/root/sandwich/reverse/mask。
+- 当前实验 worktree 为 `.worktrees/campaign500-psg-normal`，branch `codex/campaign500-psg-normal`；正式生成/筛选代码在该 worktree 的 `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`。
+- 当前 Demo in worktree 指向 `Campaign500PSGNormalProductionNext10KeepPack.asset`；Production20/Next10 都只是小批人工验证结果，重新生成时可参考筛选口径但不必沿用旧产物。
+- 模板入口为 `Exports/Campaign500_PSG_Template_20260626_095625/campaign500_psg_template_normal.csv`；若按已跑顺序继续，下一个 10-slot 起点是 normal template 第 31 个非教程 slot，即 order `45` 起。
+- 现有口径：每个 slot 扩多种 profile candidate，不是 1 slot 1 candidate；trace 后筛 `solved=True`、`coverage>=0.97`、processTier A/B、`maxChoices<=10`，再看 stripe/directional/local/near-outer 与人工链条语言。
+- 已加入小画布 opener/edge-head gate 和更明显的 portrait-wide `layout_soft` 变体；宽版用于节奏变化，仍保持竖屏，不每关强制。
+- 可忽略/慎用旧负例：Calibration50 keep 26 关人工评价很差；V3 region-flow 0/6 keep；root-seeded PSG normal 不作为本批默认来源。
+- `.codex-run` 下 Unity log、trace input、joined 临时表只作调试；正式可交接文件优先看 pack、keep CSV、source report、trace joined/metrics。
+
+## Generated-Root Whole-Board Planner V0 - 2026-06-27
+
+- 新线目标已确认：不是继续 RCH，不调旧实验参数；用真实 generated/validated root 做整关因果核心，先规划全棋盘 cell role，再统一切语义链。
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV0.py`。它输出 root identity、whole-board `cell_plan`、semantic `chain_plan`、planned relation audit 和候选 CSV/asset。
+- Smoke root：`geosupply_sched_root10_from_40eb0da7_r1_c038`，source CSV 为 `geosupply_sched_root10_from0613_section_bundle1_v1_selected.csv`，root 本身 `0.615942/A/TrueHardCandidate/supportDepth4`。
+- Solved pair smoke outputs: `generated_root_wbp_v0_solved_pair_candidates.csv`、`generated_root_wbp_v0_solved_pair_trace_metrics.csv`、`generated_root_wbp_v0_solved_pair_relation_audit_summary.md`；candidate assets 在 `GeneratedRootWholeBoardPlannerV0/smoke_solved_pair/`。
+- Verification: pair smoke official trace 6/6 solved、process A、2 TrueHardCandidate + 4 HardPotential、supportDepth4；rootPreserved=True；planned contracts 包含 `B1_BLOCKS_B2`、`B1_BLOCKS_B3_SHORTCUT`、`B1_CONVERGE_CHOKE`。
+- Boundary: coverage 只到 `0.6275-0.6290`，不是接近满铺；3+ chain solved 目前为 0，结构-only 4-5 chain smoke 会 unsolved。下一步应加 release-order compatibility / B2-mid-basin capacity，而不是放宽 greedy/trace gate 或改回逐链 trace。
+
+## Generated-Root Whole-Board Planner V1 - 2026-06-27
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV1.py`。V1 复用 V0 whole-board cell plan，新增 release-compatible beam、B2 target/release variants、release-impact gate 和 single-option audit。
+- Guarded pair outputs: `generated_root_wbp_v1_pair_guarded_candidates.csv`、`generated_root_wbp_v1_pair_guarded_trace_metrics.csv`、`generated_root_wbp_v1_pair_guarded_relation_audit_summary.md`；candidate assets 在 `GeneratedRootWholeBoardPlannerV1/pair_guarded/`。
+- Verification: guarded pair official trace 8/8 solved、process A、8/8 HardPotential、supportDepth4；coverage `0.6275362-0.6289855`；relation audit 写出 472 edges / 312 parent rows，新增链参与 official edges（如 `20 -> 58`、`7 -> 59`、`59 -> 22`、`33 -> 60`）。
+- Boundary: guarded triple smoke `generated_root_wbp_v1_triple_guarded_*` 为 0 candidates。depth3 主要拒绝：`blocks_release_owner=3490`、`cell_overlap=2020`、`first_hit_owner_mismatch=194`、`greedy_unsolved=1976`。
+- B2 audit: V1 生成 `B2_DELAYS_B3=52` 和 `B2_CONVERGE_CHOKE=52` options，但 single-option audit 显示两类 B2 全部 `single_greedy_unsolved`，且每类 44 条挡住自己的 release owner / pre-release path。
+- Next: 不要扩大 beam 或放宽 greedy 来硬出 3+；下一步应做 B2 release-safe / multi-key contract grammar，把 B2 链明确成 immediate-release、secondary-release 或 multi-key，并在 planned relation + official relation audit 里验证。
+
+## Generated-Root Whole-Board Planner V2 - 2026-06-27
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV2.py`。V2 保留 V1 whole-board cell plan/release-compatible beam，新增 B2 release-safe / multi-key grammar；B2 option 必须 `plannedSolved=True`、不挡自己的 key stack，默认还要 `singleGreedySolved=True`。
+- 报告修正：V2 `chain_plan.csv` 现在只写每个候选实际 selected added chain；完整 option pool 留在 `compatibility_report.csv`，避免把候选链和备选链混在一起。
+- 三链正样本：`generated_root_wbp_v2_b2safe_smoke2_narrow_*` 生成 4 个候选，coverage `0.6376812`，addedChains=3，contracts=3，B2 safe=1，max added chain len 6；official trace 4/4 solved/A/supportDepth4，class MediumStructure；relation audit 240 edges / 160 parent rows，新增 owner 59-61 出现在 official edges（如 `7 -> 59/60 -> 22`、`0 -> 59/60 -> 48`、`33 -> 61`）。
+- 四链正样本：`generated_root_wbp_v2_b2safe_smoke3_fourchain_*` 生成 4 个候选，coverage `0.6420290`，addedChains=4，B2 safe=2，maxLen=5；official trace 4/4 solved/A/supportDepth4，class MediumStructure；relation audit 244 edges / 162 parent rows。
+- 五链 wide-pool 正样本：`generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_*` 生成 3 个候选，rootPreserved=True，coverage `0.6463768`，addedChains=5，contractCount=4，B2 safe=3，semantic contracts 包含 `B1_BLOCKS_B2;B1_BLOCKS_B3_SHORTCUT;B2_CONVERGE_CHOKE;B2_DELAYS_B3`，addedChainLengthAvg/Max `4.2/5`；official trace 3/3 solved/A/supportDepth4，avg/max choices 约 `3.08-3.22/8-9`，outerExitHeadCount=0，但 class 仍为 MediumStructure、hardStructureV3Score `0.498-0.510`。
+- 五链 relation audit：`generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_relation_audit_*` 写出 186 edges / 123 parent rows；新增链参与实际依赖边，如 `7 -> 60/61 -> 22`、`0 -> 59/60/62/63`、`59/60 -> 48/2`、`63 -> 30`。说明 B2 safe 不是 filler，但当前多为局部/同区释放，难度强度不足。
+- 六链边界：`generated_root_wbp_v2_b2safe_smoke6_sixchain_widepool_*` 为 0 candidates；depth6 主要拒绝 `blocks_release_owner=14`、`cell_overlap=6`，前面深度仍有 `blocks_release_owner/cell_overlap/greedy_unsolved`。下一步应增强 B2 cross-region/delay/choke 强度和 spatial lane allocation，而不是继续放宽 beam、coverage 或 greedy gate。
+
+## Generated-Root Whole-Board Planner V3 - 2026-06-27
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV3.py`。V3 在 V2 基础上加入 B2 strength/lane instrumentation，并把默认 strength/lane score 权重保持为 0，避免仪表层静默改变 V2 baseline。
+- 已按用户授权通过 Rosetta 向手动切到 Pro/intelligent 的 ChatGPT 会话做抽象审稿；GPT 判断 V2 问题不是 B2 是否有效，而是 release topology / owner-lane 坍缩，建议先记录 final release owner 分布和 cross-basin dependency matrix，再扩大候选。
+- V3 instrumentation 复现 V2 五链正样本：`generated_root_wbp_v3_strength_smoke2_instrumented_*` 3 candidates，coverage `0.6463768`，5 short chains，3 B2 safe，official trace 3/3 solved/A/supportDepth4，但仍 MediumStructure。它揭示旧 B2 safe 选链实际 final release owner 全部坍缩到 `0`。
+- 只读 whole-board B2 head scan 发现 alternative final release owners 确实存在：109 条 B2 final-release head rays 分布在 owner `31/23/9/32/51/30/2/0/42/3/38/46/47/48` 等，不是棋盘本身没有材料。
+- V3 topology scan 新增 `B2T` option：以 first-hit release owner 保持可解验证，同时单独记录 `semanticReleaseOwner/semanticReleaseStep` 为最终 B2 release owner。预算 smoke `generated_root_wbp_v3_topology_smoke2_budgeted_*` 生成 7 个 B2T，其中 owner30 的 B2T 如 `B2T95004` 可形成 first-hit owner14、semantic owner30 的跨 release topology。
+- Diverse 4-chain 正样本：`generated_root_wbp_v3_topology_smoke3_fourchain_diverse_*` 生成 4 candidates，rootPreserved=True，coverage `0.6449275-0.6463768`，4 semantic contracts，2 B2 safe/strong，`b2ReleaseOwnerCount=2`，laneKeyCount 4。selected B2 包含 owner0 的 `B2_DELAYS_B3` 和 semantic owner30 的 `B2_CONVERGE_CHOKE`。
+- Official validation：`generated_root_wbp_v3_topology_smoke3_fourchain_diverse_trace_metrics.csv` 为 4/4 solved、process A、supportDepth4、outerExitHeadCount0，hardStructureV3Score `0.514-0.526`，仍为 MediumStructure。relation audit 写出 244 edges / 164 parent rows，新增链进入 official edges，如 `0 -> 60`、`30 -> 61`、`61 -> 53`。
+- 当前判断：V3 topology primitive 是正向证据，证明可以从 whole-board planner 中切出非 owner0 的 B2 semantic release topology；但还不是目标关卡。下一步应把 topology scan 接入 5-chain/6-chain 选择，并加强 release-owner diversity、cross-basin convergence 和 hard-score 目标，而不是回到 beam/coverage 参数调优。
+
+## Generated-Root WBP Difficulty Attribution V1 - 2026-06-27
+
+- 新增诊断入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPDifficultyAttributionV1.py`。它把 selected `chain_plan`、official `trace_steps`、`trace_metrics` 和 `ChainRelationAuditV1` 的 edges/parents/levels 合并，输出每条新增链的 hard-metric attribution。
+- V3 topology 审计输出：`generated_root_wbp_v3_topology_smoke3_fourchain_diverse_difficulty_attribution_*`；16 条 selected added chain 全部进入 official relation graph，但 4 个候选的 `supportCarrierCount=0`，collapseRisk 为 `local_penalty_dense;no_added_support_carrier`。
+- V3 关键解释：B2T `B2T95004` 被 official trace 识别为 `DelayChokePressureWithLocalPenalty`，带 `semantic_release_topology` 标签，说明它确实提供 delay/choke/topology，但仍是 shallow/conveyor/local penalty，没有成为 support closure carrier。
+- V2 对照审计输出：`generated_root_wbp_v2_b2safe_smoke5_fivechain_widepool_difficulty_attribution_*`；B2 semantic owners 坍缩为 `0:3`、dominant share `1.000`，同样 `supportCarrierCount=0` 和 `local_penalty_dense`。
+- 对比结论：V3 比 V2 解决了 B2 release-owner 单峰坍缩（V3 为 `0:1;30:1`、dominant share `0.500`），但 hard score 仍卡在 MediumStructure，因为新增链多是 cross/delay/leaf，未进入 official support closure；这验证了“补链后期弱依赖/局部/外缘语言会稀释难度”的怀疑。
+- 下一步 generator 目标应增加 attribution gate/score：不仅要求 `b2ReleaseOwnerCount>=2`，还要让至少一条新增链成为 `support_closure` carrier，减少 `local_penalty_dense`，并把 B2T 从 shallow delay/choke 提升成 closure-valid cross-basin pressure。
+
+## PSG Solve Trace Sketch Diagnostics - 2026-06-27
+
+- 已在 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` 增加只读 `Solve Trace Sketch` 指标；不改变 PSG 生成器、official trace 贪心选择、tier 规则或正式 pack 入口。
+- 新增核心字段：`solveTraceQualityScore`、`solveTraceCollapseRiskScore`、`solveAxisDriftRate`、`solveSameAxisRunMax`、`solveSameDirHeadRunMax`、`solveRegionEntropy`、`solveRegionCollapseRunMax`、`solveFrontWidthAvg/Min/NarrowRate`。
+- 新增 dependency sketch 字段：`dependencyRegionEntropy`、`dependencyRegionPairEntropy`、`dependencyLocalSameRegionRate`、`dependencySameAxisHeadRate`、`dependencySameDirHeadRate`；同时显式计算 `dependencyBraidBadLocalRate` 再参与 `dependencyBraidScore`。
+- Smoke 验证：用 `.codex-run/psg_pressure_interference_v2_six_flow_20260627_trace_input.csv` 跑 6 关，trace `6/6` 成功、`missing/failed=0`；summary 可输出 `Solve Trace Sketch` 小节。
+- 初步观察：V2 小批 `solveRegionEntropy` 很高，但 `solveSameAxisRunMax` 和 `solveSameDirHeadRunMax` 仍可到约 `6-8`，证明“区域分散”和“同轴/同方向惯性”要分开作为后筛/评分变量。
+- 下一步：先把这些字段接入 PSG joined CSV / 筛选排序，对 Review6、V2、V3、Campaign500 小批做人工相关性校准；通过后再考虑 soft FlipGate 或 candidate score，不直接改 peel core。
+
+## PSG Trace Join/Rank Tool - 2026-06-27
+
+- 新增 `Tools/Production/Join-SGPPressureTraceMetrics.ps1`，把 PSG source report 与 official trace metrics 合并成 joined CSV、summary 和可选 best-per-slot CSV；定位是后筛/排序工具，不改 PSG 生成器。
+- `Tools/Production/Invoke-SGPPressureHardProductionV1.ps1` 已接入 join/rank：trace 后自动输出 `.codex-run/<prefix>_trace_joined.csv` 和 `.codex-run/<prefix>_trace_joined_summary.md`，summary object 也返回这两个路径。
+- Join 口径分层：`processKeep` 仍是 `solved && coverage>=0.97 && tier S/A/B && maxChoices<=10`；`visualPass` 使用 directional/stripe/local/nearOuter；`stsKeepCandidate` 仅在存在 STS 字段且通过 solveTrace/collapse/same-axis/dependency-local 阈值时成立。
+- 兼容性验证：旧 trace metrics 没有 STS 字段时不会误杀 visual keep，也不会误标 `TraceOrderKeep`；旧 official speedcheck joined 输出为 2 个 `VisualKeep`、1 个 `ProcessKeep`、1 个 `Reject`。
+- STS 小批验证：V2 六关 source + 新 STS trace joined 后为 `5/6 TraceOrderKeep`，唯一降级样本是 `dense_weave_a`，原因集中在 `solveTraceCollapseRisk` 和 `solveSameAxisRunMax/solveSameDirHeadRunMax=11`。
+- 追加生产硬闸：`Join-SGPPressureTraceMetrics.ps1` 支持 `-ProductionKeepCsv`、`-ProductionKeepMode TraceOrderPreferred|TraceOrderRequired|VisualOnly`、`-MinProductionKeepRows`，并在 joined row 中写 `selected=1/path`，使 production keep 可直接作为候选清单。
+- `Invoke-SGPPressureHardProductionV1.ps1` 已输出 `traceBestPerSlotCsv` 和 `traceProductionKeepCsv`；默认 `ProductionKeepMode=TraceOrderPreferred`、`MinProductionKeepRows=1`。若新 trace 有 STS 字段，production keep 只收 `TraceOrderKeep`；旧 metrics 无 STS 时才 fallback 到 visual keep。
+- STS 模式下 visual 不再沿用旧硬门槛，而是“解序硬闸 + 严重视觉硬挡”：轻微 stripe 不杀，directional/local/nearOuter 明显爆才杀，避免把 STS 很干净的样本误排。
+- 生产硬闸验证：旧 V2 metrics fallback keep `6/6`，新 STS trace keep `5/6` 且排除 `dense_weave_a`；当前 official TrialPack 重新跑 STS gate 后 production keep `2/4`，保留 `lock_buckle(A)` 和 `core_burst(B)`，排除 `dense_weave` 的 local/directional/same-dir 风险与 `section_unlock(Drop)`。
+- 当前结论：PSG 已从“trace 后诊断”推进到“可生产的 trace-order keep gate”；下一步若还要继续优化生成质量，再考虑 soft FlipGate/candidate score，仍不直接大改 peel core。
+
+## PSG Production Batch V1 - 2026-06-27
+
+- 新增批量生产入口 `Tools/Production/Invoke-SGPPressureProductionBatchV1.ps1`：默认聚合 Trial、Review6、Interference6、InterferenceV2Six；V3 仅 `-IncludeV3` opt-in，不默认入生产池。
+- Unity 侧新增 `NoMaskProceduralGenerator.BuildSgpPressureHardProductionKeepPack`，读取 canonical `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_production_keep.csv`，自动生成并挂载 `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardProductionKeepPack.asset`。
+- 四池快版 STS trace：`sgp_pressure_batch4_faststs_20260627_metrics.csv`，22/22 traced、missing 0；最终 joined audit 为 `.codex-run/sgp_pressure_batch4_faststs_final2_pack_20260627_trace_joined.csv`。
+- 修复 `Join-SGPPressureTraceMetrics.ps1` 的 PowerShell 大小写变量冲突：本地 `$maxChoices` 会覆盖参数 `$MaxChoices`，导致 `maxChoices=11` 未被硬闸剔除；已改为 `$traceMaxChoices`。
+- 最终 production keep：15/22 `TraceOrderKeep`，来源分布 trial 2、review6 4、interference6 5、interference_v2_six 4；pack asset 当前含 15 个 level refs，Unity log `sgp_pressure_batch4_faststs_final2_pack_20260627_pack_unity.log` 出现 success marker 和 return code 0。
+- 被排除分布：2 个 `VisualKeep` 未达 STS、2 个 `ProcessKeep` 有 solve-order/视觉风险、3 个 `Reject`（含 Trial `section_unlock` Drop 与 V2 `core_burst_b maxChoices>10`）；canonical keep CSV 已同步为 15 关并带 `sourceBatch/sourceReport` 追溯字段。
+- 当前 Demo `Assets/ArrowMagic/Scenes/Demo.unity` 已由 pack build 指向 `SGPPressureHardProductionKeepPack`；下一步应人工看这 15 关链条语言，再决定是否继续扩池或按更严格 family/duplicate cap 做生产筛选。
+
+## PSG Style/Flow Tagging Layer - 2026-06-28
+
+- 已在 `Tools/Production/Join-SGPPressureTraceMetrics.ps1` 增加只读风格标签层；不改 PSG 生成 core、不改 `TraceOrderKeep`/rank 判定。
+- 新增 joined/keep 字段：`styleFamily`、`generatorVariant`、`generatorGrammar`、`chainLanguage`、`chainTags`、`flowLanguage`、`flowTags`、`riskTags`、`styleRiskBand`，用于后续 pack diversity 和人工/GPT 同步。
+- 当前四池正式 joined 已重写：`.codex-run/sgp_pressure_batch4_faststs_final2_pack_20260627_trace_joined.csv`；summary 现在输出 style/chain/flow/risk 分布。
+- Canonical keep `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_production_keep.csv` 已同步标签列，仍为 15 行；本次跳过 pack rebuild，因为关卡引用未变化。
+- 当前 keep tag mix：`styleFamily` 为 core_burst 6 / lock_buckle 6 / dense_weave 3；`flowLanguage` 为 staged_unlock 7 / region_alternating_flow 3 / flow_spread 3 / local_collapse 2。
+- 下一步若继续第一阶段，应基于这些标签加 pack-level diversity cap；若要让特征更明显，再进入第二阶段 `StyleProfile` 软影响生成倾向。
+
+## PSG Diversity Cap Candidate - 2026-06-28
+
+- 已在 `Join-SGPPressureTraceMetrics.ps1` 增加 production diversity selection：可限制总 keep 数、每个 `styleFamily/flowLanguage/chainLanguage/styleFlow/styleSignature` 的数量，以及 `high_risk` 行数。
+- `Invoke-SGPPressureProductionBatchV1.ps1` 和 `Invoke-SGPPressureHardProductionV1.ps1` 已透传这些 diversity 参数；默认不开 cap，旧生产行为不变。
+- 默认四池 wrapper 复验：`sgp_pressure_batch4_faststs_final2_pack_20260627` 仍为 22 joined / 15 keep，canonical keep 仍保持 15 行。
+- Strict diversity review 输出保留在 `.codex-run/psg_diversity_strict12_keep.csv`、`.codex-run/psg_diversity_strict12_joined.csv`、`.codex-run/psg_diversity_strict12_summary.md`；本输出为 12 行，未同步 canonical、未重打 Demo pack。
+- Strict12 分布：style 为 core_burst 5 / lock_buckle 4 / dense_weave 3；flow 为 staged_unlock 6 / region_alternating_flow 2 / flow_spread 2 / local_collapse 2；risk 为 clean 4 / watch 5 / high_risk 3；maxChoices=10。
+- Strict12 丢弃了 3 个原 15 keep 行：一个重复 `lock_buckle` 签名、一个额外 lock_buckle region_alternating、一个额外 core_burst flow_spread；适合先作为人工 review 候选，而不是直接替换正式 15 关。
+
+## PSG Style Lane Export V1 - 2026-06-28
+
+- 新增稳定输出口 `Tools/Production/Export-PSGStyleLaneKeepsV1.ps1`；默认从 joined CSV 导出 5 个 lane keep CSV：`patchwork_lock/core_burst/dense_weave/flow_spread/staged_unlock`。也支持 `-SourceCsv/-TraceMetricsCsv -ForceJoin` 先调用 join 再拆 lane。注意：它只是只读后筛/风格对比导出，不是 PSG 生成入口，也不会按风格生产候选。
+- 该入口只写 lane CSV、lane index 和 summary；不改 canonical production keep、不重打 Demo pack、不改 PSG 生成 core，方便复制到其他 worktree 做同口径筛选。
+- 当前 smoke 命令：`.\Tools\Production\Export-PSGStyleLaneKeepsV1.ps1 -JoinedCsv .codex-run\sgp_pressure_batch4_faststs_final2_pack_20260627_trace_joined.csv -OutputPrefix psg_style_lanes_v1_current -MaxRowsPerLane 8`。
+- 当前 smoke 输出：`.codex-run/psg_style_lanes_v1_current_lane_index.csv` 和 `_lane_summary.md`；TraceOrderKeep 资格下 lane 数量为 patchwork_lock 6、core_burst 6、dense_weave 3、flow_spread 6、staged_unlock 7。
+- 默认 lane 彼此独立，style lane 与 flow lane 可重复同一关；若要生成无重复混合包，用 `-UniqueAcrossLanes`。
+
+## PSG Long Seed Mutation Worktree - 2026-06-28
+
+- 已开独立 worktree：`.worktrees/psg-long-seed-mutation`，branch `codex/psg-long-seed-mutation`，从 `main@aa1564bd` 创建。
+- 为避免从旧状态重补，已同步 PSG 工具和记忆：`Join-SGPPressureTraceMetrics.ps1`、`Invoke-SGPPressureProductionBatchV1.ps1`、`Build-ProjectSeedStyleProfileV1.ps1`、`Export-PSGStyleLaneKeepsV1.ps1`、V3 seed-style 报表和 `.agents` 记忆/索引。
+- 新增 longchain 第一入口：`.worktrees/psg-long-seed-mutation/Tools/Production/Export-PSGLongSeedMutationSourcePoolV1.ps1`；它从 V3 seed profile 选择 `seed_long_maze/seed_long_lock/seed_long_weave` 高 spine 母体池，不生成或修改 LevelDefinition。
+- 当前 source-pool 输出：`.worktrees/psg-long-seed-mutation/.codex-run/psg_long_seed_mutation_source_pool_v1_pool.csv`、`_cluster_summary.csv`、`_summary.md`；默认 gates 为 coverage>=0.72、p90>=20、maxChain>=34、top3>=0.18、spine>=0.82。
+- 当前结果：951 seed 中 222 eligible，按每 cluster 最多 24 输出 49 个首批 mutation sources：long_maze 24、long_lock 9、long_weave 16；后续 mutation operators 从 mirror/rotate 开始，再进入 preserve-spine local refill/rewrite。
+
+## PSG Project Seed Style Profile V3 - 2026-06-28
+
+- 新增 `Tools/Production/Build-ProjectSeedStyleProfileV1.ps1`，默认只看 `Assets/ArrowMagic/SOData/Levels/Seeds` 初始 seed 池，不再默认扫描 generated/composite 报告。
+- 默认模式为 fast static seed style；deep dependency/ray gate 仅显式 `-DeepDependencyScan`，避免 900+ seed 画像卡住。
+- 正式输出已隔离到 `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/project_seed_style_v3_initial951_20260628_profile.csv`、`_clusters.csv`、`_psg_match.csv`、`_summary.md`；951/951 parsed，missing 0，PSG keep 15/15 matched。V1/V2 临时报表已清理，避免沿用粗粒度结论。
+- V3 画像把“链长”拆成链形态、拓扑语言和 `spineConcentrationScore`：主簇 `seed_long_maze` 574/951，其次 `seed_sparse_tutorial` 155、`seed_flow_spread` 57、`seed_medium_long_patchwork` 45、`seed_long_weave` 31、`seed_dense_weave` 27、`seed_long_lock` 25、`seed_fragmented_lock_like` 16。
+- PSG 当前 15 keep 全部静态归到 `seed_fragmented_lock_like` / `medium_long_patchwork_carrier`，最近 seed cluster 也是 `seed_fragmented_lock_like`；这验证用户观察：PSG 是很多中长链杂糅，不是原始 seed 那种少数主链承载的 `long_maze/long_lock`。
+- 关键差异：`seed_long_maze` 均值 `maxChain=45.86/top3=0.2215/spine=0.9112`，而 PSG keep 多为 `maxChain=19-21/top3=0.09-0.11/spine=0.405-0.474`。下一步若做 StyleProfile 软影响生成，应先提高主链集中度/拓扑目标，而不是继续只拉 `longChainRate`。
+
+## Generated-Root WBP V4 Attribution-Aware Planner - 2026-06-28
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV4.py`。V4 在 V3 topology flow 上增加 planned support proxy / planned local penalty proxy，并把这些字段写入 chain plan、relations、candidate summary 和 B2 profile；official trace 仍只做最终验收。
+- V4 还修正/扩展了两个 gate：`min_b2_release_owners` 使用 `semanticReleaseOwner`，并新增全局 option safety gate（`--require-option-planned-solved`、`--require-option-single-greedy`、`--reject-option-key-blocked`），避免非 B2 高分坏桥进入 beam。
+- 正样本 s5：`grwbp_v4_s5_*` 4-chain，root preserved，coverage `0.6493-0.6507`，official trace 4/4 solved、process A、HardPotential、hardV3 `0.653`、supportDepth4、outerExitSolveRun0；比 V3 `0.514-0.526` 明显改善。
+- s5 attribution：所有 added chains official touched，B2 owners `0:2;30:1`，crossPressure=2、delayPressure=3，但 `supportCarrierCount=0`，collapseRisk 仍为 `local_penalty_dense;no_added_support_carrier`。best support root 仍是 root 内部 chain 40。
+- 5-chain 边界：s6/s8 在 final greedy solved 下 0 candidates；s7 放松 greedy 后 official trace 4/4 Drop，两步死局。原因是非 B2 `plannedSolved=False/singleGreedySolved=False` 高分 option 会锁局。
+- 全局 option safety 后 s9 可生成 5-chain solved 候选，coverage `0.6536-0.6565`，但 official class 回落 MediumStructure、hardV3 `0.507`；新增第 5 链导致 B2 owner/lane 堆叠为 `0:3;30:1`、lane `0,2:3`、localPenaltyCount=3、localPatchRunMax=3。
+- s10 加 `max-b2-chains-per-release-owner=2` 和 `max-b2-chains-per-lane=2` 后 5-chain 0 candidates，说明当前 grammar 的安全第 5 链几乎只能是同 owner/lane 的 B2 convergence，会稀释难度。
+- 下一步：不要继续调 coverage/beam。需要 V5 级“cross-lane safe carrier grammar”：生成非 owner0、非同 lane、plannedSolved+singleGreedy 的 B1/B2 bridge/carrier，优先让新增链承担 closure-valid out edges，同时避免 B2 convergence 堆叠造成 local conveyor。
+
+## Generated-Root WBP V5 Carrier/State-Actual Gate - 2026-06-28
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV5.py`。V5 保留真实 generated root 和 whole-board cell plan，增加 root unlock/closure proxy、cross-lane carrier grammar、topology-carrier phase、planned/actual carrier 字段、state-level actual carrier gate。
+- V5 正证据：`grwbp_v5_s14_topocarrier_candidate3` 生成 3-chain 候选，coverage `0.6406/0.6420`，official trace `2/2` solved、process A；新增 `CARRIER_B1_TO_CHOKE`（旧实验输出名为 `B1_CARRIES_CHOKE`）为 semantic owner 7、lane `0,1`、target owner 11，official relation 中是 child+parent，outClosureValid=1、outMaxCUD≈26。
+- V5 负证据：s14/s20 仍为 MediumStructure `0.52`，carrier official closureDepth 只有 `2`、closureScore `0.294`，实际解锁 child 22 而不是计划 target owner 11；supportCarrierCount 仍为 0。说明单链 target-closure proxy 会高估，必须看 actual/state unlock closure。
+- 已修正：`planned_carrier_candidate_count` 不再用 proxy 阈值绕过 `plannedCarrierCandidate=0`；新增 state-level actual carrier fields/gate 后，`grwbp_v5_s21_stateactual_gate` 正确拦住浅 carrier（0 candidates）。
+- 宽诊断：`grwbp_v5_s19_require_actual_with_b2diag` 在 40k carrier path attempts 下 `carrier=0`，拒绝集中在 `no_path=36423`、`planned_unsafe=2055`、`edge_invalid=390`、`actual_closure_weak=84`。单链 carrier 很难达到 actualDepth>=3/score>=0.45。
+- GPT Pro 审稿（conversation `6a3be215-05c8-83e8-b5c9-307a492fea69`）结论与实测一致：不要继续单链 targeting 微调；下一步做 pair/state-level carrier contract，验证 `A -> relay B -> closure subtree C` 或 state activation 是否能把 added closureDepth 从 2 推到 3+。
+- 下一步：实现 V6 pair/state carrier 诊断。先记录 selected state 中是否出现两个目标子树“部分同时解锁”；再生成 relay-only carrier pair，而不是继续放宽 chain length/beam/coverage。
+
+## Generated-Root WBP V6 Pair/State Carrier Diagnostic - 2026-06-28
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV6.py`。V6 从 V5 fork，新增 state-level pair carrier rows、`pair_state_csv`、partial actual owner/subtree 诊断、pair relay option、V6 first-hit/candidate builder（允许 `requiresOptionId` relay 被已选 parent added chain 释放）。
+- s1 `grwbp_v6_s1_pair_audit` 复现 V5 浅 carrier：2 candidates，coverage `0.6406/0.6420`，state actual nodes 为 `22;52`，但 selected target subtree count 为 0，证明 planned target 仍会偏到实际浅子树。
+- s2 `grwbp_v6_s2_pairrelay_audit` 首次生成并选入 pair relay：`pairRelay=12`（summary 过滤后 4），2 candidates，coverage `0.6522`，official 前 greedy solved；但 pairActual 仍为 depth2/score0.298，relay closureDepth0。
+- s7 `grwbp_v6_s7_pairrelay_anylate`（any late blocker relay）official trace `2/2 solved`、process A、coverage `0.6536/0.6551`，但 hard class 仍 MediumStructure `0.51`。Relation/difficulty attribution 显示 pair relay `PCR99003/99004` 是 official child 但 `ReleasedLeaf`，supportCarrierCount=0，risk 仍 `b2_single_owner;local_penalty_dense;no_added_support_carrier`。
+- 严格 relay gates：s3/s4/s5 要求 relay 成为 target first blocker 得到 `pairRelay=0`；s8 要求 direct unlock 得到 `pairRelay=0`；s10 强制 B2 parent 得到 `pairRelay=0`。当前可行 relay 只来自 CLC 外边缘 parent，且 parent->relay edge 被 local/outer conveyor 污染。
+- 当前判断：V6 已证明 pair/state 诊断链路可工作，并把“pair relay 可以生成但仍是 leaf”证实为新边界。下一步不要把 pairRelay 数量当成功；应转向 state-activated carrier：从 root support corridor（如 official best closure 40->36->11）或 actual open frontier 选择 relay/target，而不是让 CLC 外缘 parent 生成空 relay。
+
+## Generated-Root WBP V7 State-Activated Frontier Carrier - 2026-06-28
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV7.py`。V7 从 V6 fork，新增 `STATE_FRONTIER_*` option：链必须由真实 root owner 释放，并在该 owner 及之前 owner 清掉后的 planned state 中成为 target owner 的最后阻挡；移除该新增链后 target owner 必须直接打开。
+- s2 `grwbp_v7_s2_frontier_smoke` 是方向正证据：生成 `13` 条 state-frontier option，最终选入 2 条（`SFC98511/SFC98503`），均为 owner `24 -> 51`，coverage `0.6333333`，official trace `1/1 solved`、process `A`、HardPotential `0.569`、supportDepth4。
+- s2 relation/difficulty attribution 证明 V7 不是 V6 leaf：official graph 中 `24 -> 59/60`，且 `59 -> 26/29/42/55`、`60 -> 33/51`；两条新增链均归因 `CrossDelayPressureWithLocalPenalty`，带 `official_child;official_parent;cross_region;cross_critical;delay_or_choke`。
+- s2 仍非最终成功：frontier target 集中在 `24->51`，新增 parent closureDepth 只有 `1/2`，risk 仍有 `local_penalty_dense;no_added_support_carrier`；但它保住 HardPotential，说明 state-frontier 路线没有像 LocalEasy filler 那样立刻塌。
+- s3 `grwbp_v7_s3_frontier_diverse` 限制每 target 1 条 frontier，并加回 3 条 B2 safe 链，coverage 到 `0.6449275`、official `2/2 solved/A`，但 hard class 降到 MediumStructure `0.431/0.479`。Attribution 风险为 `b2_single_owner;local_penalty_dense;no_added_support_carrier`，B2 owners 为 `0:3`。
+- 当前判断：V7 state-frontier 证明“状态下最后阻挡/直接解锁 target”的合约可生成且被 official relation 承认；但通过 B2 safe/capacity 链补覆盖会复现三明治路线的难度稀释。下一步应扩展 state-frontier 的 activation/target 多样性和 support-corridor/ray-capacity 语法，而不是继续堆 owner0 B2 convergence。
+
+## Generated-Root WBP V8 Edge-Diverse Frontier Pair Seed - 2026-06-28
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV8.py`。V8 从 V7 fork，修正 state-frontier pool 的单 edge 垄断：增加 `state_frontier_max_per_edge`、edge/target diversity state score，以及 deterministic `state_frontier_pair_seed_states`。
+- 诊断结论：V7 不是无法生成 `24->42`；全量诊断中 `24->51` 有 48 条 accepted、`24->42` 有 37 条 accepted，并存在 506 个 disjoint + greedy-solved pair。V7 单 target 主要来自 ranked edge 连续吞掉 quota/beam，而不是语义失败。
+- s1c `grwbp_v8_s1c_single_frontier` 验证单 frontier：6/6 official solved、process A、HardPotential，hardV3 `0.624-0.664`，证明新增 `24->42` frontier 也是 official-safe。
+- s2d `grwbp_v8_s2d_frontier_pair_seed` 是当前 V8 正样本：pair seed 产出 8 个双 frontier 候选，每个候选为 `24->51` + `24->42` 两条短/中语义链；coverage `0.6319-0.6348`，official trace 8/8 solved、process A、HardPotential，hardV3 `0.590-0.611`。
+- s2d relation/difficulty attribution：新增链均是 official touched parent/child，class 为 `CrossDelayPressureWithLocalPenalty` / `DelayChokePressureWithLocalPenalty`，audit 可见 cross/delay 信号；剩余风险仍是 `local_penalty_dense;no_added_support_carrier`，best support root 仍来自原 root chain 40。
+- 下一步：不要回到 B2 safe/capacity filler。为了向 0.95 coverage 推进，V9/V8-next 应把 pair seed 扩成 frontier bundle seed，并放宽/扩展 direct root edge 集合（如 target basins 包含 B1、min activation depth 1，或 all-owner semantic pairs），同时保持 official solved/A/HardPotential 作为每轮硬验收。
+
+## Generated-Root WBP V9 Frontier Bundle Seed / Edge Audit - 2026-06-28
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV9.py`。V9 从 V8 fork，保留真实 generated root + whole-board duty plan + edge-diverse frontier pool，并新增 deterministic `state_frontier_bundle_seed_states`。
+- s1b `grwbp_v9_s1b_bundle3_b1b2` 是当前正证据：3 条 state-frontier bundle，coverage `0.6377-0.6391`，greedy solved，official trace `8/8 solved`、process `A`，其中 `6/8 HardPotential`、`2/8 MediumStructure`。
+- s1b chain plan 中每关 3 条短/中语义链，典型 edge 为 `24->33 + 24->42 + 24->51` 或 `24->33 + 24->51 + 24->26`；不是 B2 filler。Relation audit 为 `480` edges / `328` parent rows；24 条 added chain 全部 official touched。
+- s1b difficulty attribution：added chain classes 为 `CrossDelayPressureWithLocalPenalty=10`、`CrossBasinPressure=8`、`DelayChokePressureWithLocalPenalty=6`；仍无 added support carrier，risk 仍为 `local_penalty_dense;no_added_support_carrier`，best support root 还是原 root chain 40。
+- 4-chain 边界：s1 distinct edge/target、s1c same-edge diagnostic、s2 all-basin diagnostic 均 `0 candidates`。拒绝主要是第 4 条时 `cell_overlap` 爆炸；不是 B2/basin 参数窄，也不是简单 edge uniqueness 太严。
+- V9 追加只读 edge scan：`state_frontier_edge_scan` rows 写入 carrier profile。s3 edge audit 显示 root graph 有 `24` 条 ranked edge、`14` 条 no target ray、`14` 条 activation depth low，但当前实际可产 option 仍只来自 `24->26/33/42/51` 四个 edge。
+- 当前判断：V9 证明 bundle seed 能把 pair seed 扩到 3 条且保住 A/大多数 HardPotential；向 4+ 和 0.95 coverage 推进的下一刀不是调 beam/coverage，也不是回 B2 filler，而是 slot/direction-aware whole-board chain cutting，让不同 added slot 的方向和几何职责在切链前一起规划。
+- 下一步入口：实现 V9-next/V10 `slot-aware frontier bundle cutter`（按 added-chain slot/direction 生成 option，bundle selection 绑定 slot offset），再复跑 4-chain official trace + relation/difficulty audit；必要时再用 GPT Pro 对 slot-aware 方案审稿。
+
+## Generated-Root WBP V10 Slot-Aware Bundle Cutter - 2026-06-28
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV10.py`。V10 从 V9 fork，新增 `intendedSlotOffset/intendedAddedDir`，state-frontier option 可按实际 added-chain slot/direction 生成，bundle seed 可要求 slot0/1/2/3 顺序。
+- 实现修复：`option_int/option_float` 不再把 `0` 当 default；否则 `intendedSlotOffset=0` 会被吞掉，导致 slot0 option 可错误进入后续 added slots。`final_state_ok_v4`、top-level beam、bundle seed、candidate builder 均加入 slot-order/slot-dir 护栏。
+- s1/s2 诊断：per-edge 24 的 slot-aware 4-chain 仍为 0 candidates；全量 DFS 证明不是 beam 错过，当前候选池没有第 4 条可共存链，拒绝集中在 `cell_overlap` / `first_hit_owner_mismatch`。
+- s3 宽池曾生成 8 candidates，但在修复 `option_int(0)` 前存在 slot0 混入后续 slot 的假阳性，只作为 bug 诊断，不作为 baseline。
+- s4 正样本：`grwbp_v10_s4_slotaware_bundle4_wide_fixed` 使用 per-edge 72 wide pool 且严格 slot order，生成 8 个 4-chain candidates；coverage `0.6449275`、addedCells `20`、4 条短/中 state-frontier semantic chains、greedy solved。
+- s4 official trace：8/8 solved、process `A`、全部 `HardPotential`（hardV3 score `0.554-0.565`），rootPreserved True。Relation audit：488 edges / 336 parent rows；difficulty attribution：32/32 added chain rows official touched。
+- s4 attribution：新增链 class 为 `CrossDelayPressureWithLocalPenalty=14`、`CrossBasinPressure=8`、`LocalPollution=8`、`DelayChokePressureWithLocalPenalty=2`；level risk 仍为 `local_penalty_dense;no_added_support_carrier`，supportCarrierCount 仍为 0，best support root 仍是原 root chain 40。
+- 当前判断：V10 证明 slot-aware whole-board bundle cutting 是有效方向，可从 V9 的 3-chain 推到严格 4-chain 且保住 official A/HardPotential；但当前 option 仍集中在 activation owner `24`、target `26/33/42/51`，coverage 只有约 `0.645`，还不是 0.95 路线。
+- 下一步：V11 不应继续单纯加 per-edge budget；要把空间多样性保留做成生成器机制，并扩展 activation/source（support corridor / all-owner semantic frontier / non-24 root edges），同时引入 support-carrier/anti-local gating，避免从 V10 的 B1 局部 bundle 变成 local pollution filler。
+
+## Generated-Root WBP V11 Multi-Source Extension Checkpoint - 2026-06-28
+
+- 新增入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV11.py`。V11 从 V10 fork，保留 slot-aware state-frontier bundle，并新增 spatial retention/closure edge diagnostics 与 `state_frontier_bundle_extension` seed；extension 支持多 pass 和 `reject-contract-prefixes`，用于禁止 `B2_` 捷径。
+- 负例 s6d：4 条 owner24 frontier 后接 1 条 `B2_CONVERGE_CHOKE` 能生成 5-chain solved/process A，但 official 全部 MediumStructure，risk 回到 `local_penalty_dense;no_added_support_carrier`。这验证用户“三明治补链会减分”的判断，不应把 B2 safe extension 当覆盖路线。
+- 正样本 s7：禁用 B2 safe 后，4 条 owner24 frontier + 1 条非 B2 V1 extension（owner10 `B1_CONVERGE_CHOKE` 或 owner7 `B1_BLOCKS_B2`）生成 5-chain，official `4/4 solved`、process A、全 HardPotential；前三个候选有 `supportCarrierCount=1`。
+- 正样本 s8：两轮非 B2 extension 生成 6-chain，release owners 为 `24/10/7`，coverage `0.6565-0.6580`，official `4/4 solved`、process A、全 HardPotential；difficulty attribution 为 `SupportCrossCarrier=4`、`CrossDelayPressure=8`、`CrossDelayPressureWithLocalPenalty=8`、`LocalPollution=4`，全部 added chain official touched。
+- 当前限制：coverage 仍只比 V10 增约 `+0.013`，best support root 仍是原 root chain 40；继续加 pass 只会小步增加 cells，不能解释 0.95。下一步应把 owner10/owner7 这种 extension 升级为 first-class source-frontier/basin contract，让第二 source 自己生成短/中语义 bundle，而不是继续从旧 V1 pool 里捞补链。
+
+## Generated-Root WBP V12 Source-Frontier Checkpoint - 2026-06-28
+
+- 当前入口：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV12.py`。V12 在 V11 上修正 owner list 解析、context first-hit/ray、source-owner edge reserve、direct-unlock retarget、slot/physical direction mode、activation owner count gate、added-to-added first-hit proof gate。
+- 已验证方向：owner7 可生成 first-class `STATE_FRONTIER_B1_TO_B1 7->22` source-frontier options，不再只是 V1 extension；诊断中 `frontierDirectUnlockedOwners=22`，retarget 后 `stateFrontierCandidate=1`。
+- 当前卡点：通用 bundle beam 仍偏向 owner24/local 高分链，无法稳定组合 `24,24,24,7` 这类多 activation bundle；离线 DFS 已证明存在 3 条 owner24 + 1 条 owner7 的 disjoint + greedy solved 组合。
+- 新增游戏规则合并：链体连接必须是相邻箭头，空格只参与 `ThroughEmpty` 信号射线；authored `indices` 为 head->tail 而运行时反写；正式导入还要满足初始可消链和难度非 0。
+- 下一步：实现 deterministic activation-pattern seed states，显式枚举/验证 `24,24,24,7`、`24,24,7,24`、`24,7,24,24` 等模式，然后跑 greedy、official trace、relation/difficulty attribution。不要回到 B2 filler、长链/slab 或逐链 trace 决策。
+
+## Generated-Root WBP V12 Activation Pattern Result - 2026-06-28
+
+- 已实现 deterministic activation-pattern seed states、activation/target owner include/exclude、activation-target pair allowlist、source-frontier context validation 修复；脚本 `Build-GeneratedRootWholeBoardPlannerV12.py` 已通过 `python -m py_compile`。
+- 正证据 s8y：`grwbp_v12_s8y_activationpattern_frontier_edgegate` 生成 8 个 4-chain candidates，root 为 `geosupply_sched_root10_from_40eb0da7_r1_c038`，frontier edges 为 `24->29/33/55` + `7->22`，无 B2 filler，coverage `0.6435-0.6551`，greedy solved。
+- Official full8 trace：8/8 solved，process A / tight A，missing/failed 0，maxChoices avg 6，root identity preserved；说明 activation-pattern source-frontier 作为全局 seed state 可行。
+- 负边界：8/8 hardStructureV3Class 都是 MediumStructure，hardV3 avg `0.406`，risk 为 `DependencyFollowRun`；纯 `STATE_FRONTIER_B1_TO_B1` frontier-only bundle 能保持流程可解但没有保持 HardPotential。
+- 当前判断：用户关于“后段外出口/弱依赖链会被减分”的怀疑得到支持；下一步不能继续加普通 frontier-only 或 B2 filler，要做 hard-preserving activation pattern/edge gate。
+- 下一步入口：优先让 V12-next 在 pattern seed 前就要求 edge mix/owner mix 能提供 support carrier 或 non-local delay/choke attribution，例如引入 owner10/support corridor、非全 B1_TO_B1 target、anti dependency-follow run gate；再跑 official trace + relation/difficulty attribution。
+
+## Generated-Root WBP V12 Hard-Preserving Edge Pattern Result - 2026-06-28
+
+- 已在 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV12.py` 增加 ordered activation edge patterns、combo budget 修正，以及 final candidate min/max added-chain gate；脚本通过 `python -m py_compile`。
+- 关键修正：V12 `physical-dir-mode slot` 会把 V10 hard-edge 几何挤到 slot3；当前 hard-preserving runs 应使用 `legacy-down`，直到实现真正的 rotated geometry grammar。
+- 正证据 s10e：`grwbp_v12_s10e_edgepattern_extend2_v1only_candidate6` 生成 8 个 6-chain candidates，coverage `0.6551-0.6580`，新增链均为短/中语义链，root `geosupply_sched_root10_from_40eb0da7_r1_c038` preserved。
+- Official full8 trace：8/8 solved，process A，8/8 HardPotential，hardV3 avg `0.568`，maxChoices avg 7，missing/failed 0。
+- Relation/difficulty audit：504 relation edges / 352 parent rows；48/48 added chain rows official touched；每关 supportCarrierCount=1，added classes 包含 `SupportCrossCarrier`、`CrossDelayPressure`、`CrossDelayPressureWithLocalPenalty`、`DelayChokePressureWithLocalPenalty`，无 B2 safe/capacity owner。
+- 对比结论：V12 s8y frontier-only 是机制正证据但难度负边界；s10e 复现 V11 s8 的 hard-preserving 结果，并证明 hard edge + owner10/owner7 non-B2 support/block 合约才是当前正确方向。
+- 当前缺口：coverage 仍停在约 `0.658`，best support root 仍是原 root chain 40；下一步不能继续加 extension pass，而要把 owner10/owner7 这类 support/block contract 提升为 whole-board duty grammar，规划更多 source basin/choke/delay/block 合约后再统一切链。
+- 待验证实现：secondary-source-frontier seed 现在已改为可接 `activation_pattern_seed_states` 和 `extension_seed_states`，并允许 parent option 已在 base state 中时只追加 child；同时补了 child path attempt 全局早停。脚本编译通过。s11a 是误设低 `state-frontier-max-per-*` cap 的 0-candidate 诊断；s11b/s11c/s11d/s11e 因高 frontier cap/secondary search 组合超时且无产物，已停止残留 Python 进程。
+- 性能卡点：当前缺少可复现 s10e 参数封装/runner 与分阶段 profile。下一步先做 V12 hardbase 参数 preset 或 smoke runner，把 `frontier pool -> activation hardbase -> extension -> secondary` 拆段计时，再验证 secondary-source child，而不是继续手写长命令盲跑。
+
+## PSG Trace Order Balanced Review Pack Mounted In Main - 2026-06-28
+
+- 已从 `.worktrees/psg-long-seed-mutation` 拷回主项目 pack：`Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGTraceOrderBalancedV1ReviewPack.asset`，meta GUID `ff6cc93ffa894eaa9f152857e252318c`。
+- 主项目已有被引用的 PSG trial 02/04 LevelDefinition，GUID 分别为 `8012292e91ba67146b96e57dbbe02a0f` 和 `a8c49c652a0e26a4bb0442ac25c4bb80`；pack 当前 2 refs。
+- 已把主项目 `Assets/ArrowMagic/Scenes/Demo.unity` 的 `activePack` 切到该 review pack，供人工体感查看；这仍是 unchanged LevelDefinition 的 same-board trace-order selection 包，不是 PSG 生成器拓扑改动。
+
+## NutationPeelV1 Smoke - 2026-06-28
+
+- 新建正式 primitive lane `NutationPeelV1`，取代误命名的 `FlowPeel` prototype；Flow 仅作为简单连续传播 baseline，不作为当前优化主线。
+- 工作分支/worktree：`.worktrees/nutation-peel`，branch `codex/nutation-peel`；主项目已拷回正式输出，不拷回误命名 FlowPeel prototype。
+- 入口：`Tools/Production/Invoke-NutationPeelProductionV1.ps1`，Unity 方法 `NoMaskProceduralGenerator.BuildNutationPeelV1Pack`；full source pack 为 `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelV1Pack.asset`。
+- 当前 review keep pack：`Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelV1ProductionKeepPack.asset`，2 refs，Demo 已挂此 pack；keep CSV 为 `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_v1_production_keep.csv`。
+- 主项目空屏问题已定位并修复：拷回 pack 时 level `.meta` GUID 在主项目变为 `a9e5408e3bef68243b086a3dede0e7cf` / `aeb585a74758e7f4aa8ee2d84e18e87c`，而 pack 仍引用 worktree 旧 GUID；同时手写 YAML 的 `levels:` 曾缺少 MonoBehaviour 下的两个空格缩进，Unity 反序列化为 empty pack。keep pack 和 full source pack 现已改为主项目当前 GUID 且 `levels` 缩进正确。
+- 用户人工反馈：当前 NutationPeel 的“换区域/换方向”体感仍不够明显。代码已增加 source-side `Rhythm=distinctRegion/regionTransition/regionRun`、`AxisShift`、`DirShift` 诊断和软评分；v1f/v1g source-only 验证可稳定生成 4 关，但指标显示 macro region 已高（约 `Rhythm=8-9/27-30/3-4`），axis/dir shift 仍低（约 `0-2`），说明换方向不是后筛/轻评分能解决。
+- 方向控制负边界：尝试把 Nutation 的 region spread 提到更强方向配额曾导致 Unity batch 在 section_unlock 生成阶段 `ExitCode=-1`；放软后稳定但产物不变。下一步若继续提升方向体感，应做受控 head/outDir grammar 或 authored chain orientation planner，而不是继续提高 trace score 或 attempts。
+- 生成报告：`Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_v1_report.csv`；v1c trace/join 对比输出在 `.codex-run/nutation_peel_v1c_wt_smoke_*`。
+- v1c 结果：4/4 traced，2/4 TraceOrderKeep；同口径 PSG Trial 为 2/4 TraceOrderKeep。keep 两关为 lock_buckle 与 core_burst，均 `staged_unlock/watch`。
+- v1c keep 细项：localPatchRun 均为 `6`，nearOuterRun `3/4`，directionalRisk `0.176/0.206`，maxChoices `9/7`，stripeRisk `0/0.017`。
+- v1c 全量均值边界：coverage `0.9728` 低于 PSG `0.9882`，avgChoices `6.59` 高于 PSG `5.1775`，sourceOpeners/edgeHeads 偏高；full pack 里的 section/dense 是诊断 reject，不应作为 review keep。
+- 下一步：若继续提升，应做 source-side opener/edge-head 回压和 official-trace-aware anti-linear selection 扩池，而不是继续提高 NutationPeel profile attempts。
+
+## PSG Long FillProbe V1 Negative Result - 2026-06-28
+
+- 人工审查结论：`PSGLongMazeSelfMadeV2FillProbeV1ReviewPack` 判为负例，不作为竞品感 longchain 正路线、production pack 或后续优化基线；它可解但视觉/结构不像竞品。
+- 该包已从 `.worktrees/psg-long-seed-mutation` 拷回主项目仅用于排查/人工查看：`Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGLongMazeSelfMadeV2FillProbeV1ReviewPack.asset`，GUID `e76ea673efdd49cc8f92d5c49c08a055`；主项目 `Demo.unity` 曾切到该包用于验证。
+- 实测口径：review pack 6 关，每关 authored chain 数为 `43/43/43/43/46/46`，但箭头格为 `624/778/777/624/684/683`，coverage `0.913-0.918`。所以“40 多链”不是视觉元素数；实际屏幕密度由 600-780 个箭头格和 snake overlay segment 决定。
+- 踩坑 1：只看 `chains` 会误判视觉复杂度。数据链条 43 条仍可渲染成满屏彩色线网；后续必须同时看 `arrowCells`、avg/max chain len、top-chain share、spine concentration、render segment density 和截图体感。
+- 踩坑 2：`protect corridor + fill all other cells` 能保持 solvability/coverage，却会把 CrossColumn skeleton 的走廊、主链层级和 lock/maze 可读性冲掉，结果变成高覆盖中长链杂糅，不是竞品的少数主结构承载感。
+- 踩坑 3：`solved + B tier + high coverage + TraceOrderKeep` 不能替代人工 style gate。longchain/style lane 必须加入视觉/拓扑 reject：高密度彩线、局部填满、主链不突出、空区/走廊不可读时直接判负。
+- 踩坑 4：Unity 卡顿既有 worktree `Library` 损坏因素，也有大图 runtime 压力因素；snake overlay/intro 性能随箭头格和采样段数放大。大图 review pack 进 Demo 前必须先做低采样/跳 intro 或截图式预览。
+- 下一步如果继续 self-made longchain，应保留 skeleton 层级和负空间，优先做少量 staged/wave semantic refill 或 source-style grammar，而不是追 `0.91+ coverage` 的全局填充。
+
+## Campaign500 PSG Normal Prod200 Pause Checkpoint - 2026-06-28
+
+- 按用户要求已暂停 Prod200 生产；c03/c04 长跑 trace 进程已停止，当前没有 `prod200_c01/c02/c03/c04` wrapper 或对应 Unity batch 进程继续运行。
+- c01 已闭环：`D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal`，label `prod200_c01_o011_s000_n050`，50 slots/order 11-80，202 source rows，173 trace input/metrics/joined，15 keep。
+- c02 已闭环：`D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal-c02`，label `prod200_c02_o011_s050_n050`，50 slots/order 81-152，214 source rows，190 trace input/metrics/joined，9 keep。
+- c03 只完成候选：`D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal-c03`，label `prod200_c03_o011_s100_n050`，50 slots/order 154-222，217 source rows，199 trace input；尚无 metrics/join/keep。
+- c04 只完成候选：`D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal-c04`，label `prod200_c04_o011_s150_n050`，50 slots/order 224-295，215 source rows，188 trace input；尚无 metrics/join/keep。
+- 慢的直接原因：Campaign500 chunk wrapper 调 official trace 时此前未透传快版 counterfactual 参数，走 `MaxCounterfactualMovesPerStep=5` / `CounterfactualStepStride=1` 默认全量口径；c03/c04 单核 PowerShell trace 从约 02:46/02:49 跑到 10:40 仍未写出 metrics。
+- 暂停前已把 D 盘四个 chunk wrapper 改成可配置并默认使用 PSG 快版 trace 参数 `TraceMaxCounterfactualMovesPerStep=1` / `TraceCounterfactualStepStride=4`，但尚未重新启动 c03/c04；恢复时建议用 `-SkipUnity` 复用已生成候选继续 trace/join/keep，并对最终 keep 小集合再做严格复验。
+- wrapper 已确认会调用 `Join-SGPPressureTraceMetrics.ps1` 和 `Export-PSGStyleLaneKeepsV1.ps1 -EligibleMode TraceOrderKeep -ExcludeHighRisk`；也就是说 keep/lanes 会吃到 `psgRankScore`、`rankClass`、`styleRiskBand`、`chainLanguage`、`flowLanguage`、`stsKeepCandidate` 等 PSG 优化字段。
+
+## Campaign500 PSG Normal Unified Candidate Plan - 2026-06-28
+
+- 用户确认后续不需要每个 slot 穷尽多变体：普通/恢复关卡每 `section10` 保留约 4 个不同画布/链条风格候选，困难/特别困难/极难每 `section10` 合计约 3 个不同风格候选。
+- D 盘四个 chunk wrapper `Tools/Production/Invoke-Campaign500PSGNormalChunkV1.ps1` 已同步增加 `TraceCandidateMode=SectionQuota`、`TraceNormalRowsPerSection=4`、`TraceChallengeRowsPerSection=3`，并输出 `_trace_selection.csv`；仍保留 `TraceCandidateMode=All` 作为严格回溯入口。
+- 新增主项目聚合入口 `Tools/Production/Export-Campaign500PSGNormalUnifiedTraceInputV1.ps1`：汇总多 worktree candidate reports，输出全量 candidate pool、trace selection 和跨 worktree 绝对路径 trace input，便于后续统一 trace/join/筛选再回填 slot。
+- 四个正式 prod200 chunk 汇总预览：candidate reports=4，candidate pool rows=848，trace eligible rows=750，按 4+3/section 配额 trace input rows=200；自动发现规则已排除 `prod200_smoke5`。
+- 当前未落盘 c03+c04 的继续预览：2 个 report 合计 pool rows=432、trace eligible=387，统一配额后 trace input rows=102；section16-29 各 7 行，section30 为 4 行，来源 c03=50/c04=52。
+- 下一步恢复生产时优先不要继续原 387 行全量 trace；使用 c03+c04 unified trace input 或 chunk wrapper 的 `SectionQuota + fast counterfactual` 跑 official trace，再统一 `Join-SGPPressureTraceMetrics.ps1` 和 `Export-PSGStyleLaneKeepsV1.ps1` 做最终筛选。
+
+## Campaign500 PSG Normal Unified QTrace Execution - 2026-06-28
+
+- 已执行全局统一配额 trace：`Tools/Production/Export-Campaign500PSGNormalUnifiedTraceInputV1.ps1` 产出 `F:\Unityproject\ArrowLevel-Hand\_CodexRun\campaign500_psg_normal_prod200_unified_qtrace_trace_input.csv`，200 行。
+- 为提速把 200 行拆成 4 个 50 行子批并行跑 official trace，参数 `MaxCounterfactualMovesPerStep=1`、`CounterfactualStepStride=4`；四个子批均完成且 stderr=0。
+- 合并 trace metrics：`F:\Unityproject\ArrowLevel-Hand\.worktrees\sgp-rhythm-lab\Assets\ArrowMagic\SOData\Reports\SGPRhythmLab\campaign500_psg_normal_prod200_unified_qtrace_metrics.csv`，200/200 solved，process tier 为 A=5、B=105、Drop=90。
+- 统一 join：`F:\Unityproject\ArrowLevel-Hand\_CodexRun\campaign500_psg_normal_prod200_unified_qtrace_trace_joined.csv`，processKeep=72、visualPass=29、stsPass=50、stsKeepCandidate=14。
+- 风险结论：styleRiskBand 分布 clean=1、watch=9、high_risk=190；high_risk 主因集中在 same-axis/same-dir/high-choices/broad-choice/solve-collapse/dependency-local。当前候选语言仍偏容易坍塌，不能误判为大批正式入池。
+- 正式严格回填 manifest：`F:\Unityproject\ArrowLevel-Hand\_CodexRun\campaign500_psg_normal_prod200_unified_qtrace_selected_by_slot.csv`，只保留 TraceOrderKeep 且非 high_risk 的 10 行，orders `16,41,44,66,68,100,102,106,116,254`；画布 mix tall=4、wide=6，style mix lock=4、section=3、dense=2、sweep=1。
+- Style lane 输出：`F:\Unityproject\ArrowLevel-Hand\_CodexRun\campaign500_psg_normal_prod200_unified_qtrace_style_lanes\`；eligible rows=10，dense_weave=2、flow_spread=3、staged_unlock=6，patchwork_lock/core_burst 当前 0。
+- 下一步建议：不要直接把 200 traced candidates 全量回填；先基于本次 high-risk 分布调整 trace 前静态配额/生成策略，减少 same-axis/same-dir/high-choice/collapse 候选，再跑下一轮 section quota。
+
+## Campaign500 PSG Normal High-Risk Review12 - 2026-06-28
+
+- high-risk 不是不可解：本轮 200/200 solved，但 190 行被 `styleRiskBand=high_risk` 标记，主因是 `same_axis_run/same_dir_run/high_choices/broad_choice_curve/solve_collapse/dependency_local`，说明普通 PSG 候选仍常出现同轴同向顺消、选择曲线过宽和局部坍塌。
+- 已从 high-risk 中挑 12 关做人工审查包，覆盖 4 个 `TraceOrderKeep`、5 个 `VisualKeep`、2 个 `ProcessKeep`、1 个 `Reject` 对照；全部为 `styleRiskBand=high_risk`。
+- 审查 CSV：`D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Reports\Campaign500\PSGNormal\campaign500_psg_normal_unified_qtrace_highrisk_review12.csv`；summary 同目录 `_summary.md`。
+- 审查 pack：`D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Packs\Campaign500\Campaign500PSGNormal_UnifiedQTraceHighRiskReview12Pack.asset`，12 refs，已挂到该 D 盘 c01 worktree 的 `Assets/ArrowMagic/Scenes/Demo.unity`。
+- 该 pack 只是风险阈值/体感校准包，不改变正式严格回填 manifest；正式非 high-risk selected 仍是 10 行。
+
+## Generated-Root WBP V12 Hardbase Runner Checkpoint - 2026-06-28
+
+- 用户补充的基础规则已并入当前 GRWBP 判断：链体只认相邻箭头，`ThroughEmpty` 只作信号射线；authored `indices` 为 head->tail；正式 seed 还必须满足初始可消链、Greedy 可清空、难度非 0。后续 whole-board plan 中 `intentional_empty` 只能是 escape/probe 空间，不能被当成隐藏链连接。
+- V12 修复：seed state merge 缩进错误、`state-frontier-edge-pair-include` 支持逗号/分号 pair、`--skip-generic-beam`、summary 对 secondary rows 容错、secondary rows 进入 depth diagnostics。
+- 新 runner：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeneratedRootWBPV12HardbaseProfile.ps1`，默认复现 hard edge pattern `24->33/51/42/26`，跳过 generic beam，用 spatial cap 保留全局可组合空间，并用 V1-only 非 B2 extension。
+- 正证据：`grwbp_v12_runner_hardbase_ext_t4i_v1only` 生成 4 个 6-chain candidates，coverage `0.6565-0.6580`，official trace `4/4 solved`、process `A`、`4/4 HardPotential`、maxChoices `7`，无 B2 filler，链条为 hard frontier + owner10 `B1_CONVERGE_CHOKE` + owner7 `B1_BLOCKS_B2`。
+- 负边界：同 hardbase 若 extension 允许 `CARRIER_*`，`grwbp_v12_runner_hardbase_ext_t4h_mincontract2` official `4/4 solved/A` 但 `4/4 MediumStructure`；这支持“弱依赖/外出口补链会减分”的判断。
+- secondary-source smoke：`grwbp_v12_runner_secondary_t2a_v1only` 中 activation 2 states、extension 两轮到 24 states，但 secondarySource=0；主要拒因 `child_head_not_allowed`、`blocked_to_parent`、`child_no_path`，说明当前 cell plan 未给 secondary source 预留合适职责区。下一步应做 secondary/source-basin duty grammar，而不是放开 all-empty 或回到 filler。
+- 10 行正式 non-high-risk keep 已另打 review pack：`D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Packs\Campaign500\Campaign500PSGNormal_UnifiedQTraceKeep10Pack.asset`，source CSV 为 `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Reports\Campaign500\PSGNormal\campaign500_psg_normal_unified_qtrace_keep10.csv`；当前已挂到 D 盘 c01 worktree Demo 供人工查看。
+
+## Generated-Root WBP V12 Secondary Post-Hoc Rejection - 2026-06-28
+
+- V12 已新增 secondary-source duty-zone、secondary 拒因细分、以及 runner Secondary 模式的 `U/R/D/L` 多方向诊断；代码入口仍是 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV12.py` 和 `Invoke-GeneratedRootWBPV12HardbaseProfile.ps1`。
+- V12 candidate CSV 新增只读链合法性审计字段：`chainLegalityOk`、`chainLegalityIssueCount`、`chainLoopRiskCount`、`chainLegalityIssues`；覆盖链长至少 2、越界、链内重复、跨链重叠和正交相邻，head-tail 相邻只作为 loop risk 记录。
+- 关键修正：最初“缺 secondary duty space”的判断不完整。`grwbp_v12_secondary_duty_t2a` 显示 cell plan 在 23x30 board 上只剩 13 个 `intentional_empty`，secondary duty-zone 新增 0 格；主因不是空白未标职责，而是后置 child 的 head/second/target ray 被真实 root、已选链、棋盘边界和 first-hit 改写卡住。
+- 多方向诊断 `grwbp_v12_secondary_multidir_diag_t2a` 仍为 secondarySource=0；主要拒因：U/L 方向相对最好但仍大量 `child_head_not_allowed_root_occupied/out_of_board/selected`、`child_no_path`、`child_not_parent_released`，R/D 方向几乎被 root/out-of-board 吃掉。
+- 放宽 target 语义的 `grwbp_v12_secondary_relaxed_L_diag_t2a` 仍为 0；极限几何放宽 `grwbp_v12_secondary_geometryonly_L_diag_t2a` 仍为 0，末端 6 个失败为 `child_first_hit_owner_mismatch`，表示 child 插入后会改写已有已选链的 first-hit 关系。
+- 结论：post-hoc secondary extension 不能作为 0.95 主路线；它是负例/诊断。下一步要把 added-to-added delay/block DAG、parent-first-hit anchor、target-ray blocking 和 chain order 一起纳入 base/cluster co-selection，不能先冻结 hardbase 再补 child。
+- Rosetta GPT 审稿尝试因策略拒绝发送本地路径/脚本/实验数据到外部 ChatGPT，未进行外部咨询；后续若需要审稿，应先由用户确认脱敏 context 或手动转述。
+
+## Generated-Root WBP V12 Planned Added-Hit Diagnostic - 2026-06-28
+
+- V12 新增 opt-in `--enable-planned-added-chain-first-hit`、order-gap 参数、candidate 字段 `plannedAddedFirstHitCount/plannedAddedFirstHitEdges`，并给 secondary reject 增加 `secondary_source_frontier_reject_sample` 样本行；默认关闭，不改变 hardbase 正例。
+- `grwbp_v12_secondary_plannedhit_L_diag_t2b` 表明 planned added-first-hit 仍无 secondary states；细分拒因为 `child_planned_added_hit_greedy_unsolved=6`，不是简单 order gap 或 base-owner mismatch。
+- `grwbp_v12_secondary_plannedhit_L_diag_t2c` 的 6 条 sample 一致显示：child `SSF99501 / STATE_FRONTIER_SECONDARY_B1_TO_B3` 在 `(8,15)` 直接挡住已有 support 链 `O00089 / B1_BLOCKS_B2`（expected owner 7, hitOwner 64），而整局 greedySolved=False、initial=2、max=7/8。
+- 解释：这不是健康的 added-to-added DAG；它是弱 secondary child 误伤已选 support/block 链，且没有 blocked/directUnlocked 价值。post-hoc child 即便形成 added-hit，也会破坏可解性和难度承载。
+- 下一步：实现前置 cluster contract 选择，必须先指定 parent、child、被 child 阻挡/释放的 target owner/option，以及 recovery/ordering 关系，再切链；不能从已有 6-chain state 里找 accidental child。
+
+## PSG Long Stripe-Coil Rejection And Stop Checkpoint - 2026-06-28
+
+- 人工审查结论升级：`PSGLongMazeSelfMadeV3FillProbeV2StagedReviewPack` / CrossColumnAlt staged refill 方向整体判负，不能再作为竞品感 longchain 续作、production 候选或正向 baseline。
+- 负例外观：截图呈现整齐分栏的重复 U 型线圈、横竖条纹、等尺寸蛇形模块和点状长线，像测试纹理/调试图，不像真实关卡。后续不得再把这种格式挂 Demo 给用户验收。
+- 实测数据：V3 staged source 12 行，coverage `0.7897-0.8182`，平均 `24.83` chains、`570.17` arrowCells、`33.33` maxChain、`2.33` fillChains、`7.75` initialOpeners；trace 12/12 solved、B tier，但均不能抵消结构负例。
+- 已定位并修过的数据格式坑：这些手写 LevelDefinition 曾错误写 `source: 2`，应为 `source: 1` 才会走 authoredLevel；该坑已修脚本和现有实验资产，但格式修复不改变本方向判负。
+- 已停止当前 longchain worktree 的 Unity 进程；主项目 Unity 保持打开，其他 batchmode 不属于本 longchain 收尾未误杀。
+- 保留的数据入口：真实 seed style 学习仍有效，`project_seed_style_v3_initial951_20260628_profile.csv` 解析 951/951 seed；long source pool `psg_long_seed_mutation_source_pool_v1_pool.csv` 选出 49 个非复制源，包含 `seed_long_maze` 24、`seed_long_lock` 9、`seed_long_weave` 16。
+- 新目标：推翻 self-made strip/coil grammar，下一轮先只学一个真实 seed 类型，抽象其宏观拓扑、dependency role、负空间、主链/辅链层级和解序风格，再做非镜像、非逐格复制的自生产 grammar。
+
+## Campaign500 PSG Normal RhythmScore20 Validation - 2026-06-28
+
+- D 盘 c01 worktree 已增加 opt-in source rhythm scoring：`EnableSourceRhythmGate` 只做 score/trace preselect 降权；`EnforceSourceRhythmEarlyGate`、`EnforceSourceRhythmFinalGate` 才硬杀，默认不启用，避免打穿产能。
+- 新增 `ProfileMaxAttempts` cap；本轮 `120` cap 能控时长但会牺牲部分 slot 产能。严格 final gate 与 early gate 试跑均过慢/0 built，不作为量产默认。
+- 验证批 label：`rhythmscore20_cap120b_o011_s000_n020`，order 11 起 20 个 normal slot，Unity 候选阶段产出 76 attempt rows / 49 built，覆盖 16 个 order；失败集中在 `ChainTargetMiss` 与 `CampaignPsgEdgeHeadsMiss`。
+- trace 需短路径：原长 label asset 绝对路径约 267 字符导致 49/49 missing；通过 `subst P:` 和 wrapper 输出反斜杠路径解决。4-way parallel trace 合并为 `rg20c120b_trace_metrics.csv`，49/49 traced，tiers A=5/B=27/Drop=17。
+- 最终 keep pack 已挂 D worktree Demo：`D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal\Assets\ArrowMagic\SOData\Packs\Campaign500\Campaign500PSGNormal_rhythmscore20_cap120b_o011_s000_n020_KeepPack.asset`；keep CSV 同 reports 目录，selected rows=3，orders `16,18,22`。
+- 质量结论：keep 平均 `avgChoices=4.763/maxChoices=9/sameAxis=5.333/sameDir=5.333`；order 18 最干净（sameAxis/sameDir=3），order 16/22 仍有 6/7 连续同向/同轴 watch。方向有改善但还没解决“连续消除太容易”。
+- 下一步不要直接恢复 200 量产；先加 mode budget/短 label 生产约束，只对失败 slot 做 deep rerun，再用 parallel trace 统一筛选。
+
+## Generated-Root WBP V12 Cluster Seed / DAG Checkpoint - 2026-06-28
+
+- V12 已追加 `parent_child_cycle` 防护：secondary child 先命中 parent 后，会反查 parent 在 child active 状态下是否 first-hit child；若成环直接拒绝并写 `secondary_source_frontier_reject_sample`。复验 `grwbp_v12_secondary_plannedhit_L_diag_t2e` 得到 `parent_child_cycle=24`、secondarySource=0，说明旧 `child_planned_added_hit_greedy_unsolved` 主要是 added-chain cycle，不是健康 delay/choke。
+- V12 candidate 增加 added-chain DAG 审计字段：`addedDagEdgeCount`、`addedDagCycleCount`、`addedDagEdges`；默认开启 `--reject-added-chain-cycles`。这只做候选级关系审计，不替代 official trace。
+- 新增 front-loaded cluster seed builder：`--enable-added-chain-cluster-seed-states` 及 cluster 相关 beam/pool/contract/source gates。cluster 从 hardbase/activation seed 前置组合 added chains，而不是在 6-chain state 后 post-hoc 追加 child；option pool 已按 slot、contract、activation->target edge round-robin，避免 owner24 options 吃光 owner7/source edge。
+- 正证据：`grwbp_v12_cluster_edge7_support_exact6_probe_t1` 生成 4 个 6-chain whole-board candidates，coverage `0.6579710-0.6594203`，root `geosupply_sched_root10_from_40eb0da7_r1_c038` preserved，chainLegalityOk=True，addedDagCycleCount=0。链条为 4 条 owner24 hard frontier + owner7 `STATE_FRONTIER_B1_TO_B1 7->22` + owner7 `B1_BLOCKS_B2 7->53`。
+- Official trace：`grwbp_v12_cluster_edge7_support_exact6_probe_t1_trace_full4_metrics.csv` 为 4/4 solved，process A/tight A，maxChoices avg 7，missing/failed=0；但 4/4 `MediumStructure`、risk=`CounterfactualLocalFlow`，hardV3 avg `0.443`。这是 source-frontier cluster 机制正证据，不是 HardPotential 目标态。
+- 负边界：`grwbp_v12_cluster_edge7_support_exact7_probe_t1` exact-7 仍 0 candidates，extra3 失败以 `cell_overlap=1332`、`greedy_unsolved=72` 为主。slot-only 扩张、同 owner24 几何重复、post-hoc secondary 都不能突破 0.66 plateau。
+- Source/ray 观察：owner7 只有 `7->22` 生成实际 state-frontier option；`7->36`、`7->11` 失败为 `source_owner_no_target_ray`。owner10 `10->57` 虽可被 ranked scan 看到，但 activationDepth=0、无可用 frontier option，更适合作为 support/choke 而非 first-class frontier source。
+- 下一步：做 whole-board duty/ray grammar，先为更多 source owner 和 cross-basin/choke targets 规划可用 target ray、release corridor、delay/block DAG 和 intentional empty escape/probe 空间，再切链；不要继续靠 extension pass、carrier/slab、B2 safe、LocalEasy high coverage 或 long band 填覆盖。
+
+## Nutation Peel V2 Direction Grammar Review Pack - 2026-06-28
+
+- 在不改 PSG 正式线、不覆盖 NutationPeelV1 review pack 的前提下，新增独立 `NutationPeelV2` lane；入口 `Tools/ArrowMagic/Direct Procedural/Build Nutation Peel V2 Pack`，Unity method `NoMaskProceduralGenerator.BuildNutationPeelV2Pack`。
+- 核心变化：V2 增加显式 head/outDir cycle grammar（`directionGrammar=CycleV2`）、独立 profile `NutationPeelLayerV2`、solve-trace 方向节奏评分 `ScoreNutationPeelV2DirectionMetrics`，并保留 Nutation rhythm/layer scoring。
+- 负例：曾尝试让 FlipGate 在方向节奏未达标时继续翻链，第三轮 Unity 在 DenseWeave 中途 `ExitCode=-1`；已撤回该过重 post-gate，最终只保留稳定的 source/profile/score 方案。
+- 用 SectionUnlock probe 搜索 seed 后回填正式第 2 关 seed `527015`；临时 probe menu/spec 已从代码移除，probe 资产只留在 worktree 实验侧，不纳入主项目正式入口。
+- 主项目已拷入 review pack：`Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelV2Pack.asset`；levels 在 `Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationPeelV2/`；source report 在 `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_v2_report.csv`。
+- V2 source 指标：4/4 built，AxisShift/DirShift 分别为 `4/4, 2/2, 2/2, 2/2`；Rhythm 分别 `9/26/4, 9/23/4, 8/26/4, 9/27/4`；pack GUID 引用已验证全部能在主项目 meta 中找到。
+- `Assets/ArrowMagic/Scenes/Demo.unity` 已挂 `NutationPeelV2Pack.asset`（guid `3fd731af3f36d1a40bf59692c31c0503`）；主 Unity 已启动并导入 V2 资源，Editor.log 未见新 `error CS` 或 `[LevelProgression] Pack empty`。
+- 当前边界：V2 已明显比 V1 避免 `0/1` 方向切换，但仍属于 trace-order shaped peel，不是 LongChain/Hub/Maze 等更强 topology primitive；若体感仍不够明显，下一步应改可消顺序结构或 dependency role，而不是继续加局部 head 分数。
+
+## Chain Language Taxonomy Checkpoint - 2026-06-28
+
+- 用户判断链条语言可能过细；当前已收敛为粗粒度主类，避免把每个细微几何变体都做成独立生产线。
+- `Tools/Production/Join-SGPPressureTraceMetrics.ps1` 的 `Get-ChainLanguage` 已改为输出粗类 `chainLanguage`：`rail_chain`、`curve_chain`、`hook_chain`、`spine_chain`、`patch_chain`、`mixed_chain`。
+- 细分信息保留在新字段 `chainLanguageDetail` 和原有 `chainTags`，用于诊断和后续 profile 学习，不作为第一阶段 lane 爆炸来源。
+- `NutationPeelV2` 现有链条体感/指标属于 high-turn curve/snake/weave 倾向；后续若要直链为主，应做 `Peel + rail_chain` 的独立 profile，而不是继续往 V2 里混。
+- 脚本语法已通过 PowerShell parser 检查；尚未重新跑 join 生成新 CSV，也尚未实现新的 rail/hook 生产 profile。
+
+## Generated-Root WBP V12 Rule Integration And Edge Option Diagnostics - 2026-06-28
+
+- 已复核用户补充的基础规则与 V12 数据约定：Python `Chain.cells[0]` 是 head，`out_dir` 按 head 远离 second 推导；writer 直接把 `chain.cells` 写入 authored `indices`，不应在 Python 侧再反转。
+- 当前 V12 legality audit 覆盖链长、越界、重复、跨链重叠和正交相邻；但 exact6 正样本仍有 `chainLoopRiskCount=3-4`（head-tail 相邻形状风险）。这不是当前 official trace 失败源，但后续应升级为 hard gate 或强 warning，避免 authored 闭环风险污染正式候选。
+- V12 已新增只读 `state_frontier_edge_option_summary` 行，按 ranked edge 输出 option cutting 失败分布，不改变生成决策；语法检查 `python -m py_compile` 已通过。
+- `grwbp_v12_rootcap_be1afe84_option_diverse_t2` 生成 99 条 edge-option summary；虽然 scan capacity 高，但 source-owner frontier options 仍为 0，失败集中在 `head_not_allowed`、`blocked_to_activation`、`second_not_allowed`、`no_path`。结论：ranked edge 多不等于可切链容量。
+- 默认 root 窄复验 `grwbp_v12_frontier_edge7_to54_option_probe_t3`：`7->54` 为 `ranked_source_owner`，但 edge summary 为 `blocked_to_activation=144;head_not_allowed=478;no_path=20;path_attempt=20;second_not_allowed=22`、accepted=0。它确认当前瓶颈是 whole-board duty/ray/corridor 空间被 root/已选职责占死，不是简单调 edge budget。
+- 下一步：把 release corridor、target ray 空间、source basin duty、intentional empty escape/probe 和 added-chain DAG 一起前置规划；root 选择也要看实际 option capacity summary，而不能只看 ranked edge scan 数。
+
+## Generated-Root WBP V12 Capacity Ranking / Corridor Collapse Checkpoint - 2026-06-28
+
+- V12 已把链合法性审计升级为生成前 gate：`--reject-chain-legality-issues` 默认拒绝长度/越界/重复/重叠/非正交问题；`--reject-added-chain-loop-risk` 默认只拒绝新增链 head-tail 相邻闭环风险，避免因真实 generated root 既有形状误杀 root。candidate CSV 增加 `chainLoopRiskChains/addedChainLoopRisk*` 字段。
+- V12 `state_frontier_edge_option_summary` 已扩展 `targetRayLen/activationCells/pathCapRemainingStart` 和 per-edge capacity probe；ranked edge scan/summary 现在记录 `capacityScore/headAllowed/corridorClear/secondAllowed/targetAttemptSlots` 等，可区分“预算不足”和“authored 链几何不可切”。`python -m py_compile` 已通过。
+- 默认 root focused probe：`grwbp_v12_frontier_edge7_to54_capacity_probe_t5` 仍为 0 frontier；`7->54` capacityScore=468、targetAttemptSlots=20、accepted=0，失败仍是 `head_not_allowed=478/blocked_to_activation=144/no_path=20`，说明该弱边不该作为扩张核心。
+- 对照正边：`grwbp_v12_loopgate_capacity_smoke_t2_small` 在同样小预算下 capacity ranking 选择 `24->33`，capacityScore=1501、targetAttemptSlots=468、accepted=21；这说明按实际可切空间排序有效，但会把 options 集中到单一高容量 corridor。
+- `grwbp_v12_capacity_diverse_edge_smoke_t2` 加 `--state-frontier-max-per-edge 20` 后四条旧 hard edges 各有 80 options，但 activation pattern 仍 0 states。新增 `activation_pattern_pool` summary 显示每 slot 四个 target 都各 20；离线 20^4 组合检查无任何 4 链互不重叠组合，best overlap 仍为 3。结论：旧四边 pattern 不是缺候选，而是四条链都挤在 `(16-18,2-9)` 附近同一窄 corridor。
+- open/source expansion probe：默认 root `grwbp_v12_capacity_source_expansion_probe_t1` accepted 仍几乎全是 owner24 corridor（`24->26/29/33/42/51/55`，spatial `b4,0/b4,1`，uniqueCells 约 10-16），`7->22` 只有 12 options/uniqueCells 6；source expansion 没有打开多 corridor。
+- root shortlist 抽样：`grwbp_v12_capacity_root_c6277_probe_t1` 和 `grwbp_v12_capacity_root_953daad7c040_probe_t1` 单边 capacity 更高或略多 edge，但 accepted options 仍主要是 owner24 单 corridor；目前不能靠换这两个 root 直接突破 0.66 plateau。
+- 当前判断：用户关于“后面外出口或依赖弱链会被减分/做不出完整关卡”的判断成立，但更具体地说是 `actual option capacity + spatial corridor diversity` 不足。下一步应在 whole-board cell plan 阶段加入 corridor budget / region reservation / multi-source ray reservation，再切链；不要继续用旧 `24->33/51/42/26` pattern、extension pass、B2 safe 或同 corridor 长链填 coverage。
+
+## Generated-Root WBP V12 Disjoint Capacity Probe - 2026-06-28
+
+- V12 activation-pattern seed 增加 disjoint lookahead：默认 `--enable-state-frontier-activation-pattern-disjoint-lookahead`，并提供 options-per-slot/node-limit 参数。它在尝试 option 前检查剩余 slot 是否仍存在纯 cell-disjoint 完整 suffix；上限命中时保守放行，不作为误杀 gate。
+- 复跑 `grwbp_v12_capacity_diverse_edge_lookahead_t1`：旧 `24->33/51/42/26` pattern 的 pool summary 直接显示 `disjointFull=0`、`lookaheadNodes=97`；pattern counters 变为 `attempted=80;disjoint_lookahead_dead=20;target_mismatch=60`，确认四边旧 pattern 在 authored cell 层就无可组合空间。
+- V12 carrier profile 增加 `state_frontier_disjoint_capacity_summary` 行，计算当前 frontier option pool 在 distinct edge + non-overlap 下的 `maxDisjointDistinctEdge`、示例 option/edge/spatial/cells。默认 root open/source pool `grwbp_v12_open_disjoint_summary_t1`：rawOptions=204，maxDisjointDistinctEdge=3，bestEdges=`24->33,7->22,24->55`，uniqueBestSpatial=3。
+- 新增批量 wrapper `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeneratedRootWBPV12RootDisjointProbe.ps1`，自动遍历 root capacity shortlist，跑 open/source frontier scan，汇总 max-disjoint capacity 到 CSV；PowerShell parser 检查通过。
+- 批量 smoke `grwbp_v12_root_disjoint_batch_t1_top3_summary.csv`：top3 generated hard roots 的 maxDisjoint 分别为 `953daad7_r1_c040=3`、`c6277f51_r1_c007=2`、`10649e7f_r1_c045=2`。当前 shortlist 顶部 root 未自然提供 4+ frontier corridor。
+- 当前结论升级：不是只要换一个 hardStructureV3 更高的 root 就能冲 `0.95+`；按当前 cell-plan/cutter，root 外侧最多只能支持 2-3 条 non-overlap semantic frontier chains。下一步必须改 whole-board cell plan 的多 corridor/region reservation，让 planner 在切链前为多个 source basin、target ray、choke/delay lane 预留空间。
+
+## Generated-Root WBP V12 Rootlang 4-Edge Hardbase Checkpoint - 2026-06-28
+
+- 已把用户补充的基础规则纳入当前 WBP 约束口径：链体连接只认相邻 arrow，signal 可穿 empty 但 empty 不接链；authored `indices` 保持 head->tail；最终候选必须过链合法性、初始可消/非零难度、Greedy solved 和 official trace，不把 trace 当逐链生成器。
+- V12 新增 opt-in `--enable-state-frontier-corridor-reservation`，在 `compile_cell_plan` 后、任何 option 枚举前把 state-frontier release/body/target-ray duty 写入 whole-board cell plan；默认关闭。Top3 hard roots 在“必须新增职责格”口径下 reservationCells=0；12-root 轻量 gate 只有 `rootlang_root10_0615_section_short_r1_c024` 有增量（reservationCandidateEdges=7、selectedEdges=3、reservationCells=6）。
+- V12 `state_frontier_disjoint_capacity_summary` 已改为按 edge 分组去重 slot duplicate 的 exact DFS；`grwbp_v12_rootlang_nores_exactdisjoint_t2` 对 rootlang root 得到 rawOptions=156、edgeGroups=7、nodes=1151、capped=0、maxDisjointDistinctEdge=4。
+- 正证据：`grwbp_v12_rootlang_edgepattern_t1` 使用 disjoint pattern `24->29,7->22,24->33,24->42` 生成 4 个 4-chain candidates，coverage `0.6463768-0.6478261`，Greedy solved=True，greedyInitial=2，greedyMax=5，chainLegalityOk=True，addedChainLoopRiskCount=0；链长 4/6/5/5，contracts 为 3 条 `STATE_FRONTIER_B1_TO_B1` + 1 条 `STATE_FRONTIER_B1_TO_B2`。
+- 边界：coverage 仍约 0.65，source 仍主要 B1/owner24 + owner7，不能视作 0.95 目标态；但它证明“root disjoint gate -> explicit activation edge pattern -> short/medium semantic chains”路线成立。
+- extension 负证据：`grwbp_v12_rootlang_edgepattern_extension_t1` 被 `same_release_owner=192` 卡；放开同源/frontier 后 `t2/t3_widepool` 仍 0 candidates，失败为 `cell_overlap=1424/3584`。这说明当前 4-chain pattern 已占用高分池空间，不能靠后段补链解决 coverage。
+- 5-edge 诊断：widepool disjoint summary 显示 maxDisjointDistinctEdge=5，bestEdges=`7->22,24->55,24->26,24->42,24->33`；但直接 5-edge activation pattern `grwbp_v12_rootlang_edgepattern5_t1` 0 states，counters 为 `target_mismatch=4625`、`first_hit_owner_mismatch_added=120`。几何不重叠不等于 slot/order first-hit 合同成立；下一步要做 slot-aware/disjoint-aware pattern ordering或 added-chain DAG co-selection。
+## PSG Long Lock Role Grammar Worktree Isolation - 2026-06-28
+
+- Long-lock role grammar 生成器、关卡资产、pack、profile/report、trace/join 小文件已从主项目移到 `.worktrees/psg-long-lock-role-grammar`，分支 `codex/psg-long-lock-role-grammar`。
+- 主项目 `Assets/ArrowMagic/Scenes/Demo.unity` 已恢复到 HEAD 原 activePack `acd1590a350614a4e86c901d33b5c5dd`，不再挂 long-lock review pack。
+- 继续这条线时进入 `.worktrees/psg-long-lock-role-grammar`；该 worktree 的 Demo 挂 `PSGLongLockRoleGrammarV1Pack.asset`，用于当前视觉 review。
+- 通用 `Join-SGPPressureTraceMetrics.ps1`、`Build-ProjectSeedStyleProfileV1.ps1` 等共享 PSG/seed-style 工具留在主项目，因为其它生产线仍引用。
+
+## PeelRailV1 Review Lane Checkpoint - 2026-06-28
+
+- 新增独立 `PeelRailV1` lane，定位为 `Peel + rail_chain`，不替换 PSG，也不继续往 `NutationPeelV2` 里混直链语言。
+- 入口：`Tools/Production/Invoke-PeelRailProductionV1.ps1`；Unity 方法：`NoMaskProceduralGenerator.BuildPeelRailV1Pack`。
+- 产物：pack `Assets/ArrowMagic/SOData/Packs/DirectProcedural/PeelRailV1Pack.asset`，levels `Assets/ArrowMagic/SOData/Levels/DirectProcedural/PeelRailV1/`，source report `Assets/ArrowMagic/SOData/Reports/DirectProcedural/peel_rail_v1_report.csv`，keep CSV `Assets/ArrowMagic/SOData/Reports/DirectProcedural/peel_rail_v1_production_keep.csv`。
+- `peel_rail_v1_smoke4` trace/join 结果：4/4 solved，`chainLanguage=rail_chain` 4/4，`TraceOrderKeep=2`、`VisualKeep=1`、`Reject=1`，production keep 2 行；Demo 当前 activePack 指向 `PeelRailV1Pack.asset` guid `df09839fe95847d4f8cf1bcece58f36d`。
+- 与 `NutationPeelV2` 对比：同为 Peel 拓扑，V2 平均 straightness 约 `0.118`，PeelRailV1 smoke4 平均 straightness 约 `0.700`；说明链条语言轴已经能显著分离。
+- 当前边界：PeelRailV1 是 review/prototype lane，不是正式大批量生产线；风险仍在 edgeHeads/openers 偏高、nearOuterRun/sameAxis watch、styleRiskBand 偏高。下一步应降连续外缘/同轴风险，不能继续单纯把 straightness 往上推。
+
+## Nutation Family Reclassification / PeelRail Migration - 2026-06-28
+
+- 用户已确认：`Nutation` 是对标 PSG 的 family，不是单一弯链语言；Nutation 下按 style 分 `Flow/Peel/LongChain/Hub/Maze`，每个 style 下再分 `curve_chain/rail_chain/...`。
+- 已把旧 `PeelRailV1` 在 `.worktrees/nutation-peel` 归名为 `NutationPeelRailV1`；新增入口 `Tools/Production/Invoke-NutationPeelRailProductionV1.ps1`，Unity method `NoMaskProceduralGenerator.BuildNutationPeelRailV1Pack`。
+- `.worktrees/peel-rail-v1` 是本轮误建的空 worktree，已确认 clean 后删除；后续 rail 相关优化继续放 `.worktrees/nutation-peel`。
+- `NutationPeelV2` 保留原资产路径，分类/口径上作为 `NutationPeelCurveV2`；新增菜单 alias `Build Nutation Peel Curve V2 Pack`，避免现在重命名旧 GUID/报告。
+- `NutationPeelRailV1` smoke4：4/4 traced solved，`chainLanguage=rail_chain` 4/4，rank 为 `TraceOrderKeep=1 / VisualKeep=1 / Reject=2`，production keep 1 行；Demo in worktree 已挂 `NutationPeelRailV1Pack.asset` guid `01eedf2fe3c8460448527f68a81bf6c4`。
+- smoke4 rail source 均值：coverage `0.994`、straightness `0.701`、avgChain `10.12`、edgeHeads `13.25`、openers `6.75`。对比 curve V2：coverage `0.972`、straightness `0.118`、avgChain `9.93`、edgeHeads `7.5`、openers `6.75`。
+- 负例：过度降低 rail 的 boundary/outer profile（smoke3）会让 maxChoices 暴涨、process keep 变 0；当前结论是 rail 需要外缘释放，后续应通过候选搜索/role-aware opener 控制压 edgeHeads，不要大幅削弱 boundary grammar。
+
+## Generated-Root WBP V12 Planned Added-DAG / Rule Checkpoint - 2026-06-28
+
+- 已复核用户补充的基础规则与 V12：链体只认相邻 arrow，empty 只参与 signal/escape ray；Python `Chain.cells[0]` 为 authored head，writer 直接写 `indices`，不在 Python 侧再反转；candidate gate 已覆盖链长、越界、重复/重叠、正交相邻、Greedy solved、rootPreserved 和新增链 loop-risk。
+- `grwbp_v12_rootlang_edgepattern5_allowaddedhit_t1` 证明 5-edge set 几何/Greedy 可行，但使用宽松 `--state-frontier-allow-added-chain-first-hit` 时 `plannedAddedFirstHitCount=0`，只能算诊断，不可作为正式口径。
+- 正式 planned 复验 `grwbp_v12_rootlang_edgepattern5_plannedaddedhit_t1` 用 `--enable-planned-added-chain-first-hit` 生成 4 个候选；coverage `0.6536-0.6551`，root preserved，chainLegalityOk=True，addedChainLoopRiskCount=0，plannedAddedFirstHitCount=1，addedDagEdgeCount=1，addedDagCycleCount=0。
+- Official trace `grwbp_v12_rootlang_edgepattern5_plannedaddedhit_t1_trace_full4_metrics.csv`：4/4 solved，process A/tight A，maxChoices avg 6，missing/failed=0；但 4/4 MediumStructure，hardV3 avg约 `0.419`，risk=`DependencyFollowRun`。
+- 结论：planned added-to-added first-hit 可以作为语义 DAG 合约进入 WBP，但当前 5-chain rootlang 只证明机制，不达 A/HardPotential/0.95 目标。它比宽松 mismatch toggle 更干净，但仍缺更强 support/choke/delay attribution。
+- 6-edge 验证 `grwbp_v12_rootlang_edgepattern6_plannedaddedhit_t1` 加 `24->51` 后 0 candidates；summary 显示 `disjointFull=0`、`disjoint_lookahead_dead=5`，carrier profile `maxDisjointDistinctEdge=5`。当前 root/cell-plan 的 authored corridor 上限就是 5 条独立 frontier edges。
+- 下一步应进入 whole-board duty/ray grammar：在 cell plan 阶段为多 source basin、choke/target rays、delay/block DAG、intentional empty probe/escape 预留空间，再切链；不要继续用同一 rootlang corridor 追加第 6 条边或回到 extension/pass/filler。
+
+## Generated-Root WBP V12 Whole-Board Duty/Ray Probe Checkpoint - 2026-06-28
+
+- 新增只读诊断 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Probe-WholeBoardDutyRayCapacityV1.py`：从真实 generated root 重建 V12 cell plan，按 semantic edge 扫 release->target-ray duty corridors，并输出 raw / cuttable / disjoint capacity；不写 Unity asset。
+- 新增 V12 opt-in duty seed 注入：`--enable-state-frontier-duty-seed-options --state-frontier-duty-seed-csv ...`。它只把 probe 产出的 `duty_candidate_path` 作为 seed option source，仍重新验证 occupancy、first-hit、frontier candidate、single Greedy、loop-risk 和 release-impact safety。
+- rootlang root 初始宽口径：D-only/all-basins raw duty capacity 到 `chainDisjoint=7`，四方向 raw 到 `14/12`，说明职责几何空间并非只有 5；但加 V12 preflight 后发现额外边来自旧 option 枚举漏保留或不安全形状。
+- 关键收敛：加入 `added_loop_risk` gate 后，D-only cuttable capacity 从 6 回到 5；加入 release-impact safety 后，四方向 cuttable capacity 也从 6 回到 5。严格口径 `grwbp_v12_rootlang_dutyray_probe_t3_alldirs_allbasins_cuttable_noloop_impact.csv` 的 bestEdges=`36->11,24->33,24->51,24->42,24->26`。
+- seed-only 验证 `grwbp_v12_rootlang_dutyseed_onlypool_t1`：从 probe CSV 注入 42 个 duty seed options，carrier profile disjoint summary 从旧 `5` 抬到 `6`，证明旧枚举/retention 会漏全局友好候选。
+- 负证据 1：`grwbp_v12_rootlang_edgepattern6_dutyseed_seedonly_t1` 6-edge pattern accepted 4 beam states，但候选写出 0；手工复核发现 `24->55` seed 是 2x2 head-tail loop-risk，被正式 `reject_added_chain_loop_risk` 拦，不能作为合法第 6 条。
+- 负证据 2：多方向合法候选 `grwbp_v12_rootlang_edgepattern6_dutyseed_multidir_t1` 被 `blocks_pre_release_owner` 拦；定位到 `40->36` 会提前挡住 root owner48(step36)，而 release owner40 是 step43。该类链必须被前置 gate 排除，不能靠后续 trace 侥幸。
+- 当前结论：rootlang 当前 cell-plan 在“无 loop + single Greedy + no pre-release blocking”的正式安全口径下只有 5 条独立语义 corridor。继续在这个 root 上硬挤第 6 条会变成 loop-risk、pre-release block 或同 corridor overlap。
+- 下一步：把 strict duty/ray capacity（含 no-loop、release-impact、slot/first-hit）提升为 root/cell-plan selection gate，批量扫描 root shortlist 或生成新 root；只有 strict maxDisjoint >= planned cluster size 的 root 才进入高成本 chain cutting。0.95 覆盖需要多 source/多 basin 的新 root/cell-plan，不是旧 rootlang 同 corridor extension。
+
+## Generated-Root WBP V12 Strict Duty/Ray Root Gate Checkpoint - 2026-06-28
+
+- 新增只读批量 wrapper `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeneratedRootWBPV12StrictDutyRayRootGate.ps1`，默认读取 `grwbp_v12_root_capacity_shortlist_t1.csv`，逐 root 跑 strict duty/ray probe，并汇总 `bestChainDisjoint/bestReserveDisjoint/bestEdges/bestSpatial`。
+- Top3 smoke 正常；Top6 正式小批 `grwbp_v12_strict_dutyray_root_gate_top6_t1_summary.csv` 显示最高为 `geosupply_sched_root10_dens_c6277f51_r1_c007`：strict chain/reserve disjoint 都为 6，bestEdges=`21->11,24->32,17->8,24->26,24->29,5->15`，unique spatial 6。其余 top6 root 只有 4-5。
+- c6277 exact6 duty-seed run `grwbp_v12_c6277_strictduty6_seedonly_t1` 证明 strict seed rows 能进入 V12 activation/candidate builder：1 个候选，root preserved，Greedy solved，chain legality OK，added loop-risk 0，planned added DAG 1/no cycle，6 条短/中 state-frontier chains。
+- Official trace `grwbp_v12_c6277_strictduty6_seedonly_t1_trace_full1_metrics.csv`：solved=True，process A/tight A，maxChoices=5，missing/failed=0；但 hardV3=`0.429`、`MediumStructure`、risk=`DependencyFollowRun`，coverage 仅 `0.5492754`。
+- Attribution `grwbp_v12_c6277_strictduty6_seedonly_t1_difficulty_attribution_summary.md`：6/6 added chains official touched，有 CrossDelay/CrossBasin/SupportCrossCarrier，但 support count 只有 1，local penalty dense，3 条 early B1 链仍由 owner24 同源释放。
+- 当前判断：strict duty capacity gate 能找到比 rootlang 更好的 6-corridor generated root，但自然 hard root 仍没有 8+ capacity，也没有自动保持 HardPotential。下一步应在 root/cell-plan 生成侧同时优化 capacity、base coverage/root footprint、cross-basin/choke/delay contract share、planned support carrier count 和 same-release early-B1 cap。
+
+## Generated-Root WBP V12 Relation-Quality Root Gate Checkpoint - 2026-06-28
+
+- `Invoke-GeneratedRootWBPV12StrictDutyRayRootGate.ps1` 已扩展为 relation-quality/root-quality gate：新增 rootCoverage/rootCells、unique release owners、source/target basin diversity、cross/choke/delay/support proxy、same-release/early-B1 cluster、qualityScore/tags，并支持 `-ReuseExistingOutputs` 与多前缀 `-ReuseLabelPrefix`。
+- 验证：PowerShell parser OK；`python -m py_compile` 通过 `Probe-WholeBoardDutyRayCapacityV1.py` 和 `Build-GeneratedRootWholeBoardPlannerV12.py`。
+- Top12 quality run：`grwbp_v12_strict_dutyray_quality_top12_t1_summary.csv`，复用 top6/top8 probe 明细并补跑 roots 9-12；strict chain capacity 分布为 `6 x1 / 5 x8 / 4 x3`，所有 row 都带 `capacity_lt_8`。
+- `c6277` 仍是最高 capacity/quality root，但 tags 明确为 `low_root_footprint;weak_cross_choke_share;same_release_owner_dense;early_b1_cluster;support_proxy_le1`；其 6 条中 3 条仍来自 owner24 early B1，crossBasinCount=0。
+- rootlang/40eb root footprint 较好、cross/delay/support proxy 较多，但 strict capacity 只有 5，且 best set 仍是 4 条 owner24 early-B1 + 1 条 B3/CHOKE 风格，不足以进入 0.95 高成本切链。
+- 当前结论：现有 12-root shortlist 没有接近目标的 root/cell-plan。下一步必须在生成/选择侧引入硬约束：target semantic capacity >=8、root footprint/base coverage >=0.60、release owner/source basin 多样性、same early-B1 cap、cross-basin/choke/delay/support proxy floors；不要继续从当前 shortlist 直接 exact6/exact7 切链。
+
+## Generated-Root WBP V12 Quality-Aware Disjoint Gate Checkpoint - 2026-06-28
+
+- `Probe-WholeBoardDutyRayCapacityV1.py` 新增 probe-native `chain_quality/reserve_quality` disjoint summaries；DFS 仍先最大化 disjoint edge count，但同等 capacity 下按 release/basin/spatial/cross/choke/delay/support proxy 和 early-B1 聚集评分选择 best set。
+- Disjoint summary row 现在直接写 selected set 的 bestEdges/bestKinds/bestSpatial/bestSourceBasins/bestTargetBasins/bestActivationSteps/bestTargetSteps/bestActivationDepths/bestTargetDepths，避免 wrapper 根据 edge 再找 top candidate 造成近似错配。
+- `Invoke-GeneratedRootWBPV12StrictDutyRayRootGate.ps1` 新增 `-UseQualityDisjointSet`，优先采用 `chain_quality/reserve_quality`；旧 CSV 没有 quality rows 时自动 fallback 到 `chain/reserve`。summary 新增 `bestChainMetric/bestReserveMetric` 和 `best*QualityGatePass`。
+- 验证：`python -m py_compile` 通过 `Probe-WholeBoardDutyRayCapacityV1.py` / `Build-GeneratedRootWholeBoardPlannerV12.py`；PowerShell parser OK；脚本 `git diff --check` OK。
+- Smoke/top3：`grwbp_v12_strict_dutyray_qualityaware_top3_t1_summary.csv`。c6277 仍为 strict 6，但 quality-aware set 改为 `21->11,24->32,17->9,5->15,24->26,24->29`，去掉旧 score-only set 的 weak cross/choke 和 support<=1 tag；top3 capacity 仍为 `6/5/4`，全部 `bestChainQualityGatePass=False`。
+- 当前结论：本轮把 quality gate 前移到 root/cell-plan set selection，避免错过同 capacity 下更好的 relation set；但它没有改变自然 root 缺 8+ strict corridor 的结论。下一步仍要改 root/cell-plan generation/reservation，让多 source basin、多 target basin、support/choke/delay 合约在切链前形成，而不是继续从现有 top roots exact6/exact7 硬切。
+
+## Generated-Root WBP V12 Trace-Wide Root Pool Checkpoint - 2026-06-28
+
+- 新增只读脚本 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootPoolFromTraceMetrics.py`：扫描历史 official trace metrics，过滤 solved/process/hard class/path，解析 LevelDefinition asset 的 authored indices 计算真实 rootCells/rootCoverage/rootChains，输出兼容 V12 `--root-csv` 的 root pool。
+- `grwbp_v12_root_pool_tracewide_excl12_t1.csv` 排除旧 12-root shortlist 后，扫描 100 个 metrics 文件 / 2266 rows，得到 924 eligible roots，选出 48。说明旧 shortlist 确实窄，但历史 generated root 池本身仍要过 strict duty/ray gate。
+- `grwbp_v12_strict_dutyray_tracewide_excl12_qualityaware_top4_t1_summary.csv`：trace-wide 新 top4 最好为 `root154_core_sched0564_v1_r1_c016`，strict 6，qualityScore `985.648`，relation quality 好于 c6277（crossBasin=2/choke=1/supportProxy=2/maxSameReleaseOwner=2），但仍 `capacity_lt_8` 且 rootCoverage `0.568826`。
+- `grwbp_v12_strict_dutyray_tracewide_highfootprint_qualityaware_top4_t1_summary.csv`：coverage `0.66-0.70` 的 high-footprint roots 全部只剩 strict disjoint 1。结论：root coverage 不是越高越好；过密 root 会把 release/target-ray/corridor 空间吃掉。
+- `grwbp_v12_strict_dutyray_tracewide_windowed_r5_r8_qualityaware_t1_summary.csv`：windowed pool rank 5-8 又找到一个 strict 6（`root154_core_sched0564_v1_r1_c038`），但仍无 8+；rank 6/7 的 coverage `0.617409` 只到 strict 2，进一步说明需要显式 corridor reservation，而不是只调 coverage window。
+- 脚本已把 root pool score 改成 preferred coverage window（默认 `0.55-0.62`）并对 overfilled roots 加 penalty。验证：新 root-pool 脚本、duty probe、V12 planner `python -m py_compile` 通过；strict gate PowerShell parser OK。
+- 当前结论：更宽 root 搜索把“旧 shortlist 太窄”问题解决了一半，找到了更优 relation-quality strict6 父本，但仍没有自然 8+ root。下一步必须生成/变异 root cell-plan：在 root 生成时保留多 source basin、多 target ray、choke/delay/support corridor 的 intentional empty/duty space，再进入 chain cutting。
+
+## Generated-Root WBP V12 Corridor Occlusion Audit Checkpoint - 2026-06-28
+
+- `Probe-WholeBoardDutyRayCapacityV1.py` 已新增 head/corridor/second 的 occlusion 分类：root 占格、plan role/未规划、越界，以及 top root/role/cell blocker；`Invoke-GeneratedRootWBPV12StrictDutyRayRootGate.ps1` 已把这些 aggregate 透传到 root gate summary。
+- 复用/复跑 trace-wide top3 输出 `grwbp_v12_occlusion_tracewide_top3_t1_summary.csv`：`root154_core_sched0564_v1_r1_c016` 仍是 best strict6，current/all_empty 都为 57 candidates、46 raw edge rows、8 post-preflight edge rows；rootBlockedTotal=54238，outOfBoardTotal=41789，planBlockedTotal=0。
+- `root154_core_sched0589_v1_r3_c043/c038` 为 strict5，current/all_empty 同样一致；planBlockedTotal=0，root/out-of-board 阻塞主导，说明扩大 allowed 空格不会自然产生第 7/8 条合法语义 corridor。
+- high-footprint 对照 `grwbp_v12_occlusion_highfootprint_top1_t1_summary.csv`：`root154_core_sched0657_v1_r1_c018` 覆盖 0.661943 但 strict disjoint 1；18 条 raw edge rows 最后只剩 1 条 post-preflight edge，current/all_empty 仍一致。
+- 当前结论：当前自然 generated roots 的瓶颈不是 cell plan 没把 empty 标成可用职责格，而是 root 本体没有预留 head/signal/second corridor，且很多 raw candidate 在 first-hit/Greedy/release-impact preflight 下崩掉。
+- 下一步：root/cell-plan 生成侧要先保留 corridor holes 和 target-ray duty space，再切链；root gate 应使用 occlusion fields 过滤 overfilled/edge-hugging roots，而不是只看 rootCoverage 或 hard score。
+
+## Generated-Root WBP V12 Corridor Demand Report - 2026-06-29
+
+- 新增只读脚本 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12CorridorDemandFromOcclusion.py`：把 occlusion probe CSV 转成 root/owner/cell/edge 四类 reservation demand，不写 Unity asset，不允许事后删 root。
+- 对照输出：`grwbp_v12_corridor_demand_occlusion_c016_vs_highfoot_t1.csv` 与同名 summary。输入为 best strict6 root `root154_core_sched0564_v1_r1_c016` 和 high-footprint root `root154_core_sched0657_v1_r1_c018`。
+- 结果：strict6 root 仍是 57 unique candidates、46 raw edge rows、8 post-preflight edge rows、bestDisjoint 6；high-footprint root 虽覆盖 0.661943，但只有 1 unique candidate、18 raw edge rows、1 post-preflight edge、bestDisjoint 1。
+- 主要 demand：top owners/cells 集中在 root owner 8/1/6/14 与 corridor cells 如 `0,9`、`0,21`、`15,11`、`12,22`、`11,10`；recommendedRole 多为 `root_generation_corridor_hole`。
+- 结论：更高 root footprint 没有提高整关切链候选容量，反而压扁语义通道。下一步应把这些 owner/cell 热区转成 root 生成/变异期的 corridor-hole、head-neighborhood、boundary-safe 约束，再回到 strict duty/ray gate。
+
+## Generated-Root WBP V12 Reservation-Fit Root Selection - 2026-06-29
+
+- 新增只读脚本 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ReservationFitFromDemand.py`：读取 corridor demand CSV + 真实 generated root pool，解析 root LevelDefinition 后按 demand 热点留空、bucket open share、coverage window 和 root hard metrics 排序；不写 asset，不删除 root cell。
+- 关键修正：demand 坐标必须默认要求同画布尺寸匹配。本次 c016 demand 是 `19x26`，跨尺寸 root 会被标记 `size_mismatch`，除非显式 `--allow-cross-size`。第一次未加尺寸门槛会把 23x30 root 排前，已修正并重跑。
+- 输出：`grwbp_v12_reservation_fit_tracewide_from_c016_demand_t1.csv`、同名 summary、`grwbp_v12_reservation_fit_tracewide_from_c016_demand_t1_top12_root_pool.csv`。
+- 同尺寸 ranking 结果：top same-size roots 对 c016 demand 的 `openDemandShare` 仍只有约 `0.031-0.078`，已知 c016 自身与 high-footprint root 均为 `0.000`；说明历史 root 池只有轻微自然留空改善，没有天然解决 corridor holes。
+- Strict gate 复验：top12 长跑在第 9 个 root 处超时，已停止残留 Python；用 `-MaxRoots 8 -ReuseExistingOutputs` 重新汇总完成 `grwbp_v12_reservationfit_strict_t1_summary.csv`。
+- 8-root 结果：最佳 `geosupply_oh_root154_multi_r12_dense_len10_c013` 达到 strict chain/reserve `7/7`，`geosupply_oh_root154_multi_r12_dense_len10_c014` 为 `7/6`；其余为 5-6。所有 best 仍 tagged `capacity_lt_8;low_root_footprint`，覆盖多在 `0.46-0.51`。
+- 当前结论：reserve-fit 是有效 pre-gate（能从历史池捞到 strict7），但历史池选择本身仍不能提供 8+ 语义 corridor，也不能接近 0.95 覆盖目标。下一步必须做 root-generation / whole-board cell-plan reservation，让多 source basin、target ray、delay/block/choke/support corridor 在 root 生成时就被预留。
+- 用户补充的基础规则已并入当前验收口径：空格只传播不连链、authored `indices` 为 head->tail、Unity 构建会反写运行时方向、链内/链间不重叠且必须相邻、最终仍需 Greedy/import/difficulty 非零和 round-trip/实际链审计。
+
+## Generated-Root WBP V12 Reserved-Root Generation Probe - 2026-06-29
+
+- 新增实验生成器 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ReservedRootGeneratorV1.py`。它从 corridor demand 生成 reserve mask，输出新的 generated root assets/root CSV/summary；不修改既有 root，也不把 trace 当逐链生成器。
+- Scratch + 51 reserve cells：可生成 coverage 约 `0.55-0.56`、Greedy solved、demand open share `1.0` 的 root，但 strict duty/ray capacity 只有 `0/1`。结论：留洞本身不会生成 source/target basin closure。
+- Preserve-nonreserve + top16 reserve：保留 `geosupply_oh_root154_multi_r12_dense_len10_c013` 中不碰 reserve 的链，补到 coverage `0.58-0.59`，strict capacity 最高 `4`。
+- Preserve-nonreserve + top8 reserve：coverage `0.62-0.638`、Greedy max `7-10`，best strict capacity `5`。best strict5 表面 4 个 activation owner，但反向追顶只剩 2 个 top root ancestors。
+- Semantic fill：新链 first-hit earlier owner 且 body overlap later owner ray，可把 root Greedy 压到 initial `3-4` / max `4-5`，但 strict capacity 仍为 `2-3`，因为 activation edges 塌到少数 owner/top-root（如 `8->14/16`、`23->20`）。
+- Rosetta GPT Pro 审稿同意当前判断：下一步不要先改 edge-level corridor 表示，也不要继续调 reserve/fill；应做 source-basin-first root/whole-board co-generator。新 gate：basin independence >=3、cross-basin interference >=4、单 activation owner dominance <=35%、strict capacity 先突破 6 再冲 8+。
+
+## Generated-Root WBP V12 Source-Basin Audit - 2026-06-29
+
+- 新增只读脚本 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinAuditV1.py`；它从 strict duty/ray summary 读取 `bestChainEdges/bestReserveEdges`，重载 root asset 和 Greedy unlock graph，反追 activation/target owner 的 top root ancestor。
+- 输出：`grwbp_v12_source_basin_audit_v1_current.csv` 与 `_summary.md`，覆盖 reservation-fit strict7、reserved-root preserve top8、semantic top8、semdiv top8 四组 summary，共 46 行 chain/reserve audit。
+- 结果：0 行通过 source-basin gate；所有行都有 `activation_toproot_collapse`、`weak_cross_toproot_edges`、`activation_toproot_dominance`。
+- 最强 reservation-fit strict7 表面有 6 个 activation owner，但 `distinctActivationTopRoots=1`、`crossTopRootEdges=0`；preserve top8 best strict5 也只有 2 个 activation top roots。
+- 当前判断：用户怀疑的“后段外出口/弱依赖链会被减分”基本成立；这些链即便可清，也常只是同一顶层 root spine 的后段释放，不构成独立 source basin 或 cross-basin contract。
+- 下一步：source-basin-first co-generator 必须先选/生成至少 3 个顶层 activation basin，并要求 cross-top-root / cross-basin contract edges 在切链前成形；不能再用表面 owner 数、coverage 或低 choice 作为进度信号。
+
+## Generated-Root WBP V12 Source-Basin Root Generator Probe - 2026-06-29
+
+- 新增实验生成器 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`。它先编译多 source basin + inter-basin intentional empty corridor 的 root plan，再在每个 basin 内生成 reverse-valid root chains；候选默认不得提前挡住其他 basin opener。
+- t1 严格 basin-local + early blocker 要求：Greedy solved 且 topRoots `4-6`，但 coverage 最高约 `0.40`，无 selected root；说明只在局部 basin 内压 opener 会很快没有可用阻挡空间。
+- t1b 放松 blocker 要求：coverage `0.542-0.585`，但 openers/topRoots 都约 `16`，strict duty/ray capacity 只有 `0-1`；这是“多源但无合约”的负例。
+- t2b hybrid（前 20 步允许铺 root footprint，之后要求 blocker，candidate scope 为 all-noncorridor）：选出 3 个 root，coverage `0.496/0.516/0.565`，Greedy max `6-8`，topRoots `6-8`。Strict duty/ray capacity 为 `2/2/3`，source-basin audit 仍 0 pass；最好 c003 只有 3 edges、2 activation owners、1 activation top root。
+- t3/t3b ray corridor bias：鼓励 root chain escape ray 穿中心 corridor/其他 basin，能维持较低 choice/multi-top-root，但 coverage 降到选择线以下（t3 最高约 `0.472`），说明 ray/outlet 几何必须成为 plan 约束，不能只做后验加分。
+- 当前结论：source basin-first 是正确必要条件，但不充分。下一版必须同时生成 basin outlet、target-ray/choke/delay duty zones，并让每个 source basin 产出若干可被 strict probe 识别的 candidate edges；否则会在“低 choice 但 capacity 2-3”和“高 coverage 但 opener 16”之间摆动。
+
+## Generated-Root WBP V12 Source-Basin Outlet Proxy Probe - 2026-06-29
+
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：候选 allowed/target cell 传入前排序，修复 Python set 顺序导致同 seed 不可复现的问题；这对 generated root identity 可追踪是硬要求。
+- 同脚本新增 `outletProxy*` 字段与可选门槛：粗扫 all-empty release -> target-ray 几何、cell-disjoint 数、activation top-root 数、cross-top-root 边数、dominance 和 best edge 文本；proxy 已收窄到 strict-compatible basin label（`B1/B2/B3/CHOKE`），但仍不是 strict gate。
+- t4a/t4b/t4c 参数扫描：t4b 可到 coverage `0.496`，但 openers/maxChoices 多为 `14/14`；t4c 低选择样本 `grwbp_v12_sourcebasin_rootgen_v1_t4c_c001` 为 coverage `0.487854`、Greedy `6/4.258/6`、proxy `4/3/3`。
+- t4c strict 复验：best chain/reserve disjoint 只有 `2`，edges `16->15,21->16`；source-basin audit 显示 `distinctActivationTopRoots=1`、`crossTopRootEdges=0`，仍是 top-root collapse。
+- t4b_c005 作为较强 proxy 边界样本：coverage `0.451417`、Greedy `10/7.138/11`、proxy `10/6/9`；strict 提升到 `3`（edges `26->22,11->9,13->12`），但 audit 仍只有 `2` 个 activation top-root、`crossTopRootEdges=0`，reject tags 含 `weak_source_basin_diversity/weak_target_basin_diversity`。
+- 当前结论：粗 outlet/target-ray proxy 有排序信号，但会显著高估 strict capacity。下一步必须把 strict edge eligibility（collect_edges/profile/preflight 或等价约束）前移到 root generation，而不是继续调 coverage、ray bonus、proxy 阈值或 opener 数。
+
+## Generated-Root WBP V12 Source-Basin Strict Cuttable Proxy - 2026-06-29
+
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：新增 `strictEdgeProxy*` 关系图诊断和 opt-in `strictCuttableProxy*`。后者直接复用 `Probe-WholeBoardDutyRayCapacityV1.py` 的 collect_edges、cell plan、scan_edge、cuttable preflight 和 disjoint selection 逻辑。
+- t5 cheap strict-edge 预筛选出 `grwbp_v12_sourcebasin_rootgen_v1_t5_c001`，coverage `0.4089069`、25 链、topRoots/openers `8/8`、Greedy `8/4.920/8`、`strictEdgeProxy=62/6/16`。
+- 同一 t5 样本真实 strict duty/ray gate 只有 `bestChainDisjoint=1`、`bestReserveDisjoint=1`，唯一 edge 为 `19->11`；source-basin audit 仍 0 pass，tags 为 `strict_capacity_lt_gate;activation_toproot_collapse;weak_cross_toproot_edges;activation_owner_dominance;activation_toproot_dominance`。
+- t6 cuttable proxy 单点/批量重放对齐真实 strict：同 seed `445118` 输出 `strictCuttableProxy=1/1/0`、candidateCount `6`、edgesWithCandidates `1`、bestEdges `19->11`。说明 cheap strict-edge proxy 只能证明 owner/target 关系，不证明链头/second/path/preflight 可切。
+- 当前结论：source-basin-first root 数量、top roots 和关系边都不是当前瓶颈；瓶颈是 cuttable duty corridor 空间没有在 root growth 时共同预留/生成。下一步应把 cuttable candidate geometry 变成生成时的 duty slot 目标，而不是继续提高 cheap relation proxy 或覆盖率。
+
+## Generated-Root WBP V12 Source-Basin Slot/Preflight Audit - 2026-06-29
+
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：`cuttableSlot*` reservation 现在会对自己选中的 no-preflight slot 逐条跑正式 cuttable preflight，并输出 `cuttableSlotStrictPreflight*`；`strictCuttableProxy*` 同时汇总 `preflightRejectReasons` 与 `geometryRejectReasons`。
+- t8 no-preflight slot root `grwbp_v12_sourcebasin_rootgen_v1_t8_slot_nopreflight_smoke_c001` 保留真实 generated root，coverage `0.4048583`、25 链、topRoots/openers `8/8`、slot `5/3/2`，但正式 strictCuttable 仍 `1/1/0`。
+- 同一 t8 root 在 `-NoCuttablePreflight` strict duty/ray gate 下达到 `chainDisjoint=7`、`chainQualityDisjoint=6`、`reserveDisjoint=2`；quality edges 为 `8->4,17->4,12->11,22->11,6->2,15->11`，含 6 个 release owner、4 个 source basin、5 条 cross/choke/delay/support proxy。
+- no-preflight source-basin audit 对 chain row 通过：`disjoint=6`、`distinctActivationTopRoots=4`、`crossTopRootEdges=3`。这证明当前 root 已有接近可用的全局语义边集合，问题不是“只有局部两条候选”。
+- 正式 preflight 聚合失败原因：`frontier_candidate_failed=2524`、`first_hit_exits_board=2164`、`blocks_pre_release_owner=2038`、`blocks_release_owner=2022`、`first_hit_owner_mismatch_base=1872`。主要坍塌来自 release-order/root-DAG/first-hit 不合法，而不是单纯空间没路。
+- 分解复验：关闭 frontier + single Greedy preflight 但保留 release-order/first-hit 时，t8 从 quality 6 降到 quality 5；只关闭 frontier、保留 single Greedy 也是 quality 5；full strict 才降到 quality 1。优先级是先修 release-order/first-hit，再修 frontier profile。
+- t9c audit smoke 仅验证新增字段：coverage `0.2064777`、slot `2/2/2`，slot 正式 preflight `0/2`，reject 为 `blocks_release_owner` 与 `frontier_candidate_failed`；不要把 t9c 当质量进展。
+- 下一步：生成侧应以 no-preflight 语义边集合为 desired contracts，同时在 root growth 中保证 release owner 不被自身/更早 owner 阻挡、first-hit 指向目标 activation owner、frontier profile 成立。不要继续只调 coverage、ray bonus、slot 空洞或后验切链。
+
+## NutationLongChainSpineV1 Smoke Checkpoint - 2026-06-28
+
+- `.worktrees/nutation-peel` 新增 `NutationLongChainSpineV1`，定位为 `Nutation / LongChain / spine_chain`，不是 PSG long，也不是旧 stripe/coil long-maze 负例。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationLongChainSpineProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationLongChainSpineV1Pack`。
+- 产物：pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainSpineV1Pack.asset`，source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_spine_v1_report.csv`，keep CSV `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_spine_v1_production_keep.csv`。
+- smoke3：4/4 official trace solved，`styleFamily=maze_long_chain` 4/4，`chainLanguage=spine_chain` 4/4，rank `TraceOrderKeep=2 / Reject=2`，production keep 2 行（maze_spine/core_spine）。
+- smoke3 source 均值：coverage `0.928`、chains `41.0`、avgChain `14.56`、maxChain `27.8`、openers `4.75`；这是 style/language proof，不是 PSG-level coverage production。
+
+## PSG Long Lock Planned Corridor Duty V1 - 2026-06-28
+
+- Implemented in isolated worktree `.worktrees/psg-long-lock-role-grammar` on branch `codex/psg-long-lock-role-grammar`; main project records this as navigation/context only.
+- `PSGLongLockRoleGrammarGenerator` now builds a small front-loaded `CorridorDuty` plan before carrier cutting, places bounded planned cross/support carriers, then falls back to the proven carrier/filler path.
+- New source/join fields: `plannedCorridorDuties`, `plannedCorridorPlaced`, `plannedCrossRegionPlaced`, `plannedDutyReleaseCells`, plus corridor/visual support passthrough in joined/keep CSVs.
+- Final verified label: `psg_long_lock_role_grammar_v1_planduty_v1d_smoke2`; wrapper completed Unity + official trace + join in about 43s with `MinProductionKeepRows=2`.
+- Source result: 2/2 accepted on first attempt. Tall/wide coverage `0.7009/0.7477`, maxChain `45/55`, openers `2/2`, max fanout `3/3`, support corridors `4/6`, cross-region carriers `2/2`, planned placed `1/3`, planned cross `1/3`, planned release cells `5/34`.
+- Official trace/join: 2/2 solved, 2/2 `TraceOrderKeep`, production keep rows 2. Wide row is A/clean with avg/max choices `3.68/6`; tall row is B/watch with avg/max choices `4.25/7`.
+- Current boundary: first self-contained planned long-lock production capability, not final seed-level coverage. Next step should raise coverage through planned duty/support expansion, not stripe/coil/staged refill or unbounded online search.
+
+## PSG Long Lock High-Coverage Probe Boundary - 2026-06-29
+
+- Worktree-only high-coverage probe attempted to push `PSGLongLockRoleGrammarV1` toward `0.95` coverage by adding short release caps, tail extension diagnostics, edge support carriers, loose dependent filler, free filler, and NoMask-style patch-head scanning.
+- Result: no production keep/source keep was achieved at `0.915+` coverage. Best observed high-cover role-grammar candidates reached about `0.927` coverage but failed Greedy; Greedy-passing candidates stayed around `0.919` or below and failed the coverage gate.
+- Failure pattern: random/free patch filling can raise density, but it introduces dependency/escape cycles. Lower-density planned-duty grammar remains trace-stable; high-density random patch layer is not a complete production capability.
+- SGP baseline probe in `.worktrees/psg-long-lock-role-grammar` (`sgp_pressure_hard_highcov_probe_v1`) verified the mature NoMask/SGP densify stack: 4/4 source rows at coverage `0.978-0.994`, trace `4/4 solved`, avg/max choices for keepable rows roughly `3.78-5.31 / 6-8`.
+- Boundary: SGP pressure-hard rows are not final long-lock products because `maxChain=21` and avg chain length about `9.6-10.6`; they prove the 0.95+ coverage machinery, not the desired long-chain visual language.
+- Next step: stop tuning random patch ratios in `PSGLongLockRoleGrammarGenerator`. Either port the SGP placed-chain densify/patch planner as an integrated acyclic planner for long-lock roles, or post-process SGP high-cover candidates with verified chain-longification/merge and Greedy+trace validation.
+
+## NutationHubSpokeV1 Style Proof Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationHubSpokeV1`，定位为 `Nutation / Hub / patch_chain`，不替换 PSG、不改 PSG production wrapper。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubSpokeProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationHubSpokeV1Pack`；wrapper 已修复为全日志查找 success marker，避免 Unity shutdown 性能日志把 marker 挤出 tail 后误判失败。
+- 产物：pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV1Pack.asset`，source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v1_report.csv`。
+- 当前复验 `nutation_hub_spoke_v1_current_trace`：3/3 official trace solved，rank `VisualKeep=1 / ProcessKeep=1 / Reject=1`，production keep 0 行；joined report 在 `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v1_current_trace_trace_joined.csv`。
+- 风格正信号：source status 已出现 `maxFanout=4-5`、`hubOwners=19-22`、`ownerHit=84-98`、`cross=11-19`，说明 Hub/Spoke fanout 结构是真实生成出来的，不只是报告标签。
+- 边界：3 行 joined 都是 `styleFamily=hub_spoke`、`generatorGrammar=gate_aware_peel`、`chainLanguage=patch_chain`，但 `flowLanguage=local_collapse`、`riskBand=high_risk`、`stsPass=0`。它是 style proof，不是 TraceOrderKeep 生产线。
+- 负例：尝试更强的长 spoke/strict local reject 会导致产能塌陷或 Unity 长时间卡在生成阶段；当前保留 smoke2/smoke4 稳定口径。下一步若继续 Hub，应做 Hub-specific gate（fanout/hubOwners/cross/same/localCollapse 的专用阈值），不要硬套 PSG TraceOrderKeep，也不要继续把 strict-local rejection 往生成前推。
+
+## NutationHubSpokeV2 Anti-Collapse Probe Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationHubSpokeV2`，定位仍是 `Nutation / Hub / patch_chain`，用于验证“高覆盖 + hub scoring 重心迁移”是否能减少局部坍塌；不替换 V1、不替换 PSG。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubSpokeProductionV2.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationHubSpokeV2Pack`。
+- 产物：pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV2Pack.asset`，source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v2_report.csv`，joined `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v2_smoke4_trace_joined.csv`。
+- smoke4：3/4 source rows traceable，3/3 official trace solved，rank `VisualKeep=1 / ProcessKeep=1 / Reject=1`，production keep `0`。
+- 对比 V1：localPatchRun 均值 `9.0 -> 8.33`、same-axis max `15 -> 10`、same-dir max `12 -> 10`，说明评分迁移有小幅效果；但 avgChoices `4.92 -> 5.16`、collapse risk `0.419 -> 0.427`，仍全是 `local_collapse/high_risk`。
+- 负结论：单靠 head scoring / fanout scoring / edge-head 惩罚不能把 Hub 推进 TraceOrderKeep；过强 edge/head 或 strict-local 前推会让产能下降。下一步 Hub 需要 solve-time anti-collapse 或 explicit hub-stage schedule，而不是继续局部加权。
+
+## NutationFlowCurveV1 Baseline Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationFlowCurveV1`，定位为 `Nutation / Flow / curve_chain` baseline/review lane；不替换 PSG、不改 PSG production wrapper。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationFlowCurveProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationFlowCurveV1Pack`。Flow wrapper 默认 `ProductionKeepMode=VisualOnly` 且 `AllowedProcessTiers` 包含 `Drop`，只用于 Flow review，不代表普通 PSG strict 通过。
+- 产物：pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationFlowCurveV1Pack.asset`，source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_flow_curve_v1_report.csv`。
+- smoke1：Unity 生成成功，4/4 official trace solved，joined 4 rows，4/4 `flow_continuous`，4/4 `curve_chain`，production keep 4 rows under Flow review口径。
+- source 形态：coverage `0.982-0.992`，avgChain `9.12-9.84`，maxChain `18-19`，straightness `0.123-0.153`，符合 curve/nutation 低直线度 baseline。
+- trace 形态：flowLanguage 为 `flow_spread` 2 行、`single_axis_sweep` 2 行；processTier 全部 `Drop`，maxChoices `12-15`，avgChoices `8.77-9.82`，riskBand `watch`。这是可玩/可审的 Flow baseline，不是 strict 难度或普通量产绿灯。
+
+## PSG Long Lock Longify V1 0.95 Coverage Checkpoint - 2026-06-29
+
+- 在隔离 worktree `.worktrees/psg-long-lock-role-grammar` 新增 `PSGLongLockLongifyV1Generator`，路线是复用 SGP/NoMask 已验证高覆盖源，再做链合并/长链化；每个接受的 merge 都必须重新通过 `AuthoredLevelBuilder` + `GreedyValidator`。
+- Source run `psg_long_lock_longify_v1_report.csv`：4/4 selected，coverage `0.9778-0.9951`，avg `0.9894`；chains 固定 `42`；maxChain `52-75`；longVisualCellShare avg `0.488`；midShortSupportChains avg `28.00`。
+- Official trace `psg_long_lock_longify_v1_trace`：4/4 solved，missing/failed `0`。Join 使用 `MinCoverage=0.95` + `ProductionKeepMode=TraceOrderRequired`，结果为 `TraceOrderKeep=2 / VisualKeep=1 / Reject=1`，production keep rows `2`。
+- Keep 1：`psg_long_lock_longify_v1_03__hard_trial_04_sgp_pressure_hard_rect_core_burst`，coverage `0.992`，chains `42`，avgChain `14.167`，maxChain `75`，A tier，avg/max choices `4.93/9`，STS `0.932`，collapse `0.117`。
+- Keep 2：`psg_long_lock_longify_v1_02_hard_trial_01_sgp_pressure_hard_rect_lock_buckle`，coverage `0.993`，chains `42`，avgChain `13.238`，maxChain `52`，A tier，avg/max choices `5.24/10`，STS `0.930`，collapse `0.081`。
+- Demo in this worktree is mounted to `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGLongLockLongifyV1Pack.asset`; Unity was opened on the worktree for visual review.
+- Boundary: this completes the first `seed_long_lock`-oriented 0.95+ long-spine route, but not the two additional lock types or final production packaging. Next steps are formal wrapper/keep-pack ordering, risk cleanup for non-keep rows, and expansion to the next lock styles without returning to random patch fill.
+
+## NutationMazePatchV1 Style Proof Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationMazePatchV1`，定位为 `Nutation / Maze / patch_chain`；不替换 PSG、不改 PSG production wrapper。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationMazePatchProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationMazePatchV1Pack`。
+- 产物：pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMazePatchV1Pack.asset`，levels `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationMazePatchV1/`，source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_patch_v1_report.csv`。
+- smoke3：Unity 生成成功，4/4 official trace solved，joined 4 rows，4/4 `constraint_maze`，4/4 `patch_chain`，production keep 0 rows under `TraceOrderPreferred`。
+- source 形态：coverage `0.905-0.924`，chains `92-101`，avgChain `5.93-6.10`，maxChain `10-11`，straightness `0.195-0.224`，openers `3`。
+- trace 边界：flowLanguage 全部 `local_collapse`，riskBand 全部 `high_risk`，localPatchRun `12-18`，directionalRisk `0.607-0.742`，STS `0.640-0.719` / collapse `0.390-0.465`。这是 Maze+patch style proof，不是量产绿灯。
+
+## Nutation Style Matrix V1 Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增只读矩阵出口 `Tools/Production/Export-NutationStyleMatrixV1.ps1`，默认聚合当前 6 个 joined CSV，不重新跑 Unity/trace、不改 level/pack。
+- 当前输出：`.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_matrix.csv`、`_best_rows.csv`、`_combined_rows.csv`、`_summary.md`。
+- 本次矩阵汇总 6 lanes / 23 rows：FlowCurve、PeelCurve、PeelRail、LongChainSpine、HubSpokeV2、MazePatch。
+- Readiness：FlowCurve=`flow_review_ready`；PeelCurve、PeelRail、LongChainSpine=`strict_review_ready`；HubSpokeV2、MazePatch=`needs_solve_time_control`。
+- 当前可继续生产/看图的 Nutation 审查口应优先从 PeelCurve、PeelRail、LongChainSpine 的 strict keep rows 选；Flow 只作 Drop-allowed review；Hub/Maze 只作风格证明。
+- 新增 wrapper `.worktrees/nutation-peel/Tools/Production/Invoke-NutationStyleMatrixReviewV1.ps1`，先导出矩阵再调用 Unity `BuildNutationStyleMatrixStrictReviewPack`。
+- 已生成并挂到 worktree Demo：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationStyleMatrixStrictReviewPack.asset`，6 refs，来源 CSV `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_strict_keep_rows.csv`。
+- 下一步若推进 Hub/Maze，不要继续局部 head/fanout 加权；需要 solve-time anti-collapse selection 或 explicit style-stage scheduler。
+
+## Nutation Hub/Maze Anti-Collapse Review V1 Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增只读 Hub/Maze 差距出口 `Tools/Production/Export-NutationAntiCollapseReviewV1.ps1`，默认读取 HubSpokeV2 smoke4 与 MazePatch smoke3 joined CSV。
+- 输出：`.worktrees/nutation-peel/.codex-run/nutation_hubmaze_anticollapse_v1_current_ranked.csv`、`_review_rows.csv`、`_gap_report.md`。
+- 新增 wrapper `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubMazeAntiCollapseReviewV1.ps1`，先导出 gap/review rows，再调用 Unity `BuildNutationHubMazeAntiCollapseReviewPack`。
+- 已生成并挂到 worktree Demo：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMazeAntiCollapseReviewPack.asset`，4 refs，来源 CSV `.worktrees/nutation-peel/.codex-run/nutation_hubmaze_anticollapse_v1_current_review_rows.csv`。
+- 结果：7 行 Hub/Maze 排名，选 4 行 review。Hub top score `81.127/75.61`，可作 style-proof review；Maze top score `30.56/17.608`，仍只是 diagnostic。
+- 主阻塞：`collapse`、`same_axis`、`same_dir`、`local`、`directional` 和 `flow_local_collapse`。这说明下一步需要 solve-time selection 或 explicit stage scheduling，不能再只拧 local head/fanout 权重。
+
+## PSG Long Lock Longify V1 Production Closure - 2026-06-29
+
+- Worktree `.worktrees/psg-long-lock-role-grammar` now has a complete 0.95+ long-lock production route: SGP high-cover source -> run-aware chain longification -> official trace -> strict join -> production keep pack.
+- Generator update: `PSGLongLockLongifyV1Generator` emits 12 profiles per source (`balanced/spine/disperse/headmix/runbreak`), computes greedy solve-order head run metrics, repairs head direction runs, and uses structural `split=1` runbreak for dense_weave when whole-chain reversal is insufficient.
+- Source report `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Reports/DirectProcedural/psg_long_lock_longify_v1_report.csv`: 48/48 selected, coverage `0.9778-0.9951` avg `0.9894`; dense runbreak rows keep coverage `0.9778` while reducing generated greedy axis/dir runs to `6/6`.
+- Full official trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/psg_long_lock_longify_v1_full_split_trace_metrics.csv`; 48/48 solved, missing/failed `0`.
+- Strict join: `.worktrees/psg-long-lock-role-grammar/.codex-run/psg_long_lock_longify_v1_full_split_trace_joined_summary.md`; `MinCoverage=0.95`, `ProductionKeepMode=TraceOrderRequired`, joined rows `48`, `TraceOrderKeep=32`, production keep rows `32`.
+- Keep mix: `core_burst=12`, `lock_buckle=12`, `section_unlock=6`, `dense_weave=2`. Dense keep rows are `psg_long_lock_longify_v1_47_runbreak42...dense_weave` and `...48_runbreak40...dense_weave`, coverage `0.978`, chains `43/41`, maxChain `54`, maxChoices `9/10`, STS `0.859/0.868`, collapse `0.173/0.167`, axis/dir run `6/6`.
+- Production wrapper added: `.worktrees/psg-long-lock-role-grammar/Tools/Production/Invoke-PSGLongLockLongifyV1.ps1`; verified with `-SkipUnity -SkipTrace`, rebuilding strict join and Unity keep pack from existing full trace.
+- Production keep pack: `.worktrees/psg-long-lock-role-grammar/Assets/ArrowMagic/SOData/Packs/DirectProcedural/PSGLongLockLongifyV1ProductionKeepPack.asset`, 32 refs. Worktree `Demo.unity` activePack points to this keep pack, and visible Unity was opened on the worktree at handoff.
+- Boundary: do not relax `MaxSolveSameDirHeadRun` from `7` to accept dense_weave. Dense only became production-keep after structural split; treat runbreak split as the positive route and avoid returning to random patch fill or stripe/coil/staged refill.
+
+## Generated-Root WBP V12 Source-Basin t11 Core-Guard Checkpoint - 2026-06-29
+
+- `Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` now has authored/import contract audit: rejects head self-ray, overlap/non-adjacent, and cross-chain external predecessor risks before root selection; output rows include `authoredImport*` fields.
+- Added final planned slot audit fields: `cuttableSlotFinalCorePreflight*` and `cuttableSlotFinalStrictPreflight*`, separating “slot was valid when planned” from “slot is still valid after root growth.”
+- Added optional growth guard `--enable-cuttable-slot-growth-core-guard`; t11 short-path run `t11_coreguard_c001` reached coverage `0.313765`, 21 root chains, authored clean, Greedy solved, and preserved `4/4` final core slot preflight.
+- t11 core-preflight strict duty/ray gate: `bestChainDisjoint=7`, `bestReserveDisjoint=6`, 7 release owners, 4 source basins, 4 activation top roots, 6 cross-top-root chain edges; source-basin audit passes for chain and reserve rows.
+- t11 full strict still collapses to `bestChainDisjoint=1` (`15->14`), with weak diversity tags. The remaining bottleneck is frontier/single strict profile, not release-order/first-hit core or source-basin independence.
+- Boundary: t11 is not final WBP success and is far below `0.95+` coverage. It proves the next layer should be frontier-profile generation/guard for planned slots, not more relation proxy, coverage tuning, or local filler.
+
+## Generated-Root WBP V12 Frontier Diagnostic Checkpoint - 2026-06-29
+
+- User restated the base game contract: authored chains are head->tail, runtime writes tail->head, empty cells can carry signal but never connect chain body, and final candidates need Greedy/import/pack difficulty gates before seed-pack promotion.
+- `Probe-WholeBoardDutyRayCapacityV1.py` now splits strict frontier preflight failure into subreasons from `frontierReason`, such as `frontier_carrier_not_open_after_activation`, `frontier_not_root_direct_child`, and `frontier_target_not_unlocked_after_carrier_clear`.
+- Verification: `python -m py_compile` passed for `Probe-WholeBoardDutyRayCapacityV1.py` and `Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`.
+- t11 frontier diagnostic run: `t11_coreguard_frontierdiag_summary.csv` still has full strict `bestChainDisjoint=1`; detail aggregation shows major preflight blockers are `blocks_release_owner`, `first_hit_exits_board`, `blocks_pre_release_owner`, `first_hit_owner_mismatch_base`, then `frontier_carrier_not_open_after_activation`.
+- Next step: add generation-side frontier profile preservation/guard only after release-order/first-hit remains core-valid; do not treat empty-through signal paths as chain continuity and do not chase coverage before strict frontier contracts survive.
+
+## Generated-Root WBP V12 Cross-Frontier Gate Checkpoint - 2026-06-29
+
+- `Probe-WholeBoardDutyRayCapacityV1.py` now emits `activationTopRoot/targetTopRoot/crossTopRoot` and scores top-root diversity/cross-top-root edges in chain/reserve quality selection.
+- Direct-child frontier is local by definition: when `state_frontier_require_direct_child=True`, strict frontier rows can reach 4 frontier / 3 strict edges on `t12_frontierquad_seedscan1`, but `crossTopRoot=0` and source-basin audit fails.
+- Cross-frontier profile is viable when direct-child is disabled but frontier carrier/target/single-Greedy gates remain on: `t12_crossfrontier_slot5_gate_summary.csv` reaches chain quality 7, and source-basin audit passes the chain row with 3 activation top roots and 4 cross-top-root edges.
+- `t12_crossfrontier_slot5` generator smoke selected 0 final roots; the failure is now slot-reservation timing/growth preservation, not lack of cross-basin candidate edges.
+- Boundary: all t12 results are still low-coverage root diagnostics around coverage `0.2328`, not final `0.95+` whole-board output and not chain-cut/official-trace success.
+- Next step: split planner contracts into local-frontier choke/opening contracts and cross-frontier delay/block contracts, then preserve both through growth before raising coverage.
+
+## Generated-Root WBP Base-Rule Integration Checkpoint - 2026-06-29
+
+- User restated the base import/play rules: valid authored chains are non-overlapping adjacent `Arrow` cells, `indices` are `head -> tail`, runtime writes chain direction tail->head, empty cells carry signal but never connect chain bodies, and final seed-pack promotion requires Greedy/import/difficulty gates.
+- Project memory now records the WBP implication: keep separate chain-connection and signal/ray graphs; `intentional_empty` / corridor / guard / choke roles may shape first-hit and escape rays but cannot be counted as chain body.
+- WBP candidate gates should stay layered: authored legality, round-trip/actual-chain audit, head self-ray/loop risk, Greedy solved, official trace, relation audit, difficulty attribution. Coverage or root hard score alone is not success.
+- `ClearAllArrowsGenerator` remains a rules/validator/coverage-mechanics reference only; Generated-Root WBP should not default back to random boundary-escape chain filling.
+
+## Generated-Root WBP V12 t13 Cross-Frontier Slot Preservation - 2026-06-29
+
+- Strict chain-slot reservation plus strict growth guard now preserves cross-frontier cuttable slots through generated-root growth; this fixes the t12 timing/growth-preservation failure mode without deleting or hand-placing root cells.
+- `t13_crossfrontier_chain_guard2` selected two roots at coverage `0.2429/0.2551`, both authored-clean and Greedy solved; external strict duty/ray gate passed chain source-basin audit for both with 10 chain-disjoint edges, 4+ activation top roots, and 7-10 cross-top-root edges.
+- `t13_crossfrontier_chain_guard3_cov32_c001` raised the same mechanism to coverage `0.3259109`, 22 root chains, topRoots/openers `8/8`, authored clean, Greedy `8/5.636/9`, planned slots `5/3/5`, final strict preflight `5/0`, and external gate chain-disjoint `10`.
+- Source-basin audit for guard3 chain row passes: 10 disjoint edges, 8 activation owners, 4 activation top roots, 8 cross-top-root edges, owner max share `0.200`, top-root max share `0.400`. Reserve row only misses capacity with 5 disjoint.
+- Boundary: this is still a generated-root/root-capacity proof, not final WBP. Coverage is `0.326`, and no whole-board chain cutting/official trace is implied until the planner consumes the preserved duty slots.
+
+## Generated-Root WBP V12 t13 Duty-Seed Whole-Board Cutting Smoke - 2026-06-29
+
+- Used `t13_crossfrontier_chain_guard3_cov32_c001` plus its strict duty/ray candidate path CSV as V12 duty-seed options. Seed loader accepted 114 `SFD*` options; exact disjoint summary shows 9 distinct-edge disjoint capacity across 10 edge groups.
+- Exact 6-chain and 5-chain bundle attempts produced 0 final candidates. Earlier depths accepted states, but the final depth failed via `greedy_unsolved`, `first_hit_owner_mismatch_added`, `cell_overlap`, and `same_edge`; this is an added-chain interaction/Greedy survival blocker, not lack of slot pool.
+- Exact 4-chain run `t13_crossfrontier_cov32_dutyseed4_t1` produced 4 root-preserved, chain-legal, Greedy-solved candidates at coverage `0.3765182`, 26 chains total, 4 added chains, 4 state-frontier contracts, max added chain length `7`, Greedy `6/3.808/6`.
+- Official trace with worktree `SourceRoot` solved 4/4, `processTier=A`, `tightProcessTier=B`, avg/max choices `2.58/6`, STS avg `0.915`, collapse risk avg `0.080`; all rows remain `hardStructureV3Class=LocalEasy` with hardV3 `0.091`.
+- Relation/difficulty audit confirms the planned semantic edges are real: all 4 added chains are official touched; level attribution shows 3 cross-pressure + 1 delay-pressure per row, `addedAvgOutCud` about `13.4-13.8`, and 0 dead filler/direct opener risk.
+- Hardness still collapses because support closure does not form: `supportCarrierCount=0`, `supportDepth=1`, anti-locality `0.25`, `cudP20=4.635`, risk `local_penalty_dense;no_added_support_carrier`. Strong parent rows are shallow and polluted by conveyor/local edges.
+- Next step: do not add generic frontier chains or chase coverage. Add/enable a support-closure/anti-local gate so at least one added chain becomes a real support carrier or closure-depth contributor before scaling back to 5/6 chains and then coverage.
+
+## Generated-Root WBP V12 t14 Closure-Core Extension Checkpoint - 2026-06-29
+
+- `t14_crossfrontier_cov32_closurebias4_t1` uses the same generated root and duty seed with closure-edge expansion + edge-valid frontier scoring. It produces 4 candidates at coverage `0.3947368`, official trace `4/4` solved, `processTier=S`, `tightProcessTier=S`, and `MediumStructure`; relation audit shows supportDepth `2`, but no added support carrier.
+- Pure 5-frontier scaling is a negative: `t14_crossfrontier_cov32_closurebias5_wide2_t1` proves 5 state-frontier chains can be cut together, official `4/4` solved/process A at coverage `0.3927`, but HardStructure drops to `LocalEasy`, supportDepth `0`, and attribution class mix becomes mostly `ReleasedLeaf`. More frontier leaves are not the route.
+- Fixed closure-positive core edge patterns (`3->14,18->10,16->14,0->14`) cannot add a fifth state-frontier edge from current slot pools: activation-pattern probes reject candidate fifth edges via `disjoint_lookahead_dead`. This is geometric/slot capacity around the closure core, not a lack of arbitrary 5-chain capacity.
+- `t14_crossfrontier_cov32_closurecore4_ext1_t1` fixes the closure-positive 4-chain core and adds one non-frontier semantic extension (`B2_CONVERGE_CHOKE`). It produces coverage `0.405-0.409`, official `4/4` solved, `processTier=S`, `tightProcessTier=A`, supportDepth `2`, `MediumStructure`, hardV3 about `0.296`.
+- `t14_crossfrontier_cov32_closurecore4_ext2_t1` adds two non-frontier semantic extensions (`B2_CONVERGE_CHOKE` + `B1_BLOCKS_B3_SHORTCUT`). It reaches coverage `0.427-0.429`, 28 total chains, 6 added chains, official `4/4` solved, process S/tight A, supportDepth `2`, antiLocality `0.435`, hardV3 `0.321`, and first planner proxy `stateActual=1`.
+- Remaining blockers are stable: no official added support carrier yet, CUD p20 stays `4.635`, antiLocality remains below `0.55`, and hardV3 remains far below HardPotential. Next step should add a real support-carrier / far-CUD gate or generator option, not more pure frontier leaves or coverage-only expansion.
+
+## Nutation Hub V3 / Maze V2 Checkpoint - 2026-06-29
+
+- In `.worktrees/nutation-peel`, added `NutationHubSpokeV3` and `NutationMazePatchV2`; PSG core/current production lane remains untouched.
+- Hub V3 smoke1: 7/7 traced solved, `VisualKeep=1 / ProcessKeep=6 / Reject=0`, production keep 0. Best row is an anti-collapse near-miss: STS `0.805`, collapse `0.320`, local `7`, directionalRisk `0.254`, blocked by sameAxis/sameDir/dependency-local only.
+- Maze V2 smoke2: 4/4 traced solved, `ProcessKeep=1 / Reject=3`, production keep 0. It improves over Maze V1 but still has local-collapse/high-risk with best STS `0.678`, collapse `0.460`, sameAxis `14`, sameDir `11`.
+- Current Nutation strict keep rows remain 6 total: PeelCurve 2, PeelRail 2, LongChainSpine 2. Flow is review-only; Hub/Maze are style-proof/gap review only.
+- Updated `NutationHubMazeAntiCollapseReviewPack.asset` in the worktree now mounts latest Hub V3 near-miss, Hub V2 proof, Maze V2 proof, and Maze V1 diagnostic.
+
+## Nutation Hub V4 Anti-Axis Checkpoint - 2026-06-29
+
+- In `.worktrees/nutation-peel`, added `NutationHubSpokeV4` as `Nutation / Hub / patch_chain` anti-axis prototype; entry `Tools/Production/Invoke-NutationHubSpokeProductionV4.ps1`, Unity method `NoMaskProceduralGenerator.BuildNutationHubSpokeV4Pack`.
+- V4 is an independent lane and does not replace PSG or Hub V3. It adds 4 focused slots, recent direction/axis head prior, and a light high-fanout parent child-axis brake.
+- smoke4: 4/4 official trace solved, rank `VisualKeep=2 / ProcessKeep=1 / Reject=1`, production keep 0. Joined report: `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v4_smoke4_trace_joined.csv`.
+- Best V4 row `woven_axis_a`: coverage `0.916`, choices `5.19/10`, local `5`, directionalRisk `0.157`, STS `0.809`, collapse `0.260`, sameDir `6`, dependencyLocal `0.545`, but sameAxisRun `20`.
+- Conclusion: V4 improves sameDir/dependencyLocal/collapse but does not solve solve-order same-axis continuity. Next Hub/Maze work should be explicit solve-order axis/stage scheduling or solve-time selection, not more local head/fanout weight escalation.
+- Current Hub/Maze review now ranks 22 rows from Hub V4/V3/V2 and Maze V2/V1. Hub V3 remains best near-miss (`score=102.406`); V4 is style-proof (`score=81.818`, gap `same_axis+12`).
+- Current Nutation style matrix is 9 lanes / 38 rows; strict keep remains 6 rows from PeelCurve, PeelRail, and LongChainSpine only. Flow review-only; Hub/Maze not production-approved.
+
+## NutationPeelPatchV1 Near-Miss Checkpoint - 2026-06-29
+
+- In `.worktrees/nutation-peel`, added `NutationPeelPatchV1` as `Nutation / Peel / patch_chain`; it is a strict near-miss/prototype and does not touch PSG.
+- Entry: `Tools/Production/Invoke-NutationPeelPatchProductionV1.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationPeelPatchV1Pack`; pack `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelPatchV1Pack.asset`; source report `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_patch_v1_report.csv`.
+- smoke6: 4/4 official trace solved, 4/4 `peel_layered`, 4/4 `patch_chain`, 4/4 STS pass, but all rows rank `Reject`; production keep remains 0.
+- Best `core_patch`: coverage `0.987`, choices `7.25/11`, local/nearOuter `4/4`, directionalRisk `0.155`, STS `0.858`, collapse `0.170`, sameAxis `6`, sameDir `5`. Main gap is strict maxChoices `11 -> 10`.
+- Negative smoke5: opening/edge-head hard compression created 1 `ProcessKeep` with `maxChoices=10`, but flow regressed to `local_collapse` and STS pass fell to 2/4. Do not use local opener crushing as the next PeelPatch route.
+- Nutation style matrix now covers 10 lanes / 42 rows. Strict keep remains 6 rows from PeelCurve 2, PeelRail 2, and LongChainSpine 2; Flow is review-only; PeelPatch is strict-near-miss; Hub/Maze remain style-proof/anti-collapse review only.
+
+## Generated-Root WBP V12 t15 Secondary-Source Negative - 2026-06-29
+
+- User base rules were cross-checked against WBP: keep authored chain legality, first-hit/signal-ray legality, Greedy, official trace, relation audit, and difficulty attribution as separate gates; empty/corridor cells may carry signal but must not be counted as chain connection.
+- Diagnostic run `t15_crossfrontier_cov32_secondary5_candidate5_t1` used the t13 generated root plus a 4-chain closure core and one `STATE_FRONTIER_SECONDARY_B1_TO_B2` child. It produced 4 root-preserved, chain-legal, Greedy-solved candidates at coverage `0.4028-0.4049`, added chains `5`, max added length `10-11`.
+- Official trace solved `4/4` with `processTier=A`, but relation audit stayed `LocalEasy`: hardV3 `0.242-0.245`, supportDepth `2`, antiLocality `0.364`, CUD p20 `4.635`, and best support root depth only `2`.
+- Difficulty attribution shows the secondary child is an official parent/child edge but not a real support carrier: level risk `no_added_support_carrier`; added classes are `CrossBasinPressure`, `CrossDelayPressureWithLocalPenalty`, `ReleasedLeaf`, and `WeakRelay`; no `SupportCrossCarrier`.
+- Interpretation: secondary-source child grammar is geometrically possible, but current child gate only proves shallow B1->B2 pressure. It does not create the depth/score closure needed for HardPotential, so it must not be used as the next coverage-scaling baseline.
+- Tooling update: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeneratedRootWBPV12HardbaseProfile.ps1` now makes `-Mode Secondary` pass `--min-state-actual-carrier-candidates 1` by default, so shallow secondary candidates are blocked unless explicitly overridden for diagnostics.
+- Next implementation target remains: add or strengthen support-closure-aware whole-board DAG/cluster selection so at least one added chain reaches the stateActual/official support-carrier threshold before trying 0.95 coverage scaling.
+
+## Generated-Root WBP V12 t16 StateActual Root-Fanout Checkpoint - 2026-06-29
+
+- User's base rule reminder is now treated as WBP hard context: authored chain legality, actual-chain/round-trip, self-ray/loop-risk, Greedy, official trace, relation audit, and difficulty attribution are separate gates; empty cells may carry signal but never connect chain bodies.
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV12.py` with local stateActual gates for added-chain clusters and secondary frontier states; it now tracks `closureRootFanout` and direct root child region count in addition to branch/depth/score.
+- Positive control `t16br_t6` used the t13 generated root plus 4 fixed cross-frontier state-frontier chains and 2 non-frontier B2 converge chains. It generated 4 root-preserved, chain-legal, Greedy-solved candidates at coverage `0.4170`; official trace solved `4/4`, process/tight process `A/A`.
+- `t16br_t6` is still `LocalEasy`: hardV3 `0.286`, antiLocal `0.391`, CUD p20 `4.635`, supportClosureQualifiedHubCount `0`. Relation audit shows the apparent support carrier is `parent 26 -> child 24`, `fanout=1`, `closureDepth=3`, `diagnosis=singleChild`; SupportCrossCarrier appears in attribution but is not enough for HardPotential.
+- Strict control `t16br_t7` adds `--added-chain-cluster-state-actual-min-root-fanout 2`; it preserves the same 32 SFD duty-seed options but produces `0` candidates. Counters show real direct fanout shapes exist (`rootFanoutMax=3`, root regions `2`) but do not also meet the default stateActual depth/score threshold.
+- Loose diagnostic `t16br_t8_loosefan` lowers stateActual to depth `2` / score `0.30` with rootFanout `2`; it reproduces the same t6 candidate family and only adds shallow direct-fanout option `SFD115003` to the planner count. This confirms shallow fanout alone does not address the official hard metrics.
+- Tooling note: long Unity level labels hit Windows MAX_PATH at `.asset.meta` around 260 chars; use short labels for WBP asset experiments. Failed long-label partial dirs `t16_crossfrontier_cov32_cluster_branch_stateactual_t4/t5` were removed.
+- Next step: generate or select a non-frontier support carrier that is both directly fanout-qualified and depth/score-qualified in the same option; do not scale coverage or add generic leaves until this survives official relation audit.
+
+## Generated-Root WBP V12 t17 Official Support-Hub Breakthrough - 2026-06-29
+
+- `t16br_t9_7hub` is the first current-line generated-root WBP sample where official metrics recognize an added support hub: exact 7 added chains, coverage `0.433-0.435`, root preserved, chain-legal, official trace `4/4` solved with process/tight `A/A`.
+- Best rows `t16br_t9_7hub_c003/c004` reach `MediumStructure`, official supportClosureQualifiedHubCount `1`, support depth `3`, support score `0.826`; attribution marks added chain 27 (`O00208`/`O00216`, `B2_CONVERGE_CHOKE`) as `SupportCrossCarrier`.
+- Remaining t9 gap: hardV3 only about `0.332-0.334`, antiLocality `0.417`, CUD p20 `5.75`, supportCarrierCount `1`, coverage `0.433`; this is a support-hub proof, not the final hard/0.95 route.
+- Strict double-hub probe `t16br_t10_8dhub` with exact 8 and local requirement of 2 stateActual carriers produced `0` candidates. Rejection shows available states still have direct root fanout/regions, but candidateCount stays below 2.
+- Added opt-in script flag `--secondary-source-frontier-include-cluster-base-states` so secondary-source generation can start from already selected cluster/support states. Compile check passed.
+- Post-hub strict secondary `t16br_t11_posthub8` also produced `0` candidates with 2-carrier requirement; loose `t16br_t12_posthub8_loose` produced 4 exact-8 candidates at coverage `0.443-0.445`, but official trace dropped all back to `LocalEasy` with support hub count `0`.
+- Negative cause: loose secondary selected false hub `O00217` and added an `O00354`-parent secondary leaf; choices/coverage improved, but support closure was destroyed (`no_added_support_carrier`, antiLocality `0.385`, CUD p20 `4.635`).
+- Diagnostic `t16br_t13_posthub8_b2s96` shows a crude B2 strength floor is not the right fix: filtering weak B2 options removed the false hub but also yielded no viable post-hub candidate.
+- Next step: preserve/seed from official-positive support-core rows (`t9 c003/c004`) or implement an official-like support-preservation gate before any exact-8/coverage scaling. Do not use loose post-hub secondary or generic exact-8 expansion as baseline.
+
+## Generated-Root WBP V12 t18-t24 Seed Rehydration And Secondary Boundary - 2026-06-29
+
+- `Build-GeneratedRootWholeBoardPlannerV12.py` now rehydrates `--chain-plan-seed-csv` rows safely: if the current option pool lacks a selected option, it reconstructs a `ChainOption` from row-level cells/contract/release fields; if an option id exists but its identity key differs, it treats the id as drifted and still uses identity/row reconstruction. Compile check passed.
+- The loader fix unblocked t18/t21/t22 seed-state reuse. Strict exact10 from t18 with 2 stateActual carriers (`t16br_t21_seed10_recon2`) accepts 4 seed states but writes 0 candidates; rejection is real `state_actual_low` / corridor geometry pressure, not seed loading.
+- Relaxed exact10 from t18 (`t16br_t22_seed10_sec1`) writes 4 candidates at coverage `0.4676-0.4696`, official trace `4/4` solved, process/tight `A/A`, `MediumStructure`, hardV3 about `0.332`, support hub count `2` in trace metrics but difficulty attribution still counts only 1 real added `SupportCrossCarrier`.
+- t22 relation/audit result: chain 27 remains the only real support carrier; chain 29 is cross-delay with local pollution; the new B1->B1 secondary is weak/local (`CrossBasinPressureWithLocalPenalty`), so t22 is a coverage/mechanics proof, not a second-hub baseline.
+- Targeted no-B1 secondary run `t16br_t23_seed10_no_b1sec` replaces the weak B1->B1 leaf with B1->CHOKE. It writes 4 exact10 candidates at coverage `0.4696356`, official `4/4` solved, process `S`, tight `A`, `sameAxis/sameDir=4`, hardV21 `0.724`, and better crossCrit `6`, but still `MediumStructure` with hardV3 `0.302-0.338`.
+- t23 attribution improves delay pressure but still has only 1 support carrier: B1->CHOKE becomes `CrossDelayPressureWithLocalPenalty`, not `SupportCrossCarrier`; hardV3 remains blocked by `cudP20<6` and `antiLocal<0.55`.
+- Exact11 from t23 while still excluding B1 secondary (`t16br_t24_seed11_no_b1sec`) produces 0 candidates. Rejections are dominated by head/second cells occupied by root or selected chains, `child_no_path`, duplicate target paths, and targets no longer blocked.
+- Current boundary: the t13/t23 whole-board space is exhausted around exact10 for nonlocal secondary chains. Next work should change root/corridor co-planning or support-closure grammar, not add local leaves, relax target basins back to B1, or chase coverage-only exact11+.
+
+## Generated-Root WBP V12 t25-t29 Secondary Corridor Demand And Reserved-Root Boundary - 2026-06-29
+
+- Added optional secondary-source demand diagnostics to `Build-GeneratedRootWholeBoardPlannerV12.py`: `--secondary-source-frontier-demand-row-limit` and `--secondary-source-frontier-demand-reason-row-limit` emit `secondary_source_frontier_demand` rows into the carrier profile. Compile check passed.
+- Exact11 diagnostic `t16br_t27_seed11_no_b1sec_demand_reason` reproduces the t24 boundary with demand rows visible: specs `92`, v1Options `428`, b2Safe `80`, frontier `0`, options `461`, beamStates `4`, candidates `0`.
+- Demand analysis says the exact11 failure is missing source-basin corridor connectivity, not one missing chain. Dominant reasons are `child_no_path/no_role_path`, root/selected occupied child head/second cells, and out-of-board head pressure; target-ray rows are real but lower-volume.
+- Pressure is concentrated on B1_BLOCKS_B2 secondary parents released by semantic owner `18` (`O00481`, `O00464`, `O00486`, `O00469`) and left-edge hotspots such as `0,18`, `0,15`, `0,8`, `0,12`, and `0,6`. Later secondary heads are fighting the t23 selected plan instead of using reserved corridors.
+- Secondary cell-demand compatibility CSV and reservation-fit report show the current t13 root still leaves much demand open (`openDemandShare 0.737481`, occupied demand weight `865` of total `3774`), so the root is not the only blocker; exact10 seed selection/corridor consumption is also part of the failure.
+- `secondary_duty_cells=0` is expected in t27 because the current cell plan already assigns all board cells to non-empty roles. Post-hoc secondary duty zones cannot mutate those roles, so secondary corridors must be co-planned before exact10 seed closure.
+- Scratch reserved-root smoke `t28_secondary_reserved_root_smoke` generated 4 legal/Greedy-solved roots at coverage `0.342-0.352`, but strict duty/ray gate stayed weak (`bestChainDisjoint` 0/1/1/2). This is a negative for simple reserve-mask scratch roots.
+- Preserve-nonreserve smoke `t29_secondary_preserve_reserved_root_smoke` preserved the original root body better and generated 4 legal/Greedy-solved roots at coverage `0.346-0.348`; partial strict gate for c001 reached `bestChainDisjoint=4` but failed capacity/diversity gates and the full four-root gate was stopped after timeout. This is partial evidence only, not a new baseline.
+- Next step: integrate secondary corridor demand into source-basin/root generation or exact10 seed scoring before chain-plan closure, while preserving the official-positive support hub and cross-basin root capacity. Do not continue with post-hoc exact11 leaves, scratch reserve masks, or coverage-only chain additions.
+
+## Campaign500 Long-Chain Pilot3 V1 Checkpoint - 2026-06-29
+
+- Isolated worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; this is separate from the existing visible `.worktrees/psg-long-lock-role-grammar` Unity session.
+- Scope: first 3 Campaign500 sections only. Plan CSV `.codex-run/campaign500_longchain_pilot3_replacement_plan_v1.csv` targets sections `3/25/45`, replacing 3 normal slots per section with `LongNormalA`, `LongNormalB`, and `LongChallenge`.
+- Generator route: worktree-only `Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs` reuses PSG/SGP high-cover direct source generation, then applies campaign slot longification/merge profiles (`slot_spine`, `slot_headmix`, `slot_runbreak`) with Greedy/authored validation after each accepted merge.
+- Full candidate pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V1Pack.asset`; report `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v1_report.csv`; summary says 30/36 selected, coverage `0.9504-0.9766`, avg coverage `0.9628`, avg chains `63.67`, avg maxChain `97.70`, avg longVisualCellShare `0.626`, avg midShortSupportChains `29.97`.
+- Lightweight official trace input `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v1_full4_trace_input.csv` traced 30/30 solved with missing/failed `0`; metrics live in `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v1_full4_fast_metrics.csv`.
+- Demo9 review pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V1Demo9Pack.asset`; source keep CSV `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v1_demo9_trace_keep.csv`; summary says 9/9 solved, coverage `0.9504-0.9758`.
+- Worktree `Demo.unity` activePack is mounted to Demo9 pack GUID `be527d4b7cfa0934aa8dccd1f24a1d55`. This is a visual/pilot review pack, not final production keep: only order 22 is process tier A; the other 8 selected demo rows are solved but Drop due high choice pressure.
+- Next step: keep the campaign slot/root planner, but add trace-aware choice/run control before calling it production-ready. Priority is lowering `avgChoices/maxChoices` while preserving 0.95+ coverage, long visual share, and mid/short support chains; do not fall back to stripe/coil/staged refill negatives.
+
+## Generated-Root WBP V12 t30-t48 Demand-Scored Root/Basin Boundary - 2026-06-29
+
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWholeBoardPlannerV12.py` with demand-aware option/state scoring from `t16br_t27_seed11_no_b1sec_secondary_cell_demand.csv`, CSV demand fields, compatibility demand audit, and secondary-source child demand penalty before `state_score_v4`. Compile passed.
+- t30/t32/t36 exact11 from t23/t31/t35 all produced `0` candidates. Soft demand scoring changes seed ordering, but cannot open exact11 once t13 exact10 has consumed the future secondary corridor.
+- t31/t35 exact10 candidates still have `stateDemandOverlapWeight 767/827`; t34 exact9 from t14 lowers overlap to `469/509`, but exact10 adds `STATE_FRONTIER_SECONDARY_B1_TO_CHOKE` (`SSF10150x`) through `0,17;0,18;1,18`, raising overlap back to `767/827`.
+- Hard cap probe t33 (`state overlap <=700`) yields `0` exact10 candidates; no-CHOKE exact10 probes t37/t38 also yield `0` candidates. Widened secondary enumeration and `allow-all-empty` probes t39/t40 still generate the same 8 SSF options through the left edge. This confirms t13 root+seed geometry collapses B1->CHOKE into a single corridor rather than a simple scoring/search miss.
+- Rosetta/ChatGPT Pro review in conversation `6a3be215-05c8-83e8-b5c9-307a492fea69` agreed with the local evidence: stop tuning secondary enumeration as the main route; move the next implementation to root/source-basin re-layout or co-generation.
+- Reservation-fit t41 on existing generated root pools shows t28/t29 demand-fit roots leave much more secondary demand open (`openDemandShare ~0.87`) than current t13 (`0.737`), but previous strict capacity was weak, so they are probes only.
+- t29 best probe `t29_secondary_preserve_reserved_root_smoke_c004` enters WBP: t42 exact4 and t44 exact5 are Greedy solved; t44 exact5 has `stateDemandOverlapWeight 0`. Lowering `secondary_source_frontier_min_root_frontier_chains` to `1` lets t47 jump to exact7 with 4 candidates, coverage `0.449-0.451`, Greedy solved, maxLen `9`, and demand overlap `0`.
+- t48 exact8 from t47 returns `0` candidates; final states only reach added chains `5` and `7`, not `8`. Current t29 root line proves demand-fit/root-basin direction, but it is not a replacement baseline because semantic expansion depth stalls at exact7 and coverage remains far below target.
+- Next step: generate/select a new root pool that combines t13-style cross-frontier/support capacity with t29-style secondary demand openness, then run WBP progression. Do not continue with post-hoc exact11 leaves, CHOKE-only timing tweaks, or secondary enumeration widening as the main solution.
+
+## NutationHubRailV1 Style Proof Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationHubRailV1`，定位为 `Nutation / Hub / rail_chain` style/language proof；不替换 PSG、不进入 production keep。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubRailProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationHubRailV1Pack`；产物为 `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubRailV1Pack.asset`，source report 为 `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_rail_v1_report.csv`。
+- 实现边界：沿用 gate-aware Hub owner-hit 构建，但 `HubRail` 独立允许/计数长 rail chains，增加 rail-language scoring/gate，并覆盖早期链段延伸，让它不继承 HubSpoke 的强制早弯。
+- smoke2：4/4 official trace solved，4/4 `styleFamily=hub_spoke`，4/4 `chainLanguage=rail_chain`，rank `ProcessKeep=4`，production keep 0。
+- source signal：straightness avg `0.848`（smoke1 为 `0.287`），Rails `4-19`，说明 Hub 风格可以渲染成明显 rail-chain 语言；但 stripe/same-axis 风险同步升高。
+- best row `center_rail`：coverage `0.908`，choices `4.59/10`，local/nearOuter `7/7`，directionalRisk `0.344`，stripeRisk `0.446`，STS `0.860` / collapse `0.177`，sameAxis `8`，sameDir `4`；当前只差 visual hard stripe gate。
+- Style matrix 已更新为 11 lanes / 46 rows，strict keep 仍为 6 行：PeelCurve 2、PeelRail 2、LongChainSpine 2。HubRail 是 `style_proof_only`，下一步若要生产化需要 stripe/axis run 控制或 solve-order stage scheduler。
+
+## Generated-Root WBP V12 t49 Hard-Root/Demand-Fit Audit - 2026-06-29
+
+- 用户补充的基础游戏规则已纳入 WBP gate：authored/import legality、运行时 actual-chain round-trip、self-ray/loop-risk、Greedy、official trace、relation/difficulty audit 必须分层验收；empty/corridor 可承载 signal/ray，但不能算链体连接。
+- t49b source-basin lightpool root trace 6/6 solved，process 为 4 A + 2 B，但全部 `LocalEasy`，best hardV3 仅约 `0.184`；它可用于 mechanics/demand 诊断，不能作为 HardPotential/TrueHard baseline。
+- c001 exact5 no-demand branch official solved/process A/S，但全部 `LocalEasy`，且已占用 t27 future secondary demand cells（重叠权重约 `51/60.55`）。正确加载 demand root id 后，c001 demand0 exact4/exact5 都是 0 candidates；之前 overlap=0 是 demand CSV root id 未匹配造成的假干净。
+- c003 demand0 branch可到 exact6，coverage 约 `0.324-0.328`，official solved/process B，但 supportDepth `0`、LocalEasy，并在 exact7 停住；它证明能保 demand corridor，但丢了 hard support。
+- c002 demand0 branch可到 exact5，coverage 约 `0.385`，official solved/process A，但仍 LocalEasy、supportDepth `1`，exact6 0 candidates；它证明 process A 也不能代替 hard-structure 验收。
+- 已有更合适的真实 generated hard root 参考：`geosupply_sched_root10_from_40eb0da7_r1_c038` coverage `0.615942`、process A、`TrueHardCandidate`、supportDepth `4`；`rootlang_root10_0615_section_short_r1_c024` 的 V12 edgepattern5 可扩到 coverage `0.653-0.655`、official A、`MediumStructure`，说明 hard-root 路线可行但 B1 frontier 合约过窄。
+- 当前结论：下一步不是继续调 lightpool、chain count、coverage 或 generic B2，而是让 root pool/generator 同时满足 official-hard root identity 与 secondary-demand/cross-frontier/choke capacity；先筛 hard root + demand fit，再做 whole-board semantic chain cutting。
+
+## Generated-Root WBP V12 t50 Hard-Root Demand-Fit Smoke - 2026-06-29
+
+- 只读 root selector `t50_hardroot_pool_fromtrace` 从 100 个 official trace metrics / 2266 行中选出 80 个 hard-root rows；top rows 全是 `TrueHardCandidate`，process `S/A`，supportDepth 多为 `4`，coverage 约 `0.569-0.666`。
+- 用 t27 secondary cell demand 做 reservation fit 后，top12 仍是 `TrueHardCandidate/S`，但 openDemandShare 只有约 `0.429-0.447`，说明 hard root 与 demand openness 之间仍有拉扯；它们比 lightpool 正确，但不是自然满开 corridor。
+- strict duty/ray gate 尝试 top12 时因超时手动停止残留 probe，只完成前 2 个 root；已确认无 python 残留进程。产物保留为 partial evidence，不当作完整 top12 audit。
+- 已完成的两个 root：`root154_section_sched_v2_r5_c062` bestChainDisjoint `7` / reserve `6`，release owner `5`、source basins `3`、cross-basin `3`、choke `2`、supportProxy `4`，但 quality gate 仍因 `capacity_lt_8;low_root_footprint;early_b1_cluster` 失败；`root154_core_sched0564_v1_r1_c016` bestChainDisjoint `6` / reserve `6`，source basin diversity 更弱。
+- 结论：hard-root + demand-fit route 是正确下一线，但 top fit 不能只按 demand 排；下一步需要更宽 root pool/coverage window 或 cross-frontier quality pre-rank，让 selected root 同时达到 semantic capacity `>=8`、root footprint 接近目标、并保持 official hard identity。
+
+## Generated-Root WBP V12 t51-t52 Short Semantic Whole-Board Proof - 2026-06-29
+
+- t51/t52 继续从 official-hard generated root `root154_section_sched_v2_r5_c062` 出发；该 root coverage `0.546559`、process `S`、`TrueHardCandidate`、hardV3 `0.783`、supportDepth `4`，root identity 在后续候选中保持 `rootPreserved=True`。
+- 关键修正：把 state-frontier duty/ray probe 的 `min-chain-length` 从 4 降到 3 后，`t52_shortsemantic_strict_root154_section_r5_c062.csv` 达到 `chainQualityDisjoint=8`，best quality edges 为 `1->2,0->4,14->25,14->15,0->2,1->12,11->19,21->23`，含 B1/B2/CHOKE、cross-basin `4`、choke `4`、delay `4`、supportProxy `6`。这符合用户希望的短/中语义链方向，不是长 band/slab。
+- Planner exact8 smoke `t52c062_e8d` 用 t52 duty seed 作为 whole-board state-frontier bundle，修正旧 V1 `--min-b2-contracts` 默认值后写出 4 个 root-preserved、chain-legal、Greedy-solved candidate；coverage `0.6275304`，8 条新增语义链，新增链平均长 `5.0`、maxLen `10`、全部 short/medium，official trace `4/4` solved，process/tight `S/S`。
+- `t52c062_e8d` relation/difficulty audit：8/8 added chains 被 official trace 触达；attribution 为 `SupportCrossCarrier=1`、cross `6`、delay `4`、local penalty `4`；hardV3 仍只有 `0.356`，class `LocalEasy`，阻塞原因是 `score<0.68` 和 `antiLocal<0.55`，不是 process 曲线或可解性。
+- 强制 t52 理论 `chain_quality` 最优 edge pattern 的 `t52c062_e8q` 无 candidate；原因是 slot-aware chain cells `disjoint_lookahead_dead`。这证明 duty-probe disjoint capacity 不是最终整关可切 capacity，必须以 slot-aware whole-board state 为准。
+- 非-frontier extension probe `t52c062_e9x` 可写出 exact9 并 official solved，但 coverage 仅到 `0.6356275`，process/tight 降为 `A/A`，hardV3 `0.351`、antiLocal `0.378`、local penalty 增至 `5`；`t52c062_e10y` 只能形成 exact9 final states，exact10 失败于 `greedy_unsolved/same_release_owner/cell_overlap`。结论：普通 extension 会复现三明治式补链污染，不能作为扩 coverage 路线。
+- 当前下一步：把 anti-local / official-like support-carrier preservation 前移到 whole-board scoring 或 root/basin co-planning；优先找能同时保 `chainQualityDisjoint>=8`、低 local penalty、至少 2 个 real support carrier 的 root/cell plan。不要把 t52 exact8/e9x 当最终 baseline，也不要继续用 generic extension 追 coverage。
+
+## Generated-Root WBP V12 t53-t54 Gap-Aware Root Capacity Audit - 2026-06-29
+
+- 在 `.worktrees/sgp-rhythm-lab` 复核 t52 exact8/e9x 后，确认 `t52c062_e8d` 是机制 proof 而非 baseline：root/chain legal、official solved/process S，但 official attribution 仍为 `LocalEasy 0.356`，`local_penalty_dense`，added local penalty `4`。
+- 对 `root154_section_sched_v2_r5_c062` 做 anti-local exact8 对照：`t53c062_e8local0_actual1`、`t53c062_e8local0_only` 均 0 candidates；强/温和 state-level anti-local scoring 也 0 candidates；option-level mild scoring `t53c062_e8antilocal_option1` 只复现同一组 8 链。结论：这条 root 的可解 exact8 依赖至少一条 planner-local 超阈值链。
+- 扩大 root probe：`root154_core_sched0564_v1_r1_c016` strict shortsemantic 达到 `chainQualityDisjoint=8`，WBP `t53c016_e8d` 写出 4 candidates，coverage `0.6518219`，8 added chains，contract `5`，official trace `4/4` solved，class 提升到 `MediumStructure 0.476`，但仍 `antiLocal<0.55`、local penalty `4`、risk `local_penalty_dense`。`t53c016_e9x` exact9 为 0 candidates；`t53c016_e8local0` 也为 0 candidates。
+- `geosupply_oh_root154_from055_section_c008` strict shortsemantic 也达到 `chainQualityDisjoint=8`，WBP `t53oh008_e8d` official solved，但 coverage `0.6295547`、score `0.359`、antiLocal `0.405`，弱于 c016，仍 local penalty `4`。
+- t53/t54 root probe 排名显示当前 normal strict exact8 容量主要集中在 c062/c016/oh008；高 coverage roots（如 `root154_core_sched0657_v1_r1_c018`、`root154_core_sched0635_v1_r3_c016`）strict capacity 只有 1，说明 root coverage/process/hard identity 不能代替语义切链容量。
+- gap-aware probe：对 c062/c016/oh008 同时设置 `state-frontier-min-step-gap=2` 和 `state-frontier-source-min-step-gap=2` 后，strict disjoint 最高仅 `6`；设置为 `3` 后降到 `4`。这验证了当前 exact8 容量大量依赖 stepGap=1/2 的近邻 source-owner 释放边，正是 official antiLocal/local penalty 的主要污染源。
+- 下一步：不要继续在 exact8 后补链或调 coverage；应把 “nonlocal edge capacity / source-owner step gap / official-like local edge budget / support carrier count” 放到 root selector 或 whole-board cell plan 前置门里，再尝试 WBP。目标是先找到 gap2-aware `>=8` semantic capacity 或修改 root/basin generator 生成这种容量。
+
+## NutationMazeRailV1 Style Proof Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationMazeRailV1`，定位为 `Nutation / Maze / rail_chain` folded-rail style/language proof；不替换 PSG、不进入 production keep。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationMazeRailProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationMazeRailV1Pack`；产物为 `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMazeRailV1Pack.asset`，source report 为 `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_rail_v1_report.csv`。
+- 实现边界：沿用 gate-aware Maze owner-hit 构建，但给 `MazeRail` 独立 rail-language scoring/gate、rail segment 延伸和轻量 axis/region prior；主 PSG 和现有 MazePatch/HubSpoke 入口不改。
+- smoke1/smoke2 证明 rail 明显但太直：4/4 solved、4/4 rail，straightness avg 约 `0.889/0.825`，stripe avg 约 `0.698/0.646`，同轴/条纹风险过高。smoke3 过度回摆：straightness avg `0.121`，不再像 rail。
+- smoke4 是当前平衡 proof：3 traceable rows / 3 official solved，3/3 `styleFamily=constraint_maze`，3/3 `chainLanguage=rail_chain`，source straightness avg `0.434`，stripe avg `0.031`，rank 为 1 ProcessKeep + 2 Reject，production keep 0；joined 为 `.worktrees/nutation-peel/.codex-run/nutation_maze_rail_v1_smoke4_trace_joined.csv`。
+- 最有潜力 row `core_rail_maze`：coverage `0.900`，choices `5.03/13`，local/nearOuter `6/3`，directionalRisk `0.201`，stripeRisk `0.023`，STS `0.887` / collapse `0.206`，sameAxis `8`，sameDir `6`，dependencyLocal `0.481`；但 processTier 为 `Drop`，不能作为正式 keep。
+- Style matrix 已更新为 12 lanes / 49 rows，strict keep 仍为 6 行：PeelCurve 2、PeelRail 2、LongChainSpine 2。MazeRail 是 `style_proof_only`，下一步若要生产化需要 solve-time stage/axis scheduler，而不是继续只调局部 head 权重。
+
+## Campaign500 Long-Chain Pilot3 V2 Demo9 Checkpoint - 2026-06-29
+
+- Worktree `.worktrees/campaign500-longchain-pilot3` on branch `codex/campaign500-longchain-pilot3` now has V2 outputs mounted for visual review; visible Unity was opened on this worktree with PID `25420`.
+- V2 generator responds to user feedback by capping overlong merged chains, scoring/repairing edge straight runs, adding six source/profile families, and preserving mid/short support chains so the main visual is long-chain composition rather than one huge chain.
+- Full V2 report: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v2_report.csv`; selected `43/54`, coverage `0.9503-0.9779` avg `0.9631`, maxChain avg `66.19`, maxChain range `34-94`, edgeStraightRunMax avg `7.05`.
+- Official trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v2_full_fast_metrics.csv`; `43/43 solved`, process tiers `A=4/B=2/Drop=37`.
+- Demo9 keep: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v2_demo9_trace_keep.csv`; `9/9 solved`, coverage `0.9553-0.9700`, maxChain avg `54.78`, maxChain max `74`, edgeStraightRunMax avg `7.11`, longVisualCellShare avg `0.513`, midShortSupportChains avg `36`, tier mix `A=2/Drop=7`.
+- Demo pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V2Demo9Pack.asset`, GUID `6d069bd44eb6790439cb69f27a485c2b`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here.
+- Boundary: V2 Demo9 is visual/review only, not production keep. It fixes the obvious V1 overlong-chain leak and edge-straight-stack risk, but choice pressure remains high on most challenge/late-section rows.
+
+## NutationHubCurveV1 Style Proof Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationHubCurveV1`，定位为 `Nutation / Hub / curve_chain` style/language proof；不替换 PSG、不进入 production keep。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubCurveProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationHubCurveV1Pack`；source report：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_curve_v1_report.csv`；pack：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubCurveV1Pack.asset`。
+- 实现边界：沿用 gate-aware Hub owner-hit 构建，新增 HubCurve spec/profile、中长曲链 language score/gate、joined `hub_curve_chain` 标签；不复用 HubRail 的早期直线延伸 override。
+- smoke1：3 traceable rows / 3 solved，3/3 `styleFamily=hub_spoke`，3/3 `chainLanguage=curve_chain`，3/3 `chainLanguageDetail=hub_curve_chain`；rank 为 2 ProcessKeep + 1 Reject，0 STS pass，0 production keep。
+- source signal：straightness avg `0.227`，avgChain `6.27-6.85`，maxChain `15-17`，说明它与 HubRail 的直链语言分开了，但仍比目标中长曲链偏短。
+- best row `dual_curve`：coverage `0.912`，choices `6.44/12`，local/nearOuter `9/7`，directionalRisk `0.515`，STS `0.823` / collapse `0.262`，sameAxis `8`，sameDir `6`，dependencyLocal `0.677`；仍为 `local_collapse/high_risk`。
+- Style matrix 已更新为 13 lanes / 52 rows，strict keep 仍为 6 行：PeelCurve 2、PeelRail 2、LongChainSpine 2。HubCurve 是 `needs_solve_time_control` / style proof，不是 production。
+- Anti-collapse exporter 默认输入已补 HubCurve 和 HubRail；当前 Hub best 仍是 HubRail `center_rail`，HubCurve best anti-collapse score `91.497`，主要 gap 是 directional/local/near_outer/dependency_local。
+
+## NutationMazeCurveV1 Style Proof Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationMazeCurveV1`，定位为 `Nutation / Maze / curve_chain` low-yield style/language proof；不替换 PSG、不进入 production keep。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationMazeCurveProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationMazeCurveV1Pack`；source report：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_maze_curve_v1_report.csv`；pack：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMazeCurveV1Pack.asset`。
+- 实现边界：沿用 gate-aware Maze owner-hit 构建，新增 MazeCurve spec/profile、中长曲链 language score/gate、joined `maze_curve_chain` 标签；profile attempts 收到 420，避免该低产 proof 每次烧很久。
+- smoke1：4 specs 仅 1 traceable row / 1 solved，`styleFamily=constraint_maze`，`chainLanguage=curve_chain`，`chainLanguageDetail=maze_curve_chain`；rank 为 VisualKeep，0 STS pass，0 production keep。
+- 当前 row `curve_field`：source coverage `0.892`，choices `4.95/10`，local run `8`，directionalRisk `0.458`，STS `0.690` / collapse `0.356`，sameDir `5`，dependencyLocal `0.619`；风险为 `local_collapse/high_risk`。
+- Style matrix 已更新为 14 lanes / 53 rows，strict keep 仍为 6 行：PeelCurve 2、PeelRail 2、LongChainSpine 2。MazeCurve 是 `needs_solve_time_control` / style proof，不是 production。
+
+## NutationLongChainCurveV1 Strict Review Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationLongChainCurveV1`，定位为 `Nutation / LongChain / curve_chain`；不替换 PSG、不改 `NutationLongChainSpineV1`。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationLongChainCurveProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationLongChainCurveV1Pack`；source report：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_curve_v1_report.csv`；pack：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainCurveV1Pack.asset`。
+- 实现边界：沿用 direct rectangle peel / pressure trace-shaped scoring，独立 spec/profile 和 `long_curve_chain` joined 标签；第二版降低强制转弯，避免第一版 straightness `0.11-0.14` 的过度蛇形。
+- smoke1 第二版：4/4 official trace solved、4/4 `maze_long_chain`、4/4 `curve_chain`/`long_curve_chain`、4/4 STS pass，rank 为 3 TraceOrderKeep + 1 Reject，production keep 3。
+- source signal：coverage `0.931-0.956`，chains `45-55`，avgChain `11.55-12.56`，maxChain `21-24`，straightness `0.343-0.389`；与 Spine 的 `spine_chain/long_straight_chain` 明确分开，且没有退成 rail stripe。
+- Style matrix 已更新为 15 lanes / 57 rows，strict keep 9 行：LongChainCurve 3、LongChainSpine 2、PeelCurve 2、PeelRail 2。当前最稳的新产线扩展是 LongChainCurve；Hub/Maze 仍需要 solve-time scheduler。
+
+## NutationLongChainRailV1 Strict Review Checkpoint - 2026-06-29
+
+- `.worktrees/nutation-peel` 新增 `NutationLongChainRailV1`，定位为 `Nutation / LongChain / rail_chain`；不替换 PSG、不改 Spine/Curve lane。
+- 入口：`.worktrees/nutation-peel/Tools/Production/Invoke-NutationLongChainRailProductionV1.ps1`；Unity method：`NoMaskProceduralGenerator.BuildNutationLongChainRailV1Pack`；source report：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_rail_v1_report.csv`；pack：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainRailV1Pack.asset`。
+- smoke1 负例：4/4 solved 但 source straightness `0.700-0.772`，stripeRisk `0.259-0.444`，risk 全 high；说明 LongChainRail 不能只加强直线惯性。
+- smoke2 当前版：4/4 official solved、4/4 `maze_long_chain`、4/4 `rail_chain`/`long_rail_chain`、4/4 visualPass、3/4 STS pass，rank 为 3 TraceOrderKeep + 1 VisualKeep，production keep 3。
+- source signal：coverage `0.924-0.949`，chains `44-51`，avgChain `12.45-13.43`，maxChain `22-23`，straightness `0.408-0.490`；比 LongChainCurve 更直、比 Spine 更短更密，且 stripeRisk 降到 `0.135-0.191` 的 keep 区间。
+- 当时 Style matrix 已更新为 16 lanes / 61 rows，strict keep 12 行：LongChainCurve 3、LongChainRail 3、LongChainSpine 2、PeelCurve 2、PeelRail 2。LongChain 已有 spine/curve/rail 三种可区分 strict-review language；当前矩阵已由 FlowRail/FlowPatch 和 LongChainPatch checkpoint 更新为 19 lanes / 73 rows。
+
+## NutationStyleMatrixStrictReviewPack Refresh - 2026-06-29
+
+- 当时已在 `.worktrees/nutation-peel` 重跑 `Tools/Production/Invoke-NutationStyleMatrixReviewV1.ps1 -OutputPrefix nutation_style_matrix_v1_current`，重新导出 16 lanes / 61 rows matrix 并调用 Unity `BuildNutationStyleMatrixStrictReviewPack`；当前矩阵已更新为 19 lanes / 73 rows，strict review pack 仍为 12 refs。
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationStyleMatrixStrictReviewPack.asset` 已从旧 6 refs 刷到 12 refs，displayName 为 `Nutation Style Matrix Strict Review (12)`。
+- Worktree `.worktrees/nutation-peel/Assets/ArrowMagic/Scenes/Demo.unity` activePack GUID 与该 pack `.meta` GUID `c246514373ff8454c928f4fb946a6f5c` 匹配。
+- 12 refs 来源：LongChainCurve 3、LongChainRail 3、LongChainSpine 2、PeelCurve 2、PeelRail 2；Flow/PeelPatch/Hub/Maze 仍不进 strict pack。
+
+## Generated-Root WBP V12 t55-t56 Gap2 Source-Basin Boundary - 2026-06-29
+
+- 新增只读 gap-aware root audit：`.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12GapAwareRootAuditV1.py`；包装 duty/ray probe 并批量读取 `chain_quality`/`duty_disjoint_summary`，用于筛 `state-frontier-min-step-gap` 与 source-owner gap。
+- t55 对 `t50_hardroot_pool_fromtrace` top80 做 gap2 audit：最高 gap2-aware capacity 只有 `6`，没有 root 达到 `>=8`；top80 分布为 cap6=12、cap5=27、cap4=5、cap3=13、cap2=7、cap1=16。
+- t56 source-basin rootgen 证明 gap2 edge-level cap8 可以生成，但当前样本是低覆盖 root：`t56_sbrg_gap2_cap8_smoke1_c001` coverage `0.2692308`、`c002` coverage `0.2834008`，两者 authored/Greedy clean，strictCuttableProxy gap2 达到 `8`。
+- 独立 gap2 duty probe：c001 `chainDisjoint=7 / chainQuality=8`，c002 `chainDisjoint=8 / chainQuality=8`。这说明 raw edge/quality capacity 存在，但还不是整关可切容量。
+- WBP `t56c002_e8gap2` exact8 结果为 `0` candidates；beam 可到 depth7，但 depth8 被 `cell_overlap`、`same_edge`、`slot_offset_mismatch`、`first_hit_owner_mismatch_added` 卡住。结论：edge-level cap8 不等于 slot-state simultaneous cap8。
+- WBP `t56c002_e7gap2` 写出 4 candidates，coverage `0.3765182`，official trace `4/4` solved，process/tight `A/A`，但 relation audit 为 `LocalEasy 0.168`、antiLocal `0.286`、supportDepth `2`，difficulty attribution 显示 added support `0`、risk `local_penalty_dense;no_added_support_carrier`。
+- 用户补充的基础玩法规则已用于校正 WBP 验收口径：authored 链合法、runtime actual-chain round-trip、ThroughEmpty first-hit、点击清 actual adjacent chain、root preserved、Greedy、official trace、relation/difficulty audit 必须分层验收；empty/corridor 是 signal 角色，不是链体连接。
+- 下一步：不要继续 exact7/generic coverage 或只看 edge-level cap8；应把 slot-state reservation、actual first-hit、antiLocal/source-owner gap、real support carrier count 前移到 source-basin rootgen/cell-plan gate，再尝试 exact8+ 与覆盖率提升。
+
+## Generated-Root WBP V12 t57 Reserve-Aware Slot Gate - 2026-06-29
+
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：新增 `--min-strict-cuttable-proxy-reserve-disjoint`、`--min-strict-cuttable-proxy-reserve-quality-disjoint`，把 reserve-disjoint capacity 纳入 selection gate、rank score、growth log 和 summary。
+- 验证：`python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` 通过。
+- t57 strict growth guard smoke：`t57_sbrg_gap2_slot8_smoke1` 0 selected；结论是 early strict slot guard 过强，会在低覆盖阶段饿死 root growth。
+- t57 late slot audit：`t57_sbrg_gap2_slot8_late2` 对 t56 两个 seed 复核为 selected 0；c001/c002 虽 chain-level cap8，但 reserve/slot planned only `4/5`，final strict pass only `4/5`。
+- t57 chain-only control：`t57_sbrg_gap2_slot8_chainset2_c001` 可被选中，但只是 false positive；chain slot planned `8`，reserve-quality still `5`，且 signal/ray overlap 集中在共享 target ray 和 corridor cells。
+- t57 reserve gate smoke：`t57_sbrg_gap2_reservegate2_*` 写出 selected 0 和新 growth 字段；该命令 hit 120s timeout，未复现 t56 几何，只作为新字段/gate smoke，不作为完整扫描结论。
+- 关键结论：后续 WBP rootgen 必须找 reserve-aware cap8 root，而不是 edge/chain-aware cap8 root。下一步应扩大 rootgen/root-selector 的 source-basin reserve-aware scan，并同时保留 root official-hard/support-carrier/antiLocal 目标。
+
+## Generated-Root WBP V12 t58-t59 Reserve-First Audit - 2026-06-29
+
+- 继续更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：`strictCuttableProxyBestEdges` 现在使用 reserve-best edges，并额外输出 `strictCuttableProxyChainBestEdges` / `strictCuttableProxyReserveBestEdges`；best-mode ranking 先看 reserve-disjoint，再看 chain-disjoint。
+- 验证：`python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` 通过。
+- 历史 root pool 聚合显示 reserve-aware 上限仍低：47 行中 `reserveQuality` 分布为 `0:39, 1:5, 4:1, 5:2`，没有 reserve-aware cap8；最高仍是 t56/t57 的 `5`，属于 exact8 失败的 false-positive 区间。
+- t58 单 seed 复跑 `t58_sbrg_gap2_reservefirst_seed560123_rq5` selected 0；当前代码没有复现旧 t56 几何，最终只有 `selectedChain=2 / selectedReserve=1 / reserveQuality=1`，所以它是 reserve-first gate smoke，不是有效扫描。
+- t59 current-code 小批 `t59_sbrg_gap2_reservefirst_scan3` selected 3 个 mechanics-clean root，coverage `0.273-0.312`，但 reserve-first strictCuttable 最高只有 `chainQuality=2 / reserveQuality=2`，另两行为 `0/0`；最佳 edge set 为 `16->15,15->1`，`crossTopRootEdges=0`，activation dominance `1.000`。
+- 结论：当前缺口不是“能不能再切 8 条链”，而是 rootgen/cell-plan 阶段没有生成可保留的 reserve slot 和 cross-basin/choke/delay 合约空间。下一步应在 source-basin root growth 前加入 whole-board cell-role/slot 规划，至少把 release corridor、target ray reserve、guard/choke/blocker 角色前置，而不是继续 coverage 或 chain-count 扫描。
+
+## Generated-Root WBP V12 t61-t67 Light-Role Reserve Plan - 2026-06-29
+
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：新增 light-role reserve planner，支持 `--enable-light-role-reserve`、target count、replan until target、ray/anchor/reserve overlap mode、hard/soft protection、candidate overlap cap、consumed-cell gate、activation-top diversity cap，并在 root/growth CSV 与 summary 输出 light role 指标。
+- 验证：`python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` 通过；无 Python 残留进程。
+- t61 soft penalty only：lightRole 只规划 `2` 且最终 consumed `4`，strictCuttable `0/0`，说明 after_seed 低容量早锁和软罚都不够。
+- t62 full reserve hard protect：after_seed 可规划 8 条 cross/choke slots 且 consumed `0`，但保护格 77 个，coverage 卡在 `0.2226721`，selected 0；说明不能硬保完整 reserve/anchor 面。
+- t63 ray-core hard protect：lightRole `8/8/0`，coverage `0.2631579`，但 strict reserveQuality 只有 `1`；只保 ray 核心不够提供链身几何。
+- t65/t67 ray-hard + anchor-soft + activation-top diversity：t67 scan3 selected 2/3，coverage `0.2732794/0.2813765`，lightRole `8/8/0` 和 `7/7/0`，activationTopRoots `4/3`，activationDominance `0.375/0.429`，authored/Greedy clean。
+- t67 必须使用 cross-frontier `--no-strict-cuttable-proxy-state-frontier-require-direct-child` 才显示改善：selectedChain `4/10`、selectedReserve `3`、reserveQuality `3`、crossTop `3`；direct-child t65 仍为 reserveQuality `1`。
+- 当前边界：light-role whole-board cell plan 现在能稳定规划并保住多 top-root cross/choke slots，但还没有转成 reserve-aware cap8。下一步应把 planned role edges 直接喂给 candidate-slot/chain-body availability，目标是 reserveQuality 从 `3` 推到 `8`，再尝试 WBP exact8+。
+
+## Generated-Root WBP V12 t68-t69 Planned Role Slot Audit - 2026-06-29
+
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：light-role reserve 现在保留结构化 `edgeRows`，新增 `--enable-light-role-slot-audit` 与 `lightRoleSlot*` root/growth/summary 字段，用 strict duty/ray `scan_edge` 对 planned role edges 做同口径 slot availability 审计。
+- 验证：`python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` 通过；最终无 Python 残留进程。
+- t68 scan3 开启 planned-edge audit 后 selected 0，但 growth log 有诊断：seed560120/560121/560122 的 lightRole planned 为 `8/6/7`，planned-edge reserveQuality 只有 `1/3/1`；说明 planned role cell 保留并不等于 planned edge 可切。
+- t69 relaxed seed560120 写出 1 行审计样本：coverage `0.2874494`、chains `20`、lightRole `8/8/1`、lightRoleSlot `1/1/1`、generic strictCuttableReserve `3/3`、authored OK、Greedy `7/3.200/7`。该 relaxed 行只是诊断，不是 baseline。
+- 主要 reject 原因集中在真实 first-hit/释放语义：`blocks_release_owner`、`first_hit_owner_mismatch_base`、`frontier_target_not_unlocked_after_carrier_clear`、`first_hit_exits_board`、`blocks_pre_release_owner`。这吻合用户判断：后段外出口或弱依赖关系会被难度/关系审计减分。
+- 下一步：把 light-role 选择从 cell-reserve-only 改为 slot-fit-aware planned edge selection，优先选择有 candidate-chain slot、reserve-disjoint、first-hit preflight 更健康的 role edges，再尝试把 planned-edge reserveQuality 从 `1-3` 推向 `8`。
+
+## Generated-Root WBP V12 t70-t74 Slot-Fit Selection Boundary - 2026-06-29
+
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：新增 opt-in `--enable-light-role-slot-fit-selection`，复用 strict duty/ray `scan_edge` / `candidate_quality_seed_score` 给 light-role edge 预打 slot-fit 分，输出 `lightRoleReserveSlotFit*` 字段，并支持 slot-fit 候选奖励、require-candidate、slot reserve cell 选择/包含等参数。
+- 验证：`python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` 通过；复查后无残留 Python 进程。
+- t70 `seed560120` slot-fit-aware role selection：selected 1，coverage `0.2874494`，lightRole `8/8/1`，planned-edge `lightRoleSlot=3/3/3`，generic strictCuttableReserve `3/3`。相比 t69 的 `1/1/1`，slot-fit selection 有效，但仍只到 3。
+- t71/t72 将 slot reserve cells 纳入保护或 selection cell set 时均超时，半截 `basin_plan` 已清理；结论是不能在每轮 growth 里重扫/硬保护 slot reserve 面。
+- t73 只在 after-seed 阶段锁一次 slot-reserve packing：能完成但 lightRole 只剩 `2/2/0`，planned-edge slot `1/1/1`，说明锁得太早、太窄。
+- t74 去掉 activation-top cap 后与 t70 基本相同：coverage `0.2874494`，lightRole `8/8/1`，planned-edge slot `3/3/3`，generic strict reserve `3/3`。activation-top cap 不是当前上限。
+- 当前边界：slot-fit selection 能避免明显坏的 planned role edge，但当前 generated root/空间几何只稳定供出约 3 条 reserve-disjoint planned slot。下一步要做 slot-fit edge supply/root-growth audit：找出哪些 `headAllowed/corridorClear/secondAllowed/path/first-hit/release` 条件在 root growth 中被消耗，并让 growth 主动制造更多 slot-fit 边，而不是继续调 top cap、coverage 或直接把 slot reserve cells 硬保护进增长循环。
+- 追加实现：新增 `--light-role-slot-fit-supply-csv`，只读导出 final selected roots 的 slot-fit edge supply rows，包含 edge/mode、target ray、head/corridor/second/path/candidate、preflight reject、top blockers 和 best chain/reserve cells。该输出用于下一轮 root-growth scoring，不参与当前选择。
+- 验证：`python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` 通过；轻量 smoke 证明 supply CSV 可写，随后已清理 t75 smoke 产物。一次反推 t70 同参的 t75 full 验证超时，只写出半截 `basin_plan`，已停止残留 Python 并删除半截文件；不作为实验数据。
+
+## Campaign500 Long-Chain Pilot3 V3 Outer-Exit Gate Checkpoint - 2026-06-29
+
+- Worktree `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; visible Unity opened on this worktree with PID `40892`.
+- User screenshot showed repeated outward-facing edge arrows. Conclusion: this is not required by base game rules; it came from PSG/SGP high-cover source bias plus V2 only gating same-chain edge straight runs, not adjacent outward-exit heads across different chains.
+- V3 generator adds `outerExitHeadCount`, `outerExitRunMax`, and `outerExitSideMax` source metrics, campaign gates, merge rejection, report columns, and scoring penalties. Full V3 selected `43/54`, coverage avg `0.9631`, maxChain avg `66.19`, `outerExitRunMax avg/max=1.00/1`, `outerExitSideMax avg/max=1.28/2`.
+- Official trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v3_full_fast_metrics.csv`; result `43/43 solved`, process tiers `A=4/B=2/Drop=37`, missing/failed `0`.
+- Demo9 keep: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v3_demo9_trace_keep.csv`; `9/9 solved`, coverage `0.9553-0.9700`, maxChain range `34-74`, `outerExitRunMax=1` for all rows, `outerExitSideMax max=1`.
+- Demo pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V3Demo9Pack.asset`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here. V3 remains visual/review only because most challenge/late-section rows still process `Drop`.
+
+## Nutation Hub/Maze Controlled Review Refresh - 2026-06-29
+
+- 已在 `.worktrees/nutation-peel` 更新 `Tools/Production/Export-NutationAntiCollapseReviewV1.ps1`：默认仍只读 9 个 Hub/Maze joined CSV / 33 rows，但 review 选择改为先按 `Style x ChainLanguage` 保留 curve/rail/patch 各 1 行；`MaxReviewRowsPerStyle=3`，`MaxReviewRowsPerStyleChain=1`。
+- 已更新 `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubMazeAntiCollapseReviewV1.ps1` 透传上述默认参数，并重跑 `-OutputPrefix nutation_hubmaze_anticollapse_v1_current`。
+- 新 review rows 为 6 行：HubRail near-miss `109.139`、HubSpokeV3 patch near-miss `102.406`、HubCurve proof `91.497`、MazeRail near-miss `94.748`（唯一 gap 为 `tier_drop`）、MazeCurve near-miss `77.836`、MazePatchV2 proof `49.725`。
+- `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMazeAntiCollapseReviewPack.asset` 已刷新为 `Nutation Hub/Maze Anti-Collapse Review (6)`，worktree Demo activePack GUID 匹配 pack `.meta` GUID `b23fb1ec78b9fdd48b8b60139dbf8bec`。
+- 边界不变：这是 Hub/Maze 风格/链条语言体感评审口，不是 strict production pack；Hub/Maze 仍需要 solve-time stage/axis/region scheduler 或 trace-aware selector 才能进正式量产判断。
+
+## Campaign500 PSG Normal Interval100 Worktree Rejected - 2026-06-29
+
+- 用户人工查看 D 盘 worktree `D:\Unityproject\ArrowLevel-Hand-campaign500-psg-normal` 的 `Campaign500PSGNormal_psg100i_s001_e050_v004_fb1_Keep100Pack.asset` 后判断整体“不太行”，计划弃用该 worktree，等 PSG normal 生产能力重新优化后再批量化生产。
+- 该批完成了工程闭环但不作为正式 production 基线：200 source rows / 193 built / 193 traced，最终 100/100 interval review candidates、每 10 关区间 2 个；但 selected risk split 为 clean=1、watch=2、high_risk=97。
+- Keep100 产物保留为失败样本/诊断资料，不应回填 Campaign500 slot，也不应作为 50 关入库候选继续推进，除非用户明确要求重新复查。
+- 当前下一步方向：先优化 PSG normal 的真实生产能力和体感质量，尤其减少 same-axis/same-dir 连续消除、broad choice curve、solve collapse/high-risk 候选，再重新做小批验证；不要继续扩大 `psg100i_s001_e050_v004_fb1` 这条 interval100 路线。
+
+## Nutation Reader-Rhythm V1 Review Pack - 2026-06-29
+
+- 按用户要求先做“视觉读链难度 + 节奏断拍”10 关小样，不改生成 core；在 `.worktrees/nutation-peel` 新增只读后筛 `Tools/Production/Export-NutationReaderRhythmReviewV1.ps1` 和 wrapper `Invoke-NutationReaderRhythmReviewV1.ps1`。
+- 选择口径：从已 trace 的 Nutation joined CSV 后筛，默认排除 Flow，只取 LongChain/Peel；打分偏向中长可读链、axis/region drift、低 local/nearOuter 连续消、低 stripe/directional risk 和 bounded choices。
+- 输出 manifest：`.worktrees/nutation-peel/.codex-run/nutation_reader_rhythm_v1_review_rows.csv`；summary：`.worktrees/nutation-peel/.codex-run/nutation_reader_rhythm_v1_summary.md`；ranked：`.worktrees/nutation-peel/.codex-run/nutation_reader_rhythm_v1_ranked.csv`。
+- Review pack：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationReaderRhythmV1ReviewPack.asset`，10 refs；worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack 已指向该 pack GUID `24f51485e38d01c4ab417c0477b027e9`。
+- 组成：LongChain 6（Curve/Spine/Rail 各 2）+ Peel 4（Rail 1、Curve 2、Patch 1）。10 行指标均已来自 solved trace；均值 `avgChoices=5.125`、`maxChoices=8.5`、`localPatchRun=4.5`、`nearOuterRun=3.8`、`stripeRisk=0.085`、`directionalRisk=0.132`。
+- 边界：这是体感 review pack，不是 production approval；第 10 行 `NutationPeelPatchV1` 是 `Reject/high_risk` 近失误样本但静态/trace 风险值较低，专门用于人工确认 patch-chain 读图体感是否值得继续。
+
+## Generated-Root WBP V12 t76 Slot-Fit Supply Audit - 2026-06-29
+
+- 新增只读后验审计器 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Export-GeneratedRootWBPV12LightRoleSlotFitSupplyV1.py`，可从既有 root pool 读取 root asset，按 `--planned-edge-source root-row` 锁定 root CSV 中原计划 light-role edges，导出 slot-fit supply 明细和 summary，不重写关卡资产。
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：保留 `--light-role-slot-fit-supply-csv`，并新增默认关闭的 `--light-role-slot-fit-blocker-penalty` / blocker cell logging，用于后续显式实验；旧参数默认行为不变。
+- t76 t70/t74 root-row 审计复现边界：两者均为 coverage `0.2874494`、lightRole `8/8/1`、8 条计划边只有 3 条有 slot-fit candidates，planned-edge `roleSlot reserve=3/3`。
+- t76 关键 blocker：t70 top preflight 为 `first_hit_owner_mismatch_base:484`、`blocks_release_owner:482`、`frontier_target_not_unlocked_after_carrier_clear:418`、`first_hit_exits_board:290`；top root blockers 为 `corridor:owner12:1122`、`corridor:owner8:456`、`corridor:owner13:270`、`corridor:owner3:218`。
+- 成功计划边稳定是 `8->12`、`3->10`、`12->11`；失败边中 `12->9/12->5` 被 owner12 corridor/self first-hit/release 语义卡住，`8->4/8->1` 被 owner8/13/6 corridor 卡住，`9->7` 主要是 exit/activation timing。
+- t77 直接把 blocker penalty 塞回完整 rootgen 的单 seed smoke 超时，只留下半截 `basin_plan`，已停止残留 Python 并删除半截产物；不作为实验数据。说明下一步应做轻量离线 selector 或分阶段 growth scoring，不要每轮完整重扫 slot-fit blocker。
+- 验证：`python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py Tools/SGPRhythmLab/Export-GeneratedRootWBPV12LightRoleSlotFitSupplyV1.py` 通过；最终无 t77 残留报告、无 Python 残留进程。
+
+## Difficulty Feel Calibration - 2026-06-29
+
+- 用户试玩 `Visible Key / bait-head` 5 关原型后明确反馈“不明白意义，也没觉得有难度”。结论：只制造可见假出口/blocked head 不足以产生真实难度，不能作为后续难关路线主轴。
+- 已改用项目内已有难度标尺包校准体感：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_PressureReadStageLockTrueHardDependencyV7Curated5Pack.asset`。
+- 已从 `_AssetArchive/20260624_assetdatabase_trim/` 恢复该 pack、5 个 LevelDefinition 和两份报告到 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/`，并把 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack 指向 GUID `f8a77e9235d94ac881e9b74f63b802c2`。
+- 该 5 关 trace 指标为 5/5 solved，processTier 全 `S`，tightProcessTier 为 4 `S` + 1 `A`，openers `2-5`，avgChoices `2.59-3.63`，maxChoices `4-6`；适合作为“玩家实际觉得难”的对照标尺，不代表新未攻路线已经量产。
+- 后续重新做“未在攻路线”时，验收应先贴近这个标尺的低选择曲线、非局部依赖和跨区节奏，再考虑链条语言或视觉包装。
+
+## Tight Choice Bottleneck V1 Review Pack - 2026-06-29
+
+- 用户反馈 Reader-Rhythm 小样难度仍偏松，要求查是否存在“连续好几步只有 1-2 个选择”的体感；本轮不改生成 core，先做现有 trace 池后筛和 review pack。
+- 新增 `.worktrees/nutation-peel/Tools/Production/Export-TightChoiceBottleneckReviewV1.ps1` 和 `Invoke-TightChoiceBottleneckReviewV1.ps1`；selector 把 Nutation joined CSV 与 official metrics 按 `levelId` 合并，重点看 `lowChoiceRunMax`、`low2Rate`、`choiceWaveHead/headLow2RunMax`、choice p80/max，并限制 local/near/outer run。
+- 输出：`.worktrees/nutation-peel/.codex-run/tight_choice_bottleneck_v1_ranked.csv`、`_review_rows.csv`、`_summary.md`；本轮 matched `50/50` joined files，unique levelIds `71`，selected `10`。
+- Review pack：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/TightChoiceBottleneckV1ReviewPack.asset`，GUID `d9d5bbf2ec25433fbe7985a3238fdb26`；worktree Demo activePack 已指向该 pack。
+- 组成：5 个 clean LongChain（Rail 4 + Spine 1）、4 个 Hub extreme tight、1 个 PSG control；前 5 个更干净，Hub 行用于验证极窄选择体感但仍可能带 same-axis/same-dir/local-collapse 风险。
+- 关键体感指标：LongChain clean 行 `avgChoices 2.73-3.41`、`maxChoices 5-7`、`lowChoiceRunMax 4-7`、`local/near/outer <=7/1/2`；Hub 行 `lowChoiceRunMax 4-15`、`headLow2RunMax 4-15`，但 `localPatchSolveRunMax 8-9`。
+
+## Generated-Root WBP V12 t78-t80 Slot-Fit Blocker Feedback - 2026-06-29
+
+- 新增只读压力图脚本 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SlotFitBlockerFeedbackV1.py`；可把 t76-style supply rows 聚合成 edge/cell/owner blocker pressure，并支持 `--coalesce-key level|generation|path`。
+- 更新 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`：新增默认关闭的 `--light-role-slot-fit-blocker-map-csv` / weight-scale / top-cells / min-pressure，用预计算 cell pressure 软扣分，避免在 full rootgen 内反复 live slot-fit scan。
+- t78 合并 t70+t74 后确认旧瓶颈：slot-fit failed edges 7 条，owner12 pressure `4932`，热点格集中在 `8,17`、`7,17`、`8,19`、`6,18`；次级 blocker 为 owner8/13/6/9。该结果证明 first-hit/release/corridor 消耗应前移到 growth/cell-plan。
+- t79 light growth 使用 t78 pressure map，未启用 live slot-fit selection；selected 1 root，coverage `0.3016194`，chains `22`，Greedy `8/4.318/8`，lightRole `8/8/0`。post-hoc supply 提升到 `5/8` planned edges 有 slot-fit candidates、`66` candidates，但 reserve/quality 只有 `2/2`，activationTopRoots 只有 `2`。
+- t79 feedback 显示旧 owner12/8 瓶颈已转移为 owner5 组：failed edges 3 条，主要是 `5->1/5->4/5->8`，owner5 pressure `1766.7`，热点格 `0,15` / `1,15` / `1,14`。说明 static pressure-map 能改变 root growth 几何，但还没有解决 reserve packing。
+- t80 合并旧新 pressure map 并加 `--light-role-reserve-max-per-activation-top 2`，selected root 的 lightRole 分散到 `8/8/9`、activationTopRoots `4`、dominance `0.250`，Greedy `6/3.350/6`；但 post-hoc slot-fit supply 变成 `0/8`、reserve `0/0`，top reject 为 target not unlocked、exit、release timing 和 no candidate path。
+- 结论：下一步不能只用 blocker penalty 或 activation cap。需要 joint planned-edge selector：同时优化 slotFitCandidateCount / reserve-disjoint packing / activation-top diversity / first-hit-release preflight，再把 selected planned edges 交给 root growth 或 staged planner。
+- 验证：`python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SlotFitBlockerFeedbackV1.py Tools/SGPRhythmLab/Export-GeneratedRootWBPV12LightRoleSlotFitSupplyV1.py` 通过；t79 full live scan timeout 的半截 `basin_plan` 已删除，当前无 Python 残留进程。
+
+## Tight Choice Bottleneck V1 Correction - 2026-06-29
+
+- 用户纠偏：长链的低选择主要来自链很长，不能作为通用难度标准；之前把 5 个 clean LongChain 当成“干净低选择证据”的表述作废。
+- 已修正 `.worktrees/nutation-peel/Tools/Production/Export-TightChoiceBottleneckReviewV1.ps1`：默认 `MaxLongChainRows=0`，默认排除 `styleFamily=maze_long_chain`，只有显式 `-IncludeLongChain` 才把 LongChain 放入对照。
+- 已重跑 selector：`.worktrees/nutation-peel/.codex-run/tight_choice_bottleneck_v1_summary.md` 显示 `selected rows: 10` 且 `long-chain included as general evidence: False`。
+- 修正版 pack：`.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/TightChoiceBottleneckV1ReviewPack.asset`，displayName 为 `Tight Choice Bottleneck V1 Review (10, Non-LongChain)`，GUID 仍为 `d9d5bbf2ec25433fbe7985a3238fdb26`。
+- 修正版 10 行构成为 Hub/HubRail/Maze probe + 1 个 PSG control；这是非 LongChain 诊断包，不是 production approval。去掉 LongChain 后，当前池不足以证明已有成熟“通用连续 1-2 选择高难”生成能力。
+- 当前可见 Unity `.worktrees/nutation-peel` 进程 PID `49404` 仍打开且场景 dirty；`Demo.unity` activePack 现在指向 `NutationHubRailV1Pack` GUID `da5940226b5d6914e83642b69162d3cd`，本轮未强行覆盖 Demo 场景。
+
+## No-Long-Chain Causal Hardlock5 V1 Calibration - 2026-06-29
+
+- User feedback corrected the difficulty gate: long chains can make low choice metrics feel fake because one click clears too much. Do not treat LongChain low-choice rows as hard evidence without a `maxChain/singleClearShare` gate.
+- Built a new short-carrier calibration pack in `.worktrees/sgp-rhythm-lab`: `Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_NoLongChainCausalHardlock5V1Pack.asset`, GUID `b68b791db5d34c1bad43700d61c90ceb`.
+- Source levels were restored from `_AssetArchive/20260624_assetdatabase_trim` into `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/NoLongChainCausalHardlock5V1/`.
+- Review report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/no_long_chain_causal_hardlock5_v1_selected.csv`; summary: `no_long_chain_causal_hardlock5_v1_summary.md`.
+- Selection metrics: 5 CausalHardlock rows, `34` chains each, `229-232` arrows, `maxChain=9-15`, `singleClearShare=0.039-0.065`, `avgChoices=2.79-3.12`, `maxChoices=5-6`, `localPatchSolveRunMax=1-2`, `nearOuterPatchSolveRunMax=0-1`.
+- This pack was then superseded for immediate review by the complete skeleton pack below; keep it as a short-carrier calibration artifact, not the current Demo mount.
+- Boundary: this is a feel calibration pack for rejecting the long-chain metric trap, not production approval. If this still feels easy, the next generator requirement should be true multi-step dependency/role gating, not tighter choice metrics alone.
+
+## Skeleton Gate DenseDep Review2 Rejected Negative - 2026-06-29
+
+- User identified prior skeletons as the real difficulty key and asked whether they can become complete levels. Restored `SkeletonGateV1DenseDepReview2` for review, but user rejected it: the two-level pack does not correspond to the user's skeleton idea and mainly feels like a long chain being blocked once.
+- Restored pack from `_AssetArchive/20260624_assetdatabase_trim`: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_PressureReadStageLockSkeletonGateV1DenseDepReview2Pack.asset`, GUID `bf0bd14c0af14f15be0f52ea999855d0`.
+- Restored level root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/PTDASkeletonGateV1DenseDepReview2/`; 2 LevelDefinition assets, all pack refs resolved.
+- Restored reports: `pressure_read_stage_lock_skeleton_gate_v1_dense_dep_review2_frozen_trace_metrics.csv`, `pressure_read_stage_lock_skeleton_gate_v1_dense_dep_review2_input.csv`, and `hard_lane_skeleton_gate_v1_dense_dep_review2_notes_20260621.md`.
+- Metrics: 2/2 solved, process `S/S`, 15x24 and 15x25, `24` chains each, coverage recorded in prior notes as about `0.805-0.822`, `avgChoices=2.12/3.00`, `maxChoices=5/4`, `stageLockScore=0.927/0.767`.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` pointed to this negative-reference pack at rejection time; it has since been superseded by the V1.31 hardest-focus review pack below.
+- Boundary: do not use `SkeletonGateV1DenseDepReview2` as evidence that the user's skeletons can be completed into hard levels. It is a negative reference for "Skeleton-named pack can still be unrelated to the intended skeleton and can still rely on long-chain blocking." Next attempt must start from the actual user skeleton contract and preserve its role/dependency graph explicitly.
+
+## Generated-Root WBP V12 t81-t87 Joint Selector / Semantic Cell Plan - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active goal remains Generated-Root Whole-Board Planner toward `0.95+` coverage + official solved + at least process A/hard direction. Current results are diagnostic only, not final candidates.
+- Added default-off live joint selector knobs to `Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`, but live slot-fit scan remains too heavy: t81 live and t87 low-budget live scan both timed out; partial t81/t87 basin plans were deleted and no Python process remains.
+- Added staged selector `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Select-GeneratedRootWBPV12LightRoleJointEdgesV1.py`. On t79 root+supply it rewrote a copied root CSV to 5 selected edges: `21->6`, `21->19`, `5->8`, `5->1`, `5->4`; audit result `5/5` planned, only `2/5` slot-fit edges, roleSlot reserve `2/2`.
+- t81/t79 feedback shows owner5 self-blocking is the next bottleneck: failed `5->1/5->4/5->8`, owner5 weighted pressure `1766.7`, hotspot `0,15`; selected 21-series edges are the only strong slot-fit supply.
+- t82 fed owner5 cell pressure back into rootgen and selected one root at coverage `0.3178138`, chains `22`, Greedy `7/4.136/7`, lightRole `8/8/0`; post-hoc supply worsened to `3/8` slot-fit edges, reserve `2/2`, shifting blockers to owner8/21/3/16.
+- t83 multi-map hard feedback (`t78+t81+t82`) with weight `0.025` selected no roots because lightRole only reached `7/8`; t84 softer weight `0.01` selected coverage `0.3016194`, but supply collapsed to `1/8`, reserve `1/1`. Multi-hotspot avoidance alone moves bottlenecks but does not create semantic slot capacity.
+- t85/t86 hard reserve experiments confirmed old failure mode: hard-excluding full reserve stalls coverage around `0.208`; ray-only hard reserve reaches about `0.287` but still only lightRole `7/7` and no selected root. Hard-protecting role reserve is not the route.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SemanticCellPlanV1.py`, a read-only whole-board cell-plan artifact builder. It overlays generated-root identity, selected planned edges, slot chain/reserve cells, and roles (`root/body/release/guard/choke/delay/intentional_empty`) before any chain cutting.
+- First semantic cell plan from t81 offline root: `t81_offline_joint_t79_semantic_cell_plan.csv` and `_edge_plan.csv`; board `19x26`, rootCells `149`, selectedEdges `5`, slotFitSelectedEdges `2`, plannedNonRootCells `72`, rootPlanConflicts `0`. This is the current best audit artifact for preserving root identity plus relation contracts, but it is still far from final WBP coverage/difficulty.
+- Current conclusion: the missing piece is a staged whole-board semantic slot preplan that creates slot capacity before growth/cutting. Do not continue by tuning coverage, activation caps, hard reserve exclusion, or live slot-fit scans inside rootgen.
+
+## Nutation Hub Dense AntiDir V1 Review - 2026-06-29
+
+- User feedback on Hub: it is slightly better than prior rows, but still has two visible defects: middle/core holes and clusters of continuous same-direction arrows or same-direction escape arrows.
+- Built a diagnostic selector in `.worktrees/nutation-peel`: `Tools/Production/Export-NutationHubDenseAntiDirReviewV1.ps1` plus wrapper `Invoke-NutationHubDenseAntiDirReviewV1.ps1`; it audits solved Hub/Maze joined rows and parses LevelDefinition assets for core fill, center holes, static same-direction adjacency/components, and outer-exit side/run clustering.
+- Outputs: `.worktrees/nutation-peel/.codex-run/nutation_hub_dense_antidir_v1_ranked.csv`, `_review_rows.csv`, and `_summary.md`; latest run matched `18/18` joined files, audited `60` solved Hub/Maze rows, found only `1` strict Hub row, `10` watch rows, and selected `10`.
+- Review pack created without mounting dirty Demo: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubDenseAntiDirV1ReviewPack.asset`, GUID `40d17a2c8ce14dbdbdbf7f7b03a03848`, displayName `Nutation Hub Dense AntiDir V1 Review (10)`.
+- Pack metrics improve review focus but do not solve the route: selected rows have core coverage `0.900-0.963`, `coreEmptyComponentMax 1-6`, outer-exit spatial run `1-2`, but solve same-axis/same-dir runs still reach `18/12` and static same-dir component reaches `30`.
+- Unity builder added in `.worktrees/nutation-peel/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`: `BuildNutationHubDenseAntiDirV1ReviewPack`; wrapper verified with `-SkipUnity`. The visible `.worktrees/nutation-peel` Unity scene is dirty and still points at `NutationHubRailV1Pack`, so this pack was not force-mounted.
+- Boundary: this is a cleaner Hub diagnostic/review pack, not proof of a production-ready Hub hard route. Next real route should be a new Hub V5 or equivalent generator-side pass with core fill, static direction, outer-exit, solve-axis/dir, and direction-grammar gates instead of only post-filtering old Hub rows.
+
+## Generated-Root WBP V12 t88 Semantic Slot Preplan - 2026-06-29
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SemanticSlotPreplanV1.py`, a read-only staged preplanner. It turns slot-ready planned edges into `reserve_empty` / `cut_chain_body` constraints and unmet planned edges into `clear_or_replan_blocker` constraints from `topBlockedCells` and preflight signals.
+- t81 offline joint on t79 now has preplan outputs: `t81_offline_joint_t79_semantic_slot_preplan_cells.csv`, `_edges.csv`, `_constraints.csv`, `_summary.md`. Result: selectedEdges `5`, slotReady `2`, unmet `3`, constraints `72`, demandRootConflicts `6`.
+- t81 key demand is concentrated and actionable: topDemandOwners `5:12,2:9,21:8,11:2`; topDemandCells `0,15:6`, `1,15:3`, `1,14:3`, `0,23:3`, `0,24:3`, `0,25:3`. This maps owner5/owner2 root cells to concrete head/corridor space that must be avoided, relocated, or re-planned before more semantic chains are added.
+- t84 negative preplan outputs: `t84_offline_joint_semantic_slot_preplan_cells.csv`, `_edges.csv`, `_constraints.csv`, `_summary.md`. Result: selectedEdges `8`, slotReady `1`, unmet `7`, constraints `70`, demandRootConflicts `13`; topDemandOwners `9:12,21:8,7:8,1:5,11:3,8:3`.
+- Added comparison report `t88_semantic_slot_preplan_compare_summary.md`. It confirms t81 remains the better staged base: fewer selected edges but more real slot-ready contracts and concentrated demand conflicts. t84 confirms pressure-map avoidance alone spreads conflict and thins slot supply.
+- Current next implementation step: make the next root-growth/cutter stage consume this preplan, preserving slot-ready cells and treating top demand blocker cells as explicit avoid/relocate constraints. The full objective remains open; coverage/difficulty targets are not yet met.
+
+## Skeleton Fill Route Correction - 2026-06-29
+
+- 用户纠偏：逐条或小 bundle 放链后立刻 trace 的方案不适合“把高难骨架填成完整关卡”。新增链条必须提升或至少保持难度；到后段局部可放链往往退化成外出口链，且逐条 trace 既低效又不为后续链条保留空间。
+- 已将该边界写入 `.agents/memory/DECISIONS.md` 的 `Difficulty Feel Decision: Skeleton Fill Cannot Be Per-Chain Local Acceptance`。
+- 相关历史证据：SmallSemanticSlotFill V0 继续冲覆盖会外出口爆；Ray-first 0.46+ 后单链成败主要是 timing/causal 信号；WBP t81-t87 已收敛到 staged semantic cell plan，而不是 live/per-chain scan。
+- 接续判断：继续 skeleton 完整化时，不要再使用 `SkeletonGateV1DenseDepReview2`，也不要直接用 per-chain trace delta fill。下一步应从用户指定的真实骨架出发，先批量规划 solve-order role graph、exit budget、future slot capacity 和 added-chain difficulty contribution，再阶段性整板 trace 验收。
+- 追加用户纠偏：SOG/OwnerHit/短 bundle 仍属于“放一条或几条链”的已知非突破路线；历史最高已经做到约 `0.7` coverage，不能把今天 `rank85` 的 0.236->0.260 小步正信号当作继续方向。
+- 本轮临时产物仅作边界记录：`v131_skeleton_completion_rank85_sog_*_20260629` 生成/trace 文件不要打包、不要挂 Demo、不要作为 skeleton 完整化路线推进。
+- 如果没有新的 whole-board/global complement planner 思路，不继续 skeleton-to-complete 实验；停止在 SOG/OwnerHit/local bundle 家族上消耗时间。
+- 量产判断追加：基于当前生成器组合，"骨架/责任层 + 受保护 SGP 背景填充"只能算 pilot 候选路线，不能宣称已可量产。已有 `SeededDirectSGP` 可把几何补到 `0.95`，但 raw full095 是 Drop/LocalEasy；`ValidatedRootBackgroundSGP` 能保守 clean expansion，但历史证明主要到约 `0.40-0.63` 的边界。下一步若继续，应先做 Pilot20/50 统计有效产率，再决定是否扩到 Batch200。
+- 2026-06-29 whole-plan smoke: 用 `Build-RayConstraintMapV1` 为 V1.31 rank85/rank67 导出整板 role-map，再让 `Build-SeededDirectSGPFillBaselineV1` 一次性消费 role-map + pre-action mask + release-aware/LDF/post-kernel constraints，目标 `0.75`。rank85 从 `0.236` 只补到 `0.349-0.377`，4/4 official light trace `solved=False/Drop/LocalEasy`；rank67 从 `0.168` 只补到 `0.371-0.397`，8/8 `solved=False/Drop/LocalEasy`。maxChain/singleClearShare 没爆（rank85 maxChain 11/share 0.0286-0.0309；rank67 maxChain 9-10/share 0.0278-0.033），失败不是长链假难度，而是现有组合没有完整可解补齐逻辑。
+- Whole-plan smoke artifacts are diagnostic only; do not pack or mount Demo: `v131_completefill_wholeplan_rank85_*_smoke1*`, `v131_completefill_wholeplan_rank67_*_smoke1*`, levels under `Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/CompleteFillWholePlanV1/`.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SkeletonPSGFeasibilityV1.py` to test the PSG/skeleton connection before generation. It parses the skeleton asset plus optional RayConstraintMap cells/edges and classifies every PSG-style head slot as direct exit, immediate owner hit, corridor owner hit, critical/cross-region/axis-shift/local-risk, then writes candidates/summary markdown.
+- Feasibility smoke outputs: `v131_rank85_skeleton_psg_feasibility_v1_*` and `v131_rank67_skeleton_psg_feasibility_v1_*` under `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- rank85 result: coverage `0.2362745`, 2556 head candidates, owner-hit `1389` (`0.5434`), direct-exit `1167` (`0.4566`), useful connectors `349`, strong connectors `66`, immediate strong `0`, corridor strong `66`, verdict `PSGConnectableNeedsCorridorWavePlanner`.
+- rank67 result: coverage `0.1678922`, 2328 head candidates, owner-hit `1391` (`0.5975`), direct-exit `937` (`0.4025`), useful connectors `540`, strong connectors `140`, immediate strong `0`, corridor strong `140`, verdict `PSGConnectableNeedsCorridorWavePlanner`.
+- Interpretation: the user intuition is valid that PSG has a connection point, but not as direct seeded fill. These skeletons expose many PSG-useful critical/cross-region/axis-shift slots, yet every strong slot depends on preserving an empty corridor/release wave; immediate owner hits exist but are all local-patch risk. DirectSGP fails because it spends or blocks those corridors as generic filler, recreating outer/local collapse before PSG pressure can become trace-visible.
+- Implemented `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SkeletonPSGCorridorWavePlanV1.py`, a read-only pressure-unit planner that consumes SkeletonPSG feasibility candidates, reconstructs exact corridor cells from the base asset, and set-packs disjoint `head + second + intendedHitOwner + corridor + connectorWave` units under owner/region/axis/dir budgets.
+- Corridor-wave smoke outputs: `v131_rank85_skeleton_psg_corridor_wave_plan_v1_*` and `v131_rank67_skeleton_psg_corridor_wave_plan_v1_*` under `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- rank85 corridor plan: strict no-overlap selected `12/12` from `124` pool candidates; unique hit owners `11`, head regions `7`, hit regions `7`, reserved corridor cells `48`, selected unit cells `72`, dirs `D:3/L:3/R:4/U:2`, waves `W2:10/W3:2`, all `critical_cross_region`, verdict `CorridorPlanReady`.
+- rank67 corridor plan: strict no-overlap selected `12/12` from `280` pool candidates; unique hit owners `11`, head regions `9`, hit regions `9`, reserved corridor cells `40`, selected unit cells `64`, dirs `D:3/L:2/R:3/U:4`, waves `W2:11/W3:1`, connector kinds `critical_cross_region:11` + `critical_axis_shift:1`, verdict `CorridorPlanReady`.
+- New interpretation: these skeletons are not PSG-capacity dead. They have enough disjoint non-local corridor pressure units. The missing implementation is now specifically a cutter/preblocker stage that consumes the corridor cell plan (`reserve_empty_until_Wn`, timed preblocker allowed before connector wave) without erasing the planned PSG pressure graph.
+
+## Generated-Root WBP V12 t89 Semantic Preplan Consumer - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active Generated-Root Whole-Board Planner goal remains open toward `0.95+` coverage, official solved, process `A+`, hard direction, and traceable generated-root identity.
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` with default-off semantic slot-preplan consumption: `--semantic-slot-preplan-constraint-csv`, demand/preserve weight scales, top-cell/min-pressure filters, and selected-only filtering.
+- t89 rootgen consumed t81 semantic slot constraints and selected `t89_sbrg_semantic_preplan_seed560120_c001`: coverage `0.3036437`, chains `21`, topRoots `8`, openers `8`, lightRole `8/8/0`, authored OK, Greedy `8/4.143/8`, seed `560120`.
+- t89 post-hoc supply audit over the generated root reported `slotFit edges 3/8`, `36` candidates, and role-slot reserve/quality `3/3/3`. This improves the staged contract surface from t81/t79's `2/5` ready/reserve baseline, while preserving a real generated root.
+- Offline selector over t89 selected all `8` planned edges; patched audit still has `3/8` selected edges slot-ready and `3/3/3` reserve. t89 semantic preplan reports `selected=8`, `slotReady=3`, `unmet=5`, `constraints=131`, `demandRootConflicts=16`.
+- t89 blocker feedback concentrates the next bottleneck at edge `10->17` with slot `0` and pressure `540.6`; top blockers include `corridor:owner10`, `corridor:owner1`, and `head:owner20`. This is actionable whole-board demand, not a final chain-cut candidate.
+- Current judgment for the user question "能不能做": yes, the direction has its first real non-false-positive signal because preplan constraints now influence root generation and improve semantic slot reserve. It is not solved; the next milestone is pushing ready semantic contracts from `3/8` toward `5-6/8` before any `0.95+` coverage scaling attempt.
+
+## Generated-Root WBP V12 t90-t97 Repair/Capacity Loop - 2026-06-29
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SemanticRepairPlanV1.py`, a read-only classifier for unmet semantic slot contracts. It marks shared activation/corridor bundles, redundant-with-ready contracts, owner flex/critical status, and emits filtered rootgen-compatible constraints.
+- Added repair-aware options to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Select-GeneratedRootWBPV12LightRoleJointEdgesV1.py`: `--repair-plan-edge-csv`, policy penalties, max per repair cluster, deferred/drop-policy filtering. Default behavior remains unchanged.
+- t90/t97 direct rootgen consumption of repair constraints is a negative: both selected the same low-diversity root at coverage `0.2854251`, topRoots/openers `6/6`, and post-hoc supply no better than `3/8` with reserve `2/2`. Do not continue by simply feeding repair demand/preserve penalties into rootgen.
+- t91/t92 repair-aware selector cleaned the false 8-edge plan: t91 reduced t89 from `3/8 ready + 5 unmet` to `3/5 ready + 2 unmet`; t92 detected `13->1` as redundant with ready `13->15`, yielding a clean core `3/4 ready + 1 unmet`, reserve `3/3`, and demandRootConflicts `8`.
+- t93 used `planned-edge-source recompute` as a wide supply pool on the same generated root: `80` edge rows, `18` edges with slot candidates, and repair-aware selection reached `4/8` slot-ready with role-slot reserve `4/4`. This is the best current slot-ready signal but still below the `5-6/8` feasibility gate.
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Export-GeneratedRootWBPV12LightRoleSlotFitSupplyV1.py` and rootgen annotation to optionally emit candidate variants via `--light-role-slot-fit-emit-candidate-variants` / `--light-role-slot-fit-candidate-variants-per-edge`.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SlotCapacityAuditV1.py`. t96 capacity audit on candidate variants found `100` unique slot variants over `18` edges, but max disjoint slot edges remains `4`: `13->15`, `0->13`, `14->8`, `20->19`. Top overlap cells are concentrated around `8,12`, `9,12`, `7,12`, `6,12`, `5,12`, and `8,16`.
+- Current conclusion: current t89/t92 root has a hard disjoint slot-capacity ceiling of `4`, even with candidate variants. The next implementation step is not more selector tuning; root generation must get an explicit slot-capacity objective/reservation layout that creates a fifth independent corridor before high-coverage cutting.
+
+## V1.31 Extended Balanced Hardest Focus10 - 2026-06-29
+
+- User pointed to V1.31 as the current main library: `SGPRhythmLab_RootVariantLibraryV131ExtendedBalancedReviewPack.asset`, GUID `91a29088725441d3b604fa2e66f8d71e`, 108 levels / 6 families / 18 each.
+- Note: the user-provided sibling path `F:\Unityproject\ArrowLevel-Hand.worktrees\sgp-rhythm-lab` did not exist locally; the actual project path is `.worktrees/sgp-rhythm-lab`.
+- Full 108 official trace in one pass timed out after about 4 minutes and was stopped; no full metrics were written from that attempt.
+- Added static audit for all 108 rows: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/v131_extended_balanced_review108_static_hardness_audit_20260629.csv`. It computes chain count, arrow cells, coverage, `maxChain`, `singleClearShare`, and long-chain rate.
+- Re-traced the top 24 static+choice candidates with lightweight official trace: `v131_extended_balanced_review108_top24_lighttrace_20260629_metrics.csv`; result `24/24` solved, process `A`, tight `23 A + 1 B`, no missing/failed.
+- Created Focus10 manifest/summary: `v131_extended_balanced_hardest_focus10_20260629.csv` and `_summary.md`.
+- Created review pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_RootVariantLibraryV131HardestFocus10Pack.asset`, GUID `a9f34884d0a54b4ca10e3b42fa8aa131`, 10 refs.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` now points to the Focus10 pack GUID on disk.
+- Focus10 selected ranks: `85, 88, 90, 106, 107, 103, 74, 86, 67, 70`. It intentionally mixes short-chain low-choice rows, Web/FourFam high-structure delayed-dependency rows, and high stage-lock short-chain probes.
+- Boundary: Focus10 is a manual review pack, not production approval. It avoids the long-chain false-positive trap (`maxChain=9-15`, `singleClearShare=0.0456-0.0657`) but still needs player feel review.
+
+## Campaign500 Long-Chain Pilot3 V4 Perimeter Edge Repair Review - 2026-06-29
+
+- Worktree: `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; worktree Unity opened with PID `55284`.
+- User screenshots showed V3 still had continuous perimeter arrows. Diagnosis: not direct `outerExit` heads, but same-chain boundary straight runs plus cross-chain `edgeRail` accumulation. V4 adds `edgeRailRunMax/edgeRailCellShare`, keeps `edgeStraightRunMax` as hard visual control, and adds deterministic `hardEdgeSplit` to cut longest same-chain boundary runs.
+- V4 generation report: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v4_report.csv`; partial visual-review run stopped after 38 rows with 16 selected across sections `3/25/45`. Section 45 only keeps order `441`; order `450` still had `edgeStraightRunMax=7` and is not in Demo.
+- Official trace metrics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v4_full_fast_metrics.csv`; `16/16 solved`, missing/failed `0`.
+- Demo9 keep: `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v4_demo9_trace_keep.csv`; summary says `9/9 solved`, process tiers `B=5, Drop=4`, coverage `0.9545-0.9712`, avg chains `67.67`, avg maxChain `60.89`, `edgeStraightRunMax avg=4.56/max=5`, `edgeStraightChainCount avg=0.89`, `edgeRailRunMax avg=23.33`, longVisualCellShare avg `0.499`, midShortSupportChains avg `35.56`, avg/max choices `6.93/17`.
+- Demo pack: `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V4Demo9Pack.asset`, GUID `e720679226003104c837b62bb9156487`; worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack points here. V4 is visual review, not production keep: edge-straight screenshot issue should be checked by eye, while cross-chain edgeRail and large-board order `450` need another pass before production.
+
+## Nutation Hub/Maze SolveFlow2 Selector Checkpoint - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`; PSG core remains untouched.
+- `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs` now adds Hub/Maze `gateAwareSolveFlow` metadata and an `antiCollapseDebt` score term inside `TryBuildSgpGateAwareLevelAt`; it uses existing greedy moves, wave metrics, local probe metrics, and rail lane count, so it is a selector/scoring guard rather than a new chain grammar.
+- Validation: `dotnet build nutation-peel.sln --no-restore -v:minimal` passed with 0 errors and 7 pre-existing warnings. Current `.worktrees/nutation-peel` Unity was open, so smoke generation used a detached temp worktree `nutation-peel-runner`; the temp worktree was removed after copying source reports back to `.codex-run`.
+- solveflow2 outputs kept in `.worktrees/nutation-peel/.codex-run/*_solveflow2_*`; source reports copied as `nutation_hub_rail_v1_solveflow2_source_report.csv`, `nutation_maze_rail_v1_solveflow2_source_report.csv`, `nutation_hub_spoke_v4_solveflow2_source_report.csv`, and `nutation_maze_patch_v2_solveflow2_source_report.csv`.
+- HubRail solveflow2: 4/4 solved, 4 ProcessKeep, 1 STS pass, 0 production keep. The new debt prevents regression to a worse dual-rail candidate but HubRail remains high-risk; best row has local/near `6/3`, directional `0.199`, sameAxis/sameDir `16/14`, STS `0.738`.
+- MazeRail solveflow2: 3/3 solved, 1 ProcessKeep, 1 STS pass, 0 production keep. Best row still local-collapses with local/near `14/10`, directional `0.593`, sameAxis/sameDir `14/9`.
+- HubSpokeV4 solveflow2: 4/4 solved, 2 VisualKeep + 1 ProcessKeep + 1 Reject, 0 STS pass, 0 production keep. Best row is the cleanest current Hub continuation point: local/near `5/4`, directional `0.157`, STS `0.809`, collapse `0.260`, but sameAxis `20`.
+- MazePatchV2 solveflow2: 4/4 solved, 1 ProcessKeep + 3 Reject, 0 STS pass, 0 production keep. Best row still local-collapses with local/near `9/8`, directional `0.618`, STS `0.678`, sameAxis/sameDir `14/11`.
+- Current conclusion: `antiCollapseDebt` is useful as a regression guard, but it does not productionize Hub/Maze. HubPatch/V4 is the best next line; Maze and Rail need a real solve-order axis/stage/region scheduler or direction grammar, not more local head-score escalation.
+
+## Nutation Flow Rail/Patch Lane Completion - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`; PSG core remains untouched.
+- Added `NutationFlowRailV1` and `NutationFlowPatchV1` as `Nutation / Flow / rail_chain|patch_chain` review lanes. They share the Flow wrapper via `Invoke-NutationFlowCurveProductionV1.ps1 -Lane Rail|Patch`, plus thin wrapper scripts `Invoke-NutationFlowRailProductionV1.ps1` and `Invoke-NutationFlowPatchProductionV1.ps1`.
+- FlowRail smoke1: 4/4 official solved, 4/4 `flow_continuous`, 4/4 `rail_chain`/`flow_rail_chain`, 4 TraceOrderKeep under VisualOnly review mode; source straightness `0.598-0.654`; production keep CSV has 3 rows for visual review.
+- FlowPatch smoke1 after light retune: 4/4 official solved, 4/4 `patch_chain`/`flow_patch_chain`, 2 TraceOrderKeep + 1 VisualKeep + 1 Reject; production keep CSV has 3 rows for visual review.
+- At the FlowRail/FlowPatch checkpoint, style matrix was `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_matrix.csv`: 18 lanes / 69 rows. It is now 19 lanes / 73 rows after LongChainPatch. FlowCurve/FlowRail/FlowPatch are all `flow_review_ready`; strict keep rows still come only from LongChain/Peel, not Flow.
+- Validation: `dotnet build nutation-peel.sln --no-restore -v:minimal` passed with 0 errors and 7 pre-existing warnings; `git diff --check` passed. Temporary generation worktree `nutation-flow-runner` was removed after copying outputs back.
+- Boundary: Flow lanes are review/noise/chain-language baselines, not ordinary strict production lanes. Next useful Nutation implementation target remains a real Hub V5 / solve-order axis-stage-region scheduler or the next non-Flow style cell.
+
+## Generated-Root WBP V12 t98 Slot-Capacity Breakthrough - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open toward `0.95+` coverage, official solved, process `A+`, and hard direction. This checkpoint is a root/planner feasibility breakthrough, not a final level.
+- Added `Build-GeneratedRootWBPV12SlotCapacityLayoutV1.py` and updated source-basin rootgen with default-off `--slot-capacity-layout-*` inputs. The layout converts t96 capacity audit into preserve/avoid/target-band cells and gives candidate escape rays a bonus for crossing target open bands.
+- t98 layout output: `t98_slot_capacity_layout.csv/_summary.md`; it preserves 60 existing disjoint slot reserve cells, avoids 37 overlap hot cells, and targets 3 new vertical open bands after excluding the source-basin central corridor.
+- Negative smoke: t98b hard-excluded both old selected reserves and new bands. It stayed legal/Greedy but coverage dropped to `0.2449393`, supply fell to `9/76`, and max disjoint capacity fell to `3`; do not use hard-excluding old ready slots as the next profile.
+- Positive smoke: t98c hard-excluded only new target bands and soft-penalized old reserve/overlap cells. It selected `t98c_sbrg_slot_capacity_layout_seed560120_c001` with coverage `0.3056680`, 23 chains, topRoots/openers `7/7`, authored OK, Greedy `7/5.174/7`, lightRole `8/8/9`.
+- t98c variant supply/capacity: `t98c_recompute_variant_slotfit_supply.csv` has `19/80` slot-fit edges and `112` candidates; `t98c_variant_slot_capacity_summary.md` reports max disjoint slot edges `5` with selected edges `6->10,16->18,17->7,2->15,13->5`.
+- Updated `Select-GeneratedRootWBPV12LightRoleJointEdgesV1.py` with default-off `--include-slot-fit-variants`; this is required because non-variant selector saw only `4/8`, while variant-aware selector preserves the `17->7` alternate reserve and reaches `5/8`.
+- t98c variant-aware selector/preplan outputs: `t98c_variant_joint8_*`; selector result `selected=8`, `slotEdges=5`, `activationTopRoots=5`; semantic preplan result `selected=8`, `slotReady=5`, `unmet=3`, `constraints=141`, `demandRootConflicts=8`.
+- Repair classifier on t98c marks the 3 unmet edges as one owner19 cluster with `root_flex_relocate_blockers` / `repair_edge` and emits no new demand constraints, only 45 preserve constraints. Next step is not scalar blocker pressure; it is variant-aware replacement/defer for owner19 tail edges or a t99 layout/rootgen pass aimed at `6/8`.
+
+## Campaign500 Long-Chain Pilot3 V5 Perimeter Rail Review - 2026-06-29
+
+- Worktree `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; visible worktree Unity opened with PID `43568`.
+- V5 moves the continuous perimeter rail fix into generation: direct source candidates are chosen by perimeter score, merge scoring penalizes cross-chain `edgeRail`, campaign gates include `edgeRailRunMax/edgeRailCellShare`, and deterministic perimeter notches only act as a bounded fallback after same-chain `hardEdgeSplit`.
+- Full V5 report `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v5_report.csv`: selected `25/36`, coverage `0.9503-0.9712` avg `0.9547`, `edgeRailRunMax avg=11.52`, `edgeRailCellShare avg=0.128`, `edgeStraightRunMax avg=4.44`, longVisualCellShare avg `0.537`.
+- Official trace metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v5_full_fast_metrics.csv`: `25/25 solved`, process tiers `B=12`, `Drop=13`, missing/failed `0`.
+- Demo9 keep `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v5_demo9_trace_keep.csv`; summary `_summary.md`: `9/9 solved`, `B=7`, `Drop=2`, coverage avg `0.954`, `edgeRailRunMax avg=9.778/max=14`, `edgeRailCellShare avg=0.126/max=0.131`, `edgeStraightRunMax max=5`, longVisualCellShare avg `0.514`, midShortSupportChains avg `32.333`.
+- Demo pack `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V5Demo9Pack.asset`, GUID `66d31b360efa8c943971353810116171`, is mounted in worktree `Assets/ArrowMagic/Scenes/Demo.unity`.
+- Boundary: V5 is still visual/review, not production keep. It intentionally excludes order `22` and `450` because their rail/share/selection gates did not produce clean 0.95 candidates in this pass.
+
+## Nutation LongChain Patch Lane Completion - 2026-06-29
+
+- Worktree: `.worktrees/nutation-peel`, branch `codex/nutation-peel`; PSG core remains untouched.
+- Added `NutationLongChainPatchV1` as `Nutation / LongChain / patch_chain`, with Unity method `NoMaskProceduralGenerator.BuildNutationLongChainPatchV1Pack` and wrapper `.worktrees/nutation-peel/Tools/Production/Invoke-NutationLongChainPatchProductionV1.ps1`.
+- Smoke1 was generated in temporary runner `nutation-longpatch-runner`, then copied back and runner removed. Output pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainPatchV1Pack.asset`; source report: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_patch_v1_report.csv`; joined report: `.worktrees/nutation-peel/.codex-run/nutation_longchain_patch_v1_smoke1_trace_joined.csv`.
+- Result: 4/4 official solved, 3 TraceOrderKeep + 1 Reject, production keep rows 3. Joined tags are 4/4 `styleFamily=maze_long_chain`, 4/4 `chainLanguage=patch_chain`, 4/4 `chainLanguageDetail=long_patch_chain`.
+- Source shape: coverage `0.933-0.960`, chains `52-64`, avgChain `9.66-11.48`, maxChain `21-22`, straightness `0.288-0.316`; this reads as long-chain backbone plus patch support, not FlowPatch continuous local fill.
+- Style matrix refreshed to 19 lanes / 73 rows; strict keep rows now 15: LongChainCurve 3, LongChainPatch 3, LongChainRail 3, LongChainSpine 2, PeelCurve 2, PeelRail 2.
+- Validation: code build passed with 0 errors / 7 pre-existing warnings; targeted `git diff --check` passed for modified Nutation code/scripts.
+- Boundary: LongChainPatch is strict-review-ready for LongChain-specific style/language comparison. It should not be used as general hard-feel proof because long-chain low-choice artifacts remain a known false-positive risk.
+
+## Generated-Root WBP V12 t99/t100 Capacity Rerank Checkpoint - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. No final `0.95+` level exists yet; current gate is still pushing semantic slot-ready capacity beyond t98c `5/8`.
+- Added default-off `--target-band-max-per-orientation` and `--target-band-allow-orthogonal-crossing` to `Build-GeneratedRootWBPV12SlotCapacityLayoutV1.py`. This lets target open bands test mixed orientation without changing old defaults.
+- t99b showed the first orientation cap was insufficient: clearance still rejected horizontal bands after two vertical bands, producing only 2 vertical bands and no real mixed layout.
+- t99c with orthogonal crossings produced a true mixed layout (`2` vertical + `2` horizontal target bands, `57` target rows), but rootgen with hard-excluded target bands collapsed slot-fit supply: c001 `6/80`, c002 `2/80`, c003 `9/80`; c003 capacity audit max disjoint was only `2`.
+- Interpretation: hard mixed target bands are a negative as a breakthrough mechanism. They create visible corridor shape but do not preserve the semantic owner/slot supply that matters.
+- t100a attempted to run full `--enable-light-role-slot-fit-selection` + `--enable-light-role-slot-audit` inside every rootgen attempt on the t98 profile. It timed out after about 10 minutes; the residual Python process was stopped, and only the basin plan was written.
+- Decision-level next step: use a two-stage root search instead of full slot-fit in the growth inner loop. First generate a cheap legal root pool with the t98c profile and high `top-count`, then run post-hoc variant slot-fit/capacity audit only on selected roots, then send the best root to variant-aware selector and semantic preplan.
+
+## Generated-Root WBP V12 t101-t103 Target-Diversity Capacity Checkpoint - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. No final `0.95+` level exists yet; current feasibility gate is still `6/8` or better semantic slot-ready capacity before high-coverage chain cutting.
+- t101a validated the two-stage cheap-root-pool workflow but did not beat t98c. Seven post-hoc audited generated roots produced max disjoint capacities `3,4,2,2,4,2,3`, so t98c `5/8` remains the stronger checkpoint.
+- Added local `target_open_bucket` layout support in `Build-GeneratedRootWBPV12SlotCapacityLayoutV1.py`. t102b hot buckets raised slot-fit supply on one root to `24/80`, but disjoint capacity stayed at `3-4` because blocker targets concentrated on the same target owners.
+- Added default-off strict-edge target-owner diversity metrics and rank bonuses in `Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`: distinct target owners, distinct target top roots, target-owner dominance, and output counts.
+- t103a target-diversity rootgen selected a new generated root `t103a_sbrg_targetdiv_hotbucket_seed560820_c001` with coverage about `0.314`, Greedy solved, targetOwnerDominance `0.375`, and post-hoc capacity max disjoint `5`. This reproduces t98c's `5/8` capacity from a different root with wider activation spread.
+- Important selector correction: when using recomputed variant slot-fit supply, edge selection must use `--no-selected-only`. Otherwise the selector sees only selected light-role rows and misses capacity. t103a c001 wide selector with `--no-selected-only --include-slot-fit-variants` reached `8` selected, `5` slot edges, and `activationTopRoots=6`.
+- t103a c001 semantic preplan reached `selected=8`, `slotReady=5`, `unmet=3`, `constraints=155`, `demandRootConflicts=14`. Repair classifier again marks the unmet edges as `root_flex_relocate_blockers` / `repair_edge` and emits no demand constraints.
+- Repair-drop selector on t103a c001 replaced the known repair edges with other no-slot edges, but still stayed at `5` slot edges. This confirms the next breakthrough is root-generation capacity, not selector-only cleanup.
+- Next useful step: implement or run t104 with target-diversity gates/rerank for cheap root pools, then post-hoc audit only high-diversity roots. Candidate gate signals are `strictEdgeProxyDistinctTargetOwners >= 6`, `strictEdgeProxyDistinctTargetTopRoots >= 4`, `strictEdgeProxyTargetOwnerDominance <= 0.45`, plus low light-role reserve consumption.
+
+## Nutation HubSpoke V5 Control Experiment - 2026-06-29
+
+- Worktree: `.worktrees/nutation-hub-v5-control`, branch `codex/nutation-hub-v5-control`; created as a separate line from `.worktrees/nutation-peel` to avoid touching the active Nutation task/Demo.
+- Copied the current uncommitted Nutation generator baseline into the new worktree, then added `NutationHubSpokeV5` as an isolated HubSpoke experiment with static hub-quality metrics, direction-cycle penalties, solve-flow gates, and wrapper `Tools/Production/Invoke-NutationHubSpokeProductionV5.ps1`.
+- V5 does not auto-mount Demo (`attachToDemo:false`). Outputs live under `.worktrees/nutation-hub-v5-control/Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationHubSpokeV5/`, `.../Packs/DirectProcedural/NutationHubSpokeV5Pack.asset`, and `.codex-run/nutation_hub_spoke_v5_smoke*_trace_joined*`.
+- Smoke2 generated `4/4` officially solved rows but `0` production keep; same-axis/same-dir runs still reached roughly `14-20` / `8-19`.
+- Smoke4 generated `5/5` officially solved rows and improved static shape (`coreCoverage ~0.915-0.954`, max core hole `1-3`, same-dir neighbor rate `~0.227-0.266`, outer-exit run `1-3`), but trace classification was `5/5 local_collapse`, `0` process/visual/STS/production keep. Key failures: local/near runs `10-13`, same-axis `11-24`, same-dir `8-21`, dependency-local rate `0.605-0.687`.
+- Conclusion: current static hub controls can reduce center holes and outer-exit clustering, but they do not create the desired player-feel of many consecutive 1-2 choice, non-local decisions. More selector thresholds/head-direction penalties are unlikely to solve this; the next real route is a solve-order/stage scheduler that constrains region and axis consumption before chain cutting.
+
+## V1.31 Skeleton PSG Fill Bridge Checkpoint - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; user goal is to validate a skeleton-to-complete-level route by combining current SGP/PSG/Nutation generator logic, not to repeat one-chain/few-chain trace filling or long-chain false positives.
+- Positive proof: `Build-SkeletonPSGCorridorWavePlanV1.py` with dynamic base-ray-block rejection produced rayclean corridor plans; `Build-SkeletonPSGCorridorConnectorCutterV1.py` materialized rank85 `top04` with 4 PSG connector units. `v131_rank85_skeleton_psg_connector_cutter_v1_latehit18_rayclean_lighttrace_metrics.csv` shows `top04` official solved, process A, TrueHardCandidate, hardV3 `0.762`, avg/max choices `2.89/5`, coverage `0.244`.
+- Added bridge/audit tools: `Build-SkeletonPSGFillConstraintAdapterV1.py` emits reserve edges/minimal rolemap for SeededDirectSGP; `Build-SkeletonPSGContractAuditV1.py` audits filled candidates for connector survival, corridor clear, filler opener explosion, and dynamic base-ray pollution.
+- Generic reserve-only SeededDirectSGP can raise coverage to `0.882-0.905`, but trace is `4/4 solved=False`, `4/4 Drop/LocalEasy`, max choices `53-61`. Contract audit proves connector contract still passes `4/4`; the failure is filler-generated openers (`53-61`) plus `40-41` dynamic base-ray blocks.
+- Direct-exit cap (`MaxBoundaryDirectExitOpenersPerPass=8`) lowers opener explosion but stalls coverage at `0.599-0.626` and remains `4/4 Drop/LocalEasy/unsolved`, max choices `16-17`.
+- Feeding rank85 RayConstraintMap `criticalDependencyEdge` into `UseReleaseAwareHeadProviderV2` accepts `16-19` release-aware heads but still only reaches coverage `0.622-0.654`; contract audit remains `ContractPreservedButFillerOpenerExplosion` with `10-11` filler openers and `38-39` dynamic base-ray blocks.
+- Current conclusion: PSG/skeleton integration point exists, but existing SeededDirectSGP cannot turn it into a high-coverage complete level by reserve constraints or release-aware heads alone. Next implementation must be a generation-time PSG filler contract: scheduled filler DAG, opener budget as hard state, and dynamic base-ray block/timed-blocker control before dense mop-up.
+
+## V1.31 Skeleton PSG Scheduled DAG Fill Checkpoint - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; original PSG production/core was not modified. New isolated script: `Tools/SGPRhythmLab/Build-SkeletonPSGScheduledDAGFillV1.py`.
+- Breakthrough: PSG-style filler edge insertion plus `--full-ray-dag-guard` closes the skeleton->filled-candidate route for solved B examples. First-hit DAG alone was insufficient: unguarded insert reached `0.55` coverage but official trace was `solved=False` due hidden full-ray dependency cycles.
+- Verified positives from rank85 top04: strict guarded insert produced coverage `0.5029412` and `0.5421569`, both official trace `solved=True/processTier=B`; head-ray guarded insert produced coverage `0.6294118`, official trace `solved=True/processTier=B`, openers `2`, avg/max choices `4.15/10`.
+- Contract state: selected connector contract remains `4/4`; generated filler contributes `0` initial opener heads. Strict guarded candidates show `baseScheduleAddedRayBlockCount=5`, matching the top04 connector baseline, so strict filler did not add base-ray pollution beyond the connector materialization.
+- Negative/boundary: freezing all filler corridors stalls near `0.40`; base-ray `off` stalls around `0.47` because heads on base dynamic rays create full-ray cycles; relaxed fan-in did not beat default head-ray.
+- Current gap: no high/full coverage candidate yet. The next route should add timed base-ray blocker ownership and a capacity planner for the full ray-blocker DAG, not return to generic dense fill.
+
+## V1.31 Skeleton PSG Solver Topology / Realizer Checkpoint - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; original PSG core still untouched. New isolated scripts: `Build-SkeletonPSGSolverTopologyV1.py` and `Build-SkeletonPSGTopologyRealizerV1.py`.
+- Public Git scan found no direct ArrowMagic generator to copy; useful architecture is mission/precondition-graph first, then layout/space realization. This led to a full-ray solver topology layer rather than chain-by-chain trace fill.
+- Release-lane topology smoke: `v131_rank85_skeleton_psg_solver_topology_v1_lanes4_smoke_summary.csv` hit abstract coverage `0.880-0.943`, all `solved=True`, no cycles, openers `3`, avg/max choices about `4.18-4.76 / 6-8`, process A/B. Without release lanes the same topology had avg choices `~14-17`.
+- Timed-heavy topology is geometrically brittle: `timed-blocker-fraction 0.42` realizer stalls near coverage `0.535`; `0.20` stalls around `0.563`; failures are timed base-ray slot intersections, not generic empty-space shortage.
+- Timed=0 owner-hit release-lane topology proves the geometry bridge can exceed prior `0.629`: stable positive `v131_skelpsg_toporeal_t940v02_t0_selfguard_neutral_pos1_candidates.csv` writes `real_guard_neutral_pos1__a_a403f2e932_top04_t940_v02.asset`, coverage `0.7274510`, `107` generated chains, `fullRayDagPass=True`.
+- Official light trace `v131_skelpsg_toporeal_t940v02_t0_selfguard_neutral_pos1_trace_light_metrics.csv`: `solved=True`, process/tight tier `B/B`, openers `2`, avg/p80/max choices `2.86/4/7`, no choice peaks. Boundary: `hardStructureV3Class=LocalEasy`, `dependencyFollowRunMax=7`, `localPatchSolveRunMax=7`; this is a route proof, not a final hard-feel level.
+- Important fix: topology realizer must reject self-ray body blockers. Before `self-ray guard`, a `0.7245` full-ray-DAG-pass asset official-traced `solved=False`; audit found two generated chains whose own bodies lay in their head escape ray.
+- Next useful step: make topology generation geometry-aware by selecting release/timed targets from feasible slot capacity, and add trace-semantics/release-lane feedback to reduce `dependencyFollowRun` and local patch collapse. Do not interpret abstract A/B or full-ray DAG pass alone as sufficient.
+
+## V1.31 Skeleton PSG Topology Capacity Audit - 2026-06-29
+
+- Added isolated read-only script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SkeletonPSGTopologyCapacityAuditV1.py`; it does not touch original PSG or write Unity assets.
+- Audit run `v131_skelpsg_topocapaudit_t940v02_t0_pos1_*` on the current `0.7274510` positive emits summary, node capacity, chain risk, and target pressure CSVs under `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- Result: realizer placed `107/207` generated nodes and failed at topo owner `155` rank `31`; that node had `245` empty heads, `980` direction rays, only `5` planned-target ray checks, `0` path variants, and `0` cycle-pass candidates.
+- Hard-feel diagnosis: generated filler first-hit is too local (`91/107` generated chains local first-hit, rate `0.8505`; placed sequence local-hit run `15`), matching official trace `LocalEasy`, `dependencyFollowRunMax=7`, and `localPatchSolveRunMax=7`.
+- Target pressure diagnosis: top targets such as owner `2` and `50` accumulate high full-ray/first-hit pressure (`2:5/15/6`, `50:3/14/2` in first/full/planned format), so topology V2 needs per-target capacity and dominance budgets.
+- Next implementation should make topology/realizer choose release-lane targets from feasible slot pools before committing nodes, with hard caps on local first-hit runs and same-region target pressure. Coverage tuning alone is not the next move.
+
+## V1.31 Skeleton PSG TopologyRealizer V2 Probe - 2026-06-29
+
+- Added isolated experimental script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SkeletonPSGTopologyRealizerV2.py`; original PSG and V1 realizer were not modified.
+- V2 `capaware_smoke1_lite` reached coverage `0.7333333` with `127/207` generated nodes and full-ray DAG pass. Planned generated local-hit rate dropped to `0.4567`, but official trace stayed solved/B/`LocalEasy` with `dependencyFollowRunMax=7` and `localPatchSolveRunMax=9`.
+- Capacity audit of the V2 no-shadow board showed final actual generated local first-hit relocalized to `0.8976`; this proves later chains shadow earlier planned rays and invalidate the planned non-local hit language.
+- Strict first-hit shadow guard is too strong: all-owner guard stalls after `1-2` chains; generated-only guard stalls at coverage `0.3039`; distance-3 all-owner guard stalls at `0.2529`. Shadow cannot be a blanket hard kill.
+- Shadow-cost scoring without hard reject is safe but insufficient: `shadowcost_smoke6_lite` solved/B at coverage `0.6745098`, avg/max choices `2.9/6`, but still `LocalEasy`, `dependencyFollowRunMax=10`, `localPatchSolveRunMax=7`. Wider candidate window (`w64`) worsened coverage to `0.5745`.
+- Rank-band audit shows local collapse begins around topology rank `20-29`: no-shadow local rate rises from `0.062` at rank `10-14` to `0.579/0.778` at `20-29`, and shadow-cost cannot rescue that late capacity collapse.
+- Light frontier pool makes multi-node scans cheap, but reordering without topology lane-anchor semantics breaks materialized-slot continuity. The next useful work is a topology emitter V2 that marks/protects release-lane seed anchors and chooses later targets from pre-audited feasible slot pools; do not continue penalty-only realizer tuning.
+
+## Campaign500 Long-Chain Pilot3 V7 Outer-Exit Reduction Review - 2026-06-29
+
+- Worktree `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; visible worktree Unity reopened with PID `54920`. Main Unity PID `29952` and unrelated nutation batch were left untouched.
+- V7 updates `PSGLongLockLongifyV1Generator.cs` output family to `Campaign500LongChainPilot3V7*`, adds an outer-exit head cap, stronger source/merge scoring penalties, gate summaries for `outerExitHeads_X>cap`, and a legal `outerExitReverse` post-longify pass. `dotnet build campaign500-longchain-pilot3.sln --no-restore -v:minimal` passed with 0 errors / 7 pre-existing warnings before the batch.
+- Section3 V7 report `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v7_report.csv` selected 3/24 rows for orders `22/30/25`; coverage `0.9599-0.9674`, avg `0.9643`; chains avg `43.67`, maxChain range `49-71`; edgeRailRunMax avg `4.33`; outerRingRunMax avg `14.33`; longVisualCellShare avg `0.572`; midShortSupportChains avg `22.00`.
+- Source metrics by row: order22 `0.9599`, chains `29`, maxChain `49`, `outerExitHeadCount=8`, `outerExitRunMax=1`, `outerExitSideMax=3`, `outerExitReverse=2`; order30 `0.9674`, chains `45`, maxChain `64`, `outerExitHeadCount=10`, run `2`, side `3`, reverse `2`; order25 `0.9655`, chains `57`, maxChain `71`, `outerExitHeadCount=16`, run `1`, side `5`, reverse `9`.
+- Compared with V6 section3, source outer-exit head counts improved from `10/12/25` to `8/10/16`, and side max from `3/5/10` to `3/3/5`. The outer-frame fill-band bug remains fixed; the remaining risk is total outward opener pressure, especially the challenge row.
+- Official trace input `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v7_section3_trace_input.csv`; metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v7_section3_fast_metrics.csv`. Result `3/3 solved`, process tiers order22/order30/order25 = `A/B/Drop`.
+- Demo pack `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V7Demo9Pack.asset`, GUID `fc08a06ec1e285a4abd7f7ecc810bb70`, is mounted in worktree `Assets/ArrowMagic/Scenes/Demo.unity`.
+- Boundary: V7 is a visual review checkpoint, not production keep. It proves generation-side outer-exit reduction works without cropping the perimeter, but challenge rows still need tighter opener/outer-exit budget before expanding beyond section3.
+- User visual feedback after review: "可以，好了很多." Treat V7 outer-exit reduction as the first accepted visual direction after the outer-frame/edge-rail fixes. Next pass should preserve this look while reducing challenge-row openers/outer-exit pressure, not revert to V5/V6 perimeter behavior.
+
+## Generated-Root WBP V12 t104-t105 Target-Basin Capacity Probe - 2026-06-29
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. No final `0.95+` / difficulty-A level exists yet; current feasibility gate is still breaking the semantic slot capacity ceiling beyond `5`.
+- Added default-off strict-edge target diversity gates/logging to `Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py`: `--min-strict-edge-proxy-target-owners`, `--min-strict-edge-proxy-target-top-roots`, and `--max-strict-edge-proxy-target-owner-dominance`.
+- t104c/t104d proved target-owner diversity alone is not enough. t104d c002 repeated the current best region with coverage `0.3137652`, target owners/top roots `7/4`, dominance `0.375`, but post-hoc variant capacity still maxed at `5`.
+- Rosetta/GPT Pro review agreed with local evidence: the sticky `5` is an edge-rich but basin-poor failure. The next layer should treat a slot as a target basin/choke/escape-ray family, not merely an edge label or target-owner count.
+- Added target-basin prepartition support to `Build-GeneratedRootWBPV12SlotCapacityLayoutV1.py`, including `--target-basin-*` options and multi-center-per-owner search. t105e successfully produced `6` spatial target basin buckets from t104d c002 supply; owner4 used alternate center rank `4` at `5,4` to avoid owner0's `4,6` center collision.
+- t105f consumed the t105e layout in rootgen and selected `t105f_sbrg_targetbasin6_seed561120_c001`: coverage `0.3137652`, chains `23`, topRoots/openers `5/5`, Greedy solved, strictEdgeProxy target owners/top roots `7/4`, target dominance `0.438`.
+- t105f post-hoc supply improved raw availability to `20/80` slot-fit edges and `114` candidates, but disjoint capacity dropped to `4` (`13->6,20->7,14->5,10->16`). This proves a static spatial target-basin layout from an old root does not bind to the new generated root's owner identity.
+- Current breakthrough judgment: the direction is viable, but the next implementation must make target-basin/capacity layout owner-bound or root-current. Do not resume coverage tuning, local bucket tuning, or selector-only repair; iterate at the whole-board cell-plan layer by rebuilding target basins from the current root's supply/capacity and feeding owner/basin contracts forward.
+
+## Generated-Root WBP V12 t106 Current-Root Target-Basin Gate - 2026-06-29
+
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Export-GeneratedRootWBPV12LightRoleSlotFitSupplyV1.py` summary output with current-root slot-fit target metrics: `slotFitCandidateTargetOwners`, `slotFitCandidateTargetTopRoots`, `slotFitCandidateTargetBasinKeys`, target-owner dominance, and owner count text.
+- Re-audited t105f with the new fields: raw supply `20/80` but only `targets 5/4/5`, dominance `0.350`, and max disjoint `4`. The new field cleanly exposes why the old static 6-basin layout did not transfer.
+- t106a current-root target-basin layout from t105f's own supply produced only `5` target basin buckets (`6/B3`, `5/CHOKE`, `16/CHOKE`, `7/B1`, `17/B2`), proving t105f already collapsed at the current-root basin layer.
+- t106b cheap pool with the t102b profile selected one Greedy-clean root, but post-hoc supply was only `8/80`, `targets 3/3/3`, dominance `0.625`, and capacity `3`. This is a cheap strict-edge false positive.
+- t106c soft consumption of the t105e 6-basin layout was also negative: post-hoc `13/80`, `targets 2/2/2`, reserve `2/2`, capacity `2`. Old-root target-basin cells cannot be used as hard or soft substitute for current-root owner binding.
+- Added default-off rootgen gate `--min-light-role-reserve-activation-top-roots` to filter planned light-role collapse before post-hoc audit. t106d with this plus consumed/dominance gates found no selected roots in a fresh seed band; t106e in the known seed band selected one root but post-hoc still collapsed to `targets 3/3/3`, capacity `2`.
+- Current conclusion: current-root slot-fit target-basin metrics are now the right post-hoc rerank gate. Planned light-role activation diversity is useful as a cheap hygiene filter, but not an acceptance proxy. Next WBP step should batch-generate cheap roots, export supply with these current-root target fields, and rerank for `targetOwners >= 6`, `targetBasinKeys >= 6`, low dominance, and capacity `6+`; only then feed semantic preplan/chain cutting.
+
+## Generated-Root WBP V12 t107 Batch Current-Root Rerank - 2026-06-29
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Run-GeneratedRootWBPV12CurrentRootCapacityRerankV1.py`, a read-only orchestrator that audits selected roots from one or more root-pool CSVs by running current-root slot-fit supply export, variant capacity audit, and a unified rerank CSV/MD. It now supports `--reuse-existing` and emits capacity blocker diagnostics (`capacityTopBlockedTargets/Basins/OverlapCells`) for the next layout feedback pass.
+- t107a reranked 14 selected historical roots from t103a, t104d, t105f, t106b, t106c, and t106e. Output: `t107a_current_root_capacity_rerank.csv` and `_summary.md`, with per-root audit files in `t107a_current_root_capacity_rerank/`. Gate `targetOwners>=6,targetBasinKeys>=6,maxDisjoint>=6,dominance<=0.45` passed `0/14`.
+- t107a best roots are still the t103a c001 / t104d c002 class: coverage `0.3137652`, current supply targets `5/4/6`, dominance `0.455`, and max disjoint `5`. This refines the earlier manual comparison: current-root basin key count reaches `6`, but target owners and disjoint capacity still miss the `6+` gate.
+- t107b reconstructed a t104d-like seed band with strict proxy dominance `0.45`; selected `0`. Growth log shows near misses with proxy target owners `6-7`, but dominance/coverage/gate mix was too narrow.
+- t107c relaxed proxy target-owner dominance to `0.6` and selected one Greedy-clean generated root, `t107c_sbrg_rerank_seed561680_c001`, coverage `0.3036437`. Current-root rerank immediately collapsed it to supply targets `3/2/3`, max disjoint `3`; selected capacity edges were `4->7,20->10,10->16`.
+- t107c capacity blocker diagnostics expose a concrete collapse shape: blocked targets `7:12,10:6,16:6`, blocked basins `B3->CHOKE:12,B2->CHOKE:6,B1->B2:6`, and top overlap cells `9,4:18,7,4:14,8,4:14,16,3:12,15,3:12`. Use these fields to build the next feedback layout instead of reading MD by hand.
+- Current status: no `capacity 6+` root yet. The route is still viable, but root generation must use t107 rerank as the acceptance surface. Next step is to convert t107 blocker/overlap diagnostics into a current-root feedback layout or batched multi-seed search that only promotes roots passing the post-hoc gate.
+
+## Generated-Root WBP V12 t108 Owner-Basin Feedback Layout Probe - 2026-06-29
+
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SlotCapacityLayoutV1.py` with default-preserving `--root-level-id`, `--target-basin-group-key`, and `--target-basin-max-per-owner`. This lets target-basin layout group supply by `owner`, `owner_top`, `owner_basin`, or `owner_top_basin` instead of always collapsing all supply into one bucket per target owner.
+- t108a consumed t107a best root `t103a_sbrg_targetdiv_hotbucket_seed560820_c001` and produced `t108a_current_root_ownerbasin_feedback_layout.csv/_summary.md`. With `--target-basin-group-key owner_basin --target-basin-max-per-owner 2`, it successfully emitted `6` target-basin buckets from current-root supply: owner2 B1->B1, owner0 B2->B2, owner20 B2->B3, owner7 B1->B2, owner20 B1->B3, and owner9 B1->B2. This proves the old owner-only layout was hiding the sixth basin-key opportunity.
+- t108b used the t108a layout as soft feedback at rootgen coverage `0.30` / min `0.28`; selected `0`. Growth log shows some high proxy diversity near misses, including seed `561857` with proxy target owners/top roots `9/4`, dominance `0.2`, but root coverage only `0.263`.
+- t108c lowered root-stage coverage only (`targetCoverage=0.26`, min `0.20`) to audit the high-proxy near miss. It selected `t108c_sbrg_ownerbasin_soft_lowroot_seed561840_c001`, Greedy solved at coverage `0.2631579`, but current-root rerank collapsed to supply targets `3/2/3`, dominance `0.467`, and max disjoint `3`.
+- t108d hard-excluded `target_open_bucket` cells from the same owner-basin feedback layout and selected two low-coverage roots. Current-root rerank still failed: best c002 reached only `targets 4/4/4`, dominance `0.600`, max disjoint `3`; c001 reached `targets 3/3/3`, max disjoint `2`.
+- Current conclusion: owner-basin grouping fixes a real layout representation bug, but migrating a current-root feedback layout to newly generated roots still does not preserve owner identity or capacity. The next route should stop promoting proxy roots directly and either batch many roots through the t107 rerank gate or move a cheaper approximation of current-root slot-fit/capacity into root selection itself.
+
+## Generated-Root WBP V12 t109 Root-Pool Capacity Search - 2026-06-29
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Run-GeneratedRootWBPV12RootPoolCapacitySearchV1.py`, a multi-seed root-pool orchestrator that runs source-basin rootgen, immediately calls current-root capacity rerank, and writes aggregate/band summaries. It shortens child paths and streams subprocess output to avoid Windows path/no-output failures.
+- Hardened `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Run-GeneratedRootWBPV12CurrentRootCapacityRerankV1.py` so exporter/capacity child calls receive repo-relative paths. This fixed long-prefix export failures seen during t109e.
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` so slot-fit blocker maps can read capacity overlap CSVs with `overlapCount`; the new search wrapper can pass those overlap maps back into rootgen.
+- t109g two-band search (`t109g_rootcap2_*`) selected two Greedy-clean generated roots and audited both. Gate `targetOwners>=6,targetBasinKeys>=6,maxDisjoint>=6,dominance<=0.45` still passed `0/2`.
+- Important positive signal: `t109g_rootcap2_s560880_c001` reached current-root supply `7/6/7` with dominance `0.467`, so semantic target diversity can exist in fresh generated roots. The failure is disjoint slot capacity, which stayed at `4`.
+- Capacity collapse shape for the t109g best root: selected edges `16->10,12->11,10->3,1->8`; top blocked targets `11:32,3:12,4:6,5:6,6:2`; top blocked basins `B1->B2:32,B2->B2:12,B1->B1:12,B2->B3:2`; top overlap cells start `9,3:38,8,3:32,4,3:20,7,3:18`.
+- t109h fed the t109g overlap map back as a soft slot-fit blocker map (`weightScale=2.0`, top 16 cells). The map loaded (`12` cells) but reproduced the same root and same capacity `4`; soft overlap penalties at this layer are insufficient.
+- Current conclusion: the route is viable, but the next breakthrough is not more target-owner diversity. Rootgen needs an in-generation current-root capacity approximation or a hard/structured lane allocator that maximizes disjoint reserve slots before promotion. Do not proceed to semantic preplan/whole-board cutting until a root reaches capacity `6+` or equivalent relation-rich disjoint evidence.
+
+## Campaign500 Long-Chain Pilot3 V8 Opener Reduction Review - 2026-06-29
+
+- Worktree `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; V8 Demo is mounted in that worktree and visible Unity was reopened with PID `50564`. Main Unity PID `29952` and unrelated Nutation batch were left untouched.
+- V8 preserves the accepted V7 visual direction and tightens review gates for initial openers and outward-head pressure. It adds review slack helpers, a stricter challenge/normal outer-exit head cap, and a legal `openerReverse` repair pass after `outerExitReverse`.
+- Source report `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v8_report.csv` selected section3 orders `22/25/30`; coverage `0.9599-0.9674`, avg `0.9643`; chains avg `41.67`; maxChain range `49-71`; edgeRailRunMax avg `4.00`; outerExitHeadCount avg `10.33`; longVisualCellShare avg `0.572`; midShortSupportChains avg `22.00`.
+- Per-row source metrics: order22 openers/head `8/8`, process `A`; order30 source openers/head `9/9`, official trace `B`; order25 challenge source openers/head `14/14`, official trace `Drop`. Compared with V7 challenge row, source openers/head improved from `16/16` to `14/14`, but still exceeds strict cap.
+- Official trace metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v8_section3_fast_metrics.csv`: `3/3 solved`, process tiers `A/B/Drop`, missing/failed `0`.
+- Demo pack `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V8Demo9Pack.asset`, GUID `e69b0d21ce1cda0489bac71c2de49348`, is mounted in `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/Scenes/Demo.unity`.
+- Boundary: V8 is still a visual-review checkpoint, not production keep. It improves challenge outward opener pressure without reverting the perimeter fixes, but the challenge slot remains the next target for generation-side opener budgeting before expanding beyond section3.
+
+## Campaign500 Long-Chain Pilot3 V9 Challenge-Only Opener Budget Review - 2026-06-29
+
+- Worktree `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; V9 Demo3 is mounted and visible worktree Unity reopened with PID `19896`. Main Unity PID `29952` was left untouched.
+- V9 first tried crop-preview/source pressure globally; that was a negative because order30 normalB lost coverage and selected `0` normalB rows. Final V9e scopes strong crop-aware opener pressure to hard/challenge rows only, restoring the V8 normal rows.
+- Code change is in `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs`: V9 output family, challenge-only cropped-preview source scoring/merge score metrics, `CampaignPilotGenerationMaxOpeners`, generation outer-exit head/side caps, and pressure penalty.
+- V9e source report `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v9_report.csv` selected `5/9`; chosen Demo3 rows are orders `22/25/30`.
+- Demo3 source metrics: order22 `coverage=0.9599`, openers/head `8/8`; order30 `0.9674`, openers/head `9/9`; order25 challenge `0.9517`, openers/head `11/11`, maxChain `61`, longVisualCellShare `0.509`, midShortSupportChains `33`.
+- Official trace metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v9e_section3_metrics.csv`: selected Demo3 rows are all solved; order22 `A`, order30 `B`, order25 challenge remains `Drop`.
+- Challenge comparison to V8: V8 challenge `openers=14`, `avgChoices=10.73`, `p80=17`, `max=19`, official outerExitHead `13`; V9e balanced challenge `openers=11`, `avgChoices=10.67`, `p80=15`, `max=16`, official outerExitHead `10`. This is a real opener/max-choice improvement but not a process-tier breakthrough.
+- Demo pack `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V9Demo9Pack.asset`, GUID `e2a38df3a9e55d6488a272b642a9ca39`, is mounted in `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/Scenes/Demo.unity`.
+- Boundary: V9e is visual/metric review, not production keep. Next step is to combine the low-opener challenge branch (`slot_balanced`) with the lower choice-curve branch (`slot_headmix`, avgChoices `8.30`, p80 `12`, max `14`) without losing opener budget.
+
+## Nutation HubSpoke V5 Pool Trace Keep - 2026-06-29
+
+- Worktree `.worktrees/nutation-peel`, branch `codex/nutation-peel`; this is the active Nutation line. Old `.worktrees/nutation-hub-v5-control` remains diagnostic only.
+- Hub V5 soft dependency-stage remains the best generator-side baseline; unused trace-like helper code was removed after smoke14/15 proved it degraded selection. `dotnet build nutation-peel.sln --no-restore -v:minimal` passes with 0 errors and the same 7 pre-existing warnings.
+- Added `NutationHubSpokeV5Pool`: 6 seed-offset variants of the 4 Hub V5 specs, using a lighter 360-attempt V5 profile to export a 24-row candidate pool without changing the original `NutationHubSpokeV5Pack`.
+- Pool source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_pool_report.csv` generated `24/24` rows. Full Pool generation took about 30 minutes; use `-SkipUnity` for trace-only reruns.
+- Trace-only run `nutation_hub_spoke_v5_pool_smoke1_traceonly`: official trace `24/24 solved`, `9` processKeep, `2` STS pass, `2` TraceOrderKeep / production keep. Summary `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_pool_smoke1_traceonly_trace_joined_summary.md`.
+- Keep rows: `pool_10_p03_woven_stage_b` coverage `0.903`, avg/max choices `4.34/8`, local/near `8/5`, directionalRisk `0.38`, STS `0.786/0.272`, sameAxis/sameDir `7/6`, dependencyLocal `0.484`; `pool_13_p04_woven_stage_a` coverage `0.905`, avg/max `5.01/9`, local/near `7/7`, directionalRisk `0.439`, STS `0.765/0.294`, sameAxis/sameDir `6/6`, dependencyLocal `0.598`.
+- Compared with smoke16 best near-miss (`sameAxis=9`, dependencyLocal `0.614`), Pool proves candidate-pool selection can cross the official trace same-axis/same-dir gate. Remaining issue is local/directional feel: both keeps still fail visual/local strict reasons (`directionalRisk>0.34`, `localPatchRun>6`, one also `nearOuterRun>5`).
+- Built and Demo-mounted review pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5PoolProductionKeepPack.asset`, GUID `ca27d341c7fff2c4981fd411dbc9df75`, using `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_pool_production_keep.csv`. This is review/prototype keep, not yet final strict production.
+
+## Nutation HubSpoke V5 LocalBreak Review - 2026-06-29
+
+- Worktree remains `.worktrees/nutation-peel`, branch `codex/nutation-peel`; current work is still Hub V5, not a switch to the broader style matrix.
+- Added `NutationHubSpokeV5LocalBreak` as a V5.1 review/prototype lane: it keeps V5 hub-spoke/patch-chain grammar but adds a mild local-break prior, lower opener ceiling, and stricter local/near solve-flow scoring. It does not overwrite `NutationHubSpokeV5` or `NutationHubSpokeV5Pool`.
+- Entry wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubSpokeProductionV5LocalBreak.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationHubSpokeV5LocalBreakPack`.
+- Smoke4 output: source report `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_localbreak_report.csv`, joined report `.worktrees/nutation-peel/.codex-run/nutation_hub_spoke_v5_localbreak_smoke4_trace_joined.csv`, full pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5LocalBreakPack.asset`.
+- Smoke4 metrics: `16/16` official solved, `6` processKeep, `1` VisualKeep, `1` TraceOrderKeep, `1` TraceOrder production keep. The VisualKeep row is cleaner locally (`localPatchRun=6`, `nearOuterRun=5`, `directionalRisk=0.307`) but misses STS/same-axis/dependency-local gates; the TraceOrderKeep row has better STS (`0.798/0.257`, sameDir `5`) but still fails local/dir visual gates (`local=8`, `nearOuter=6`, `dirRisk=0.435`). No row passes both visual and trace gates yet.
+- Negative follow-up: a hard reject / strong penalty version for repeated same-region/micro/axis dependencies was tested as smoke2/smoke3 and rejected. Hard reject collapsed source coverage to about `0.08-0.10`; strong penalty restored coverage but produced `0` visual/production keep. Keep the mild LocalBreak version as the current checkpoint.
+- Full `NutationHubSpokeV5LocalBreakPack.asset` exists with GUID `fc62c0876adad0a42b083d855ca6226a`, but the currently open/dirty Nutation Demo was not force-switched; current `Demo.unity` activePack points to `NutationHubMixedV1Pack` GUID `0f8565b30a1fe4f4b8d278891af261e8`. A 2-row review CSV exists at `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_localbreak_review.csv`, but the separate review-pack batch was blocked because the same Unity project was already open.
+
+## Nutation Production Readiness Matrix - 2026-06-29
+
+- Worktree `.worktrees/nutation-peel`, branch `codex/nutation-peel`; current matrix now includes Hub V5 Pool, for `20` joined CSVs / `97` traced rows.
+- Matrix outputs: `.worktrees/nutation-peel/.codex-run/nutation_style_matrix_v1_current_matrix.csv`, `_summary.md`, `_representative_rows.csv`, and `_production_readiness.md`.
+- Representative review pack generated without batch Unity because the worktree Unity project was already open: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationStyleMatrixRepresentativeReviewPack.asset`, GUID `2d8a4da775c84f85bc9575d170512392`, `16` style-chain representative levels. `.worktrees/nutation-peel/Assets/ArrowMagic/Scenes/Demo.unity` now points to this pack.
+- Production-ready review lanes: `LongChain/curve`, `LongChain/rail`, `LongChain/patch`, `LongChain/spine`, `Peel/curve`, `Peel/rail`. Suggested first Nutation batch mix: LongChain `45-55%`, Peel `25-35%`.
+- Controlled mix lanes: `Flow/curve`, `Flow/rail`, `Flow/patch`; keep around `10-20%` for easier pacing and reduce if体感 too simple.
+- Not production-ready yet: `Hub/curve`, `Hub/rail`, `Hub/patch`, `Maze/curve`, `Maze/patch`, `Maze/rail`, `Peel/patch`. Hub V5 Pool is `strict_probe_ready` only: `2` TraceOrderKeep but all rows remain `high_risk/local_collapse`; Hub V5 LocalBreak is a validated prototype with `1` VisualKeep and `1` TraceOrderKeep but no overlap row.
+- Main project sync: copied the `16`-level representative review pack and required LevelDefinition assets from `.worktrees/nutation-peel` into the main project. Main pack path is `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationStyleMatrixRepresentativeReviewPack.asset`, GUID `2d8a4da775c84f85bc9575d170512392`; main `Assets/ArrowMagic/Scenes/Demo.unity` activePack now points to it. Main Unity PID `29952` was already open and was brought to foreground.
+- Production preview pack added in main project: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationProductionPreviewV1Pack.asset`, GUID `5c44ad9e7d9a43e9a602d115e4d99a71`, `9` levels. It contains Flow curve/patch/rail as controlled mix plus Peel curve/rail and LongChain curve/patch/rail/spine; Hub/Maze/PeelPatch are excluded. Main `Demo.unity` activePack now points to this pack. Manifest/summary: `.codex-run/nutation_production_preview_v1_rows.csv` and `_summary.md`.
+
+## Nutation Flow/Peel Production Branch - 2026-06-29
+
+- User review: LongChain feel is not good enough for immediate production, so LongChain is removed from the next production scope.
+- New isolated worktree/branch created: `.worktrees/nutation-flow-peel-production` on `codex/nutation-flow-peel-production`.
+- Dedicated Flow/Peel scope: Flow curve/rail/patch and Peel curve/rail, with PeelPatch only behind `-IncludePeelPatchProbe`.
+- Default production wrapper: `.worktrees/nutation-flow-peel-production/Tools/Production/Invoke-NutationFlowPeelProductionBatchV1.ps1`.
+- Mixed definition corrected: Mixed is a standalone quality-only global Nutation candidate pool, not Flow/Peel composition and not style/chain capped.
+- Mixed wrapper: `.worktrees/nutation-flow-peel-production/Tools/Production/Invoke-NutationMixedProductionV1.ps1`.
+- Mixed default plan includes 20 Nutation sources across Flow/Peel/LongChain/Hub/Maze and curve/rail/patch/spine/mixed languages; rows survive only quality gates, including duplicate style-signature cap.
+- Mixed keep pack builder added in `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`: `BuildNutationMixedProductionV1ProductionKeepPack`, reading `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_mixed_production_v1_production_keep.csv`.
+- Readiness doc: `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/Docs/NutationFlowPeelProductionReadiness.md`.
+- Verification done: PowerShell parser passed for `Invoke-NutationMixedProductionV1.ps1` and `Invoke-NutationFlowPeelProductionBatchV1.ps1`; `Invoke-NutationMixedProductionV1.ps1 -PlanOnly` reports `laneCount=20` and `mixedDefinition=quality-only-global`; `-LaneKeys flow_curve,peel_rail` plan path also works. No Unity compile/full generation was run in this correction step.
+
+## Nutation Mixed Canvas Preview V1 - 2026-06-30
+
+- User asked for 3 preview levels on small/medium/large canvases. To avoid rerunning the full 20-lane Mixed catalog, selected 3 already generated and traced rows from the current global Nutation matrix that pass the Mixed quality gates.
+- Main project preview pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMixedCanvasPreviewV1Pack.asset`, GUID `c25181a4948c4cdcb0a1af617f62c55c`; main `Assets/ArrowMagic/Scenes/Demo.unity` now points to it.
+- Manifest: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_mixed_canvas_preview_v1_rows.csv`.
+- Rows: small `20x28` PeelRail lock_buckle, medium `21x30` LongChainPatch core_patch, large `22x31` LongChainCurve weave_curve. All are TraceOrderKeep and pass coverage/choices/local/directional/STS gates.
+- Boundary: this is a visual canvas preview from existing matrix candidates, not a fresh full Mixed production run and not the canonical `NutationMixedProductionV1ProductionKeepPack`.
+
+## Nutation Mixed Neutral Preview V1 - 2026-06-30
+
+- User clarified Mixed should feel closer to native PSG: long and short chains in the same level, less explicit style identity, and not a style showcase. The previous canvas preview was too much like style-matrix selection.
+- Main project neutral preview pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMixedNeutralPreviewV1Pack.asset`, GUID `5cfb432cf3fb4fcda59ec3c241bfdb3d`; retained for comparison, but main `Assets/ArrowMagic/Scenes/Demo.unity` has since moved to V2.
+- Manifest: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_mixed_neutral_preview_v1_rows.csv`.
+- Rows were selected from existing PSG-like traced candidates, all TraceOrderKeep and quality-gate pass: small `20x28` dense_weave/short_patchwork, medium `20x30` core_burst/short_patchwork, large `21x30` dense_weave/short_patchwork.
+- Shared neutral target: `sourceShortChainRate≈0.29-0.30`, `sourceAvgChain≈9.45-10.02`, `sourceMaxChain=19-21`, `maxChoices=8`, local/near <= 6/4, directional/stripe risk below Mixed gates. This is the better preview for “PSG-like neutral Mixed.”
+- Boundary: this is still a preview selected from existing traced candidates, not a fresh Nutation Mixed global production run. Future true Mixed should add a neutral blend gate/source so explicit Flow/Peel/LongChain/Hub/Maze traits do not dominate.
+
+## Nutation Mixed Neutral Preview V2 - 2026-06-30
+
+- User asked for 3 more PSG-like neutral Mixed levels. Added `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationMixedNeutralPreviewV2Pack.asset`, GUID `75478b0f8cae412ea77652e3c0b260fb`; main `Assets/ArrowMagic/Scenes/Demo.unity` now points to V2.
+- Manifest: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_mixed_neutral_preview_v2_rows.csv`.
+- Rows selected from existing traced PSG-like pool, excluding V1 rows: `20x28` dense_weave/woven_medium, `20x30` core_burst/short_patchwork, and `22x28` lock_buckle/short_patchwork.
+- Metrics stay within neutral review gates: coverage `0.975-0.985`, chains `51-66`, avgChain `9.00-10.71`, maxChain `20-21`, shortChainRate `0.216-0.348`, maxChoices `7-8`, local/near <= `6/4`, directionalRisk `0.079-0.206`, stripeRisk `0.015-0.104`.
+- Boundary: V2 is another preview pack selected from existing solved/trace-kept candidates, not a new full Nutation Mixed generator run.
+
+## Campaign500 Long-Chain Pilot3 V10-V12 Combination Probe - 2026-06-29
+
+- Worktree `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; current worktree Demo is mounted to `Campaign500LongChainPilot3V12Demo9Pack.asset` and visible worktree Unity was opened with PID `18380`. Main Unity PIDs `29952`/`42544` were left untouched.
+- V10 tested `slot_lowchoice_pressure`, trying to combine low opener pressure with headmix-like support. Static result looked plausible (`coverage=0.9531`, openers/head `11/11`, longVisualCellShare `0.582`), but official trace was worse than balanced: avgChoices `11.64`, p80 `16`, max `19`, process `Drop`. Treat V10 lowchoice as a negative branch.
+- V11 tested `slot_headmix_outerclean`: it preserved headmix language more directly and lowered challenge openers/head to `12/11`, but failed review because outerRingRun reached `20` and outerExitSide `7`.
+- V12 tightened outerclean outer-ring generation pressure. Near-miss improved to `coverage=0.9490`, outerRingRun `18`, openers/head `12/12`, outerExitSide `5`, longShare `0.603`, but it missed the 0.95 review floor and was not saved as a selected asset. Do not loosen acceptance just to keep it.
+- V12 selected rows traced `4/4 solved`: order22 headmix `A`, order30 balanced `B`, challenge balanced `Drop`, challenge spine `Drop`. Spine has openers `14`, p80 `18`, max `23`, so Demo3 keeps challenge balanced instead.
+- Current mounted Demo3 manifest `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v12_demo3_trace_input.csv` contains order22 headmix, order25 balanced, order30 balanced. Pack GUID `c603006a701c4034abfbf970e8016ea7` is written into worktree `Assets/ArrowMagic/Scenes/Demo.unity`.
+- Current conclusion: the best shipped review state remains V9e/V12-balanced for the challenge slot; outerclean is the promising near-miss because it reduced outer visual pressure without the V10 lowchoice dynamic collapse. Next step should improve outerclean throughput above `0.95` while keeping outerRingRun <= `18`, not add more opener-only pressure.
+
+## Campaign500 Long-Chain Pilot3 V13 Style3x3 Preview - 2026-06-29
+
+- Worktree `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`; V13 Demo9 pack is mounted in worktree `Assets/ArrowMagic/Scenes/Demo.unity`, visible worktree Unity opened with PID `26500`. Main Unity PIDs `29952`/`42544` and Nutation batch were left untouched.
+- User request: before full mass production, make a preview with `3` levels per current long-chain category. No performance rewrite was needed for this 9-level preview; true量产 should still add source/candidate caching, less frequent AssetDatabase writes, and trace-after-pool selection.
+- Plan input `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_style3x3_plan_v1.csv` produced three roles: `section_long_lock`, `lock_light_negative_space`, and `lock_buckle_pressure`. V13 generation was stopped once each role had `3` selected rows to avoid wasting time on extra preview candidates.
+- V13 selected `9/21` rows before stop: `section_long_lock=3`, `lock_light_negative_space=3`, `lock_buckle_pressure=3`. Source report `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v13_report.csv`.
+- Source averages by replacement role: `LongNormalA` coverage `0.9599`, chains `27.33`, openers `8.33`; `LongNormalB` coverage `0.9544`, chains `43.00`, openers `10.67`; `LongChallenge` coverage `0.9577`, chains `55.67`, openers `13.67`.
+- Official trace input `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v13_style3x3_trace_input.csv`; metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v13_style3x3_metrics.csv`. Result: `9/9 solved`, missing/failed `0`; process tiers are `LongNormalA=A/A/B`, `LongNormalB=Drop/Drop/Drop`, `LongChallenge=Drop/Drop/Drop`.
+- Trace summary by role: `LongNormalA` avgChoices `5.46`, max p80 `8`, maxChoices `11`; `LongNormalB` avgChoices `6.38`, max p80 `10`, maxChoices `13`; `LongChallenge` avgChoices `8.63`, max p80 `13`, maxChoices `17`. Challenge remains review-only because official outerExitHead reached `18` and openers remain `13-14`.
+- Demo pack `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500LongChainPilot3V13Demo9Pack.asset`, GUID `0ca183baef294684596e53d9591491d5`, is mounted. A conflicting hidden `v14_family_expand` batch was found and stopped (`19092`, then parent `44252`/Unity `5044`); do not run V14 batch while mounting V13 preview.
+
+## Nutation HubSpoke V5 Hybrid Review - 2026-06-29
+
+- Worktree `.worktrees/nutation-peel`, branch `codex/nutation-peel`; this checkpoint corrects the active focus back to Hub V5.
+- Added read-only selector `.worktrees/nutation-peel/Tools/Production/Export-NutationHubV5HybridReviewV1.ps1`; it merges Hub V5 Pool + V5 LocalBreak joined reports and scores each row against both visual/local and trace-order gates.
+- Default run output: `.worktrees/nutation-peel/.codex-run/nutation_hub_v5_hybrid_review_v1_ranked.csv`, `_review_rows.csv`, and `_summary.md`.
+- Result: `40` rows ranked, `0` HybridStrict, `8` non-rejected near rows. Best LocalBreak row is `VisualNearTrace` (`local=6`, `near=5`, `dir=0.307`) but misses STS/collapse/same-axis/same-dir/dependency-local. Best Pool row is `TraceNearVisual` (`STS=0.786`, collapse `0.272`, axis/dir `7/6`, depLocal `0.484`) but misses `localPatchRun=8` and directional risk `0.38`.
+- Main blockers across rows: `localPatchRun`, `directionalRisk`, `collapse`, `sameAxis`, `sameDir`, `STS`, `nearOuterRun`, and `dependencyLocal`.
+- Boundary: this is not a production keep or pack. It proves Hub V5 still needs generation-side multi-objective scheduling, not another pure post-filter.
+
+## Campaign500 Long-Chain Pilot3 V14 Family Expansion Smoke - 2026-06-30
+
+- Worktree `.worktrees/campaign500-longchain-pilot3`, branch `codex/campaign500-longchain-pilot3`. Visible worktree Unity was closed for batch isolation; main Unity PIDs were left untouched. V14 was not mounted to Demo in this checkpoint.
+- Generator `Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs` now outputs to `Campaign500LongChainPilot3V14*`, promotes `slot_headmix_outerclean` into the base family pool, and adds three seed-source grammar profiles: `slot_seedlock_gate_carrier` (`seed_long_lock`), `slot_seedmaze_chamber_corridor` (`seed_long_maze`), and `slot_seedweave_braid_carrier` (`seed_long_weave`).
+- Source pool integration records the 49-row pool grammar counts in status strings: lock `9/49`, maze `24/49`, weave `16/49`. Profiles can inject multiple `ArrowLevelFamily` values through `SourceFamilies`, plus source chain/coverage/candidate bonuses.
+- Added batch-only filter `-campaignLongChainProfileFilter` for targeted smoke runs; default generation remains full-family. Clean V14 smoke command filtered to `headmix_outerclean + seedlock + seedmaze + seedweave`, first 3 style3x3 slots.
+- Clean V14 source report `.worktrees/campaign500-longchain-pilot3/Assets/ArrowMagic/SOData/Reports/Campaign500/LongChain/campaign500_longchain_pilot3_v14_report.csv`: selected `6/12`, coverage `0.9545-0.9652` avg `0.9608`, chains avg `26.67`, maxChain avg `43.33`, longVisualCellShare avg `0.493`, midShortSupportChains avg `17.00`, outerExitHeadCount avg `8.67`.
+- Selected families proved: `slot_headmix_outerclean` selected once, `slot_seedlock_gate_carrier` selected three times, `slot_seedmaze_chamber_corridor` selected once, and `slot_seedweave_braid_carrier` selected once. This satisfies the first 3-source-grammar expansion proof.
+- Official trace input `.worktrees/campaign500-longchain-pilot3/.codex-run/campaign500_longchain_pilot3_v14_filter4_p3_trace_input.csv`; metrics `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/campaign500_longchain_pilot3_v14_filter4_p3_metrics_metrics.csv`. Result `6/6 solved`, missing/failed `0`, process tiers `A=1 / B=3 / Drop=2`.
+- Boundary: V14 is a family-expansion smoke, not a production keep or mounted Demo. Earlier interrupted V14 attempts wrote some `v14` ids into V13 paths before constants were corrected; ignore those mixed V13-path artifacts and use the clean V14 report/summary/pack only.
+
+## Campaign500 Long-Chain Prod200 Pool Worktree Handoff - 2026-06-30
+
+- New isolated worktree: `.worktrees/campaign500-longchain-prod200-pool`, branch `codex/campaign500-longchain-prod200-pool`.
+- V14 generator from pilot3 was copied into the new worktree at `Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs`; it includes `slot_headmix_outerclean`, `slot_seedlock_gate_carrier`, `slot_seedmaze_chamber_corridor`, `slot_seedweave_braid_carrier`, and `-campaignLongChainProfileFilter`.
+- Raw seed source pool remains `F:\Unityproject\ArrowLevel-Hand\.worktrees\psg-long-seed-mutation\.codex-run\psg_long_seed_mutation_source_pool_v1_pool.csv`: 49 rows total, lock 9, maze 24, weave 16. These are source samples, not 49 distinct production families.
+- Current interpretation: target production pool should expand to about 10-12 family/root lanes by abstracting the 49 sources into reusable grammar lanes; then generate Campaign500 long-chain candidates from those lanes.
+- Campaign500 template: `F:\Unityproject\ArrowLevel-Hand\Exports\Campaign500_PSG_Template_20260626_095625\campaign500_psg_regeneration_template.csv`. Requirement is 4 long-chain candidates per 10-level section from normal-category slots: 2 normal, 1 hard, 1 very-hard/extreme; primary aspect range 0.70-0.85 with a small number up to 0.90.
+- Suggested next production target: first build the family/root plan and run sections 1-10 (40 candidates) as smoke with official trace, then scale to 50 sections (200 candidates) after solved/quality/duplicate gates pass.
+
+## Campaign500 Long-Chain Family Expand V2 Start - 2026-06-30
+
+- New isolated worktree: `.worktrees/campaign500-longchain-family-expand-v2`, branch `codex/campaign500-longchain-family-expand-v2`. It is separate from `.worktrees/campaign500-longchain-prod200-pool`, which another conversation is using for a 200-candidate production run.
+- Copied V14 generator into the V2 worktree and changed its output family to `Campaign500LongChainFamilyExpandV2*`. Added family-expanded profiles for `seedlock_keyhole_negative`, `seedlock_dual_gate_buckle`, `seedmaze_pocket_spine`, `seedmaze_broken_spiral`, `seedmaze_multiroom_negative`, `seedweave_cross_carrier`, `seed_dense_braid_support`, `seedpatch_lock_support`, and `seedflow_spread_support`.
+- New planning script: `.worktrees/campaign500-longchain-family-expand-v2/Tools/Production/Build-Campaign500LongChainFamilyExpandV2Inputs.ps1`.
+- Generated V2 input pool: `.worktrees/campaign500-longchain-family-expand-v2/.codex-run/campaign500_longchain_family_expand_v2_source_pool.csv`, 120 rows / 12 lanes. It is a source-grammar pool only; no seed coordinate copy.
+- Generated reverse plan: `.worktrees/campaign500-longchain-family-expand-v2/.codex-run/campaign500_longchain_family_expand_v2_reverse_plan.csv`, 50 sections / 200 rows / 4 candidates per section. It uses normal-category slots only, preserves area rhythm, normalizes aspect to `0.700-0.892`, and bases longchain chain count on planned canvas area rather than template PSG chain count.
+- Unity smoke attempted for section 50 (`-campaignLongChainPlanLimit 4`) but the first Library import stalled before `BuildCampaign500Pilot3PackBatch` wrote runtime status or report. Only the V2 Unity PID `29056` was stopped; prod200 PID `1752` and old nutation PID `22104` were left untouched. No V2 levels/report/pack should be treated as generated yet.
+
+## Campaign500 Normal 4-Slot Production Plan V1 - 2026-06-30
+
+- User approved the normal-only production strategy with Peel included as a main production lane and Flow raised to around `40` rows using multiple chain languages.
+- Generated `Exports/Campaign500_PSG_Template_20260626_095625/campaign500_normal_4slot_plan_v1.csv`: `200` rows, exactly `4` normal-category slots per section across `50` sections, no duplicate `order`, no tutorial rows.
+- Plan mix: `NeutralMixed=50`, `PeelMid=50`, `PeelHard=20`, `PressurePeak=20`, `PeelLight=10`, `LongChainProbe=10 reviewOnly`, and Flow total `40` split as `FlowCurve=14`, `FlowRail=13`, `FlowPatch=13`.
+- Chain-language mix: `mixed_chain=70`, `rail_chain=66`, `curve_chain=48`, `patch_chain=16`; all planned canvas aspects are in `0.70-0.85`.
+- Generated first smoke input `Exports/Campaign500_PSG_Template_20260626_095625/campaign500_normal_pilot20_plan_v1.csv` and summary. Pilot sections are `1, 5, 15, 30, 45`, giving `20` rows across front, early-mid, mid, late, and final pacing.
+- Boundary: this is a slot-production plan and pilot input, not generated LevelDefinition assets yet. Next step is to wire/run the production wrapper by plan rows, then official trace and pack a Pilot20 review pack.
+
+## Nutation Hub/Maze Mixed Warmup WIP - 2026-06-30
+
+- Worktree `.worktrees/nutation-peel`, branch `codex/nutation-peel`; current task is Hub/Maze mixed-chain topology proof, not PSG and not production-ready.
+- Reporting fix landed in `.worktrees/nutation-peel/Tools/Production/Join-SGPPressureTraceMetrics.ps1`: `nutation_hub_mixed` now tags as `hub_spoke/mixed_chain`, and `nutation_maze_mixed` tags as `constraint_maze/mixed_chain`; smoke1 probe confirmed the label correction.
+- C# generator WIP is in `.worktrees/nutation-peel/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`; `dotnet build nutation-peel.sln --no-restore -v:minimal` passes with 0 errors and the known warnings.
+- Negative HubMixed smoke attempts showed the core failure: after 3 entry/direct chains, owner-hit/wave-length gating blocked further fill, with reports around `fill=6-8/650+`; this is a generator-side warmup problem, not a trace/joiner problem.
+- Current code adds mixed warmup ideas: softer mixed body/anchor/local penalties, `mixedWarmupChains` (`Hub=7`, `Maze=5`), mixed warmup length allowance, and warmup blocked-head candidates. This still needs a clean Unity smoke before being considered usable.
+- Validation is blocked by a concurrent Unity batch on the same worktree: `BuildNutationHubSpokeV5HybridPack` / `nutation_hub_spoke_v5_hybrid_smoke3_unity.log` has been repeatedly taking the Nutation project lock. Do not launch HubMixed/MazeMixed Unity smoke while that lock is active.
+- Resume after lock clears: run `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubMixedProductionV1.ps1 -OutputPrefix nutation_hub_mixed_v1_smoke2h_retry -TraceMaxLevels 16`; inspect the source report before starting MazeMixed.
+
+## Campaign500 Long-Chain Family Expand V2 Outer-Clean WIP - 2026-06-30
+
+- Worktree `.worktrees/campaign500-longchain-family-expand-v2`, branch `codex/campaign500-longchain-family-expand-v2`; no V2 Unity process is left running at this checkpoint. Other worktrees' Unity processes were not touched.
+- V2 generator now has crop-aware outer-clean source/merge pressure, merge endpoint-distance prefilter, coverage support refill, outer-ring notch with refill, and outer-exit head notch/reverse cleanup. `dotnet build .\campaign500-longchain-family-expand-v2.sln --no-restore -v:minimal` passes with 0 errors and the same 7 existing warnings.
+- Best seedweave single-slot smoke so far was a near-miss for section50 order499 / `slot_seedweave_cross_carrier`: `coverage=0.9500`, `chains=83`, `maxChain=59`, `outerRingRun=10`, `outerExitHeads=15`, `openers=16`, `longVisualCellShare=0.551`, `midShortSupportChains=43`, `supportRefill=2`, `outerRingNotch=3`, `outerExitHeadNotch=5`, `outerExitReverse=5`. It fixes the continuous outer ring but still fails `coverage_0.9500<0.9520` and `outerExitHeads_15>10`.
+- Source-density experiments showed the tradeoff clearly: medium source density improved outer ring (`outerRingRun=18`) but coverage collapsed to `0.935`; high source density restored coverage (`0.950-0.9525`) but tends to create too many outer-exit heads unless head cleanup succeeds.
+- `slot_seedlock_keyhole_negative` on the same slot was worse (`coverage=0.9300`, `outerExitHeads=18`, no useful cleanup). `slot_headmix_outerclean` was stopped after more than 8 minutes without a single-slot report, so do not use it as the next quick validation target.
+- Current conclusion: V2 can now repair the specific “continuous outer ring” issue, but high-density rectangular source + many merge passes is too slow and still overproduces outer-exit heads. Next step should shift from more single-profile retries to generation-side source shaping: reserve non-edge interior support/cross-carrier capacity and budget boundary heads before longify, or run a small multi-family probe with a stricter source head cap and lower merge dependence.
+
+## Nutation HubSpoke V5 Hybrid Generation Checkpoint - 2026-06-30
+
+- Active focus was corrected back to Hub V5 in `.worktrees/nutation-peel`, branch `codex/nutation-peel`; no PSG/Flow/Peel production logic was changed.
+- Added `NutationHubSpokeV5Hybrid` as a V5.2 generation lane and wrapper `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubSpokeProductionV5Hybrid.ps1`; it is separate from original V5, Pool, and LocalBreak.
+- Smoke2 is the current kept code/asset state: `19` trace rows, `6` processKeep, `2` STS pass, `1` TraceOrderKeep / production keep. Best row `...hy05_dual_stage` has coverage `0.900`, choices `4.69/8`, local/near `6/6`, directional `0.337`, STS `0.778/0.268`, sameAxis/sameDir `6/6`, dependencyLocal `0.559`; it misses strict visual only by `nearOuterRun+1`.
+- Smoke3 local/near counterweight was tested and rejected: `20/20` traced, `8` processKeep, `0` STS keep / `0` production keep. It lowered average dependency locality slightly but worsened local collapse and same-axis/same-dir.
+- After smoke3, the generator code was restored to smoke2 weights and the Hybrid assets were restored with a `-SkipTrace` run; source report again matches smoke2 behavior (`generatedRows=19`, row 7 `ChainTargetMiss`).
+- Worktree Demo now points to the 1-row review pack `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubSpokeV5HybridProductionKeepPack.asset`, GUID `a2be47b7e6cfd6b488ae343b81e997b0`, built from `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_spoke_v5_hybrid_production_keep.csv`.
+- Boundary: Hub V5 Hybrid is a strong review/prototype step, not strict production yet. Next target is reducing `nearOuterRun` from `6` to `5` without reintroducing same-axis/same-dir collapse.
+
+## Nutation Hub/Maze Mixed Isolated Worktree - 2026-06-30
+
+- New isolated worktree: `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`, created from PSG base `aa1564bd` so busy `.worktrees/nutation-peel` is not touched.
+- Copied Nutation generator/join/wrapper WIP into the new worktree and added mixed-chain Hub/Maze tuning there only. Validation build `dotnet build nutation-hub-maze-mixed.sln --no-restore -v:minimal` passes with 0 errors and the known 7 warnings.
+- Negative evidence: mixed head axis/direction control during early/mid fill breaks coverage. Smoke3/4 fell to low fill (`0.08-0.30`) or poor coverage. Keep mixed head control late-only; do not add hard early head rules.
+- Hub mixed smoke5 is the current useful proof: `6` joined rows, `5` processKeep, `2` TraceOrderKeep / production keep. Best rows have source straightness `0.603/0.626`, sameAxis/sameDir `8/5`, STS/collapse `0.847/0.191` and `0.918/0.153`; tradeoff is lower coverage/throughput and residual stripe/local warnings.
+- Maze mixed smoke1 is not production-ready: `7` joined rows, `2` processKeep, `1` VisualKeep, `0` TraceOrderKeep / `0` production keep. All rows remain `local_collapse/high_risk`; blockers are local run, directional risk, collapse, same-axis/same-dir.
+- Current conclusion: Hub mixed can be a prototype/review lane after late-only trace-order shaping; Maze mixed needs a separate constraint-maze solve-order design, not the Hub mixed tuning copied over.
+
+## Campaign500 Normal Pilot20 Nutation Production Smoke - 2026-06-30
+
+- Worktree `.worktrees/nutation-flow-peel-production`, branch `codex/nutation-flow-peel-production`; main PSG generation is untouched.
+- Added plan-driven Pilot20 entry `Tools/Production/Invoke-Campaign500NormalPilot20ProductionV1.ps1`, backed by `NoMaskProceduralGenerator.BuildCampaign500NormalPilot20Pack` and the 20-row plan from sections `1,5,15,30,45`.
+- Source generation produced `20/20` LevelDefinition assets at `Assets/ArrowMagic/SOData/Levels/Campaign500NormalPilot20/`; official trace solved `20/20`.
+- Outputs: source report `Assets/ArrowMagic/SOData/Reports/Campaign500/NormalPilot20/campaign500_normal_pilot20_report.csv`, joined summary `.codex-run/campaign500_normal_pilot20_v1b_trace_joined_summary.md`, review manifest `campaign500_normal_pilot20_review.csv`, and production keep CSV `campaign500_normal_pilot20_production_keep.csv`.
+- Pack split: ReviewPack has `20` rows and is mounted in worktree Demo (`Campaign500NormalPilot20ReviewPack.asset`, GUID `553fb17c72739f1409149e1fc5c920ed`); ProductionKeepPack has the `6` TraceOrderKeep rows (`Campaign500NormalPilot20ProductionKeepPack.asset`, GUID `8843a1f3452c91441b3a2bc17414f659`).
+- Gate result: `TraceOrderKeep=6`, `VisualKeep=1`, `Reject=13`; keep rows come from `NeutralMixed x3`, `FlowCurve x1`, `PeelHard rail x1`, and `LongChainProbe x1`.
+- Main blockers before 200-row expansion: late FlowPatch and late PeelRail/PeelMid frequently exceed `maxChoices`; some late Peel rows also show high local run. Do not scale as one-candidate-per-slot; next production pass should generate multiple candidates per slot and select by official trace gates.
+
+## Nutation HubSpoke V5 Hybrid Smoke4 Checkpoint - 2026-06-30
+
+- Active focus is Hub V5 in `.worktrees/nutation-peel`; PSG/Flow/Peel production logic unchanged.
+- Current kept Hub V5.2 Hybrid code is smoke4: mature outer-band head dispersion penalty plus mild Hybrid near-rate ranking penalty. Smoke3 and smoke5 are rejected/reverted negative runs.
+- Smoke4 official trace: `20` joined rows, `9` processKeep, `1` STS pass, `1` TraceOrderKeep / production keep. Best row `nutation_hub_spoke_v5_hybrid_14_nutation_hub_spoke_v5_hybrid_rect_hy04_woven_stage_b`: coverage `0.886`, choices `4.73/8`, local/near `7/5`, directionalRisk `0.333`, STS/collapse `0.802/0.281`, sameAxis/sameDir `8/7`, dependencyLocal `0.620`; strict gap moved from smoke2 `nearOuterRun+1` to smoke4 `localPatchRun+1`.
+- Smoke5 negative: `20` rows, `1` VisualKeep, `0` STS pass / `0` production keep; forcing local/micro closer broke trace-order/same-axis.
+- Worktree Demo points to `NutationHubSpokeV5HybridProductionKeepPack.asset`, GUID `a2be47b7e6cfd6b488ae343b81e997b0`, rebuilt from smoke4 keep CSV.
+- Rerank with Pool + LocalBreak + Hybrid smoke4: `60` rows, `0` HybridStrict, `10` near rows. Hybrid smoke4 remains best same-row trace candidate, with only `localPatchRun+1` visual gap.
+- Boundary: still not strict production. Next useful step is not more local head-penalty escalation; design a solve-order local-break scheduler or trace-aware candidate selector that reduces localPatch `7->6` without damaging STS/axis.
+
+## Nutation HubSpoke V5 Hybrid Smoke6 Negative - 2026-06-30
+
+- Tested a narrow generation-side "recent micro-region local-break" head prior on top of smoke4. Build passed, but official trace was negative.
+- Smoke6 result: `20` joined rows, `4` processKeep, `0` visualPass, `0` STS pass / `0` production keep. Top row had local/near `11/9`, directionalRisk `0.568`, STS/collapse `0.760/0.405`, sameAxis/sameDir `13/13`.
+- Best near row still only reached local/near `7/5`, but sameAxis rose to `10`; the desired localPatch `7->6` did not happen and trace-order got worse.
+- Smoke6 code was reverted to smoke4. Assets/source report were restored via `Invoke-NutationHubSpokeProductionV5Hybrid.ps1 -OutputPrefix nutation_hub_spoke_v5_hybrid_restore_smoke4_after_smoke6_assets -SkipTrace`; keep CSV was restored from smoke4 and `BuildNutationHubSpokeV5HybridProductionKeepPack` remounted Demo to GUID `a2be47b7e6cfd6b488ae343b81e997b0`.
+- Boundary update: do not try another generation-time recent-micro/local head prior. Next Hub V5 move should be trace-aware candidate selection or a real solve-order scheduler, not more placement-time micro dispersion.
+
+## Nutation HubSpoke V5 Hybrid Search Negative - 2026-06-30
+
+- Added isolated `NutationHubSpokeV5HybridSearch` as a seed-band expansion lane in `.worktrees/nutation-peel`; it reuses smoke4 Hybrid scoring/gates and writes separate levels/report/pack/keep paths.
+- Wrapper: `.worktrees/nutation-peel/Tools/Production/Invoke-NutationHubSpokeProductionV5HybridSearch.ps1`; Unity method `NoMaskProceduralGenerator.BuildNutationHubSpokeV5HybridSearchPack`.
+- Smoke1 generated `24/24` source rows and official trace solved `24/24`, but joined result was `9` processKeep, `0` visualPass, `1` STS pass, `0` TraceOrderKeep / `0` production keep.
+- Search top rows regressed versus smoke4: best process rows had local/directional issues such as local `9-12`, directionalRisk `0.405-0.615`, sameAxis up to `25`; four-lane rerank across Pool + LocalBreak + smoke4 + Search still had `0` strict and smoke4 row `...hy04_woven_stage_b` remained best.
+- Proxy calibration file `.worktrees/nutation-peel/.codex-run/nutation_hub_v5_hybrid_proxy_calibration_smoke4_search.csv` shows proxy `HeadRun`/`TraceRun` can look clean while official `localPatchRun`/same-axis collapse remains bad, so pure seed-band expansion is not enough.
+- Demo was restored to smoke4 keep pack GUID `a2be47b7e6cfd6b488ae343b81e997b0`; Search full pack GUID `16fbc52dbee92724eae8efd25a7f41e9` is diagnostic only and should not be treated as current review baseline.
+- Next Hub V5 move should be a final-candidate solve-order scheduler/proxy calibration improvement, not more seed-band search and not placement-time micro-region pressure.
+
+## Nutation Hub Mixed Isolated Review Pack Mount - 2026-06-30
+
+- Worktree `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`; no changes were made to busy `.worktrees/nutation-peel`.
+- Added `BuildNutationHubMixedV1ProductionKeepPack` in the isolated generator to build a review pack from `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_production_keep.csv`.
+- Batch Unity successfully built `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1ProductionKeepPack.asset`, GUID `7a3621e2f99f046449576dcecfd12941`, display name `Nutation Hub Mixed V1 Production Keep (2)`.
+- Isolated worktree `Assets/ArrowMagic/Scenes/Demo.unity` activePack now points to that 2-level Hub mixed keep pack.
+- Visible Unity was launched for the isolated worktree with PID `50580`; other worktrees' running Unity batches were not stopped or touched.
+
+## Nutation Hub Mixed Cover-Lift Smoke3 - 2026-06-30
+
+- Worktree `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`; this replaces the mounted Hub mixed review pack content, not the PSG line and not busy `.worktrees/nutation-peel`.
+- User feedback: first Hub mixed review level felt better but fill was low. Tested hard `0.950` and `0.940` coverage targets; `0.950`/`0.940` improved fill but missed production keep because local collapse or process tier/choice pressure separated from STS.
+- Current kept tuning: `NutationHubMixedV1` target coverage `0.935` with HubMixed final coverage slack `0.010`; `dotnet build .\nutation-hub-maze-mixed.sln --no-restore -v:minimal` passes with 0 errors and known 7 warnings.
+- Smoke3 official joined result: `3` trace rows, `2` processKeep, `1` visualPass, `1` STS pass, `1` TraceOrderKeep / production keep. Keep row `nutation_hub_mixed_v1_04_nutation_hub_mixed_v1_rect_dual_mixed_b` has coverage `0.940`, choices `7.27/11`, local/near `5/5`, directionalRisk `0.210`, stripe `0.201`, STS/collapse `0.831/0.184`, sameAxis/sameDir `7/5`.
+- Rebuilt `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1ProductionKeepPack.asset`, GUID `7a3621e2f99f046449576dcecfd12941`, display name now `Nutation Hub Mixed V1 Production Keep (1)`, and remounted isolated Demo activePack to it.
+- Visible Unity was launched for `.worktrees/nutation-hub-maze-mixed` with PID `25496`. Boundary: this is still Hub mixed prototype/review, but coverage is lifted versus the earlier `0.925` first keep.
+
+## Nutation Hub Mixed OuterBand Repair Smoke2 - 2026-06-30
+
+- Worktree `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`; PSG and busy `.worktrees/nutation-peel` were not touched.
+- Added HubMixed-only targeted outer-band gap repair in `NoMaskProceduralGenerator.TryBuildGateAwareRectanglePeelAuthored`: final scan of empty 2-cell outer band inserts a few valid 3-5 cell patch chains, penalizing direct outer-exit heads. HubMixed `OuterBandTarget` is now `0.920`; coverage target remains `0.935` with final slack `0.010`.
+- Validation: `dotnet build .\nutation-hub-maze-mixed.sln --no-restore -v:minimal` passes with 0 errors and the known 7 warnings.
+- Smoke2 source result: `7/8` generated rows; successful rows have `OuterBandCoverage=0.931-0.953` versus previous mounted keep `0.903`. Best current keep row `nutation_hub_mixed_v1_04_nutation_hub_mixed_v1_rect_dual_mixed_b` has source coverage `0.953`, outer `0.949`, chains `94`, openers `3`, edgeHeads `18`, source straightness `0.574`.
+- Official trace/join result `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_outerband_smoke2_trace_joined_summary.md`: `7` joined rows, `3` processKeep, `1` visualPass, `1` STS pass, `1` TraceOrderKeep / production keep. Keep metrics: choices `7.31/11`, local/near `5/5`, directionalRisk `0.210`, stripe `0.198`, STS/collapse `0.828/0.184`, sameAxis/sameDir `7/5`, dependencyLocalSameRegionRate `0.560`.
+- Rebuilt `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1ProductionKeepPack.asset`, GUID `7a3621e2f99f046449576dcecfd12941`, display name `Nutation Hub Mixed V1 Production Keep (1)`, and remounted isolated Demo activePack to it. Visible Unity launched for this worktree with PID `51220`.
+- Boundary: outer-band repair solves the visible rim-empty issue for HubMixed keep without worsening the kept trace-order row. Other generated rows still mostly classify as high-risk local/single-axis variants, so scale production should continue to rely on official trace keep, not full source pack.
+
+## Campaign500 Long-Chain Family Expand V2 Goal Reset - 2026-06-30
+
+- Goal reset: in `.worktrees/campaign500-longchain-family-expand-v2`, continue seed-source-like family expansion from the verified V14/longify path. Do not tune DirectRectangle source density as the mainline, and do not treat this thread as the final prod200 generation thread.
+- Code change: `PSGLongLockLongifyV1Generator.cs` now preserves seed-source bodies for `SourceGrammar=seed*` / `slot_seed*` profiles by skipping source preview head notches. Outer clean stays in longify/final gates.
+- Verified baseline: V14-style 3-grammar normalA smoke selected `5/9`; official trace solved `5/5`, process tiers `4 A / 1 B`, process keep `4`, maxChoices avg `9`, and outer straight/follow averages near zero. Selected profiles cover lock, maze, and weave.
+- Expanded single-slot evidence: `slot_seedweave_cross_carrier` at order30 selected with coverage `0.9592`, chains `42`, openers `9`, longVisualCellShare `0.461`, midShortSupportChains `26`; official trace solved/A with avgChoices `6`, maxChoices `9`, outerNearFollowRun `0`.
+- `slot_seedlock_dual_gate_buckle` at order30 selected with coverage `0.9592`, chains `41`, longVisualCellShare `0.556`, midShortSupportChains `22`; official trace solved/B with avgChoices `5.2`, maxChoices `12`, not process keep yet.
+- `slot_seedmaze_pocket_spine` at order30 is on hold: coverage stayed `0.9279` even with 32 source candidates and no source notch, so do not batch-scale this lane until source/crop strategy changes.
+- Next step: expand positive lanes first (`seedweave_cross_carrier`, `seedlock_dual_gate_buckle`, plus verified base lock/maze/weave), keep official trace mandatory, and redesign maze-pocket source fit before adding it to production pool.
+
+## Campaign500 Long-Chain Family Expand V2 Positive-vs-Lowchoice Audit - 2026-06-30
+
+- Worktree `.worktrees/campaign500-longchain-family-expand-v2`, branch `codex/campaign500-longchain-family-expand-v2`; no V2 Unity process remains after this checkpoint.
+- Comparison artifact `.codex-run/campaign500_longchain_family_expand_v2_positive_vs_lowchoice_trace_compare.csv` joins source reports with official trace metrics for `16` selected rows.
+- Current evidence: verified V14-style seed-source baseline is still strongest (`5/5` traced, `4 A / 1 B`). The newer positive seed-source s03/s20/s35 probe is `5/5` solved but only `1 A / 1 B / 3 Drop`, with later rows failing on choice pressure and outer-head risks.
+- `slot_seedweave_cross_carrier_lowchoice_pressure` and `slot_seedlock_dual_gate_buckle_lowchoice_pressure` are now a V2 negative control: `6/6` static-selected rows traced `6/6 Drop`, average maxChoices `15.17`, average over10Rate `0.394`. Do not include lowchoice variants in default expansion.
+- Tried a late/mid NormalA positive-seedsource batch and then a tiny s50 1-slot/2-profile validation. Both V2 Unity PIDs started but stalled before `campaign-pilot3-start`, during `Application.AssetDatabase Initial Refresh` / script reload, and wrote no fresh report. Only those V2 PIDs were stopped.
+- Next action: rerun the tiny s50 validation when Unity load is lower or import cache has settled; only scale to the 4-slot late/mid plan after it writes a fresh report and can be official-traced.
+## Campaign500 Long-Chain Complement Pool Setup - 2026-06-30
+
+- New isolated worktree: `.worktrees/campaign500-longchain-complement-pool`, branch `codex/campaign500-longchain-complement-pool`, created from PSG base `aa1564bd`.
+- Scope split: this thread owns complement production readiness / smoke / trace / postselection / dedupe; companion thread may design new family profiles.
+- Generator and wrapper were copied from the verified prod200/V14 longify route and retargeted to `Campaign500LongChainComplementPoolV1` paths, not V2 source-skeleton diagnostics.
+- Wrapper entry: `.worktrees/campaign500-longchain-complement-pool/Tools/Production/Invoke-Campaign500LongChainComplementPoolV1.ps1`; default plan-only/smoke window is sections `45-50`.
+- Wrapper supports `-ProfileFilter` and `-AppendRootLane`, so a newly added profile can be targeted without rewriting the whole slot planner.
+- Current worktree already contains observed new profile names: `slot_seedlock_dual_gate_buckle`, `slot_section_runbreak_lock`, `slot_seedweave_cross_carrier`, `slot_seed_dense_braid_support`; treat their definition/tuning as companion-profile work unless explicitly handed back.
+- Validation done: PowerShell parser OK; `-PlanOnly` wrote a 24-row s45-s50 plan. No Unity generation or C# compile was run in this setup step because several Unity batches were already active.
+- Do not kill or interrupt `.worktrees/campaign500-longchain-prod200-pool`; it remains the separate 200-candidate route. Complement should run after profile handoff and resource pressure is acceptable.
+- Follow-up observation: `.worktrees/campaign500-longchain-complement-pool` now has an active Unity batch `campaign500_longchain_complement_newfamily_s01_smoke1` (observed PID `34356`); it was not started by this setup step and should not be interrupted without user confirmation.
+
+## Campaign500 Long-Chain Family Profile Lab - 2026-06-30
+
+- New isolated worktree: `.worktrees/campaign500-longchain-family-profile-lab`, branch `codex/campaign500-longchain-family-profile-lab`; created because complement worktree had an active Unity smoke batch.
+- Scope: family/profile expansion only; no level generation was run from this lab.
+- Base copied from complement already contained `slot_seedlock_dual_gate_buckle`, `slot_section_runbreak_lock`, `slot_seedweave_cross_carrier`, and `slot_seed_dense_braid_support`.
+- Added five complementary profiles: `slot_seedlock_keyhole_carrier`, `slot_seedlock_staggered_gates`, `slot_seedmaze_broken_chambers`, `slot_inner_spine_branches`, and `slot_seedweave_support_lattice`.
+- Updated files in profile-lab: `Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs` and `Tools/Production/Invoke-Campaign500LongChainComplementPoolV1.ps1`; lane catalog now has `21` root lanes.
+- Validation: PowerShell parser OK; `-PlanOnly` s45-s50 wrote `24` rows; `-PlanOnly` s01-s50 wrote `200` rows and all `21` lane names appear. No C# compile/Unity run was done.
+- Handoff: `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_handoff.md`.
+- Do not merge/copy this into `.worktrees/campaign500-longchain-complement-pool` while its active Unity batch is running; observed follow-up active complement batch changed to `campaign500_longchain_complement_newfamily_s02_smoke1` PID `18740`.
+
+## Campaign500 Long-Chain Complement New Family Pause - 2026-06-30
+
+- Scope update from user: this conversation now owns new family work directly in `.worktrees/campaign500-longchain-complement-pool`, not only the complement execution wrapper.
+- Files changed in complement worktree: `Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs` and `Tools/Production/Invoke-Campaign500LongChainComplementPoolV1.ps1`.
+- Added/activated four complement family profiles in the verified seed-source/longify route: `slot_seedlock_dual_gate_buckle`, `slot_seedweave_cross_carrier`, `slot_section_runbreak_lock`, and `slot_seed_dense_braid_support`. Wrapper lane catalog now exposes 16 lanes and defaults to `VariantsPerSlot=20`.
+- Plan-only check `campaign500_longchain_complement_newfamily_plancheck_s01_s03` passed: 12 rows / sections 1-3, and new lanes appear in `plannedRootLane`.
+- Smoke evidence: `campaign500_longchain_complement_newfamily_s01_smoke1` generated 11 selected source rows; after script postselect fix, postselected result is 3/3 solved and 3/3 trace-gate. `slot_seedlock_dual_gate_buckle` passed as a LongHard B/gate row; `slot_seed_dense_braid_support` remained coverage/missing-trace near.
+- Smoke evidence: `campaign500_longchain_complement_newfamily_s02_smoke1` generated 10 selected source rows; postselected result is 3/3 solved and 2/3 trace-gate. `slot_seedweave_cross_carrier` reached strict static source (`coverage=0.9526`) but official trace failed choice pressure (`maxChoices=21`, `choiceP80=19`); `slot_seedlock_spine_gate` passed gate as VeryHard despite Drop tier.
+- Wrapper fix: postselection no longer selects `Missing` trace rows or rows with empty asset path; missing slots stay empty instead of being re-traced with blank paths.
+- Tuning applied but not yet validated because user requested pause: `cross_carrier` target/source chain count lowered and greedy run penalty raised; `section_runbreak_lock` now preserves more long-chain mass; `dual_gate_buckle` gets slightly more support-chain allowance.
+- Interrupted run: `campaign500_longchain_complement_newfamily_s02_smoke2` was aborted by user for Unity availability. Confirmed no remaining process with `campaign500-longchain-complement-pool` in command line after pause.
+- Resume point: rerun s02 smoke2 or a 1-slot targeted smoke for `slot_seedlock_dual_gate_buckle;slot_seedweave_cross_carrier;slot_section_runbreak_lock` after Unity is free. Do not touch `.worktrees/campaign500-longchain-prod200-pool`.
+
+## Nutation Hub Mixed Prod10 Aspect Candidate Review - 2026-06-30
+
+- Worktree `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`; PSG and busy `.worktrees/nutation-peel` were not touched.
+- Generated a partial Hub mixed aspect-jitter source pool before stopping the long Unity run: `31` attempt rows, `19` built/portable-solved rows, canvases `21x30`, `22x31`, `23x30`, `23x31`, `24x30`, `24x31`, aspect range `0.70-0.80`, coverage range `0.935-0.967`.
+- Standard 19-row official trace was stopped after ~11 minutes with no metrics written; fast trace used `MaxCounterfactualMovesPerStep=1` and `CounterfactualStepStride=4` on a balanced 12-row subset.
+- Fast trace result `nutation_hub_mixed_v1_prod10_aspect_fasttrace1`: `12/12` solved, `9` processKeep, `2` VisualKeep, `0` TraceOrderKeep / `0` production keep. Main blocker is same-axis/same-dir/local-collapse, not coverage or playability.
+- Added isolated `BuildNutationHubMixedV1CandidateReviewPack` builder and built `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1CandidateReviewPack.asset` from `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_candidate_review.csv`.
+- Candidate review pack contains `10` rows: `2` VisualKeep, `7` ProcessKeep, `1` closest Drop/soft candidate. It is mounted to isolated Demo for manual feel review, but it is not strict production-ready.
+- Visible Unity opened for `.worktrees/nutation-hub-maze-mixed` with PID `42808`.
+
+## Nutation Hub Mixed Seed36 Relaxed Trace Review - 2026-06-30
+
+- Same worktree `.worktrees/nutation-hub-maze-mixed`; PSG and `.worktrees/nutation-peel` untouched.
+- Updated HubMixed production spec seed formula from repeating `(variant % 4) * 997` to unique `variant * 997`, so the 36 spec slots now have unique base seed offsets.
+- Full 36-spec source run `nutation_hub_mixed_v1_seed36_unique_source1`: `36` specs -> `27` built/portable-solved, `9` source failures. Family yield: `dual_b 19/24`, `dual_a 2/6`, `center_b 3/3`, `woven_b 3/3`; built coverage range `0.925-0.967`.
+- Result: current generator cannot guarantee "one candidate per seed/spec"; source failures are low-coverage/collapse failures, not trace failures. A retry/fallback seed loop is needed for per-slot guarantee.
+- Relaxed trace run `nutation_hub_mixed_v1_seed36_unique_relaxedtrace1` used official trace script with reduced counterfactual sampling for speed and joined with `sameAxis<=18`, `sameDir<=14`; other main gates stayed unchanged.
+- Trace result: `27/27` solved, `23` B-tier + `4` Drop. Joined ranks: `11` TraceOrderKeep, `2` VisualKeep, `10` ProcessKeep, `4` Reject.
+- Rebuilt `NutationHubMixedV1CandidateReviewPack.asset` from the `11` relaxed TraceOrderKeep rows and mounted isolated Demo to it. Visible Unity opened for `.worktrees/nutation-hub-maze-mixed` with PID `35084`.
+
+## Nutation Hub Mixed Seed36 Retry Source/Trace Review - 2026-06-30
+
+- Same isolated worktree `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`; PSG and busy `.worktrees/nutation-peel` untouched.
+- Implemented HubMixed-only per-slot seed retry in `NoMaskProceduralGenerator.BuildNutationHubMixedV1Pack`: each of the 36 logical slots can try up to `6` seed bases, and status records `SeedRetry=n/6`, `BaseSeed`, and `RetrySeed`.
+- Updated `Tools/Production/Invoke-NutationHubMixedProductionV1.ps1` defaults to relaxed HubMixed trace gates: `MaxSolveSameAxisRun=18`, `MaxSolveSameDirHeadRun=14`.
+- Source rerun `nutation_hub_mixed_v1_seed36_retry_source1`: `36/36` built/portable-solved, compared with previous `27/36`. Retry distribution was `1:27`, `2:7`, `3:1`, `4:1`; family yield became `dual_b 24/24`, `dual_a 6/6`, `center_b 3/3`, `woven_b 3/3`.
+- Fast official trace `nutation_hub_mixed_v1_seed36_retry_fasttrace1` used reduced counterfactual sampling (`MaxCounterfactualMovesPerStep=1`, `CounterfactualStepStride=4`): `36/36` solved, `28` processKeep, `24` STS pass, `12` TraceOrderKeep / production keep under relaxed same-axis/same-dir gates.
+- Rebuilt `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1CandidateReviewPack.asset` from the 12 TraceOrderKeep rows and mounted isolated Demo through `BuildNutationHubMixedV1CandidateReviewPack`.
+- Remaining risk: keep rows still tag mostly `local_collapse/high_risk`; this is now a quality/style issue, not source-yield or solveability. Next HubMixed work should improve local-collapse/style quality after the user reviews the 12-row pack.
+
+## Campaign500 Long-Chain Family Profile Lab Smoke2 Shortpath - 2026-06-30
+
+- Worktree `.worktrees/campaign500-longchain-family-profile-lab`, branch `codex/campaign500-longchain-family-profile-lab`; this thread did not touch prod200, normal-full, or active complement Unity batches.
+- Fixed profile-lab postselection to skip empty-path, `Missing`, and unsolved rows; fixed lab output path length by writing short assets to `Assets/ArrowMagic/SOData/Levels/C5LCFamLabV1/` with `c5lcf_*` ids.
+- Valid run: `_CodexRun/campaign500_longchain_family_profile_lab_s02_smoke2_shortpath_summary.md`. All-selected trace: `10/10` solved, `6/10` trace-gate, `0` missing. Postselected: `4/4` solved, `3/4` trace-gate.
+- Postselected passing lanes: `slot_seedlock_keyhole_carrier` as LongNormalA (`A`, avg/max choices `4.15/7`), `slot_seedweave_braid_carrier` as LongNormalB (`B`, `5.37/9`), and `slot_seedweave_support_lattice` as LongVeryHard (`B`, `5.12/10`).
+- `slot_seedlock_dual_gate_buckle` is structurally useful but not gate-ready for the tested Hard slot: solved `Drop`, avg/max choices `12.24/19`, p80 `18`, openers/outerExitHeads `14/14`. Treat as tuning candidate, not current production family.
+- Additional all-selected evidence: `slot_seedmaze_chamber_corridor` passed `2/2` trace-gates and can serve as a maze-family supplement; `slot_seedweave_dense_support` passed trace gate but was not postselected because `support_lattice` ranked better for that slot.
+- First long-path smoke is invalid as family evidence: `9/10` trace rows were missing due to Windows path length, not generation failure. Old long-path lab assets were removed; short-path assets/reports remain.
+- Resume point: run a small late-section smoke in profile-lab only after active complement/prod200 load is acceptable, or tune `dual_gate_buckle` to lower choice/openers before retesting. Do not merge short-path changes into complement while its Unity batch is active.
+
+## Campaign500 Long-Chain Family Profile Lab Target50 Production - 2026-06-30
+
+- Running in isolated worktree `.worktrees/campaign500-longchain-family-profile-lab`; this run did not stop or modify prod200, normal-full, complement, or user Unity processes.
+- Wrapper update: `Tools/Production/Invoke-Campaign500LongChainComplementPoolV1.ps1` now accepts `-PlanCsvOverride`, so the lab can use an explicit 50-slot area-priority plan without changing the default planner.
+- Target plan: `_CodexRun/campaign500_longchain_family_profile_lab_target50_area_plan_v2.csv`, `50` rows. Area mix: `600-749=6`, `750-949=34`, `950+=10`; aspect range `0.724-0.879`, avg `0.803`.
+- Production prefix: `_CodexRun/campaign500_longchain_family_profile_lab_target50_area_v2_prod1`; started with `VariantsPerSlot=24`, `CandidateLimit=120`, `MergeBudget=70`, `SourceCandidateCount=6`, `TraceMaxLevels=240`, and `-SkipPostselectedPack`.
+- Runtime status at `2026-06-30 12:38:04`: Unity PID `55272`, wrapper PID `45608`, `slot-start=12`, `accepted=4`, `near-accepted=5`, `longify-failed=2`, no crash observed. Early accepted/near coverage range is `0.9123-0.9641`; failures are `outerFrameCrop=invalid greedy failed` on some lane/slot combinations.
+- Resume point: continue polling `Temp/PSGLongLockLongifyV1/runtime_status.txt`; after Unity completes, inspect `campaign500_longchain_family_profile_lab_target50_area_v2_prod1_summary.md` and trace/join outputs before indexing final keep rows.
+
+## Nutation LongChain Candidate80 Canvas/Trace Probe - 2026-06-30
+
+- Worktree `.worktrees/nutation-peel`; current PSG/main production lane was not modified. Added/run `NutationLongChainCandidate80V1` as an 80-row candidate pool across 20 canvas sizes and 4 chain languages (`curve/rail/patch/spine`), using width/height ratio mostly `0.70-0.85` and allowing d4/d5 to rise to about `0.90`.
+- Source generation completed `80/80`; source coverage min/avg/max `0.895/0.925/0.949`, ratio min/avg/max `0.706/0.789/0.900`, chains avg `87.3`, avg chain length `12.4`, maxChain avg/max `22.9/26`. Three source rows were below coverage `0.90`.
+- Official trace was too slow as one 80-row process, so it was stopped and rerun as four 20-row fast-trace shards with `MaxCounterfactualMovesPerStep=1` and `CounterfactualStepStride=3`, then merged into `nutation_longchain_candidate80_v1_fasttrace1_metrics.csv`.
+- Joined trace result: `80/80` metrics, `25/80` TraceOrderKeep, `21` VisualKeep, `18` ProcessKeep, `16` Reject. Keep rate is about `31%`, so this line is usable as a candidate pool but not as direct 1:1 production.
+- Chain-language keep rates: `spine 11/20`, `rail 7/20`, `patch 4/20`, `curve 3/20`. Difficulty keep rates: `d1 8/20`, `d2 8/24`, `d3 6/20`, `d4 2/12`, `d5 1/4`.
+- Keep rows vs non-keep: keep STS/collapse `0.860/0.206`, non-keep `0.770/0.364`; keep chains avg `75.4` with avgChain `13.1`, non-keep chains avg `92.7` with avgChain `12.1`. Main rejects were `solveTraceCollapseRisk>0.3`, `solveTraceQuality<0.8`, `sameAxisRun>9`, and `sameDirRun>8`.
+- Production implication for 500-template planning: prioritize `spine` and some `rail` for the first Nutation long-chain lane; use roughly `3-4x` source candidates per desired keep. High difficulty/d4-d5 needs additional generation-side cross-region/axis-run control before scaling.
+- Built review/keep pack `Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainCandidate80V1ProductionKeepPack.asset` in `.worktrees/nutation-peel` from the 25 keep rows and attached it to that worktree's `Assets/ArrowMagic/Scenes/Demo.unity` (`activePack` GUID `f8b83266414201c48be497d6728da9d1`).
+
+## Campaign500 Long-Chain Family Profile Lab Target50 Cut49 + Singlelane V2 - 2026-06-30
+
+- Multi-lane target50 run was intentionally stopped in the profile-lab worktree after it had enough raw candidates, because each 50-row plan row expanded into 2-3 root lanes. Only this lab's wrapper PID `45608` and Unity PID `55272` were stopped; prod200, complement, normal-full, and user Unity were not touched.
+- Preserved cut49 artifacts under prefix `_CodexRun/campaign500_longchain_family_profile_lab_target50_area_v2_cut49_trace1*`. Source result: `54` report rows, `49` selected; source coverage `0.9123-0.9641`, avg `0.9367`; chains avg `55.71`, maxChain avg `60.61`; outerExitRunMax avg `2.18`; midShortSupportChains avg `30.33`.
+- Cut49 official trace: all-selected `49/49` solved, `21/49` trace-gate; postselected `19/19` solved, `13/19` trace-gate. Role pass: `LongNormalA 2/2`, `LongNormalB 3/4`, `LongHard 2/5`, `LongVeryHard 6/8`. Main rejects are `choiceP80`, `maxChoices`, and `sourceOuterRing`.
+- Cut49 family read: strongest postselected lanes are `slot_seedlock_keyhole_carrier` (`3/4` postselected gate), `slot_seedmaze_chamber_corridor` (`4/6`), and `slot_seedweave_dense_support` (`3/3`); `slot_seedweave_support_lattice` is useful but choice-sensitive (`2/3`); `slot_seedlock_dual_gate_buckle` remains limited (`1/3` postselected gate).
+- Corrective plan: `_CodexRun/campaign500_longchain_family_profile_lab_target50_singlelane_plan_v2.csv`, still `50` rows but one root lane per target slot. Lane mix: `slot_seedmaze_chamber_corridor=19`, `slot_seedlock_keyhole_carrier=15`, `slot_seedweave_dense_support=6`, `slot_seedweave_support_lattice=8`, `slot_seedlock_dual_gate_buckle=2`.
+- Completed production prefix: `_CodexRun/campaign500_longchain_family_profile_lab_target50_singlelane_v2_prod1*`; no family-lab wrapper/Unity process remained after completion. Source result: `50` report rows, `45` selected; coverage `0.9167-0.9613`, avg `0.9419`; chains avg `65.84`, maxChain avg `61.02`; outerRingLineFill avg `0.857`; outerExitRunMax avg `2.44`; midShortSupportChains avg `35.29`.
+- Singlelane official trace: all-selected `45/45` solved and `12/45` trace-gate; postselected exact trace also `45/45` solved and `12/45` trace-gate, because one root lane per slot leaves no multi-lane compression. Role pass: `LongHard 2/10`, `LongNormalA 2/7`, `LongNormalB 4/16`, `LongVeryHard 4/12`.
+- Singlelane lane pass: `slot_seedlock_dual_gate_buckle 1/2`, `slot_seedlock_keyhole_carrier 3/12`, `slot_seedmaze_chamber_corridor 4/17`, `slot_seedweave_dense_support 3/6`, `slot_seedweave_support_lattice 1/8`. Main rejects: `choiceP80=29`, `maxChoices=27`, `sourceOuterRing=13`, plus small local/directional risk.
+- Interpretation: new family production can generate solvable long-chain candidates across the requested area/aspect band, but the full 50-slot singlelane batch is not enough as a final 50 keep pool. Early/mid slots work; section `12+` is mostly blocked by choice pressure and source outer-ring. Next tuning should reduce late-section openers/choice fanout and outer ring before scaling, or use cut49/multi-lane postselection style for higher gate yield.
+- Review mount: built `Assets/ArrowMagic/SOData/Packs/Campaign500/C5LCFamLabV1ReviewPack.asset` from `_CodexRun/campaign500_longchain_family_profile_lab_target50_singlelane_v2_prod1_postselected_trace_gate_keep.csv` (`12` trace-gate rows), attached it to `Assets/ArrowMagic/Scenes/Demo.unity`, and opened visible Unity for `.worktrees/campaign500-longchain-family-profile-lab` with PID `6936`.
+
+## Campaign500 Long-Chain Complement 21-Family Merge Smoke - 2026-06-30
+
+- Worktree `.worktrees/campaign500-longchain-complement-pool` now directly contains the 21-lane complement profile catalog. Merged the five family-profile-lab lanes into the complement generator/wrapper without overwriting the complement-side tuning for `cross_carrier`, `section_runbreak_lock`, or `dual_gate_buckle`.
+- Added lanes in complement: `slot_seedlock_keyhole_carrier`, `slot_seedlock_staggered_gates`, `slot_seedmaze_broken_chambers`, `slot_inner_spine_branches`, and `slot_seedweave_support_lattice`.
+- Validation: wrapper parser OK; PlanOnly `campaign500_longchain_complement_family21_merge_planonly_s45_s50` wrote `24` rows; PlanOnly `campaign500_longchain_complement_family21_merge_planonly_s01_s50` wrote `200` rows with `21/21` unique planned root lanes. In the full plan, new-lane reach is keyhole `21`, staggered `7`, broken chambers `13`, inner spine `12`, support lattice `36`.
+- s45-s50 with forced `AppendRootLane=slot_seedmaze_broken_chambers` was stopped as a bad smoke shape: it forced broken chambers into many non-matching slots and made generation too slow. s43-s48 natural-window smoke was also stopped after a partial source sample and traced via `campaign500_longchain_complement_family21_s43_partial_trace1`.
+- Trace evidence: `s03_lock_smoke1` all-selected `7` rows, `3/7` solved, `1/7` trace-gate; postselected `2/2` solved, `1/2` trace-gate. `slot_seedlock_keyhole_carrier` and `slot_seedlock_staggered_gates` both generated and solved, but failed choice gates (`keyhole p80/max=21/24`, `staggered p80/max=24/30`).
+- Trace evidence: `s05_broken_smoke1` all-selected `9` rows, `7/9` solved, `5/9` trace-gate; postselected `4/4` solved, `3/4` trace-gate. `slot_seedweave_support_lattice` passed trace gate (`avg/p80/max choices=8.93/11/13`); `slot_seedmaze_broken_chambers` generated but official trace was `missing_trace`.
+- Partial late evidence: `s43_partial_trace1` postselected `2/2` solved but `0/2` trace-gate. `slot_inner_spine_branches` generated and solved, but choice pressure was high (`avg/p80/max choices=13.99/22/25`).
+- Current interpretation: merge is successful and all five new lanes can be scheduled/generated. Production-ready evidence is strongest for `slot_seedweave_support_lattice`; `keyhole`, `staggered`, and `inner_spine` need choice-pressure reduction; `broken_chambers` needs trace/playability repair before production use.
+- No complement Unity process remains after this checkpoint. The separate `.worktrees/campaign500-longchain-prod200-pool` Unity batch was not stopped or modified.
+
+## Campaign500 Long-Chain Complement Small Production s50 - 2026-06-30
+
+- User asked to start a small complement production run. First attempt `campaign500_longchain_complement_family21_s45_s47_smallprod1` was stopped early by this thread because section 45 first dense/maze slot was too slow for a small smoke; only complement wrapper/Unity were stopped.
+- Restarted smaller run in `.worktrees/campaign500-longchain-complement-pool` with prefix `campaign500_longchain_complement_family21_s50_smallprod1`, section `50` only, `VariantsPerSlot=12`, `CandidateLimit=80`, `MergeBudget=55`, `SourceCandidateCount=5`, `TraceMaxLevels=4`.
+- Run completed: source rows `5/5`, all-selected trace solved `1/5`, trace-gate `0/5`; postselected rows `1`, solved `1/1`, trace-gate `0/1`. Postselected row was `slot_seedlock_spine_gate` at order `495`, rejected by `sourceOuterRing`.
+- Generator summary: coverage `0.9324-0.9531` avg `0.9417`; chains avg `102.60`; maxChain avg `69.20`; outerRingLineFill avg `0.873`; outerRingRunMax avg `20.60`; outerExitHeadCount avg `28.20`; longVisualCellShare avg `0.486`; midShortSupportChains avg `61.40`.
+- Key issue: high section / large canvas slots fall back to near candidates with too many openers and heavy outer ring. Planned `support_lattice` rows were not production keep: orders `491/494` fell back to `slot_seedmaze_chamber_corridor_near` and order `500` was `slot_seedweave_support_lattice_near`; all three were `missing_trace`.
+- Current interpretation: do not scale late-section complement production from this config. Next step should tighten high-section generation constraints before retrying: cap outer ring/openers earlier in source selection, prevent support_lattice from selecting chamber-corridor fallback as selected keep, and retest one high section before wider production.
+- Process state after run: no complement Unity remained. Separate `campaign500-longchain-prod200-pool` and `campaign500-longchain-family-profile-lab` Unity processes were still running and were not stopped.
+
+## Campaign500 Long-Chain Complement Outerfix1 - 2026-06-30
+
+- Implemented late/large-canvas outer cleanup in `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs`: section `>=40` or area `>=900` now uses crop-aware pressure for normal rows too, tighter outer-ring/openers caps, stronger source/final score penalties, and a near-miss save gate. Bad near rows are recorded as `selected=0` with `near_rejected=...` instead of entering the source pack.
+- Updated `.worktrees/campaign500-longchain-complement-pool/Tools/Production/Invoke-Campaign500LongChainComplementPoolV1.ps1`: postselection now requires `traceGate=True`, so solved Drop rows are no longer packed as candidates.
+- Validation: `dotnet build .\campaign500-longchain-complement-pool.sln --no-restore -v:minimal` passed with 0 errors and the known 7 warnings.
+- Retest `campaign500_longchain_complement_family21_s50_outerfix1` completed without a trace row cap. Source selected `1/6`; all-selected trace `1/1` solved and `1/1` trace-gate; postselected `1/1` solved and `1/1` trace-gate; postselected pack built.
+- Keep row: order `495`, `LongVeryHard`, `slot_seedlock_spine_gate`, coverage `0.9407`, chains `55`, maxChain `73`, openers `12`, outerRingLineFill `0.817`, outerRingRunMax `14`, outerExitHeadCount/run/side `12/2/5`, longVisualCellShare `0.532`, midShortSupportChains `31`, trace choices avg/p80/max `10.87/14/17`, trace quality/collapse `0.836/0.178`.
+- Compared with prior `s50_smallprod1` spine near row, the outer problem improved materially: outerRingLineFill `0.913 -> 0.817`, outerRingRunMax `29 -> 14`, outerExitHeadCount `14 -> 12`, and the row now passes trace gate. Earlier `missing_trace` rows in `s50_smallprod1` were partly caused by that smoke using `TraceMaxLevels=4` for 5 all-selected rows, so do not treat those missing rows as definitive unsolved evidence.
+- Remaining blocker: yield is low at high section. Normal/support rows now reject correctly, but still fail due to high openers/outer exits and sometimes coverage/chain overshoot. Next tuning target is opener/outer-exit reduction for late `support_lattice` and normal rows, not reopening near-miss saving.
+- Process state after retest: no complement Unity remains; separate `campaign500-longchain-prod200-pool` Unity PID `45032` continued untouched.
+
+## Campaign500 Long-Chain Complement Outerfix4 Source/Merge Retune - 2026-06-30
+
+- Validation attempt `campaign500_longchain_complement_family21_s50_outerfix4` ran in `.worktrees/campaign500-longchain-complement-pool` with section `50`, `VariantsPerSlot=16`, `CandidateLimit=100`, `MergeBudget=60`, `SourceCandidateCount=7`, and no trace cap. It produced `0` selected rows, so wrapper stopped before trace export.
+- Diagnostic: all six source rows were correctly rejected instead of packed. Main failures were `chains_high`, `outerExitHeads`, `outerExitSide`, and `openers`; examples: order `491` had coverage `0.9268`, chains `110>89`, openers/head count `34`; order `500` support lattice had coverage `0.9320`, chains `112>107`, openers/head count `31`, outerRingRun `16>14`; order `495` spine fell to coverage `0.7724`.
+- The added post-crop single-chain reversal cleanup did not move metrics in this run (`outerExitReverse=0`, `openerReverse=0`, `lateOuterCleanup=0`), proving this is not mainly a postprocess/reversal-search issue. The defect is upstream: late/large source starts too fragmented and the merge loop can preserve too many outward heads while chasing long-chain growth.
+- Current code retune in `Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs`: late/large source overbuild is reduced (`area/18`, capped around `+50/+58` chains), source opener cap is lowered via `CampaignPilotReviewMaxOpeners + sourceChains/9`, source candidate count floors at `12`, and late/large merge selection now chooses the best dynamically analyzed candidate instead of the first acceptable static merge.
+- Compile validation after retune: `dotnet build .\campaign500-longchain-complement-pool.sln --no-restore -v:minimal` passed with `0` errors and the known `7` warnings.
+- Not yet Unity-retested after the source/merge retune because active non-complement Unity batches were running (`campaign500-longchain-prod200-pool-s31-s40`, `campaign500-longchain-prod200-pool-s41-s50`, `campaign500-longchain-family-profile-lab`, and `nutation-hub-maze-mixed`). No complement Unity remained and no prod200/family/hub process was stopped.
+- Next safe validation: when Unity pressure clears, run a narrow complement smoke first, e.g. `Tools/Production/Invoke-Campaign500LongChainComplementPoolV1.ps1 -OutputPrefix campaign500_longchain_complement_family21_s50_outerfix5 -SectionStart 50 -SectionCount 1 -VariantsPerSlot 12 -CandidateLimit 80 -MergeBudget 60 -SourceCandidateCount 7`, then inspect whether chains/openers/outerExitHeads fall before doing full trace/postselected pack.
+
+## Campaign500 Long-Chain Complement Outerfix5-8 Diagnostics - 2026-06-30
+
+- User asked to run immediately. `campaign500_longchain_complement_family21_s50_outerfix5` started in complement worktree and was stopped after enough evidence: first two normal rows wrote results, then it spent too long on order `500`. Only complement Unity PID `35668` was stopped; other Unity batches were not stopped.
+- Outerfix5 result shifted the failure: outer heads/openers improved heavily but coverage collapsed. Order `491` chamber row moved to coverage `0.7154`, chains `76`, openers/head `10/10`, outerRing `0.717/13`; order `494` moved to coverage `0.7504`, chains `74`, openers/head `12/11`, outerRing `0.604/12`. So the source/merge retune over-corrected toward cleanliness and lost inner fill.
+- Follow-up source/crop probes isolated the root: with `mergeBudget=1`, `slot_seedmaze_chamber_corridor` order `491` had crop coverage `0.8114` before the higher coverage source tweak; after raising late/large raw coverage/source candidate count it improved to `0.8870` but still failed `0.9300`, with `chains=141`, `openers/head=53/53`, outerRing `0.855/16`.
+- A one-row full merge probe for the same chamber lane (`campaign500_longchain_complement_family21_s50_outerfix7_onefull`) finished with chains/maxChain acceptable (`87`/`68`) but still not keep: coverage `0.8976`, openers/head `23/23`, outerRing `0.855/16`, outerExitSide `9`. This proves late section chamber corridor is not production-ready under current source grammar.
+- Lowering late/large `minOuterBandCoverage` to `0.42` did not change the chamber sourceprobe result, so the issue is not the single quality min alone. The chamber source grammar is filling/cropping poorly for section-50 large normal slots.
+- Code currently keeps the retune in `.worktrees/campaign500-longchain-complement-pool/Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs`: late/large target source coverage raised to `0.975-0.995`, source candidate floor `24`, source preview coverage penalty added, dynamic late merge selection retained, and late source outer-band minimum lowered. Compile still passes with 0 errors/known 7 warnings.
+- Current recommendation: do not scale section-50 normal rows through `slot_seedmaze_chamber_corridor`. Next fix should either route late/large normal slots away from chamber into a proven support/lock lane that exists in the selected profile window, or add a true inner-fill source grammar before crop. More threshold tuning on chamber is unlikely to reach keep quality.
+
+## Nutation Hub Mixed Quality Probe B14 - 2026-06-30
+
+- Worktree `.worktrees/nutation-hub-maze-mixed`; this did not touch PSG or the busy `.worktrees/nutation-peel` worktree.
+- Added an opt-in `BuildNutationHubMixedV1QualityProbePack` menu path and `attachToDemo=false` support so small source probes can be generated without changing the Demo active pack.
+- Minimal probe ran only logical slot B14 with four seed variants, then stopped the remaining 16-row batch to save Unity time. Source result: `2/4` buildable/portable-solved; r01 failed fill, r02 failed coverage (`0.903 < 0.935`), r03/r04 built.
+- Fast official trace on the two built variants: `2/2` solved, both B-tier. r04 was `TraceOrderKeep`; r03 was only `ProcessKeep`.
+- Key delta proving best-of retry value: r04 vs r03 reduced max choices `8 vs 11`, localPatchRun `7 vs 14`, directionalRisk `0.308 vs 0.532`, collapse `0.332 vs 0.440`, and moved risk band from `high_risk` to `watch`.
+- Evidence artifacts: `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_quality_probe_b14_trace1_joined.csv` and `_summary.md`; trace metrics at `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_mixed_v1_quality_probe_b14_trace1_metrics.csv`.
+- Recommended next change: convert HubMixed source retry from first-success to per-slot best-of selection using cheap source/portable proxy metrics, then keep official trace as post-generation acceptance; no need to run trace inside Unity generation.
+
+## Nutation Hub Mixed Best-of Retry Implemented - 2026-06-30
+
+- Implemented HubMixed opt-in best-of seed retry in `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`; `BuildNutationHubMixedV1Pack` now runs `seedRetryCount=6`, `seedRetryStep=7919`, `bestOfSeedRetry=true`.
+- Best-of behavior: each successful retry writes a temporary `_srXX` candidate, scores it with source/portable proxy metrics, deletes non-selected retry assets, and records `SeedRetryBestOf=n/6 Successful=x/6 SelectionScore=... SelectedSpec=...` in the source report.
+- Selection score now heavily penalizes local collapse (`LocalRun>8/12`), low peel progress, collapse debt, near-rate, probe max choices, same-axis/head run proxies, and still keeps coverage/outer coverage as smaller tie-breakers. This is a source proxy only; official trace remains final acceptance.
+- Added isolated `BuildNutationHubMixedV1BestOfProbePack`, writing to `NutationHubMixedV1BestOfProbe` with `attachToDemo=false`; it supports `indexOffset=13` so the single probe reproduces production slot B14's internal index.
+- Validation: `dotnet build .\nutation-hub-maze-mixed.sln --no-restore -v:minimal` passed with `0` errors and the known `7` warnings.
+- Probe evidence: B14 with production-aligned 6 retry produced only `1/6` source-success, so best-of had no alternative to select; official fast trace solved but stayed Drop (`maxChoices=15`, `sameAxis=19`, STS `0.885`, collapse `0.272`). This means best-of helps when multiple source successes exist, but hard slots still need either larger source pool or earlier placement/gate improvements.
+- Do not treat `NutationHubMixedV1BestOfProbePack` as production or Demo review; Demo active pack was not changed. Next safe run is a small multi-slot source audit comparing first-success vs best-of before launching a full 36-slot production batch, because full best-of can be much slower than first-success.
+
+## Campaign500 Long-Chain Family Profile Lab Straight-Spine Language - 2026-06-30
+
+- User asked to keep the current `12` review rows and add a little straight-chain language. The mounted review pack `C5LCFamLabV1ReviewPack.asset` was not regenerated or overwritten in this step; no Unity generation was started.
+- In `.worktrees/campaign500-longchain-family-profile-lab`, added generation-side lane/profile `slot_straight_spine_carrier`: light inner straight-spine carrier with support, while penalizing boundary rails, outer-exit heads, and outer-ring runs.
+- Wrapper lane catalog now includes `slot_straight_spine_carrier` in both normal and hard scheduling. Full plan-only check `campaign500_longchain_family_profile_lab_straight_spine_planonly_after_isolation_s01_s50` wrote `200` rows; straight-spine is primary in `13/200` slots (`LongNormalA=7`, `LongHard=3`, `LongVeryHard=3`), aspect `0.704-0.838`, area `391-1147`, planned chains `26-94`.
+- Added optional output isolation args to the lab wrapper/generator: `-OutputAssetFolder`, `-SourcePackAssetPath`, `-ReviewPackAssetPath`, `-ReportAssetPath`, and `-SummaryAssetPath` map to Unity `-campaignLongChainOutputFolder`, `-campaignLongChainPackPath`, `-campaignLongChainDemoPackPath`, `-campaignLongChainReportPath`, and `-campaignLongChainSummaryPath`. Use these before any straight-spine Unity smoke so the existing 12-row demo pack remains intact.
+- Probe plan prepared but not generated: `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_straight_spine_probe_plan_v1.csv` with summary `_summary.md` (`13` straight-spine primary rows).
+- Validation: PowerShell parser OK; plan-only OK; `dotnet build .\campaign500-longchain-family-profile-lab.sln --no-restore -v:minimal` passed with `0` errors and existing `7` warnings. Next step, when Unity capacity is available, is an isolated straight-spine smoke using the probe plan and official trace before mounting any new review pack.
+
+## Campaign500 Long-Chain Family Profile Lab Straight-Spine Probe Results - 2026-06-30
+
+- Ran isolated straight-spine probe V1 in `.worktrees/campaign500-longchain-family-profile-lab` using `slot_straight_spine_carrier` only and output folder `Assets/ArrowMagic/SOData/Levels/C5LCFamLabStraightProbeV1/`; old `C5LCFamLabV1ReviewPack.asset` was not overwritten.
+- V1 official trace: `13/13` solved, `6/13` trace-gate. Gate rows avg source coverage `0.951`, chains `40.33`, maxChain `48.83`, edgeStraightRunMax `4.50`, edgeRailRunMax `4.17`, outerRingRunMax `13.0`, outerExitHeadCount `10.17`, longVisualCellShare `0.521`, midShortSupportChains `24.0`, avg/p80/max choices `6.90/10.83/13.5`.
+- Fixed lab wrapper pack behavior after V1: postselected review pack now exports/builds only `traceGate=True` rows via `*_postselected_trace_gate_keep.csv`. Rebuilt `C5LCFamLabStraightProbeV1ReviewPack.asset` as a 6-row gate-only pack.
+- Tuned V2 to reward internal same-direction/same-axis merge runs while preserving edge rail penalties, then ran isolated output folder `Assets/ArrowMagic/SOData/Levels/C5LCFamLabStraightProbeV2/`.
+- V2 official trace: `11/11` solved, `4/11` trace-gate. Gate rows improved choice/openers versus V1 (avg/p80/max choices `6.00/9.75/11.25`, outerExitHeadCount `8.75`) but yield dropped.
+- Chain-shape audit shows straight-language target is not yet met: old 12-row keep had avg turnRate `0.6056`, avg maxStraightRun `6.33`; V1 gate rows had turnRate `0.6233`, maxStraightRun `5.33`; V2 gate rows had turnRate `0.6246`, maxStraightRun `5.25`. Treat V1/V2 as clean/solvable straight-spine probes, not as proven straighter-family production. Next attempt should change source construction, not only longify merge scoring.
+- Demo mount for user review: `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack now points to `C5LCFamLabStraightProbeV1ReviewPack.asset` (6 trace-gate rows, GUID `57ecbbd866f296a46b99152a73f22be3`). Visible Unity opened for this worktree with PID `4348`.
+
+## Campaign500 Long-Chain Family Profile Lab Candidate Pool + Structure Review - 2026-06-30
+
+- User judged the 6 straight-spine V1 samples acceptable if they are stylistically different from the prior 12. Structural verdict: they are different enough as a lighter/cleaner longchain flavor, but not as a true straight-chain breakthrough.
+- Created main candidate pool CSV: `.worktrees/campaign500-longchain-family-profile-lab/_CodexRun/campaign500_longchain_family_profile_lab_candidate_pool_v1_plus_straight_v1_18.csv`, with summary `_summary.md`. It contains `18` rows: old `12` base-family gate rows + straight V1 `6` rows tagged `styleRole=light_clean_carrier`.
+- Difference basis for adding the 6: old12 avg coverage/chains/maxChain/outerHeads/avgChoices = `0.942 / 51.17 / 58.17 / 12.17 / 7.89`; straight V1 avg = `0.951 / 40.33 / 48.83 / 10.17 / 6.90`. It fills lighter, lower-chain, lower-choice, lower-outer-head signatures that old12 barely covers.
+- Additional structure sweep found `5` cut49 trace-gate rows unique by `order|role|profile`, exported as reserve only: `_CodexRun/campaign500_longchain_family_profile_lab_reserve_cut49_extra5_same_family.csv`. These are same-family hard/veryhard variants, useful as filler/reserve but not a new structural breakthrough.
+- Current conclusion: straight-chain is not solved in this worktree. To get a real visible straight-chain family, next work should change source construction / primitive grammar so inner straight segments exist before longify, rather than continuing merge-score tuning.
+
+## Campaign500 Long-Chain Family Profile Lab Inner-Straight Carrier Probe - 2026-06-30
+
+- Implemented source-side profile `slot_inner_straight_carrier` in `.worktrees/campaign500-longchain-family-profile-lab/Assets/ArrowMagic/Editor/PSGLongLockLongifyV1Generator.cs`: it reuses the verified DirectRectangle source + longify/trace route, but injects 2-3 interior straight carrier chains plus support branches before longify. Boundary rails remain penalized; lane catalog exposes it as probe-only.
+- Probe plan: `_CodexRun/campaign500_longchain_family_profile_lab_inner_straight_probe_plan_v1.csv`, `8` rows, aspect `0.727-0.833`, area avg `770.4`, roles `LongNormalA=4`, `LongHard=2`, `LongVeryHard=2`.
+- V1 run `campaign500_longchain_family_profile_lab_inner_straight_probe_v1_gen1`: official trace `8/8` solved, `2/8` trace-gate. V2 opener/outer-head pressure retune rerun `campaign500_longchain_family_profile_lab_inner_straight_probe_v2_gen1` stayed `8/8` solved and `2/8` trace-gate; the two passing rows were identical to V1.
+- Structural audit is positive: old12 gate avg maxStraightRun `7.33`, straight V1/V2 gate `6.33/6.25`, inner-straight all8 avg `14.0`, inner-straight gate2 avg `13.0`; turnRate also improved (`inner_all8=0.576`, gate2=`0.5841`). This proves the source-side primitive creates visible straight-chain language.
+- Production verdict: not ready to scale as a production family. All rows are process `Drop`; rejects are mainly `choiceP80` and `maxChoices`. Treat V1/V2 as structure proof/review packs only, not as candidate-pool keep. Next work should add solve-order/low-choice scheduling around the inner carrier rather than more small source-score nudges.
+## Nutation Hub Mixed Strict30 Goal Run - 2026-07-01
+
+- Active goal: produce 30 strict-screened Nutation HubMixed candidates in `.worktrees/nutation-hub-maze-mixed` without touching PSG or main production.
+- Added isolated `BuildNutationHubMixedV1Strict30CandidatePoolPack` and `BuildNutationHubMixedV1Strict30ProductionKeepPack` paths in `NoMaskProceduralGenerator.cs`; strict30 outputs use `NutationHubMixedV1Strict30CandidatePool` assets and `nutation_hub_mixed_v1_strict30_*` reports/packs.
+- Updated `Tools/Production/Invoke-NutationHubMixedProductionV1.ps1` so the wrapper can target alternate Unity methods/reports and fast official trace parameters.
+- `pool1` best-of 144-source attempt was stopped as too slow; `pool2` 144 first-success attempt was also stopped; current active run is `nutation_hub_mixed_v1_strict30_pool3`, 108 source specs, `seedRetryCount=3`, first-success, fast official trace target, min/max keep rows 30.
+- Pool3 active processes at checkpoint: wrapper PowerShell PID `20896`, Unity PID `45452`; source report path `Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_candidate_pool_report.csv`. Last observed source progress was 5/108 built, 0 failed, still in Unity generation.
+
+## Nutation LongChain Strict50 Holefix - 2026-07-01
+
+- Goal completed in `.worktrees/nutation-peel`: current 25 Candidate80 keep rows were second-screened, then Holefix S1/S2/S3 seed pools were generated/traced to reach a 50-row strict review pack without touching PSG.
+- Final strict CSV: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_strict50.csv`; audit/summary: `.worktrees/nutation-peel/.codex-run/nutation_longchain_strict50_audit.csv` and `_summary.md`.
+- Final playable pack: `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationLongChainStrict50Pack.asset`; Demo activePack is mounted to this pack, GUID `46de8f0720f60854ba75a7a8615864e1`.
+- Strict pool result: audited `320` rows, `61` strict candidates, selected `50`; tiers `StrictA=35`, `StrictB=15`; source mix `holefix=45`, original `candidate80=5`; chain mix `spine=20`, `rail=11`, `curve=11`, `patch=8`.
+- Selected averages: coverage `0.9471`, maxChoices `8.42` with max `11`, STS `0.8791`, collapse `0.1767`, hole max avg/max `4.86/9`; this confirms the large-hole issue is materially reduced versus the first 25 keep set.
+- Generation notes: Holefix adds a late filler phase for Candidate80 longchain specs, raises target coverage/outer coverage modestly, and allows broad-ray short fillers only late; S1/S2/S3 are independent seed offsets with `_c80hf_`, `_c80hf2_`, `_c80hf3_` ids.
+- Follow-up reserve: exported the next best `10` strict rows as `.worktrees/nutation-peel/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_longchain_strict_reserve10.csv` and built `NutationLongChainStrictReserve10Pack.asset`; also built combined `nutation_longchain_strict60.csv` / `NutationLongChainStrict60Pack.asset`. Reserve10 is mounted in Demo for review, GUID `b512f2a2510148cda13496fdbf7b0b11`.
+## Nutation HubMixed Strict30 Visual Keep - 2026-07-01
+
+- 当前成果在独立 worktree `.worktrees/nutation-hub-maze-mixed`，branch `codex/nutation-hub-maze-mixed`；未改 PSG 正式入口。
+- 目标已达成：产出 30 个 HubMixed strict-screened 候选，并用 official trace 复验；最终 pack 已挂到该 worktree 的 `Assets/ArrowMagic/Scenes/Demo.unity`。
+- 最终 pack：`.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1Strict30TransformWideProductionKeepPack.asset`。
+- 最终 keep CSV：`.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_transform_wide_production_keep.csv`，30/30 `visualPass=True`、`keepCandidate=True`、`stsKeepCandidate=True`。
+- 候选池：`NutationHubMixedV1Strict30TransformWidePool`，由旧 36 个 HubMixed generated source 做 `base/flipX/flipY/rot180` 几何变体，144/144 portable/Greedy solved，coverage `0.925-0.967`。
+- 官方 trace：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_mixed_v1_strict30_transform_wide_visual1_metrics.csv`，144/144 traced solved；joined summary 在 `.worktrees/nutation-hub-maze-mixed/.codex-run/nutation_hub_mixed_v1_strict30_transform_wide_visual1_trace_joined_summary.md`。
+- 严格口径说明：完全沿用 `localPatchRun<=8` 的 VisualOnly 只有 24/144，不满 30；本批生产采用 VisualOnly + `MaxLocalPatchSolveRun=10`，其余 HubMixed gate 保持 `MinCoverage=0.88`、`MaxChoices=14`、`MaxNearOuterPatchSolveRun=6`、`MaxDirectionalSweepRisk=0.46`、`MaxSameAxisRun=18`、`MaxSameDirHeadRun=14`。
+- 最终 30 行均值：coverage `0.945`、avgChoices `5.66`、maxChoices `10.27`、localPatchRun `8.2`、nearOuterRun `4.4`、directionalRisk `0.355`、solveTraceQuality `0.821`；flow mix 为 `local_collapse=20`、`single_axis_sweep=8`、`flow_spread=2`。
+## Campaign500 Normal Strict152 Checkpoint - 2026-06-30
+
+- Worktree `.worktrees/nutation-flow-peel-production` reached the full Campaign500 normal target: `152/152` unique normal slots under strict `TraceOrderKeep`; no relaxed rows were counted.
+- Final strict manifest paths: `Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/campaign500_normal_full_v1_production_strict_keep.csv`, `campaign500_normal_full_v1_production_keep.csv`, and `campaign500_normal_full_v1_review.csv`; all have `152` rows and `152` unique target orders.
+- Final pack paths: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500NormalFullV1ReviewPack.asset`, `Campaign500NormalFullV1ProductionKeepPack.asset`, and `Campaign500NormalFullV1ProductionStrictKeepPack.asset`; each pack display name reports `(152)`.
+- Composition summary: relocated strict rows `70`, top-up strict rows `82`; lanes `FlowCurve=11`, `FlowPatch=13`, `FlowRail=13`, `NeutralMixed=44`, `PeelHard=10`, `PeelLight=10`, `PeelMid=34`, `PressurePeak=17`.
+- Quality summary: process tiers `A=28`, `B=124`; average choices `5.365`, max choices `10`, average source coverage `0.986`.
+- Main project `Demo.unity` now points to `Campaign500NormalFullV1ReviewPack.asset`; Unity was launched for `F:\Unityproject\ArrowLevel-Hand` for visual review.
+
+## Campaign500 Normal Holefill Strict Gate - 2026-07-01
+
+- Requirement remains: do not lower quality. Active strict gate is `solved=True`, coverage `>=0.93`, `maxChoices<=11`, `localPatchSolveRunMax<=7`, `nearOuterPatchSolveRunMax<=6`, STS `>=0.82`, collapse `<=0.28`, same-axis `<=9`, same-dir-head `<=8`.
+- Existing strict keep covers `152` unique orders; raw rescue added `5` strict orders (`96,262,289,362,407`) for `157/200`, leaving `43` missing.
+- Full raw candidate trace proved solved is not the blocker: `183/183` solved, but only `5` unique missing orders passed strict. Main failures are choices, STS/collapse, and axis/dir runs.
+- Auto s37-s40 longchain batch was stopped after it produced candidates for `372/389`; strict audit found `0` new strict rows, so those were not counted. It did not target missing order `397`.
+- Active targeted background batches: `.worktrees/campaign500-longchain-prod200-pool` prefix `campaign500_targeted_holefill_s03_s36_r1` for `31` early/mid orders; `.worktrees/campaign500-longchain-prod200-pool-s31-s40` prefix `campaign500_targeted_holefill_s38_s40_r1` for `372/389/397`; `.worktrees/campaign500-longchain-prod200-pool-s41-s50` prefix `campaign500_targeted_holefill_tail_s42_s50_r1` for tail orders `419,425,436,449,456,465,479,485,500`.
+- Helper audit script added: `.codex-run/Audit-Campaign500StrictHolefillV1.ps1`; use it on completed `*_postselected_trace_joined.csv` outputs and count only strict best-per-order rows.
+
+## Nutation HubMixed Strict30 Refill - 2026-07-01
+
+- Worktree: `.worktrees/nutation-hub-maze-mixed`, branch `codex/nutation-hub-maze-mixed`; PSG and the original Strict30 transform-wide pack remain intact.
+- Added secondary refill lane in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`: `BuildNutationHubMixedV1Strict30RefillPoolPack` reads the 30-row transform-wide keep CSV, creates 4 refill variants per source (`120` rows), and records hole metrics; `BuildNutationHubMixedV1Strict30RefillProductionKeepPack` builds the final pack from the refill keep CSV.
+- Refill pool report: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_refill_pool_report.csv`; shortlist report: `.../nutation_hub_mixed_v1_strict30_refill_shortlist_report.csv` with `60` rows, two variants per original source.
+- Official fast trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/nutation_hub_mixed_v1_strict30_refill_shortlist1_metrics.csv`, `60/60` solved, `59` visualPass under local10 and `51` visualPass under local9.
+- Final keep uses the stricter local9 postselection: `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_hub_mixed_v1_strict30_refill_production_keep.csv`, `30/30` solved, visualPass, and stsKeepCandidate; final pack `.worktrees/nutation-hub-maze-mixed/Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationHubMixedV1Strict30RefillProductionKeepPack.asset` is mounted in that worktree Demo, GUID `da8a0f3e4d71f4f41a3a1ac875059c77`.
+- Before/after versus original keep: coverage avg `0.945 -> 0.961`, avgChoices `5.66 -> 5.393`, maxChoices avg `10.267 -> 10.133`, localPatch avg/max `8.2 -> 7.8/9`, nearOuter avg `4.4 -> 4.633`, directionalRisk avg `0.355 -> 0.352`, STS avg `0.821 -> 0.805`.
+- Static hole repair on final keep: original coverage before avg `0.944`; added cells avg `11.633`; max empty component avg `13.467 -> 5.0`; outer empty cells avg `11.433 -> 6.033`.
+## Campaign500 Normal Strict Timebox - 2026-07-01 09:10
+
+- User timebox: run strict holefill until 2026-07-01 09:10 +08:00, then stop and prepare final Campaign500 version inputs; no quality gates were relaxed.
+- Consolidated manifest: `.codex-run/campaign500_strict_until0910_v1.csv`; summary: `.codex-run/campaign500_strict_until0910_v1_summary.md`.
+- Result: `173` rows / `173` unique normal target orders = previous `strict152` + `5` raw rescue + `16` lowchoice strict additions.
+- Lowchoice strict orders added in this timebox: `25,39,47,56,70,89,105,112,129,136,148,152,166,172,182,196`.
+- Order `72` was tested and rejected (`0` strict rows); do not include it unless a new strict candidate is produced.
+- Remaining normal target orders after the timebox: `72,206,219,221,231,248,252,274,299,302,312,326,331,341,359,372,389,397,419,425,436,449,456,465,479,485,500`.
+- Source generation was stopped at 09:10. Last partial source states: h05 `43` rows (`196:12 206:12 219:12 221:7`), h08 `13` rows (`331:12 341:1`). No trace process was intentionally left running.
+
+## Campaign500 HardGate Until0910 Final Prep - 2026-07-01
+
+- User asked for this run's production summary only; do not continue new generation from this checkpoint unless explicitly asked.
+- Important correction: the 173-row timebox manifest includes `28` legacy `strict152` TraceOrderKeep rows that fail the later holefill hard gate (`STS/collapse/local/nearOuter`). They are preserved for audit but excluded from the no-quality-drop production surface.
+- Current no-quality-drop manifest: `.codex-run/campaign500_hardgate_until0910_v1.csv`, `145` rows / `145` unique orders, `0` gate failures under coverage `>=0.93`, maxChoices `<=11`, local `<=7`, nearOuter `<=6`, STS `>=0.82`, collapse `<=0.28`, sameAxis `<=9`, sameDirHead `<=8`.
+- Delivery folder: `Exports/Campaign500_HardGateUntil0910_20260701_0910/`, containing 500-row manifest, replacements, missing target slots, excluded legacy rows, section summary, GUID replacements, pack manifest, and README.
+- Packs created in main project: `Campaign500NormalHardGateUntil0910V1ReviewPack.asset` (`145` levels) and `Campaign500HardGateUntil0910V1FinalPreviewPack.asset` (`500` levels). Main `Demo.unity` now points to the 500-level HardGate preview pack GUID `aa230c66e2734d8d9f4ceeb6bd7c079e`.
+- Remaining target normal slots under the current hard gate: `55` total = `27` no strict candidate by 09:10 + `28` legacy TraceOrderKeep rows excluded by the current hard gate.
+
+## Candidate Sync Handoff - 2026-07-01
+
+- Created sync handoff doc: `Exports/CandidateSync_20260701/Nutation_Candidate_Sync_20260701.md`.
+- The handoff groups current cross-dialogue candidate outputs: HubMixed Strict30 Refill30, LongChain Strict50 + Reserve10, Campaign500 Normal Strict152, and Campaign500 HardGate Until0910.
+- Verified key CSV row counts before writing: HubMixed Refill keep `30`, LongChain Strict50 `50`, LongChain Reserve10 `10`, Campaign500 Normal Strict152 `152`, HardGate manifest `145`.
+- Verified key pack files exist at the paths recorded in the handoff.
+- Added detailed LongChain sync handoff: `.worktrees/nutation-peel/.codex-run/nutation_longchain_strict60_sync_handoff.md`; updated the main sync handoff with Strict50/Reserve10/Strict60 GUIDs, chain mix, source mix, gate summary, metrics, and current Reserve10 Demo mount.
+- Boundary for sync: do not treat Maze mixed as production-ready; current useful Hub/Maze surface is HubMixed Refill30. Do not clean or revert unrelated dirty generated assets while syncing.
+
+## Campaign500 First Assembly V1 Planning - 2026-07-01
+
+- User confirmed assembly policy: normal auto replacements must use current Campaign hard gate; shape manual-review rows are allowed for one-level-per-shape coverage; HubMixed local9 can be used only in small amounts; unfilled normal slots keep original V11 fallback.
+- Planning output folder: `Exports/Campaign500_FirstAssembly_20260701_NutationSyncV1/`. This is a CSV/README planning surface only; it does not copy worktree assets into main and does not rebuild a Unity pack.
+- Result after order `62` fill: `286` active planned replacements = `145` HardGate normal + `1` NormalFullV1 exact variant + `36` NutationLongChainStrict60 + `4` HubMixed local9 + `1` SeedV5 exact + `99` ShapeMaskInventory. Hole slots remain unchanged.
+- Order `62` is now filled by `campaign500_normal_full_v1_s01_s13_77_nutation_mixed_neutral_v1_rect_s07_o062_v01_neutralmixed_mixed_chain`, an exact same-order NormalFullV1 raw variant that passes current Campaign hard gate (`coverage=0.981`, `maxChoices=6`, `local=4`, `nearOuter=4`, `STS=0.864`, `collapse=0.147`).
+- Remaining gaps: `14` total = `13` ordinary normal slots plus shape order `073` windmill, which has no formal candidate asset and keeps original V11 fallback. Hard/Peak gaps are `0`.
+- Front300 remaining gaps: `6` total = `5` ordinary normal orders (`202,206,231,248,254`) plus shape order `073` windmill. Candidate sync request is `campaign500_first_assembly_v1_candidate_sync_request.md`; fill these ordinary relief slots before late ordinary gaps.
+- Key outputs: `campaign500_first_assembly_v1_500_manifest.csv`, `campaign500_first_assembly_v1_replacements.csv`, `campaign500_first_assembly_v1_remaining_gaps.csv`, `campaign500_first_assembly_v1_gap_demand_by_lane.csv`, `campaign500_first_assembly_v1_external_asset_copy_queue.csv`, and `campaign500_first_assembly_v1_hard_peak_ramp.csv`.
+
+## Campaign500 Front300 Priority V3 - 2026-07-01
+
+- User corrected the assembly priority: front300 normal quality is first; all available `Campaign500_HardGateUntil0910` strict 145 candidates should be reclaimed into the first 300 before considering after300.
+- Current V3 folder: `Exports/Campaign500_FirstAssembly_20260701_Front300PriorityV3/`.
+- V3 manifest: `campaign500_first_assembly_front300_priority_v3_500_manifest.csv`, 500 rows. Front300 `category=normal` is `210/210` active replacements, with `145/145` `Campaign500_HardGateUntil0910` candidates placed into front300.
+- V3 supplemental front300 normal replacements: 65 rows, using all 62 unique supplemental candidates with `STS>=0.80` plus 3 non-long near-line candidates with `STS>=0.78`; the current written V3 plan has `below .8 supplement=0` and front300 normal min STS `0.803`.
+- V3 source mix in front300: `Campaign500_HardGateUntil0910=145`, `NutationLongChainStrict60Front300=24`, `SeedV5LongChain30Front300=22`, `Campaign500NormalFullV1UnusedStrict=14`, `HubMixedRefill30Front300=3`, `ExternalHardGateDedupFront300=2`.
+- After300 deferrals: 47 V1 hard-gate placements were reclaimed for front300 and reverted to original by `After300DeferredFront300Priority`; after300 is not quality-guaranteed in this V3.
+- Built pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyFront300PriorityV3PreviewPack.asset`, GUID `824de2923fd048c48ae83f881c760b4d`, 500 level refs. Main `Assets/ArrowMagic/Scenes/Demo.unity` points to this pack.
+- Build report: `campaign500_first_assembly_front300_priority_v3_pack_build_report.csv`; load modes are `334` manifest assets and `166` base-preview fallbacks. All front300 normal rows load from manifest assets, no fallback.
+
+## Campaign500 Rhythm V4 Placement - 2026-07-01
+
+- User corrected placement philosophy: reference original template chain-count ramp, preserve 10-level hard/very-hard waves, account for long-chain effective difficulty, and vary style/chain language per 10-level section.
+- Current V4 folder: `Exports/Campaign500_FirstAssembly_20260701_RhythmV4/`.
+- V4 manifest: `campaign500_first_assembly_rhythm_v4_500_manifest.csv`, 500 rows. Front300 normal has `209` active replacements and `1` intentional keep-current row: order `1` is no longer replaced and falls back to the base preview pack.
+- V4 front20 softening: front20 normal active replacements `13`; actual chains avg/min/max `47.3/34/63`. This is lower than V3 and uses the lowest effective-load Flow/Neutral candidates available; exact tiny targets like 6/19 chains still need a dedicated early low-chain strict lane if full replacement is desired.
+- V4 front300 mix: style groups `flow=36`, `neutral=45`, `peel=16`, `hardgate=61`, `longchain=47`, `hub=4`; chain languages include rail/patch/curve/mixed/spine/family-profile plus strict hard/peak/choice-clamp tags.
+- Built pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyRhythmV4PreviewPack.asset`, GUID `b63fbf4040cd570418f60950bc21525a`, 500 level refs. Main `Assets/ArrowMagic/Scenes/Demo.unity` now points to this pack; Unity was reopened for review.
+- Build report: `campaign500_first_assembly_rhythm_v4_pack_build_report.csv`; load modes are `333` manifest assets and `167` base-preview fallbacks. Front300 normal load modes are `209` manifest assets plus order `1` base fallback.
+
+## Campaign500 Rhythm V4 Final - 2026-07-01
+
+- User accepted Rhythm V4 as final except order `19`, which should act as the first-20 difficulty benchmark and have higher chain count/difficulty.
+- Current final folder: `Exports/Campaign500_FirstAssembly_20260701_RhythmV4Final/`.
+- Final change from V4: order `19` was upshifted from a `63`-chain neutral/mixed candidate to `c5hole_lowchoice_v1_h03r_31_nutation_strict_mixed_peak_v1_rect_s14_o136_v00_strictmixedpeak_strict_peak_chain_hf1`, a `79`-chain `hardgate/strict_peak_chain` candidate with `maxChoices=8`, `local=4`, `STS=0.905`, `collapse=0.153`. The previous order `19` candidate was moved to order `128` to keep uniqueness and avoid quality drop.
+- Final manifest: `campaign500_first_assembly_rhythm_v4_final_500_manifest.csv`; front20 comparison: `campaign500_first_assembly_rhythm_v4_final_front20_compare.csv`.
+- Built final pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyRhythmV4FinalPreviewPack.asset`, GUID `6314e181422e089488110d180f31b44f`, 500 level refs. Main `Demo.unity` now points to this final pack; Unity was reopened for review.
+
+## Campaign500 Rhythm V4 Final Sync Package - 2026-07-01
+
+- Created import/sync bundle for other ArrowMagic-compatible Unity projects: `Exports/C5V4F/`, zip `Exports/C5V4F.zip`.
+- Bundle includes final playable pack plus `.meta`: `U/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyRhythmV4FinalPreviewPack.asset`, GUID `6314e181422e089488110d180f31b44f`.
+- Bundle includes all actual LevelDefinition configs referenced by the final pack under `U/Assets/...`: 500 per-order refs map to 453 unique level assets, all with `.asset.meta`.
+- Main per-level import map: `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_per_level_config_index.csv`; asset inventory: `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_sync_asset_inventory.csv`.
+- Template replacement diff: `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_template_replacement_diff.csv`; explicit marks are `REPLACED=333`, `KEPT_CURRENT=158`, `KEPT_TARGET_GAP=8`, `KEPT_SHAPE_FALLBACK=1`.
+- Validation: 0 missing assets, 0 missing metas; pack GUID audit found 453/453 LevelDefinition refs present. The remaining pack GUID is `LevelPack.cs` script GUID `d436460122dc5424e9baa0dad136f725`, expected to come from target project scripts.
+- Import boundary: target project must already contain compatible ArrowMagic scripts/schema; copy `Exports/C5V4F/U/Assets` into target `Assets` preserving paths and file `.meta`.
+
+## Campaign500 Rhythm V4 Final Arrow Count Audit - 2026-07-01
+
+- Created current-vs-initial pack arrow audit using actual LevelDefinition assets, not manifest guess fields. Baseline pack: `Campaign500FinalPack.asset`; current pack: `Campaign500FirstAssemblyRhythmV4FinalPreviewPack.asset`.
+- Main report: `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_arrow_count_compare_vs_initial.csv`; section summary: `campaign500_rhythm_v4_final_arrow_count_section10_summary.csv`; written summary: `campaign500_rhythm_v4_final_arrow_count_audit_summary.md`.
+- Current final 500 average arrow cells are `751.3` vs initial `805.4`; after order 300 average is `883.0` vs initial `965.1`, with min after300 `535`, so there are no after300 levels with only dozens of arrow cells.
+- Replaced after300 rows are `65/65` large canvas by area `>=700`, avg arrows `954.0`, min arrows `578`, avg chains `109.0`.
+- New candidates do include large canvases: `201/333` replaced rows are large canvas. The actual small-late visual issue is front300-late, mainly `SeedV5LongChain30Front300`: 22 rows, 19 area `<600`, 18 arrows `<500`.
+- Most visible small front300-late rows: orders `290, 294, 296, 299` with areas `192/192/221/192` and arrows `181/181/209/180`; these should be demoted earlier or replaced with large-canvas strict candidates in the next revision.
+- Front100 chain rhythm review added: `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_front100_chain_rhythm_review.md`. Verdict: front100 is acceptable to freeze for now; sections 1-3 match broad baseline rhythm, sections 4-10 are softer by about 7-10 chains but stable around 70-75 average. Main repair target remains sections 21-30, not front100.
+- Added difficulty-bucket chain audit to avoid hiding mixed roles in section averages: `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_chain_count_difficulty_bucket_review.md` plus `campaign500_rhythm_v4_final_chain_count_by_section_difficulty_bucket.csv`. Bucket mapping is `Normal+Recovery=Ordinary`, `Hard=Hard`, `PeakExtreme=Peak`.
+- Front100 bucket verdict: acceptable but not strictly monotonic. Section1-10 Ordinary chain avg is `32,46,66.8,70.2,67,71,63.8,63,57.7,57.8`; Hard is `46,56,89,72,81.5,75,87.5,83,86.7,91`; Peak is `52,79,90,86,84,82,82,79,73,100`.
+- Full-campaign bucket verdict: sections21-30 fail across all buckets, not just by averaging unlike slots. Section29 is `Ordinary=34, Hard=34, Peak=29`; section30 is `Ordinary=33.4, Hard=17, Peak=15`, versus initial section29/30 roughly `Ordinary~109, Hard~144-163, Peak~178-214`.
+## Observation Read-Demand Probe - 2026-07-01
+
+- Added local diagnostic script `.codex-run/Measure-CampaignObservationPressureV1.ps1`; it does not edit generators or packs.
+- Ran it on the first 50 `normal` rows in C5V4F whose `sectionWaveRole` is `Hard` or `PeakExtreme`.
+- Outputs: `.codex-run/c5v4f_hard50_observation_pressure_v1.csv` and `.codex-run/c5v4f_hard50_observation_pressure_v1_summary.md`.
+- Result: static dependency density is high (`observationPressureScore` avg `75.79`), but stricter visual read demand is low (`readDemandScore` avg `23.57`, all `ReadLight`).
+- Main cause: almost all first blockers are adjacent/local (`avgEscapeRayLength` avg `0.944`, `shortRayRate` avg `0.998`, `immediateRayRate` avg `0.992`), so the player rarely needs long-range observation even in hard/peak slots.
+- Next hardening direction: add production/generation gates that reward non-adjacent first blockers, cross-region blocker edges, staged long lookahead rays, and penalize adjacent blocker saturation.
+- Continued full scan: `.codex-run/c5v4f_hardpeak_all_observation_pressure_v1.csv` covers 137 Hard/Peak normal rows (`readDemandScore` avg `21.52`), and `.codex-run/c5v4f_normal_all_observation_pressure_v1.csv` covers 350 normal rows (`readDemandScore` avg `21.85`).
+- Added gate script `.codex-run/Select-CampaignReadDemandGateV1.ps1`; Hard/Peak output `.codex-run/c5v4f_hardpeak_read_demand_gate_v1.csv` classifies 14 `ReadKeep`, 39 `ReadNear`, 65 `RegenPriority`, 19 `RegenPriorityHigh`.
+- Full-normal gate `.codex-run/c5v4f_normal_all_read_demand_gate_v1.csv` classifies 32 `ReadKeep`, 84 `ReadNear`, 201 `RegenPriority`, 33 `RegenPriorityHigh`; this proves borrowing/reordering helps only modestly and generation-side read-demand shaping is needed.
+
+## C5V4F Normal Gapfill Strict Selected - 2026-07-01
+
+- User asked to re-check C5V4F gaps using the replacement indicator; the authoritative gap mark is `KEPT_TARGET_GAP` in `Exports/C5V4F/Docs/campaign500_rhythm_v4_final_template_replacement_diff.csv`.
+- C5V4F has exactly `8` target gaps: orders `302, 326, 390, 397, 431, 441, 446, 462`.
+- Final strict candidate table: `.worktrees/nutation-flow-peel-production/.codex-run/c5v4f_gapfill_final_strict_selected.csv`; summary: `.worktrees/nutation-flow-peel-production/.codex-run/c5v4f_gapfill_final_strict_selected_summary.md`.
+- Validation: `8` rows, `8` unique orders, all source rows are `KEPT_TARGET_GAP`, all candidate assets exist, and no quality gate was lowered.
+- New short-prefix strict shards filled the last hard rows: order `302` from `c5s1_b`, orders `441` and `462` from `c5s2_c`.
+- The selected rows are not yet integrated into the C5V4F pack/export; next step is to rebuild the final manifest/pack replacing those 8 original fallback rows.
+## Campaign500 Rhythm V4 Final StrictComplete - 2026-07-01
+
+- Built the targeted strict-complete Campaign500 normal fill for C5V4F gaps: `8` original `KEPT_TARGET_GAP` normal rows plus `47` after300 deferred rows, total `55` patched rows.
+- New manifest folder: `Exports/Campaign500_FirstAssembly_20260701_RhythmV4FinalStrictComplete/`; main manifest is `campaign500_first_assembly_rhythm_v4_final_strict_complete_500_manifest.csv`.
+- New playable pack: `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyRhythmV4FinalStrictCompletePreviewPack.asset`, GUID `719ae0a2f039476da86ceca58b1e7d8d`; main `Assets/ArrowMagic/Scenes/Demo.unity` points to this pack.
+- Short sync/import bundle: `Exports/C5V4FSC/`; zipped bundle: `Exports/C5V4FSC.zip`.
+- Verification: 500 pack refs, `388` active replacements, `0` normal target gaps, `0` after300 deferred markers, `0` active manifest GUID mismatches, `0` missing asset/meta entries in the sync package.
+- Strict patch gate over the 55 rows: min coverage `0.965`, max choices `11`, max local patch run `7`, min STS `0.823`, max collapse `0.274`, gate failures `0`.
+- Note: Unity batch build stalled after compile/AssetDatabase refresh, so the final LevelPack YAML was generated directly from the verified manifest and old pack GUID list; the generated pack was audited against the manifest.
+
+## Campaign500 Front100 Rhythm V8 Review Plan - 2026-07-01
+
+- Review-only plan, no manifest/pack/scene replacement yet: `Exports/Campaign500_FirstAssembly_20260701_RhythmV5Front100/campaign500_rhythm_v5_front100_rebalance_plan_v8_review_only.csv`.
+- V8 uses 40 proposed front100 target replacements and 40 projected donor reverts; donor negative chain deltas are `0`.
+- Placement rule: put 10-29 chain candidates mainly into sections 1-2, anchor section 3/4/5 ordinary around 40/50/60 chains, then ramp ordinary to 70-80+ through section 10 with controlled variation.
+- Long-chain rows get review-only `canvasAdjustedChain = chain + min(22, round(max(0, area-540)/45))` so large-canvas longchain samples count heavier than raw chain count.
+- Key outputs: projected stats `campaign500_rhythm_v5_front100_projected_v8_review_only_500_stats.csv`, raw bucket summary `campaign500_rhythm_v5_front100_projected_v8_normal_bucket_wide_raw.csv`, adjusted bucket summary `campaign500_rhythm_v5_front100_projected_v8_normal_bucket_wide_canvas_adjusted.csv`, and front100 chain-bin distribution `campaign500_rhythm_v5_front100_projected_v8_front100_normal_chain_bin_distribution.csv`.
+
+## Campaign500 Front100 Rhythm V10 Review Plan - 2026-07-01
+
+- Supersedes V8/V9 as the current review-only rhythm proposal; no manifest/pack/scene replacement yet.
+- Plan path: `Exports/Campaign500_FirstAssembly_20260701_RhythmV5Front100/campaign500_rhythm_v5_front100_rebalance_plan_v10_review_only.csv`.
+- V10 uses 41 proposed front100 target replacements and 41 projected donor reverts; donor negative chain deltas are `0`.
+- Player rhythm model: sections 1-2 are onboarding; section3 should feel roughly ordinary/hard/peak = `40/60/75+`, section4 = `50/70/85+`, section5 = `60/80/90+`, then sections 6-10 gradually lift ordinary into `70-85` while peak pressure grows mainly through higher chain count and large-canvas longchain adjusted load.
+- Shape rows contribute to section peak rhythm in-place only; do not use shape assets to fill normal peak slots.
+- Key outputs: raw bucket summary `campaign500_rhythm_v5_front100_projected_v10_normal_bucket_wide_raw.csv`, adjusted summary `campaign500_rhythm_v5_front100_projected_v10_normal_bucket_wide_canvas_adjusted.csv`, shape-adjusted section summary `campaign500_rhythm_v5_front100_projected_v10_section10_with_shape_canvas_adjusted.csv`, projected detail `campaign500_rhythm_v5_front100_projected_v10_review_only_500_stats.csv`.
+
+## Campaign500 Front100 Rhythm V12 Locked Review Plan - 2026-07-01
+
+- User accepted the V11 front100 rhythm layout as the current locked review version; order `17` is a `hole` slot and is kept unchanged at `37` chains.
+- V12 is annotation/finalization only: no Unity asset, manifest, pack, or scene replacement was performed.
+- Main plan path: `Exports/Campaign500_FirstAssembly_20260701_RhythmV5Front100/campaign500_rhythm_v5_front100_rebalance_plan_v12_final_review_only.csv`.
+- Annotated layout paths: `campaign500_rhythm_v5_front100_v12_500_per_level_layout_annotated.csv`, `campaign500_rhythm_v5_front100_v12_front100_per_level_layout_annotated.csv`, and `campaign500_rhythm_v5_front100_v12_front20_per_level_layout_annotated.csv`.
+- Difficulty code labels are inherited from the original 500 template and preserve the original ratio exactly: `1=314`, `2=94`, `3=59`, `4=33`.
+- `rhythmBucket` remains the local placement/rhythm bucket (`Ordinary/Hard/Peak/HoleRescue/Shape`) and must not replace the template `difficultyCode`.
+
+## Campaign500 Rhythm V5 Front100 Import Package - 2026-07-01
+
+- Created full 500-level import package: `Exports/C5V5F100/`; zip: `Exports/C5V5F100.zip`.
+- Generated pack inside the export only: `U/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500FirstAssemblyRhythmV5Front100PreviewPack.asset`, GUID `776d5b636a6f47f7bdb395cdc55de208`.
+- Package includes `467` unique LevelDefinition assets plus `.meta` files; pack has `500` level refs and `0` missing asset/meta rows.
+- Relative to current C5V4FSC strict-complete baseline, changed rows are `104`: `52` `V5_FRONT100_TARGET_REPLACED` plus `52` `V5_DONOR_REVERT_FOR_UNIQUENESS`.
+- Replacement docs: `Exports/C5V5F100/Docs/campaign500_rhythm_v5_front100_per_level_config_index.csv`, `campaign500_rhythm_v5_front100_template_replacement_diff.csv`, `campaign500_rhythm_v5_front100_template_replacement_summary.csv`, and `campaign500_rhythm_v5_front100_sync_asset_inventory.csv`.
+- Import instruction: copy `Exports/C5V5F100/U/Assets` into the target project `Assets` root, preserving `.meta`, then use the exported pack path above.
+
+## Safety Snapshot Commit Prep - 2026-07-01
+
+- User requested a local Git commit because the main project has many generated assets, reports, exports, and memory updates at risk of being lost.
+- Scope is a broad safety snapshot of the current main worktree, not a curated release commit.
+- `.gitignore` excludes Unity cache/worktree folders (`Library/`, `Temp/`, `.worktrees/`, logs, zips, etc.); no untracked file over 50 MB was found before staging.
+- No `ArrowLevel-Hand` Unity process was detected writing the main project at snapshot time; visible Unity processes were for `G:\Unityproject\ArrowGame`.
+- After this commit, future cleanup should be done in smaller curated commits rather than reverting this snapshot blindly.
+## Choice Rhythm Trace Metrics - 2026-07-01
+
+- Added read-only choice-rhythm diagnostics to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1`; no generator behavior changed.
+- New trace fields include `choiceRhythmScoreV1`, branch next-choice rates, branch useful tension/flat consequence rates, and frontier-drain next-choice/compression/explosion rates.
+- `.worktrees/nutation-flow-peel-production/Tools/Production/Join-SGPPressureTraceMetrics.ps1` now passes those fields through to joined CSVs without changing keep/rank gates.
+- Smoke validation on Campaign500 order 316 large slot (`33x44`, 8 candidates) succeeded: trace `8/8`, join `8` rows.
+- Diagnosis for the order 316 PressurePeak large slot: `choiceRhythmScoreV1 avg=0.185`, `branchNextChoiceExplosionRate avg=0.678`, `branchNextChoiceChokeRate avg=0.006`, `frontierDrainExplosionRate avg=0.358`; this confirms large-canvas continuous clearing is a frontier-too-wide issue, not just average-choice calibration.
+- Next production/generator step: build a large-normal anti-conveyor profile that keeps canvas area/coverage while lowering branch next-choice explosion and adding occasional 1-2 choice choke without creating long forced single-path runs.

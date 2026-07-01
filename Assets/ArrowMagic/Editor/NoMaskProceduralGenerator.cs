@@ -82,11 +82,46 @@ namespace PixelBug.ArrowMagic.EditorTools
         private const string SgpPressureHardOutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardTrial";
         private const string SgpPressureHardPackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset";
         private const string SgpPressureHardReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_trial_report.csv";
+        private const string SgpPressureHardReview6OutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardReview6";
+        private const string SgpPressureHardReview6PackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardReview6Pack.asset";
+        private const string SgpPressureHardReview6ReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_review6_report.csv";
+        private const string SgpPressureHardInterference6OutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardInterference6";
+        private const string SgpPressureHardInterference6PackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterference6Pack.asset";
+        private const string SgpPressureHardInterference6ReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference6_report.csv";
+        private const string SgpPressureHardInterferenceV2SixOutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardInterferenceV2Six";
+        private const string SgpPressureHardInterferenceV2SixPackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterferenceV2SixPack.asset";
+        private const string SgpPressureHardInterferenceV2SixReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference_v2_six_report.csv";
+        private const string SgpPressureHardInterferenceV3SixOutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardInterferenceV3Six";
+        private const string SgpPressureHardInterferenceV3SixPackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardInterferenceV3SixPack.asset";
+        private const string SgpPressureHardInterferenceV3SixReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_interference_v3_six_report.csv";
+        private const string SgpPressureHardProductionKeepReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_production_keep.csv";
+        private const string SgpPressureHardProductionKeepPackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardProductionKeepPack.asset";
+        private const string NutationPeelV1OutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationPeelV1";
+        private const string NutationPeelV1PackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelV1Pack.asset";
+        private const string NutationPeelV1ReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_v1_report.csv";
+        private const string NutationPeelV2OutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/NutationPeelV2";
+        private const string NutationPeelV2PackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/NutationPeelV2Pack.asset";
+        private const string NutationPeelV2ReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/nutation_peel_v2_report.csv";
+        private const string PeelRailV1OutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/PeelRailV1";
+        private const string PeelRailV1PackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/PeelRailV1Pack.asset";
+        private const string PeelRailV1ReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/peel_rail_v1_report.csv";
         private const string SgpPressureHardBenchmarkFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardBenchmark";
         private const string SgpPressureHardBenchmarkPackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardBenchmarkPack.asset";
         private const string SgpGateAwareOutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPGateAwareTrial";
         private const string SgpGateAwarePackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPGateAwareTrialPack.asset";
         private const string SgpGateAwareReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_gate_aware_trial_report.csv";
+        private const string MaskPressureBaselineOutputFolder = "Assets/ArrowMagic/SOData/Levels/Production/MaskPressureBaseline";
+        private const string MaskPressureBaselinePackPath = "Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureBaselinePack.asset";
+        private const string MaskPressureBaselineReportPath = "Assets/ArrowMagic/SOData/Reports/MaskPressure/mask_pressure_baseline_report.csv";
+        private const string MaskPressureSeedPatchPackPath = "Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselinePack.asset";
+        private const string MaskPressureSeedPatchReviewPackPath = "Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselineReviewPack.asset";
+        private const string MaskPressureValidationFolder = "Assets/ArrowMagic/SOData/Reports/MaskPressure/Validation";
+        private const string MaskPressureSeedPatchPressureGateReportPath = MaskPressureValidationFolder + "/mask_pressure_seed_patch_pressure_gate.csv";
+        private const string MaskPressureSeedPatchValidationSummaryPath = MaskPressureValidationFolder + "/mask_pressure_seed_patch_validation_summary.csv";
+        private const string MaskPressureSeedPatchValidationFlaggedPath = MaskPressureValidationFolder + "/mask_pressure_seed_patch_validation_flags.csv";
+        private const string MaskPressureSeedPatchValidationNotesPath = MaskPressureValidationFolder + "/mask_pressure_seed_patch_validation_notes.md";
+        private const float MaskPressureMinShapeFill = 0.95f;
+        private const float MaskPressureMinBoundaryFill = 0.98f;
         private const int GateAwareTrackedWaveCount = 12;
 
         private enum NoMaskType
@@ -146,6 +181,17 @@ namespace PixelBug.ArrowMagic.EditorTools
             public bool MotifMirrorX;
             public bool MotifMirrorY;
             public int OuterCutKind;
+        }
+
+        private sealed class MaskPressureSourceSpec
+        {
+            public string MaskPath;
+            public string Id;
+            public string DisplayName;
+            public NoMaskType Type;
+            public int Seed;
+            public float TargetMaskFill;
+            public float TargetBoundaryFill;
         }
 
         private sealed class MotifSpec
@@ -311,18 +357,78 @@ namespace PixelBug.ArrowMagic.EditorTools
             public int EarlyLocalRunMax;
             public float EarlyAvgJumpDistance;
             public float EarlyNearStepRate;
+            public PressureDependencySpreadMetrics DependencySpread;
+            public PressureSolveFlowMetrics SolveFlow;
             public int GreedyMoves;
             public int Score;
         }
 
+        private sealed class MaskPressureEvalMetrics
+        {
+            public float EarlyAvgChoices;
+            public int EarlyMaxChoices;
+            public int EarlyLocalRunMax;
+            public float EarlyAvgJumpDistance;
+            public float EarlyNearStepRate;
+        }
+
         private sealed class PressureChainTraceStat
         {
+            public int Owner;
+            public int HeadIndex;
+            public bool HasOutDir;
+            public Dir OutDir;
             public int MinX;
             public int MaxX;
             public int MinY;
             public int MaxY;
             public float CenterX;
             public float CenterY;
+            public int Region;
+            public int MicroRegion;
+        }
+
+        private sealed class PressureDependencySpreadMetrics
+        {
+            public int DependencyCount;
+            public int NearDependencyCount;
+            public int AxisNearDependencyCount;
+            public int SameDirectionNearDependencyCount;
+            public int NearDependencyRunMax;
+            public int AxisNearDependencyRunMax;
+            public float NearDependencyRate;
+            public float AvgDependencyDistance;
+            public int MinDependencyDistance;
+        }
+
+        private sealed class PressureSolveFlowMetrics
+        {
+            public int Transitions;
+            public int LocalRunMax;
+            public int AxisLocalRunMax;
+            public int SameDirectionLocalCount;
+            public float NearRate;
+            public float AvgJumpDistance;
+            public int DistinctRegionCount;
+            public int RegionTransitionCount;
+            public int RegionRunMax;
+            public float RegionTransitionRate;
+            public int AxisShiftCount;
+            public int DirectionShiftCount;
+            public float AxisShiftRate;
+            public float DirectionShiftRate;
+            public int LayerRunMax;
+            public int LayerTransitionCount;
+            public int LayerBacktrackCount;
+            public int DistinctLayerCount;
+            public float OuterToInnerProgress;
+        }
+
+        private sealed class PressureRegionPlacedChain
+        {
+            public Vector2Int Head;
+            public Vector2 Center;
+            public Dir OutDir;
             public int Region;
             public int MicroRegion;
         }
@@ -919,6 +1025,162 @@ namespace PixelBug.ArrowMagic.EditorTools
                 "SGPPressureHardTrial");
         }
 
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Pressure Hard Review 6 Pack")]
+        public static void BuildSgpPressureHardReview6Pack()
+        {
+            BuildStyleSpecPack(
+                CreateSgpPressureHardReview6Specs(),
+                SgpPressureHardReview6OutputFolder,
+                SgpPressureHardReview6PackPath,
+                SgpPressureHardReview6ReportPath,
+                "sgp_pressure_hard_review6",
+                "sgp_pressure_hard_review6",
+                "SGP Pressure Hard Review 6",
+                "SGPPressureHardReview6");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Pressure Hard Interference 6 Pack")]
+        public static void BuildSgpPressureHardInterference6Pack()
+        {
+            BuildStyleSpecPack(
+                CreateSgpPressureHardInterference6Specs(),
+                SgpPressureHardInterference6OutputFolder,
+                SgpPressureHardInterference6PackPath,
+                SgpPressureHardInterference6ReportPath,
+                "sgp_pressure_hard_interference6",
+                "sgp_pressure_hard_interference6",
+                "SGP Pressure Hard Interference 6",
+                "SGPPressureHardInterference6");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Pressure Hard Interference V2 Six Pack")]
+        public static void BuildSgpPressureHardInterferenceV2SixPack()
+        {
+            BuildStyleSpecPack(
+                CreateSgpPressureHardInterferenceV2SixSpecs(),
+                SgpPressureHardInterferenceV2SixOutputFolder,
+                SgpPressureHardInterferenceV2SixPackPath,
+                SgpPressureHardInterferenceV2SixReportPath,
+                "sgp_pressure_hard_interference_v2_six",
+                "sgp_pressure_hard_interference_v2_six",
+                "SGP Pressure Hard Interference V2 Six",
+                "SGPPressureHardInterferenceV2Six");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Pressure Hard Interference V3 Six Pack")]
+        public static void BuildSgpPressureHardInterferenceV3SixPack()
+        {
+            BuildStyleSpecPack(
+                CreateSgpPressureHardInterferenceV3SixSpecs(),
+                SgpPressureHardInterferenceV3SixOutputFolder,
+                SgpPressureHardInterferenceV3SixPackPath,
+                SgpPressureHardInterferenceV3SixReportPath,
+                "sgp_pressure_hard_interference_v3_six",
+                "sgp_pressure_hard_interference_v3_six",
+                "SGP Pressure Hard Interference V3 Six",
+                "SGPPressureHardInterferenceV3Six");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build Nutation Peel V1 Pack")]
+        public static void BuildNutationPeelV1Pack()
+        {
+            BuildStyleSpecPack(
+                CreateNutationPeelV1Specs(),
+                NutationPeelV1OutputFolder,
+                NutationPeelV1PackPath,
+                NutationPeelV1ReportPath,
+                "nutation_peel_v1",
+                "nutation_peel_v1",
+                "Nutation Peel V1",
+                "NutationPeelV1");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build Nutation Peel V2 Pack")]
+        public static void BuildNutationPeelV2Pack()
+        {
+            BuildStyleSpecPack(
+                CreateNutationPeelV2Specs(),
+                NutationPeelV2OutputFolder,
+                NutationPeelV2PackPath,
+                NutationPeelV2ReportPath,
+                "nutation_peel_v2",
+                "nutation_peel_v2",
+                "Nutation Peel V2",
+                "NutationPeelV2");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build Peel Rail V1 Pack")]
+        public static void BuildPeelRailV1Pack()
+        {
+            BuildStyleSpecPack(
+                CreatePeelRailV1Specs(),
+                PeelRailV1OutputFolder,
+                PeelRailV1PackPath,
+                PeelRailV1ReportPath,
+                "peel_rail_v1",
+                "peel_rail_v1",
+                "Peel Rail V1",
+                "PeelRailV1");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Pressure Hard Production Keep Pack")]
+        public static void BuildSgpPressureHardProductionKeepPack()
+        {
+            EnsureFolderExists(Path.GetDirectoryName(SgpPressureHardProductionKeepPackPath)?.Replace("\\", "/"));
+            AssetDatabase.Refresh();
+
+            List<LevelDefinition> levels = LoadLevelsFromCsvManifest(
+                SgpPressureHardProductionKeepReportPath,
+                "SGPPressureHardProductionKeep");
+            if (levels.Count == 0)
+                throw new InvalidOperationException($"No levels loaded from production keep CSV: {SgpPressureHardProductionKeepReportPath}");
+
+            LevelPack pack = SavePackAt(
+                levels,
+                SgpPressureHardProductionKeepPackPath,
+                "sgp_pressure_hard_production_keep",
+                $"SGP Pressure Hard Production Keep ({levels.Count})");
+            AttachPackToDemo(pack, "SGPPressureHardProductionKeep");
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log($"[NoMaskProcedural] SGP Pressure Hard Production Keep finished. levels={levels.Count}, pack={SgpPressureHardProductionKeepPackPath}, manifest={SgpPressureHardProductionKeepReportPath}");
+        }
+
+
+        [MenuItem("Tools/ArrowMagic/Mask Production/Build PSG Pressure Mask Baseline Pack")]
+        public static void BuildPsgPressureMaskBaselinePack()
+        {
+            BuildMaskPressureBaselinePack(
+                CreateMaskPressureBaselineSpecs(),
+                MaskPressureBaselineOutputFolder,
+                MaskPressureBaselinePackPath,
+                MaskPressureBaselineReportPath,
+                "mask_pressure_baseline",
+                "mask_pressure_baseline",
+                "Mask PSG Pressure Baseline",
+                "MaskPressureBaseline");
+        }
+
+        [MenuItem("Tools/ArrowMagic/Mask Production/Validate PSG Seed Mask Patch Baseline")]
+        public static void ValidatePsgSeedMaskPatchBaseline()
+        {
+            WritePsgPressureGateReportForPack(
+                MaskPressureSeedPatchPackPath,
+                MaskPressureSeedPatchPressureGateReportPath,
+                "MaskPressureSeedPatchPressureGate");
+
+            CampaignSingleLevelValidator.RunValidationForPack(
+                MaskPressureSeedPatchPackPath,
+                "",
+                "",
+                MaskPressureValidationFolder,
+                MaskPressureSeedPatchValidationSummaryPath,
+                MaskPressureSeedPatchValidationFlaggedPath,
+                MaskPressureSeedPatchValidationNotesPath,
+                MaskPressureSeedPatchReviewPackPath,
+                "MaskPressureSeedPatchValidation");
+        }
+
         [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Gate-Aware Trial Pack")]
         public static void BuildSgpGateAwareTrialPack()
         {
@@ -1323,7 +1585,7 @@ namespace PixelBug.ArrowMagic.EditorTools
 
                 levels.Add(level);
                 Debug.Log($"[NoMaskProcedural] Built direct {spec.Id}: chains={metrics.Chains}, coverage={metrics.Coverage:0.000}, outer={metrics.OuterBandCoverage:0.000}, initial={metrics.InitialMovableChains}, edgeHeads={metrics.EdgeHeadChains}");
-                string successStatus = IsSgpPressureHardSpec(spec) ? status : "ok";
+                string successStatus = IsPressureHardFamilySpec(spec) ? status : "ok";
                 report.Add(
                     $"{i + 1},{spec.Id},{EscapeCsv(level.levelId)},{EscapeCsv(assetPath)},{spec.Width},{spec.Height}," +
                     $"{metrics.Chains},{metrics.ArrowCount},{metrics.Coverage:0.000},{spec.TargetCoverage:0.000},{metrics.OuterBandCoverage:0.000}," +
@@ -1350,6 +1612,239 @@ namespace PixelBug.ArrowMagic.EditorTools
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log($"[NoMaskProcedural] {displayName} finished. levels={levels.Count}, pack={packPath}, report={reportPath}");
+        }
+
+        private static void BuildMaskPressureBaselinePack(
+            MaskPressureSourceSpec[] specs,
+            string outputFolder,
+            string packPath,
+            string reportPath,
+            string levelIdPrefix,
+            string packId,
+            string displayName,
+            string logTag)
+        {
+            EnsureFolderExists(outputFolder);
+            EnsureFolderExists(Path.GetDirectoryName(packPath)?.Replace("\\", "/"));
+            EnsureFolderExists(Path.GetDirectoryName(reportPath)?.Replace("\\", "/"));
+
+            var levels = new List<LevelDefinition>();
+            var report = new List<string>
+            {
+                "Index,MaskId,Type,MaskPath,LevelId,AssetPath,Width,Height,AllowedCells,BlockCells,Chains,Arrows,MaskFill,TargetMaskFill,MaskBoundaryFill,TargetBoundaryFill,InitialMovableChains,OpeningRatio,EdgeHeadChains,ShortChains,GreedyMoves,AvgChain,MaxChain,Straightness,BlockLinks,EarlyAvgChoices,EarlyMaxChoices,EarlyLocalRun,EarlyAvgJump,EarlyNearRate,PortableSolved,PortableOpeners,PortableScore,PortableQuality,Attempts,Status"
+            };
+
+            for (int i = 0; i < specs.Length; i++)
+            {
+                MaskPressureSourceSpec source = specs[i];
+                Debug.Log($"[NoMaskProcedural] Building mask pressure {i + 1}/{specs.Length}: {source.Id}");
+                if (!TryBuildMaskPressureLevelAt(
+                        source,
+                        i + 1,
+                        outputFolder,
+                        levelIdPrefix,
+                        out LevelDefinition level,
+                        out string assetPath,
+                        out StyleSpec style,
+                        out BuildMetrics metrics,
+                        out MaskPressureEvalMetrics pressure,
+                        out int allowedCount,
+                        out int blockCount,
+                        out string status))
+                {
+                    report.Add(
+                        $"{i + 1},{source.Id},{source.Type},{EscapeCsv(source.MaskPath)},,{assetPath},0,0,0,0,0,0,0,{source.TargetMaskFill:0.000},0,{source.TargetBoundaryFill:0.000},0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,0,0,fail,0,{EscapeCsv(status)}");
+                    File.WriteAllLines(reportPath, report);
+                    Debug.LogWarning($"[NoMaskProcedural] Failed mask pressure {source.Id}: {status}");
+                    continue;
+                }
+
+                levels.Add(level);
+                float openingRatio = metrics.Chains > 0
+                    ? metrics.InitialMovableChains / (float)metrics.Chains
+                    : 0f;
+                Debug.Log($"[NoMaskProcedural] Built mask pressure {source.Id}: chains={metrics.Chains}, maskFill={metrics.Coverage:0.000}, boundary={metrics.OuterBandCoverage:0.000}, initial={metrics.InitialMovableChains}, early={pressure.EarlyAvgChoices:0.0}/{pressure.EarlyMaxChoices}");
+                report.Add(
+                    $"{i + 1},{source.Id},{source.Type},{EscapeCsv(source.MaskPath)},{EscapeCsv(level.levelId)},{EscapeCsv(assetPath)},{style.Width},{style.Height},{allowedCount},{blockCount}," +
+                    $"{metrics.Chains},{metrics.ArrowCount},{metrics.Coverage:0.000},{source.TargetMaskFill:0.000},{metrics.OuterBandCoverage:0.000},{source.TargetBoundaryFill:0.000}," +
+                    $"{metrics.InitialMovableChains},{openingRatio:0.000},{metrics.EdgeHeadChains},{metrics.ShortEdgeChains},{metrics.GreedyMoves}," +
+                    $"{metrics.AverageChainLength:0.00},{metrics.MaxChainLength},{metrics.Straightness:0.000},{metrics.BlockLinks}," +
+                    $"{pressure.EarlyAvgChoices:0.00},{pressure.EarlyMaxChoices},{pressure.EarlyLocalRunMax},{pressure.EarlyAvgJumpDistance:0.00},{pressure.EarlyNearStepRate:0.000}," +
+                    $"{metrics.PortableGreedySolved},{metrics.PortableInitialOpeners},{metrics.PortableScore:0.0},{EscapeCsv(metrics.PortableQualityFlags)}," +
+                    $"{metrics.Attempts},{EscapeCsv(status)}");
+                File.WriteAllLines(reportPath, report);
+            }
+
+            File.WriteAllLines(reportPath, report);
+            AssetDatabase.ImportAsset(reportPath);
+
+            LevelPack pack = SavePackAt(levels, packPath, packId, $"{displayName} ({levels.Count})");
+            if (levels.Count > 0)
+            {
+                AttachPackToDemo(pack, logTag);
+            }
+            else
+            {
+                Debug.LogWarning($"[NoMaskProcedural] {displayName} produced no mask pressure levels; Demo active pack was left unchanged.");
+            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log($"[NoMaskProcedural] {displayName} finished. levels={levels.Count}, pack={packPath}, report={reportPath}");
+        }
+
+        private static void WritePsgPressureGateReportForPack(string packPath, string reportPath, string logTag)
+        {
+            EnsureFolderExists(Path.GetDirectoryName(reportPath)?.Replace("\\", "/"));
+
+            var report = new List<string>
+            {
+                "Index,Status,Failures,LevelId,AssetPath,MaskPath,Width,Height,Chains,Arrows,BlockCells,AllowedCells,MaskFill,MaskBoundaryFill,InitialMovableChains,OpeningRatio,EdgeHeadChains,EdgeHeadLimit,ShortChains,GreedySolved,GreedyMoves,DirectBlockHeadHits,EarlyAvgChoices,EarlyMaxChoices,EarlyLocalRun,EarlyAvgJump,EarlyNearRate,TargetDifficultyScore"
+            };
+
+            var pack = AssetDatabase.LoadAssetAtPath<LevelPack>(packPath);
+            if (pack == null || pack.levels == null || pack.levels.Length == 0)
+            {
+                report.Add($"0,fail,{EscapeCsv("MissingOrEmptyPack")},,,{EscapeCsv(packPath)},0,0,0,0,0,0,0,0,0,0,0,0,0,False,0,0,0,0,0,0,0,0");
+                File.WriteAllLines(reportPath, report);
+                AssetDatabase.ImportAsset(reportPath);
+                Debug.LogError($"[{logTag}] Missing or empty pack: {packPath}");
+                return;
+            }
+
+            var ruleset = new ArrowMagicRuleset(new ArrowMagicRulesetConfig
+            {
+                travelMode = SignalTravelMode.ThroughEmpty
+            });
+
+            int passCount = 0;
+            for (int i = 0; i < pack.levels.Length; i++)
+            {
+                LevelDefinition level = pack.levels[i];
+                string assetPath = level != null ? AssetDatabase.GetAssetPath(level) : "";
+                string levelId = level != null ? level.levelId : "";
+                if (level == null || level.authoredLevel == null)
+                {
+                    report.Add($"{i + 1},fail,{EscapeCsv("MissingLevel")},{EscapeCsv(levelId)},{EscapeCsv(assetPath)},,0,0,0,0,0,0,0,0,0,0,0,0,0,False,0,0,0,0,0,0,0,0");
+                    continue;
+                }
+
+                AuthoredLevelData authored = level.authoredLevel;
+                int width = Mathf.Max(1, authored.width);
+                int height = Mathf.Max(1, authored.height);
+                int maxChainLength = 0;
+                if (authored.arrows != null)
+                {
+                    for (int c = 0; c < authored.arrows.Count; c++)
+                        maxChainLength = Mathf.Max(maxChainLength, authored.arrows[c]?.indices?.Count ?? 0);
+                }
+
+                var evalSpec = new StyleSpec
+                {
+                    Type = NoMaskType.LockBuckle,
+                    Id = "sgp_pressure_hard_mask_eval",
+                    DisplayName = "SGP Pressure Mask Eval",
+                    Width = width,
+                    Height = height,
+                    TargetChains = authored.arrows?.Count ?? 0,
+                    MinLength = 2,
+                    MaxLength = Mathf.Max(2, maxChainLength),
+                    TargetCoverage = 0.90f,
+                    OuterBandTarget = 0.80f
+                };
+
+                var failures = new List<string>();
+                if (!AuthoredLevelBuilder.TryBuildBoard(authored, out BoardState board, out string buildError))
+                {
+                    failures.Add($"BuildError:{buildError}");
+                    report.Add($"{i + 1},fail,{EscapeCsv(string.Join("|", failures))},{EscapeCsv(levelId)},{EscapeCsv(assetPath)},,0,0,0,0,0,0,0,0,0,0,0,0,0,False,0,0,0,0,0,0,0,{level.generation.targetDifficultyScore}");
+                    continue;
+                }
+
+                BuildMetrics metrics = BuildMetricsFromAuthored(evalSpec, authored);
+                metrics.InitialMovableChains = CountInitialMovableChains(board, authored);
+                int directBlockHits = CountHeadsAimingAtBlocks(authored);
+                bool greedySolved = GreedyValidator.TryClearAllByGreedy(CloneBoard(board), ruleset, maxMoves: 700, out List<Move> greedyMoves);
+                metrics.GreedyMoves = greedyMoves != null ? greedyMoves.Count : 0;
+
+                float earlyAvgChoices;
+                int earlyMaxChoices;
+                int earlyLocalRunMax;
+                float earlyAvgJumpDistance;
+                float earlyNearStepRate;
+                ComputePressureChoiceCurve(
+                    board,
+                    ruleset,
+                    authored,
+                    32,
+                    out earlyAvgChoices,
+                    out earlyMaxChoices,
+                    out earlyLocalRunMax,
+                    out earlyAvgJumpDistance,
+                    out earlyNearStepRate);
+
+                Texture2D mask = level.masking != null ? level.masking.spawnMask : null;
+                string maskPath = mask != null ? AssetDatabase.GetAssetPath(mask) : "";
+                int allowedCells = 0;
+                float maskFill = 0f;
+                float maskBoundaryFill = 0f;
+                bool[] canSpawn = null;
+                List<int> maskBlocks = null;
+                bool maskOk = mask != null
+                    && mask.width == width
+                    && mask.height == height
+                    && TryBuildCanSpawnFromMask(mask, out canSpawn, out maskBlocks, out allowedCells);
+                if (maskOk)
+                {
+                    maskFill = metrics.ArrowCount / (float)Mathf.Max(1, allowedCells);
+                    maskBoundaryFill = CountOccupiedMaskBoundaryCells(authored, canSpawn)
+                        / Mathf.Max(1f, CountMaskBoundaryCells(canSpawn, width, height));
+                }
+                else
+                {
+                    failures.Add("MaskMissingOrSizeMismatch");
+                }
+
+                int chains = Mathf.Max(0, metrics.Chains);
+                float openingRatio = chains > 0 ? metrics.InitialMovableChains / (float)chains : 1f;
+                int edgeHeadLimit = Mathf.Max(10, Mathf.CeilToInt(chains * 0.10f));
+                if (!greedySolved)
+                    failures.Add("GreedyFail");
+                if (maskFill < MaskPressureMinShapeFill)
+                    failures.Add($"MaskFill<{MaskPressureMinShapeFill:0.00}");
+                if (maskBoundaryFill < MaskPressureMinBoundaryFill)
+                    failures.Add($"MaskBoundaryFill<{MaskPressureMinBoundaryFill:0.00}");
+                if (directBlockHits != 0)
+                    failures.Add("DirectBlockHeadHits");
+                if (openingRatio > 0.12f)
+                    failures.Add("OpeningRatio>0.12");
+                if (metrics.EdgeHeadChains > edgeHeadLimit)
+                    failures.Add("EdgeHeadChainsHigh");
+                if (earlyAvgChoices > 6.5f)
+                    failures.Add("EarlyAvgChoices>6.5");
+                if (earlyMaxChoices > 10)
+                    failures.Add("EarlyMaxChoices>10");
+                if (earlyLocalRunMax > 4)
+                    failures.Add("EarlyLocalRun>4");
+                if (earlyAvgJumpDistance < 5.0f)
+                    failures.Add("EarlyAvgJump<5.0");
+                if (earlyNearStepRate > 0.62f)
+                    failures.Add("EarlyNearRate>0.62");
+
+                bool pass = failures.Count == 0;
+                if (pass)
+                    passCount++;
+
+                report.Add(
+                    $"{i + 1},{(pass ? "pass" : "fail")},{EscapeCsv(string.Join("|", failures))},{EscapeCsv(levelId)},{EscapeCsv(assetPath)},{EscapeCsv(maskPath)}," +
+                    $"{width},{height},{metrics.Chains},{metrics.ArrowCount},{authored.blockIndices?.Count ?? 0},{allowedCells},{maskFill:0.000},{maskBoundaryFill:0.000}," +
+                    $"{metrics.InitialMovableChains},{openingRatio:0.000},{metrics.EdgeHeadChains},{edgeHeadLimit},{metrics.ShortEdgeChains},{greedySolved},{metrics.GreedyMoves},{directBlockHits}," +
+                    $"{earlyAvgChoices:0.00},{earlyMaxChoices},{earlyLocalRunMax},{earlyAvgJumpDistance:0.00},{earlyNearStepRate:0.000},{level.generation.targetDifficultyScore}");
+            }
+
+            File.WriteAllLines(reportPath, report);
+            AssetDatabase.ImportAsset(reportPath);
+            Debug.Log($"[{logTag}] Done. Pass={passCount}/{pack.levels.Length}, report={reportPath}");
         }
 
         private static void BuildSgpGateAwareStyleSpecPack(
@@ -2705,6 +3200,380 @@ namespace PixelBug.ArrowMagic.EditorTools
             };
         }
 
+        private static StyleSpec[] CreateSgpPressureHardReview6Specs()
+        {
+            return new[]
+            {
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "lock_buckle_a",
+                    "Lock Buckle A",
+                    20,
+                    28,
+                    55,
+                    331001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "core_burst_a",
+                    "Core Burst A",
+                    20,
+                    30,
+                    56,
+                    334001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "dense_weave_a",
+                    "Dense Weave A",
+                    21,
+                    30,
+                    60,
+                    333001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "lock_buckle_b",
+                    "Lock Buckle B",
+                    22,
+                    28,
+                    60,
+                    335001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "core_burst_b",
+                    "Core Burst B",
+                    21,
+                    30,
+                    60,
+                    336001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "dense_weave_b",
+                    "Dense Weave B",
+                    20,
+                    28,
+                    56,
+                    337001)
+            };
+        }
+
+        private static StyleSpec[] CreateSgpPressureHardInterference6Specs()
+        {
+            return new[]
+            {
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "interfere_lock_buckle_a",
+                    "Interference Lock Buckle A",
+                    20,
+                    28,
+                    55,
+                    341001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "interfere_core_burst_a",
+                    "Interference Core Burst A",
+                    20,
+                    30,
+                    56,
+                    342001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "interfere_dense_weave_a",
+                    "Interference Dense Weave A",
+                    21,
+                    30,
+                    60,
+                    343001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "interfere_lock_buckle_b",
+                    "Interference Lock Buckle B",
+                    22,
+                    28,
+                    60,
+                    344001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "interfere_core_burst_b",
+                    "Interference Core Burst B",
+                    21,
+                    30,
+                    60,
+                    345001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "interfere_dense_weave_b",
+                    "Interference Dense Weave B",
+                    20,
+                    28,
+                    56,
+                    346001)
+            };
+        }
+
+        private static StyleSpec[] CreateSgpPressureHardInterferenceV2SixSpecs()
+        {
+            return new[]
+            {
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "interfere_v2_lock_buckle_a",
+                    "Interference V2 Lock Buckle A",
+                    20,
+                    28,
+                    55,
+                    351001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "interfere_v2_core_burst_a",
+                    "Interference V2 Core Burst A",
+                    20,
+                    30,
+                    56,
+                    352001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "interfere_v2_dense_weave_a",
+                    "Interference V2 Dense Weave A",
+                    21,
+                    30,
+                    60,
+                    353001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "interfere_v2_lock_buckle_b",
+                    "Interference V2 Lock Buckle B",
+                    22,
+                    28,
+                    60,
+                    354001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "interfere_v2_core_burst_b",
+                    "Interference V2 Core Burst B",
+                    21,
+                    30,
+                    60,
+                    355001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "interfere_v2_dense_weave_b",
+                    "Interference V2 Dense Weave B",
+                    20,
+                    28,
+                    56,
+                    356001)
+            };
+        }
+
+        private static StyleSpec[] CreateSgpPressureHardInterferenceV3SixSpecs()
+        {
+            return new[]
+            {
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "interfere_v3_lock_buckle_a",
+                    "Interference V3 Lock Buckle A",
+                    20,
+                    28,
+                    55,
+                    361001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "interfere_v3_core_burst_a",
+                    "Interference V3 Core Burst A",
+                    20,
+                    30,
+                    56,
+                    362001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "interfere_v3_dense_weave_a",
+                    "Interference V3 Dense Weave A",
+                    21,
+                    30,
+                    60,
+                    363001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.LockBuckle,
+                    "interfere_v3_lock_buckle_b",
+                    "Interference V3 Lock Buckle B",
+                    22,
+                    28,
+                    60,
+                    364001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.CoreBurst,
+                    "interfere_v3_core_burst_b",
+                    "Interference V3 Core Burst B",
+                    21,
+                    30,
+                    60,
+                    365001),
+                CreateSgpPressureHardTrialSpec(
+                    NoMaskType.DenseWeave,
+                    "interfere_v3_dense_weave_b",
+                    "Interference V3 Dense Weave B",
+                    20,
+                    28,
+                    56,
+                    366001)
+            };
+        }
+
+        private static StyleSpec[] CreateNutationPeelV1Specs()
+        {
+            return new[]
+            {
+                CreateNutationPeelV1Spec(
+                    NoMaskType.LockBuckle,
+                    "lock_buckle",
+                    "Lock Buckle",
+                    20,
+                    28,
+                    55,
+                    481001),
+                CreateNutationPeelV1Spec(
+                    NoMaskType.SectionUnlock,
+                    "section_unlock",
+                    "Section Unlock",
+                    22,
+                    28,
+                    58,
+                    482001),
+                CreateNutationPeelV1Spec(
+                    NoMaskType.DenseWeave,
+                    "dense_weave",
+                    "Dense Weave",
+                    21,
+                    30,
+                    60,
+                    483001),
+                CreateNutationPeelV1Spec(
+                    NoMaskType.CoreBurst,
+                    "core_burst",
+                    "Core Burst",
+                    20,
+                    30,
+                    56,
+                    484001)
+            };
+        }
+
+        private static StyleSpec[] CreateNutationPeelV2Specs()
+        {
+            return new[]
+            {
+                CreateNutationPeelV2Spec(
+                    NoMaskType.LockBuckle,
+                    "lock_buckle",
+                    "Lock Buckle",
+                    20,
+                    28,
+                    55,
+                    491001),
+                CreateNutationPeelV2Spec(
+                    NoMaskType.SectionUnlock,
+                    "section_unlock",
+                    "Section Unlock",
+                    22,
+                    28,
+                    58,
+                    527015),
+                CreateNutationPeelV2Spec(
+                    NoMaskType.DenseWeave,
+                    "dense_weave",
+                    "Dense Weave",
+                    21,
+                    30,
+                    60,
+                    493001),
+                CreateNutationPeelV2Spec(
+                    NoMaskType.CoreBurst,
+                    "core_burst",
+                    "Core Burst",
+                    20,
+                    30,
+                    56,
+                    494001)
+            };
+        }
+
+        private static StyleSpec[] CreatePeelRailV1Specs()
+        {
+            return new[]
+            {
+                CreatePeelRailV1Spec(
+                    NoMaskType.LockBuckle,
+                    "lock_buckle",
+                    "Lock Buckle",
+                    20,
+                    28,
+                    46,
+                    501001),
+                CreatePeelRailV1Spec(
+                    NoMaskType.SectionUnlock,
+                    "section_unlock",
+                    "Section Unlock",
+                    22,
+                    28,
+                    50,
+                    502001),
+                CreatePeelRailV1Spec(
+                    NoMaskType.DenseWeave,
+                    "dense_weave",
+                    "Dense Weave",
+                    21,
+                    30,
+                    54,
+                    503001),
+                CreatePeelRailV1Spec(
+                    NoMaskType.CoreBurst,
+                    "core_burst",
+                    "Core Burst",
+                    20,
+                    30,
+                    48,
+                    504001)
+            };
+        }
+
+        private static MaskPressureSourceSpec[] CreateMaskPressureBaselineSpecs()
+        {
+            return new[]
+            {
+                new MaskPressureSourceSpec
+                {
+                    MaskPath = "Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_22x34_long.png",
+                    Id = "hole_shell_22x34_lock_buckle",
+                    DisplayName = "Hole Shell 22x34 Lock Buckle",
+                    Type = NoMaskType.LockBuckle,
+                    Seed = 541001,
+                    TargetMaskFill = MaskPressureMinShapeFill,
+                    TargetBoundaryFill = MaskPressureMinBoundaryFill
+                },
+                new MaskPressureSourceSpec
+                {
+                    MaskPath = "Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_24x36_long.png",
+                    Id = "hole_shell_24x36_dense_weave",
+                    DisplayName = "Hole Shell 24x36 Dense Weave",
+                    Type = NoMaskType.DenseWeave,
+                    Seed = 542001,
+                    TargetMaskFill = MaskPressureMinShapeFill,
+                    TargetBoundaryFill = MaskPressureMinBoundaryFill
+                },
+                new MaskPressureSourceSpec
+                {
+                    MaskPath = "Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_24x40_long.png",
+                    Id = "hole_shell_24x40_core_burst",
+                    DisplayName = "Hole Shell 24x40 Core Burst",
+                    Type = NoMaskType.CoreBurst,
+                    Seed = 543001,
+                    TargetMaskFill = MaskPressureMinShapeFill,
+                    TargetBoundaryFill = MaskPressureMinBoundaryFill
+                }
+            };
+        }
+
         private static StyleSpec[] CreateSgpGateAwareTrialSpecs()
         {
             return new[]
@@ -2802,6 +3671,99 @@ namespace PixelBug.ArrowMagic.EditorTools
                 MaxInitialMovableChains = Mathf.CeilToInt(targetChains * 0.08f),
                 MaxShortEdgePatchChains = 3,
                 MaxShortFillPatchChains = 6,
+                Seed = seed
+            };
+        }
+
+        private static StyleSpec CreateNutationPeelV1Spec(
+            NoMaskType type,
+            string id,
+            string displayName,
+            int width,
+            int height,
+            int targetChains,
+            int seed)
+        {
+            return new StyleSpec
+            {
+                Type = type,
+                Id = $"nutation_peel_rect_{id}",
+                DisplayName = $"Nutation Peel {displayName}",
+                Width = width,
+                Height = height,
+                TargetChains = targetChains,
+                MinLength = 3,
+                MaxLength = 11,
+                TargetCoverage = 0.965f,
+                TurnBias = type == NoMaskType.DenseWeave ? 0.64f : 0.60f,
+                BlockWeight = type == NoMaskType.LockBuckle ? 5.0f : 4.2f,
+                EdgeOpeningBias = 0.09f,
+                OuterBandTarget = 0.950f,
+                MaxInitialMovableChains = Mathf.CeilToInt(targetChains * 0.075f),
+                MaxShortEdgePatchChains = 3,
+                MaxShortFillPatchChains = 6,
+                Seed = seed
+            };
+        }
+
+        private static StyleSpec CreateNutationPeelV2Spec(
+            NoMaskType type,
+            string id,
+            string displayName,
+            int width,
+            int height,
+            int targetChains,
+            int seed)
+        {
+            return new StyleSpec
+            {
+                Type = type,
+                Id = $"nutation_peel_v2_rect_{id}",
+                DisplayName = $"Nutation Peel V2 {displayName}",
+                Width = width,
+                Height = height,
+                TargetChains = targetChains,
+                MinLength = 3,
+                MaxLength = 11,
+                TargetCoverage = 0.965f,
+                TurnBias = type == NoMaskType.DenseWeave ? 0.66f : 0.62f,
+                BlockWeight = type == NoMaskType.LockBuckle ? 5.0f : 4.2f,
+                EdgeOpeningBias = 0.08f,
+                OuterBandTarget = 0.950f,
+                MaxInitialMovableChains = Mathf.CeilToInt(targetChains * 0.075f),
+                MaxShortEdgePatchChains = 3,
+                MaxShortFillPatchChains = 6,
+                Seed = seed
+            };
+        }
+
+        private static StyleSpec CreatePeelRailV1Spec(
+            NoMaskType type,
+            string id,
+            string displayName,
+            int width,
+            int height,
+            int targetChains,
+            int seed)
+        {
+            return new StyleSpec
+            {
+                Type = type,
+                Id = $"peel_rail_v1_rect_{id}",
+                DisplayName = $"Peel Rail V1 {displayName}",
+                Width = width,
+                Height = height,
+                TargetChains = targetChains,
+                MinLength = 5,
+                MaxLength = 18,
+                TargetCoverage = 0.955f,
+                TurnBias = type == NoMaskType.DenseWeave ? 0.26f : 0.22f,
+                BlockWeight = type == NoMaskType.LockBuckle ? 4.8f : 4.0f,
+                EdgeOpeningBias = 0.07f,
+                OuterBandTarget = 0.940f,
+                MaxInitialMovableChains = Mathf.CeilToInt(targetChains * 0.075f),
+                MaxShortEdgePatchChains = 3,
+                MaxShortFillPatchChains = 5,
                 Seed = seed
             };
         }
@@ -3865,6 +4827,252 @@ namespace PixelBug.ArrowMagic.EditorTools
             return true;
         }
 
+        private static bool TryBuildMaskPressureLevelAt(
+            MaskPressureSourceSpec source,
+            int index,
+            string outputFolder,
+            string levelIdPrefix,
+            out LevelDefinition level,
+            out string assetPath,
+            out StyleSpec spec,
+            out BuildMetrics metrics,
+            out MaskPressureEvalMetrics pressure,
+            out int allowedCount,
+            out int blockCount,
+            out string status)
+        {
+            level = null;
+            spec = null;
+            metrics = new BuildMetrics();
+            pressure = new MaskPressureEvalMetrics();
+            allowedCount = 0;
+            blockCount = 0;
+            status = string.Empty;
+
+            string safeId = source != null ? source.Id : "missing_source";
+            assetPath = $"{outputFolder}/{levelIdPrefix}_{index:00}_{safeId}.asset";
+            if (source == null)
+            {
+                status = "Missing mask pressure source spec";
+                return false;
+            }
+
+            Texture2D mask = AssetDatabase.LoadAssetAtPath<Texture2D>(source.MaskPath);
+            if (mask == null)
+            {
+                status = $"MaskNotFound path={source.MaskPath}";
+                return false;
+            }
+
+            if (!TryBuildCanSpawnFromMask(mask, out bool[] canSpawn, out List<int> blockIndices, out allowedCount))
+            {
+                status = $"MaskHasNoSpawn path={source.MaskPath}";
+                return false;
+            }
+
+            blockCount = blockIndices.Count;
+            spec = CreateMaskPressureStyleSpec(source, mask.width, mask.height, allowedCount);
+            string levelId = $"{levelIdPrefix}_{index:00}_{safeId}";
+            var ruleset = new ArrowMagicRuleset(new ArrowMagicRulesetConfig
+            {
+                travelMode = SignalTravelMode.ThroughEmpty
+            });
+
+            AuthoredLevelData bestAuthored = null;
+            BuildMetrics bestMetrics = null;
+            MaskPressureEvalMetrics bestPressure = null;
+            int bestSeed = spec.Seed;
+            int bestScore = int.MinValue;
+            int attemptsTried = 0;
+            string bestDetails = string.Empty;
+            string lastFailure = string.Empty;
+            PeelStyleProfile[] profiles = GetMaskPressurePeelProfiles(spec);
+
+            for (int profileIndex = 0; profileIndex < profiles.Length; profileIndex++)
+            {
+                PeelStyleProfile profile = profiles[profileIndex];
+                for (int attempt = 0; attempt < profile.Attempts; attempt++)
+                {
+                    attemptsTried++;
+                    int candidateSeed = spec.Seed + index * 13007 + profile.SeedSalt + profileIndex * 1000003 + attempt * 104729;
+                    if (!TryBuildConstrainedRectanglePeelAuthored(spec, canSpawn, blockIndices, candidateSeed, profile, out AuthoredLevelData authored, out string buildDetails))
+                    {
+                        lastFailure = buildDetails;
+                        continue;
+                    }
+
+                    if (!AuthoredLevelBuilder.TryBuildBoard(authored, out BoardState board, out string buildError))
+                    {
+                        lastFailure = $"BoardBuildFailed={buildError} | {buildDetails}";
+                        continue;
+                    }
+
+                    if (!GreedyValidator.TryClearAllByGreedy(CloneBoard(board), ruleset, maxMoves: 700, out List<Move> moves))
+                    {
+                        lastFailure = $"GreedyFailed | {buildDetails}";
+                        continue;
+                    }
+
+                    int directBlockHeads = CountHeadsAimingAtBlocks(authored);
+                    if (directBlockHeads > 0)
+                    {
+                        lastFailure = $"DirectBlockHeads={directBlockHeads} | {buildDetails}";
+                        continue;
+                    }
+
+                    BuildMetrics current = BuildMetricsFromAuthored(spec, authored);
+                    ApplyMaskPressureCoverageMetrics(current, authored, canSpawn, allowedCount);
+                    current.InitialMovableChains = CountInitialMovableChains(board, authored);
+                    current.GreedyMoves = moves != null ? moves.Count : 0;
+                    current.Attempts = attemptsTried;
+
+                    ComputePressureChoiceCurve(
+                        board,
+                        ruleset,
+                        authored,
+                        32,
+                        out float earlyAvgChoices,
+                        out int earlyMaxChoices,
+                        out int earlyLocalRunMax,
+                        out float earlyAvgJumpDistance,
+                        out float earlyNearStepRate);
+
+                    float openingRatio = current.Chains > 0 ? current.InitialMovableChains / (float)current.Chains : 1f;
+                    int targetInitial = Mathf.Clamp(
+                        Mathf.RoundToInt(current.Chains * profile.TargetInitialRatio),
+                        profile.TargetInitialMin,
+                        profile.TargetInitialMax);
+                    float openingCeiling = 0.12f;
+                    int chainPenalty = Mathf.Abs(current.Chains - spec.TargetChains) * 900;
+                    int openingPenalty = Mathf.RoundToInt(
+                        Mathf.Abs(current.InitialMovableChains - targetInitial) * 260f
+                        + Mathf.Max(0f, openingRatio - openingCeiling) * 9000f);
+                    int shortPenalty = Mathf.Max(0, current.ShortEdgeChains - 7) * 360;
+                    int edgeHeadPenalty = Mathf.Max(0, current.EdgeHeadChains - Mathf.Max(4, Mathf.CeilToInt(current.Chains * 0.10f))) * 1250;
+                    int straightPenalty = current.Straightness > 0.70f ? profile.StraightPenalty : 0;
+                    int fillPenalty = Mathf.RoundToInt(Mathf.Max(0f, source.TargetMaskFill - current.Coverage) * 9000f);
+                    int boundaryPenalty = Mathf.RoundToInt(Mathf.Max(0f, source.TargetBoundaryFill - current.OuterBandCoverage) * 3800f);
+                    int score = current.ArrowCount * 100
+                        - chainPenalty
+                        - openingPenalty
+                        - shortPenalty
+                        - edgeHeadPenalty
+                        - straightPenalty
+                        - fillPenalty
+                        - boundaryPenalty
+                        - current.InitialMovableChains * 220
+                        - current.EdgeHeadChains * 520
+                        - Mathf.RoundToInt(earlyAvgChoices * 900f)
+                        - earlyMaxChoices * 320
+                        - earlyLocalRunMax * 620
+                        - Mathf.RoundToInt(Mathf.Max(0f, 6f - earlyAvgJumpDistance) * 520f)
+                        - Mathf.RoundToInt(earlyNearStepRate * 950f)
+                        + current.BlockLinks * 28;
+
+                    if (score > bestScore)
+                    {
+                        bestAuthored = authored;
+                        bestMetrics = current;
+                        bestPressure = new MaskPressureEvalMetrics
+                        {
+                            EarlyAvgChoices = earlyAvgChoices,
+                            EarlyMaxChoices = earlyMaxChoices,
+                            EarlyLocalRunMax = earlyLocalRunMax,
+                            EarlyAvgJumpDistance = earlyAvgJumpDistance,
+                            EarlyNearStepRate = earlyNearStepRate
+                        };
+                        bestSeed = candidateSeed;
+                        bestScore = score;
+                        bestDetails = $"MaskPressure style={profile.DisplayName} score={score} targetInitial={targetInitial} openingRatio={openingRatio:0.000} early={earlyAvgChoices:0.0}/{earlyMaxChoices} localRun={earlyLocalRunMax} jump={earlyAvgJumpDistance:0.0} near={earlyNearStepRate:0.00} | {buildDetails}";
+                    }
+
+                    if (current.Coverage >= source.TargetMaskFill
+                        && current.OuterBandCoverage >= source.TargetBoundaryFill
+                        && DirectChainTargetSatisfied(spec, current.Chains)
+                        && openingRatio <= openingCeiling
+                        && current.Straightness <= 0.70f
+                        && current.ShortEdgeChains <= 7
+                        && current.EdgeHeadChains <= Mathf.Max(10, Mathf.CeilToInt(current.Chains * 0.10f))
+                        && earlyAvgChoices <= 6.5f
+                        && earlyMaxChoices <= 10
+                        && earlyLocalRunMax <= 4
+                        && earlyAvgJumpDistance >= 5.0f
+                        && earlyNearStepRate <= 0.62f)
+                    {
+                        profileIndex = profiles.Length;
+                        break;
+                    }
+                }
+            }
+
+            if (bestAuthored == null || bestMetrics == null || bestPressure == null)
+            {
+                status = string.IsNullOrWhiteSpace(lastFailure) ? "No mask pressure candidate" : lastFailure;
+                return false;
+            }
+
+            if (!DirectChainTargetSatisfied(spec, bestMetrics.Chains))
+            {
+                status = $"ChainTargetMiss chains={bestMetrics.Chains} target={spec.TargetChains} | {bestDetails}";
+                return false;
+            }
+
+            float bestOpeningRatio = bestMetrics.Chains > 0
+                ? bestMetrics.InitialMovableChains / (float)bestMetrics.Chains
+                : 1f;
+            if (bestMetrics.Coverage < source.TargetMaskFill
+                || bestMetrics.OuterBandCoverage < source.TargetBoundaryFill
+                || bestOpeningRatio > 0.12f
+                || bestPressure.EarlyAvgChoices > 6.5f
+                || bestPressure.EarlyMaxChoices > 10
+                || bestPressure.EarlyLocalRunMax > 4
+                || bestPressure.EarlyAvgJumpDistance < 5.0f
+                || bestPressure.EarlyNearStepRate > 0.62f)
+            {
+                status = $"PressureGateMiss fill={bestMetrics.Coverage:0.000}/{source.TargetMaskFill:0.000} boundary={bestMetrics.OuterBandCoverage:0.000}/{source.TargetBoundaryFill:0.000} opening={bestOpeningRatio:0.000} early={bestPressure.EarlyAvgChoices:0.0}/{bestPressure.EarlyMaxChoices} local={bestPressure.EarlyLocalRunMax} jump={bestPressure.EarlyAvgJumpDistance:0.0} near={bestPressure.EarlyNearStepRate:0.00} | {bestDetails}";
+                return false;
+            }
+
+            if (TryApplyPressureHardFlipGatePass(spec, bestAuthored, ruleset, out AuthoredLevelData gatedBest, out string gateDetails)
+                && CountHeadsAimingAtBlocks(gatedBest) == 0
+                && TryEvaluatePressureGateAuthored(spec, gatedBest, ruleset, out PressureGateEval gatedEval))
+            {
+                int attempts = bestMetrics.Attempts;
+                bestAuthored = gatedBest;
+                bestMetrics = gatedEval.Metrics;
+                ApplyMaskPressureCoverageMetrics(bestMetrics, bestAuthored, canSpawn, allowedCount);
+                bestMetrics.Attempts = attempts;
+                bestPressure = new MaskPressureEvalMetrics
+                {
+                    EarlyAvgChoices = gatedEval.EarlyAvgChoices,
+                    EarlyMaxChoices = gatedEval.EarlyMaxChoices,
+                    EarlyLocalRunMax = gatedEval.EarlyLocalRunMax,
+                    EarlyAvgJumpDistance = gatedEval.EarlyAvgJumpDistance,
+                    EarlyNearStepRate = gatedEval.EarlyNearStepRate
+                };
+                bestDetails = $"{bestDetails} | FlipGate={gateDetails}";
+            }
+
+            metrics = bestMetrics;
+            pressure = bestPressure;
+            if (!TryPreparePortableLevel(spec, null, bestAuthored, levelId, bestSeed, metrics, out ArrowLevelData portable, out string portableStatus))
+            {
+                status = $"{portableStatus} | {bestDetails}";
+                return false;
+            }
+
+            portable.metadata["generator"] = "NoMaskProceduralGenerator.MaskPressureBaseline";
+            portable.metadata["maskPath"] = source.MaskPath;
+            portable.metadata["targetMaskFill"] = source.TargetMaskFill.ToString("0.000");
+            portable.metadata["targetBoundaryFill"] = source.TargetBoundaryFill.ToString("0.000");
+            level = SavePortableGeneratedLevel(assetPath, portable, spec, bestSeed, metrics, levelId);
+            level.masking.spawnMask = mask;
+            level.masking.useMaskToDefineBoardSize = true;
+            EditorUtility.SetDirty(level);
+            status = bestDetails;
+            return true;
+        }
+
         private static bool TryBuildLevelAt(
             StyleSpec spec,
             int index,
@@ -3932,12 +5140,17 @@ namespace PixelBug.ArrowMagic.EditorTools
                         profile.TargetInitialMax);
                     float openingRatio = current.Chains > 0 ? current.InitialMovableChains / (float)current.Chains : 0f;
                     float openingCeiling = current.Chains <= 50 ? Mathf.Max(profile.OpeningCeiling, 0.32f) : profile.OpeningCeiling;
-                    bool pressureHardSpec = IsSgpPressureHardSpec(spec);
+                    bool pressureHardSpec = IsPressureHardFamilySpec(spec);
+                    bool pressureSpreadSpec = IsPressureHardTraceShapedSpec(spec);
+                    bool pressureRegionSpec = IsPressureHardRegionFlowSpec(spec);
+                    bool traceOrderPeelSpec = IsTraceOrderPeelSpec(spec);
+                    bool peelRailSpec = IsPeelRailV1Spec(spec);
                     float pressureEarlyAvgChoices = 0f;
                     int pressureEarlyMaxChoices = 0;
                     int pressureEarlyLocalRunMax = 0;
                     float pressureEarlyAvgJumpDistance = 0f;
                     float pressureEarlyNearStepRate = 0f;
+                    PressureSolveFlowMetrics pressureFlow = null;
                     if (pressureHardSpec)
                         ComputePressureChoiceCurve(
                             board,
@@ -3949,6 +5162,8 @@ namespace PixelBug.ArrowMagic.EditorTools
                             out pressureEarlyLocalRunMax,
                             out pressureEarlyAvgJumpDistance,
                             out pressureEarlyNearStepRate);
+                    if (pressureSpreadSpec)
+                        pressureFlow = ComputePressureSolveFlowMetrics(authored, moves, 40);
                     if (pressureHardSpec)
                         openingCeiling = Mathf.Min(openingCeiling, 0.12f);
                     int openingPenalty = Mathf.RoundToInt(
@@ -3960,13 +5175,13 @@ namespace PixelBug.ArrowMagic.EditorTools
                             Mathf.Abs(current.InitialMovableChains - targetInitial) * 260f
                             + Mathf.Max(0f, openingRatio - openingCeiling) * 9000f);
                     }
-                    int chainPenalty = Mathf.Abs(current.Chains - spec.TargetChains) * (pressureHardSpec ? 900 : 220);
+                    int chainPenalty = Mathf.Abs(current.Chains - spec.TargetChains) * (traceOrderPeelSpec ? 1600 : pressureHardSpec ? 900 : 220);
                     int shortPenalty = Mathf.Max(0, current.ShortEdgeChains - 5) * 360;
                     int edgeHeadCeiling = pressureHardSpec
                         ? Mathf.Max(4, Mathf.CeilToInt(current.Chains * 0.08f))
                         : Mathf.Max(10, Mathf.CeilToInt(current.Chains * 0.32f));
                     int edgeHeadPenalty = Mathf.Max(0, current.EdgeHeadChains - edgeHeadCeiling) * (pressureHardSpec ? 1250 : 520);
-                    int straightPenalty = current.Straightness > 0.72f ? profile.StraightPenalty : 0;
+                    int straightPenalty = !peelRailSpec && current.Straightness > 0.72f ? profile.StraightPenalty : 0;
                     int score = current.ArrowCount * 100
                         - chainPenalty
                         - openingPenalty
@@ -3974,6 +5189,8 @@ namespace PixelBug.ArrowMagic.EditorTools
                         - edgeHeadPenalty
                         - straightPenalty
                         + Mathf.RoundToInt(current.OuterBandCoverage * 1200f);
+                    if (peelRailSpec)
+                        score += ScorePeelRailLanguageMetrics(current);
                     if (pressureHardSpec)
                     {
                         score -= current.InitialMovableChains * 220;
@@ -3984,6 +5201,39 @@ namespace PixelBug.ArrowMagic.EditorTools
                         score -= Mathf.RoundToInt(Mathf.Max(0f, 6f - pressureEarlyAvgJumpDistance) * 520f);
                         score -= Mathf.RoundToInt(pressureEarlyNearStepRate * 950f);
                         score += current.BlockLinks * 28;
+                        if (pressureSpreadSpec)
+                        {
+                            score += pressureRegionSpec
+                                ? ScorePressureSolveFlowMetrics(pressureFlow) * 2
+                                : ScorePressureSolveFlowMetrics(pressureFlow);
+                            if (traceOrderPeelSpec)
+                            {
+                                score += ScoreNutationPeelLayerMetrics(pressureFlow);
+                                score += ScoreNutationPeelRhythmMetrics(pressureFlow);
+                                if (IsNutationPeelV2Spec(spec) || peelRailSpec)
+                                    score += ScoreNutationPeelV2DirectionMetrics(pressureFlow);
+                                score -= Mathf.Max(0, pressureEarlyLocalRunMax - 4) * 2600;
+                                score -= Mathf.RoundToInt(Mathf.Max(0f, pressureEarlyNearStepRate - 0.52f) * 6200f);
+                                if (pressureFlow != null)
+                                {
+                                    score -= Mathf.Max(0, pressureFlow.LayerRunMax - 6) * 880;
+                                    score -= Mathf.Max(0, pressureFlow.AxisLocalRunMax - 4) * 1400;
+                                    score -= Mathf.Max(0, pressureFlow.RegionRunMax - 6) * 1800;
+                                }
+                            }
+                            score -= Mathf.RoundToInt(Mathf.Max(0f, pressureEarlyAvgChoices - 5.8f) * 1100f);
+                            score -= Mathf.Max(0, pressureEarlyMaxChoices - 9) * 760;
+                            score -= Mathf.Max(0, pressureEarlyLocalRunMax - 3) * 1450;
+                            score -= Mathf.RoundToInt(Mathf.Max(0f, 6.2f - pressureEarlyAvgJumpDistance) * 650f);
+                            if (pressureRegionSpec && pressureFlow != null)
+                            {
+                                score -= Mathf.Max(0, pressureFlow.LocalRunMax - 3) * 3200;
+                                score -= Mathf.Max(0, pressureFlow.AxisLocalRunMax - 2) * 3600;
+                                score -= Mathf.RoundToInt(Mathf.Max(0f, pressureFlow.NearRate - 0.36f) * 4200f);
+                                score -= Mathf.Max(0, pressureEarlyMaxChoices - 64) * 420;
+                                score -= Mathf.Max(0, current.InitialMovableChains - 5) * 520;
+                            }
+                        }
                     }
 
                     if (score > bestScore)
@@ -3993,7 +5243,7 @@ namespace PixelBug.ArrowMagic.EditorTools
                         bestSeed = candidateSeed;
                         bestScore = score;
                         bestDetails = pressureHardSpec
-                            ? $"Style={profile.DisplayName} | Score={score} | TargetInitial={targetInitial} | OpeningRatio={openingRatio:0.000} | EarlyChoices={pressureEarlyAvgChoices:0.0}/{pressureEarlyMaxChoices} | LocalRun={pressureEarlyLocalRunMax} | Jump={pressureEarlyAvgJumpDistance:0.0} | NearRate={pressureEarlyNearStepRate:0.00} | {buildDetails}"
+                            ? $"Style={profile.DisplayName} | Score={score} | TargetInitial={targetInitial} | OpeningRatio={openingRatio:0.000} | Straightness={current.Straightness:0.000} | EarlyChoices={pressureEarlyAvgChoices:0.0}/{pressureEarlyMaxChoices} | LocalRun={pressureEarlyLocalRunMax} | Jump={pressureEarlyAvgJumpDistance:0.0} | NearRate={pressureEarlyNearStepRate:0.00}{FormatPressureSolveFlowStatus(pressureFlow)} | {buildDetails}"
                             : $"Style={profile.DisplayName} | Score={score} | TargetInitial={targetInitial} | OpeningRatio={openingRatio:0.000} | {buildDetails}";
                     }
 
@@ -4001,14 +5251,17 @@ namespace PixelBug.ArrowMagic.EditorTools
                         && current.OuterBandCoverage >= spec.OuterBandTarget
                         && DirectChainTargetSatisfied(spec, current.Chains)
                         && openingRatio <= openingCeiling
-                        && current.Straightness <= 0.70f
+                        && (peelRailSpec ? PeelRailLanguageGatePasses(current) : current.Straightness <= 0.70f)
                         && current.ShortEdgeChains <= 7
                         && (!pressureHardSpec || (current.EdgeHeadChains <= Mathf.Max(10, Mathf.CeilToInt(current.Chains * 0.10f))
-                            && pressureEarlyAvgChoices <= 6.5f
+                            && pressureEarlyAvgChoices <= (pressureSpreadSpec ? 6.2f : 6.5f)
                             && pressureEarlyMaxChoices <= 10
                             && pressureEarlyLocalRunMax <= 4
-                            && pressureEarlyAvgJumpDistance >= 5.0f
-                            && pressureEarlyNearStepRate <= 0.62f)))
+                            && pressureEarlyAvgJumpDistance >= (pressureSpreadSpec ? 5.6f : 5.0f)
+                            && pressureEarlyNearStepRate <= (pressureSpreadSpec ? 0.55f : 0.62f)
+                            && (!pressureSpreadSpec || PressureSolveFlowGatePasses(pressureFlow))
+                            && (!traceOrderPeelSpec || NutationPeelRhythmGatePasses(pressureFlow))
+                            && (!(IsNutationPeelV2Spec(spec) || peelRailSpec) || NutationPeelV2DirectionGatePasses(pressureFlow)))))
                     {
                         profileIndex = profiles.Length;
                         break;
@@ -4028,7 +5281,7 @@ namespace PixelBug.ArrowMagic.EditorTools
                 return false;
             }
 
-            if (IsSgpPressureHardSpec(spec)
+            if (IsPressureHardFamilySpec(spec)
                 && TryApplyPressureHardFlipGatePass(spec, bestAuthored, ruleset, out AuthoredLevelData gatedBest, out string gateDetails)
                 && TryEvaluatePressureGateAuthored(spec, gatedBest, ruleset, out PressureGateEval gatedEval))
             {
@@ -4673,6 +5926,156 @@ namespace PixelBug.ArrowMagic.EditorTools
                 8,
                 1200);
 
+            var pressureHardFlowSpread = new PeelStyleProfile(
+                "pressure_hard_flow_spread",
+                "PressureHardFlowSpread",
+                52137,
+                760,
+                5,
+                7,
+                0,
+                45,
+                5,
+                12,
+                -24,
+                10,
+                -2,
+                2,
+                10,
+                11,
+                12,
+                4,
+                10,
+                5,
+                2,
+                5,
+                0.07f,
+                4,
+                12,
+                0.12f,
+                8,
+                1200);
+
+            var pressureHardRegionFlow = new PeelStyleProfile(
+                "pressure_hard_region_flow",
+                "PressureHardRegionFlow",
+                62137,
+                960,
+                5,
+                7,
+                0,
+                45,
+                5,
+                12,
+                -24,
+                10,
+                -2,
+                2,
+                10,
+                11,
+                12,
+                4,
+                10,
+                5,
+                2,
+                5,
+                0.07f,
+                4,
+                12,
+                0.12f,
+                8,
+                1200);
+
+            var nutationPeelLayer = new PeelStyleProfile(
+                "nutation_peel_layer",
+                "NutationPeelLayer",
+                72137,
+                760,
+                4,
+                7,
+                0,
+                42,
+                5,
+                14,
+                -18,
+                8,
+                -2,
+                3,
+                12,
+                7,
+                5,
+                8,
+                14,
+                4,
+                3,
+                7,
+                0.07f,
+                4,
+                12,
+                0.12f,
+                8,
+                1300);
+
+            var nutationPeelLayerV2 = new PeelStyleProfile(
+                "nutation_peel_layer_v2",
+                "NutationPeelLayerV2",
+                73137,
+                980,
+                4,
+                7,
+                0,
+                42,
+                5,
+                16,
+                -18,
+                8,
+                -2,
+                3,
+                12,
+                6,
+                4,
+                10,
+                16,
+                3,
+                3,
+                7,
+                0.07f,
+                4,
+                12,
+                0.12f,
+                8,
+                1300);
+
+            var peelRailV1 = new PeelStyleProfile(
+                "peel_rail_v1",
+                "PeelRailV1",
+                74137,
+                1180,
+                5,
+                6,
+                0,
+                42,
+                3,
+                18,
+                -20,
+                6,
+                -1,
+                2,
+                2,
+                22,
+                16,
+                5,
+                8,
+                6,
+                2,
+                2,
+                0.07f,
+                4,
+                12,
+                0.12f,
+                8,
+                0);
+
             var extremeLongChain = new PeelStyleProfile(
                 "extreme_long_chain",
                 "ExtremeLongChain",
@@ -4793,7 +6196,22 @@ namespace PixelBug.ArrowMagic.EditorTools
                 3,
                 850);
 
-            if (IsSgpPressureHardSpec(spec))
+            if (IsPressureHardRegionFlowSpec(spec))
+                return new[] { pressureHardRegionFlow };
+
+            if (IsPeelRailV1Spec(spec))
+                return new[] { peelRailV1 };
+
+            if (IsNutationPeelV2Spec(spec))
+                return new[] { nutationPeelLayerV2 };
+
+            if (IsNutationPeelSpec(spec))
+                return new[] { nutationPeelLayer };
+
+            if (IsPressureHardFlowSpreadSpec(spec))
+                return new[] { pressureHardFlowSpread };
+
+            if (IsPressureHardFamilySpec(spec))
                 return new[] { pressureHard };
 
             if (IsDirectAdvancedSpec(spec))
@@ -4839,6 +6257,85 @@ namespace PixelBug.ArrowMagic.EditorTools
             return spec?.Id != null && spec.Id.StartsWith("sgp_pressure_hard_", StringComparison.OrdinalIgnoreCase);
         }
 
+        private static bool IsNutationSpec(StyleSpec spec)
+        {
+            return spec?.Id != null && spec.Id.StartsWith("nutation_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsNutationPeelSpec(StyleSpec spec)
+        {
+            return spec?.Id != null && spec.Id.StartsWith("nutation_peel_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsNutationPeelV2Spec(StyleSpec spec)
+        {
+            return spec?.Id != null && spec.Id.StartsWith("nutation_peel_v2_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsPeelRailV1Spec(StyleSpec spec)
+        {
+            return spec?.Id != null && spec.Id.StartsWith("peel_rail_v1_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsTraceOrderPeelSpec(StyleSpec spec)
+        {
+            return IsNutationPeelSpec(spec) || IsPeelRailV1Spec(spec);
+        }
+
+        private static bool IsPressureHardFamilySpec(StyleSpec spec)
+        {
+            return IsSgpPressureHardSpec(spec) || IsNutationSpec(spec) || IsPeelRailV1Spec(spec);
+        }
+
+        private static bool IsPressureHardInterferenceFamilySpec(StyleSpec spec)
+        {
+            return IsSgpPressureHardInterferenceSpec(spec) || IsNutationPeelSpec(spec);
+        }
+
+        private static bool IsPressureHardFlowSpreadSpec(StyleSpec spec)
+        {
+            return IsSgpPressureHardInterferenceV2Spec(spec);
+        }
+
+        private static bool IsPressureHardTraceShapedSpec(StyleSpec spec)
+        {
+            return IsPressureHardFlowSpreadSpec(spec) || IsPressureHardRegionFlowSpec(spec) || IsTraceOrderPeelSpec(spec);
+        }
+
+        private static bool IsPressureHardRegionFlowSpec(StyleSpec spec)
+        {
+            return IsSgpPressureHardInterferenceV3Spec(spec);
+        }
+
+        private static int GetNutationDirectionGrammarMode(StyleSpec spec)
+        {
+            if (IsPeelRailV1Spec(spec))
+                return 2;
+            if (IsNutationPeelV2Spec(spec))
+                return 2;
+            if (IsNutationPeelSpec(spec))
+                return 1;
+            return 0;
+        }
+
+        private static bool IsSgpPressureHardInterferenceSpec(StyleSpec spec)
+        {
+            return IsSgpPressureHardSpec(spec)
+                && spec.Id.IndexOf("_interfere_", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static bool IsSgpPressureHardInterferenceV2Spec(StyleSpec spec)
+        {
+            return IsSgpPressureHardSpec(spec)
+                && spec.Id.IndexOf("_interfere_v2_", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static bool IsSgpPressureHardInterferenceV3Spec(StyleSpec spec)
+        {
+            return IsSgpPressureHardSpec(spec)
+                && spec.Id.IndexOf("_interfere_v3_", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
         private static bool IsSgpGateAwareSpec(StyleSpec spec)
         {
             return spec?.Id != null && spec.Id.StartsWith("sgp_gateaware_", StringComparison.OrdinalIgnoreCase);
@@ -4846,7 +6343,9 @@ namespace PixelBug.ArrowMagic.EditorTools
 
         private static bool IsPressureHardProfile(PeelStyleProfile profile)
         {
-            return profile != null && profile.Id.StartsWith("pressure_", StringComparison.OrdinalIgnoreCase);
+            return profile != null
+                && (profile.Id.StartsWith("pressure_", StringComparison.OrdinalIgnoreCase)
+                    || profile.Id.StartsWith("peel_rail_", StringComparison.OrdinalIgnoreCase));
         }
 
         private static PeelStyleProfile CreateSgpGateAwareProfile()
@@ -5029,6 +6528,11 @@ namespace PixelBug.ArrowMagic.EditorTools
 
             var rng = new System.Random(seed);
             var chains = new List<List<int>>(Mathf.Max(8, area / 8));
+            int pressureInterferenceLevel = IsPressureHardInterferenceFamilySpec(spec) ? 1 : 0;
+            int pressureRegionSpreadLevel = IsPressureHardRegionFlowSpec(spec) ? 1 : 0;
+            int[] placedDirByCell = pressureInterferenceLevel > 0 ? CreateFilledIntArray(area, -1) : null;
+            var pressureRegionChains = pressureRegionSpreadLevel > 0 ? new List<PressureRegionPlacedChain>(Mathf.Max(8, area / 9)) : null;
+            int[] pressureRegionCounts = pressureRegionSpreadLevel > 0 ? new int[9] : null;
             int remainingCount = area;
             int rejectedShort = 0;
             int failedPeels = 0;
@@ -5037,7 +6541,7 @@ namespace PixelBug.ArrowMagic.EditorTools
             while (remainingCount >= 2 && guard-- > 0)
             {
                 int targetLength = PickPeelTargetLength(area, rng, profile);
-                if (!TryBuildPeelChain(remaining, spec.Width, spec.Height, rng, targetLength, profile, out List<int> chain))
+                if (!TryBuildPeelChain(remaining, spec.Width, spec.Height, rng, targetLength, profile, placedDirByCell, pressureInterferenceLevel, pressureRegionChains, pressureRegionCounts, pressureRegionSpreadLevel, chains.Count, GetNutationDirectionGrammarMode(spec), out List<int> chain))
                 {
                     failedPeels++;
                     break;
@@ -5051,6 +6555,11 @@ namespace PixelBug.ArrowMagic.EditorTools
 
                 for (int i = 0; i < chain.Count; i++)
                     remaining[chain[i]] = false;
+
+                if (pressureInterferenceLevel > 0)
+                    MarkPressureInterferenceChainDirections(chain, spec.Width, placedDirByCell);
+                if (pressureRegionSpreadLevel > 0)
+                    MarkPressureRegionSpreadChain(chain, spec.Width, spec.Height, pressureRegionChains, pressureRegionCounts);
 
                 remainingCount -= chain.Count;
                 chains.Add(chain);
@@ -5079,7 +6588,15 @@ namespace PixelBug.ArrowMagic.EditorTools
             }
 
             float ratio = filled / (float)area;
-            details = $"Peel style={profile.DisplayName} seed={seed} fill={filled}/{area}({ratio:0.000}) chains={authored.arrows.Count} remaining={remainingCount} rejectedShort={rejectedShort} failedPeels={failedPeels}";
+            string interferenceTag = pressureInterferenceLevel > 0 ? $" interference=NearDirV{pressureInterferenceLevel}" : string.Empty;
+            string regionTag = pressureRegionSpreadLevel > 0 ? " regionSpread=HeadFlow" : string.Empty;
+            string directionGrammarTag = GetNutationDirectionGrammarMode(spec) switch
+            {
+                2 => " directionGrammar=CycleV2",
+                1 => " directionGrammar=CycleV1",
+                _ => string.Empty
+            };
+            details = $"Peel style={profile.DisplayName} seed={seed} fill={filled}/{area}({ratio:0.000}) chains={authored.arrows.Count} remaining={remainingCount} rejectedShort={rejectedShort} failedPeels={failedPeels}{interferenceTag}{regionTag}{directionGrammarTag}";
             return authored.arrows.Count > 0 && ratio >= 0.88f;
         }
 
@@ -6652,6 +8169,18 @@ namespace PixelBug.ArrowMagic.EditorTools
             return new[] { balanced, lockProfile, maze };
         }
 
+        private static PeelStyleProfile[] GetMaskPressurePeelProfiles(StyleSpec spec)
+        {
+            var pressureProfiles = GetPeelStyleProfilesForSpec(spec);
+            var holeProfiles = GetDirectHolePeelProfiles();
+            var result = new PeelStyleProfile[pressureProfiles.Length + holeProfiles.Length];
+            for (int i = 0; i < pressureProfiles.Length; i++)
+                result[i] = pressureProfiles[i];
+            for (int i = 0; i < holeProfiles.Length; i++)
+                result[pressureProfiles.Length + i] = holeProfiles[i];
+            return result;
+        }
+
         private static List<int> BuildCenteredHoleBlockIndices(int width, int height, int holeWidth, int holeHeight)
         {
             int startX = Mathf.Max(0, (width - holeWidth) / 2);
@@ -6684,6 +8213,151 @@ namespace PixelBug.ArrowMagic.EditorTools
             }
 
             return canSpawn;
+        }
+
+        private static bool TryBuildCanSpawnFromMask(
+            Texture2D mask,
+            out bool[] canSpawn,
+            out List<int> blockIndices,
+            out int allowedCount)
+        {
+            canSpawn = null;
+            blockIndices = new List<int>();
+            allowedCount = 0;
+            if (mask == null || mask.width <= 0 || mask.height <= 0)
+                return false;
+
+            Color32[] pixels = mask.GetPixels32();
+            int area = mask.width * mask.height;
+            if (pixels == null || pixels.Length < area)
+                return false;
+
+            canSpawn = new bool[area];
+            for (int i = 0; i < area; i++)
+            {
+                bool spawn = pixels[i].a > 127;
+                canSpawn[i] = spawn;
+                if (spawn)
+                    allowedCount++;
+                else
+                    blockIndices.Add(i);
+            }
+
+            return allowedCount >= 2;
+        }
+
+        private static StyleSpec CreateMaskPressureStyleSpec(
+            MaskPressureSourceSpec source,
+            int width,
+            int height,
+            int allowedCount)
+        {
+            int targetChains = Mathf.Clamp(Mathf.RoundToInt(allowedCount / 8.0f), 42, 78);
+            return new StyleSpec
+            {
+                Type = source.Type,
+                Id = $"sgp_pressure_hard_mask_{source.Id}",
+                DisplayName = $"Mask PSG Pressure {source.DisplayName}",
+                Width = width,
+                Height = height,
+                TargetChains = targetChains,
+                MinLength = 3,
+                MaxLength = 11,
+                TargetCoverage = source.TargetMaskFill,
+                TurnBias = source.Type == NoMaskType.DenseWeave ? 0.62f : 0.58f,
+                BlockWeight = source.Type == NoMaskType.LockBuckle ? 5.2f : 4.4f,
+                EdgeOpeningBias = 0.10f,
+                OuterBandTarget = source.TargetBoundaryFill,
+                MaxInitialMovableChains = Mathf.CeilToInt(targetChains * 0.08f),
+                MaxShortEdgePatchChains = 3,
+                MaxShortFillPatchChains = 6,
+                Seed = source.Seed
+            };
+        }
+
+        private static void ApplyMaskPressureCoverageMetrics(
+            BuildMetrics metrics,
+            AuthoredLevelData authored,
+            bool[] canSpawn,
+            int allowedCount)
+        {
+            if (metrics == null)
+                return;
+
+            metrics.Coverage = metrics.ArrowCount / (float)Mathf.Max(1, allowedCount);
+            metrics.OuterBandCoverage = CountOccupiedMaskBoundaryCells(authored, canSpawn)
+                / Mathf.Max(1f, CountMaskBoundaryCells(canSpawn, authored != null ? authored.width : 0, authored != null ? authored.height : 0));
+        }
+
+        private static int CountOccupiedMaskBoundaryCells(AuthoredLevelData authored, bool[] canSpawn)
+        {
+            if (authored?.arrows == null || canSpawn == null || authored.width <= 0 || authored.height <= 0)
+                return 0;
+
+            int area = authored.width * authored.height;
+            var occupied = new bool[area];
+            for (int i = 0; i < authored.arrows.Count; i++)
+            {
+                AuthoredArrowData arrow = authored.arrows[i];
+                if (arrow?.indices == null)
+                    continue;
+
+                for (int p = 0; p < arrow.indices.Count; p++)
+                {
+                    int idx = arrow.indices[p];
+                    if ((uint)idx < (uint)occupied.Length)
+                        occupied[idx] = true;
+                }
+            }
+
+            int count = 0;
+            int limit = Mathf.Min(area, canSpawn.Length);
+            for (int i = 0; i < limit; i++)
+            {
+                if (occupied[i] && IsMaskBoundaryCell(canSpawn, authored.width, authored.height, i))
+                    count++;
+            }
+
+            return count;
+        }
+
+        private static int CountMaskBoundaryCells(bool[] canSpawn, int width, int height)
+        {
+            if (canSpawn == null || width <= 0 || height <= 0)
+                return 0;
+
+            int count = 0;
+            int limit = Mathf.Min(canSpawn.Length, width * height);
+            for (int i = 0; i < limit; i++)
+            {
+                if (canSpawn[i] && IsMaskBoundaryCell(canSpawn, width, height, i))
+                    count++;
+            }
+
+            return count;
+        }
+
+        private static bool IsMaskBoundaryCell(bool[] canSpawn, int width, int height, int index)
+        {
+            if (canSpawn == null || (uint)index >= (uint)canSpawn.Length || !canSpawn[index])
+                return false;
+
+            int x = index % width;
+            int y = index / width;
+            for (int d = 0; d < 4; d++)
+            {
+                Vector2Int offset = DirToOffset((Dir)d);
+                int nx = x + offset.x;
+                int ny = y + offset.y;
+                if (!InBounds(nx, ny, width, height))
+                    return true;
+
+                int nidx = nx + ny * width;
+                if ((uint)nidx >= (uint)canSpawn.Length || !canSpawn[nidx])
+                    return true;
+            }
+
+            return false;
         }
 
         private static bool[] BuildCanSpawnForDirectHole(int width, int height, List<int> blockIndices, int outerCutKind)
@@ -7623,6 +9297,39 @@ namespace PixelBug.ArrowMagic.EditorTools
             PeelStyleProfile profile,
             out List<int> chain)
         {
+            return TryBuildPeelChain(
+                remaining,
+                width,
+                height,
+                rng,
+                targetLength,
+                profile,
+                placedDirByCell: null,
+                pressureInterferenceLevel: 0,
+                pressureRegionChains: null,
+                pressureRegionCounts: null,
+                pressureRegionSpreadLevel: 0,
+                chainIndex: 0,
+                nutationDirectionGrammarMode: 0,
+                out chain);
+        }
+
+        private static bool TryBuildPeelChain(
+            bool[] remaining,
+            int width,
+            int height,
+            System.Random rng,
+            int targetLength,
+            PeelStyleProfile profile,
+            int[] placedDirByCell,
+            int pressureInterferenceLevel,
+            List<PressureRegionPlacedChain> pressureRegionChains,
+            int[] pressureRegionCounts,
+            int pressureRegionSpreadLevel,
+            int chainIndex,
+            int nutationDirectionGrammarMode,
+            out List<int> chain)
+        {
             chain = null;
             var candidates = new List<PeelHeadCandidate>(64);
             if (IsPressureHardProfile(profile))
@@ -7632,6 +9339,13 @@ namespace PixelBug.ArrowMagic.EditorTools
                 CollectPeelHeadCandidates(remaining, width, height, rng, preferClearRay, profile, phase, candidates);
                 if (candidates.Count == 0)
                     CollectPeelHeadCandidates(remaining, width, height, rng, !preferClearRay, profile, phase, candidates);
+
+                if (pressureInterferenceLevel > 0)
+                    ApplyPressureInterferenceHeadScores(candidates, width, height, placedDirByCell, pressureInterferenceLevel);
+                if (pressureRegionSpreadLevel > 0)
+                    ApplyPressureRegionSpreadHeadScores(candidates, width, height, pressureRegionChains, pressureRegionCounts, pressureRegionSpreadLevel);
+                if (nutationDirectionGrammarMode > 0)
+                    ApplyNutationDirectionCycleHeadScores(candidates, chainIndex, pressureRegionChains, nutationDirectionGrammarMode);
             }
             else
             {
@@ -7665,7 +9379,7 @@ namespace PixelBug.ArrowMagic.EditorTools
             int localGuard = targetLength * 6 + 12;
             while (chain.Count < targetLength && localGuard-- > 0)
             {
-                if (!TryPickPeelNextCell(remaining, width, height, rng, current, previous, inPath, chain.Count, profile, out int next))
+                if (!TryPickPeelNextCell(remaining, width, height, rng, current, previous, inPath, chain.Count, profile, placedDirByCell, pressureInterferenceLevel, out int next))
                     break;
 
                 chain.Add(next);
@@ -7760,6 +9474,8 @@ namespace PixelBug.ArrowMagic.EditorTools
             HashSet<int> inPath,
             int pathCount,
             PeelStyleProfile profile,
+            int[] placedDirByCell,
+            int pressureInterferenceLevel,
             out int next)
         {
             next = -1;
@@ -7773,7 +9489,8 @@ namespace PixelBug.ArrowMagic.EditorTools
             int tieCount = 0;
             for (int d = 0; d < 4; d++)
             {
-                Vector2Int offset = DirToOffset((Dir)d);
+                Dir stepDir = (Dir)d;
+                Vector2Int offset = DirToOffset(stepDir);
                 int nx = currentX + offset.x;
                 int ny = currentY + offset.y;
                 if (!InBounds(nx, ny, width, height))
@@ -7797,6 +9514,21 @@ namespace PixelBug.ArrowMagic.EditorTools
                 if (IsPeelBoundaryCell(remaining, width, height, nx, ny))
                     score += profile != null ? profile.BoundaryStepBonus : 14;
 
+                if (pressureInterferenceLevel > 0)
+                {
+                    Dir candidateOutDir = Opposite(stepDir);
+                    score += ScorePressureInterferenceStep(
+                        width,
+                        height,
+                        nx,
+                        ny,
+                        candidateOutDir,
+                        sameDirection,
+                        pathCount,
+                        placedDirByCell,
+                        pressureInterferenceLevel);
+                }
+
                 int neighborCount = CountPeelRemainingNeighbors(remaining, width, height, nx, ny);
                 score += Mathf.Max(0, 4 - neighborCount) * (profile != null ? profile.SparseNeighborWeight : 3);
                 score += ComputePeelCenterScore(nx, ny, width, height) * (profile != null ? profile.CenterStepBonus : 0);
@@ -7816,6 +9548,368 @@ namespace PixelBug.ArrowMagic.EditorTools
             }
 
             return next >= 0;
+        }
+
+        private static int[] CreateFilledIntArray(int length, int value)
+        {
+            int[] result = new int[Mathf.Max(0, length)];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = value;
+            return result;
+        }
+
+        private static void MarkPressureInterferenceChainDirections(List<int> chain, int width, int[] placedDirByCell)
+        {
+            if (chain == null || chain.Count < 2 || placedDirByCell == null || width <= 0)
+                return;
+
+            for (int i = 0; i < chain.Count; i++)
+            {
+                int index = chain[i];
+                if ((uint)index >= (uint)placedDirByCell.Length)
+                    continue;
+
+                Vector2Int from = i == 0
+                    ? Pos(chain[0], width)
+                    : Pos(chain[i - 1], width);
+                Vector2Int to = i == 0
+                    ? Pos(chain[1], width)
+                    : Pos(chain[i], width);
+
+                if (TryGetOutDir(from, to, out Dir outDir))
+                    placedDirByCell[index] = (int)outDir;
+            }
+        }
+
+        private static void ApplyPressureInterferenceHeadScores(
+            List<PeelHeadCandidate> candidates,
+            int width,
+            int height,
+            int[] placedDirByCell,
+            int pressureInterferenceLevel)
+        {
+            if (candidates == null || candidates.Count == 0 || placedDirByCell == null)
+                return;
+
+            int sameWeight = pressureInterferenceLevel >= 2 ? 22 : 14;
+            int differentWeight = pressureInterferenceLevel >= 2 ? 2 : 4;
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                PeelHeadCandidate candidate = candidates[i];
+                int headX = candidate.Head % width;
+                int headY = candidate.Head / width;
+                int secondX = candidate.Second % width;
+                int secondY = candidate.Second / width;
+
+                CountPressureInterferenceNeighbors(width, height, headX, headY, candidate.OutDir, placedDirByCell, out int headSame, out int headDifferent);
+                CountPressureInterferenceNeighbors(width, height, secondX, secondY, candidate.OutDir, placedDirByCell, out int bodySame, out int bodyDifferent);
+
+                int same = headSame + bodySame;
+                int different = headDifferent + bodyDifferent;
+                candidate.Score += different * differentWeight - same * sameWeight;
+            }
+        }
+
+        private static void ApplyNutationDirectionCycleHeadScores(
+            List<PeelHeadCandidate> candidates,
+            int chainIndex,
+            List<PressureRegionPlacedChain> placedChains,
+            int grammarMode)
+        {
+            if (candidates == null || candidates.Count == 0)
+                return;
+
+            Dir desiredDir = GetNutationDirectionCycleDir(chainIndex);
+            int desiredAxis = ((int)desiredDir) & 1;
+            if (grammarMode >= 2)
+                FilterNutationDirectionCycleCandidates(candidates, desiredDir, desiredAxis);
+
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                PeelHeadCandidate candidate = candidates[i];
+                int dir = (int)candidate.OutDir;
+                int axis = dir & 1;
+                int score = axis == desiredAxis ? (grammarMode >= 2 ? 620 : 260) : (grammarMode >= 2 ? -260 : -140);
+                if (candidate.OutDir == desiredDir)
+                    score += grammarMode >= 2 ? 520 : 180;
+
+                if (placedChains != null && placedChains.Count > 0)
+                {
+                    int recentCount = 0;
+                    int sameAxisRecent = 0;
+                    int sameDirRecent = 0;
+                    for (int p = placedChains.Count - 1; p >= 0 && recentCount < 10; p--, recentCount++)
+                    {
+                        PressureRegionPlacedChain placed = placedChains[p];
+                        if (SamePressureDirectionAxis(candidate.OutDir, placed.OutDir))
+                            sameAxisRecent++;
+                        if (candidate.OutDir == placed.OutDir)
+                            sameDirRecent++;
+                    }
+
+                    score -= sameAxisRecent * 34;
+                    score -= sameDirRecent * 54;
+                    if (sameAxisRecent >= 6)
+                        score -= 180;
+                    if (sameDirRecent >= 3)
+                        score -= 220;
+                }
+
+                candidate.Score += score;
+            }
+        }
+
+        private static Dir GetNutationDirectionCycleDir(int chainIndex)
+        {
+            int phase = Mathf.Abs(chainIndex) % 8;
+            return phase switch
+            {
+                0 => Dir.Up,
+                1 => Dir.Right,
+                2 => Dir.Down,
+                3 => Dir.Left,
+                4 => Dir.Right,
+                5 => Dir.Up,
+                6 => Dir.Left,
+                _ => Dir.Down
+            };
+        }
+
+        private static void FilterNutationDirectionCycleCandidates(
+            List<PeelHeadCandidate> candidates,
+            Dir desiredDir,
+            int desiredAxis)
+        {
+            if (candidates == null || candidates.Count <= 4)
+                return;
+
+            int exactCount = 0;
+            int axisCount = 0;
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                if (candidates[i].OutDir == desiredDir)
+                    exactCount++;
+                if ((((int)candidates[i].OutDir) & 1) == desiredAxis)
+                    axisCount++;
+            }
+
+            int exactFloor = Mathf.Clamp(candidates.Count / 8, 3, 8);
+            if (exactCount >= exactFloor)
+            {
+                candidates.RemoveAll(c => c.OutDir != desiredDir);
+                return;
+            }
+
+            int axisFloor = Mathf.Clamp(candidates.Count / 4, 5, 12);
+            if (axisCount >= axisFloor)
+                candidates.RemoveAll(c => ((((int)c.OutDir) & 1) != desiredAxis));
+        }
+
+        private static void ApplyPressureRegionSpreadHeadScores(
+            List<PeelHeadCandidate> candidates,
+            int width,
+            int height,
+            List<PressureRegionPlacedChain> placedChains,
+            int[] regionCounts,
+            int pressureRegionSpreadLevel)
+        {
+            if (candidates == null || candidates.Count == 0 || placedChains == null || placedChains.Count == 0)
+                return;
+
+            int recentLimit = pressureRegionSpreadLevel >= 2 ? 18 : 12;
+            int nearThreshold = Mathf.Max(4, Mathf.RoundToInt(Mathf.Min(width, height) * 0.24f));
+            int[] dirCounts = null;
+            int[] axisCounts = null;
+            if (pressureRegionSpreadLevel >= 2)
+            {
+                dirCounts = new int[4];
+                axisCounts = new int[2];
+                for (int p = 0; p < placedChains.Count; p++)
+                {
+                    int dir = (int)placedChains[p].OutDir;
+                    dirCounts[Mathf.Clamp(dir, 0, 3)]++;
+                    axisCounts[dir & 1]++;
+                }
+            }
+
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                PeelHeadCandidate candidate = candidates[i];
+                Vector2Int head = Pos(candidate.Head, width);
+                int region = ComputeGateAwareRegion(head, width, height);
+                int micro = ComputeGateAwareMicroRegion(head, width, height);
+                int score = 0;
+                if (regionCounts != null && (uint)region < (uint)regionCounts.Length)
+                    score -= regionCounts[region] * 18;
+
+                int recentCount = 0;
+                int distanceSum = 0;
+                int sameRegionCount = 0;
+                int sameMicroCount = 0;
+                int sameAxisNearCount = 0;
+                int sameDirNearCount = 0;
+                int sameAxisRecentCount = 0;
+                int sameDirRecentCount = 0;
+                for (int p = placedChains.Count - 1; p >= 0 && recentCount < recentLimit; p--, recentCount++)
+                {
+                    PressureRegionPlacedChain placed = placedChains[p];
+                    int distance = Mathf.Abs(head.x - placed.Head.x) + Mathf.Abs(head.y - placed.Head.y);
+                    distanceSum += Mathf.Min(distance, 22);
+                    if (placed.Region == region)
+                        sameRegionCount++;
+                    if (placed.MicroRegion == micro)
+                        sameMicroCount++;
+
+                    if (pressureRegionSpreadLevel >= 2)
+                    {
+                        if (SamePressureDirectionAxis(candidate.OutDir, placed.OutDir))
+                            sameAxisRecentCount++;
+                        if (candidate.OutDir == placed.OutDir)
+                            sameDirRecentCount++;
+                    }
+
+                    if (distance <= nearThreshold)
+                    {
+                        score -= (nearThreshold - distance + 1) * 12;
+                        if (SamePressureDirectionAxis(candidate.OutDir, placed.OutDir))
+                            sameAxisNearCount++;
+                        if (candidate.OutDir == placed.OutDir)
+                            sameDirNearCount++;
+                    }
+                }
+
+                score += recentCount > 0 ? Mathf.RoundToInt(distanceSum * 2.2f / recentCount) : 0;
+                score -= sameRegionCount * 28;
+                score -= sameMicroCount * 64;
+                score -= sameAxisNearCount * 38;
+                score -= sameDirNearCount * 42;
+                if (pressureRegionSpreadLevel >= 2 && dirCounts != null && axisCounts != null)
+                {
+                    int dir = (int)candidate.OutDir;
+                    int axis = dir & 1;
+                    int maxDirCount = Mathf.Max(Mathf.Max(dirCounts[0], dirCounts[1]), Mathf.Max(dirCounts[2], dirCounts[3]));
+                    int minAxisCount = Mathf.Min(axisCounts[0], axisCounts[1]);
+                    score += (maxDirCount - dirCounts[Mathf.Clamp(dir, 0, 3)]) * 34;
+                    score += Mathf.Max(0, axisCounts[axis ^ 1] - axisCounts[axis]) * 42;
+                    score -= Mathf.Max(0, axisCounts[axis] - minAxisCount) * 22;
+                    score -= sameAxisRecentCount * 46;
+                    score -= sameDirRecentCount * 72;
+                    if (sameAxisRecentCount >= Mathf.Max(4, recentCount / 2))
+                        score -= 260;
+                    if (sameDirRecentCount >= 3)
+                        score -= 360;
+                }
+                candidate.Score += score;
+            }
+        }
+
+        private static int ScorePressureInterferenceStep(
+            int width,
+            int height,
+            int x,
+            int y,
+            Dir candidateOutDir,
+            bool sameDirection,
+            int pathCount,
+            int[] placedDirByCell,
+            int pressureInterferenceLevel)
+        {
+            if (placedDirByCell == null)
+                return 0;
+
+            CountPressureInterferenceNeighbors(width, height, x, y, candidateOutDir, placedDirByCell, out int same, out int different);
+
+            int sameWeight = pressureInterferenceLevel >= 2 ? 28 : 18;
+            int differentWeight = pressureInterferenceLevel >= 2 ? 2 : 5;
+            int score = different * differentWeight - same * sameWeight;
+            if (sameDirection && pathCount >= 4)
+                score -= (pressureInterferenceLevel >= 2 ? 24 : 14) + same * (pressureInterferenceLevel >= 2 ? 10 : 6);
+            if (!sameDirection && pathCount >= 3)
+                score += (pressureInterferenceLevel >= 2 ? 6 : 12) + Mathf.Min(pressureInterferenceLevel >= 2 ? 10 : 18, different * 3);
+            if (same >= (pressureInterferenceLevel >= 2 ? 3 : 4))
+                score -= pressureInterferenceLevel >= 2 ? 30 : 18;
+
+            return score;
+        }
+
+        private static void MarkPressureRegionSpreadChain(
+            List<int> chain,
+            int width,
+            int height,
+            List<PressureRegionPlacedChain> placedChains,
+            int[] regionCounts)
+        {
+            if (chain == null || chain.Count < 2 || placedChains == null || width <= 0 || height <= 0)
+                return;
+
+            Vector2Int head = Pos(chain[0], width);
+            Vector2Int second = Pos(chain[1], width);
+            if (!TryGetOutDir(head, second, out Dir outDir))
+                return;
+
+            Vector2 sum = Vector2.zero;
+            for (int i = 0; i < chain.Count; i++)
+                sum += Pos(chain[i], width);
+            Vector2 center = sum / Mathf.Max(1, chain.Count);
+            int region = ComputeGateAwareRegion(head, width, height);
+            int micro = ComputeGateAwareMicroRegion(head, width, height);
+            placedChains.Add(new PressureRegionPlacedChain
+            {
+                Head = head,
+                Center = center,
+                OutDir = outDir,
+                Region = region,
+                MicroRegion = micro
+            });
+
+            if (regionCounts != null && (uint)region < (uint)regionCounts.Length)
+                regionCounts[region]++;
+        }
+
+        private static void CountPressureInterferenceNeighbors(
+            int width,
+            int height,
+            int x,
+            int y,
+            Dir outDir,
+            int[] placedDirByCell,
+            out int same,
+            out int different)
+        {
+            same = 0;
+            different = 0;
+            if (placedDirByCell == null || width <= 0 || height <= 0)
+                return;
+
+            int dir = (int)outDir;
+            for (int dy = -2; dy <= 2; dy++)
+            {
+                for (int dx = -2; dx <= 2; dx++)
+                {
+                    int dist = Mathf.Abs(dx) + Mathf.Abs(dy);
+                    if (dist == 0 || dist > 2)
+                        continue;
+
+                    int nx = x + dx;
+                    int ny = y + dy;
+                    if (!InBounds(nx, ny, width, height))
+                        continue;
+
+                    int index = nx + ny * width;
+                    if ((uint)index >= (uint)placedDirByCell.Length)
+                        continue;
+
+                    int placedDir = placedDirByCell[index];
+                    if (placedDir < 0)
+                        continue;
+
+                    int weight = dist == 1 ? 2 : 1;
+                    if (placedDir == dir)
+                        same += weight;
+                    else
+                        different += weight;
+                }
+            }
         }
 
         private static BuildMetrics BuildMetricsFromAuthored(StyleSpec spec, AuthoredLevelData authored)
@@ -8989,7 +11083,7 @@ namespace PixelBug.ArrowMagic.EditorTools
             if (spec == null)
                 return false;
 
-            return IsSgpPressureHardSpec(spec) || IsSgpGateAwareSpec(spec)
+            return IsPressureHardFamilySpec(spec) || IsSgpGateAwareSpec(spec)
                 ? IsOuterBandOutHead(head, outDir, spec.Width, spec.Height, 1)
                 : IsBoundaryOutHead(spec, head, outDir);
         }
@@ -9630,7 +11724,7 @@ namespace PixelBug.ArrowMagic.EditorTools
                 return false;
 
             result = working;
-            details = $"ops={ops} initial={startInitial}->{current.Metrics.InitialMovableChains} edgeHeads={startEdge}->{current.Metrics.EdgeHeadChains} earlyChoices={current.EarlyAvgChoices:0.0}/{current.EarlyMaxChoices} localRun={current.EarlyLocalRunMax} jump={current.EarlyAvgJumpDistance:0.0} near={current.EarlyNearStepRate:0.00} targetInitial={targetInitial}";
+            details = $"ops={ops} initial={startInitial}->{current.Metrics.InitialMovableChains} edgeHeads={startEdge}->{current.Metrics.EdgeHeadChains} earlyChoices={current.EarlyAvgChoices:0.0}/{current.EarlyMaxChoices} localRun={current.EarlyLocalRunMax} jump={current.EarlyAvgJumpDistance:0.0} near={current.EarlyNearStepRate:0.00}{FormatPressureSolveFlowStatus(current.SolveFlow)} targetInitial={targetInitial}";
             return true;
         }
 
@@ -9661,6 +11755,23 @@ namespace PixelBug.ArrowMagic.EditorTools
                 out int earlyLocalRunMax,
                 out float earlyAvgJumpDistance,
                 out float earlyNearStepRate);
+            PressureSolveFlowMetrics solveFlow = IsPressureHardTraceShapedSpec(spec)
+                ? ComputePressureSolveFlowMetrics(authored, moves, 40)
+                : null;
+            int score = ScorePressureGateEval(metrics, earlyAvgChoices, earlyMaxChoices, earlyLocalRunMax, earlyAvgJumpDistance, earlyNearStepRate);
+            if (solveFlow != null)
+            {
+                score += ScorePressureSolveFlowMetrics(solveFlow);
+                if (IsTraceOrderPeelSpec(spec))
+                {
+                    score += ScoreNutationPeelLayerMetrics(solveFlow);
+                    score += ScoreNutationPeelRhythmMetrics(solveFlow);
+                    if (IsNutationPeelV2Spec(spec) || IsPeelRailV1Spec(spec))
+                        score += ScoreNutationPeelV2DirectionMetrics(solveFlow);
+                }
+            }
+            if (IsPeelRailV1Spec(spec))
+                score += ScorePeelRailLanguageMetrics(metrics);
 
             eval = new PressureGateEval
             {
@@ -9672,8 +11783,10 @@ namespace PixelBug.ArrowMagic.EditorTools
                 EarlyLocalRunMax = earlyLocalRunMax,
                 EarlyAvgJumpDistance = earlyAvgJumpDistance,
                 EarlyNearStepRate = earlyNearStepRate,
+                DependencySpread = null,
+                SolveFlow = solveFlow,
                 GreedyMoves = metrics.GreedyMoves,
-                Score = ScorePressureGateEval(metrics, earlyAvgChoices, earlyMaxChoices, earlyLocalRunMax, earlyAvgJumpDistance, earlyNearStepRate)
+                Score = score
             };
             return true;
         }
@@ -9841,6 +11954,499 @@ namespace PixelBug.ArrowMagic.EditorTools
             avgChoices = steps > 0 ? sumChoices / (float)steps : 0f;
             avgJumpDistance = jumpCount > 0 ? jumpDistanceSum / (float)jumpCount : 0f;
             nearStepRate = jumpCount > 0 ? nearCount / (float)jumpCount : 0f;
+        }
+
+        private static PressureSolveFlowMetrics ComputePressureSolveFlowMetrics(
+            AuthoredLevelData authored,
+            List<Move> moves,
+            int maxMoves)
+        {
+            var metrics = new PressureSolveFlowMetrics();
+            if (authored?.arrows == null || moves == null || moves.Count <= 1 || authored.width <= 0 || authored.height <= 0)
+                return metrics;
+
+            Dictionary<int, PressureChainTraceStat> statsByHead = BuildPressureTraceStatsByHead(authored);
+            int take = Mathf.Min(Mathf.Max(1, maxMoves), moves.Count);
+            int nearThreshold = Mathf.Max(4, Mathf.RoundToInt(Mathf.Min(authored.width, authored.height) * 0.24f));
+            PressureChainTraceStat previousStat = null;
+            Vector2Int previousPos = default;
+            bool hasPrevious = false;
+            int localRun = 0;
+            int axisRun = 0;
+            int regionRun = 0;
+            int layerRun = 0;
+            int previousRegion = 0;
+            int previousAxis = -1;
+            int previousDir = -1;
+            int previousLayer = 0;
+            int firstLayer = 0;
+            int lastLayer = 0;
+            int minLayer = int.MaxValue;
+            int maxLayer = int.MinValue;
+            int jumpDistanceSum = 0;
+            int nearCount = 0;
+            var distinctLayers = new HashSet<int>();
+            var distinctRegions = new HashSet<int>();
+
+            for (int i = 0; i < take; i++)
+            {
+                Vector2Int pos = moves[i].pos;
+                int headIndex = pos.x + pos.y * authored.width;
+                statsByHead.TryGetValue(headIndex, out PressureChainTraceStat currentStat);
+                int currentLayer = GetPressurePeelLayer(authored.width, authored.height, pos, currentStat);
+                int currentRegion = GetPressureTraceRegion(authored.width, authored.height, pos, currentStat);
+                int currentAxis = currentStat != null && currentStat.HasOutDir ? (((int)currentStat.OutDir) & 1) : -1;
+                int currentDir = currentStat != null && currentStat.HasOutDir ? (int)currentStat.OutDir : -1;
+                distinctLayers.Add(currentLayer);
+                distinctRegions.Add(currentRegion);
+                minLayer = Mathf.Min(minLayer, currentLayer);
+                maxLayer = Mathf.Max(maxLayer, currentLayer);
+                if (!hasPrevious)
+                {
+                    previousPos = pos;
+                    previousStat = currentStat;
+                    previousRegion = currentRegion;
+                    previousAxis = currentAxis;
+                    previousDir = currentDir;
+                    previousLayer = currentLayer;
+                    firstLayer = currentLayer;
+                    lastLayer = currentLayer;
+                    hasPrevious = true;
+                    localRun = 1;
+                    axisRun = 1;
+                    regionRun = 1;
+                    layerRun = 1;
+                    continue;
+                }
+
+                int distance = Mathf.Abs(pos.x - previousPos.x) + Mathf.Abs(pos.y - previousPos.y);
+                jumpDistanceSum += distance;
+                metrics.Transitions++;
+
+                bool local = distance <= nearThreshold
+                    || (previousStat != null
+                        && currentStat != null
+                        && IsPressureLocalPatch(previousStat, currentStat, authored.width, authored.height));
+                if (local)
+                {
+                    nearCount++;
+                    localRun++;
+                }
+                else
+                {
+                    localRun = 1;
+                }
+
+                bool sameAxis = local
+                    && previousStat != null
+                    && currentStat != null
+                    && previousStat.HasOutDir
+                    && currentStat.HasOutDir
+                    && SamePressureDirectionAxis(previousStat.OutDir, currentStat.OutDir);
+                if (sameAxis)
+                {
+                    axisRun++;
+                    if (previousStat.OutDir == currentStat.OutDir)
+                        metrics.SameDirectionLocalCount++;
+                }
+                else
+                {
+                    axisRun = 1;
+                }
+
+                if (currentRegion == previousRegion)
+                {
+                    regionRun++;
+                }
+                else
+                {
+                    metrics.RegionTransitionCount++;
+                    regionRun = 1;
+                }
+
+                if (previousAxis >= 0 && currentAxis >= 0 && currentAxis != previousAxis)
+                    metrics.AxisShiftCount++;
+                if (previousDir >= 0 && currentDir >= 0 && currentDir != previousDir)
+                    metrics.DirectionShiftCount++;
+
+                if (currentLayer == previousLayer)
+                {
+                    layerRun++;
+                }
+                else
+                {
+                    metrics.LayerTransitionCount++;
+                    if (currentLayer < previousLayer)
+                        metrics.LayerBacktrackCount++;
+                    layerRun = 1;
+                }
+
+                metrics.LocalRunMax = Mathf.Max(metrics.LocalRunMax, localRun);
+                metrics.AxisLocalRunMax = Mathf.Max(metrics.AxisLocalRunMax, axisRun);
+                metrics.RegionRunMax = Mathf.Max(metrics.RegionRunMax, regionRun);
+                metrics.LayerRunMax = Mathf.Max(metrics.LayerRunMax, layerRun);
+                previousPos = pos;
+                previousStat = currentStat;
+                previousRegion = currentRegion;
+                previousAxis = currentAxis;
+                previousDir = currentDir;
+                previousLayer = currentLayer;
+                lastLayer = currentLayer;
+            }
+
+            metrics.DistinctLayerCount = distinctLayers.Count;
+            metrics.DistinctRegionCount = distinctRegions.Count;
+            metrics.OuterToInnerProgress = maxLayer > minLayer ? (lastLayer - firstLayer) / (float)Mathf.Max(1, maxLayer - minLayer) : 0f;
+            metrics.NearRate = metrics.Transitions > 0 ? nearCount / (float)metrics.Transitions : 0f;
+            metrics.AvgJumpDistance = metrics.Transitions > 0 ? jumpDistanceSum / (float)metrics.Transitions : 0f;
+            metrics.RegionTransitionRate = metrics.Transitions > 0 ? metrics.RegionTransitionCount / (float)metrics.Transitions : 0f;
+            metrics.AxisShiftRate = metrics.Transitions > 0 ? metrics.AxisShiftCount / (float)metrics.Transitions : 0f;
+            metrics.DirectionShiftRate = metrics.Transitions > 0 ? metrics.DirectionShiftCount / (float)metrics.Transitions : 0f;
+            return metrics;
+        }
+
+        private static int GetPressurePeelLayer(
+            int width,
+            int height,
+            Vector2Int fallbackPos,
+            PressureChainTraceStat stat)
+        {
+            float x = stat != null ? stat.CenterX : fallbackPos.x;
+            float y = stat != null ? stat.CenterY : fallbackPos.y;
+            float layer = Mathf.Min(
+                Mathf.Min(x, y),
+                Mathf.Min((width - 1) - x, (height - 1) - y));
+            return Mathf.Clamp(Mathf.FloorToInt(layer / 2f), 0, 8);
+        }
+
+        private static int GetPressureTraceRegion(
+            int width,
+            int height,
+            Vector2Int fallbackPos,
+            PressureChainTraceStat stat)
+        {
+            if (stat != null)
+                return stat.Region;
+
+            int regionX = Mathf.Min(2, Mathf.Max(0, Mathf.FloorToInt(fallbackPos.x * 3f / Mathf.Max(1, width))));
+            int regionY = Mathf.Min(2, Mathf.Max(0, Mathf.FloorToInt(fallbackPos.y * 3f / Mathf.Max(1, height))));
+            return regionY * 3 + regionX;
+        }
+
+        private static int ScorePressureSolveFlowMetrics(PressureSolveFlowMetrics metrics)
+        {
+            if (metrics == null || metrics.Transitions <= 0)
+                return 0;
+
+            return -metrics.LocalRunMax * 900
+                - metrics.AxisLocalRunMax * 1500
+                - Mathf.Max(0, metrics.LocalRunMax - 4) * 2800
+                - Mathf.Max(0, metrics.AxisLocalRunMax - 3) * 3600
+                - metrics.SameDirectionLocalCount * 160
+                - Mathf.RoundToInt(metrics.NearRate * 1800f)
+                - Mathf.RoundToInt(Mathf.Max(0f, 6.5f - metrics.AvgJumpDistance) * 800f);
+        }
+
+        private static int ScoreNutationPeelLayerMetrics(PressureSolveFlowMetrics metrics)
+        {
+            if (metrics == null || metrics.Transitions <= 0)
+                return 0;
+
+            int score = 0;
+            score += metrics.DistinctLayerCount * 520;
+            score += metrics.LayerTransitionCount * 90;
+            score += Mathf.RoundToInt(Mathf.Clamp01(metrics.OuterToInnerProgress) * 900f);
+            score -= Mathf.Max(0, metrics.LayerRunMax - 9) * 520;
+            score -= metrics.LayerBacktrackCount * 180;
+            score -= Mathf.Max(0, metrics.LocalRunMax - 6) * 700;
+            score -= Mathf.Max(0, metrics.AxisLocalRunMax - 5) * 950;
+            return score;
+        }
+
+        private static int ScoreNutationPeelRhythmMetrics(PressureSolveFlowMetrics metrics)
+        {
+            if (metrics == null || metrics.Transitions <= 0)
+                return 0;
+
+            int score = 0;
+            score += metrics.DistinctRegionCount * 420;
+            score += Mathf.Min(metrics.RegionTransitionCount, 12) * 520;
+            score += Mathf.Min(metrics.AxisShiftCount, 14) * 460;
+            score += Mathf.Min(metrics.DirectionShiftCount, 18) * 170;
+            score -= Mathf.Max(0, 3 - metrics.DistinctRegionCount) * 1500;
+            score -= Mathf.Max(0, 7 - metrics.RegionTransitionCount) * 1050;
+            score -= Mathf.Max(0, 7 - metrics.AxisShiftCount) * 1150;
+            score -= Mathf.Max(0, metrics.RegionRunMax - 6) * 1450;
+            score -= Mathf.RoundToInt(Mathf.Max(0f, metrics.RegionTransitionRate - 0.72f) * 1800f);
+            score -= Mathf.RoundToInt(Mathf.Max(0f, metrics.AxisShiftRate - 0.62f) * 1400f);
+            return score;
+        }
+
+        private static int ScoreNutationPeelV2DirectionMetrics(PressureSolveFlowMetrics metrics)
+        {
+            if (metrics == null || metrics.Transitions <= 0)
+                return 0;
+
+            int score = 0;
+            score += Mathf.Min(metrics.AxisShiftCount, 8) * 2100;
+            score += Mathf.Min(metrics.DirectionShiftCount, 10) * 760;
+            score -= Mathf.Max(0, 2 - metrics.AxisShiftCount) * 9800;
+            score -= Mathf.Max(0, 2 - metrics.DirectionShiftCount) * 4200;
+            score -= Mathf.Max(0, metrics.AxisLocalRunMax - 3) * 2400;
+            score -= metrics.SameDirectionLocalCount * 520;
+            return score;
+        }
+
+        private static int ScorePeelRailLanguageMetrics(BuildMetrics metrics)
+        {
+            if (metrics == null)
+                return 0;
+
+            int score = 0;
+            score += Mathf.RoundToInt(Mathf.Clamp01((metrics.Straightness - 0.32f) / 0.30f) * 4200f);
+            score -= Mathf.RoundToInt(Mathf.Abs(metrics.Straightness - 0.62f) * 4200f);
+            score += Mathf.Max(0, metrics.MaxChainLength - 15) * 180;
+            score += Mathf.RoundToInt(Mathf.Max(0f, metrics.AverageChainLength - 10.4f) * 420f);
+            score -= Mathf.RoundToInt(Mathf.Max(0f, metrics.Straightness - 0.76f) * 80000f);
+            score -= Mathf.RoundToInt(Mathf.Max(0f, metrics.Straightness - 0.82f) * 90000f);
+            score -= Mathf.Max(0, metrics.ShortEdgeChains - 5) * 360;
+            return score;
+        }
+
+        private static bool PeelRailLanguageGatePasses(BuildMetrics metrics)
+        {
+            if (metrics == null)
+                return false;
+
+            return metrics.Straightness >= 0.30f
+                && metrics.Straightness <= 0.78f
+                && metrics.MaxChainLength >= 16
+                && metrics.AverageChainLength >= 10.2f;
+        }
+
+        private static bool PressureSolveFlowGatePasses(PressureSolveFlowMetrics metrics)
+        {
+            if (metrics == null || metrics.Transitions <= 0)
+                return true;
+
+            return metrics.LocalRunMax <= 4
+                && metrics.AxisLocalRunMax <= 3
+                && metrics.NearRate <= 0.58f
+                && metrics.AvgJumpDistance >= 6.0f;
+        }
+
+        private static bool NutationPeelRhythmGatePasses(PressureSolveFlowMetrics metrics)
+        {
+            if (metrics == null || metrics.Transitions <= 0)
+                return false;
+
+            return metrics.DistinctRegionCount >= 3
+                && metrics.RegionTransitionCount >= 7
+                && metrics.RegionRunMax <= 6
+                && metrics.RegionTransitionRate <= 0.72f
+                && metrics.AxisShiftRate <= 0.62f;
+        }
+
+        private static bool NutationPeelV2DirectionGatePasses(PressureSolveFlowMetrics metrics)
+        {
+            if (metrics == null || metrics.Transitions <= 0)
+                return false;
+
+            return metrics.AxisShiftCount >= 2
+                && metrics.DirectionShiftCount >= 2
+                && metrics.AxisLocalRunMax <= 3;
+        }
+
+        private static string FormatPressureSolveFlowStatus(PressureSolveFlowMetrics metrics)
+        {
+            if (metrics == null || metrics.Transitions <= 0)
+                return string.Empty;
+
+            return $" | TraceRun={metrics.LocalRunMax}/{metrics.AxisLocalRunMax} TraceJump={metrics.AvgJumpDistance:0.0} TraceNear={metrics.NearRate:0.00} TraceSame={metrics.SameDirectionLocalCount} Rhythm={metrics.DistinctRegionCount}/{metrics.RegionTransitionCount}/{metrics.RegionRunMax} AxisShift={metrics.AxisShiftCount} DirShift={metrics.DirectionShiftCount} PeelLayer={metrics.DistinctLayerCount}/{metrics.LayerTransitionCount}/{metrics.LayerRunMax} PeelBack={metrics.LayerBacktrackCount} PeelProgress={metrics.OuterToInnerProgress:0.00}";
+        }
+
+        private static PressureDependencySpreadMetrics ComputePressureDependencySpreadMetrics(AuthoredLevelData authored)
+        {
+            var metrics = new PressureDependencySpreadMetrics
+            {
+                MinDependencyDistance = int.MaxValue
+            };
+            if (authored?.arrows == null || authored.width <= 0 || authored.height <= 0)
+                return metrics;
+
+            int width = authored.width;
+            int height = authored.height;
+            int[] ownerByCell = BuildAuthoredOwnerByCell(authored);
+            List<PressureChainTraceStat> statsByOwner = BuildPressureTraceStatsByOwner(authored);
+            int count = statsByOwner.Count;
+            if (count <= 0)
+                return metrics;
+
+            var blockerByOwner = new int[count];
+            var nearByOwner = new bool[count];
+            var axisNearByOwner = new bool[count];
+            for (int i = 0; i < count; i++)
+                blockerByOwner[i] = -1;
+
+            int distanceSum = 0;
+            int nearThreshold = Mathf.Max(5, Mathf.RoundToInt(Mathf.Min(width, height) * 0.30f));
+            for (int owner = 0; owner < count; owner++)
+            {
+                PressureChainTraceStat stat = statsByOwner[owner];
+                if (stat == null || !stat.HasOutDir)
+                    continue;
+
+                int blocker = FindFirstPressureRayBlockerOwner(stat, width, height, ownerByCell, owner);
+                if (blocker < 0 || blocker >= count)
+                    continue;
+
+                PressureChainTraceStat blockerStat = statsByOwner[blocker];
+                if (blockerStat == null)
+                    continue;
+
+                blockerByOwner[owner] = blocker;
+                metrics.DependencyCount++;
+
+                int distance = PressureChainDistance(stat, blockerStat);
+                distanceSum += distance;
+                metrics.MinDependencyDistance = Mathf.Min(metrics.MinDependencyDistance, distance);
+
+                bool local = IsPressureLocalPatch(stat, blockerStat, width, height);
+                bool near = local || PressureBoxGap(stat, blockerStat) <= 3 || distance <= nearThreshold;
+                if (!near)
+                    continue;
+
+                nearByOwner[owner] = true;
+                metrics.NearDependencyCount++;
+                if (stat.HasOutDir && blockerStat.HasOutDir && SamePressureDirectionAxis(stat.OutDir, blockerStat.OutDir))
+                {
+                    axisNearByOwner[owner] = true;
+                    metrics.AxisNearDependencyCount++;
+                    if (stat.OutDir == blockerStat.OutDir)
+                        metrics.SameDirectionNearDependencyCount++;
+                }
+            }
+
+            metrics.AvgDependencyDistance = metrics.DependencyCount > 0
+                ? distanceSum / (float)metrics.DependencyCount
+                : 0f;
+            metrics.NearDependencyRate = metrics.DependencyCount > 0
+                ? metrics.NearDependencyCount / (float)metrics.DependencyCount
+                : 0f;
+            if (metrics.MinDependencyDistance == int.MaxValue)
+                metrics.MinDependencyDistance = 0;
+
+            for (int start = 0; start < count; start++)
+            {
+                var seen = new HashSet<int>();
+                int current = start;
+                int nearRun = 0;
+                int axisRun = 0;
+                while ((uint)current < (uint)count && seen.Add(current))
+                {
+                    int next = blockerByOwner[current];
+                    if (next < 0)
+                        break;
+
+                    if (nearByOwner[current])
+                    {
+                        nearRun++;
+                        metrics.NearDependencyRunMax = Mathf.Max(metrics.NearDependencyRunMax, nearRun);
+                    }
+                    else
+                    {
+                        nearRun = 0;
+                    }
+
+                    if (axisNearByOwner[current])
+                    {
+                        axisRun++;
+                        metrics.AxisNearDependencyRunMax = Mathf.Max(metrics.AxisNearDependencyRunMax, axisRun);
+                    }
+                    else
+                    {
+                        axisRun = 0;
+                    }
+
+                    current = next;
+                }
+            }
+
+            return metrics;
+        }
+
+        private static int ScorePressureDependencySpreadMetrics(PressureDependencySpreadMetrics metrics)
+        {
+            if (metrics == null || metrics.DependencyCount <= 0)
+                return 0;
+
+            return -metrics.NearDependencyCount * 260
+                - metrics.AxisNearDependencyCount * 360
+                - metrics.SameDirectionNearDependencyCount * 220
+                - metrics.NearDependencyRunMax * 920
+                - metrics.AxisNearDependencyRunMax * 1180
+                - Mathf.RoundToInt(metrics.NearDependencyRate * 1500f)
+                - Mathf.RoundToInt(Mathf.Max(0f, 6.5f - metrics.AvgDependencyDistance) * 420f);
+        }
+
+        private static bool PressureSpreadGatePasses(PressureDependencySpreadMetrics metrics)
+        {
+            if (metrics == null || metrics.DependencyCount <= 0)
+                return true;
+
+            return metrics.NearDependencyRunMax <= 4
+                && metrics.AxisNearDependencyRunMax <= 3
+                && metrics.NearDependencyRate <= 0.72f
+                && metrics.AvgDependencyDistance >= 4.5f;
+        }
+
+        private static string FormatPressureSpreadStatus(PressureDependencySpreadMetrics metrics)
+        {
+            if (metrics == null || metrics.DependencyCount <= 0)
+                return string.Empty;
+
+            return $" | DepSpread={metrics.NearDependencyCount}/{metrics.DependencyCount} axis={metrics.AxisNearDependencyCount} same={metrics.SameDirectionNearDependencyCount} run={metrics.NearDependencyRunMax}/{metrics.AxisNearDependencyRunMax} dist={metrics.AvgDependencyDistance:0.0}/{metrics.MinDependencyDistance}";
+        }
+
+        private static int FindFirstPressureRayBlockerOwner(
+            PressureChainTraceStat stat,
+            int width,
+            int height,
+            int[] ownerByCell,
+            int owner)
+        {
+            if (stat == null || !stat.HasOutDir || ownerByCell == null)
+                return -1;
+
+            Vector2Int step = DirToOffset(stat.OutDir);
+            Vector2Int p = Pos(stat.HeadIndex, width) + step;
+            while ((uint)p.x < (uint)width && (uint)p.y < (uint)height)
+            {
+                int index = Index(p, width);
+                if ((uint)index < (uint)ownerByCell.Length)
+                {
+                    int blocker = ownerByCell[index];
+                    if (blocker >= 0 && blocker != owner)
+                        return blocker;
+                }
+
+                p += step;
+            }
+
+            return -1;
+        }
+
+        private static int PressureChainDistance(PressureChainTraceStat a, PressureChainTraceStat b)
+        {
+            if (a == null || b == null)
+                return 0;
+
+            return Mathf.RoundToInt(Mathf.Abs(a.CenterX - b.CenterX) + Mathf.Abs(a.CenterY - b.CenterY));
+        }
+
+        private static bool SamePressureDirectionAxis(Dir a, Dir b)
+        {
+            return (((int)a) & 1) == (((int)b) & 1);
         }
 
         private static int ScoreGateAwareWavePenalty(GateAwareWaveMetrics metrics)
@@ -10231,7 +12837,10 @@ namespace PixelBug.ArrowMagic.EditorTools
             for (int i = 0; i < authored.arrows.Count; i++)
             {
                 AuthoredArrowData arrow = authored.arrows[i];
-                result.Add(BuildPressureTraceStat(arrow, authored.width, authored.height));
+                PressureChainTraceStat stat = BuildPressureTraceStat(arrow, authored.width, authored.height);
+                if (stat != null)
+                    stat.Owner = i;
+                result.Add(stat);
             }
 
             return result;
@@ -10288,8 +12897,15 @@ namespace PixelBug.ArrowMagic.EditorTools
             int regionY = Mathf.Min(2, Mathf.Max(0, Mathf.FloorToInt(cy * 3f / Mathf.Max(1, height))));
             int microX = Mathf.Min(3, Mathf.Max(0, Mathf.FloorToInt(cx * 4f / Mathf.Max(1, width))));
             int microY = Mathf.Min(5, Mathf.Max(0, Mathf.FloorToInt(cy * 6f / Mathf.Max(1, height))));
+            Dir outDir = default;
+            bool hasOutDir = arrow.indices.Count >= 2
+                && TryGetOutDir(Pos(arrow.indices[0], width), Pos(arrow.indices[1], width), out outDir);
             return new PressureChainTraceStat
             {
+                Owner = -1,
+                HeadIndex = arrow.indices[0],
+                HasOutDir = hasOutDir,
+                OutDir = hasOutDir ? outDir : default,
                 MinX = minX,
                 MaxX = maxX,
                 MinY = minY,
@@ -10416,6 +13032,108 @@ namespace PixelBug.ArrowMagic.EditorTools
                 if (level != null)
                     levels.Add(level);
             }
+        }
+
+        private static List<LevelDefinition> LoadLevelsFromCsvManifest(string csvPath, string logTag)
+        {
+            if (!File.Exists(csvPath))
+                throw new FileNotFoundException($"Missing level manifest CSV: {csvPath}", csvPath);
+
+            string[] lines = File.ReadAllLines(csvPath);
+            if (lines.Length == 0)
+                throw new InvalidOperationException($"Level manifest CSV is empty: {csvPath}");
+
+            List<string> headers = SplitCsvLine(lines[0]);
+            int assetPathColumn = FindCsvColumn(headers, "assetPath", "AssetPath", "path", "Path");
+            int levelIdColumn = FindCsvColumn(headers, "levelId", "LevelId");
+            if (assetPathColumn < 0)
+                throw new InvalidOperationException($"Level manifest CSV must contain assetPath or path: {csvPath}");
+
+            var levels = new List<LevelDefinition>();
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            for (int i = 1; i < lines.Length; i++)
+            {
+                if (string.IsNullOrWhiteSpace(lines[i]))
+                    continue;
+
+                List<string> values = SplitCsvLine(lines[i]);
+                if (assetPathColumn >= values.Count)
+                    continue;
+
+                string assetPath = values[assetPathColumn].Trim().Replace("\\", "/");
+                if (string.IsNullOrWhiteSpace(assetPath) || !seen.Add(assetPath))
+                    continue;
+
+                LevelDefinition level = AssetDatabase.LoadAssetAtPath<LevelDefinition>(assetPath);
+                if (level != null)
+                {
+                    levels.Add(level);
+                    continue;
+                }
+
+                string levelId = levelIdColumn >= 0 && levelIdColumn < values.Count ? values[levelIdColumn] : "";
+                Debug.LogWarning($"[{logTag}] LevelDefinition not found. levelId={levelId}, path={assetPath}");
+            }
+
+            return levels;
+        }
+
+        private static int FindCsvColumn(List<string> headers, params string[] names)
+        {
+            if (headers == null || names == null)
+                return -1;
+
+            for (int i = 0; i < headers.Count; i++)
+            {
+                for (int j = 0; j < names.Length; j++)
+                {
+                    if (string.Equals(headers[i], names[j], StringComparison.OrdinalIgnoreCase))
+                        return i;
+                }
+            }
+
+            return -1;
+        }
+
+        private static List<string> SplitCsvLine(string line)
+        {
+            var values = new List<string>();
+            if (line == null)
+            {
+                values.Add("");
+                return values;
+            }
+
+            var current = new System.Text.StringBuilder();
+            bool inQuotes = false;
+            for (int i = 0; i < line.Length; i++)
+            {
+                char c = line[i];
+                if (c == '"')
+                {
+                    if (inQuotes && i + 1 < line.Length && line[i + 1] == '"')
+                    {
+                        current.Append('"');
+                        i++;
+                    }
+                    else
+                    {
+                        inQuotes = !inQuotes;
+                    }
+                }
+                else if (c == ',' && !inQuotes)
+                {
+                    values.Add(current.ToString());
+                    current.Length = 0;
+                }
+                else
+                {
+                    current.Append(c);
+                }
+            }
+
+            values.Add(current.ToString());
+            return values;
         }
 
         private static LevelPack SavePack(List<LevelDefinition> levels)

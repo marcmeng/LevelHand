@@ -1,0 +1,48 @@
+Trace wrote 6 rows to F:\Unityproject\ArrowLevel-Hand\.worktrees\sgp-rhythm-lab\Assets\ArrowMagic\SOData\Reports\SGPRhythmLab\c5hole_lowchoice_v1_h02r_order70_metrics.csv; missing/failed=6
+
+
+sourceCsv                         : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_source_
+                                    subset.csv
+traceMetricsCsv                   : F:\Unityproject\ArrowLevel-Hand\.worktrees\sgp-rhythm-lab\Assets\ArrowMagic\SOData\
+                                    Reports\SGPRhythmLab\c5hole_lowchoice_v1_h02r_order70_metrics.csv
+outputCsv                         : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_trace_j
+                                    oined.csv
+summaryPath                       : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_trace_j
+                                    oined_summary.md
+bestPerSlotCsv                    : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_trace_b
+                                    est_per_slot.csv
+productionKeepCsv                 : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_product
+                                    ion_keep.csv
+productionKeepMode                : TraceOrderPreferred
+productionKeepSource              : TraceOrderKeep
+joinedRows                        : 6
+processKeepRows                   : 5
+visualPassRows                    : 4
+stsMetricPresentRows              : 6
+stsPassRows                       : 3
+stsKeepCandidateRows              : 2
+productionKeepEligibleRows        : 2
+productionKeepRows                : 2
+productionDiversityEnabled        : False
+productionDiversityDroppedRows    : 0
+productionDiversityBackfilledRows : 0
+
+
+
+
+
+allCsv             : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_strict_audit_all_audit
+                     ed.csv
+strictCsv          : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_strict_audit_strict_ro
+                     ws.csv
+bestCsv            : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_strict_audit_strict_be
+                     st_per_order.csv
+summaryPath        : F:\Unityproject\ArrowLevel-Hand\.codex-run\c5hole_lowchoice_v1_h02r_order70_strict_audit_summary.m
+                     d
+auditedRows        : 6
+strictRows         : 2
+strictUniqueOrders : 1
+missingOrders      : 43
+
+
+

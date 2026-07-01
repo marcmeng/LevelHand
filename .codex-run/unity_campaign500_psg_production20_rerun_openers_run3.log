@@ -1,0 +1,1069 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-admin" at "2026-06-27T02:21:15.0993315Z"
+[Licensing::Client] Code 1 while verifying Licensing Client signature (process Id: 14712, path: "G:/unity/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Error: HandshakeResponse reported an error:
+	ResponseCode: 505
+	ResponseStatus: Unsupported protocol version '1.16.2'.
+[Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-admin"
+[Licensing::IpcConnector] LicenseClient-admin channel disconnected successfully.
+[Licensing::IpcConnector] Channel LicenseClient-admin-2022.3.62 doesn't exist
+[Licensing::Module] Successfully launched the LicensingClient (PId: 110348)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-admin-2022.3.62" at "2026-06-27T02:21:16.8673818Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 110348, path: "H:/UnityEditorFromG/unity/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.16.2+bdef8f5
+  Session Id:              c243790c217b4639a9f8a5c0387161bd
+  Correlation Id:          c05ce995bf3886312ebccce4e1d51dcf
+  External correlation Id: 2169747061903744921
+  Machine Id:              KyWCacI71HsTcmMU7ROxAWRbkWo=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-admin-2022.3.62" (connect: 0.86s, validation: 0.05s, handshake: 0.01s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-admin-2022.3.62-notifications" at "2026-06-27T02:21:16.9278938Z"
+[Licensing::Module] Connected to LicensingClient (PId: 110348, launch time: 0.01, total connection time: 0.92s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Error: Code 500 while processing request (status: Unable to update licenses. Errors: Request (POST https://license.unity3d.com/update/poll?cmd=2&tx_id=a3c2b07534b04871b9a84dd458a6d7e3) failed [400 Bad Request]: Bad ULF signature - suspect foul play,Token not found in cache)
+[Licensing::Client] Error: Code 500 while updating license in client (status: Unable to update licenses. Errors: Request (POST https://license.unity3d.com/update/poll?cmd=2&tx_id=a3c2b07534b04871b9a84dd458a6d7e3) failed [400 Bad Request]: Bad ULF signature - suspect foul play,Token not found in cache)
+Built from '2022.3/staging' branch; Version is '2022.3.62f1 (4af31df58517) revision 4911901'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19045) 64bit Professional' Language: 'zh' Physical Memory: 32700 MB
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Serial number assigned to: "F4-QKO8-KK5T-GXJU-BE2Q-XXXX"
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+[Licensing::Client] Successfully resolved entitlement details
+
+COMMAND LINE ARGUMENTS:
+H:\UnityEditorFromG\unity\Editor\Unity.exe
+-batchmode
+-nographics
+-quit
+-projectPath
+F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal
+-executeMethod
+PixelBug.ArrowMagic.EditorTools.NoMaskProceduralGenerator.BuildCampaign500PsgNormalProduction20Pack
+-logFile
+F:\Unityproject\ArrowLevel-Hand\.codex-run\unity_campaign500_psg_production20_rerun_openers_run3.log
+Successfully changed project path to: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal
+F:/Unityproject/ArrowLevel-Hand/.worktrees/campaign500-psg-normal
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [60052]  Target information:
+
+Player connection [60052]  * "[IP] 172.18.16.36 [Port] 55504 [Flags] 2 [Guid] 3806806749 [EditorId] 3806806749 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-UAT1V2Q) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [60052] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [60052] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[Package Manager] UpmClient::Connect -- Connected to IPC stream "Upm-55656" after 0.4 seconds.
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 55 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.collab-proxy@2.7.1 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.collab-proxy@2.7.1)
+    com.unity.ide.rider@3.0.36 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.ide.rider@3.0.36)
+    com.unity.ide.visualstudio@2.0.22 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.ide.visualstudio@2.0.22)
+    com.unity.test-framework@1.1.33 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.test-framework@1.1.33)
+    com.unity.textmeshpro@3.0.7 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.textmeshpro@3.0.7)
+    com.unity.timeline@1.7.7 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.timeline@1.7.7)
+    com.unity.visualscripting@1.9.4 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.visualscripting@1.9.4)
+    com.unity.ext.nunit@1.0.6 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.ext.nunit@1.0.6)
+    com.unity.2d.animation@9.2.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.animation@9.2.0)
+    com.unity.2d.pixel-perfect@5.1.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.pixel-perfect@5.1.0)
+    com.unity.2d.psdimporter@8.1.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.psdimporter@8.1.0)
+    com.unity.2d.spriteshape@9.1.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.spriteshape@9.1.0)
+    com.unity.2d.tilemap.extras@3.1.3 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.tilemap.extras@3.1.3)
+    com.unity.2d.aseprite@1.1.9 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.aseprite@1.1.9)
+    com.unity.2d.common@8.1.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.common@8.1.0)
+    com.unity.mathematics@1.2.6 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.mathematics@1.2.6)
+    com.unity.collections@1.2.4 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.collections@1.2.4)
+    com.unity.burst@1.8.21 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.burst@1.8.21)
+  Built-in packages:
+    com.unity.feature.2d@2.0.1 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.feature.2d@2.0.1)
+    com.unity.ugui@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.ugui@1.0.0)
+    com.unity.modules.ai@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.ai@1.0.0)
+    com.unity.modules.androidjni@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.androidjni@1.0.0)
+    com.unity.modules.animation@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.animation@1.0.0)
+    com.unity.modules.assetbundle@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.assetbundle@1.0.0)
+    com.unity.modules.audio@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.audio@1.0.0)
+    com.unity.modules.cloth@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.cloth@1.0.0)
+    com.unity.modules.director@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.director@1.0.0)
+    com.unity.modules.imageconversion@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.imageconversion@1.0.0)
+    com.unity.modules.imgui@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.imgui@1.0.0)
+    com.unity.modules.jsonserialize@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.jsonserialize@1.0.0)
+    com.unity.modules.particlesystem@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.particlesystem@1.0.0)
+    com.unity.modules.physics@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.physics@1.0.0)
+    com.unity.modules.physics2d@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.physics2d@1.0.0)
+    com.unity.modules.screencapture@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.screencapture@1.0.0)
+    com.unity.modules.terrain@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.terrain@1.0.0)
+    com.unity.modules.terrainphysics@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.terrainphysics@1.0.0)
+    com.unity.modules.tilemap@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.tilemap@1.0.0)
+    com.unity.modules.ui@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.ui@1.0.0)
+    com.unity.modules.uielements@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.uielements@1.0.0)
+    com.unity.modules.umbra@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.umbra@1.0.0)
+    com.unity.modules.unityanalytics@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.unityanalytics@1.0.0)
+    com.unity.modules.unitywebrequest@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.unitywebrequest@1.0.0)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle@1.0.0)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.unitywebrequestaudio@1.0.0)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.unitywebrequesttexture@1.0.0)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.unitywebrequestwww@1.0.0)
+    com.unity.modules.vehicles@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.vehicles@1.0.0)
+    com.unity.modules.video@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.video@1.0.0)
+    com.unity.modules.vr@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.vr@1.0.0)
+    com.unity.modules.wind@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.wind@1.0.0)
+    com.unity.modules.xr@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.xr@1.0.0)
+    com.unity.modules.subsystems@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.modules.subsystems@1.0.0)
+    com.unity.2d.sprite@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.sprite@1.0.0)
+    com.unity.2d.tilemap@1.0.0 (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Library\PackageCache\com.unity.2d.tilemap@1.0.0)
+  Embedded packages:
+    com.pixelbug.arrow-level-generator@file:F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Packages\com.pixelbug.arrow-level-generator (location: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\Packages\com.pixelbug.arrow-level-generator)
+[Subsystems] No new subsystems found in resolved package list.
+Package Manager log level set to [2]
+[Package Manager] Done registering packages in 0.28 seconds
+Refreshing native plugins compatible for Editor in 24.73 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2022.3.62f1 (4af31df58517)
+[Subsystems] Discovering subsystems at path H:/UnityEditorFromG/unity/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path F:/Unityproject/ArrowLevel-Hand/.worktrees/campaign500-psg-normal/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; threaded=0; jobified=0
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+[Licensing::Client] Successfully resolved entitlement details
+Initialize mono
+Mono path[0] = 'H:/UnityEditorFromG/unity/Editor/Data/Managed'
+Mono path[1] = 'H:/UnityEditorFromG/unity/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'H:/UnityEditorFromG/unity/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56656
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: H:/UnityEditorFromG/unity/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.005230 seconds.
+- Loaded All Assemblies, in  0.303 seconds
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.239 seconds
+Domain Reload Profiling: 541ms
+	BeginReloadAssembly (98ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (29ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (48ms)
+	LoadAllAssembliesAndSetupDomain (117ms)
+		LoadAssemblies (96ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (116ms)
+			TypeCache.Refresh (115ms)
+				TypeCache.ScanAssembly (103ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (239ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (199ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (9ms)
+			SetLoadedEditorAssemblies (8ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (2ms)
+			ProcessInitializeOnLoadAttributes (138ms)
+			ProcessInitializeOnLoadMethodAttributes (42ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:80
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: F:\Unityproject\ArrowLevel-Hand\.worktrees\campaign500-psg-normal\
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 36.6064ms
+Starting: H:\UnityEditorFromG\unity\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: F:/Unityproject/ArrowLevel-Hand/.worktrees/campaign500-psg-normal
+DisplayProgressbar: Compiling Scripts
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "H:\UnityEditorFromG\unity\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "H:\UnityEditorFromG\unity\Editor\Data\NetStandard\Extensions\2.0.0\System.Runtime.InteropServices.WindowsRuntime.dll"
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "H:\UnityEditorFromG\unity\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.ComponentModel.Composition.dll" in favor of "H:\UnityEditorFromG\unity\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.ComponentModel.Composition.dll"
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library\PackageCache\com.unity.burst@1.8.21\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 34.8265ms
+ExitCode: 0 Duration: 0s395ms
+[514/656    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.36 seconds), 1 items updated, 656 evaluated
+AssetDatabase: script compilation time: 0.819754s
+Begin MonoManager ReloadAssembly
+Total cache size 70787664
+Total cache size after purge 70787664
+- Loaded All Assemblies, in  0.619 seconds
+Refreshing native plugins compatible for Editor in 8.25 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Refreshing native plugins compatible for Editor in 9.08 ms, found 4 plugins.
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.819 seconds
+Domain Reload Profiling: 3433ms
+	BeginReloadAssembly (136ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (5ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (22ms)
+	RebuildCommonClasses (30ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (28ms)
+	LoadAllAssembliesAndSetupDomain (410ms)
+		LoadAssemblies (318ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (167ms)
+			TypeCache.Refresh (139ms)
+				TypeCache.ScanAssembly (123ms)
+			ScanForSourceGeneratedMonoScriptInfo (21ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (2819ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (2691ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			SetLoadedEditorAssemblies (5ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (79ms)
+			ProcessInitializeOnLoadAttributes (2537ms)
+			ProcessInitializeOnLoadMethodAttributes (60ms)
+			AfterProcessingInitializeOnLoad (6ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (7ms)
+Start importing Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production20_report.csv using Guid(da11141938d9fac4e930d1eb4d0acc76) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'faca4afc56a8d07ec22b7dd1468db53f') in 0.011184 seconds
+Refreshing native plugins compatible for Editor in 12.71 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=1c2198d8e6e82324db7e2e3bbd75d5ab): Total: 6.369 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=4 ms, native=1882 ms
+		Asset DB Callback time: managed=65 ms, native=19 ms
+		Scripting: domain reloads=1, domain reload time=3526 ms, compile time=821 ms, other=48 ms
+		Project Asset Count: scripts=5142, non-scripts=7378
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 1.644ms
+	ApplyChangesToAssetFolders: 0.052ms
+	Scan: 111.211ms
+	OnSourceAssetsModified: 1.834ms
+	GetAllGuidsForCategorization: 2.055ms
+	CategorizeAssets: 217.437ms
+	ImportOutOfDateAssets: 2894.873ms (2025.778ms without children)
+		ImportManagerImport: 14.862ms (3.228ms without children)
+			ImportInProcess: 11.583ms
+			UpdateCategorizedAssets: 0.051ms
+		CompileScripts: 821.495ms
+		ReloadNativeAssets: 0.001ms
+		UnloadImportedAssets: 26.276ms
+		ReloadImportedAssets: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 3.939ms
+		InitializingProgressBar: 0.014ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 2.507ms
+	PostProcessAllAssets: 68.262ms
+	Hotreload: 13.635ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.001ms
+	UnloadStreamsBegin: 0.229ms
+	PersistCurrentRevisions: 0.744ms
+	UnloadStreamsEnd: 0.061ms
+	GenerateScriptTypeHashes: 0.641ms
+	Untracked: 3056.843ms
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 2.118ms
+Initializing Unity extensions:
+[Licensing::Client] Successfully resolved entitlement details
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-ArrowLevel-Hand
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ProgressiveSceneManager::Cancel()
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 78 unused Assets / (482.6 KB). Loaded Objects now: 4581.
+Memory consumption went from 140.5 MB to 140.1 MB.
+Total: 4.627000 ms (FindLiveObjects: 0.296000 ms CreateObjectMapping: 0.285100 ms MarkObjects: 3.695700 ms  DeleteObjects: 0.349400 ms)
+
+Asset Pipeline Refresh (id=24a84e8e826ecf44ea0225236a1a4506): Total: 0.052 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_08_sgp_pressure_hard_campaign500_pure_a_l008_normal.asset using Guid(2b4092c16cf20e340b45c5e57b0bfd11) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '558923d201a509a8c277ad50bc535fa7') in 0.003295 seconds
+Refreshing native plugins compatible for Editor in 30.53 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=641ed3344401dc240bba0051e0d55ce8): Total: 0.087 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_09_sgp_pressure_hard_campaign500_pure_relaxed_l008_normal.asset using Guid(78dbc91eec81c924da7076e84444230d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'aa4e98d75f657415d5747125dd60d028') in 0.003368 seconds
+Refreshing native plugins compatible for Editor in 11.81 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=37c68656ff4acca48b3e7afb4675a024): Total: 0.051 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_09_sgp_pressure_hard_campaign500_pure_relaxed_l008_normal.asset using Guid(78dbc91eec81c924da7076e84444230d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'aa4e98d75f657415d5747125dd60d028') in 0.002883 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_08_sgp_pressure_hard_campaign500_pure_a_l008_normal.asset using Guid(2b4092c16cf20e340b45c5e57b0bfd11) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '558923d201a509a8c277ad50bc535fa7') in 0.002598 seconds
+Refreshing native plugins compatible for Editor in 8.93 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=838c528596abe514987ddd5f80ff0052): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_10_sgp_pressure_hard_campaign500_language_a_l010_lock.asset using Guid(8b5395a1405e1e945a037dafe301ef99) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '97ba141f29d27c81937b7e351df0f8b2') in 0.004132 seconds
+Refreshing native plugins compatible for Editor in 13.58 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5437691b9109c7b4a90eac594d232025): Total: 0.059 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_11_sgp_pressure_hard_campaign500_language_b_l010_lock.asset using Guid(d05a67f196147384783e69413b5e1d0f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5ed26337e9d21a41976337111de0dfee') in 0.003228 seconds
+Refreshing native plugins compatible for Editor in 10.26 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5e3308d8bc920b742989670fdb1d8c96): Total: 0.046 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_12_sgp_pressure_hard_campaign500_pure_relaxed_l010_lock.asset using Guid(d43129e0bac30a6498cd2c896b6a3490) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '656759b98f4c0f7b3358a47defeb3461') in 0.003726 seconds
+Refreshing native plugins compatible for Editor in 16.53 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=cf97ea496e0d0fd43a3e6415e994768d): Total: 0.055 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_11_sgp_pressure_hard_campaign500_language_b_l010_lock.asset using Guid(d05a67f196147384783e69413b5e1d0f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '5ed26337e9d21a41976337111de0dfee') in 0.003734 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_12_sgp_pressure_hard_campaign500_pure_relaxed_l010_lock.asset using Guid(d43129e0bac30a6498cd2c896b6a3490) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '656759b98f4c0f7b3358a47defeb3461') in 0.002838 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_10_sgp_pressure_hard_campaign500_language_a_l010_lock.asset using Guid(8b5395a1405e1e945a037dafe301ef99) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '97ba141f29d27c81937b7e351df0f8b2') in 0.003577 seconds
+Refreshing native plugins compatible for Editor in 14.40 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5b1b641715bad534d87590c12edcdf74): Total: 0.060 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_14_sgp_pressure_hard_campaign500_pure_a_l011_normal.asset using Guid(f42f7eb86cb2acf4ca8e106d0e5f0563) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '019574d66afef6567ff85f0975ddf72e') in 0.003093 seconds
+Refreshing native plugins compatible for Editor in 9.37 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5c961aafa1d6a1740aa9d108ad98d4a0): Total: 0.568 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=555 ms
+		Asset DB Callback time: managed=0 ms, native=12 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=5142, non-scripts=7378
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 7
+	InvokeBeforeRefreshCallbacks: 0.001ms
+	ApplyChangesToAssetFolders: 0.067ms
+	Scan: 530.334ms
+	OnSourceAssetsModified: 0.001ms
+	GetAllGuidsForCategorization: 0.979ms
+	CategorizeAssets: 5.089ms
+	ImportOutOfDateAssets: 10.465ms (1.019ms without children)
+		ImportManagerImport: 5.226ms (1.718ms without children)
+			ImportInProcess: 3.489ms
+			UpdateCategorizedAssets: 0.019ms
+		ReloadNativeAssets: 0.013ms
+		UnloadImportedAssets: 0.213ms
+		ReloadImportedAssets: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 2.005ms
+		InitializingProgressBar: 0.006ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 1.981ms
+	PostProcessAllAssets: 3.348ms
+	Hotreload: 9.491ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.606ms
+	UnloadStreamsBegin: 0.126ms
+	PersistCurrentRevisions: 0.495ms
+	UnloadStreamsEnd: 0.152ms
+	Untracked: 7.227ms
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_15_sgp_pressure_hard_campaign500_pure_relaxed_l011_normal.asset using Guid(d7fb23d521ad4204a992e6f109d056c5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7a8e904f5901ce8c13c8c087a2b08643') in 0.003649 seconds
+Refreshing native plugins compatible for Editor in 10.08 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=28fe519cdc239684a8b4d8a3321a4533): Total: 0.046 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_14_sgp_pressure_hard_campaign500_pure_a_l011_normal.asset using Guid(f42f7eb86cb2acf4ca8e106d0e5f0563) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '019574d66afef6567ff85f0975ddf72e') in 0.003511 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_15_sgp_pressure_hard_campaign500_pure_relaxed_l011_normal.asset using Guid(d7fb23d521ad4204a992e6f109d056c5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7a8e904f5901ce8c13c8c087a2b08643') in 0.003021 seconds
+Refreshing native plugins compatible for Editor in 10.18 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b337a9fe8deb0174b9c7c97854f8ad15): Total: 0.050 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_17_sgp_pressure_hard_campaign500_pure_relaxed_l012_normal.asset using Guid(6815962ced7cdc645a6e911ef4d03b40) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '887be323b3309820d11e03bc7bd85028') in 0.003174 seconds
+Refreshing native plugins compatible for Editor in 9.83 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=8a03eeb30b96d6a46a30bccd4a0d99a2): Total: 0.047 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_17_sgp_pressure_hard_campaign500_pure_relaxed_l012_normal.asset using Guid(6815962ced7cdc645a6e911ef4d03b40) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '887be323b3309820d11e03bc7bd85028') in 0.003160 seconds
+Refreshing native plugins compatible for Editor in 11.47 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=db33b71ebfebfee49b569804c4ab84bd): Total: 0.049 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_19_sgp_pressure_hard_campaign500_pure_relaxed_l014_normal.asset using Guid(ca0dfebaa574cc049ace9995aeae2801) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1a59363f03a311b10c6afb2de7d03402') in 0.003735 seconds
+Refreshing native plugins compatible for Editor in 11.81 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b17ea991616657c4b8aacb745fed4068): Total: 0.052 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_19_sgp_pressure_hard_campaign500_pure_relaxed_l014_normal.asset using Guid(ca0dfebaa574cc049ace9995aeae2801) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1a59363f03a311b10c6afb2de7d03402') in 0.004190 seconds
+Refreshing native plugins compatible for Editor in 12.05 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f0aacddeb880e4d4fbee437c88a0594c): Total: 0.052 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_20_sgp_pressure_hard_campaign500_language_a_l015_section.asset using Guid(92b31752795da8f4aac5fa336fc73607) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '39062eaed7c89437b410b7f6dd941582') in 0.002938 seconds
+Refreshing native plugins compatible for Editor in 8.52 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=71e4f17c432eec342bfdd6f220002b30): Total: 0.038 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_21_sgp_pressure_hard_campaign500_language_b_l015_section.asset using Guid(8892b013b576d1a48b10af61eca1ab7a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '868ed64f47d72ec6d9362478de46fd74') in 0.002884 seconds
+Refreshing native plugins compatible for Editor in 9.97 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=0e31394a0f5bbe446a044a1cb66900f4): Total: 0.040 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_22_sgp_pressure_hard_campaign500_pure_relaxed_l015_section.asset using Guid(7de1eadcad77a21428771772a177fb50) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c9ddcb3ed640046bf4fe35f8f492b278') in 0.002901 seconds
+Refreshing native plugins compatible for Editor in 9.42 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e88b64a1e613df548a85a8c296f8eef3): Total: 0.039 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_23_sgp_pressure_hard_campaign500_layout_soft_l015_section.asset using Guid(43f90e3a058f26548a6f37da0f76cc2f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3b9ed5d5adda94efb41fae4c874b2e65') in 0.002897 seconds
+Refreshing native plugins compatible for Editor in 8.57 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=7b41416f119f26f4b87b0fa151da2e86): Total: 0.037 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_20_sgp_pressure_hard_campaign500_language_a_l015_section.asset using Guid(92b31752795da8f4aac5fa336fc73607) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '39062eaed7c89437b410b7f6dd941582') in 0.003021 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_23_sgp_pressure_hard_campaign500_layout_soft_l015_section.asset using Guid(43f90e3a058f26548a6f37da0f76cc2f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9b6f1fe69a8dd1e048f257dc1d084472') in 0.002624 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_21_sgp_pressure_hard_campaign500_language_b_l015_section.asset using Guid(8892b013b576d1a48b10af61eca1ab7a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '868ed64f47d72ec6d9362478de46fd74') in 0.002635 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_22_sgp_pressure_hard_campaign500_pure_relaxed_l015_section.asset using Guid(7de1eadcad77a21428771772a177fb50) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c9ddcb3ed640046bf4fe35f8f492b278') in 0.002415 seconds
+Refreshing native plugins compatible for Editor in 8.93 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=93ba5be10d8714640a26079b1392b488): Total: 0.046 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_24_sgp_pressure_hard_campaign500_language_a_l016_lock.asset using Guid(7ad2aca2b4a89384c9320df869d0402f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e8d5551e77c47403b33cf0b19609ec96') in 0.002960 seconds
+Refreshing native plugins compatible for Editor in 8.94 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=01927a610e0b9d641901d482242475ff): Total: 0.040 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_25_sgp_pressure_hard_campaign500_language_b_l016_lock.asset using Guid(25665e8e063b65d42b6ada53ea2c7df7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'bd9032335e2fd4f3dacdfaa8c944bd59') in 0.003231 seconds
+Refreshing native plugins compatible for Editor in 9.18 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b17ece9d4cbe6884fad427264cd4ab2f): Total: 0.040 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_26_sgp_pressure_hard_campaign500_pure_relaxed_l016_lock.asset using Guid(c1783dba20ec6a346b5cd6b3b7e61938) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1cc801b453e4d2bae07831e7b0b56ffc') in 0.002975 seconds
+Refreshing native plugins compatible for Editor in 8.48 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=a488cb3e008b02e4581d596237f0b2ee): Total: 0.037 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_27_sgp_pressure_hard_campaign500_layout_soft_l016_lock.asset using Guid(0ab404813da4c4d40938ef79b3a41a7a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0b6acc2f5f9865fbc662ec3c2f9db5aa') in 0.002954 seconds
+Refreshing native plugins compatible for Editor in 9.66 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b74f9dfeefd7d314dba3a4e1969106b2): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_27_sgp_pressure_hard_campaign500_layout_soft_l016_lock.asset using Guid(0ab404813da4c4d40938ef79b3a41a7a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0b6acc2f5f9865fbc662ec3c2f9db5aa') in 0.003003 seconds
+Refreshing native plugins compatible for Editor in 8.44 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=835f3ebaff238f845910115fe8230967): Total: 0.038 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_26_sgp_pressure_hard_campaign500_pure_relaxed_l016_lock.asset using Guid(c1783dba20ec6a346b5cd6b3b7e61938) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1cc801b453e4d2bae07831e7b0b56ffc') in 0.002886 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_25_sgp_pressure_hard_campaign500_language_b_l016_lock.asset using Guid(25665e8e063b65d42b6ada53ea2c7df7) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'bd9032335e2fd4f3dacdfaa8c944bd59') in 0.002418 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_24_sgp_pressure_hard_campaign500_language_a_l016_lock.asset using Guid(7ad2aca2b4a89384c9320df869d0402f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e8d5551e77c47403b33cf0b19609ec96') in 0.002381 seconds
+Refreshing native plugins compatible for Editor in 8.90 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f04b2f2b328f2754db89e726f9717d0a): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_29_sgp_pressure_hard_campaign500_pure_relaxed_l018_normal.asset using Guid(dba5539c00e9c914ea32f6e23870bd07) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '877d7d5942bea5859be0462d0fb778e9') in 0.003224 seconds
+Refreshing native plugins compatible for Editor in 10.50 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=71e8e714c757d6b48bf92249882c8ee9): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_29_sgp_pressure_hard_campaign500_pure_relaxed_l018_normal.asset using Guid(dba5539c00e9c914ea32f6e23870bd07) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '877d7d5942bea5859be0462d0fb778e9') in 0.003171 seconds
+Refreshing native plugins compatible for Editor in 10.93 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=74f185482a9373044a636ec5b5f89aae): Total: 0.046 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_31_sgp_pressure_hard_campaign500_language_b_l019_lock.asset using Guid(776ba17f4146e3045a4e27edc12df439) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '25a7738e220ad0c781ceb77f02157d21') in 0.003222 seconds
+Refreshing native plugins compatible for Editor in 9.75 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=52ad4bd36aa1b3a44af0a5b0b10ecf0c): Total: 0.046 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_32_sgp_pressure_hard_campaign500_pure_relaxed_l019_lock.asset using Guid(3bd590ff9120d5844a7b2171b86b96f0) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'cc31cd956ad73ddd0e5326bd0c0bed26') in 0.003035 seconds
+Refreshing native plugins compatible for Editor in 8.41 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=861b4de259267984a9414d04e6944233): Total: 0.036 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_33_sgp_pressure_hard_campaign500_layout_soft_l019_lock.asset using Guid(ef7705e9939f525479766cd6ebd8ab81) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd0668f63b33c5449166b0175edf084c5') in 0.003760 seconds
+Refreshing native plugins compatible for Editor in 10.01 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=9db6410c18bbde04cb649cd05f411a05): Total: 0.048 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_31_sgp_pressure_hard_campaign500_language_b_l019_lock.asset using Guid(776ba17f4146e3045a4e27edc12df439) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '25a7738e220ad0c781ceb77f02157d21') in 0.003554 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_32_sgp_pressure_hard_campaign500_pure_relaxed_l019_lock.asset using Guid(3bd590ff9120d5844a7b2171b86b96f0) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'cc31cd956ad73ddd0e5326bd0c0bed26') in 0.003339 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_33_sgp_pressure_hard_campaign500_layout_soft_l019_lock.asset using Guid(ef7705e9939f525479766cd6ebd8ab81) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0d9eba8c87dc5472755fce91d299cdad') in 0.002897 seconds
+Refreshing native plugins compatible for Editor in 10.31 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=d6245a02021a966428ef35b4d2ac890e): Total: 0.053 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_35_sgp_pressure_hard_campaign500_pure_relaxed_l020_shell.asset using Guid(4c6a5e40f0fdf3347820ec5b188dd2ea) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '749cd1c27e3f7d2c0fb830ca4174ced0') in 0.005018 seconds
+Refreshing native plugins compatible for Editor in 17.63 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=cdfff16f04f800044be9a9b1b4a5c097): Total: 0.073 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_35_sgp_pressure_hard_campaign500_pure_relaxed_l020_shell.asset using Guid(4c6a5e40f0fdf3347820ec5b188dd2ea) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '34044ebcf0fd2b76bb7a108f3c9db376') in 0.005061 seconds
+Refreshing native plugins compatible for Editor in 16.19 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=0e3e7cf4593445745a0499075ea3d58a): Total: 0.073 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_36_sgp_pressure_hard_campaign500_language_a_l021_sweep.asset using Guid(16fd3ad023f2cde459a9b59ab196951b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2b16b8aab79cb46ff157a82191533819') in 0.003265 seconds
+Refreshing native plugins compatible for Editor in 9.61 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=d32130b83c2243a4c9547867fdd3ddf3): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_37_sgp_pressure_hard_campaign500_language_b_l021_sweep.asset using Guid(cc50776759408a24f8eb28b165346b75) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e42783c89848c54578a61408362ff7e5') in 0.003903 seconds
+Refreshing native plugins compatible for Editor in 11.80 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=4573c80f4d7aef949a5e8882e226e2c6): Total: 0.057 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_38_sgp_pressure_hard_campaign500_language_c_l021_sweep.asset using Guid(717b9e4933154de459c5f38716287be4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a4a85e1c43331bda25a75c273fd8ec05') in 0.003275 seconds
+Refreshing native plugins compatible for Editor in 10.96 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f6fe79b19337f324ba0cfeea3647fd53): Total: 0.047 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_39_sgp_pressure_hard_campaign500_pure_relaxed_l021_sweep.asset using Guid(3d3eaa3165218834aac10cfca4f0eaf9) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'fb976bf6f03ffb7d8609623335ad83f6') in 0.002947 seconds
+Refreshing native plugins compatible for Editor in 9.13 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=3ecb484e559c2bd42bb7f067bc18d302): Total: 0.039 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_38_sgp_pressure_hard_campaign500_language_c_l021_sweep.asset using Guid(717b9e4933154de459c5f38716287be4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a4a85e1c43331bda25a75c273fd8ec05') in 0.003960 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_36_sgp_pressure_hard_campaign500_language_a_l021_sweep.asset using Guid(16fd3ad023f2cde459a9b59ab196951b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2b16b8aab79cb46ff157a82191533819') in 0.004189 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_37_sgp_pressure_hard_campaign500_language_b_l021_sweep.asset using Guid(cc50776759408a24f8eb28b165346b75) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e42783c89848c54578a61408362ff7e5') in 0.004036 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_39_sgp_pressure_hard_campaign500_pure_relaxed_l021_sweep.asset using Guid(3d3eaa3165218834aac10cfca4f0eaf9) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'fb976bf6f03ffb7d8609623335ad83f6') in 0.004134 seconds
+Refreshing native plugins compatible for Editor in 10.50 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=62ed4a3d7cdde9b42b6ebc464ac940c3): Total: 0.069 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_40_sgp_pressure_hard_campaign500_language_a_l022_section.asset using Guid(a3928602a3a50cb4b8cf477d4ecd9666) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ee774e3e2c33d097ecfcd3dfacfc9059') in 0.003073 seconds
+Refreshing native plugins compatible for Editor in 9.66 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=01096a39ba199024fb8f2b9a2f6a3348): Total: 0.042 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_42_sgp_pressure_hard_campaign500_pure_relaxed_l022_section.asset using Guid(5055c038e06cc2e439ea829fd9d7574b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c266bcd8e469f64b2c874b1535422205') in 0.003701 seconds
+Refreshing native plugins compatible for Editor in 9.96 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=8df2086a6ee751845a02e50bdc49f21e): Total: 0.045 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_42_sgp_pressure_hard_campaign500_pure_relaxed_l022_section.asset using Guid(5055c038e06cc2e439ea829fd9d7574b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'c266bcd8e469f64b2c874b1535422205') in 0.003264 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_40_sgp_pressure_hard_campaign500_language_a_l022_section.asset using Guid(a3928602a3a50cb4b8cf477d4ecd9666) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ee774e3e2c33d097ecfcd3dfacfc9059') in 0.002973 seconds
+Refreshing native plugins compatible for Editor in 9.35 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=9757c528829d8d949a66d29b5808b4c5): Total: 0.047 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_43_sgp_pressure_hard_campaign500_language_a_l024_section.asset using Guid(81705a5e051d312469bbe5a2f9659364) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e296ba7cb35fb07557fc8a724bea1f65') in 0.005165 seconds
+Refreshing native plugins compatible for Editor in 16.93 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f9af75dc517ef2f4d8b0f0db596de38f): Total: 0.069 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_44_sgp_pressure_hard_campaign500_language_b_l024_section.asset using Guid(3155f16fb6dbfcb44880b35b4e3393c6) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9e73d6b93eb342ecb6dbc2b2075e8048') in 0.003512 seconds
+Refreshing native plugins compatible for Editor in 13.72 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=db9c59282108fcb408a35403c49a3fbe): Total: 0.058 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_45_sgp_pressure_hard_campaign500_pure_relaxed_l024_section.asset using Guid(b7140ea68c045ee4c828023e4bcf67c6) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b14d0d5437519838cdbb4a2afb9d60a4') in 0.003244 seconds
+Refreshing native plugins compatible for Editor in 13.26 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c0f430c059f71494d824b1a201630a92): Total: 0.052 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_46_sgp_pressure_hard_campaign500_layout_soft_l024_section.asset using Guid(bf601a0874001904ea97f700c690148e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2c1ac4f9d89d4eff657901cc5c40473d') in 0.004370 seconds
+Refreshing native plugins compatible for Editor in 17.16 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b5cfa199c3b0f8f4c90af962fb8ee283): Total: 0.259 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_44_sgp_pressure_hard_campaign500_language_b_l024_section.asset using Guid(3155f16fb6dbfcb44880b35b4e3393c6) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9e73d6b93eb342ecb6dbc2b2075e8048') in 0.005214 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_43_sgp_pressure_hard_campaign500_language_a_l024_section.asset using Guid(81705a5e051d312469bbe5a2f9659364) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'e296ba7cb35fb07557fc8a724bea1f65') in 0.005026 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_45_sgp_pressure_hard_campaign500_pure_relaxed_l024_section.asset using Guid(b7140ea68c045ee4c828023e4bcf67c6) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b14d0d5437519838cdbb4a2afb9d60a4') in 0.005009 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_46_sgp_pressure_hard_campaign500_layout_soft_l024_section.asset using Guid(bf601a0874001904ea97f700c690148e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2fcc359b0c05c7a47cbf8f8bfb613b0d') in 0.004231 seconds
+Refreshing native plugins compatible for Editor in 16.88 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=1050b5605ef801942bd8b236f396627d): Total: 0.092 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_47_sgp_pressure_hard_campaign500_language_a_l025_lock.asset using Guid(296189b50d2d78c48bb0cefc3f8eba39) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'bb29a5218ad575657f9323718bd4a0f0') in 0.003146 seconds
+Refreshing native plugins compatible for Editor in 9.98 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b2ccde86a5d43c14f97aa3483f50b75f): Total: 0.047 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_48_sgp_pressure_hard_campaign500_language_b_l025_lock.asset using Guid(654147be5e7e3bb42b75bb2ad27bdb03) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '357fa592f77c1a2f01461225c2c4a810') in 0.003401 seconds
+Refreshing native plugins compatible for Editor in 11.53 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=3d6d1de9a69c5a04f9f6095199bc04a0): Total: 0.051 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_49_sgp_pressure_hard_campaign500_pure_relaxed_l025_lock.asset using Guid(b288710eb21cb0f4d9bc239e68fcce6e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1f1ffdedd9dec0eb263a3d12144f3c42') in 0.004484 seconds
+Refreshing native plugins compatible for Editor in 14.18 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c84f363e92331fc45831029d57b21a4e): Total: 0.065 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_50_sgp_pressure_hard_campaign500_layout_soft_l025_lock.asset using Guid(a7c4b6a6f5956be428bf4b72ae52c3b1) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '760b177dad15a4e94cb232c9c12afb4d') in 0.003119 seconds
+Refreshing native plugins compatible for Editor in 9.91 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=d8d17677090f6b24e99509d0d75a8094): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_49_sgp_pressure_hard_campaign500_pure_relaxed_l025_lock.asset using Guid(b288710eb21cb0f4d9bc239e68fcce6e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1f1ffdedd9dec0eb263a3d12144f3c42') in 0.003776 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_48_sgp_pressure_hard_campaign500_language_b_l025_lock.asset using Guid(654147be5e7e3bb42b75bb2ad27bdb03) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '357fa592f77c1a2f01461225c2c4a810') in 0.003128 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_50_sgp_pressure_hard_campaign500_layout_soft_l025_lock.asset using Guid(a7c4b6a6f5956be428bf4b72ae52c3b1) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '19eaa32f0d1e409d19fc0cec7984bec3') in 0.003068 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_47_sgp_pressure_hard_campaign500_language_a_l025_lock.asset using Guid(296189b50d2d78c48bb0cefc3f8eba39) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'bb29a5218ad575657f9323718bd4a0f0') in 0.003148 seconds
+Refreshing native plugins compatible for Editor in 9.56 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=7e54310a391a3604e899d25184f6cbd8): Total: 0.062 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_51_sgp_pressure_hard_campaign500_language_a_l028_maze.asset using Guid(c89d8c56fd27ff44da494c2588509edc) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '02fa955c72eb59e1e7c07557a1df1163') in 0.003891 seconds
+Refreshing native plugins compatible for Editor in 16.16 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5d5f2b1a1d26c0546ad46062af7d1af0): Total: 0.062 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_52_sgp_pressure_hard_campaign500_language_b_l028_maze.asset using Guid(1601da5e8e2caca49944ca6d27eee4c5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a9da972593c98ab232fcf882fda878cb') in 0.004424 seconds
+Refreshing native plugins compatible for Editor in 11.65 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=77c8ab1362318aa4788c1b0160f7e664): Total: 0.049 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_53_sgp_pressure_hard_campaign500_language_c_l028_maze.asset using Guid(cb55c977454c07d4488f246ee2a41fdf) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '27fc6be98a7f5798693e2a88e910334d') in 0.003233 seconds
+Refreshing native plugins compatible for Editor in 11.03 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f3bfc959864eedd45a17bbd930d17b85): Total: 0.047 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_54_sgp_pressure_hard_campaign500_pure_relaxed_l028_maze.asset using Guid(a190d9923aa1fe849836a57d07c606ea) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b2611faed9bffd9100b52bac18ae256b') in 0.004813 seconds
+Refreshing native plugins compatible for Editor in 14.83 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=efae76fce8a837e4f998961a9995241d): Total: 0.069 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_55_sgp_pressure_hard_campaign500_layout_soft_l028_maze.asset using Guid(c4b504462a056974189ae4f59e87b299) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b7bbd3415b7080da03ea52ae26d58c6f') in 0.003202 seconds
+Refreshing native plugins compatible for Editor in 14.45 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=eca28e7597ed2f74e89143e10e129885): Total: 0.065 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_55_sgp_pressure_hard_campaign500_layout_soft_l028_maze.asset using Guid(c4b504462a056974189ae4f59e87b299) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b7bbd3415b7080da03ea52ae26d58c6f') in 0.003685 seconds
+Refreshing native plugins compatible for Editor in 10.82 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=20ea6da6a2251004185907483bd18b5a): Total: 0.048 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_54_sgp_pressure_hard_campaign500_pure_relaxed_l028_maze.asset using Guid(a190d9923aa1fe849836a57d07c606ea) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b2611faed9bffd9100b52bac18ae256b') in 0.003279 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_52_sgp_pressure_hard_campaign500_language_b_l028_maze.asset using Guid(1601da5e8e2caca49944ca6d27eee4c5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a9da972593c98ab232fcf882fda878cb') in 0.003627 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_51_sgp_pressure_hard_campaign500_language_a_l028_maze.asset using Guid(c89d8c56fd27ff44da494c2588509edc) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '02fa955c72eb59e1e7c07557a1df1163') in 0.002867 seconds
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_53_sgp_pressure_hard_campaign500_language_c_l028_maze.asset using Guid(cb55c977454c07d4488f246ee2a41fdf) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '27fc6be98a7f5798693e2a88e910334d') in 0.003090 seconds
+Refreshing native plugins compatible for Editor in 13.96 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=de4b0e4092b20c648b591b2205d02244): Total: 0.061 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_56_sgp_pressure_hard_campaign500_language_a_l029_dense.asset using Guid(e1ca6acdd6f2c484a9773dfea3b10b1e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3d86fcf6dd172cad18cbdb588c5836b8') in 0.003442 seconds
+Refreshing native plugins compatible for Editor in 11.40 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=9bff27635ff1538478a9d2b6f4ac37e5): Total: 0.052 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_56_sgp_pressure_hard_campaign500_language_a_l029_dense.asset using Guid(e1ca6acdd6f2c484a9773dfea3b10b1e) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '3d86fcf6dd172cad18cbdb588c5836b8') in 0.003241 seconds
+Refreshing native plugins compatible for Editor in 10.22 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.02 ms.
+Asset Pipeline Refresh (id=ba7fa011ac6b8724fb3e88865260a7fa): Total: 0.043 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_57_sgp_pressure_hard_campaign500_language_b_l029_dense.asset using Guid(a78ec5d610ae03e41bba79f5520fed78) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9c49a3051f750658463e10f21aa85fdc') in 0.003142 seconds
+Refreshing native plugins compatible for Editor in 13.05 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=49840ba94b2d2754fa0d4c00427553f8): Total: 0.048 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_57_sgp_pressure_hard_campaign500_language_b_l029_dense.asset using Guid(a78ec5d610ae03e41bba79f5520fed78) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9c49a3051f750658463e10f21aa85fdc') in 0.004531 seconds
+Refreshing native plugins compatible for Editor in 10.57 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=2dd1d60cbbe1ff341b3a5e734cfd0bd3): Total: 0.051 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_58_sgp_pressure_hard_campaign500_language_c_l029_dense.asset using Guid(d6a407b90b1a6ce4eacd06c050d581eb) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd1d77cfb5d9f08d9e09d1afbb88f0e47') in 0.004174 seconds
+Refreshing native plugins compatible for Editor in 9.73 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=ee10600ec51f0b64fb3ce6f14824c372): Total: 0.050 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_58_sgp_pressure_hard_campaign500_language_c_l029_dense.asset using Guid(d6a407b90b1a6ce4eacd06c050d581eb) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'd1d77cfb5d9f08d9e09d1afbb88f0e47') in 0.002987 seconds
+Refreshing native plugins compatible for Editor in 9.76 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e41fe91cdaf639c448c81ad0d0b91e39): Total: 0.040 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_59_sgp_pressure_hard_campaign500_pure_relaxed_l029_dense.asset using Guid(ed9637b78b37c9a428cee24fba2e7b67) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a8a58c3acd38b6755b8a68eca6d86c07') in 0.003162 seconds
+Refreshing native plugins compatible for Editor in 10.92 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=3a7f009b23bb4ac4ba01d27b07e276f9): Total: 0.051 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_59_sgp_pressure_hard_campaign500_pure_relaxed_l029_dense.asset using Guid(ed9637b78b37c9a428cee24fba2e7b67) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a8a58c3acd38b6755b8a68eca6d86c07') in 0.003876 seconds
+Refreshing native plugins compatible for Editor in 9.99 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=26dfc5eaab78da4409659dbf55fba42f): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_60_sgp_pressure_hard_campaign500_layout_soft_l029_dense.asset using Guid(084edf8a0a5176743bd90db3fda42a6b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b0f2850d31c83c5a1338a28fe82f79a7') in 0.003319 seconds
+Refreshing native plugins compatible for Editor in 10.94 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=1cbc35965ceea9545ac42b4cbbb3d170): Total: 0.048 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_60_sgp_pressure_hard_campaign500_layout_soft_l029_dense.asset using Guid(084edf8a0a5176743bd90db3fda42a6b) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'b0f2850d31c83c5a1338a28fe82f79a7') in 0.003458 seconds
+Refreshing native plugins compatible for Editor in 10.23 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=ad51868404ac00a478eb53fc18c2fed3): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_61_sgp_pressure_hard_campaign500_language_a_l030_lock.asset using Guid(9f0762f50acc690458eb5fad6c5dee00) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '259839d7c711007f85ba12e223a84e61') in 0.002978 seconds
+Refreshing native plugins compatible for Editor in 8.84 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=fe8be0bf619eda8469aca41277bd79dc): Total: 0.041 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_61_sgp_pressure_hard_campaign500_language_a_l030_lock.asset using Guid(9f0762f50acc690458eb5fad6c5dee00) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '259839d7c711007f85ba12e223a84e61') in 0.002902 seconds
+Refreshing native plugins compatible for Editor in 8.72 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=780ee14d2a082a34cb1f20e8738be1f1): Total: 0.039 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_62_sgp_pressure_hard_campaign500_language_b_l030_lock.asset using Guid(1c2a460141952b54593ec21ddf437734) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a3ec1575b852540c6e919c1dd63f381a') in 0.003166 seconds
+Refreshing native plugins compatible for Editor in 10.70 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c441884cb4124924486ef2f8735fd584): Total: 0.048 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_62_sgp_pressure_hard_campaign500_language_b_l030_lock.asset using Guid(1c2a460141952b54593ec21ddf437734) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'a3ec1575b852540c6e919c1dd63f381a') in 0.003192 seconds
+Refreshing native plugins compatible for Editor in 10.65 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5d2f9985539bc5645979664bf10aa86e): Total: 0.045 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_63_sgp_pressure_hard_campaign500_pure_relaxed_l030_lock.asset using Guid(d8928a52a09d60a4fbf8c2eae77b4a0d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ec900ff368b20c33bb6e51bad66181ab') in 0.003857 seconds
+Refreshing native plugins compatible for Editor in 10.22 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=32174f742f4d5d74ab7d38afb6d116b3): Total: 0.048 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_63_sgp_pressure_hard_campaign500_pure_relaxed_l030_lock.asset using Guid(d8928a52a09d60a4fbf8c2eae77b4a0d) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'ec900ff368b20c33bb6e51bad66181ab') in 0.003183 seconds
+Refreshing native plugins compatible for Editor in 10.45 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=4c440447f08b01146bc927679605a0f3): Total: 0.045 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_64_sgp_pressure_hard_campaign500_layout_soft_l030_lock.asset using Guid(0e2247e2b793dd84fa00fa10252b3b7f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'fd2c0fcd92b10562066abbc863c85170') in 0.003733 seconds
+Refreshing native plugins compatible for Editor in 9.77 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e42c2e3edcff5b74ca251063a6d3d058): Total: 0.045 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Levels/Campaign500PSGNormal/Production20/campaign500_psg_prod20_64_sgp_pressure_hard_campaign500_layout_soft_l030_lock.asset using Guid(0e2247e2b793dd84fa00fa10252b3b7f) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'fd2c0fcd92b10562066abbc863c85170') in 0.003268 seconds
+Refreshing native plugins compatible for Editor in 8.87 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=9d77bc480b50ed2478f0fd73884269b9): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production20_report.csv using Guid(da11141938d9fac4e930d1eb4d0acc76) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '2fa8c0bb530a742249d89325fa1f08ee') in 0.003338 seconds
+Refreshing native plugins compatible for Editor in 8.72 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=d4575a7779e981f44be9a9af9d02bfa4): Total: 0.041 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProduction20Pack.asset using Guid(f2ea482b2775da942abf2e5230cb1526) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '6cb2beefd3bf591914d4c84bd70f7676') in 0.002985 seconds
+Refreshing native plugins compatible for Editor in 9.21 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=68ae084cf0f281e4291700a2044f7d4f): Total: 0.052 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProduction20Pack.asset using Guid(f2ea482b2775da942abf2e5230cb1526) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '883df72460495e759c4e7b6257fbdaa0') in 0.003339 seconds
+Refreshing native plugins compatible for Editor in 8.75 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=565c903de67d0434ebaa53b033677477): Total: 0.040 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=5afb3a3d798a0eb4ebc75ae21ef647b6): Total: 0.012 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[Campaign500PSGNormalProduction20] finished. selectedSlots=20, levels=50, pack=Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500PSGNormalProduction20Pack.asset, report=Assets/ArrowMagic/SOData/Reports/Campaign500/PSGNormal/campaign500_psg_normal_production20_report.csv
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PixelBug.ArrowMagic.EditorTools.NoMaskProceduralGenerator:BuildCampaign500PsgNormalProduction20Pack () (at Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs:1319)
+
+(Filename: Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs Line: 1319)
+
+Batchmode quit successfully invoked - shutting down!
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-admin-2022.3.62-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-admin-2022.3.62 channel disconnected successfully.
+Cleanup mono
+abort_threads: Failed aborting id: 000000000000C050, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 0000000000018AA0, mono_thread_manage will ignore it
+
+debugger-agent: Unable to listen on 4648
+[Performance] WinEditorMain                                                                                                  :        1 samples, Peak.  4.60 s (1.0x), Avg.  4.60 s, Total. 4.603 s (0.2%)
+[Performance] WinEditorMain.ConfigureCrashHandler                                                                            :        1 samples, Peak.  22.0 us (1.0x), Avg.  22.0 us, Total. 22.00 us (0.0%)
+[Performance] WinEditorMain.CurlRequestInitialize                                                                            :        1 samples, Peak.   597 us (1.0x), Avg.   597 us, Total. 597.4 us (0.0%)
+[Performance] WinEditorMain.SetupLogFile                                                                                     :        1 samples, Peak.  1000 us (1.0x), Avg.  1000 us, Total. 999.5 us (0.0%)
+[Performance] WinEditorMain.RunNativeTestsIfRequiredAndExit                                                                  :        1 samples, Peak.   200 ns (1.0x), Avg.   200 ns, Total. 200.0 ns (0.0%)
+[Performance] WinEditorMain.Licensing                                                                                        :        1 samples, Peak.  4.57 s (1.0x), Avg.  4.57 s, Total. 4.568 s (0.2%)
+[Performance] WinEditorMain.InitializeCrashHandler                                                                           :        1 samples, Peak.  30.4 ms (1.0x), Avg.  30.4 ms, Total. 30.41 ms (0.0%)
+[Performance] WinEditorMain.CreateApplication                                                                                :        1 samples, Peak.   469 us (1.0x), Avg.   469 us, Total. 468.8 us (0.0%)
+[Performance] Application.InitializeProject                                                                                  :        1 samples, Peak.  9.38 s (1.0x), Avg.  9.38 s, Total. 9.380 s (0.4%)
+[Performance] Application.PackageManager.StartServer                                                                         :        1 samples, Peak.  23.7 ms (1.0x), Avg.  23.7 ms, Total. 23.75 ms (0.0%)
+[Performance] Application.AcquireProjectLock                                                                                 :        1 samples, Peak.  26.0 ms (1.0x), Avg.  26.0 ms, Total. 25.96 ms (0.0%)
+[Performance] Application.InitializeEngineNoGraphics                                                                         :        1 samples, Peak.  59.1 ms (1.0x), Avg.  59.1 ms, Total. 59.07 ms (0.0%)
+[Performance] Application.PackageManager.Initialize                                                                          :        1 samples, Peak.   370 ms (1.0x), Avg.   370 ms, Total. 370.1 ms (0.0%)
+[Performance] Connecting to Package Manager                                                                                  :       38 samples, Peak.  54.2 us (20.2x), Avg.  2.68 us, Total. 101.9 us (0.0%)
+[Performance] Application.EngineGraphics.Initialize                                                                          :        1 samples, Peak.  26.0 ms (1.0x), Avg.  26.0 ms, Total. 25.99 ms (0.0%)
+[Performance] Application.GI.Initialize                                                                                      :        1 samples, Peak.  2.54 ms (1.0x), Avg.  2.54 ms, Total. 2.535 ms (0.0%)
+[Performance] Application.LoadAllDefaultResourcesFromEditor                                                                  :        1 samples, Peak.  1.89 ms (1.0x), Avg.  1.89 ms, Total. 1.891 ms (0.0%)
+[Performance] Application.LoadMonoAssemblies                                                                                 :        1 samples, Peak.   557 ms (1.0x), Avg.   557 ms, Total. 556.5 ms (0.0%)
+[Performance] RestoreManagedReferences                                                                                       :        2 samples, Peak.  49.1 ms (2.0x), Avg.  24.5 ms, Total. 49.08 ms (0.0%)
+[Performance] InitializeOnLoad DrivenRectTransformUndo                                                                       :        2 samples, Peak.   425 us (1.0x), Avg.   412 us, Total. 824.3 us (0.0%)
+[Performance] InitializeOnLoad SceneSearch                                                                                   :        2 samples, Peak.   127 us (1.1x), Avg.   113 us, Total. 226.4 us (0.0%)
+[Performance] InitializeOnLoad CloudBuild                                                                                    :        2 samples, Peak.  4.80 us (1.2x), Avg.  4.10 us, Total. 8.200 us (0.0%)
+[Performance] InitializeOnLoad NativeFormatImporterUtility                                                                   :        2 samples, Peak.  2.51 ms (1.2x), Avg.  2.17 ms, Total. 4.339 ms (0.0%)
+[Performance] InitializeOnLoad SearchService                                                                                 :        2 samples, Peak.   109 us (1.1x), Avg.   102 us, Total. 203.8 us (0.0%)
+[Performance] InitializeOnLoad SettingsService                                                                               :        2 samples, Peak.  10.4 us (1.3x), Avg.  8.00 us, Total. 16.00 us (0.0%)
+[Performance] InitializeOnLoad WindowLayout                                                                                  :        2 samples, Peak.   731 us (1.1x), Avg.   665 us, Total. 1.331 ms (0.0%)
+[Performance] InitializeOnLoad AssetStoreContext                                                                             :        2 samples, Peak.  23.6 ms (1.0x), Avg.  23.2 ms, Total. 46.38 ms (0.0%)
+[Performance] InitializeOnLoad PoolManager                                                                                   :        2 samples, Peak.   523 us (1.0x), Avg.   507 us, Total. 1.013 ms (0.0%)
+[Performance] InitializeOnLoad MixerEffectDefinitionReloader                                                                 :        2 samples, Peak.  2.26 ms (1.2x), Avg.  1.87 ms, Total. 3.734 ms (0.0%)
+[Performance] InitializeOnLoad ProjectSearch                                                                                 :        2 samples, Peak.  62.5 us (1.2x), Avg.  53.3 us, Total. 106.6 us (0.0%)
+[Performance] InitializeOnLoad UISystemProfilerRenderService                                                                 :        2 samples, Peak.  8.90 us (1.1x), Avg.  7.80 us, Total. 15.60 us (0.0%)
+[Performance] InitializeOnLoad EditMode                                                                                      :        2 samples, Peak.   374 us (1.1x), Avg.   353 us, Total. 705.2 us (0.0%)
+[Performance] InitializeOnLoad UnityConnect                                                                                  :        2 samples, Peak.  48.1 us (1.0x), Avg.  47.4 us, Total. 94.70 us (0.0%)
+[Performance] InitializeOnLoad ManagedDebugger                                                                               :        2 samples, Peak.   580 us (1.0x), Avg.   573 us, Total. 1.146 ms (0.0%)
+[Performance] InitializeOnLoad ShortcutIntegration                                                                           :        2 samples, Peak.  57.0 us (1.0x), Avg.  55.5 us, Total. 111.0 us (0.0%)
+[Performance] InitializeOnLoad AddComponentWindow                                                                            :        2 samples, Peak.   104 us (1.1x), Avg.  98.7 us, Total. 197.5 us (0.0%)
+[Performance] InitializeOnLoad ManagedDebuggerWindow                                                                         :        2 samples, Peak.   120 us (1.0x), Avg.   118 us, Total. 236.5 us (0.0%)
+[Performance] InitializeOnLoad CacheServerWindow                                                                             :        2 samples, Peak.  11.2 us (1.3x), Avg.  8.65 us, Total. 17.30 us (0.0%)
+[Performance] InitializeOnLoad PlayModeDownload                                                                              :        2 samples, Peak.  5.57 ms (1.9x), Avg.  2.86 ms, Total. 5.727 ms (0.0%)
+[Performance] InitializeOnLoad MenuItems                                                                                     :        2 samples, Peak.  81.3 us (1.0x), Avg.  78.9 us, Total. 157.8 us (0.0%)
+[Performance] InitializeOnLoad PrefabInstanceChangedListener                                                                 :        2 samples, Peak.   124 us (1.0x), Avg.   123 us, Total. 246.1 us (0.0%)
+[Performance] InitializeOnLoad ObjectSelectorSearch                                                                          :        2 samples, Peak.  83.5 us (1.4x), Avg.  59.6 us, Total. 119.1 us (0.0%)
+[Performance] InitializeOnLoad EditorMonitor                                                                                 :        2 samples, Peak.   610 us (1.2x), Avg.   501 us, Total. 1.001 ms (0.0%)
+[Performance] InitializeOnLoad RetainedMode                                                                                  :        2 samples, Peak.  2.05 ms (1.0x), Avg.  2.01 ms, Total. 4.028 ms (0.0%)
+[Performance] InitializeOnLoad EditorShaderLoader                                                                            :        2 samples, Peak.   640 us (1.0x), Avg.   627 us, Total. 1.255 ms (0.0%)
+[Performance] InitializeOnLoad EditorDelegateRegistration                                                                    :        2 samples, Peak.   494 us (1.1x), Avg.   443 us, Total. 885.6 us (0.0%)
+[Performance] InitializeOnLoad UIDocumentHierarchyWatcher                                                                    :        2 samples, Peak.  74.9 us (1.0x), Avg.  72.6 us, Total. 145.3 us (0.0%)
+[Performance] InitializeOnLoad LiveReloadTrackerCreator                                                                      :        2 samples, Peak.   183 us (1.2x), Avg.   151 us, Total. 302.7 us (0.0%)
+[Performance] InitializeOnLoad UxmlObjectEditorFactories                                                                     :        2 samples, Peak.   448 us (1.1x), Avg.   401 us, Total. 801.1 us (0.0%)
+[Performance] InitializeOnLoad UXMLEditorFactories                                                                           :        2 samples, Peak.  65.0 ms (1.0x), Avg.  63.5 ms, Total. 127.0 ms (0.0%)
+[Performance] InitializeOnLoad PurchasingService                                                                             :        2 samples, Peak.  6.27 ms (1.0x), Avg.  6.25 ms, Total. 12.49 ms (0.0%)
+[Performance] InitializeOnLoad CloudBuildPoller                                                                              :        2 samples, Peak.   113 us (1.0x), Avg.   109 us, Total. 217.7 us (0.0%)
+[Performance] InitializeOnLoad EditorGameServicesAnalytics                                                                   :        2 samples, Peak.  3.07 ms (1.6x), Avg.  1.88 ms, Total. 3.768 ms (0.0%)
+[Performance] InitializeOnLoad AnalyticsService                                                                              :        2 samples, Peak.   190 us (1.0x), Avg.   182 us, Total. 364.2 us (0.0%)
+[Performance] InitializeOnLoad BuildService                                                                                  :        2 samples, Peak.   156 us (1.0x), Avg.   156 us, Total. 311.8 us (0.0%)
+[Performance] InitializeOnLoad AdsService                                                                                    :        2 samples, Peak.   380 us (1.0x), Avg.   378 us, Total. 756.8 us (0.0%)
+[Performance] InitializeOnLoad UDPService                                                                                    :        2 samples, Peak.   153 us (1.0x), Avg.   153 us, Total. 305.7 us (0.0%)
+[Performance] InitializeOnLoad CrashService                                                                                  :        2 samples, Peak.   149 us (1.0x), Avg.   147 us, Total. 293.3 us (0.0%)
+[Performance] InitializeOnLoad ServicesRepository                                                                            :        2 samples, Peak.   600 ns (1.2x), Avg.   500 ns, Total. 1.000 us (0.0%)
+[Performance] InitializeOnLoad SearchWindow                                                                                  :        2 samples, Peak.  1.01 ms (1.8x), Avg.   565 us, Total. 1.130 ms (0.0%)
+[Performance] InitializeOnLoad CustomIndexers                                                                                :        2 samples, Peak.  16.8 ms (1.1x), Avg.  15.1 ms, Total. 30.22 ms (0.0%)
+[Performance] InitializeOnLoad SearchMonitor                                                                                 :        2 samples, Peak.   986 us (1.2x), Avg.   854 us, Total. 1.708 ms (0.0%)
+[Performance] InitializeOnLoad ParameterControllerEditor                                                                     :        2 samples, Peak.  14.2 us (1.1x), Avg.  13.5 us, Total. 26.90 us (0.0%)
+[Performance] InitializeOnLoad LayerSettingsWindow                                                                           :        2 samples, Peak.  21.1 us (1.7x), Avg.  12.7 us, Total. 25.40 us (0.0%)
+[Performance] InitializeOnLoad PackageManagerHookGUIDConverter.RegisterPackagesEventHandler                                  :        2 samples, Peak.   731 us (1.7x), Avg.   430 us, Total. 859.7 us (0.0%)
+[Performance] InitializeOnLoad EditorDragAndDrop.RegisterEditorClient                                                        :        2 samples, Peak.   241 us (1.2x), Avg.   206 us, Total. 411.5 us (0.0%)
+[Performance] InitializeOnLoad EditorEventCallbacks.InitializeFontAssetResourceChangeCallBacks                               :        2 samples, Peak.  1.13 ms (1.1x), Avg.  1.07 ms, Total. 2.142 ms (0.0%)
+[Performance] InitializeOnLoad SceneTemplateService.Init                                                                     :        2 samples, Peak.  1.08 ms (1.1x), Avg.  1.01 ms, Total. 2.010 ms (0.0%)
+[Performance] InitializeOnLoad DiagnosticSwitchesConsoleMessage.Init                                                         :        2 samples, Peak.  5.69 ms (1.8x), Avg.  3.16 ms, Total. 6.313 ms (0.0%)
+[Performance] InitializeOnLoad PackageManagerWindow.EditorInitializedInSafeMode                                              :        2 samples, Peak.  23.3 ms (2.0x), Avg.  11.7 ms, Total. 23.49 ms (0.0%)
+[Performance] InitializeOnLoad ToolShortcutContext.Init                                                                      :        2 samples, Peak.   163 us (1.1x), Avg.   142 us, Total. 284.5 us (0.0%)
+[Performance] InitializeOnLoad MemoryProfilerCompilationGuard.InjectCompileGuard                                             :        2 samples, Peak.   145 us (1.2x), Avg.   122 us, Total. 243.1 us (0.0%)
+[Performance] InitializeOnLoad AssetPostprocessingInternal.RefreshCustomDependencies                                         :        2 samples, Peak.  2.67 ms (1.2x), Avg.  2.29 ms, Total. 4.576 ms (0.0%)
+[Performance] InitializeOnLoad SysrootManager.Initialize                                                                     :        2 samples, Peak.   481 us (1.1x), Avg.   428 us, Total. 856.8 us (0.0%)
+[Performance] InitializeOnLoad ScopedRegistryAddedPopup.SubscribeToRegistriesAdded                                           :        2 samples, Peak.  7.44 ms (2.0x), Avg.  3.76 ms, Total. 7.525 ms (0.0%)
+[Performance] InitializeOnLoad SceneVisibilityManager.Initialize                                                             :        2 samples, Peak.  5.01 ms (1.7x), Avg.  2.96 ms, Total. 5.922 ms (0.0%)
+[Performance] InitializeOnLoad EditorWindow.Initialize                                                                       :        2 samples, Peak.   233 us (1.0x), Avg.   224 us, Total. 448.6 us (0.0%)
+[Performance] AssemblyReloadEvents.afterAssemblyReload: UnityEditor.SceneTemplate.SceneTemplateService.AfterAssemblyReload   :        2 samples, Peak.  3.93 ms (1.9x), Avg.  2.10 ms, Total. 4.200 ms (0.0%)
+[Performance] ProcessService.EditorAfterLoadAllAssemblies                                                                    :        2 samples, Peak.   381 us (1.3x), Avg.   301 us, Total. 602.3 us (0.0%)
+[Performance] Application.ReadLicenseInfo                                                                                    :        1 samples, Peak.  13.5 ms (1.0x), Avg.  13.5 ms, Total. 13.48 ms (0.0%)
+[Performance] Application.InitialRefresh                                                                                     :        1 samples, Peak.  6.37 s (1.0x), Avg.  6.37 s, Total. 6.374 s (0.3%)
+[Performance] ShaderImporter.SourceAssetModified                                                                             :       20 samples, Peak.  1.60 us (2.0x), Avg.   800 ns, Total. 16.00 us (0.0%)
+[Performance] ShaderIncludeImporter.SourceAssetModified                                                                      :       20 samples, Peak.  2.20 us (2.2x), Avg.   995 ns, Total. 19.90 us (0.0%)
+[Performance] Compiling Scripts                                                                                              :        1 samples, Peak.   820 ms (1.0x), Avg.   820 ms, Total. 819.8 ms (0.0%)
+[Performance] AssemblyReloadEvents.beforeAssemblyReload: UnityEditor.SceneTemplate.SceneTemplateService.BeforeAssemblyReload :        1 samples, Peak.   500 us (1.0x), Avg.   500 us, Total. 500.3 us (0.0%)
+[Performance] InitializeOnLoad DirectArchitecturePreviewAutoRunner                                                           :        1 samples, Peak.   164 us (1.0x), Avg.   164 us, Total. 163.6 us (0.0%)
+[Performance] InitializeOnLoad BurstLoader                                                                                   :        1 samples, Peak.  2.09 s (1.0x), Avg.  2.09 s, Total. 2.089 s (0.1%)
+[Performance] InitializeOnLoad BackgroundWatcher                                                                             :        1 samples, Peak.   475 us (1.0x), Avg.   475 us, Total. 475.3 us (0.0%)
+[Performance] InitializeOnLoad UnityTestProtocolStarter                                                                      :        1 samples, Peak.   270 us (1.0x), Avg.   270 us, Total. 270.2 us (0.0%)
+[Performance] InitializeOnLoad TestStarter                                                                                   :        1 samples, Peak.   748 us (1.0x), Avg.   748 us, Total. 747.5 us (0.0%)
+[Performance] InitializeOnLoad RerunCallbackInitializer                                                                      :        1 samples, Peak.  3.85 ms (1.0x), Avg.  3.85 ms, Total. 3.854 ms (0.0%)
+[Performance] InitializeOnLoad EditorToolManager                                                                             :        1 samples, Peak.  2.88 ms (1.0x), Avg.  2.88 ms, Total. 2.877 ms (0.0%)
+[Performance] InitializeOnLoad VSUsageUtility                                                                                :        1 samples, Peak.  55.1 ms (1.0x), Avg.  55.1 ms, Total. 55.08 ms (0.0%)
+[Performance] InitializeOnLoad VisualStudioEditor                                                                            :        1 samples, Peak.  15.3 ms (1.0x), Avg.  15.3 ms, Total. 15.34 ms (0.0%)
+[Performance] InitializeOnLoad TestRunnerApiListener                                                                         :        1 samples, Peak.   739 us (1.0x), Avg.   739 us, Total. 738.8 us (0.0%)
+[Performance] InitializeOnLoad VisualStudioIntegration                                                                       :        1 samples, Peak.  1.78 ms (1.0x), Avg.  1.78 ms, Total. 1.782 ms (0.0%)
+[Performance] InitializeOnLoad PrefabLayoutRebuilder                                                                         :        1 samples, Peak.   370 us (1.0x), Avg.   370 us, Total. 370.0 us (0.0%)
+[Performance] InitializeOnLoad SpriteSkinCompositeStartup                                                                    :        1 samples, Peak.  15.9 ms (1.0x), Avg.  15.9 ms, Total. 15.89 ms (0.0%)
+[Performance] InitializeOnLoad RiderScriptEditor                                                                             :        1 samples, Peak.  7.49 ms (1.0x), Avg.  7.49 ms, Total. 7.490 ms (0.0%)
+[Performance] InitializeOnLoad CallbackInitializer                                                                           :        1 samples, Peak.  1.95 ms (1.0x), Avg.  1.95 ms, Total. 1.949 ms (0.0%)
+[Performance] InitializeOnLoad SpriteEditorWindow                                                                            :        1 samples, Peak.   605 us (1.0x), Avg.   605 us, Total. 604.8 us (0.0%)
+[Performance] InitializeOnLoad PlasticPlugin                                                                                 :        1 samples, Peak.   149 ms (1.0x), Avg.   149 ms, Total. 149.0 ms (0.0%)
+[Performance] InitializeOnLoad UnityAnalyticsStorage                                                                         :        1 samples, Peak.   877 us (1.0x), Avg.   877 us, Total. 877.2 us (0.0%)
+[Performance] InitializeOnLoad BoneGizmoInitializer                                                                          :        1 samples, Peak.  4.38 ms (1.0x), Avg.  4.38 ms, Total. 4.382 ms (0.0%)
+[Performance] InitializeOnLoad Analytics                                                                                     :        1 samples, Peak.   405 us (1.0x), Avg.   405 us, Total. 405.4 us (0.0%)
+[Performance] InitializeOnLoad ToolbarBootstrap                                                                              :        1 samples, Peak.  56.5 ms (1.0x), Avg.  56.5 ms, Total. 56.50 ms (0.0%)
+[Performance] InitializeOnLoad BackgroundImport                                                                              :        1 samples, Peak.   156 us (1.0x), Avg.   156 us, Total. 155.9 us (0.0%)
+[Performance] InitializeOnLoad SceneDragAndDrop                                                                              :        1 samples, Peak.   188 us (1.0x), Avg.   188 us, Total. 187.6 us (0.0%)
+[Performance] InitializeOnLoad SpriteShapeUpdateCache                                                                        :        1 samples, Peak.   528 us (1.0x), Avg.   528 us, Total. 528.0 us (0.0%)
+[Performance] InitializeOnLoad SpriteShapeUnityAnalyticsStorage                                                              :        1 samples, Peak.  25.1 us (1.0x), Avg.  25.1 us, Total. 25.10 us (0.0%)
+[Performance] InitializeOnLoad IKEditorManager.CreateInstance                                                                :        1 samples, Peak.  2.39 ms (1.0x), Avg.  2.39 ms, Total. 2.394 ms (0.0%)
+[Performance] InitializeOnLoad $BurstDirectCallInitializer.Initialize                                                        :        7 samples, Peak.  16.6 ms (3.8x), Avg.  4.33 ms, Total. 30.28 ms (0.0%)
+[Performance] InitializeOnLoad SceneViewGridManager.Initialize                                                               :        1 samples, Peak.  4.10 ms (1.0x), Avg.  4.10 ms, Total. 4.098 ms (0.0%)
+[Performance] InitializeOnLoad TilemapPrefabStageHelper.Initialize                                                           :        1 samples, Peak.  1.65 ms (1.0x), Avg.  1.65 ms, Total. 1.651 ms (0.0%)
+[Performance] InitializeOnLoad SceneViewOpenTilePaletteHelper.Initialize                                                     :        1 samples, Peak.  1.42 ms (1.0x), Avg.  1.42 ms, Total. 1.419 ms (0.0%)
+[Performance] InitializeOnLoad TileDragAndDropManager.Initialize                                                             :        1 samples, Peak.   866 us (1.0x), Avg.   866 us, Total. 866.1 us (0.0%)
+[Performance] InitializeOnLoad BackgroundImport.Setup                                                                        :        1 samples, Peak.  2.03 ms (1.0x), Avg.  2.03 ms, Total. 2.029 ms (0.0%)
+[Performance] InitializeOnLoad TestJobDataHolder.ResumeRunningJobs                                                           :        1 samples, Peak.  1.08 ms (1.0x), Avg.  1.08 ms, Total. 1.080 ms (0.0%)
+[Performance] InitializeOnLoad AnalyticsReporter.RegisterCallbacks                                                           :        1 samples, Peak.   240 us (1.0x), Avg.   240 us, Total. 239.6 us (0.0%)
+[Performance] InitializeOnLoad VisualStudioEditor.LegacyVisualStudioCodePackageDisabler                                      :        1 samples, Peak.   599 us (1.0x), Avg.   599 us, Total. 598.8 us (0.0%)
+[Performance] DidReloadScriptsTestRunnerWindow.CompilationCallback                                                           :        1 samples, Peak.   596 us (1.0x), Avg.   596 us, Total. 596.4 us (0.0%)
+[Performance] DidReloadScriptsTestListCache.ScriptReloaded                                                                   :        1 samples, Peak.  1.53 ms (1.0x), Avg.  1.53 ms, Total. 1.530 ms (0.0%)
+[Performance] DidReloadScriptsAdvancedDropdownWindow.OnScriptReload                                                          :        1 samples, Peak.   274 us (1.0x), Avg.   274 us, Total. 274.0 us (0.0%)
+[Performance] AssemblyReloadEvents.afterAssemblyReload: UnityEditor.U2D.Animation.BoneGizmo.OnAfterAssemblyReload            :        1 samples, Peak.   854 us (1.0x), Avg.   854 us, Total. 854.1 us (0.0%)
+[Performance] PSDImporterAssetPostProcessor.OnPreprocessAsset                                                                :      104 samples, Peak.   393 us (22.5x), Avg.  17.5 us, Total. 1.816 ms (0.0%)
+[Performance] PresetManagerPostProcessor.OnPreprocessAsset                                                                   :      104 samples, Peak.   233 us (21.2x), Avg.  11.0 us, Total. 1.143 ms (0.0%)
+[Performance] CancelSplashScreenOnAssetChange.OnPreprocessAsset                                                              :      104 samples, Peak.   155 us (42.6x), Avg.  3.63 us, Total. 377.5 us (0.0%)
+[Performance] SpritePostProcess.OnPreprocessAsset                                                                            :      104 samples, Peak.  1.80 ms (54.5x), Avg.  33.0 us, Total. 3.430 ms (0.0%)
+[Performance] AssetDatabase.ImportAssets                                                                                     :      112 samples, Peak.  92.8 ms (11.7x), Avg.  7.95 ms, Total. 890.4 ms (0.0%)
+[Performance] VersionControl.Task.Wait                                                                                       :        1 samples, Peak.  14.1 us (1.0x), Avg.  14.1 us, Total. 14.10 us (0.0%)
+[Performance] TMPro_TexturePostProcessor.OnPostprocessAllAssets                                                              :      160 samples, Peak.  1.37 ms (29.0x), Avg.  47.4 us, Total. 7.577 ms (0.0%)
+[Performance] AssetPostprocessor.OnPostprocessAllAssets                                                                      :      160 samples, Peak.  1.35 ms (63.6x), Avg.  21.3 us, Total. 3.408 ms (0.0%)
+[Performance] BuilderAssetPostprocessor.OnPostprocessAllAssets                                                               :      160 samples, Peak.  3.83 ms (41.1x), Avg.  93.4 us, Total. 14.94 ms (0.0%)
+[Performance] ArtifactBrowserPostProcessor.OnPostprocessAllAssets                                                            :      160 samples, Peak.   591 us (50.0x), Avg.  11.8 us, Total. 1.892 ms (0.0%)
+[Performance] AssetEvents.OnPostprocessAllAssets                                                                             :      320 samples, Peak.   227 us (50.4x), Avg.  4.50 us, Total. 1.441 ms (0.0%)
+[Performance] AudioMixerPostprocessor.OnPostprocessAllAssets                                                                 :      160 samples, Peak.   326 us (48.7x), Avg.  6.69 us, Total. 1.071 ms (0.0%)
+[Performance] StyleCatalogPostProcessor.OnPostprocessAllAssets                                                               :      160 samples, Peak.  28.2 ms (77.8x), Avg.   362 us, Total. 57.98 ms (0.0%)
+[Performance] BuildCatalog                                                                                                   :        1 samples, Peak.  26.5 ms (1.0x), Avg.  26.5 ms, Total. 26.55 ms (0.0%)
+[Performance] ModelImporterPostProcessor.OnPostprocessAllAssets                                                              :      160 samples, Peak.  1.35 ms (41.0x), Avg.  33.0 us, Total. 5.279 ms (0.0%)
+[Performance] RetainedModeAssetPostprocessor.OnPostprocessAllAssets                                                          :      160 samples, Peak.  2.80 ms (58.5x), Avg.  47.9 us, Total. 7.656 ms (0.0%)
+[Performance] AssetChangedListener.OnPostprocessAllAssets                                                                    :      160 samples, Peak.  1.46 ms (32.2x), Avg.  45.3 us, Total. 7.250 ms (0.0%)
+[Performance] SpeedTreePostProcessor.OnPostprocessAllAssets                                                                  :      160 samples, Peak.   194 us (10.5x), Avg.  18.5 us, Total. 2.957 ms (0.0%)
+[Performance] TextAssetPostProcessor.OnPostprocessAllAssets                                                                  :      160 samples, Peak.   436 us (22.8x), Avg.  19.2 us, Total. 3.067 ms (0.0%)
+[Performance] AssetProcessor.OnPostprocessAllAssets                                                                          :      480 samples, Peak.  1.56 ms (98.1x), Avg.  15.9 us, Total. 7.632 ms (0.0%)
+[Performance] SpriteLibraryAssetPostprocessor.OnPostprocessAllAssets                                                         :      160 samples, Peak.   273 us (41.4x), Avg.  6.59 us, Total. 1.054 ms (0.0%)
+[Performance] PSDImporterAssetPostProcessor.OnPostprocessAllAssets                                                           :      160 samples, Peak.   121 us (27.2x), Avg.  4.44 us, Total. 710.9 us (0.0%)
+[Performance] PSDImportPostProcessor.OnPostprocessAllAssets                                                                  :      160 samples, Peak.   141 us (31.0x), Avg.  4.56 us, Total. 729.6 us (0.0%)
+[Performance] SpriteEditorTexturePostprocessor.OnPostprocessAllAssets                                                        :      160 samples, Peak.   291 us (7.6x), Avg.  38.4 us, Total. 6.144 ms (0.0%)
+[Performance] SpriteShapeAssetPostProcessor.OnPostprocessAllAssets                                                           :      160 samples, Peak.   620 us (35.9x), Avg.  17.3 us, Total. 2.764 ms (0.0%)
+[Performance] SyncVS.PostprocessSyncProject                                                                                  :       80 samples, Peak.  4.11 ms (17.1x), Avg.   240 us, Total. 19.24 ms (0.0%)
+[Performance] Application.ImportPackagesAndSetTemplateWhenCreatingProject                                                    :        1 samples, Peak.  20.5 ms (1.0x), Avg.  20.5 ms, Total. 20.53 ms (0.0%)
+[Performance] Application.SyncCurrentColorSpace                                                                              :        1 samples, Peak.  14.0 ms (1.0x), Avg.  14.0 ms, Total. 13.96 ms (0.0%)
+[Performance] Application.OnUsbDevicesChanged                                                                                :        1 samples, Peak.  2.17 ms (1.0x), Avg.  2.17 ms, Total. 2.168 ms (0.0%)
+[Performance] Application.AssetInstanceCacheUpdate                                                                           :        1 samples, Peak.   200 ns (1.0x), Avg.   200 ns, Total. 200.0 ns (0.0%)
+[Performance] Application.UnityExtensions.Initialize                                                                         :        1 samples, Peak.  4.78 ms (1.0x), Avg.  4.78 ms, Total. 4.778 ms (0.0%)
+[Performance] CodeEditorProjectSync.SyncEditorProject                                                                        :        1 samples, Peak.   216 ms (1.0x), Avg.   216 ms, Total. 216.4 ms (0.0%)
+[Performance] Application.ExecuteStartups                                                                                    :        1 samples, Peak.  52.1 ms (1.0x), Avg.  52.1 ms, Total. 52.11 ms (0.0%)
+[Performance] Menu.RegisterMenuInterface                                                                                     :       26 samples, Peak.  1.60 us (7.3x), Avg.   219 ns, Total. 5.700 us (0.0%)
+[Performance] Gizmo.RebuildRenderers                                                                                         :        1 samples, Peak.  49.6 ms (1.0x), Avg.  49.6 ms, Total. 49.65 ms (0.0%)
+[Performance] Gizmo.AddGizmoRenderers                                                                                        :       86 samples, Peak.  1.97 ms (49.9x), Avg.  39.5 us, Total. 3.399 ms (0.0%)
+[Performance] Application.editorInitializingProject                                                                          :        1 samples, Peak.   288 ms (1.0x), Avg.   288 ms, Total. 287.6 ms (0.0%)
+[Performance] Application.InitializeMenu                                                                                     :        1 samples, Peak.   176 ms (1.0x), Avg.   176 ms, Total. 175.6 ms (0.0%)
+[Performance] Menu.RebuildAll                                                                                                :        1 samples, Peak.   176 ms (1.0x), Avg.   176 ms, Total. 175.6 ms (0.0%)
+[Performance] Menu.BuildRegisteredMenuInterfaces                                                                             :        1 samples, Peak.   171 ms (1.0x), Avg.   171 ms, Total. 171.0 ms (0.0%)
+[Performance] Menu.FilterMenuItem                                                                                            :      842 samples, Peak.  88.1 ms (764.9x), Avg.   115 us, Total. 97.01 ms (0.0%)
+[Performance] UpdateAllMenus                                                                                                 :        1 samples, Peak.  1.02 ms (1.0x), Avg.  1.02 ms, Total. 1.020 ms (0.0%)
+[Performance] Menu.RebuildOSMainMenu                                                                                         :        2 samples, Peak.  3.25 ms (1.1x), Avg.  2.91 ms, Total. 5.824 ms (0.0%)
+[Performance] EditorSceneManager.sceneClosing: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnSceneClosing           :        1 samples, Peak.   335 us (1.0x), Avg.   335 us, Total. 335.4 us (0.0%)
+[Performance] GUIView.RepaintAll.PlayerLoopController                                                                        :        1 samples, Peak.   900 ns (1.0x), Avg.   900 ns, Total. 900.0 ns (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneTemplate.SceneTemplateService.OnNewSceneCreated           :        1 samples, Peak.   233 us (1.0x), Avg.   233 us, Total. 232.7 us (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnNewSceneCreated     :        1 samples, Peak.   191 us (1.0x), Avg.   191 us, Total. 190.7 us (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneManagement.StageNavigationManager.OnNewSceneCreated       :        1 samples, Peak.  55.4 us (1.0x), Avg.  55.4 us, Total. 55.40 us (0.0%)
+[Performance] Application.InvokeFinishedLoadingProject                                                                       :        1 samples, Peak.  17.3 ms (1.0x), Avg.  17.3 ms, Total. 17.31 ms (0.0%)
+[Performance] ProcessService.OnProjectLoaded                                                                                 :        1 samples, Peak.  45.5 us (1.0x), Avg.  45.5 us, Total. 45.50 us (0.0%)
+[Performance] AssetDatabase.Refresh                                                                                          :        2 samples, Peak.  52.4 ms (1.6x), Avg.  32.2 ms, Total. 64.35 ms (0.0%)
+[Performance] PaletteAssetModificationProcessor.OnWillSaveAssets                                                             :       22 samples, Peak.   238 us (11.0x), Avg.  21.6 us, Total. 476.1 us (0.0%)
+[Performance] StateMacroSavedEvent.OnWillSaveAssets                                                                          :       22 samples, Peak.   143 us (4.7x), Avg.  30.6 us, Total. 672.3 us (0.0%)
+[Performance] AssetModificationProcessor.OnWillSaveAssets                                                                    :       22 samples, Peak.   356 us (19.8x), Avg.  17.9 us, Total. 394.6 us (0.0%)
+[Performance] UnityCloudProjectLinkMonitor.OnWillSaveAssets                                                                  :       22 samples, Peak.   235 us (19.8x), Avg.  11.9 us, Total. 260.9 us (0.0%)
+[Performance] FlowMacroSavedEvent.OnWillSaveAssets                                                                           :       22 samples, Peak.   142 us (8.3x), Avg.  17.1 us, Total. 376.6 us (0.0%)
+[Performance] BuilderAssetModificationProcessor.OnWillSaveAssets                                                             :       22 samples, Peak.   318 us (18.7x), Avg.  17.0 us, Total. 374.4 us (0.0%)
+[Performance] TerrainModificationProcessor.OnWillSaveAssets                                                                  :       22 samples, Peak.   559 us (20.5x), Avg.  27.2 us, Total. 598.3 us (0.0%)
+[Performance] AssetDatabase.ImportAsset                                                                                      :       52 samples, Peak.   569 ms (9.1x), Avg.  62.7 ms, Total. 3.260 s (0.1%)
+[Performance] PaletteAssetModificationProcessor.OnWillCreateAsset                                                            :       22 samples, Peak.   175 us (9.9x), Avg.  17.7 us, Total. 388.3 us (0.0%)
+[Performance] BuilderAssetModificationProcessor.OnWillCreateAsset                                                            :       22 samples, Peak.   509 us (9.6x), Avg.  52.8 us, Total. 1.161 ms (0.0%)
+[Performance] EditorApplication.projectChanged: UnityEditor.Audio.MixerEffectDefinitionReloader.OnProjectChanged             :       11 samples, Peak.   620 us (1.5x), Avg.   418 us, Total. 4.600 ms (0.0%)
+[Performance] EditorApplication.quitting: Unity.Burst.Editor.BurstLoader.OnEditorApplicationQuitting                         :        1 samples, Peak.  41.8 us (1.0x), Avg.  41.8 us, Total. 41.80 us (0.0%)
+[Performance] EditorApplication.quitting: UnityEditor.Tilemaps.SceneViewGridManager.EditorQuitting                           :        1 samples, Peak.   147 us (1.0x), Avg.   147 us, Total. 147.5 us (0.0%)
+[Performance] EditorApplication.quitting: callback in UnityEditor.TextCore.Text.EditorEventCallbacks                         :        1 samples, Peak.  70.2 ms (1.0x), Avg.  70.2 ms, Total. 70.17 ms (0.0%)
+[Performance] Application.Shutdown.PauseProfilerSession                                                                      :        1 samples, Peak.  48.0 us (1.0x), Avg.  48.0 us, Total. 48.00 us (0.0%)
+[Performance] Application.Shutdown.PauseAssetImportWorkers                                                                   :        1 samples, Peak.   402 us (1.0x), Avg.   402 us, Total. 402.3 us (0.0%)
+[Performance] Application.Shutdown.SaveAssets                                                                                :        1 samples, Peak.   537 us (1.0x), Avg.   537 us, Total. 536.7 us (0.0%)
+[Performance] Application.Shutdown.CleanupRenderPipeline                                                                     :        1 samples, Peak.  4.30 us (1.0x), Avg.  4.30 us, Total. 4.300 us (0.0%)
+[Performance] Application.Shutdown.StopPreloadManager                                                                        :        1 samples, Peak.  10.4 ms (1.0x), Avg.  10.4 ms, Total. 10.39 ms (0.0%)
+[Performance] Application.Shutdown.DestroyWorld                                                                              :        1 samples, Peak.   655 us (1.0x), Avg.   655 us, Total. 655.1 us (0.0%)
+[Performance] Application.Shutdown.CleanupAfterLoad                                                                          :        1 samples, Peak.   169 ms (1.0x), Avg.   169 ms, Total. 169.2 ms (0.0%)
+[Performance] Application.Shutdown.Progress                                                                                  :        1 samples, Peak.  17.7 us (1.0x), Avg.  17.7 us, Total. 17.70 us (0.0%)
+[Performance] Application.Shutdown.GICleanupManagers                                                                         :        1 samples, Peak.   846 us (1.0x), Avg.   846 us, Total. 845.9 us (0.0%)
+[Performance] Application.Shutdown.MenuCleanupClass                                                                          :        1 samples, Peak.   472 us (1.0x), Avg.   472 us, Total. 472.3 us (0.0%)
+[Performance] Application.Shutdown.ADBSaveStateBeforeShutdown                                                                :        1 samples, Peak.  6.30 us (1.0x), Avg.  6.30 us, Total. 6.300 us (0.0%)
+[Performance] Application.Shutdown.RemoteShutdown                                                                            :        1 samples, Peak.  2.50 us (1.0x), Avg.  2.50 us, Total. 2.500 us (0.0%)
+[Performance] Application.Shutdown.CleanupVCProvider                                                                         :        1 samples, Peak.  13.9 us (1.0x), Avg.  13.9 us, Total. 13.90 us (0.0%)
+[Performance] Application.Shutdown.InputShutdown                                                                             :        1 samples, Peak.  2.60 us (1.0x), Avg.  2.60 us, Total. 2.600 us (0.0%)
+[Performance] Application.Shutdown.GizmoManagerDestroy                                                                       :        1 samples, Peak.   839 us (1.0x), Avg.   839 us, Total. 839.4 us (0.0%)
+[Performance] Application.Shutdown.ProfilerSession                                                                           :        1 samples, Peak.   217 us (1.0x), Avg.   217 us, Total. 217.0 us (0.0%)
+[Performance] Application.Shutdown.ReleaseGfxWindowOnAllGUIViews                                                             :        1 samples, Peak.   300 ns (1.0x), Avg.   300 ns, Total. 300.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupEngine                                                                             :        1 samples, Peak.   149 ms (1.0x), Avg.   149 ms, Total. 149.4 ms (0.0%)
+[Performance] Application.Shutdown.CleanupAssetDatabase                                                                      :        1 samples, Peak.  10.9 ms (1.0x), Avg.  10.9 ms, Total. 10.88 ms (0.0%)
+[Performance] Application.Shutdown.ScriptCompilationCleanUp                                                                  :        1 samples, Peak.  37.7 ms (1.0x), Avg.  37.7 ms, Total. 37.72 ms (0.0%)
+[Performance] Application.Shutdown.DestroyJobSystem                                                                          :        1 samples, Peak.   474 us (1.0x), Avg.   474 us, Total. 474.3 us (0.0%)
+[Performance] Application.Shutdown.CleanupPersistentManager                                                                  :        1 samples, Peak.  3.03 ms (1.0x), Avg.  3.03 ms, Total. 3.029 ms (0.0%)
+[Performance] Application.Shutdown.CleanupAsyncReadManager                                                                   :        1 samples, Peak.   486 us (1.0x), Avg.   486 us, Total. 486.2 us (0.0%)
+[Performance] Application.Shutdown.CleanupProgressBar                                                                        :        1 samples, Peak.  1.10 us (1.0x), Avg.  1.10 us, Total. 1.100 us (0.0%)
+[Performance] Application.Shutdown.CleanupMono                                                                               :        1 samples, Peak.   161 ms (1.0x), Avg.   161 ms, Total. 161.3 ms (0.0%)
+[Performance] Application.Shutdown.CleanupStdConverters                                                                      :        1 samples, Peak.  16.3 us (1.0x), Avg.  16.3 us, Total. 16.30 us (0.0%)
+[Performance] Application.Shutdown.UnloadAllPlatformSupportModuleNativeDlls                                                  :        1 samples, Peak.   800 ns (1.0x), Avg.   800 ns, Total. 800.0 ns (0.0%)
+[Performance] Application.Shutdown.UnloadAllPlatformSupportNativeLibraries                                                   :        1 samples, Peak.   200 ns (1.0x), Avg.   200 ns, Total. 200.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupAutoDocumentation                                                                  :        1 samples, Peak.   889 us (1.0x), Avg.   889 us, Total. 889.0 us (0.0%)
+[Performance] Application.Shutdown.ShaderNameManagerDestroy                                                                  :        1 samples, Peak.  63.1 us (1.0x), Avg.  63.1 us, Total. 63.10 us (0.0%)
+[Performance] Application.Shutdown.CleanupCacheServer                                                                        :        1 samples, Peak.   200 ns (1.0x), Avg.   200 ns, Total. 200.0 ns (0.0%)
+[Performance] Application.Shutdown.Virtualization_Shutdown                                                                   :        1 samples, Peak.   500 ns (1.0x), Avg.   500 ns, Total. 500.0 ns (0.0%)
+[Performance] Application.Shutdown.DevConnections                                                                            :        1 samples, Peak.   125 us (1.0x), Avg.   125 us, Total. 124.6 us (0.0%)
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

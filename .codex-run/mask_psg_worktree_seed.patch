@@ -1,0 +1,1223 @@
+diff --git a/.agents/index/LEVEL_INDEX.md b/.agents/index/LEVEL_INDEX.md
+index 15aceaee..643ba7a3 100644
+--- a/.agents/index/LEVEL_INDEX.md
++++ b/.agents/index/LEVEL_INDEX.md
+@@ -1633,6 +1633,26 @@
+   - `root76 + dense_weave`: strict `TrueHard/support4` candidate at `0.3345588`, lower pass density than root10.
+ - Demo status: not mounted. Use this as high-difficulty research evidence and scheduler input only.
+ 
++## Geometry Supply Owner-Hit Scheduler root10 + dense_weave - 2026-06-26
++
++- Scheduler: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeometrySupplyOwnerHitSchedulerV1.ps1`
++- Candidate levels root: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeometrySupplyOwnerHitV1/`
++- Supply level: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureHardTrial/sgp_pressure_hard_trial_03_sgp_pressure_hard_rect_dense_weave.asset`
++- Key summaries:
++  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0471_hardmargin_v1_summary.md`
++  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0495_ownerspread_tail_v1_summary.md`
++  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0515_ownerspread_tail_v1_summary.md`
++  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0534_ownerspread_tail_v1_summary.md`
++  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0549_ownerspread_tail_v1_summary.md`
++  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0562_ownerspread_tail_v1_summary.md`
++  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0576_ownerspread_tail_v1_summary.md`
++  - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0576_all48_v1_metrics.csv`
++- Current best strict selected CSV: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0562_ownerspread_tail_v1_selected.csv`
++- Current best strict level: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeometrySupplyOwnerHitV1/geosupply_sched_root10_dens_be1afe84/r1/geosupply_sched_root10_dens_be1afe84_r1_c015.asset`
++- Current best strict metrics: `coverage=0.5768116`, `solved=True`, `processTier=A`, `hardStructureV3Class=TrueHardCandidate`, `hardStructureV3Score=0.686`, `supportClosureBestDepth=4`, `openers=2`, `avgChoices=2.84`, `maxChoices=6`, `outerExitHeadCount=0`.
++- Efficiency finding: Top-only tracing can miss the only strict row after `0.50` (`from0495` top16 all HardPotential, top48 found rank45 TrueHard). `TraceSelectionMode OwnerSpread` with head/tail hitOwner sampling re-finds the same class with top8/24 and continued the strict chain to `0.5768116`. Not mounted in Demo.
++- Boundary check: from `0.5768116`, OwnerSpread top24 found no strict; full top48 trace also found no `TrueHardCandidate/supportDepth4`. The best TrueHard row had supportDepth3, while supportDepth4 rows were HardPotential/MediumStructure. Current strict chain is not considered runnable past `0.5768` with the same grammar/settings.
++
+ ## Mask Line Inventory Baseline - 2026-06-26
+ 
+ - Current HoleMask assets: `Assets/ArrowMagic/SOData/Levels/Production/HoleMask/Candidates` (68), `Assets/ArrowMagic/SOData/Levels/Production/HoleMask/Early` (2), `Assets/ArrowMagic/SOData/Levels/Production/HoleMask/Early30To40` (1).
+@@ -1640,3 +1660,21 @@
+ - Runnable/reference packs currently present: `Assets/ArrowMagic/SOData/Packs/HoleV13Top5DemoPack.asset`, `Assets/ArrowMagic/SOData/Packs/Production/HoleProcedural/HoleProceduralCandidatePack.asset`, `Assets/ArrowMagic/SOData/Packs/Production/HoleProcedural/HoleProceduralPreviewTop50Pack.asset`, `Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch11CandidatePack.asset`, `Assets/ArrowMagic/SOData/Packs/ShapeExperiment/ShapeIconMaskOnlyBatch12CandidatePack.asset`.
+ - Partial SeedMask production output: `Assets/ArrowMagic/Reports/Production/HoleLongOuterStrong/HoleLongOuterStrong_Production_Report.txt` records one accepted `22x34_long` candidate in `Assets/ArrowMagic/SOData/Levels/Production/HoleLongOuterStrong/Candidates`; no synced pack was found under `Assets/ArrowMagic/SOData/Packs/Production/HoleLongOuterStrong/`.
+ - Baseline pack should be rebuilt non-destructively from existing HoleMask assets, then checked with `CampaignSingleLevelValidator` and official trace before any Demo attachment or larger SeedMask generation.
++
++## Mask PSG Baseline Assets - 2026-06-26
++
++- Direct constrained PSG baseline pack: `Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureBaselinePack.asset`; current contents 0 levels. Report: `Assets/ArrowMagic/SOData/Reports/MaskPressure/mask_pressure_baseline_report.csv`; result 3/3 failed Greedy despite high fill, so this is a negative baseline/reference only.
++- PSG seed patch baseline pack: `Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselinePack.asset`; current contents 3 high-fill levels, generated in `Assets/ArrowMagic/SOData/Levels/Production/MaskPressureSeedPatchBaseline/Candidates/`. Baseline generation report: `Assets/ArrowMagic/SOData/Reports/MaskPressure/mask_pressure_seed_patch_baseline_report.txt`; current gates are `maskFill>=0.95` and `maskBoundaryFill>=0.98`.
++- Current accepted high-fill levels: `psg_mask_patch_22x34_long_02_sgp_pressure_hard_trial_03_sgp_pressure_hard_rect_dense_weave.asset` (`456/480=0.950`), `psg_mask_patch_24x36_long_04_sgp_pressure_hard_trial_01_sgp_pressure_hard_rect_lock_buckle.asset` (`559/588=0.951`), and `psg_mask_patch_24x40_long_01_sgp_pressure_hard_trial_02_sgp_pressure_hard_rect_section_unlock 1.asset` (`643/676=0.951`); all have `maskBoundaryFill=1.000`.
++- Validation outputs: `Assets/ArrowMagic/SOData/Reports/MaskPressure/Validation/mask_pressure_seed_patch_validation_summary.csv` (0 Green / 3 Yellow / 0 Red), `mask_pressure_seed_patch_validation_flags.csv`, `mask_pressure_seed_patch_pressure_gate.csv` (0/3 internal pressure gate).
++- Official trace outputs: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/mask_pressure_seed_patch_highfill_trace_metrics.csv` and `_summary.md`; result 3/3 solved but tiers Drop/Drop/Drop and all LocalEasy, so the pack is a high-fill visual/solvable baseline, not a formal PSG-standard production pack.
++
++## Campaign500 PSG Regeneration Template - 2026-06-26
++
++- Template folder: `Exports/Campaign500_PSG_Template_20260626_095625/`
++- Zip: `Exports/Campaign500_PSG_Template_20260626_095625.zip`
++- Main CSV: `Exports/Campaign500_PSG_Template_20260626_095625/campaign500_psg_regeneration_template.csv`
++- Split CSVs: `campaign500_psg_template_normal.csv`, `campaign500_psg_template_shape.csv`, `campaign500_psg_template_hole.csv`
++- Pacing summary: `campaign500_psg_template_section10_summary.csv`
++- Source snapshots: `source_campaign500_final_v11_manifest.csv`, `source_campaign500_final_v11_shape_usage.csv`
++- Purpose: 500-slot template for PSG regeneration, preserving order/category/difficulty/experience role/target size/target chains/shape and hole presentation fields without requiring old level assets.
+diff --git a/.agents/index/SCRIPT_INDEX.md b/.agents/index/SCRIPT_INDEX.md
+index a5ca01a0..3835add5 100644
+--- a/.agents/index/SCRIPT_INDEX.md
++++ b/.agents/index/SCRIPT_INDEX.md
+@@ -225,6 +225,7 @@
+ | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1` | SGP release-aware budget/wave-window scheduler V1 | 2026-06-25 扩展 `ReleaseAwareAcceptedPerOwnerBudget`、`ReleaseAwareAcceptedPerHitOwnerBudget`、`ReleaseAwareAcceptedPerHitWaveBudget`、`ReleaseAwareAcceptedPerOwnerWaveBudget`、`ReleaseAwareAcceptedPerEdgeBudget`、`ReleaseAwareAcceptedTotalBudget`、`ReleaseAwareMaxHitWave`、`ReleaseAwareMaxOwnerWave`。实验结论：exact owner/wave dedup 不能救 4-head collapse；`ReleaseAwareMaxHitWave=3` 才复现安全 `4/4 solved/supportDepth=4`。 |
+ | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1` | SGP Stage-2 emission / grammar probes | 2026-06-25 扩展 `UsePostKernelEmissionController` 与 `PostKernel*` scoring 参数；activation 后会重启同层 head 排序，让 Stage-2 scoring 真正作用于后续 native heads。随后新增 `UsePostKernelCandidateAugmentor`、`PostKernelAugmentor*` 和 `PostKernelRecomputeAfterChain`，提供非直出 first-hit-owner post-kernel heads并可在 commit 后刷新 LDF/BlockMap。0.55 augmentor probe 保住 `4/4 solved/supportDepth=4`，但非直出 head 数量太少，native direct-exit 仍主导。2026-06-25 追加 `UsePostKernelGrammarUnits`、`PostKernelGrammar*` 和 `fixedPrefixCells`，用于 SGP-3L Stage2 mini-chain grammar probe；V0 可大幅降低 direct/outer/choice，但 `0/4 solved`，说明 generic mini-chain grammar 会剪断 spine。2026-06-25 追加 `UsePostKernelTraceEdgeGrammarUnits`、`PostKernelTraceEdgeGrammar*`、trace-edge commit reachability check 和 local edge relay support proxy；edge-corridor grammar 有吞吐并可恢复 solved，但 reachability/local-edge proxy 仍会降 supportDepth。2026-06-25 继续追加 `PostKernelTraceEdgeGrammarUseClosureShadow`、`PostKernelTraceEdgeGrammarClosureDepth`、`PostKernelTraceEdgeGrammarMinShadowRatio`：support-root closure shadow 可保 `supportDepth=4`，但当前吞吐过低且 broad-window 太慢，因此定位为 safety gate/诊断，不是最终 Stage2 pressure language。2026-06-25 追加 `PostKernelTraceEdgeGrammarUseClosureCompatiblePrefilter`、`PostKernelTraceEdgeGrammarBasinDepth/Distance/MaxAffectedRoots`：可把 TraceEdge prefix/body 限制到 closure basin envelope；窄域 prefilter 会真实改变候选空间，但仍不能单独保证 supportDepth，应用作下一代 support-depth-preserving grammar/top-K direct check 的输入。2026-06-25 追加 `PostKernelTraceEdgeGrammarUseWitnessGate` 与 witness edge survival 参数；TraceEdge-only witness exact/relay 未触发拒绝，说明当前 support 漏洞主要来自后续 native post-kernel direct chains。2026-06-25 追加 native direct commit probes：`UsePostKernelNativeSupportPressureBudget`、`UsePostKernelNativeDirectIdentityGate`、`UsePostKernelNativeSupportShadowGate`。SPB/identity/shadow 三者均为负向边界：分别证明 scalar budget、bad-anchor reuse 和当前 support-root shadow proxy 不能修复 native direct support leak。 |
+ | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-OwnerHitGrammarFillV1.py` | SGP sandwich support-safe owner-hit grammar fill / geometry supply owner-hit probe | 2026-06-26 新增；从当前父本空格枚举非直出、first-hit 旧骨架 owner 的小链候选，按贪心不过峰、blocker value、hit distance、hit owner 多样性预筛后输出候选 CSV，最终仍交给 `Build-SGPRhythmTrace.ps1` 做提交真值。支持 opt-in `--supply-level`、`--supply-fit exact|center-crop`、`--supply-require-edges`，用于把普通 PressureHard/PSG 样本只当几何/同链边供料，不继承其 LocalEasy 难度判断。支持 opt-in bundle 模式：`--bundle-count`、`--bundle-pool-count`、`--bundle-same-hit-cap`、`--bundle-require-old-hit`，一次候选放多条不重叠且最终 first-hit 老骨架 owner 的供料链，用于提高吞吐。当前 best：root10+dense_weave+bundle3 到 `0.5000/A/TrueHardCandidate/supportDepth4`；root05+core_burst 到 `0.6419/S/MediumStructure/supportDepth4`。 |
++| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeometrySupplyOwnerHitSchedulerV1.ps1` | Geometry supply owner-hit scheduler / trace thrift | 2026-06-26 新增；封装 `Build-OwnerHitGrammarFillV1.py` -> official trace -> strict parent selection。支持 `SelectionMode CoverageFirst|HardMargin`、`TraceSelectionMode Top|OwnerSpread`、`TraceTopCount/FallbackTraceTopCount`、`AssetPrefix` 和自动短 `AssetRunName`，避免 Windows 长路径写 `.asset.meta` 失败。`OwnerSpread` 为首尾交替 hitOwner 组合抽样：保留高 grammarScore 区，同时主动摸低 grammarScore 异质尾部；实测 root10+dense_weave 在 `0.50+` 段能用 top8/24 抓到 Top-only top16 会漏掉的 rank45 TrueHard 候选。当前 best strict 推到 `0.5768116/A/TrueHardCandidate/supportDepth4`，仍未挂 Demo。 |
+ | `.worktrees/sgp-sandwich-refill/Tools/SGPRhythmLab/Build-SeededDirectSGPFillBaselineV1.ps1` | Failure-pocket anchored SGP pass | 2026-06-25 clean sandwich worktree copy of seeded SGP baseline; adds opt-in `FailurePocketAnchorMode=Off/Reward/Hard`, `FailurePocketAnchorOwners`, `FailurePocketAnchorReward`, and `FailurePocketAnchorMissPenalty`. Hard mode filters SGP heads by current first-hit owner, forcing the next SGP burst to continue inside the previous failure-pocket/refill-owner anchor graph instead of opening a fresh direct-exit pocket. 2026-06-26 adds `FailurePocketAvoidHitMode/Owners/Penalty` and `FailurePocketSoftAvoidHitOwners/Penalty`: hard avoid rejects proven support-shallowing first-hit owners, soft avoid keeps coverage fallback but makes suspicious owners expensive. Current sandwich boundary: hard avoid owner18 raises stable coverage to `0.7096/B/support4`; soft avoid 10/28/31 cannot push beyond without support collapse, so next route needs owner-hit rewrite rather than more blacklist tuning. |
+ | `.worktrees/sgp-sandwich-refill/Tools/SGPRhythmLab/Build-FailurePocketFastRewriteV1.ps1` | Failure-pocket expanded owner-hit rewrite | 2026-06-26 adds `SlotExpandRadius` and `MaxExpandedSlotCells`. This upgrades fast rewrite from replacing a bad SGP chain only inside its original cells to using a bounded local pocket around that chain, enabling 2-cell owner-hit chains to become longer release/blocker chains. Positive proof: owner68 rewrite recovers `0.713/B/support2` to `0.715/B/support4`; owner69 rewrite recovers the next bad SGP pocket to `0.7269/B/support4`. Use this before adding more avoid-list tuning. |
+ | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Run-SGPBudgetAdapterComparisonV1.ps1` | SGP adapter 对比 wrapper | 2026-06-24 新增；并排跑 raw SGP、hard RoleMap filter、soft-budget adapter、pre-action mask 四组，对比 coverage/outer usage/trace。当前实测：raw/soft-budget 可到 ~0.88 但全部 Drop；hard filter 卡在 ~0.54；pre-action mask 到 ~0.75-0.79 且外口大幅下降但 unsolved early-deadlock。用于证明约束必须前移并接 release scaffold。 |
+@@ -267,7 +268,9 @@
+ | Path | Purpose | Notes |
+ | --- | --- | --- |
+ | `Assets/ArrowMagic/Editor/SeedMaskPatchWindow.cs` | Seed + mask patching and HoleLongOuterStrong production batch | Closest existing mask production generator. `Run HoleMask Production Batch` creates long hole-shell masks and clips/refills source seeds, but current implementation clears its candidate output folder; use an isolated smoke wrapper/output path before formal production. |
++| `Assets/ArrowMagic/Editor/SeedMaskPatchWindow.cs` | PSG seed -> mask patch smoke | 2026-06-26 新增 `Tools/ArrowMagic/Mask Production/Run PSG Seed Mask Patch Baseline`；从 `SGPPressureHardTrialPack` 取源 seed，套 `HoleLongOuterStrong` shell mask，输出到 `Assets/ArrowMagic/SOData/Levels/Production/MaskPressureSeedPatchBaseline/Candidates`，不清空历史目录；当前 baseline gate 为 `maskFill>=0.95`、`maskBoundaryFill>=0.98`；只能作为候选池，必须再跑 official trace 筛选。 |
++| `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs` | Mask PSG baseline + validation wrapper | 2026-06-26 新增 `Tools/ArrowMagic/Mask Production/Build PSG Pressure Mask Baseline Pack` 和 `Validate PSG Seed Mask Patch Baseline`；前者直接 constrained peel 结果 0/3（GreedyFailed），后者写 `mask_pressure_seed_patch_pressure_gate.csv` 并调用 `CampaignSingleLevelValidator.RunValidationForPack` 产出 MaskPressure/Validation 报告；当前 mask shape gate 为 `0.95/0.98`，trace gate 仍需外部 `Build-SGPRhythmTrace.ps1`。 |
+ | `Assets/ArrowMagic/Editor/MaskPreviewPackBuilder_Experiment.cs` | Hole mask V05-V13 preview experiments | V13 Top5 builds a visual/solvable preview from `Assets/ArrowMagic/Masks/hole.png`; useful prototype and demo reference, not a full difficulty production gate by itself. |
+ | `Assets/ArrowMagic/Editor/CampaignHoleProceduralGenerator.cs` | Fixed hole-blocker procedural candidate builder | Runnable reference line for hole blockers; existing candidates are high coverage and solvable but can be too open, so do not treat as arbitrary mask-shape production. |
+ | `Assets/ArrowMagic/Editor/CampaignSingleLevelValidator.cs` | Pack-level greedy/process validation | `RunValidationForPack` can validate rebuilt mask review packs before Demo mounting. |
+-| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` | Official trace replay/metrics | Reuse only as validation for mask candidates; do not continue PSG/SGP production from this mask-thread baseline. |
++| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` | Official trace replay/metrics | Reuse only as validation for mask candidates; do not continue PSG/SGP production from this mask-thread baseline. 2026-06-26 high-fill mask seed-patch trace wrote `mask_pressure_seed_patch_highfill_trace_metrics.csv`: 3/3 solved, tiers Drop/Drop/Drop, all LocalEasy, so seed patch alone is not a stable PSG-standard mask line. |
+diff --git a/.agents/memory/CURRENT_STATUS.md b/.agents/memory/CURRENT_STATUS.md
+index b1ff6ffb..afa35ce0 100644
+--- a/.agents/memory/CURRENT_STATUS.md
++++ b/.agents/memory/CURRENT_STATUS.md
+@@ -3970,6 +3970,12 @@
+ - 最强高难线为 `root10 + dense_weave + bundle3`：`0.3637681 -> 0.4072464 -> 0.4434783 -> 0.4753623 -> 0.5000000` 均存在 `solved=True/A/TrueHardCandidate/supportDepth4` 候选；最高 coverage 行 `0.5028986` 降为 `HardPotential/support4`。0.50 附近 TrueHard 密度从 r4 的 24/24 降到 r5 的 5/24，说明下一步要加入 class-drift/choice-wave 选择压力。
+ - 硬但慢的对照：`root98 + dense_weave` 在 `0.3002451` 仍 24/24 `TrueHard/support4`，但吞吐太低；`root76 + dense_weave` 在 `0.3345588` 有 strict TrueHard/support4 候选，但通过密度低于 root10。
+ - Multi-root 报告：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_multi_root_probe_summary.md`；selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_multi_root_probe_selected.csv`。未挂 Demo。
++- 2026-06-26 性能/效率优化：新增 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Invoke-GeometrySupplyOwnerHitSchedulerV1.ps1`，把 `Build-OwnerHitGrammarFillV1.py -> Build-SGPRhythmTrace.ps1 -> strict parent selection` 自动化。调度器支持短 asset run name，修复长路径 `.asset.meta` 写入失败；支持 `SelectionMode HardMargin` 和 `TraceSelectionMode OwnerSpread`。
++- 关键效率结论：Top-only trace 会漏真硬候选；从 `0.4956522/A/TrueHard/support4` 父本出发，Top-only top16 全为 `HardPotential`，top48 才发现 rank45 strict。首尾 hitOwner `OwnerSpread` 后，同类 rank45 strict 可在 top8/24 里被抓到。
++- 新 strict 推进链：`0.4956522 -> 0.5159420 -> 0.5347826 -> 0.5492754 -> 0.5623188 -> 0.5768116`，均为 `solved=True/processTier=A/hardStructureV3Class=TrueHardCandidate/supportDepth4`。
++- 当前最佳严格父本：`geosupply_sched_root10_dens_be1afe84_r1_c015`，asset `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeometrySupplyOwnerHitV1/geosupply_sched_root10_dens_be1afe84/r1/geosupply_sched_root10_dens_be1afe84_r1_c015.asset`；selected CSV `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_sched_root10_denseweave_from0562_ownerspread_tail_v1_selected.csv`。指标：coverage `0.5768116`、A、TrueHard、hardV3 `0.686`、support4、openers2、avg/max `2.84/6`、outer0。
++- 2026-06-26 继续从 `0.5768116` 父本跑 OwnerSpread + HardMargin：top8/top24 没有 strict；对同一 48 个候选全量 trace 后也没有 `TrueHardCandidate/supportDepth4`。全量 48 只有 1 个 TrueHard 行，但 supportDepth=3；support4 行均为 `HardPotential` 或 `MediumStructure`。因此当前 root10+dense_weave/bundle3 语法的严格边界暂定在 `0.5768116`。
++- 下一步：不要继续同参数暴力加 trace；要么降低 bundle 局部重复/换供料，要么从 `0.5768` 附近设计 support-preserving repair/choice-wave 控制。普通 PSG/PressureHard 量产线仍不能混入高难验收。
+ 
+ ## Tonight High-Coverage Demo Pivot - 2026-06-26
+ 
+@@ -4018,6 +4024,13 @@
+ - 补充复核 `SGPGateAwareTrial` 4 个 asset：official trace 4/4 solved，但 1 B + 3 Drop，supportDepth `0-2`，全部 `LocalEasy`，`localPatchSolveRunMax=10-24`、`dependencyBraidBadLocalRate=0.875-0.983`；GateAware 当前不是高难成品线。
+ - 正向结论：PressureHard/PSG 更适合作为 sandwich 的“几何/同链边供料器”，而不是直接继承其解题逻辑。已有 `Geometry Supply Owner-Hit Probe root154 + lock_buckle` 证明该用法可从 hard root coverage `0.2915` 推到 `0.3623`，仍保持 `S/TrueHardCandidate/supportDepth4`。
+ - 下一步若目标是真难关，应使用 validated hard root + PressureHard geometry supply + owner-hit grammar/scheduler：验收以 `TrueHardCandidate + supportDepth>=4 + localPatch/outer/dependencyBraid` 为硬线，coverage 后置；不要把 `coverage>=0.97 + A/B` 当高难验收。
++- 2026-06-26 续跑验证：沿 `orig_seed_usable_v1_01_rolegraph_next5_arrowz_level_154` hard root 继续使用 PressureHard 几何供料，`lock_buckle` 单供料可稳定推进到 `0.4493927/S/TrueHardCandidate/supportDepth4`。
++- 多供料试验：从 `0.4493927` 父本分别引入 `lock_buckle/section_unlock/dense_weave/core_burst` 同链边供料。`section_unlock` 和 `dense_weave` 明显更适合后段增长；合并 top 候选后最佳 strict 到 `0.4898785/S/TrueHardCandidate/supportDepth4`，`avgChoices≈2.9-3.2`、`maxChoices<=6`。
++- 当前 selected CSV：`.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_ownerhit_root154_psg_multi_r12_selected.csv`。最佳行 `geosupply_oh_root154_multi_r12_section_len10_c002/c003`，coverage `0.4898785`，仍为真难候选而非 `LocalEasy`。
++- 生产判断更新：PSG sandwich 正方向不是“PSG 先满铺再修”，而是“validated hard root + PSG geometry supply + owner-hit grammar stepwise growth”。下一步需要自动 multi-supply scheduler、供料切换策略和 top-k trace 节流；目标先验证能否越过 `0.55/0.60` 仍保持 `TrueHardCandidate`。
++- 2026-06-26 续跑：`root154 + core_burst` geometry supply 已越过 `0.65` 且保持高难结构。路径为 `0.5647773 -> 0.5890688 -> 0.6133603 -> 0.6356275 -> 0.6538462 -> 0.6578947 -> 0.6619433`，最新 selected CSV 为 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_root154_core_scheduler_from0657_v1_selected.csv`。
++- 最新严格父本：`root154_core_sched0657_v1_r1_c018`，coverage `0.6619433`，official trace `solved=True/processTier=A/hardStructureV3Class=TrueHardCandidate/supportClosureBestDepth=4`，`openers=3`、`avgChoices=3.72`、`choiceP80=5`、`maxChoices=8`、`outerExitHeadCount=1`、`localPatchSolveRunMax=2`。同批 coverage `0.6639676` 仅为 `HardPotential/support4`，不作为 strict 父本。
++- 这证明 PSG/PressureHard 作为“geometry/same-chain-edge supply”接 owner-hit grammar/scheduler 可以稳定越过 `0.60/0.65`，不是普通 PSG 的 `LocalEasy` 直产逻辑。下一步应从该 selected CSV 继续尝试 `0.70` 边界，并加入多 supply 切换/anti-repeat，而不是回到普通 PressureHard 直产。
+ 
+ ## Mask Production Line Inventory Baseline - 2026-06-26
+ 
+@@ -4028,3 +4041,23 @@
+ - `SeedMaskPatchWindow.RunHoleMaskProductionBatch` 是最接近现有正式 mask 生成的入口，依赖/目录存在；但它会清空 `Assets/ArrowMagic/SOData/Levels/Production/HoleLongOuterStrong/Candidates`，且当前 report 只看到一个 accepted 资产、未看到同步 pack，暂定为“可跑但未闭环稳定”。
+ - `CampaignHoleProceduralGenerator` 可生成固定 hole-blocker candidates；当前 HoleProcedural 报告显示高覆盖/可解，但 opener/初始可动偏高，适合作 baseline/参考，不等于任意 mask shape 产线。
+ - 建议 baseline：先从现有 HoleMask 资产重建小 review pack，用 `CampaignSingleLevelValidator.RunValidationForPack` 和 `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` 复核；之后再做隔离输出目录的 SeedMask 小批次 smoke。
++
++## Mask PSG Baseline Result - 2026-06-26
++
++- 用户校正：mask 线不能沿用纯 SGP 生产；最低应按 PSG/PressureHard 普通难度标准筛，PSG 只能作为源/供料参考，不能直接假设 mask patch 后仍有 PSG 难度。
++- 新增直接 mask-constrained PSG baseline：`Tools/ArrowMagic/Mask Production/Build PSG Pressure Mask Baseline Pack`，代码在 `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`。结果：`Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureBaselinePack.asset` 为 0 关；`mask_pressure_baseline_report.csv` 显示 3 个 shell mask 都能高 maskFill 生成候选，但全部 GreedyFailed。结论：直接在 mask 内跑 constrained peel 不稳定，不能作为正式入口。
++- 新增 PSG seed -> mask patch smoke：`Tools/ArrowMagic/Mask Production/Run PSG Seed Mask Patch Baseline`，复用 `SeedMaskPatchWindow` 的 HoleBlock deep repair，不清理历史目录，输出 `Assets/ArrowMagic/SOData/Levels/Production/MaskPressureSeedPatchBaseline/Candidates/` 和 `Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselinePack.asset`。
++- 用户补充校正：mask 视觉完整性要求高于普通 coverage；本轮已把 mask baseline 门槛提高为 `maskFill>=0.95` 且 `maskBoundaryFill>=0.98`。旧 `0.900-0.901` seed-patch 冒烟样本降级为 legacy smoke，不再算 mask 产线候选。
++- 高覆盖 seed-patch rerun 结果：3 个 mask 全部有 accepted 候选，`maskFill=0.950/0.951/0.951`，`maskBoundaryFill=1.000/1.000/1.000`，Greedy pass，block ray hits 0，chains `65/62/70`；Demo 当前挂到 `MaskPressureSeedPatchBaselinePack.asset` 仅供 baseline 目视，不代表正式达标。
++- Campaign validator：`Assets/ArrowMagic/SOData/Reports/MaskPressure/Validation/mask_pressure_seed_patch_validation_summary.csv` 为 0 Green / 3 Yellow / 0 Red，flags 为 `StartFakeWide|BottleneckHeavy`、`StartTooNarrow`、`StartTooNarrow`；内部 pressure gate 为 0/3，主要失败是 opening / early choices / early local run 过宽。
++- PSG 复核：官方 trace 输出 `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/mask_pressure_seed_patch_highfill_trace_metrics.csv`，3/3 solved，但 3/3 都是 `processTier=Drop`、`hardStructureV3Class=LocalEasy`。三关 openers `9-14`，avg choices `6.57-8.86`，max choices `13-16`，不达 PSG/PressureHard 正式筛选标准。
++- 当前判断：现有 mask seed-patch 工具已经能产“边缘完整、整体高填充、可解、视觉形状可看”的样本，但 seed-patch 仍会把 PSG seed 退化成 Drop/LocalEasy；正式 mask 量产必须把 official trace 纳入硬门槛，至少拒绝 Drop，并记录 A/B、openers、avg/max choices、supportDepth/localEasy 风险。
++- 建议下一步最小产线：扩大 PSG parent seed pool -> SeedMask preview/deep patch -> `CampaignSingleLevelValidator` -> `Build-SGPRhythmTrace.ps1` -> 只保留 `solved && maskFill>=0.95 && maskBoundaryFill>=0.98 && processTier in A/B && maxChoices<=10` 的候选；若仍 0 命中，应新增“trace-aware refill/selection”小层，而不是回退到纯 SGP 或放低 maskFill。
++
++## Campaign500 PSG Regeneration Template - 2026-06-26
++
++- 已从 V11 最终 500 关交付包和当前 `G:/bm/Excels_ArrawGame/G_关卡.xlsx` 抽出 PSG 重生成模板。
++- 输出目录：`Exports/Campaign500_PSG_Template_20260626_095625/`；zip：`Exports/Campaign500_PSG_Template_20260626_095625.zip`。
++- 主模板：`campaign500_psg_regeneration_template.csv`，500 行，保留顺序、关卡类别、难度码、体验角色、目标宽高、目标链条数、shape/hole 展示字段和 V11 来源引用。
++- 拆分表：normal 350、shape 100、hole 50；难度码分布为 1=314、2=94、3=59、4=33。
++- PSG 重跑时建议把 `order/category/difficultyCode/experienceRole/targetWidth/targetHeight/targetChains` 作为槽位合同；`sourceV11*` 仅作对照，不应绑死旧资源。
+diff --git a/.agents/memory/DECISIONS.md b/.agents/memory/DECISIONS.md
+index 155eb62b..f8122418 100644
+--- a/.agents/memory/DECISIONS.md
++++ b/.agents/memory/DECISIONS.md
+@@ -1285,3 +1285,18 @@ Do not run production fill on unsolved light-fill gate templates. Strict-dual ga
+ - Evidence: root10 bundle reached `coverage=0.5000000` with `solved=True`, `processTier=A`, `hardStructureV3Class=TrueHardCandidate`, and `supportClosureBestDepth=4`. This is materially stronger than the earlier low-coverage proof.
+ - Boundary: in the same r5 batch the highest coverage row (`0.5028986`) downgraded to `HardPotential`, and TrueHard density fell from `24/24` in r4 to `5/24` in r5. This indicates class drift before outright support/solvability failure.
+ - Next accepted route: scheduler ranking should maximize coverage only inside a hard-class floor, adding penalties for hardStructureV3Score drop, TrueHard density drop, repeated bundle zones, and choice/outer wave drift. Do not keep picking the highest coverage row if it downgrades from TrueHard to HardPotential.
++
++## Geometry Supply Trace Thrift Must Preserve Candidate Diversity - 2026-06-26
++
++- Decision: for geometry-supply owner-hit scheduling, do not use Top-only candidate tracing as the main efficiency strategy after `0.50`. Use strict gates plus owner/hit diversity sampling.
++- Evidence: from the `0.4956522/A/TrueHard/support4` parent, Top-only top16 traced rows were all `HardPotential`; full top48 found the only strict row at rank45 (`0.5159420/A/TrueHardCandidate/support4`). After changing `TraceSelectionMode OwnerSpread` to head/tail hitOwner sampling, the same class of rank45 strict row is found with top8/24.
++- Evidence: the optimized scheduler continued root10+dense_weave strict growth through `0.5159420 -> 0.5347826 -> 0.5492754 -> 0.5623188 -> 0.5768116`, all `solved=True`, `processTier=A`, `hardStructureV3Class=TrueHardCandidate`, `supportClosureBestDepth=4`.
++- Boundary: this is scheduler efficiency and parent-selection improvement, not final high-coverage proof. Current best remains `0.5768116`, and future pushes still require official trace plus human feel; no Demo mount until a review-worthy candidate passes the high-difficulty gate.
++- Next accepted route: keep `TraceTopCount` small, use owner-spread fallback before full trace, and only full-trace calibrate when strict density or sampling behavior is uncertain. If strict candidates keep appearing in low grammarScore tails, add a learned/hand-ranked tail prior rather than increasing brute-force trace volume.
++
++## Mask Production Requires Trace-Gated PSG Standard - 2026-06-26
++
++- Decision: mask production must not accept `generated + GreedyPass + maskFill` as sufficient. Every candidate intended to meet PSG/PressureHard standard must pass official trace selection after mask patching.
++- Evidence: direct mask-constrained PSG baseline produced 0/3 due GreedyFailed. The first PSG seed -> mask patch smoke produced 3/3 visually filled and Greedy-pass candidates at `maskFill≈0.90`, but official trace was only `B/Drop/Drop`, all `LocalEasy`, supportDepth `2`. After raising shape gates to `maskFill>=0.95` and `maskBoundaryFill>=0.98`, rerun produced 3/3 high-fill/edge-complete/solved candidates, but official trace was still `Drop/Drop/Drop`, all `LocalEasy`.
++- Boundary: `SeedMaskPatchWindow` is the preferred reusable generator entry for mask smoke because it preserves/repairs existing seeds under mask shape; however, its accepted output is only a candidate pool until trace rejects Drop/too-wide openings.
++- Minimum production gate for normal PSG-style mask levels: `solved=True`, `maskFill>=0.95`, `maskBoundaryFill>=0.98`, `blockRayHits=0`, `CampaignSingleLevelValidator` not Red, `processTier in {A,B}`, and max choices bounded (current first pass `<=10`). Stricter support/non-LocalEasy gates belong to the high-difficulty line and should not be silently mixed into this mask baseline.
+diff --git a/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs b/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs
+index 4965aa95..6f9627d7 100644
+--- a/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs
++++ b/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs
+@@ -87,6 +87,18 @@ namespace PixelBug.ArrowMagic.EditorTools
+         private const string SgpGateAwareOutputFolder = "Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPGateAwareTrial";
+         private const string SgpGateAwarePackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPGateAwareTrialPack.asset";
+         private const string SgpGateAwareReportPath = "Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_gate_aware_trial_report.csv";
++        private const string MaskPressureBaselineOutputFolder = "Assets/ArrowMagic/SOData/Levels/Production/MaskPressureBaseline";
++        private const string MaskPressureBaselinePackPath = "Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureBaselinePack.asset";
++        private const string MaskPressureBaselineReportPath = "Assets/ArrowMagic/SOData/Reports/MaskPressure/mask_pressure_baseline_report.csv";
++        private const string MaskPressureSeedPatchPackPath = "Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselinePack.asset";
++        private const string MaskPressureSeedPatchReviewPackPath = "Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselineReviewPack.asset";
++        private const string MaskPressureValidationFolder = "Assets/ArrowMagic/SOData/Reports/MaskPressure/Validation";
++        private const string MaskPressureSeedPatchPressureGateReportPath = MaskPressureValidationFolder + "/mask_pressure_seed_patch_pressure_gate.csv";
++        private const string MaskPressureSeedPatchValidationSummaryPath = MaskPressureValidationFolder + "/mask_pressure_seed_patch_validation_summary.csv";
++        private const string MaskPressureSeedPatchValidationFlaggedPath = MaskPressureValidationFolder + "/mask_pressure_seed_patch_validation_flags.csv";
++        private const string MaskPressureSeedPatchValidationNotesPath = MaskPressureValidationFolder + "/mask_pressure_seed_patch_validation_notes.md";
++        private const float MaskPressureMinShapeFill = 0.95f;
++        private const float MaskPressureMinBoundaryFill = 0.98f;
+         private const int GateAwareTrackedWaveCount = 12;
+ 
+         private enum NoMaskType
+@@ -148,6 +160,17 @@ namespace PixelBug.ArrowMagic.EditorTools
+             public int OuterCutKind;
+         }
+ 
++        private sealed class MaskPressureSourceSpec
++        {
++            public string MaskPath;
++            public string Id;
++            public string DisplayName;
++            public NoMaskType Type;
++            public int Seed;
++            public float TargetMaskFill;
++            public float TargetBoundaryFill;
++        }
++
+         private sealed class MotifSpec
+         {
+             public StyleSpec Style;
+@@ -315,6 +338,15 @@ namespace PixelBug.ArrowMagic.EditorTools
+             public int Score;
+         }
+ 
++        private sealed class MaskPressureEvalMetrics
++        {
++            public float EarlyAvgChoices;
++            public int EarlyMaxChoices;
++            public int EarlyLocalRunMax;
++            public float EarlyAvgJumpDistance;
++            public float EarlyNearStepRate;
++        }
++
+         private sealed class PressureChainTraceStat
+         {
+             public int MinX;
+@@ -919,6 +951,40 @@ namespace PixelBug.ArrowMagic.EditorTools
+                 "SGPPressureHardTrial");
+         }
+ 
++        [MenuItem("Tools/ArrowMagic/Mask Production/Build PSG Pressure Mask Baseline Pack")]
++        public static void BuildPsgPressureMaskBaselinePack()
++        {
++            BuildMaskPressureBaselinePack(
++                CreateMaskPressureBaselineSpecs(),
++                MaskPressureBaselineOutputFolder,
++                MaskPressureBaselinePackPath,
++                MaskPressureBaselineReportPath,
++                "mask_pressure_baseline",
++                "mask_pressure_baseline",
++                "Mask PSG Pressure Baseline",
++                "MaskPressureBaseline");
++        }
++
++        [MenuItem("Tools/ArrowMagic/Mask Production/Validate PSG Seed Mask Patch Baseline")]
++        public static void ValidatePsgSeedMaskPatchBaseline()
++        {
++            WritePsgPressureGateReportForPack(
++                MaskPressureSeedPatchPackPath,
++                MaskPressureSeedPatchPressureGateReportPath,
++                "MaskPressureSeedPatchPressureGate");
++
++            CampaignSingleLevelValidator.RunValidationForPack(
++                MaskPressureSeedPatchPackPath,
++                "",
++                "",
++                MaskPressureValidationFolder,
++                MaskPressureSeedPatchValidationSummaryPath,
++                MaskPressureSeedPatchValidationFlaggedPath,
++                MaskPressureSeedPatchValidationNotesPath,
++                MaskPressureSeedPatchReviewPackPath,
++                "MaskPressureSeedPatchValidation");
++        }
++
+         [MenuItem("Tools/ArrowMagic/Direct Procedural/Build SGP Gate-Aware Trial Pack")]
+         public static void BuildSgpGateAwareTrialPack()
+         {
+@@ -1352,6 +1418,239 @@ namespace PixelBug.ArrowMagic.EditorTools
+             Debug.Log($"[NoMaskProcedural] {displayName} finished. levels={levels.Count}, pack={packPath}, report={reportPath}");
+         }
+ 
++        private static void BuildMaskPressureBaselinePack(
++            MaskPressureSourceSpec[] specs,
++            string outputFolder,
++            string packPath,
++            string reportPath,
++            string levelIdPrefix,
++            string packId,
++            string displayName,
++            string logTag)
++        {
++            EnsureFolderExists(outputFolder);
++            EnsureFolderExists(Path.GetDirectoryName(packPath)?.Replace("\\", "/"));
++            EnsureFolderExists(Path.GetDirectoryName(reportPath)?.Replace("\\", "/"));
++
++            var levels = new List<LevelDefinition>();
++            var report = new List<string>
++            {
++                "Index,MaskId,Type,MaskPath,LevelId,AssetPath,Width,Height,AllowedCells,BlockCells,Chains,Arrows,MaskFill,TargetMaskFill,MaskBoundaryFill,TargetBoundaryFill,InitialMovableChains,OpeningRatio,EdgeHeadChains,ShortChains,GreedyMoves,AvgChain,MaxChain,Straightness,BlockLinks,EarlyAvgChoices,EarlyMaxChoices,EarlyLocalRun,EarlyAvgJump,EarlyNearRate,PortableSolved,PortableOpeners,PortableScore,PortableQuality,Attempts,Status"
++            };
++
++            for (int i = 0; i < specs.Length; i++)
++            {
++                MaskPressureSourceSpec source = specs[i];
++                Debug.Log($"[NoMaskProcedural] Building mask pressure {i + 1}/{specs.Length}: {source.Id}");
++                if (!TryBuildMaskPressureLevelAt(
++                        source,
++                        i + 1,
++                        outputFolder,
++                        levelIdPrefix,
++                        out LevelDefinition level,
++                        out string assetPath,
++                        out StyleSpec style,
++                        out BuildMetrics metrics,
++                        out MaskPressureEvalMetrics pressure,
++                        out int allowedCount,
++                        out int blockCount,
++                        out string status))
++                {
++                    report.Add(
++                        $"{i + 1},{source.Id},{source.Type},{EscapeCsv(source.MaskPath)},,{assetPath},0,0,0,0,0,0,0,{source.TargetMaskFill:0.000},0,{source.TargetBoundaryFill:0.000},0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,0,0,fail,0,{EscapeCsv(status)}");
++                    File.WriteAllLines(reportPath, report);
++                    Debug.LogWarning($"[NoMaskProcedural] Failed mask pressure {source.Id}: {status}");
++                    continue;
++                }
++
++                levels.Add(level);
++                float openingRatio = metrics.Chains > 0
++                    ? metrics.InitialMovableChains / (float)metrics.Chains
++                    : 0f;
++                Debug.Log($"[NoMaskProcedural] Built mask pressure {source.Id}: chains={metrics.Chains}, maskFill={metrics.Coverage:0.000}, boundary={metrics.OuterBandCoverage:0.000}, initial={metrics.InitialMovableChains}, early={pressure.EarlyAvgChoices:0.0}/{pressure.EarlyMaxChoices}");
++                report.Add(
++                    $"{i + 1},{source.Id},{source.Type},{EscapeCsv(source.MaskPath)},{EscapeCsv(level.levelId)},{EscapeCsv(assetPath)},{style.Width},{style.Height},{allowedCount},{blockCount}," +
++                    $"{metrics.Chains},{metrics.ArrowCount},{metrics.Coverage:0.000},{source.TargetMaskFill:0.000},{metrics.OuterBandCoverage:0.000},{source.TargetBoundaryFill:0.000}," +
++                    $"{metrics.InitialMovableChains},{openingRatio:0.000},{metrics.EdgeHeadChains},{metrics.ShortEdgeChains},{metrics.GreedyMoves}," +
++                    $"{metrics.AverageChainLength:0.00},{metrics.MaxChainLength},{metrics.Straightness:0.000},{metrics.BlockLinks}," +
++                    $"{pressure.EarlyAvgChoices:0.00},{pressure.EarlyMaxChoices},{pressure.EarlyLocalRunMax},{pressure.EarlyAvgJumpDistance:0.00},{pressure.EarlyNearStepRate:0.000}," +
++                    $"{metrics.PortableGreedySolved},{metrics.PortableInitialOpeners},{metrics.PortableScore:0.0},{EscapeCsv(metrics.PortableQualityFlags)}," +
++                    $"{metrics.Attempts},{EscapeCsv(status)}");
++                File.WriteAllLines(reportPath, report);
++            }
++
++            File.WriteAllLines(reportPath, report);
++            AssetDatabase.ImportAsset(reportPath);
++
++            LevelPack pack = SavePackAt(levels, packPath, packId, $"{displayName} ({levels.Count})");
++            if (levels.Count > 0)
++            {
++                AttachPackToDemo(pack, logTag);
++            }
++            else
++            {
++                Debug.LogWarning($"[NoMaskProcedural] {displayName} produced no mask pressure levels; Demo active pack was left unchanged.");
++            }
++
++            AssetDatabase.SaveAssets();
++            AssetDatabase.Refresh();
++            Debug.Log($"[NoMaskProcedural] {displayName} finished. levels={levels.Count}, pack={packPath}, report={reportPath}");
++        }
++
++        private static void WritePsgPressureGateReportForPack(string packPath, string reportPath, string logTag)
++        {
++            EnsureFolderExists(Path.GetDirectoryName(reportPath)?.Replace("\\", "/"));
++
++            var report = new List<string>
++            {
++                "Index,Status,Failures,LevelId,AssetPath,MaskPath,Width,Height,Chains,Arrows,BlockCells,AllowedCells,MaskFill,MaskBoundaryFill,InitialMovableChains,OpeningRatio,EdgeHeadChains,EdgeHeadLimit,ShortChains,GreedySolved,GreedyMoves,DirectBlockHeadHits,EarlyAvgChoices,EarlyMaxChoices,EarlyLocalRun,EarlyAvgJump,EarlyNearRate,TargetDifficultyScore"
++            };
++
++            var pack = AssetDatabase.LoadAssetAtPath<LevelPack>(packPath);
++            if (pack == null || pack.levels == null || pack.levels.Length == 0)
++            {
++                report.Add($"0,fail,{EscapeCsv("MissingOrEmptyPack")},,,{EscapeCsv(packPath)},0,0,0,0,0,0,0,0,0,0,0,0,0,False,0,0,0,0,0,0,0,0");
++                File.WriteAllLines(reportPath, report);
++                AssetDatabase.ImportAsset(reportPath);
++                Debug.LogError($"[{logTag}] Missing or empty pack: {packPath}");
++                return;
++            }
++
++            var ruleset = new ArrowMagicRuleset(new ArrowMagicRulesetConfig
++            {
++                travelMode = SignalTravelMode.ThroughEmpty
++            });
++
++            int passCount = 0;
++            for (int i = 0; i < pack.levels.Length; i++)
++            {
++                LevelDefinition level = pack.levels[i];
++                string assetPath = level != null ? AssetDatabase.GetAssetPath(level) : "";
++                string levelId = level != null ? level.levelId : "";
++                if (level == null || level.authoredLevel == null)
++                {
++                    report.Add($"{i + 1},fail,{EscapeCsv("MissingLevel")},{EscapeCsv(levelId)},{EscapeCsv(assetPath)},,0,0,0,0,0,0,0,0,0,0,0,0,0,False,0,0,0,0,0,0,0,0");
++                    continue;
++                }
++
++                AuthoredLevelData authored = level.authoredLevel;
++                int width = Mathf.Max(1, authored.width);
++                int height = Mathf.Max(1, authored.height);
++                int maxChainLength = 0;
++                if (authored.arrows != null)
++                {
++                    for (int c = 0; c < authored.arrows.Count; c++)
++                        maxChainLength = Mathf.Max(maxChainLength, authored.arrows[c]?.indices?.Count ?? 0);
++                }
++
++                var evalSpec = new StyleSpec
++                {
++                    Type = NoMaskType.LockBuckle,
++                    Id = "sgp_pressure_hard_mask_eval",
++                    DisplayName = "SGP Pressure Mask Eval",
++                    Width = width,
++                    Height = height,
++                    TargetChains = authored.arrows?.Count ?? 0,
++                    MinLength = 2,
++                    MaxLength = Mathf.Max(2, maxChainLength),
++                    TargetCoverage = 0.90f,
++                    OuterBandTarget = 0.80f
++                };
++
++                var failures = new List<string>();
++                if (!AuthoredLevelBuilder.TryBuildBoard(authored, out BoardState board, out string buildError))
++                {
++                    failures.Add($"BuildError:{buildError}");
++                    report.Add($"{i + 1},fail,{EscapeCsv(string.Join("|", failures))},{EscapeCsv(levelId)},{EscapeCsv(assetPath)},,0,0,0,0,0,0,0,0,0,0,0,0,0,False,0,0,0,0,0,0,0,{level.generation.targetDifficultyScore}");
++                    continue;
++                }
++
++                BuildMetrics metrics = BuildMetricsFromAuthored(evalSpec, authored);
++                metrics.InitialMovableChains = CountInitialMovableChains(board, authored);
++                int directBlockHits = CountHeadsAimingAtBlocks(authored);
++                bool greedySolved = GreedyValidator.TryClearAllByGreedy(CloneBoard(board), ruleset, maxMoves: 700, out List<Move> greedyMoves);
++                metrics.GreedyMoves = greedyMoves != null ? greedyMoves.Count : 0;
++
++                float earlyAvgChoices;
++                int earlyMaxChoices;
++                int earlyLocalRunMax;
++                float earlyAvgJumpDistance;
++                float earlyNearStepRate;
++                ComputePressureChoiceCurve(
++                    board,
++                    ruleset,
++                    authored,
++                    32,
++                    out earlyAvgChoices,
++                    out earlyMaxChoices,
++                    out earlyLocalRunMax,
++                    out earlyAvgJumpDistance,
++                    out earlyNearStepRate);
++
++                Texture2D mask = level.masking != null ? level.masking.spawnMask : null;
++                string maskPath = mask != null ? AssetDatabase.GetAssetPath(mask) : "";
++                int allowedCells = 0;
++                float maskFill = 0f;
++                float maskBoundaryFill = 0f;
++                bool[] canSpawn = null;
++                List<int> maskBlocks = null;
++                bool maskOk = mask != null
++                    && mask.width == width
++                    && mask.height == height
++                    && TryBuildCanSpawnFromMask(mask, out canSpawn, out maskBlocks, out allowedCells);
++                if (maskOk)
++                {
++                    maskFill = metrics.ArrowCount / (float)Mathf.Max(1, allowedCells);
++                    maskBoundaryFill = CountOccupiedMaskBoundaryCells(authored, canSpawn)
++                        / Mathf.Max(1f, CountMaskBoundaryCells(canSpawn, width, height));
++                }
++                else
++                {
++                    failures.Add("MaskMissingOrSizeMismatch");
++                }
++
++                int chains = Mathf.Max(0, metrics.Chains);
++                float openingRatio = chains > 0 ? metrics.InitialMovableChains / (float)chains : 1f;
++                int edgeHeadLimit = Mathf.Max(10, Mathf.CeilToInt(chains * 0.10f));
++                if (!greedySolved)
++                    failures.Add("GreedyFail");
++                if (maskFill < MaskPressureMinShapeFill)
++                    failures.Add($"MaskFill<{MaskPressureMinShapeFill:0.00}");
++                if (maskBoundaryFill < MaskPressureMinBoundaryFill)
++                    failures.Add($"MaskBoundaryFill<{MaskPressureMinBoundaryFill:0.00}");
++                if (directBlockHits != 0)
++                    failures.Add("DirectBlockHeadHits");
++                if (openingRatio > 0.12f)
++                    failures.Add("OpeningRatio>0.12");
++                if (metrics.EdgeHeadChains > edgeHeadLimit)
++                    failures.Add("EdgeHeadChainsHigh");
++                if (earlyAvgChoices > 6.5f)
++                    failures.Add("EarlyAvgChoices>6.5");
++                if (earlyMaxChoices > 10)
++                    failures.Add("EarlyMaxChoices>10");
++                if (earlyLocalRunMax > 4)
++                    failures.Add("EarlyLocalRun>4");
++                if (earlyAvgJumpDistance < 5.0f)
++                    failures.Add("EarlyAvgJump<5.0");
++                if (earlyNearStepRate > 0.62f)
++                    failures.Add("EarlyNearRate>0.62");
++
++                bool pass = failures.Count == 0;
++                if (pass)
++                    passCount++;
++
++                report.Add(
++                    $"{i + 1},{(pass ? "pass" : "fail")},{EscapeCsv(string.Join("|", failures))},{EscapeCsv(levelId)},{EscapeCsv(assetPath)},{EscapeCsv(maskPath)}," +
++                    $"{width},{height},{metrics.Chains},{metrics.ArrowCount},{authored.blockIndices?.Count ?? 0},{allowedCells},{maskFill:0.000},{maskBoundaryFill:0.000}," +
++                    $"{metrics.InitialMovableChains},{openingRatio:0.000},{metrics.EdgeHeadChains},{edgeHeadLimit},{metrics.ShortEdgeChains},{greedySolved},{metrics.GreedyMoves},{directBlockHits}," +
++                    $"{earlyAvgChoices:0.00},{earlyMaxChoices},{earlyLocalRunMax},{earlyAvgJumpDistance:0.00},{earlyNearStepRate:0.000},{level.generation.targetDifficultyScore}");
++            }
++
++            File.WriteAllLines(reportPath, report);
++            AssetDatabase.ImportAsset(reportPath);
++            Debug.Log($"[{logTag}] Done. Pass={passCount}/{pack.levels.Length}, report={reportPath}");
++        }
++
+         private static void BuildSgpGateAwareStyleSpecPack(
+             StyleSpec[] specs,
+             string outputFolder,
+@@ -2705,6 +3004,43 @@ namespace PixelBug.ArrowMagic.EditorTools
+             };
+         }
+ 
++        private static MaskPressureSourceSpec[] CreateMaskPressureBaselineSpecs()
++        {
++            return new[]
++            {
++                new MaskPressureSourceSpec
++                {
++                    MaskPath = "Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_22x34_long.png",
++                    Id = "hole_shell_22x34_lock_buckle",
++                    DisplayName = "Hole Shell 22x34 Lock Buckle",
++                    Type = NoMaskType.LockBuckle,
++                    Seed = 541001,
++                    TargetMaskFill = MaskPressureMinShapeFill,
++                    TargetBoundaryFill = MaskPressureMinBoundaryFill
++                },
++                new MaskPressureSourceSpec
++                {
++                    MaskPath = "Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_24x36_long.png",
++                    Id = "hole_shell_24x36_dense_weave",
++                    DisplayName = "Hole Shell 24x36 Dense Weave",
++                    Type = NoMaskType.DenseWeave,
++                    Seed = 542001,
++                    TargetMaskFill = MaskPressureMinShapeFill,
++                    TargetBoundaryFill = MaskPressureMinBoundaryFill
++                },
++                new MaskPressureSourceSpec
++                {
++                    MaskPath = "Assets/ArrowMagic/Masks/Production/HoleLongOuterStrong/hole_shell_24x40_long.png",
++                    Id = "hole_shell_24x40_core_burst",
++                    DisplayName = "Hole Shell 24x40 Core Burst",
++                    Type = NoMaskType.CoreBurst,
++                    Seed = 543001,
++                    TargetMaskFill = MaskPressureMinShapeFill,
++                    TargetBoundaryFill = MaskPressureMinBoundaryFill
++                }
++            };
++        }
++
+         private static StyleSpec[] CreateSgpGateAwareTrialSpecs()
+         {
+             return new[]
+@@ -3865,6 +4201,252 @@ namespace PixelBug.ArrowMagic.EditorTools
+             return true;
+         }
+ 
++        private static bool TryBuildMaskPressureLevelAt(
++            MaskPressureSourceSpec source,
++            int index,
++            string outputFolder,
++            string levelIdPrefix,
++            out LevelDefinition level,
++            out string assetPath,
++            out StyleSpec spec,
++            out BuildMetrics metrics,
++            out MaskPressureEvalMetrics pressure,
++            out int allowedCount,
++            out int blockCount,
++            out string status)
++        {
++            level = null;
++            spec = null;
++            metrics = new BuildMetrics();
++            pressure = new MaskPressureEvalMetrics();
++            allowedCount = 0;
++            blockCount = 0;
++            status = string.Empty;
++
++            string safeId = source != null ? source.Id : "missing_source";
++            assetPath = $"{outputFolder}/{levelIdPrefix}_{index:00}_{safeId}.asset";
++            if (source == null)
++            {
++                status = "Missing mask pressure source spec";
++                return false;
++            }
++
++            Texture2D mask = AssetDatabase.LoadAssetAtPath<Texture2D>(source.MaskPath);
++            if (mask == null)
++            {
++                status = $"MaskNotFound path={source.MaskPath}";
++                return false;
++            }
++
++            if (!TryBuildCanSpawnFromMask(mask, out bool[] canSpawn, out List<int> blockIndices, out allowedCount))
++            {
++                status = $"MaskHasNoSpawn path={source.MaskPath}";
++                return false;
++            }
++
++            blockCount = blockIndices.Count;
++            spec = CreateMaskPressureStyleSpec(source, mask.width, mask.height, allowedCount);
++            string levelId = $"{levelIdPrefix}_{index:00}_{safeId}";
++            var ruleset = new ArrowMagicRuleset(new ArrowMagicRulesetConfig
++            {
++                travelMode = SignalTravelMode.ThroughEmpty
++            });
++
++            AuthoredLevelData bestAuthored = null;
++            BuildMetrics bestMetrics = null;
++            MaskPressureEvalMetrics bestPressure = null;
++            int bestSeed = spec.Seed;
++            int bestScore = int.MinValue;
++            int attemptsTried = 0;
++            string bestDetails = string.Empty;
++            string lastFailure = string.Empty;
++            PeelStyleProfile[] profiles = GetMaskPressurePeelProfiles(spec);
++
++            for (int profileIndex = 0; profileIndex < profiles.Length; profileIndex++)
++            {
++                PeelStyleProfile profile = profiles[profileIndex];
++                for (int attempt = 0; attempt < profile.Attempts; attempt++)
++                {
++                    attemptsTried++;
++                    int candidateSeed = spec.Seed + index * 13007 + profile.SeedSalt + profileIndex * 1000003 + attempt * 104729;
++                    if (!TryBuildConstrainedRectanglePeelAuthored(spec, canSpawn, blockIndices, candidateSeed, profile, out AuthoredLevelData authored, out string buildDetails))
++                    {
++                        lastFailure = buildDetails;
++                        continue;
++                    }
++
++                    if (!AuthoredLevelBuilder.TryBuildBoard(authored, out BoardState board, out string buildError))
++                    {
++                        lastFailure = $"BoardBuildFailed={buildError} | {buildDetails}";
++                        continue;
++                    }
++
++                    if (!GreedyValidator.TryClearAllByGreedy(CloneBoard(board), ruleset, maxMoves: 700, out List<Move> moves))
++                    {
++                        lastFailure = $"GreedyFailed | {buildDetails}";
++                        continue;
++                    }
++
++                    int directBlockHeads = CountHeadsAimingAtBlocks(authored);
++                    if (directBlockHeads > 0)
++                    {
++                        lastFailure = $"DirectBlockHeads={directBlockHeads} | {buildDetails}";
++                        continue;
++                    }
++
++                    BuildMetrics current = BuildMetricsFromAuthored(spec, authored);
++                    ApplyMaskPressureCoverageMetrics(current, authored, canSpawn, allowedCount);
++                    current.InitialMovableChains = CountInitialMovableChains(board, authored);
++                    current.GreedyMoves = moves != null ? moves.Count : 0;
++                    current.Attempts = attemptsTried;
++
++                    ComputePressureChoiceCurve(
++                        board,
++                        ruleset,
++                        authored,
++                        32,
++                        out float earlyAvgChoices,
++                        out int earlyMaxChoices,
++                        out int earlyLocalRunMax,
++                        out float earlyAvgJumpDistance,
++                        out float earlyNearStepRate);
++
++                    float openingRatio = current.Chains > 0 ? current.InitialMovableChains / (float)current.Chains : 1f;
++                    int targetInitial = Mathf.Clamp(
++                        Mathf.RoundToInt(current.Chains * profile.TargetInitialRatio),
++                        profile.TargetInitialMin,
++                        profile.TargetInitialMax);
++                    float openingCeiling = 0.12f;
++                    int chainPenalty = Mathf.Abs(current.Chains - spec.TargetChains) * 900;
++                    int openingPenalty = Mathf.RoundToInt(
++                        Mathf.Abs(current.InitialMovableChains - targetInitial) * 260f
++                        + Mathf.Max(0f, openingRatio - openingCeiling) * 9000f);
++                    int shortPenalty = Mathf.Max(0, current.ShortEdgeChains - 7) * 360;
++                    int edgeHeadPenalty = Mathf.Max(0, current.EdgeHeadChains - Mathf.Max(4, Mathf.CeilToInt(current.Chains * 0.10f))) * 1250;
++                    int straightPenalty = current.Straightness > 0.70f ? profile.StraightPenalty : 0;
++                    int fillPenalty = Mathf.RoundToInt(Mathf.Max(0f, source.TargetMaskFill - current.Coverage) * 9000f);
++                    int boundaryPenalty = Mathf.RoundToInt(Mathf.Max(0f, source.TargetBoundaryFill - current.OuterBandCoverage) * 3800f);
++                    int score = current.ArrowCount * 100
++                        - chainPenalty
++                        - openingPenalty
++                        - shortPenalty
++                        - edgeHeadPenalty
++                        - straightPenalty
++                        - fillPenalty
++                        - boundaryPenalty
++                        - current.InitialMovableChains * 220
++                        - current.EdgeHeadChains * 520
++                        - Mathf.RoundToInt(earlyAvgChoices * 900f)
++                        - earlyMaxChoices * 320
++                        - earlyLocalRunMax * 620
++                        - Mathf.RoundToInt(Mathf.Max(0f, 6f - earlyAvgJumpDistance) * 520f)
++                        - Mathf.RoundToInt(earlyNearStepRate * 950f)
++                        + current.BlockLinks * 28;
++
++                    if (score > bestScore)
++                    {
++                        bestAuthored = authored;
++                        bestMetrics = current;
++                        bestPressure = new MaskPressureEvalMetrics
++                        {
++                            EarlyAvgChoices = earlyAvgChoices,
++                            EarlyMaxChoices = earlyMaxChoices,
++                            EarlyLocalRunMax = earlyLocalRunMax,
++                            EarlyAvgJumpDistance = earlyAvgJumpDistance,
++                            EarlyNearStepRate = earlyNearStepRate
++                        };
++                        bestSeed = candidateSeed;
++                        bestScore = score;
++                        bestDetails = $"MaskPressure style={profile.DisplayName} score={score} targetInitial={targetInitial} openingRatio={openingRatio:0.000} early={earlyAvgChoices:0.0}/{earlyMaxChoices} localRun={earlyLocalRunMax} jump={earlyAvgJumpDistance:0.0} near={earlyNearStepRate:0.00} | {buildDetails}";
++                    }
++
++                    if (current.Coverage >= source.TargetMaskFill
++                        && current.OuterBandCoverage >= source.TargetBoundaryFill
++                        && DirectChainTargetSatisfied(spec, current.Chains)
++                        && openingRatio <= openingCeiling
++                        && current.Straightness <= 0.70f
++                        && current.ShortEdgeChains <= 7
++                        && current.EdgeHeadChains <= Mathf.Max(10, Mathf.CeilToInt(current.Chains * 0.10f))
++                        && earlyAvgChoices <= 6.5f
++                        && earlyMaxChoices <= 10
++                        && earlyLocalRunMax <= 4
++                        && earlyAvgJumpDistance >= 5.0f
++                        && earlyNearStepRate <= 0.62f)
++                    {
++                        profileIndex = profiles.Length;
++                        break;
++                    }
++                }
++            }
++
++            if (bestAuthored == null || bestMetrics == null || bestPressure == null)
++            {
++                status = string.IsNullOrWhiteSpace(lastFailure) ? "No mask pressure candidate" : lastFailure;
++                return false;
++            }
++
++            if (!DirectChainTargetSatisfied(spec, bestMetrics.Chains))
++            {
++                status = $"ChainTargetMiss chains={bestMetrics.Chains} target={spec.TargetChains} | {bestDetails}";
++                return false;
++            }
++
++            float bestOpeningRatio = bestMetrics.Chains > 0
++                ? bestMetrics.InitialMovableChains / (float)bestMetrics.Chains
++                : 1f;
++            if (bestMetrics.Coverage < source.TargetMaskFill
++                || bestMetrics.OuterBandCoverage < source.TargetBoundaryFill
++                || bestOpeningRatio > 0.12f
++                || bestPressure.EarlyAvgChoices > 6.5f
++                || bestPressure.EarlyMaxChoices > 10
++                || bestPressure.EarlyLocalRunMax > 4
++                || bestPressure.EarlyAvgJumpDistance < 5.0f
++                || bestPressure.EarlyNearStepRate > 0.62f)
++            {
++                status = $"PressureGateMiss fill={bestMetrics.Coverage:0.000}/{source.TargetMaskFill:0.000} boundary={bestMetrics.OuterBandCoverage:0.000}/{source.TargetBoundaryFill:0.000} opening={bestOpeningRatio:0.000} early={bestPressure.EarlyAvgChoices:0.0}/{bestPressure.EarlyMaxChoices} local={bestPressure.EarlyLocalRunMax} jump={bestPressure.EarlyAvgJumpDistance:0.0} near={bestPressure.EarlyNearStepRate:0.00} | {bestDetails}";
++                return false;
++            }
++
++            if (TryApplyPressureHardFlipGatePass(spec, bestAuthored, ruleset, out AuthoredLevelData gatedBest, out string gateDetails)
++                && CountHeadsAimingAtBlocks(gatedBest) == 0
++                && TryEvaluatePressureGateAuthored(spec, gatedBest, ruleset, out PressureGateEval gatedEval))
++            {
++                int attempts = bestMetrics.Attempts;
++                bestAuthored = gatedBest;
++                bestMetrics = gatedEval.Metrics;
++                ApplyMaskPressureCoverageMetrics(bestMetrics, bestAuthored, canSpawn, allowedCount);
++                bestMetrics.Attempts = attempts;
++                bestPressure = new MaskPressureEvalMetrics
++                {
++                    EarlyAvgChoices = gatedEval.EarlyAvgChoices,
++                    EarlyMaxChoices = gatedEval.EarlyMaxChoices,
++                    EarlyLocalRunMax = gatedEval.EarlyLocalRunMax,
++                    EarlyAvgJumpDistance = gatedEval.EarlyAvgJumpDistance,
++                    EarlyNearStepRate = gatedEval.EarlyNearStepRate
++                };
++                bestDetails = $"{bestDetails} | FlipGate={gateDetails}";
++            }
++
++            metrics = bestMetrics;
++            pressure = bestPressure;
++            if (!TryPreparePortableLevel(spec, null, bestAuthored, levelId, bestSeed, metrics, out ArrowLevelData portable, out string portableStatus))
++            {
++                status = $"{portableStatus} | {bestDetails}";
++                return false;
++            }
++
++            portable.metadata["generator"] = "NoMaskProceduralGenerator.MaskPressureBaseline";
++            portable.metadata["maskPath"] = source.MaskPath;
++            portable.metadata["targetMaskFill"] = source.TargetMaskFill.ToString("0.000");
++            portable.metadata["targetBoundaryFill"] = source.TargetBoundaryFill.ToString("0.000");
++            level = SavePortableGeneratedLevel(assetPath, portable, spec, bestSeed, metrics, levelId);
++            level.masking.spawnMask = mask;
++            level.masking.useMaskToDefineBoardSize = true;
++            EditorUtility.SetDirty(level);
++            status = bestDetails;
++            return true;
++        }
++
+         private static bool TryBuildLevelAt(
+             StyleSpec spec,
+             int index,
+@@ -6652,6 +7234,18 @@ namespace PixelBug.ArrowMagic.EditorTools
+             return new[] { balanced, lockProfile, maze };
+         }
+ 
++        private static PeelStyleProfile[] GetMaskPressurePeelProfiles(StyleSpec spec)
++        {
++            var pressureProfiles = GetPeelStyleProfilesForSpec(spec);
++            var holeProfiles = GetDirectHolePeelProfiles();
++            var result = new PeelStyleProfile[pressureProfiles.Length + holeProfiles.Length];
++            for (int i = 0; i < pressureProfiles.Length; i++)
++                result[i] = pressureProfiles[i];
++            for (int i = 0; i < holeProfiles.Length; i++)
++                result[pressureProfiles.Length + i] = holeProfiles[i];
++            return result;
++        }
++
+         private static List<int> BuildCenteredHoleBlockIndices(int width, int height, int holeWidth, int holeHeight)
+         {
+             int startX = Mathf.Max(0, (width - holeWidth) / 2);
+@@ -6686,6 +7280,151 @@ namespace PixelBug.ArrowMagic.EditorTools
+             return canSpawn;
+         }
+ 
++        private static bool TryBuildCanSpawnFromMask(
++            Texture2D mask,
++            out bool[] canSpawn,
++            out List<int> blockIndices,
++            out int allowedCount)
++        {
++            canSpawn = null;
++            blockIndices = new List<int>();
++            allowedCount = 0;
++            if (mask == null || mask.width <= 0 || mask.height <= 0)
++                return false;
++
++            Color32[] pixels = mask.GetPixels32();
++            int area = mask.width * mask.height;
++            if (pixels == null || pixels.Length < area)
++                return false;
++
++            canSpawn = new bool[area];
++            for (int i = 0; i < area; i++)
++            {
++                bool spawn = pixels[i].a > 127;
++                canSpawn[i] = spawn;
++                if (spawn)
++                    allowedCount++;
++                else
++                    blockIndices.Add(i);
++            }
++
++            return allowedCount >= 2;
++        }
++
++        private static StyleSpec CreateMaskPressureStyleSpec(
++            MaskPressureSourceSpec source,
++            int width,
++            int height,
++            int allowedCount)
++        {
++            int targetChains = Mathf.Clamp(Mathf.RoundToInt(allowedCount / 8.0f), 42, 78);
++            return new StyleSpec
++            {
++                Type = source.Type,
++                Id = $"sgp_pressure_hard_mask_{source.Id}",
++                DisplayName = $"Mask PSG Pressure {source.DisplayName}",
++                Width = width,
++                Height = height,
++                TargetChains = targetChains,
++                MinLength = 3,
++                MaxLength = 11,
++                TargetCoverage = source.TargetMaskFill,
++                TurnBias = source.Type == NoMaskType.DenseWeave ? 0.62f : 0.58f,
++                BlockWeight = source.Type == NoMaskType.LockBuckle ? 5.2f : 4.4f,
++                EdgeOpeningBias = 0.10f,
++                OuterBandTarget = source.TargetBoundaryFill,
++                MaxInitialMovableChains = Mathf.CeilToInt(targetChains * 0.08f),
++                MaxShortEdgePatchChains = 3,
++                MaxShortFillPatchChains = 6,
++                Seed = source.Seed
++            };
++        }
++
++        private static void ApplyMaskPressureCoverageMetrics(
++            BuildMetrics metrics,
++            AuthoredLevelData authored,
++            bool[] canSpawn,
++            int allowedCount)
++        {
++            if (metrics == null)
++                return;
++
++            metrics.Coverage = metrics.ArrowCount / (float)Mathf.Max(1, allowedCount);
++            metrics.OuterBandCoverage = CountOccupiedMaskBoundaryCells(authored, canSpawn)
++                / Mathf.Max(1f, CountMaskBoundaryCells(canSpawn, authored != null ? authored.width : 0, authored != null ? authored.height : 0));
++        }
++
++        private static int CountOccupiedMaskBoundaryCells(AuthoredLevelData authored, bool[] canSpawn)
++        {
++            if (authored?.arrows == null || canSpawn == null || authored.width <= 0 || authored.height <= 0)
++                return 0;
++
++            int area = authored.width * authored.height;
++            var occupied = new bool[area];
++            for (int i = 0; i < authored.arrows.Count; i++)
++            {
++                AuthoredArrowData arrow = authored.arrows[i];
++                if (arrow?.indices == null)
++                    continue;
++
++                for (int p = 0; p < arrow.indices.Count; p++)
++                {
++                    int idx = arrow.indices[p];
++                    if ((uint)idx < (uint)occupied.Length)
++                        occupied[idx] = true;
++                }
++            }
++
++            int count = 0;
++            int limit = Mathf.Min(area, canSpawn.Length);
++            for (int i = 0; i < limit; i++)
++            {
++                if (occupied[i] && IsMaskBoundaryCell(canSpawn, authored.width, authored.height, i))
++                    count++;
++            }
++
++            return count;
++        }
++
++        private static int CountMaskBoundaryCells(bool[] canSpawn, int width, int height)
++        {
++            if (canSpawn == null || width <= 0 || height <= 0)
++                return 0;
++
++            int count = 0;
++            int limit = Mathf.Min(canSpawn.Length, width * height);
++            for (int i = 0; i < limit; i++)
++            {
++                if (canSpawn[i] && IsMaskBoundaryCell(canSpawn, width, height, i))
++                    count++;
++            }
++
++            return count;
++        }
++
++        private static bool IsMaskBoundaryCell(bool[] canSpawn, int width, int height, int index)
++        {
++            if (canSpawn == null || (uint)index >= (uint)canSpawn.Length || !canSpawn[index])
++                return false;
++
++            int x = index % width;
++            int y = index / width;
++            for (int d = 0; d < 4; d++)
++            {
++                Vector2Int offset = DirToOffset((Dir)d);
++                int nx = x + offset.x;
++                int ny = y + offset.y;
++                if (!InBounds(nx, ny, width, height))
++                    return true;
++
++                int nidx = nx + ny * width;
++                if ((uint)nidx >= (uint)canSpawn.Length || !canSpawn[nidx])
++                    return true;
++            }
++
++            return false;
++        }
++
+         private static bool[] BuildCanSpawnForDirectHole(int width, int height, List<int> blockIndices, int outerCutKind)
+         {
+             bool[] canSpawn = BuildCanSpawnFromBlocks(width, height, blockIndices);
+diff --git a/Assets/ArrowMagic/Editor/SeedMaskPatchWindow.cs b/Assets/ArrowMagic/Editor/SeedMaskPatchWindow.cs
+index 87ce90cf..97a4d8eb 100644
+--- a/Assets/ArrowMagic/Editor/SeedMaskPatchWindow.cs
++++ b/Assets/ArrowMagic/Editor/SeedMaskPatchWindow.cs
+@@ -34,6 +34,12 @@ namespace PixelBug.ArrowMagic.EditorTools
+         private const string kProductionHolePackFolder = "Assets/ArrowMagic/SOData/Packs/Production/HoleLongOuterStrong";
+         private const string kProductionHoleCandidatesPackPath = "Assets/ArrowMagic/SOData/Packs/Production/HoleLongOuterStrong/HoleLongOuterStrong_Production_Candidates.asset";
+         private const string kProductionHoleSourcePackFolder = "Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal";
++        private const string kPsgMaskBaselineSourcePackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset";
++        private const string kPsgMaskBaselineCandidateFolder = "Assets/ArrowMagic/SOData/Levels/Production/MaskPressureSeedPatchBaseline/Candidates";
++        private const string kPsgMaskBaselinePackPath = "Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselinePack.asset";
++        private const string kPsgMaskBaselineReportPath = "Assets/ArrowMagic/SOData/Reports/MaskPressure/mask_pressure_seed_patch_baseline_report.txt";
++        private const float kPsgMaskBaselineMinFillRatio = 0.95f;
++        private const float kPsgMaskBaselineMinBoundaryFillRatio = 0.98f;
+         private const string kShapeExperimentMaskFolder = "Assets/ArrowMagic/Masks/ShapeExperiment";
+         private const string kShapeExperimentCatalogPath = "Assets/ArrowMagic/SOData/Reports/ShapeExperiment/shape_experiment_mask_catalog.csv";
+         private const string kShapeExperimentReportPath = "Assets/ArrowMagic/SOData/Reports/ShapeExperiment/shape_experiment_preview_pack_report.txt";
+@@ -3928,6 +3934,173 @@ namespace PixelBug.ArrowMagic.EditorTools
+             Debug.Log($"[SeedMaskPatch] HoleMask Production Batch finished. accepted={acceptedPaths.Count}");
+         }
+ 
++        [MenuItem("Tools/ArrowMagic/Mask Production/Run PSG Seed Mask Patch Baseline")]
++        public static void RunPsgSeedMaskPatchBaseline()
++        {
++            var report = new List<string>
++            {
++                "PSG Seed Mask Patch Baseline",
++                $"SourcePack={kPsgMaskBaselineSourcePackPath}",
++                $"CandidateOutput={kPsgMaskBaselineCandidateFolder}",
++                "Scope=SmallBaseline,NoDelete,PSGSeedToMaskPatch",
++                $"Rules=GreedyPass,BlockRayHits0,Fill{kPsgMaskBaselineMinFillRatio:0.00},Boundary{kPsgMaskBaselineMinBoundaryFillRatio:0.00},Chains40-120,OneCandidatePerMask"
++            };
++
++            EnsureFolderExists(kPsgMaskBaselineCandidateFolder);
++            EnsureFolderExists(Path.GetDirectoryName(kPsgMaskBaselinePackPath)?.Replace("\\", "/"));
++            EnsureFolderExists(Path.GetDirectoryName(kPsgMaskBaselineReportPath)?.Replace("\\", "/"));
++
++            var sourcePack = AssetDatabase.LoadAssetAtPath<LevelPack>(kPsgMaskBaselineSourcePackPath);
++            if (sourcePack == null || sourcePack.levels == null || sourcePack.levels.Length == 0)
++            {
++                report.Add("Failed=missing PSG source pack or empty pack");
++                WriteReport(kPsgMaskBaselineReportPath, report);
++                return;
++            }
++
++            var specs = GetProductionHoleMaskSpecs();
++            int specLimit = Math.Min(3, specs.Count);
++            var acceptedPaths = new List<string>();
++
++            var window = CreateInstance<SeedMaskPatchWindow>();
++            ApplyRepairExperimentRuntimeSettings(window);
++            window._placementMode = PlacementMode.Auto;
++            window._autoIfCenterFails = true;
++            window._patchOutputMode = PatchOutputMode.GreedyRescue;
++            window._inflateMaskForSolvability = false;
++            window._maskInflationPasses = 0;
++            window._adaptiveHealFillFallback = false;
++            window._maskHealFillRatio = 1f;
++            window._maskHealFillRatioFloor = 1f;
++            window._maskHealFillFallbackSteps = 0;
++            window._maxGreedyMovesMultiplier = kRepairExperimentGreedyMultiplier;
++            window._fallbackCleanupLoops = kRepairExperimentFallbackLoops;
++            window._greedyTrimPerChain = kRepairExperimentTrimPerChain;
++            window._preGreedyGeometryFixPasses = 10;
++            window._allowGreedyFullChainRemoval = false;
++            window._allowGreedyFallbackChainClear = false;
++            window._candidateMinFillRatio = kPsgMaskBaselineMinFillRatio;
++            window._outputFolder = kPsgMaskBaselineCandidateFolder;
++            window._exportRawIfGreedyFails = false;
++            window.EnsureOutputFolder();
++
++            for (int si = 0; si < specLimit; si++)
++            {
++                var spec = specs[si];
++                string maskPath = GetProductionHoleMaskPath(spec);
++                var mask = AssetDatabase.LoadAssetAtPath<Texture2D>(maskPath);
++                if (mask == null)
++                {
++                    report.Add($"Mask[{spec.Id}]=Failed missing {maskPath}");
++                    WriteReport(kPsgMaskBaselineReportPath, report);
++                    continue;
++                }
++
++                EnsureTextureReadable(maskPath);
++                mask = AssetDatabase.LoadAssetAtPath<Texture2D>(maskPath);
++                window._mask = mask;
++                window._outputPrefix = $"psg_mask_patch_{spec.Id}";
++
++                if (!window.TryReadMask(mask, true, false, 0, out bool[] canSpawn))
++                {
++                    report.Add($"Mask[{spec.Id}]=Failed parse");
++                    WriteReport(kPsgMaskBaselineReportPath, report);
++                    continue;
++                }
++
++                var blockIndices = CollectInteriorTransparentBlockIndices(canSpawn, mask.width, mask.height);
++                int maskArea = CountMaskArea(canSpawn);
++                report.Add($"Mask[{si + 1}/{specLimit}]={spec.Id}, size={mask.width}x{mask.height}, spawn={maskArea}, blocks={blockIndices.Count}, path={maskPath}");
++
++                var seedEntries = CollectHoleBlockSeedEntriesFromPack(sourcePack, mask.width, mask.height);
++                var previews = new List<HoleBlockSeedCandidate>();
++                int previewLimit = Math.Min(sourcePack.levels.Length, seedEntries.Count);
++                for (int i = 0; i < previewLimit; i++)
++                {
++                    var entry = seedEntries[i];
++                    if (entry?.Seed == null)
++                        continue;
++
++                    if (TryEvaluateHoleBlockSeedPreview(entry.Seed, mask, canSpawn, blockIndices, 6, out var candidate))
++                        previews.Add(candidate);
++                }
++
++                previews.Sort((a, b) => b.Score.CompareTo(a.Score));
++                report.Add($"  Preview=checked={previewLimit}, valid={previews.Count}");
++                for (int i = 0; i < Math.Min(4, previews.Count); i++)
++                {
++                    var c = previews[i];
++                    report.Add($"  PreviewTop{i + 1}=seed={c.SeedPath}, offset={c.Offset.x},{c.Offset.y}, fill={c.CleanFill}, chains={c.CleanChains}, score={c.Score}");
++                }
++
++                bool acceptedForMask = false;
++                int deepLimit = Math.Min(4, previews.Count);
++                for (int i = 0; i < deepLimit; i++)
++                {
++                    var candidate = previews[i];
++                    string outputStem = $"psg_mask_patch_{spec.Id}_{i + 1:00}_{SanitizeName(candidate.Seed != null ? candidate.Seed.levelId : "seed")}";
++                    if (!TryRunHoleBlockSeedDeep(window, candidate, mask, canSpawn, blockIndices, kPsgMaskBaselineMinFillRatio, kPsgMaskBaselineMinFillRatio, out var result, outputStem)
++                        || string.IsNullOrWhiteSpace(result.FinalPath))
++                    {
++                        report.Add($"  DeepAttempt{i + 1}=failed seed={candidate.SeedPath} | {result?.Details}");
++                        WriteReport(kPsgMaskBaselineReportPath, report);
++                        continue;
++                    }
++
++                    var finalDef = AssetDatabase.LoadAssetAtPath<LevelDefinition>(result.FinalPath);
++                    int chains = finalDef != null ? CountAuthoredChains(finalDef.authoredLevel) : 0;
++                    int boundaryTotal = 0;
++                    int boundaryEmpty = 0;
++                    float boundaryFill = 0f;
++                    if (finalDef != null && AuthoredLevelBuilder.TryBuildBoard(finalDef.authoredLevel, out BoardState finalBoard, out _))
++                    {
++                        boundaryTotal = CountMaskBoundaryCells(canSpawn, mask.width, mask.height);
++                        boundaryEmpty = CountEmptyMaskBoundaryCells(finalBoard, canSpawn);
++                        boundaryFill = boundaryTotal > 0 ? (boundaryTotal - boundaryEmpty) / (float)boundaryTotal : 0f;
++                    }
++
++                    float fillRatio = maskArea > 0 ? result.FinalFill / (float)maskArea : 0f;
++                    bool passChains = chains >= 40 && chains <= 120;
++                    bool passFill = maskArea > 0 && fillRatio >= kPsgMaskBaselineMinFillRatio;
++                    bool passBoundary = boundaryTotal > 0 && boundaryFill >= kPsgMaskBaselineMinBoundaryFillRatio;
++                    bool passHits = result.FinalBlockHits == 0;
++                    bool accepted = passChains && passFill && passBoundary && passHits;
++                    report.Add($"  DeepAttempt{i + 1}=accepted={accepted}, seed={candidate.SeedPath}, final={result.FinalPath}, fill={result.FinalFill}/{maskArea}({fillRatio:0.000}), boundary={boundaryTotal - boundaryEmpty}/{boundaryTotal}({boundaryFill:0.000}), chains={chains}, hits={result.FinalBlockHits}, score={result.Score} | {result.Details}");
++
++                    if (accepted)
++                    {
++                        acceptedPaths.Add(result.FinalPath);
++                        acceptedForMask = true;
++                        break;
++                    }
++
++                    WriteReport(kPsgMaskBaselineReportPath, report);
++                }
++
++                report.Add($"  AcceptedForMask={acceptedForMask}");
++                WriteReport(kPsgMaskBaselineReportPath, report);
++            }
++
++            if (TrySyncLevelPack(acceptedPaths, kPsgMaskBaselinePackPath, "MaskPressureSeedPatchBaseline", $"Mask PSG Seed Patch Baseline ({acceptedPaths.Count})", out LevelPack pack, out string packDetails))
++            {
++                report.Add($"Pack={kPsgMaskBaselinePackPath} | {packDetails}");
++                if (acceptedPaths.Count > 0)
++                {
++                    AttachLevelPackToDemo(pack, "SeedMaskPatch MaskPressureSeedPatchBaseline");
++                    report.Add("DemoAttached=True");
++                }
++            }
++            else
++            {
++                report.Add($"PackFailed={packDetails}");
++            }
++
++            report.Add($"AcceptedTotal={acceptedPaths.Count}");
++            WriteReport(kPsgMaskBaselineReportPath, report);
++            AssetDatabase.Refresh();
++            Debug.Log($"[SeedMaskPatch] PSG Seed Mask Patch Baseline finished. accepted={acceptedPaths.Count}");
++        }
++
+         private static List<ProductionHoleMaskSpec> GetProductionHoleMaskSpecs()
+         {
+             return new List<ProductionHoleMaskSpec>
+@@ -4259,6 +4432,49 @@ namespace PixelBug.ArrowMagic.EditorTools
+             return entries;
+         }
+ 
++        private static List<SeedMatchEntry> CollectHoleBlockSeedEntriesFromPack(LevelPack pack, int maskW, int maskH)
++        {
++            var entries = new List<SeedMatchEntry>();
++            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
++            if (pack?.levels == null)
++                return entries;
++
++            for (int i = 0; i < pack.levels.Length; i++)
++            {
++                var seed = pack.levels[i];
++                string path = AssetDatabase.GetAssetPath(seed);
++                if (seed == null || string.IsNullOrWhiteSpace(path) || !seen.Add(path))
++                    continue;
++
++                int width = seed.board != null ? seed.board.width : 0;
++                int height = seed.board != null ? seed.board.height : 0;
++                if (width <= 0 || height <= 0)
++                    continue;
++
++                int sizeScore = Math.Abs(width - maskW) * 12
++                    + Math.Abs(height - maskH) * 12
++                    + Math.Abs(width * height - maskW * maskH) / 8;
++
++                entries.Add(new SeedMatchEntry
++                {
++                    Seed = seed,
++                    CachedPath = path,
++                    SizeScore = sizeScore
++                });
++            }
++
++            entries.Sort((a, b) =>
++            {
++                int cmp = a.SizeScore.CompareTo(b.SizeScore);
++                if (cmp != 0)
++                    return cmp;
++
++                return string.Compare(a.CachedPath, b.CachedPath, StringComparison.OrdinalIgnoreCase);
++            });
++
++            return entries;
++        }
++
+         private static bool TryEvaluateHoleBlockSeedPreview(
+             LevelDefinition seed,
+             Texture2D mask,
+@@ -10343,6 +10559,21 @@ namespace PixelBug.ArrowMagic.EditorTools
+             return count;
+         }
+ 
++        private static int CountMaskBoundaryCells(bool[] maskCanSpawn, int width, int height)
++        {
++            if (maskCanSpawn == null || width <= 0 || height <= 0 || maskCanSpawn.Length != width * height)
++                return 0;
++
++            int count = 0;
++            for (int i = 0; i < maskCanSpawn.Length; i++)
++            {
++                if (maskCanSpawn[i] && IsMaskBoundaryCell(i, width, height, maskCanSpawn))
++                    count++;
++            }
++
++            return count;
++        }
++
+         private static int CountEmptyPathMaskBoundaryCells(BoardState board, int[] path, int width, int height, bool[] maskCanSpawn)
+         {
+             if (board == null || board.tiles == null || path == null || maskCanSpawn == null)

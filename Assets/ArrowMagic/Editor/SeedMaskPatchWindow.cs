@@ -34,6 +34,12 @@ namespace PixelBug.ArrowMagic.EditorTools
         private const string kProductionHolePackFolder = "Assets/ArrowMagic/SOData/Packs/Production/HoleLongOuterStrong";
         private const string kProductionHoleCandidatesPackPath = "Assets/ArrowMagic/SOData/Packs/Production/HoleLongOuterStrong/HoleLongOuterStrong_Production_Candidates.asset";
         private const string kProductionHoleSourcePackFolder = "Assets/ArrowMagic/SOData/Packs/R1FullPipeline/OuterStrongFinal";
+        private const string kPsgMaskBaselineSourcePackPath = "Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardTrialPack.asset";
+        private const string kPsgMaskBaselineCandidateFolder = "Assets/ArrowMagic/SOData/Levels/Production/MaskPressureSeedPatchBaseline/Candidates";
+        private const string kPsgMaskBaselinePackPath = "Assets/ArrowMagic/SOData/Packs/Production/MaskPressure/MaskPressureSeedPatchBaselinePack.asset";
+        private const string kPsgMaskBaselineReportPath = "Assets/ArrowMagic/SOData/Reports/MaskPressure/mask_pressure_seed_patch_baseline_report.txt";
+        private const float kPsgMaskBaselineMinFillRatio = 0.95f;
+        private const float kPsgMaskBaselineMinBoundaryFillRatio = 0.98f;
         private const string kShapeExperimentMaskFolder = "Assets/ArrowMagic/Masks/ShapeExperiment";
         private const string kShapeExperimentCatalogPath = "Assets/ArrowMagic/SOData/Reports/ShapeExperiment/shape_experiment_mask_catalog.csv";
         private const string kShapeExperimentReportPath = "Assets/ArrowMagic/SOData/Reports/ShapeExperiment/shape_experiment_preview_pack_report.txt";
@@ -3928,6 +3934,173 @@ namespace PixelBug.ArrowMagic.EditorTools
             Debug.Log($"[SeedMaskPatch] HoleMask Production Batch finished. accepted={acceptedPaths.Count}");
         }
 
+        [MenuItem("Tools/ArrowMagic/Mask Production/Run PSG Seed Mask Patch Baseline")]
+        public static void RunPsgSeedMaskPatchBaseline()
+        {
+            var report = new List<string>
+            {
+                "PSG Seed Mask Patch Baseline",
+                $"SourcePack={kPsgMaskBaselineSourcePackPath}",
+                $"CandidateOutput={kPsgMaskBaselineCandidateFolder}",
+                "Scope=SmallBaseline,NoDelete,PSGSeedToMaskPatch",
+                $"Rules=GreedyPass,BlockRayHits0,Fill{kPsgMaskBaselineMinFillRatio:0.00},Boundary{kPsgMaskBaselineMinBoundaryFillRatio:0.00},Chains40-120,OneCandidatePerMask"
+            };
+
+            EnsureFolderExists(kPsgMaskBaselineCandidateFolder);
+            EnsureFolderExists(Path.GetDirectoryName(kPsgMaskBaselinePackPath)?.Replace("\\", "/"));
+            EnsureFolderExists(Path.GetDirectoryName(kPsgMaskBaselineReportPath)?.Replace("\\", "/"));
+
+            var sourcePack = AssetDatabase.LoadAssetAtPath<LevelPack>(kPsgMaskBaselineSourcePackPath);
+            if (sourcePack == null || sourcePack.levels == null || sourcePack.levels.Length == 0)
+            {
+                report.Add("Failed=missing PSG source pack or empty pack");
+                WriteReport(kPsgMaskBaselineReportPath, report);
+                return;
+            }
+
+            var specs = GetProductionHoleMaskSpecs();
+            int specLimit = Math.Min(3, specs.Count);
+            var acceptedPaths = new List<string>();
+
+            var window = CreateInstance<SeedMaskPatchWindow>();
+            ApplyRepairExperimentRuntimeSettings(window);
+            window._placementMode = PlacementMode.Auto;
+            window._autoIfCenterFails = true;
+            window._patchOutputMode = PatchOutputMode.GreedyRescue;
+            window._inflateMaskForSolvability = false;
+            window._maskInflationPasses = 0;
+            window._adaptiveHealFillFallback = false;
+            window._maskHealFillRatio = 1f;
+            window._maskHealFillRatioFloor = 1f;
+            window._maskHealFillFallbackSteps = 0;
+            window._maxGreedyMovesMultiplier = kRepairExperimentGreedyMultiplier;
+            window._fallbackCleanupLoops = kRepairExperimentFallbackLoops;
+            window._greedyTrimPerChain = kRepairExperimentTrimPerChain;
+            window._preGreedyGeometryFixPasses = 10;
+            window._allowGreedyFullChainRemoval = false;
+            window._allowGreedyFallbackChainClear = false;
+            window._candidateMinFillRatio = kPsgMaskBaselineMinFillRatio;
+            window._outputFolder = kPsgMaskBaselineCandidateFolder;
+            window._exportRawIfGreedyFails = false;
+            window.EnsureOutputFolder();
+
+            for (int si = 0; si < specLimit; si++)
+            {
+                var spec = specs[si];
+                string maskPath = GetProductionHoleMaskPath(spec);
+                var mask = AssetDatabase.LoadAssetAtPath<Texture2D>(maskPath);
+                if (mask == null)
+                {
+                    report.Add($"Mask[{spec.Id}]=Failed missing {maskPath}");
+                    WriteReport(kPsgMaskBaselineReportPath, report);
+                    continue;
+                }
+
+                EnsureTextureReadable(maskPath);
+                mask = AssetDatabase.LoadAssetAtPath<Texture2D>(maskPath);
+                window._mask = mask;
+                window._outputPrefix = $"psg_mask_patch_{spec.Id}";
+
+                if (!window.TryReadMask(mask, true, false, 0, out bool[] canSpawn))
+                {
+                    report.Add($"Mask[{spec.Id}]=Failed parse");
+                    WriteReport(kPsgMaskBaselineReportPath, report);
+                    continue;
+                }
+
+                var blockIndices = CollectInteriorTransparentBlockIndices(canSpawn, mask.width, mask.height);
+                int maskArea = CountMaskArea(canSpawn);
+                report.Add($"Mask[{si + 1}/{specLimit}]={spec.Id}, size={mask.width}x{mask.height}, spawn={maskArea}, blocks={blockIndices.Count}, path={maskPath}");
+
+                var seedEntries = CollectHoleBlockSeedEntriesFromPack(sourcePack, mask.width, mask.height);
+                var previews = new List<HoleBlockSeedCandidate>();
+                int previewLimit = Math.Min(sourcePack.levels.Length, seedEntries.Count);
+                for (int i = 0; i < previewLimit; i++)
+                {
+                    var entry = seedEntries[i];
+                    if (entry?.Seed == null)
+                        continue;
+
+                    if (TryEvaluateHoleBlockSeedPreview(entry.Seed, mask, canSpawn, blockIndices, 6, out var candidate))
+                        previews.Add(candidate);
+                }
+
+                previews.Sort((a, b) => b.Score.CompareTo(a.Score));
+                report.Add($"  Preview=checked={previewLimit}, valid={previews.Count}");
+                for (int i = 0; i < Math.Min(4, previews.Count); i++)
+                {
+                    var c = previews[i];
+                    report.Add($"  PreviewTop{i + 1}=seed={c.SeedPath}, offset={c.Offset.x},{c.Offset.y}, fill={c.CleanFill}, chains={c.CleanChains}, score={c.Score}");
+                }
+
+                bool acceptedForMask = false;
+                int deepLimit = Math.Min(4, previews.Count);
+                for (int i = 0; i < deepLimit; i++)
+                {
+                    var candidate = previews[i];
+                    string outputStem = $"psg_mask_patch_{spec.Id}_{i + 1:00}_{SanitizeName(candidate.Seed != null ? candidate.Seed.levelId : "seed")}";
+                    if (!TryRunHoleBlockSeedDeep(window, candidate, mask, canSpawn, blockIndices, kPsgMaskBaselineMinFillRatio, kPsgMaskBaselineMinFillRatio, out var result, outputStem)
+                        || string.IsNullOrWhiteSpace(result.FinalPath))
+                    {
+                        report.Add($"  DeepAttempt{i + 1}=failed seed={candidate.SeedPath} | {result?.Details}");
+                        WriteReport(kPsgMaskBaselineReportPath, report);
+                        continue;
+                    }
+
+                    var finalDef = AssetDatabase.LoadAssetAtPath<LevelDefinition>(result.FinalPath);
+                    int chains = finalDef != null ? CountAuthoredChains(finalDef.authoredLevel) : 0;
+                    int boundaryTotal = 0;
+                    int boundaryEmpty = 0;
+                    float boundaryFill = 0f;
+                    if (finalDef != null && AuthoredLevelBuilder.TryBuildBoard(finalDef.authoredLevel, out BoardState finalBoard, out _))
+                    {
+                        boundaryTotal = CountMaskBoundaryCells(canSpawn, mask.width, mask.height);
+                        boundaryEmpty = CountEmptyMaskBoundaryCells(finalBoard, canSpawn);
+                        boundaryFill = boundaryTotal > 0 ? (boundaryTotal - boundaryEmpty) / (float)boundaryTotal : 0f;
+                    }
+
+                    float fillRatio = maskArea > 0 ? result.FinalFill / (float)maskArea : 0f;
+                    bool passChains = chains >= 40 && chains <= 120;
+                    bool passFill = maskArea > 0 && fillRatio >= kPsgMaskBaselineMinFillRatio;
+                    bool passBoundary = boundaryTotal > 0 && boundaryFill >= kPsgMaskBaselineMinBoundaryFillRatio;
+                    bool passHits = result.FinalBlockHits == 0;
+                    bool accepted = passChains && passFill && passBoundary && passHits;
+                    report.Add($"  DeepAttempt{i + 1}=accepted={accepted}, seed={candidate.SeedPath}, final={result.FinalPath}, fill={result.FinalFill}/{maskArea}({fillRatio:0.000}), boundary={boundaryTotal - boundaryEmpty}/{boundaryTotal}({boundaryFill:0.000}), chains={chains}, hits={result.FinalBlockHits}, score={result.Score} | {result.Details}");
+
+                    if (accepted)
+                    {
+                        acceptedPaths.Add(result.FinalPath);
+                        acceptedForMask = true;
+                        break;
+                    }
+
+                    WriteReport(kPsgMaskBaselineReportPath, report);
+                }
+
+                report.Add($"  AcceptedForMask={acceptedForMask}");
+                WriteReport(kPsgMaskBaselineReportPath, report);
+            }
+
+            if (TrySyncLevelPack(acceptedPaths, kPsgMaskBaselinePackPath, "MaskPressureSeedPatchBaseline", $"Mask PSG Seed Patch Baseline ({acceptedPaths.Count})", out LevelPack pack, out string packDetails))
+            {
+                report.Add($"Pack={kPsgMaskBaselinePackPath} | {packDetails}");
+                if (acceptedPaths.Count > 0)
+                {
+                    AttachLevelPackToDemo(pack, "SeedMaskPatch MaskPressureSeedPatchBaseline");
+                    report.Add("DemoAttached=True");
+                }
+            }
+            else
+            {
+                report.Add($"PackFailed={packDetails}");
+            }
+
+            report.Add($"AcceptedTotal={acceptedPaths.Count}");
+            WriteReport(kPsgMaskBaselineReportPath, report);
+            AssetDatabase.Refresh();
+            Debug.Log($"[SeedMaskPatch] PSG Seed Mask Patch Baseline finished. accepted={acceptedPaths.Count}");
+        }
+
         private static List<ProductionHoleMaskSpec> GetProductionHoleMaskSpecs()
         {
             return new List<ProductionHoleMaskSpec>
@@ -4245,6 +4418,49 @@ namespace PixelBug.ArrowMagic.EditorTools
                         SizeScore = sizeScore
                     });
                 }
+            }
+
+            entries.Sort((a, b) =>
+            {
+                int cmp = a.SizeScore.CompareTo(b.SizeScore);
+                if (cmp != 0)
+                    return cmp;
+
+                return string.Compare(a.CachedPath, b.CachedPath, StringComparison.OrdinalIgnoreCase);
+            });
+
+            return entries;
+        }
+
+        private static List<SeedMatchEntry> CollectHoleBlockSeedEntriesFromPack(LevelPack pack, int maskW, int maskH)
+        {
+            var entries = new List<SeedMatchEntry>();
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (pack?.levels == null)
+                return entries;
+
+            for (int i = 0; i < pack.levels.Length; i++)
+            {
+                var seed = pack.levels[i];
+                string path = AssetDatabase.GetAssetPath(seed);
+                if (seed == null || string.IsNullOrWhiteSpace(path) || !seen.Add(path))
+                    continue;
+
+                int width = seed.board != null ? seed.board.width : 0;
+                int height = seed.board != null ? seed.board.height : 0;
+                if (width <= 0 || height <= 0)
+                    continue;
+
+                int sizeScore = Math.Abs(width - maskW) * 12
+                    + Math.Abs(height - maskH) * 12
+                    + Math.Abs(width * height - maskW * maskH) / 8;
+
+                entries.Add(new SeedMatchEntry
+                {
+                    Seed = seed,
+                    CachedPath = path,
+                    SizeScore = sizeScore
+                });
             }
 
             entries.Sort((a, b) =>
@@ -10337,6 +10553,21 @@ namespace PixelBug.ArrowMagic.EditorTools
                 if (board.tiles[i].type != TileType.Empty)
                     continue;
                 if (IsMaskBoundaryCell(i, board.width, board.height, maskCanSpawn))
+                    count++;
+            }
+
+            return count;
+        }
+
+        private static int CountMaskBoundaryCells(bool[] maskCanSpawn, int width, int height)
+        {
+            if (maskCanSpawn == null || width <= 0 || height <= 0 || maskCanSpawn.Length != width * height)
+                return 0;
+
+            int count = 0;
+            for (int i = 0; i < maskCanSpawn.Length; i++)
+            {
+                if (maskCanSpawn[i] && IsMaskBoundaryCell(i, width, height, maskCanSpawn))
                     count++;
             }
 
