@@ -1,0 +1,411 @@
+severity,scope,order,section10,rule,message
+WARN,level,19,2,front20_boss,L19 first mini-boss chain 94 is above the planned effective-load band; verify it is not early hard wall.
+WARN,level,19,2,early_jump,chain jumps +41 from L18; early sections prefer smoother rise.
+WARN,level,30,3,post_peak_release,"previous level was extreme peak code 4, but chain only changes -6; expected visible release."
+WARN,level,38,4,early_jump,chain jumps +59 from L37; early sections prefer smoother rise.
+INFO,level,40,4,post_peak_release,"previous level was peak code 3, but chain only changes 2; verify there is a non-count release."
+WARN,level,47,5,early_jump,chain jumps +74 from L46; early sections prefer smoother rise.
+INFO,level,53,6,arrow_cap,non-peak arrow count 809 is high; visual comfort should be checked in Unity.
+WARN,level,55,6,early_jump,chain jumps +51 from L54; early sections prefer smoother rise.
+WARN,level,65,7,early_jump,chain jumps +38 from L64; early sections prefer smoother rise.
+INFO,level,67,7,arrow_cap,non-peak arrow count 752 is high; visual comfort should be checked in Unity.
+WARN,level,69,7,early_jump,chain jumps +41 from L68; early sections prefer smoother rise.
+INFO,level,70,7,post_peak_release,"previous level was peak code 3, but chain only changes 3; verify there is a non-count release."
+WARN,level,72,8,early_jump,chain jumps +59 from L71; early sections prefer smoother rise.
+WARN,level,78,8,early_jump,chain jumps +39 from L77; early sections prefer smoother rise.
+WARN,level,83,9,early_jump,chain jumps +58 from L82; early sections prefer smoother rise.
+WARN,level,87,9,early_jump,chain jumps +52 from L86; early sections prefer smoother rise.
+INFO,level,89,9,post_peak_release,"previous level was peak code 3, but chain only changes -1; verify there is a non-count release."
+WARN,level,90,9,post_peak_release,"previous level was extreme peak code 4, but chain only changes -2; expected visible release."
+WARN,level,93,10,early_jump,chain jumps +38 from L92; early sections prefer smoother rise.
+WARN,level,96,10,early_jump,chain jumps +49 from L95; early sections prefer smoother rise.
+INFO,level,97,10,arrow_cap,non-peak arrow count 785 is high; visual comfort should be checked in Unity.
+INFO,level,103,11,arrow_cap,non-peak arrow count 838 is high; visual comfort should be checked in Unity.
+INFO,level,105,11,arrow_cap,non-peak arrow count 895 is high; visual comfort should be checked in Unity.
+INFO,level,110,11,arrow_cap,non-peak arrow count 761 is high; visual comfort should be checked in Unity.
+INFO,level,110,11,post_peak_release,"previous level was peak code 3, but chain only changes -4; verify there is a non-count release."
+INFO,level,113,12,arrow_cap,non-peak arrow count 775 is high; visual comfort should be checked in Unity.
+INFO,level,118,12,arrow_cap,non-peak arrow count 782 is high; visual comfort should be checked in Unity.
+INFO,level,120,12,arrow_cap,non-peak arrow count 821 is high; visual comfort should be checked in Unity.
+INFO,level,120,12,post_peak_release,"previous level was peak code 3, but chain only changes 4; verify there is a non-count release."
+INFO,level,130,13,post_peak_release,"previous level was peak code 3, but chain only changes -6; verify there is a non-count release."
+INFO,level,136,14,large_jump,chain jumps +61 from L135; verify there is a clear reason.
+INFO,level,139,14,arrow_cap,non-peak arrow count 761 is high; visual comfort should be checked in Unity.
+INFO,level,140,14,arrow_cap,non-peak arrow count 769 is high; visual comfort should be checked in Unity.
+INFO,level,141,15,arrow_cap,non-peak arrow count 880 is high; visual comfort should be checked in Unity.
+INFO,level,143,15,arrow_cap,non-peak arrow count 755 is high; visual comfort should be checked in Unity.
+INFO,level,147,15,arrow_cap,non-peak arrow count 858 is high; visual comfort should be checked in Unity.
+INFO,level,148,15,arrow_cap,non-peak arrow count 851 is high; visual comfort should be checked in Unity.
+INFO,level,151,16,arrow_cap,non-peak arrow count 810 is high; visual comfort should be checked in Unity.
+INFO,level,152,16,arrow_cap,non-peak arrow count 804 is high; visual comfort should be checked in Unity.
+WARN,level,153,16,arrow_cap,non-peak arrow count 1045 may feel visually heavy.
+INFO,level,158,16,arrow_cap,non-peak arrow count 835 is high; visual comfort should be checked in Unity.
+INFO,level,159,16,arrow_cap,non-peak arrow count 766 is high; visual comfort should be checked in Unity.
+WARN,level,168,17,arrow_cap,non-peak arrow count 986 may feel visually heavy.
+INFO,level,168,17,large_jump,chain jumps +57 from L167; verify there is a clear reason.
+INFO,level,170,17,arrow_cap,non-peak arrow count 796 is high; visual comfort should be checked in Unity.
+INFO,level,171,18,arrow_cap,non-peak arrow count 814 is high; visual comfort should be checked in Unity.
+INFO,level,172,18,arrow_cap,non-peak arrow count 772 is high; visual comfort should be checked in Unity.
+INFO,level,173,18,arrow_cap,non-peak arrow count 840 is high; visual comfort should be checked in Unity.
+INFO,level,178,18,arrow_cap,non-peak arrow count 778 is high; visual comfort should be checked in Unity.
+INFO,level,178,18,large_jump,chain jumps +52 from L177; verify there is a clear reason.
+INFO,level,180,18,arrow_cap,non-peak arrow count 782 is high; visual comfort should be checked in Unity.
+INFO,level,180,18,post_peak_release,"previous level was peak code 3, but chain only changes -7; verify there is a non-count release."
+INFO,level,181,19,arrow_cap,non-peak arrow count 778 is high; visual comfort should be checked in Unity.
+INFO,level,185,19,arrow_cap,non-peak arrow count 764 is high; visual comfort should be checked in Unity.
+INFO,level,188,19,arrow_cap,non-peak arrow count 784 is high; visual comfort should be checked in Unity.
+INFO,level,190,19,arrow_cap,non-peak arrow count 878 is high; visual comfort should be checked in Unity.
+INFO,level,190,19,post_peak_release,"previous level was peak code 3, but chain only changes 1; verify there is a non-count release."
+INFO,level,193,20,arrow_cap,non-peak arrow count 850 is high; visual comfort should be checked in Unity.
+INFO,level,195,20,arrow_cap,non-peak arrow count 836 is high; visual comfort should be checked in Unity.
+INFO,level,199,20,arrow_cap,non-peak arrow count 822 is high; visual comfort should be checked in Unity.
+INFO,level,200,20,arrow_cap,non-peak arrow count 783 is high; visual comfort should be checked in Unity.
+INFO,level,203,21,arrow_cap,non-peak arrow count 829 is high; visual comfort should be checked in Unity.
+INFO,level,204,21,arrow_cap,non-peak arrow count 778 is high; visual comfort should be checked in Unity.
+INFO,level,205,21,arrow_cap,non-peak arrow count 808 is high; visual comfort should be checked in Unity.
+INFO,level,206,21,arrow_cap,non-peak arrow count 767 is high; visual comfort should be checked in Unity.
+INFO,level,207,21,arrow_cap,non-peak arrow count 851 is high; visual comfort should be checked in Unity.
+INFO,level,208,21,arrow_cap,non-peak arrow count 874 is high; visual comfort should be checked in Unity.
+INFO,level,210,21,arrow_cap,non-peak arrow count 828 is high; visual comfort should be checked in Unity.
+INFO,level,211,22,arrow_cap,non-peak arrow count 798 is high; visual comfort should be checked in Unity.
+WARN,level,213,22,arrow_cap,non-peak arrow count 931 may feel visually heavy.
+INFO,level,216,22,large_jump,chain jumps +54 from L215; verify there is a clear reason.
+INFO,level,218,22,arrow_cap,non-peak arrow count 814 is high; visual comfort should be checked in Unity.
+INFO,level,219,22,arrow_cap,non-peak arrow count 781 is high; visual comfort should be checked in Unity.
+INFO,level,221,23,chain_cap,non-peak chain 126 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,221,23,arrow_cap,non-peak arrow count 977 may feel visually heavy.
+INFO,level,222,23,arrow_cap,non-peak arrow count 765 is high; visual comfort should be checked in Unity.
+INFO,level,223,23,arrow_cap,non-peak arrow count 804 is high; visual comfort should be checked in Unity.
+INFO,level,224,23,arrow_cap,non-peak arrow count 757 is high; visual comfort should be checked in Unity.
+INFO,level,227,23,large_jump,chain jumps +58 from L226; verify there is a clear reason.
+WARN,level,228,23,arrow_cap,non-peak arrow count 944 may feel visually heavy.
+INFO,level,229,23,arrow_cap,non-peak arrow count 830 is high; visual comfort should be checked in Unity.
+INFO,level,230,23,arrow_cap,non-peak arrow count 755 is high; visual comfort should be checked in Unity.
+WARN,level,233,24,arrow_cap,non-peak arrow count 955 may feel visually heavy.
+INFO,level,236,24,arrow_cap,non-peak arrow count 810 is high; visual comfort should be checked in Unity.
+INFO,level,237,24,arrow_cap,non-peak arrow count 771 is high; visual comfort should be checked in Unity.
+INFO,level,238,24,arrow_cap,non-peak arrow count 778 is high; visual comfort should be checked in Unity.
+INFO,level,239,24,large_jump,chain jumps +65 from L238; verify there is a clear reason.
+WARN,level,241,25,arrow_cap,non-peak arrow count 949 may feel visually heavy.
+INFO,level,242,25,arrow_cap,non-peak arrow count 802 is high; visual comfort should be checked in Unity.
+INFO,level,243,25,arrow_cap,non-peak arrow count 844 is high; visual comfort should be checked in Unity.
+INFO,level,244,25,arrow_cap,non-peak arrow count 864 is high; visual comfort should be checked in Unity.
+INFO,level,246,25,arrow_cap,non-peak arrow count 827 is high; visual comfort should be checked in Unity.
+WARN,level,247,25,arrow_cap,non-peak arrow count 902 may feel visually heavy.
+INFO,level,248,25,arrow_cap,non-peak arrow count 751 is high; visual comfort should be checked in Unity.
+INFO,level,250,25,arrow_cap,non-peak arrow count 793 is high; visual comfort should be checked in Unity.
+INFO,level,252,26,large_jump,chain jumps +88 from L251; verify there is a clear reason.
+INFO,level,253,26,arrow_cap,non-peak arrow count 817 is high; visual comfort should be checked in Unity.
+INFO,level,255,26,arrow_cap,non-peak arrow count 839 is high; visual comfort should be checked in Unity.
+INFO,level,257,26,arrow_cap,non-peak arrow count 809 is high; visual comfort should be checked in Unity.
+INFO,level,258,26,arrow_cap,non-peak arrow count 783 is high; visual comfort should be checked in Unity.
+INFO,level,259,26,chain_cap,non-peak chain 126 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,259,26,arrow_cap,non-peak arrow count 777 is high; visual comfort should be checked in Unity.
+INFO,level,261,27,arrow_cap,non-peak arrow count 851 is high; visual comfort should be checked in Unity.
+INFO,level,262,27,arrow_cap,non-peak arrow count 802 is high; visual comfort should be checked in Unity.
+INFO,level,265,27,arrow_cap,non-peak arrow count 767 is high; visual comfort should be checked in Unity.
+INFO,level,266,27,arrow_cap,non-peak arrow count 753 is high; visual comfort should be checked in Unity.
+INFO,level,267,27,arrow_cap,non-peak arrow count 809 is high; visual comfort should be checked in Unity.
+INFO,level,268,27,arrow_cap,non-peak arrow count 813 is high; visual comfort should be checked in Unity.
+INFO,level,269,27,large_jump,chain jumps +66 from L268; verify there is a clear reason.
+INFO,level,270,27,arrow_cap,non-peak arrow count 843 is high; visual comfort should be checked in Unity.
+INFO,level,272,28,arrow_cap,non-peak arrow count 880 is high; visual comfort should be checked in Unity.
+INFO,level,273,28,arrow_cap,non-peak arrow count 824 is high; visual comfort should be checked in Unity.
+INFO,level,275,28,arrow_cap,non-peak arrow count 776 is high; visual comfort should be checked in Unity.
+INFO,level,276,28,large_jump,chain jumps +95 from L275; verify there is a clear reason.
+INFO,level,278,28,arrow_cap,non-peak arrow count 873 is high; visual comfort should be checked in Unity.
+INFO,level,278,28,large_jump,chain jumps +58 from L277; verify there is a clear reason.
+INFO,level,279,28,arrow_cap,non-peak arrow count 766 is high; visual comfort should be checked in Unity.
+INFO,level,280,28,arrow_cap,non-peak arrow count 791 is high; visual comfort should be checked in Unity.
+INFO,level,281,29,arrow_cap,non-peak arrow count 759 is high; visual comfort should be checked in Unity.
+INFO,level,282,29,arrow_cap,non-peak arrow count 784 is high; visual comfort should be checked in Unity.
+WARN,level,283,29,arrow_cap,non-peak arrow count 906 may feel visually heavy.
+INFO,level,284,29,large_jump,chain jumps +53 from L283; verify there is a clear reason.
+INFO,level,286,29,arrow_cap,non-peak arrow count 823 is high; visual comfort should be checked in Unity.
+INFO,level,287,29,large_jump,chain jumps +107 from L286; verify there is a clear reason.
+INFO,level,288,29,arrow_cap,non-peak arrow count 827 is high; visual comfort should be checked in Unity.
+INFO,level,289,29,arrow_cap,non-peak arrow count 820 is high; visual comfort should be checked in Unity.
+INFO,level,290,29,arrow_cap,non-peak arrow count 839 is high; visual comfort should be checked in Unity.
+INFO,level,291,30,arrow_cap,non-peak arrow count 765 is high; visual comfort should be checked in Unity.
+WARN,level,293,30,arrow_cap,non-peak arrow count 1015 may feel visually heavy.
+INFO,level,293,30,large_jump,chain jumps +58 from L292; verify there is a clear reason.
+INFO,level,294,30,arrow_cap,non-peak arrow count 814 is high; visual comfort should be checked in Unity.
+INFO,level,295,30,arrow_cap,non-peak arrow count 805 is high; visual comfort should be checked in Unity.
+INFO,level,296,30,large_jump,chain jumps +58 from L295; verify there is a clear reason.
+INFO,level,297,30,arrow_cap,non-peak arrow count 814 is high; visual comfort should be checked in Unity.
+INFO,level,298,30,arrow_cap,non-peak arrow count 832 is high; visual comfort should be checked in Unity.
+INFO,level,299,30,large_jump,chain jumps +55 from L298; verify there is a clear reason.
+INFO,level,300,30,arrow_cap,non-peak arrow count 806 is high; visual comfort should be checked in Unity.
+INFO,level,301,31,arrow_cap,non-peak arrow count 752 is high; visual comfort should be checked in Unity.
+INFO,level,302,31,arrow_cap,non-peak arrow count 773 is high; visual comfort should be checked in Unity.
+INFO,level,303,31,arrow_cap,non-peak arrow count 819 is high; visual comfort should be checked in Unity.
+WARN,level,304,31,arrow_cap,non-peak arrow count 906 may feel visually heavy.
+INFO,level,305,31,large_jump,chain jumps +59 from L304; verify there is a clear reason.
+INFO,level,306,31,arrow_cap,non-peak arrow count 889 is high; visual comfort should be checked in Unity.
+WARN,level,307,31,arrow_cap,non-peak arrow count 982 may feel visually heavy.
+INFO,level,308,31,arrow_cap,non-peak arrow count 767 is high; visual comfort should be checked in Unity.
+INFO,level,309,31,large_jump,chain jumps +94 from L308; verify there is a clear reason.
+INFO,level,310,31,arrow_cap,non-peak arrow count 838 is high; visual comfort should be checked in Unity.
+INFO,level,313,32,arrow_cap,non-peak arrow count 857 is high; visual comfort should be checked in Unity.
+INFO,level,314,32,arrow_cap,non-peak arrow count 887 is high; visual comfort should be checked in Unity.
+INFO,level,315,32,arrow_cap,non-peak arrow count 887 is high; visual comfort should be checked in Unity.
+INFO,level,316,32,large_jump,chain jumps +117 from L315; verify there is a clear reason.
+INFO,level,318,32,arrow_cap,non-peak arrow count 867 is high; visual comfort should be checked in Unity.
+INFO,level,318,32,large_jump,chain jumps +60 from L317; verify there is a clear reason.
+INFO,level,319,32,arrow_cap,non-peak arrow count 878 is high; visual comfort should be checked in Unity.
+INFO,level,320,32,arrow_cap,non-peak arrow count 814 is high; visual comfort should be checked in Unity.
+INFO,level,321,33,arrow_cap,non-peak arrow count 858 is high; visual comfort should be checked in Unity.
+INFO,level,322,33,arrow_cap,non-peak arrow count 760 is high; visual comfort should be checked in Unity.
+INFO,level,323,33,arrow_cap,non-peak arrow count 848 is high; visual comfort should be checked in Unity.
+INFO,level,326,33,arrow_cap,non-peak arrow count 751 is high; visual comfort should be checked in Unity.
+INFO,level,327,33,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,327,33,arrow_cap,non-peak arrow count 1066 may feel visually heavy.
+INFO,level,329,33,post_peak_release,"previous level was peak code 3, but chain only changes 38; verify there is a non-count release."
+INFO,level,330,33,arrow_cap,non-peak arrow count 862 is high; visual comfort should be checked in Unity.
+WARN,level,331,34,chain_cap,"non-peak chain 147 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+INFO,level,331,34,arrow_cap,non-peak arrow count 898 is high; visual comfort should be checked in Unity.
+INFO,level,333,34,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,333,34,arrow_cap,non-peak arrow count 1093 may feel visually heavy.
+INFO,level,334,34,large_jump,chain jumps +77 from L333; verify there is a clear reason.
+INFO,level,335,34,arrow_cap,non-peak arrow count 859 is high; visual comfort should be checked in Unity.
+INFO,level,336,34,large_jump,chain jumps +136 from L335; verify there is a clear reason.
+INFO,level,337,34,arrow_cap,non-peak arrow count 815 is high; visual comfort should be checked in Unity.
+INFO,level,339,34,arrow_cap,non-peak arrow count 834 is high; visual comfort should be checked in Unity.
+INFO,level,340,34,arrow_cap,non-peak arrow count 812 is high; visual comfort should be checked in Unity.
+WARN,level,341,35,chain_cap,"non-peak chain 154 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,341,35,arrow_cap,non-peak arrow count 932 may feel visually heavy.
+INFO,level,343,35,chain_cap,non-peak chain 135 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,343,35,arrow_cap,non-peak arrow count 966 may feel visually heavy.
+INFO,level,343,35,large_jump,chain jumps +68 from L342; verify there is a clear reason.
+INFO,level,345,35,arrow_cap,non-peak arrow count 866 is high; visual comfort should be checked in Unity.
+INFO,level,346,35,arrow_cap,non-peak arrow count 792 is high; visual comfort should be checked in Unity.
+INFO,level,347,35,large_jump,chain jumps +77 from L346; verify there is a clear reason.
+INFO,level,348,35,chain_cap,non-peak chain 133 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,348,35,arrow_cap,non-peak arrow count 1204 may feel visually heavy.
+INFO,level,349,35,large_jump,chain jumps +80 from L348; verify there is a clear reason.
+INFO,level,352,36,large_jump,chain jumps +82 from L351; verify there is a clear reason.
+INFO,level,353,36,chain_cap,non-peak chain 128 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,353,36,arrow_cap,non-peak arrow count 1027 may feel visually heavy.
+INFO,level,354,36,chain_cap,non-peak chain 126 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,354,36,arrow_cap,non-peak arrow count 780 is high; visual comfort should be checked in Unity.
+INFO,level,355,36,arrow_cap,non-peak arrow count 864 is high; visual comfort should be checked in Unity.
+INFO,level,357,36,arrow_cap,non-peak arrow count 823 is high; visual comfort should be checked in Unity.
+INFO,level,358,36,chain_cap,non-peak chain 131 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,358,36,arrow_cap,non-peak arrow count 1125 may feel visually heavy.
+WARN,level,360,36,arrow_cap,non-peak arrow count 908 may feel visually heavy.
+WARN,level,361,37,chain_cap,"non-peak chain 177 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,361,37,arrow_cap,non-peak arrow count 1055 may feel visually heavy.
+INFO,level,361,37,large_jump,chain jumps +59 from L360; verify there is a clear reason.
+INFO,level,362,37,arrow_cap,non-peak arrow count 792 is high; visual comfort should be checked in Unity.
+INFO,level,363,37,chain_cap,non-peak chain 138 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,363,37,arrow_cap,non-peak arrow count 1189 may feel visually heavy.
+WARN,level,364,37,chain_cap,"non-peak chain 166 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,364,37,arrow_cap,non-peak arrow count 1029 may feel visually heavy.
+INFO,level,366,37,chain_cap,non-peak chain 139 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,366,37,arrow_cap,non-peak arrow count 839 is high; visual comfort should be checked in Unity.
+INFO,level,367,37,arrow_cap,non-peak arrow count 796 is high; visual comfort should be checked in Unity.
+INFO,level,368,37,chain_cap,non-peak chain 140 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,368,37,arrow_cap,non-peak arrow count 1179 may feel visually heavy.
+INFO,level,368,37,large_jump,chain jumps +55 from L367; verify there is a clear reason.
+INFO,level,369,37,large_jump,chain jumps +58 from L368; verify there is a clear reason.
+WARN,level,370,37,chain_cap,"non-peak chain 148 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,370,37,arrow_cap,non-peak arrow count 1159 may feel visually heavy.
+WARN,level,372,38,chain_cap,"non-peak chain 147 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,372,38,arrow_cap,non-peak arrow count 906 may feel visually heavy.
+INFO,level,372,38,large_jump,chain jumps +53 from L371; verify there is a clear reason.
+INFO,level,373,38,chain_cap,non-peak chain 142 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,373,38,arrow_cap,non-peak arrow count 967 may feel visually heavy.
+INFO,level,374,38,arrow_cap,non-peak arrow count 829 is high; visual comfort should be checked in Unity.
+WARN,level,375,38,chain_cap,"non-peak chain 157 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,375,38,arrow_cap,non-peak arrow count 967 may feel visually heavy.
+INFO,level,378,38,chain_cap,non-peak chain 134 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,378,38,arrow_cap,non-peak arrow count 1128 may feel visually heavy.
+INFO,level,378,38,large_jump,chain jumps +62 from L377; verify there is a clear reason.
+WARN,level,379,38,chain_cap,"non-peak chain 157 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,379,38,arrow_cap,non-peak arrow count 951 may feel visually heavy.
+INFO,level,380,38,chain_cap,non-peak chain 144 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,380,38,arrow_cap,non-peak arrow count 868 is high; visual comfort should be checked in Unity.
+INFO,level,381,39,chain_cap,non-peak chain 145 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,381,39,arrow_cap,non-peak arrow count 892 is high; visual comfort should be checked in Unity.
+WARN,level,382,39,chain_cap,"non-peak chain 150 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,382,39,arrow_cap,non-peak arrow count 945 may feel visually heavy.
+INFO,level,383,39,chain_cap,non-peak chain 142 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,383,39,arrow_cap,non-peak arrow count 1013 may feel visually heavy.
+INFO,level,386,39,arrow_cap,non-peak arrow count 847 is high; visual comfort should be checked in Unity.
+WARN,level,387,39,chain_cap,"non-peak chain 149 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,387,39,arrow_cap,non-peak arrow count 1096 may feel visually heavy.
+INFO,level,389,39,post_peak_release,"previous level was peak code 3, but chain only changes 17; verify there is a non-count release."
+INFO,level,390,39,chain_cap,non-peak chain 136 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,390,39,arrow_cap,non-peak arrow count 842 is high; visual comfort should be checked in Unity.
+INFO,level,391,40,chain_cap,non-peak chain 137 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,391,40,arrow_cap,non-peak arrow count 878 is high; visual comfort should be checked in Unity.
+INFO,level,392,40,arrow_cap,non-peak arrow count 864 is high; visual comfort should be checked in Unity.
+WARN,level,393,40,chain_cap,"non-peak chain 149 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,393,40,arrow_cap,non-peak arrow count 1217 may feel visually heavy.
+INFO,level,393,40,large_jump,chain jumps +62 from L392; verify there is a clear reason.
+WARN,level,395,40,arrow_cap,non-peak arrow count 918 may feel visually heavy.
+INFO,level,396,40,large_jump,chain jumps +51 from L395; verify there is a clear reason.
+INFO,level,397,40,arrow_cap,non-peak arrow count 800 is high; visual comfort should be checked in Unity.
+WARN,level,398,40,chain_cap,"non-peak chain 153 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,398,40,arrow_cap,non-peak arrow count 1234 may feel visually heavy.
+INFO,level,399,40,chain_cap,non-peak chain 144 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,399,40,arrow_cap,non-peak arrow count 891 is high; visual comfort should be checked in Unity.
+INFO,level,400,40,chain_cap,non-peak chain 143 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,400,40,arrow_cap,non-peak arrow count 856 is high; visual comfort should be checked in Unity.
+INFO,level,402,41,chain_cap,non-peak chain 129 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,402,41,arrow_cap,non-peak arrow count 974 may feel visually heavy.
+INFO,level,402,41,large_jump,chain jumps +56 from L401; verify there is a clear reason.
+WARN,level,403,41,chain_cap,"non-peak chain 150 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,403,41,arrow_cap,non-peak arrow count 1131 may feel visually heavy.
+WARN,level,405,41,chain_cap,"non-peak chain 170 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,405,41,arrow_cap,non-peak arrow count 1050 may feel visually heavy.
+INFO,level,405,41,post_peak_release,"previous level was peak code 3, but chain only changes 15; verify there is a non-count release."
+INFO,level,407,41,large_jump,chain jumps +112 from L406; verify there is a clear reason.
+WARN,level,408,41,chain_cap,"non-peak chain 153 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,408,41,arrow_cap,non-peak arrow count 1074 may feel visually heavy.
+INFO,level,409,41,chain_cap,non-peak chain 145 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,409,41,arrow_cap,non-peak arrow count 900 is high; visual comfort should be checked in Unity.
+INFO,level,410,41,chain_cap,non-peak chain 139 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,410,41,arrow_cap,non-peak arrow count 870 is high; visual comfort should be checked in Unity.
+INFO,level,411,42,arrow_cap,non-peak arrow count 885 is high; visual comfort should be checked in Unity.
+WARN,level,413,42,chain_cap,"non-peak chain 153 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,413,42,arrow_cap,non-peak arrow count 1270 may feel visually heavy.
+INFO,level,413,42,post_peak_release,"previous level was peak code 3, but chain only changes -5; verify there is a non-count release."
+INFO,level,414,42,arrow_cap,non-peak arrow count 804 is high; visual comfort should be checked in Unity.
+INFO,level,415,42,chain_cap,non-peak chain 141 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,415,42,arrow_cap,non-peak arrow count 854 is high; visual comfort should be checked in Unity.
+INFO,level,417,42,arrow_cap,non-peak arrow count 751 is high; visual comfort should be checked in Unity.
+WARN,level,418,42,chain_cap,"non-peak chain 157 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,418,42,arrow_cap,non-peak arrow count 1068 may feel visually heavy.
+INFO,level,418,42,large_jump,chain jumps +82 from L417; verify there is a clear reason.
+INFO,level,420,42,chain_cap,non-peak chain 143 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,420,42,arrow_cap,non-peak arrow count 900 is high; visual comfort should be checked in Unity.
+WARN,level,421,43,chain_cap,"non-peak chain 180 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,421,43,arrow_cap,non-peak arrow count 1100 may feel visually heavy.
+INFO,level,422,43,arrow_cap,non-peak arrow count 860 is high; visual comfort should be checked in Unity.
+INFO,level,423,43,chain_cap,non-peak chain 136 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,423,43,arrow_cap,non-peak arrow count 1147 may feel visually heavy.
+INFO,level,424,43,chain_cap,non-peak chain 129 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,424,43,arrow_cap,non-peak arrow count 793 is high; visual comfort should be checked in Unity.
+INFO,level,425,43,large_jump,chain jumps +84 from L424; verify there is a clear reason.
+WARN,level,427,43,chain_cap,"non-peak chain 161 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,427,43,arrow_cap,non-peak arrow count 1311 may feel visually heavy.
+INFO,level,427,43,large_jump,chain jumps +81 from L426; verify there is a clear reason.
+WARN,level,428,43,chain_cap,"non-peak chain 146 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,428,43,arrow_cap,non-peak arrow count 910 may feel visually heavy.
+INFO,level,429,43,large_jump,chain jumps +59 from L428; verify there is a clear reason.
+WARN,level,430,43,chain_cap,"non-peak chain 147 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,430,43,arrow_cap,non-peak arrow count 914 may feel visually heavy.
+INFO,level,431,44,arrow_cap,non-peak arrow count 879 is high; visual comfort should be checked in Unity.
+WARN,level,432,44,chain_cap,"non-peak chain 164 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,432,44,arrow_cap,non-peak arrow count 1010 may feel visually heavy.
+INFO,level,432,44,large_jump,chain jumps +52 from L431; verify there is a clear reason.
+WARN,level,433,44,chain_cap,"non-peak chain 161 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,433,44,arrow_cap,non-peak arrow count 1410 may feel visually heavy.
+WARN,level,434,44,chain_cap,"non-peak chain 162 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,434,44,arrow_cap,non-peak arrow count 1007 may feel visually heavy.
+INFO,level,436,44,large_jump,chain jumps +118 from L435; verify there is a clear reason.
+WARN,level,437,44,chain_cap,"non-peak chain 164 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,437,44,arrow_cap,non-peak arrow count 1003 may feel visually heavy.
+WARN,level,438,44,chain_cap,"non-peak chain 166 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,438,44,arrow_cap,non-peak arrow count 1373 may feel visually heavy.
+WARN,level,439,44,chain_cap,"non-peak chain 158 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,439,44,arrow_cap,non-peak arrow count 942 may feel visually heavy.
+WARN,level,440,44,chain_cap,"non-peak chain 161 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,440,44,arrow_cap,non-peak arrow count 988 may feel visually heavy.
+INFO,level,441,45,arrow_cap,non-peak arrow count 784 is high; visual comfort should be checked in Unity.
+INFO,level,442,45,arrow_cap,non-peak arrow count 853 is high; visual comfort should be checked in Unity.
+INFO,level,444,45,large_jump,chain jumps +75 from L443; verify there is a clear reason.
+WARN,level,445,45,chain_cap,"non-peak chain 197 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,445,45,arrow_cap,non-peak arrow count 1199 may feel visually heavy.
+INFO,level,445,45,post_peak_release,"previous level was peak code 3, but chain only changes 38; verify there is a non-count release."
+INFO,level,446,45,chain_cap,non-peak chain 136 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,446,45,arrow_cap,non-peak arrow count 821 is high; visual comfort should be checked in Unity.
+INFO,level,447,45,arrow_cap,non-peak arrow count 790 is high; visual comfort should be checked in Unity.
+INFO,level,448,45,large_jump,chain jumps +118 from L447; verify there is a clear reason.
+WARN,level,450,45,chain_cap,"non-peak chain 165 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,450,45,arrow_cap,non-peak arrow count 1037 may feel visually heavy.
+INFO,level,451,46,arrow_cap,non-peak arrow count 866 is high; visual comfort should be checked in Unity.
+WARN,level,452,46,chain_cap,"non-peak chain 154 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,452,46,arrow_cap,non-peak arrow count 943 may feel visually heavy.
+INFO,level,452,46,large_jump,chain jumps +64 from L451; verify there is a clear reason.
+WARN,level,453,46,arrow_cap,non-peak arrow count 902 may feel visually heavy.
+WARN,level,455,46,chain_cap,"non-peak chain 149 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,455,46,arrow_cap,non-peak arrow count 906 may feel visually heavy.
+INFO,level,455,46,post_peak_release,"previous level was peak code 3, but chain only changes -7; verify there is a non-count release."
+INFO,level,456,46,large_jump,chain jumps +75 from L455; verify there is a clear reason.
+WARN,level,457,46,arrow_cap,non-peak arrow count 903 may feel visually heavy.
+INFO,level,458,46,arrow_cap,non-peak arrow count 763 is high; visual comfort should be checked in Unity.
+WARN,level,459,46,chain_cap,"non-peak chain 180 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,459,46,arrow_cap,non-peak arrow count 1095 may feel visually heavy.
+INFO,level,459,46,large_jump,chain jumps +68 from L458; verify there is a clear reason.
+WARN,level,460,46,chain_cap,"non-peak chain 156 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,460,46,arrow_cap,non-peak arrow count 953 may feel visually heavy.
+WARN,level,461,47,chain_cap,"non-peak chain 168 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,461,47,arrow_cap,non-peak arrow count 1010 may feel visually heavy.
+INFO,level,462,47,chain_cap,non-peak chain 135 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,462,47,arrow_cap,non-peak arrow count 828 is high; visual comfort should be checked in Unity.
+INFO,level,464,47,arrow_cap,non-peak arrow count 826 is high; visual comfort should be checked in Unity.
+INFO,level,465,47,large_jump,chain jumps +102 from L464; verify there is a clear reason.
+WARN,level,466,47,chain_cap,"non-peak chain 166 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,466,47,arrow_cap,non-peak arrow count 1015 may feel visually heavy.
+WARN,level,469,47,chain_cap,"non-peak chain 160 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,469,47,arrow_cap,non-peak arrow count 982 may feel visually heavy.
+INFO,level,469,47,large_jump,chain jumps +87 from L468; verify there is a clear reason.
+WARN,level,470,47,chain_cap,"non-peak chain 149 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,470,47,arrow_cap,non-peak arrow count 920 may feel visually heavy.
+INFO,level,471,48,arrow_cap,non-peak arrow count 824 is high; visual comfort should be checked in Unity.
+INFO,level,472,48,large_jump,chain jumps +125 from L471; verify there is a clear reason.
+WARN,level,474,48,chain_cap,"non-peak chain 178 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,474,48,arrow_cap,non-peak arrow count 1124 may feel visually heavy.
+INFO,level,474,48,large_jump,chain jumps +111 from L473; verify there is a clear reason.
+WARN,level,475,48,chain_cap,"non-peak chain 195 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,475,48,arrow_cap,non-peak arrow count 1207 may feel visually heavy.
+INFO,level,476,48,chain_cap,non-peak chain 126 is high; verify canvas comfort and avoid using count as the only pressure.
+WARN,level,476,48,arrow_cap,non-peak arrow count 926 may feel visually heavy.
+INFO,level,478,48,arrow_cap,non-peak arrow count 765 is high; visual comfort should be checked in Unity.
+INFO,level,478,48,large_jump,chain jumps +52 from L477; verify there is a clear reason.
+INFO,level,479,48,large_jump,chain jumps +73 from L478; verify there is a clear reason.
+INFO,level,480,48,chain_cap,non-peak chain 141 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,480,48,arrow_cap,non-peak arrow count 884 is high; visual comfort should be checked in Unity.
+INFO,level,481,49,arrow_cap,non-peak arrow count 824 is high; visual comfort should be checked in Unity.
+WARN,level,482,49,chain_cap,"non-peak chain 150 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,482,49,arrow_cap,non-peak arrow count 917 may feel visually heavy.
+INFO,level,485,49,large_jump,chain jumps +127 from L484; verify there is a clear reason.
+WARN,level,486,49,chain_cap,"non-peak chain 213 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,486,49,arrow_cap,non-peak arrow count 1262 may feel visually heavy.
+INFO,level,486,49,post_peak_release,"previous level was peak code 3, but chain only changes 24; verify there is a non-count release."
+INFO,level,487,49,arrow_cap,non-peak arrow count 789 is high; visual comfort should be checked in Unity.
+WARN,level,488,49,chain_cap,"non-peak chain 195 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,488,49,arrow_cap,non-peak arrow count 1202 may feel visually heavy.
+INFO,level,488,49,large_jump,chain jumps +82 from L487; verify there is a clear reason.
+INFO,level,489,49,arrow_cap,non-peak arrow count 780 is high; visual comfort should be checked in Unity.
+WARN,level,490,49,chain_cap,"non-peak chain 199 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,490,49,arrow_cap,non-peak arrow count 1198 may feel visually heavy.
+INFO,level,490,49,large_jump,chain jumps +91 from L489; verify there is a clear reason.
+WARN,level,491,50,chain_cap,"non-peak chain 199 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,491,50,arrow_cap,non-peak arrow count 1197 may feel visually heavy.
+INFO,level,492,50,arrow_cap,non-peak arrow count 872 is high; visual comfort should be checked in Unity.
+INFO,level,493,50,arrow_cap,non-peak arrow count 752 is high; visual comfort should be checked in Unity.
+WARN,level,494,50,chain_cap,"non-peak chain 192 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,494,50,arrow_cap,non-peak arrow count 1138 may feel visually heavy.
+INFO,level,494,50,large_jump,chain jumps +128 from L493; verify there is a clear reason.
+INFO,level,496,50,arrow_cap,non-peak arrow count 860 is high; visual comfort should be checked in Unity.
+WARN,level,497,50,chain_cap,"non-peak chain 151 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,497,50,arrow_cap,non-peak arrow count 901 may feel visually heavy.
+WARN,level,499,50,chain_cap,"non-peak chain 159 is very high; late difficulty should come from read/region/dependency, not infinite chains."
+WARN,level,499,50,arrow_cap,non-peak arrow count 1167 may feel visually heavy.
+INFO,level,499,50,large_jump,chain jumps +87 from L498; verify there is a clear reason.
+WARN,section,,2,front20_pressure,front20 section max chain 94 may be too high.
+INFO,section,,3,section_avg_jump,section avg jumps +23.4 from previous section.
+WARN,section,,4,early_avg_pressure,early section avg chain 79.2 may rise too fast.
+WARN,section,,5,early_avg_pressure,early section avg chain 77.6 may rise too fast.
+WARN,section,,6,peak_contrast,peak avg 92.5 is not clearly above normal avg 80.5.
+WARN,section,,12,hard_contrast,hard avg 93.7 is not clearly above normal avg 90.8.
+WARN,section,,15,peak_contrast,peak avg 113.5 is not clearly above normal avg 102.0.
+WARN,section,,18,hard_contrast,hard avg 106.0 is not clearly above normal avg 100.8.
+WARN,section,,18,peak_contrast,peak avg 113.5 is not clearly above normal avg 100.8.
+WARN,section,,19,hard_contrast,hard avg 103.0 is not clearly above normal avg 103.4.
+WARN,section,,19,peak_contrast,peak avg 112.0 is not clearly above normal avg 103.4.
+WARN,section,,21,hard_contrast,hard avg 110.7 is not clearly above normal avg 104.8.
+INFO,section,,37,section_avg_jump,section avg jumps +24.4 from previous section.

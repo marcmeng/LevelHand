@@ -1,0 +1,15 @@
+slotDuty,difficultyCodes,categories,coreResponsibility,playerJob,preferredStyles,preferredChainLanguages,metricFocus,selectionNotes
+RecoveryFlow,1,normal,峰值后的释放和爽感,连续清除并恢复信心,Flow/Mixed,curve/rail/mixed,low local frustration; solved fast; moderate coverage,前期占比高; 后期只放在高压后
+NormalPractice,1,normal,练习当前段主语言,识别并复用刚学到的模式,Flow/Peel/Mixed,section main language,stable choices; low collapse risk,普通主干; 不能全是同一语言
+LanguageVariation,1,normal,制造新鲜感但不显著加压,适应新的链条形态或画布手感,Mixed/Peel/Flow,language differs from neighbors,novelty; no sharp difficulty spike,适合放在10关中前段
+BridgeRamp,1,normal,把普通推到困难前的上沿,开始多读一步,Peel/Mixed,rail/curve/patch,effectiveLoad upper normal; region switch mild,不能压过后面的困难slot
+ReadCheck,2,normal/shape/hole,让玩家停顿读题,判断先清哪个区域,Peel/Hub-lite/LongChain-lite,rail/patch/spine,region switch; axis drift; local run cap,困难基础职责
+LocalRunBreaker,2,normal,打断同区连续消除,从顺清切换到跨区决策,Peel/Mixed/Hub-lite,rail/patch,collapse low; same-side risk low,用于解决PSG/Nutation局部扫穿问题
+CanvasStep,2,normal/shape/hole,用画布或密度抬高感受难度,适应更大阅读范围,Mixed/Peel/Shape/Hole,mixed,canvasBand; coverage; choices controlled,不能只大不难; 要配合读题指标
+DependencyPeak,3,normal/shape/hole,本10/20关核心挑战,看出依赖顺序并执行,Peel/LongChain/Hub,spine/rail/patch,readDemand high; region entropy medium-high,特别困难主职责
+StylePeak,3,shape/hole/normal,用某个风格形成记忆点,解决一个有主题的关卡,Shape/Peel/LongChain/Hub,theme language,effectiveLoad high; novelty high,如果shape/hole承担peak则normal peak降级
+ExtremeMemory,4,normal/shape/hole,章节级挑战和记忆点,综合读题/空间/依赖,LongChain/Hub/Peel/Shape/Hole,spine/patch/rail,highest effectiveLoad in chapter; fair choices,数量少; 必须主题明确
+HoleSpatialAnchor,1/2/3,hole,空间规则变化和节奏换气,重新理解可通行/阻挡空间,Hole/Mixed,depends on mask,spatial novelty; solvable; no unfair blockage,hole slot 默认保留但可调难度职责
+ShapeAnchor,1/2/3/4,shape,视觉记忆点和阶段亮点,在形状约束内清关,Shape/Peel/Mixed,depends on mask,visual novelty; coverage; fair read,shape 是独立anchor; 不拿来机械填normal peak
+MixedDefault,1/2,normal,不限定风格语言的自然变化,按质量门槛体验一关自然生成,Mixed,mixed,quality gates; repetition control,用于接近PSG原生但质量更稳的关卡
+LongChainRead,2/3/4,normal/shape,长依赖主干读题,沿主干理解先后顺序,LongChain/Hub,spine/rail,effectiveLoad weighted; maxChainLen; dependency depth,raw chain count 低时也可视作高负载

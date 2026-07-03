@@ -1,0 +1,4 @@
+severity,scope,order,section10,rule,message
+WARN,level,3,1,front20_scale_intro,L3 镜头/画布尺度引导 has chain 37; camera/board-scale guide should stay low-mid.
+INFO,level,40,4,post_peak_release,"previous level was peak code 3, but chain only changes 0; verify there is a non-count release."
+WARN,section,,1,hard_contrast,hard avg 37.0 is not clearly above normal avg 31.2.

@@ -1,0 +1,51 @@
+section10,levelRange,macroArc,sectionRole,templateNormal,templateHard,templateSpecial,templateExtreme,templateShape,templateHole,normalEffectiveBand,hardEffectiveBand,peakEffectiveBand,styleFocus,sectionPlanningNote
+1,1-10,A1_OnboardingSafety,front10_onboard_light_quiz,9,1,0,0,3,1,8-18,32-42,34-42,"Flow,Peel,Shape,Hole,LockLite",No extreme slot. L10 is only a light quiz around effective load 35-42.
+2,11-20,A1_OnboardingSafety,front20_onboard_first_boss,9,0,1,0,1,1,30-42,44-56,36-48,"Flow,Peel,Shape,Hole,LockLite",L19 is the first boss around effective load 56-66; do not follow raw template 94 blindly.
+3,21-30,A1_OnboardingSafety,early_ramp_with_visual_anchors,8,1,0,1,2,1,35-47,61-77,84-108,"Flow,Peel,Mixed,Shape,Hole,LongChainLite","Rise gently; hard/special only need clear contrast, not late-game density."
+4,31-40,A1_OnboardingSafety,early_ramp_with_visual_anchors,6,3,1,0,2,1,41-53,67-83,80-100,"Flow,Peel,Mixed,Shape,Hole,LongChainLite","Rise gently; hard/special only need clear contrast, not late-game density."
+5,41-50,A1_OnboardingSafety,early_ramp_with_visual_anchors,4,4,1,1,2,1,49-61,70-82,98-122,"Flow,Peel,Mixed,Shape,Hole,LongChainLite","Rise gently; hard/special only need clear contrast, not late-game density."
+6,51-60,A2_LoopFormation,loop_formation,6,2,2,0,2,1,53-65,79-95,92-112,"Flow,Peel,Mixed,LongChainLite","Form stable loop: normal reaches about 60-80, with visible hard/peak contrast."
+7,61-70,A2_LoopFormation,loop_formation,5,3,1,1,2,1,57-69,83-99,106-130,"Flow,Peel,Mixed,LongChainLite","Form stable loop: normal reaches about 60-80, with visible hard/peak contrast."
+8,71-80,A2_LoopFormation,loop_formation,8,0,2,0,2,1,61-73,87-103,100-120,"Flow,Peel,Mixed,LongChainLite","Form stable loop: normal reaches about 60-80, with visible hard/peak contrast."
+9,81-90,A2_LoopFormation,loop_formation,3,5,1,1,2,1,65-77,91-107,114-138,"Flow,Peel,Mixed,LongChainLite","Form stable loop: normal reaches about 60-80, with visible hard/peak contrast."
+10,91-100,A2_LoopFormation,loop_formation,4,4,1,1,2,1,69-81,95-111,118-142,"Flow,Peel,Mixed,LongChainLite","Form stable loop: normal reaches about 60-80, with visible hard/peak contrast."
+11,101-110,A3_StyleExpansion,style_expansion,5,3,2,0,2,1,70-82,99-115,113-133,"Peel,Mixed,LongChainLite,Shape",Stop increasing every normal slot; use style/read variation for freshness.
+12,111-120,A3_StyleExpansion,style_expansion,5,3,2,0,2,1,72-84,101-117,115-135,"Peel,Mixed,LongChainLite,Shape",Stop increasing every normal slot; use style/read variation for freshness.
+13,121-130,A3_StyleExpansion,style_expansion,7,1,2,0,2,1,73-85,102-118,116-136,"Peel,Mixed,LongChainLite,Shape",Stop increasing every normal slot; use style/read variation for freshness.
+14,131-140,A3_StyleExpansion,style_expansion,5,4,0,1,2,1,75-87,104-120,131-155,"Peel,Mixed,LongChainLite,Shape",Stop increasing every normal slot; use style/read variation for freshness.
+15,141-150,A3_StyleExpansion,style_expansion,7,1,1,1,2,1,76-88,105-121,132-156,"Peel,Mixed,LongChainLite,Shape",Stop increasing every normal slot; use style/read variation for freshness.
+16,151-160,A4_ReadDemandRise,read_demand_rise,3,5,2,0,2,1,77-89,106-122,120-140,"Peel,Mixed,HubLite,LongChain",Stop increasing every normal slot; use style/read variation for freshness.
+17,161-170,A4_ReadDemandRise,read_demand_rise,6,2,2,0,2,1,79-91,108-124,122-142,"Peel,Mixed,HubLite,LongChain",Stop increasing every normal slot; use style/read variation for freshness.
+18,171-180,A4_ReadDemandRise,read_demand_rise,7,1,2,0,2,1,80-92,109-125,123-143,"Peel,Mixed,HubLite,LongChain",Stop increasing every normal slot; use style/read variation for freshness.
+19,181-190,A4_ReadDemandRise,read_demand_rise,8,1,1,0,2,1,82-94,111-127,125-145,"Peel,Mixed,HubLite,LongChain",Stop increasing every normal slot; use style/read variation for freshness.
+20,191-200,A4_ReadDemandRise,read_demand_rise,9,0,0,1,2,1,83-95,112-128,139-163,"Peel,Mixed,HubLite,LongChain",Stop increasing every normal slot; use style/read variation for freshness.
+21,201-210,A5_CoreMiddle,front300_core_middle,6,3,0,1,2,1,84-96,113-129,140-164,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+22,211-220,A5_CoreMiddle,front300_core_middle,5,3,1,1,2,1,85-97,114-130,141-165,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+23,221-230,A5_CoreMiddle,front300_core_middle,5,4,0,1,2,1,86-98,115-131,142-166,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+24,231-240,A5_CoreMiddle,front300_core_middle,6,2,1,1,2,1,87-99,116-132,143-167,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+25,241-250,A5_CoreMiddle,front300_core_middle,7,1,2,0,2,1,88-100,116-132,130-150,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+26,251-260,A6_CoreClosure,front300_core_closure,7,1,1,1,2,1,88-100,117-133,144-168,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+27,261-270,A6_CoreClosure,front300_core_closure,7,1,1,1,2,1,89-101,118-134,145-169,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+28,271-280,A6_CoreClosure,front300_core_closure,7,1,1,1,2,1,90-102,119-135,146-170,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+29,281-290,A6_CoreClosure,front300_core_closure,5,3,1,1,2,1,91-103,120-136,147-171,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+30,291-300,A6_CoreClosure,front300_core_closure,6,2,1,1,2,1,92-104,121-137,148-172,"Peel,Hub,LongChain,Mixed","Front300 quality core: reduce old weak candidates, require read evidence for hard+."
+31,301-310,A7_AdvancedVariation,advanced_variation,7,1,1,1,2,1,92-104,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+32,311-320,A7_AdvancedVariation,advanced_variation,7,1,1,1,2,1,93-105,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+33,321-330,A7_AdvancedVariation,advanced_variation,5,2,2,1,2,1,94-106,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+34,331-340,A7_AdvancedVariation,advanced_variation,5,2,2,1,2,1,94-106,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+35,341-350,A7_AdvancedVariation,advanced_variation,4,3,2,1,2,1,94-106,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+36,351-360,A8_HighRead,high_read,5,2,2,1,2,1,95-107,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+37,361-370,A8_HighRead,high_read,8,0,2,0,2,1,96-108,122-138,136-156,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+38,371-380,A8_HighRead,high_read,8,1,0,1,2,1,96-108,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+39,381-390,A8_HighRead,high_read,6,1,2,1,2,1,96-108,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+40,391-400,A8_HighRead,high_read,6,2,1,1,2,1,97-109,122-138,148-172,"Hub,LongChain,Peel,MazeLike",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+41,401-410,A9_MatureReview,mature_review,4,4,1,1,2,1,97-109,122-138,148-172,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+42,411-420,A9_MatureReview,mature_review,5,2,2,1,2,1,98-110,122-138,148-172,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+43,421-430,A9_MatureReview,mature_review,7,1,1,1,2,1,98-110,122-138,148-172,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+44,431-440,A9_MatureReview,mature_review,6,3,0,1,2,1,98-110,122-138,148-172,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+45,441-450,A9_MatureReview,mature_review,6,1,2,1,2,1,99-111,122-138,148-172,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+46,451-460,A10_Endgame,endgame,7,1,1,1,2,1,99-111,122-138,148-172,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+47,461-470,A10_Endgame,endgame,8,1,1,0,2,1,99-111,122-138,136-156,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+48,471-480,A10_Endgame,endgame,7,1,1,1,2,1,100-112,122-138,148-172,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+49,481-490,A10_Endgame,endgame,9,0,1,0,2,1,100-112,122-138,136-156,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.
+50,491-500,A10_Endgame,endgame,9,0,1,0,2,1,100-112,122-138,136-156,"BestOfFlow,Peel,Hub,LongChain,Shape,Hole",Late campaign may keep reasonable old candidates but must preserve release after peaks.

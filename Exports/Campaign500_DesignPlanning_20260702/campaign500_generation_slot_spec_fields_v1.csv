@@ -1,0 +1,25 @@
+field,required,meaning,sourceOrRule
+order,yes,关卡序号,template
+section10,yes,10关段,template
+category,yes,normal/shape/hole,template
+difficultyCode,yes,1普通/2困难/3特别困难/4极难,template
+originalTargetChains,yes,原模板链条目标,template targetChains
+slotDuty,yes,该slot的体验职责,from duty matrix
+targetExperience,yes,玩家应该感受到什么,manual/spec
+styleTarget,yes,Flow/Peel/LongChain/Hub/Maze/Mixed/Shape/Hole,by arc and neighbors
+chainLanguageTarget,yes,curve/rail/spine/patch/mixed,by arc and repetition control
+effectiveLoadBand,yes,相对当前段的目标负载,computed/manual
+rawChainBand,no,链条数范围,derived from template and candidate pool
+canvasBand,no,画布/比例目标,template plus portrait rule
+readDemandTarget,yes,none/light/medium/high/extreme,by difficulty and slot duty
+regionSwitchTarget,yes,none/light/required/strong,hard+ usually required
+directionShiftTarget,yes,low/medium/high,avoid same-direction sweep
+localRunCap,yes,允许同区域连续消除上限,quality gate by duty
+choiceBand,yes,选择数量目标区间,quality gate by duty
+noveltyRequirement,yes,与前后关需要变化的维度,style/language/canvas/category
+replacementPriority,yes,front300-high/front500-normal/keep-old-ok,production rule
+allowedSources,yes,可用候选池,production inventory
+rejectIf,yes,一票否决条件,solved false; illegal chain; too repetitive; too local-easy
+selectedCandidateId,no,最终候选ID,filled during assembly
+selectedSource,no,候选来源路径/报告,filled during assembly
+reviewStatus,no,not_reviewed/metrics_ok/unity_ok/reject,filled during review

@@ -1,0 +1,93 @@
+severity,scope,order,section10,rule,message
+INFO,level,1,1,aspect_outlier,aspect 1.429 is outside the preferred portrait band; verify visual comfort.
+INFO,level,6,1,aspect_outlier,aspect 1.444 is outside the preferred portrait band; verify visual comfort.
+INFO,level,23,3,aspect_outlier,aspect 1.276 is outside the preferred portrait band; verify visual comfort.
+INFO,level,27,3,aspect_outlier,aspect 1.241 is outside the preferred portrait band; verify visual comfort.
+INFO,level,38,4,aspect_outlier,aspect 1.250 is outside the preferred portrait band; verify visual comfort.
+INFO,level,40,4,post_peak_release,"previous level was peak code 3, but chain only changes 1; verify there is a non-count release."
+INFO,level,43,5,aspect_outlier,aspect 1.296 is outside the preferred portrait band; verify visual comfort.
+INFO,level,53,6,aspect_outlier,aspect 1.241 is outside the preferred portrait band; verify visual comfort.
+INFO,level,58,6,aspect_outlier,aspect 1.235 is outside the preferred portrait band; verify visual comfort.
+INFO,level,67,7,aspect_outlier,aspect 1.267 is outside the preferred portrait band; verify visual comfort.
+INFO,level,70,7,post_peak_release,"previous level was peak code 3, but chain only changes 1; verify there is a non-count release."
+INFO,level,83,9,aspect_outlier,aspect 1.176 is outside the preferred portrait band; verify visual comfort.
+INFO,level,87,9,aspect_outlier,aspect 1.250 is outside the preferred portrait band; verify visual comfort.
+INFO,level,89,9,post_peak_release,"previous level was peak code 3, but chain only changes 4; verify there is a non-count release."
+INFO,level,91,10,aspect_outlier,aspect 1.182 is outside the preferred portrait band; verify visual comfort.
+INFO,level,93,10,aspect_outlier,aspect 1.276 is outside the preferred portrait band; verify visual comfort.
+INFO,level,103,11,aspect_outlier,aspect 1.158 is outside the preferred portrait band; verify visual comfort.
+INFO,level,108,11,aspect_outlier,aspect 1.167 is outside the preferred portrait band; verify visual comfort.
+INFO,level,113,12,post_peak_release,"previous level was peak code 3, but chain only changes -7; verify there is a non-count release."
+INFO,level,123,13,aspect_outlier,aspect 1.267 is outside the preferred portrait band; verify visual comfort.
+INFO,level,142,15,aspect_outlier,aspect 1.083 is outside the preferred portrait band; verify visual comfort.
+INFO,level,143,15,aspect_outlier,aspect 1.235 is outside the preferred portrait band; verify visual comfort.
+INFO,level,147,15,aspect_outlier,aspect 1.023 is outside the preferred portrait band; verify visual comfort.
+INFO,level,153,16,aspect_outlier,aspect 1.132 is outside the preferred portrait band; verify visual comfort.
+INFO,level,173,18,aspect_outlier,aspect 1.158 is outside the preferred portrait band; verify visual comfort.
+INFO,level,177,18,aspect_outlier,aspect 1.273 is outside the preferred portrait band; verify visual comfort.
+INFO,level,178,18,aspect_outlier,aspect 1.118 is outside the preferred portrait band; verify visual comfort.
+INFO,level,193,20,aspect_outlier,aspect 1.100 is outside the preferred portrait band; verify visual comfort.
+INFO,level,198,20,aspect_outlier,aspect 1.053 is outside the preferred portrait band; verify visual comfort.
+INFO,level,201,21,aspect_outlier,aspect 1.083 is outside the preferred portrait band; verify visual comfort.
+INFO,level,213,22,aspect_outlier,aspect 1.023 is outside the preferred portrait band; verify visual comfort.
+INFO,level,217,22,aspect_outlier,aspect 1.273 is outside the preferred portrait band; verify visual comfort.
+INFO,level,218,22,aspect_outlier,aspect 1.111 is outside the preferred portrait band; verify visual comfort.
+INFO,level,221,23,portrait_band,normal level aspect 0.909 exceeds 0.9 preferred cap.
+INFO,level,228,23,chain_cap,non-peak chain 126 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,233,24,post_peak_release,"previous level was peak code 3, but chain only changes -7; verify there is a non-count release."
+INFO,level,235,24,aspect_outlier,aspect 1.273 is outside the preferred portrait band; verify visual comfort.
+INFO,level,242,25,aspect_outlier,aspect 1.143 is outside the preferred portrait band; verify visual comfort.
+INFO,level,251,26,aspect_outlier,aspect 1.167 is outside the preferred portrait band; verify visual comfort.
+INFO,level,253,26,post_peak_release,"previous level was peak code 3, but chain only changes -7; verify there is a non-count release."
+INFO,level,267,27,aspect_outlier,aspect 1.143 is outside the preferred portrait band; verify visual comfort.
+INFO,level,268,27,chain_cap,non-peak chain 129 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,278,28,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,288,29,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,298,30,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,318,32,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,329,33,post_peak_release,"previous level was peak code 3, but chain only changes 8; verify there is a non-count release."
+INFO,level,335,34,aspect_outlier,aspect 1.067 is outside the preferred portrait band; verify visual comfort.
+INFO,level,338,34,aspect_outlier,aspect 1.100 is outside the preferred portrait band; verify visual comfort.
+INFO,level,348,35,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,351,36,aspect_outlier,aspect 1.154 is outside the preferred portrait band; verify visual comfort.
+INFO,level,353,36,aspect_outlier,aspect 1.023 is outside the preferred portrait band; verify visual comfort.
+INFO,level,353,36,post_peak_release,"previous level was peak code 3, but chain only changes -7; verify there is a non-count release."
+INFO,level,358,36,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,367,37,aspect_outlier,aspect 1.308 is outside the preferred portrait band; verify visual comfort.
+INFO,level,377,38,aspect_outlier,aspect 1.333 is outside the preferred portrait band; verify visual comfort.
+INFO,level,378,38,aspect_outlier,aspect 1.158 is outside the preferred portrait band; verify visual comfort.
+INFO,level,389,39,post_peak_release,"previous level was peak code 3, but chain only changes 6; verify there is a non-count release."
+INFO,level,392,40,aspect_outlier,aspect 1.214 is outside the preferred portrait band; verify visual comfort.
+INFO,level,393,40,chain_cap,non-peak chain 126 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,398,40,aspect_outlier,aspect 1.023 is outside the preferred portrait band; verify visual comfort.
+INFO,level,398,40,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,401,41,aspect_outlier,aspect 1.231 is outside the preferred portrait band; verify visual comfort.
+INFO,level,402,41,portrait_band,normal level aspect 0.909 exceeds 0.9 preferred cap.
+INFO,level,403,41,aspect_outlier,aspect 1.158 is outside the preferred portrait band; verify visual comfort.
+INFO,level,403,41,chain_cap,non-peak chain 126 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,405,41,chain_cap,non-peak chain 127 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,408,41,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,409,41,chain_cap,non-peak chain 126 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,413,42,chain_cap,non-peak chain 127 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,413,42,post_peak_release,"previous level was peak code 3, but chain only changes -7; verify there is a non-count release."
+INFO,level,418,42,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,423,43,aspect_outlier,aspect 1.158 is outside the preferred portrait band; verify visual comfort.
+INFO,level,426,43,aspect_outlier,aspect 1.333 is outside the preferred portrait band; verify visual comfort.
+INFO,level,427,43,aspect_outlier,aspect 1.100 is outside the preferred portrait band; verify visual comfort.
+INFO,level,433,44,chain_cap,non-peak chain 127 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,438,44,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,442,45,aspect_outlier,aspect 1.214 is outside the preferred portrait band; verify visual comfort.
+INFO,level,443,45,aspect_outlier,aspect 1.258 is outside the preferred portrait band; verify visual comfort.
+INFO,level,445,45,chain_cap,non-peak chain 129 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,449,45,post_peak_release,"previous level was peak code 3, but chain only changes 9; verify there is a non-count release."
+INFO,level,451,46,aspect_outlier,aspect 1.067 is outside the preferred portrait band; verify visual comfort.
+INFO,level,453,46,aspect_outlier,aspect 1.158 is outside the preferred portrait band; verify visual comfort.
+INFO,level,459,46,chain_cap,non-peak chain 128 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,468,47,aspect_outlier,aspect 1.276 is outside the preferred portrait band; verify visual comfort.
+INFO,level,469,47,chain_cap,non-peak chain 128 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,473,48,aspect_outlier,aspect 1.138 is outside the preferred portrait band; verify visual comfort.
+INFO,level,475,48,chain_cap,non-peak chain 130 is high; verify canvas comfort and avoid using count as the only pressure.
+INFO,level,483,49,aspect_outlier,aspect 1.065 is outside the preferred portrait band; verify visual comfort.
+INFO,level,492,50,aspect_outlier,aspect 1.067 is outside the preferred portrait band; verify visual comfort.
+INFO,level,498,50,aspect_outlier,aspect 1.235 is outside the preferred portrait band; verify visual comfort.
+INFO,section,,1,too_linear,section is almost strictly rising; add intentional retreats if it feels mechanical.

@@ -1,0 +1,11 @@
+positionIn10,defaultDuty,defaultDifficultyUse,playerFeeling,preferredStyleUse,chainLanguageBias,effectiveLoadRule,avoid
+1,RecoveryOrOpener,Code1 or template special,进入状态/从上一段峰值释放,Flow or Mixed,curve/rail/mixed,低于上一关峰值; 可小幅回落,不要连续高压; 不要接同风格峰值
+2,NormalPractice,Code1,练习当前段主语言,Flow/Peel/Mixed,当前段主语言,接近本段普通下沿,不要过早压迫
+3,LanguageVariation,Code1,换一种读法但仍然顺,Peel/Mixed/Flow,换上一关语言,普通中低; 变化优先于难度,不要同风格同语言连三
+4,VisualOrSpatialAnchor,template category first,shape/hole/画布变化记忆点,Shape/Hole/Mixed,随资源决定,如果 shape/hole 已承担 peak 本段 normal peak 降低,不要把 shape/hole 当普通填坑
+5,BridgeRamp,Code1,普通上坡位,Peel/Mixed,rail/curve,普通中高; 为困难铺垫,不要比后面困难更压迫
+6,ReadCheck,Code2 if available,第一次读题,Peel/Hub-lite/Mixed,rail/patch,明显高于普通均值,不要只靠链条数
+7,RecoveryPractice,Code1,短释放或换语言练习,Flow/Peel/Mixed,与6不同,比6回落但不回到过低,不要同一区域连消过强
+8,HardTest,Code2 or Code3,本组主困难,Peel/LongChain/Hub-lite,rail/spine/patch,高于6; 有区域/方向切换,不要 choices 爆炸
+9,SetupOrBreath,Code1 or Code3 by template,峰值前准备或轻释放,Mixed/Peel/Shape,变化优先,如果10是极难则回落; 否则可作为小峰,不要连续两关同样 peak
+10,PeakOrMemory,Code3/Code4/template peak,本组记忆点/章节标记,LongChain/Hub/Peel/Shape/Hole,spine/rail/patch,本组最高或视觉最高,不要只是更多链条; 必须有主题
