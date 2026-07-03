@@ -6,6 +6,7 @@
 | --- | --- | --- |
 | t184 gate prototype script | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootFirstFeasibilityGateV0.py` | Read-only V0 implementation of the frozen root-first dual-axis architecture. Capacity is soft; only compatibility fail rejects. |
 | t184a gate output | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t184a_root_first_dual_gate_v0.csv`, `_summary.md` | Default four-case smoke. Result: `FAIL:1`, `PASS:1`, `BORDERLINE:2`; no `Compatibility Pass + Capacity High + probeCollapse` row. c027-like is high capacity but compatibility fail; t182 is compatibility pass but capacity underfit/mixed probes; c038/root154 are borderline stable limited probes. |
+| t184b expanded gate output | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t184b_root_first_dual_gate_expanded_v0.csv`, `_summary.md` | Expanded eight-case smoke. Result: `FAIL:4`, `PASS:1`, `BORDERLINE:3`; still no `Compatibility Pass + Capacity High + probeCollapse` row. Dirty-required c038/c043 fail compatibility, root10 fails frame mismatch, and c043 no-dirty stage control routes to limited probe. |
 
 ## Competitor-Hard Phase Ledger V14 Diagnostics - 2026-07-03
 
