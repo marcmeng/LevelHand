@@ -1,5 +1,13 @@
 # Current Status
 
+## Generated-Root WBP Multi-Root Mainline Recenter - 2026-07-03
+
+- GPT review accepted the goal switch away from t183 dep-run/scorer work and toward root-family capacity discovery, but corrected the execution order: do not make the product matrix the first selector.
+- Active next loop: `root candidate -> early reservation feasibility gate -> accepted root -> UDG/duty graph -> product matrix evaluation`.
+- Key answer to GPT's confirmation question: yes, c027-like capacity references already show an early reservation/root feasibility failure mode. Existing c027-style `19x26` roots do not own the dirty `(5,0;5,1)` boundary cluster at root time; later seedState injection and anchored-path repair found geometry but `0` solved strict groups / `0` accepted non-open entries. That means root-first feasibility must be checked before treating c027 capacity as transferable.
+- Current route roles: c027-like is the capacity upper-bound reference; t182 boundary-owned generated roots are clean root-identity/dirty-boundary ownership references; c038/root154 are stability/control references with known capacity ceilings.
+- Next implementation should start with a small `root x early reservation feasibility` audit/gate, then only run UDG/product matrix on roots that pass. The gate must check dirty boundary/corner ownership, basin/release context, dependency-compatible entry, SSWD/frontier-break anchor capacity, and tail-safe/future-release reservation capacity.
+
 ## Generated-Root WBP t183 Final Evaluation Semantics Freeze - 2026-07-03
 
 - Worktree: `.worktrees/sgp-rhythm-lab`; t183 is now closed as an evaluation-semantics result, not an open generator/scorer bug.

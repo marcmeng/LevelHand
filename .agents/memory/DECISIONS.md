@@ -1,5 +1,13 @@
 # Decisions
 
+# Generated-Root WBP Decision: Root-First Reservation Feasibility Precedes Matrix Evaluation - 2026-07-03
+
+- Decision: after t183 evaluation semantics freeze, the active Generated-Root WBP mainline is `Root Family Capacity Discovery`, not further scorer/dep-run tuning.
+- Decision: the next loop must be root-first: `root candidate -> early reservation feasibility gate -> accepted root -> UDG/duty graph -> product matrix evaluation`. Do not run a matrix-first selection loop that scores roots only after late planning, because it can hide root/reservation incompatibility and reintroduce post-hoc selection bias.
+- Evidence: c027-like references have the best capacity shape (`~0.90-0.925`) but weak/dirty root-preplan evidence; t182 boundary-owned roots have clean generated-root identity and dirty-boundary ownership but lower coverage/hard-core capacity; c038/root154 are stable controls with known capacity ceilings. This makes root capacity plus early reservation coupling the unresolved bottleneck.
+- Implementation implication: build or run a `root x early reservation feasibility` audit before expensive UDG/product tracing. The gate should check dirty boundary/corner ownership, basin membership, release candidates, dependency-compatible entry, SSWD/frontier-break support anchors, and tail-safe/future-release reservation capacity. Only roots that pass this preflight should enter the UDG coverage/duty matrix.
+- Negative route: do not resume UDG wave13/scorer tuning, official `dependencyFollowRunMax` optimization, post-hoc trace repair, or late filler/closure search as the main path.
+
 # Generated-Root WBP Final Decision: Dependency Follow Run Is A Solver-Policy Artifact - 2026-07-03
 
 - Decision: freeze the t183 system interpretation as a four-layer model: `Generation (SSWD + UDG)`, `Structural Difficulty (anti-spine / discontinuity)`, `Solvability Invariant`, and `Solver Policy Artifacts`.
