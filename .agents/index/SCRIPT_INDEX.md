@@ -5,6 +5,8 @@
 | Path | Purpose | Notes |
 | --- | --- | --- |
 | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootFirstFeasibilityGateV0.py --preset default\|expanded` | Read-only root-first dual-axis feasibility gate prototype | Normalizes existing root/reservation/product-probe reports into `PASS/BORDERLINE/FAIL`, soft `capacityScore`, `routingDecision`, and `probeOutcome`. Default t184a cases are c027-like capacity reference, t182 boundary-owned root family, c038 micro capacity control, and root154 cross-basin control. Expanded t184b adds dirty-required c038/c043, frame-mismatch root10, and c043 stage control. It does not generate levels and must not feed `probeCollapse` back into the hard compatibility gate. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12LimitedUDGProbePlannerV0.py` | Read-only planner for t184 gray-zone limited UDG probes | Reads the t184b gate CSV and emits t184c probe plan rows/commands. It verifies `baseCsv/baseLevelId/seedstatePlanCsv`, target seed-chain count, and existing evidence. Default budget is readiness-sized (`micro1x1`, `seedGroups1`, `raw20`, `beam1`, `greedy7/10`) and must not be treated as a full capacity run. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12LimitedUDGProbeResultAuditV0.py` | Read-only audit for executed t184 limited UDG probe outputs | Reads the t184c plan and classifies actual output as `coverageProbePass`, `coverageProbeNoBundle`, `seedOnlyEntryPassCoverageProbeUnavailable`, or `notExecutedGateReject`. It calibrates gray-zone routing only; it does not rewrite the hard compatibility gate. |
 
 ## Competitor-Hard Phase Ledger V14 - 2026-07-03
 

@@ -1,5 +1,13 @@
 # Level Index
 
+## Generated-Root WBP t184 Limited Probe Assets - 2026-07-03
+
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t184_limited_udg_probe_v0/` - diagnostic LevelDefinition output dir for t184 limited UDG probe execution. These are probe artifacts, not review/product candidates.
+- `t184c_seedonly_entry_t182_boundary_owned_root_family_c001.asset` - seed-only UDG entry smoke for the t182 dirty-compatible generated root; coverage `0.5627530`, root+3-chain seedState materialized, no coverage wave. It proves UDG entry/root+seedState plumbing, not capacity.
+- `t184c_limited_udg_probe_v0_c038_micro_capacity_control_c001.asset` - c038 no-dirty micro1 coverage probe; coverage `0.6457490`, one coverage duty accepted. Use as gray-zone control evidence only.
+- `t184c_limited_udg_probe_v0_c043_stage_control_no_dirty_c001.asset` - c043 no-dirty micro1 coverage probe; coverage `0.6457490`, one coverage duty accepted. Use as gray-zone control evidence only.
+- Root154 cross-basin t184c micro1 writes no LevelDefinition asset because the tiny one-chain budget has `rawOptions=20` but `bundleCount=0`; compare against its historical `12,4,4,1` successful wave shape before drawing capacity conclusions.
+
 ## Competitor-Hard Phase Ledger V14 Assets - 2026-07-03
 
 - `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonPhaseLedgerV14Pack.asset` - current V14 phase-ledger diagnostic pack, GUID `da4d9b3e658446879522416549ecf971`; Demo is mounted to this pack after the final V14 smoke.
