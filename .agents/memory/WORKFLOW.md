@@ -25,6 +25,9 @@
 - C# 或 package 改动优先做编译验证；Unity 项目可用现有 `.sln` 或 Unity 测试入口，按任务风险选择。
 - 编辑器工具改动要检查菜单入口、输出路径、失败处理和是否会覆盖已有资源。
 - 关卡生成/导入任务要验证候选资源、包引用和报告是否一致。
+- Generated-Root WBP 难度验收按两层走：先用 official trace / Greedy / coverage / root identity 做 `TraceGate`，再用独立 `DifficultyVerify` 和 `PlayerStallAudit` 判断真难证据。需要判断 player-stall 时优先带上 dependency spine audit，用 structural stall 与 spine stall 分开看；不要把 official `A`、低平均可选、高 coverage 或单一 top-path 指标当成 hard 成功。
+- Generated-Root WBP 成品化 `0.95+` 验收按新三段产品口径走：official solved/root/pre-materialization/coverage 是 `Overall`，前中段真实卡点是 `Hard-Core Window`，尾端不污染结构是 `Tail Hygiene`。最终全局 process 可以是 `B`，但必须用 `HighCoverageHardCoreProductVerifierV1` 证明 hard core 保留且 tail hygiene 过。
+- Generated-Root WBP 的 `dependencyFollowRunMax` 归类为 solver-policy diagnostic，不再作为 standalone 难度门槛或生成失败门槛。只有在同一 board 下做过 fixed-board policy perturbation 后，才能解释 dep-run：若 anti-follow/random 等策略仍 100% solved 且显著降低 dep-run，则高 official dep-run 只是 greedy/official execution footprint；它只能用于 solver 对比、执行偏置调试和 player-model 校准。
 
 ## Memory Update
 

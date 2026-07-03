@@ -53,6 +53,17 @@
 - 不擅自回退或清理已有工作树改动，尤其是未确认来源的关卡、掩码、报告和导出产物。
 - 生成、导入、验证相关工作完成后，要把正式结果和实验产物分离。
 
+## Generated-Root WBP Evaluation Model
+
+- Generated-Root WBP 最终按四层解释：`Generation (SSWD + UDG)`、`Structural Difficulty (anti-spine / discontinuity)`、`Solvability Invariant`、`Solver Policy Artifacts`。
+- `dependencyFollowRunMax` 是 solver-policy-conditioned observable，不是 standalone 难度指标。高 official dep-run 只有在 fixed-board policy perturbation 失败时才可能提示结构问题；若 anti-follow/random policy 仍稳定 solved 且 dep-run 降低，则它只说明 official/greedy trace 的执行偏置。
+- WBP 成品判断继续使用 `Overall` / `Hard-Core Window` / `Tail Hygiene` 三段口径。official solved、coverage 和 root identity 是入口门槛；真正难度证据来自前验结构、hard-core 保留、tail hygiene、relation/contracts 和 player-stall 模型，而不是单条 greedy trace 的路径形状。
+
+## Campaign500 Planning Agreements
+
+- Shape levels are primarily visual/perspective rhythm changes, not a standalone difficulty source. They can serve as reward, practice, read-check, hard, or occasional bottleneck cameo slots, but hard/extreme proof must come from underlying solve-order, read, dependency, or choke evidence.
+- Current Nutation-generated shape feels slightly harder than ordinary peel, so Campaign500 planning may apply only a small shape premium. Do not let shape geometry alone carry core hard/extreme responsibility.
+
 ## Arrow Chain Rules
 
 - 棋盘格类型只有 `Empty / Arrow / Block`；可导入 seed 至少要有 1 条箭头链，每条链至少 2 格，所有 index 必须在 `0 <= index < width * height`，链内/链间不能重复占格，链内相邻格必须上下左右相邻。

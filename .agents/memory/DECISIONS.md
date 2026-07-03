@@ -1,5 +1,415 @@
 # Decisions
 
+# Generated-Root WBP Final Decision: Dependency Follow Run Is A Solver-Policy Artifact - 2026-07-03
+
+- Decision: freeze the t183 system interpretation as a four-layer model: `Generation (SSWD + UDG)`, `Structural Difficulty (anti-spine / discontinuity)`, `Solvability Invariant`, and `Solver Policy Artifacts`.
+- Decision: `dependencyFollowRunMax` is no longer a hard difficulty/generation failure gate by itself. It is a solver-policy-conditioned observable that describes the chosen trace executor's traversal footprint.
+- Evidence: on the fixed t183o generated board, official/max-cleared style policies produce high dependency run (`9-10`) while anti-follow solves the same board with run `4`. Random available-chain and anti-follow-random policies both solve `5000/5000` trials with `minRemoved=48` and no deadlocks; anti-follow-random has worst dep-run `7`.
+- Evidence: generation and ranking were separately closed before this: SSWD is stable, anti-spine scoring works, t183o wave13 pool300 top10/top20 are all root-domain cross-region `singleBoardGate=Pass`, and t183p parent-run-break re-rank adds valid discontinuity score but does not alter saturated top-k.
+- Implementation implication: do not continue tuning UDG/wave13/scorer merely to reduce official `dependencyFollowRunMax`. Future product validation must separate structural difficulty evidence from solver policy diagnostics. Use dep-run for solver comparison, traversal behavior debugging, and player-model calibration, not as a standalone difficulty grade.
+
+# Generated-Root WBP Decision: Residual t183 Failure Is Temporal Parent-Cascade, Not Full Graph Spine Dominance - 2026-07-03
+
+- Decision: continue the A route, but refine it as a root parent-run-break scorer before adding heavyweight graph-level reservation. The next fix should target temporal dependency-follow collapse, not rebuild SSWD/UDG or split a second tail generator.
+- Evidence: t183n/t183o root-parent audit shows `41` total parent edges, `24` root-root edges, and the longest root-root path `31->22->21->20->19->18->17->16->15->14->13->12` has `11` edges. This is only `45.8%` of root-root edges and `26.8%` of all parent edges, below the `>60%` single-chain dominance threshold.
+- Evidence: the official max dependency-follow runs are still long: t183l/t183n run through `22->21->20->19->18->17->16->15->14->13->12`, while t183o shifts to `16->15->14->13->12->43->7->6->5->4`. This means anti-spine scoring reduced spatial/local collapse, but the trace still follows a temporally adjacent parent cascade.
+- Evidence: graph-only traversal shuffle keeps the same parent DAG but changes tail order. For t183o, preserving the first `13/20/25` steps and random topological tail order reduces run from official `10` to median `6/6/5`; anti-follow greedy order reaches `4/4/5`. This supports "traversal policy too linear" over "graph structure too narrow".
+- Implementation implication: add default-off tail scoring features for root parent-step memory, parent-step proximity penalty, monotonic/adjacent cascade penalty, and discontinuity reward. Use explicit parent-edge graph analysis for audit/calibration where available, but do not promote graph-level hard constraints until scorer-level run-break fails.
+- Historical implementation status: the default-off scorer now exists as `--tail-parent-run-break-*` on the UDG multi-wave scheduler. It is intentionally a scoring/audit layer over existing options, preserving SSWD and UDG architecture. The earlier t183p pool300 decision point has since been superseded by the final fixed-board solve-policy calibration below; keep this scorer as an audit/reinforcement signal, not as the main route for reducing official dep-run.
+- Final calibration: t183o wave13 ranking is already saturated with valid break candidates, and t183p re-rank does not change top-k. Fixed-board solve-policy perturbation then reproduces the residual layer: `max_cleared` solves with `dependencyFollowRunMax=10`, while `anti_follow` solves the same board with run `4`. Larger stability check keeps the same board and changes only step selection: random available-chain policy solves `5000/5000` trials, and `anti_follow_random` solves `5000/5000` with worst dep-run `7` and no deadlock. Therefore the remaining high dep-run is an official/greedy solve-order traversal artifact, not a generator/scorer failure.
+- Updated implication: do not continue tuning wave13 scorer as the main path. Treat t183 parent-run-break as useful audit/reinforcement, but shift the next validation work to solver/trace policy calibration or product verifier interpretation: compare official max-cleared trace against anti-follow/random feasible traces on the same board before using `dependencyFollowRunMax` as a hard product blocker.
+
+# Competitor-Hard Decision: Future Slots Must Be Planned Before Interval Fill - 2026-07-03
+
+- Decision: accept the user's diagnosis that V10/V12 coverage stalls are caused by early interval/BCL fill consuming future outlets. The next competitor-hard route must plan future empty/body/ray capacity before interval fill, not append chains to an already packed V10 board.
+- Evidence: V10 interval waves drop from large option pools to very small pools by coverage `0.70`; V12 hard-preserve suffix then stalls around `0.754-0.776` and reports cycle/head exhaustion. V13 front-loads acyclic future-slot reservation and can materialize `12-13` planned slots as a solved batch before suffix fill.
+- Current V13 result is route evidence, not product success. It reaches coverage `0.785` best, `3/3` official solved, and preserves connector contract, but trace is only `1 MediumStructure / 2 LocalEasy`; the best coverage row is still `LocalEasy`.
+- Negative evidence: naive reserved-room expansion creates easy/high-choice tail noise and reduces interval capacity. BCL-derived slot fallback may find more options but is too slow as a default path. Do not promote either as the final route without phase-aware structural support/frontier-break contracts.
+- Implementation implication: future work should promote "planned room/outlet" to a first-class structural duty with acyclic preflight, release-owner/region diversity, and phase-aware materialization. The suffix filler can finish a plan, but it cannot create the plan after earlier chains have blocked the board.
+
+# Generated-Root WBP Decision: Boundary-Owned Roots Are Necessary, But Need Structural Support Duties Afterward - 2026-07-03
+
+- Decision: keep the t182 `19x26 boundary-owned root` route alive. It is the correct fix for dirty `(5,0;5,1)` becoming an open-only sink, because the target cells are now root-owned before seedState and coverage planning.
+- Evidence: t182a/t182b generated 3 frame-compatible roots that own `(5,0;5,1)` same-chain; t182c shows accepted non-open release and dependency link with tailGreedyUnsolvedRate `0`; t182d/t182e then connect the best root to solved seedState groups.
+- Decision: do not count t182 micro-wave coverage as product success. t182i reaches coverage `0.8036437` and official solved `B`, but hardStructureV3 is `LocalEasy`, dependencyFollowRunMax is `12`, localPatchRun is `7`, and Product hard-core/tail gates fail.
+- Evidence: t182j/t182k/t182m quota probes separate the failure modes. Soft diversity can produce Hard-Core+Tail pass at lower coverage (`0.7672065`); moderate quotas can recover a stronger hard-core window but tail fails; late quotas can restore Tail Hygiene/spine control but hard-core frontier-break support disappears.
+- Implementation implication: the next scheduler control must be a pre-materialization structural-support/frontier-break duty, not more late tail search and not pure micro-wave coverage scaling. Coverage waves need phase-aware release-owner/basin quotas, but quotas are brakes; they do not create the missing support/frontier-break structure by themselves.
+
+# Generated-Root WBP Decision: Dirty Top Edge Must Be Owned At 19x26 Root Generation Time - 2026-07-03
+
+- Decision: for the active 19x26 c027/c038/c043 route, dirty `(5,0;5,1)` must be handled by root-level boundary ownership/regeneration, not by seedState injection after the existing root is fixed.
+- Evidence: t181 narrow and broad seedState injections on c027 root-only make the reservation actionable and enumerate required-cell owner paths, but strict solved-prefix output remains `0`; all required-cell options are `option_single_greedy_unsolved`.
+- Evidence: t181 root-pool scan shows the only roots that naturally own `(5,0;5,1)` are `23x30` root10-style roots. All scanned `19x26` roots, including c027/c038/c043 and other root154 families, leave the cluster empty.
+- Evidence: root10_c036 proves the topology itself is viable: top_x5 is a same-chain root-owned segment with accepted non-open owner release, dependency link, and Greedy-solved root behavior; the audit only rejects it for missing planner basin/region contract. A micro seedState smoke also starts on root10, but it is frame-mismatched and cannot be counted as current product evidence.
+- Implementation implication: next work should add a `19x26 boundary ownership` gate/operator to root generation or root selection. The target is a generated 19x26 root that already owns at-risk top-edge clusters with dependency-compatible release, then assigns basin/region contracts before seedState and coverage waves.
+
+# Generated-Root WBP Decision: Boundary Fill Needs Root/SeedState Ownership, Not Post-Seed Tail Repair - 2026-07-03
+
+- Decision: accept t180 as a stronger boundary than t179. For dirty boundary cells such as `(5,0;5,1)`, do not continue late bundle search, short support injection, or longer anchored corridor repair after the seed-only topology is fixed.
+- Evidence: t180b/t180c scan c027/c038/c043 seed-only states across near-corner and full-boundary two-cell clusters. All empty target boundary clusters have `0` accepted non-open candidates; full-boundary empty rows are all `RejectNoDependencyCompatibleEntry`.
+- Evidence: accepted non-open boundary entries are almost entirely already occupied: `129/132` are root-chain-owned and `3/132` are seedState/later-owned. This means the current grammar can explain edge clusters that the root/seedState already owns, but cannot turn empty boundary edge cells into dependency-compatible fill later.
+- Evidence: t180d targeted anchored-path probing for `(5,0;5,1)` enumerates `184` paths up to length `12`; owner-release paths exist but every one is Greedy-unsolved, so the failure is not just a missing longer local corridor.
+- Implementation implication: the next valid route is a pre-materialization boundary ownership/reservation pass. At-risk edge clusters must receive basin membership plus a root/seedState owner and dependency edge/region contract before coverage waves. If the current root family cannot do that, switch root/canvas/topology generation instead of widening post-seed repair.
+
+# Generated-Root WBP Decision: Dirty Corner Needs A Non-Open CornerDuty Contract - 2026-07-03
+
+- Decision: accept the GPT/user review direction. Stop late bundle/tail search for c027 dirty corner `(5,0;5,1)` and treat it as an early duty-graph failure: the cluster has basin membership and potential release owners, but no dependency-compatible accepted entry.
+- Evidence: t179 early-open-prefix reproduction proves moving `(5,0;5,1)` earlier is not sufficient. After forcing the open prefix, early-duty can be partially/reproduced only with wider scan, but BCL collapses: 2/3/4-chain bundles are `0`; the only boundary continuation is a single owner0 chain to coverage `0.6842105`.
+- Evidence: `t179j_corner_duty_abc_audit` gives A/B/C evidence. A c027 seed-only and C c038 seed-only both have basin `r0c0` and `6` non-open candidates, but accepted non-open is `0` and non-open greedy-unsolved rate is `1.0`. B0 early open-prefix is explicitly `RejectOpenSink`.
+- Implementation implication: B-group experiments must inject a real non-open `CornerDuty` / `corner_release_contract` with accepted dependency edge or region contract before BCL. Do not count open-prefix injection as success. If non-open CornerDuty bundle still fails, pivot to root/canvas/topology reservation rather than returning to late tail repair.
+- Follow-up evidence: t179k-t179s added a required-duty acceptance gate and tested injected non-open corner duty with nearby support duties. Normal activation still bypasses the corner; required-corner solved bundles are `0`. Therefore current c027 grammar cannot repair the corner by small support injection. The next valid route is stronger root/canvas/topology reservation, not wider late search.
+
+# Generated-Root WBP Decision: Dirty-Open Prefix Is Hygiene-Safe But Not Capacity-Solving - 2026-07-03
+
+- Decision: do not continue trying to solve c027's `(5,0;5,1)` by late repair, non-open single-chain insertion, dirty+one-support bundle, or simply moving the same open chain earlier within the existing closure grammar.
+- Evidence: t177 audits the same cluster across c027 lineage stages. Seed-only variants `t155e c001-c004` expose only open candidates and `0` accepted non-open. After early duty/BCL (`t156c/t156o/t156s/t157e`) owner-release-looking candidates appear, but accepted non-open remains `0`, and dirty+support bundle probes remain `0`.
+- Evidence: t178 proves an early open-prefix version is not structurally toxic by itself. Forcing `(5,0;5,1)` on `t157e` then continuing closure produces `t178d` at coverage `0.9251012`, official solved `B/Drop`, Hard-Core pass (`0.918`) and Tail pass (`1`).
+- Negative evidence: t178g wide continuation from `t178d` adds `0` chains. The early-open prefix preserves hygiene but does not unlock new tail-safe capacity beyond the existing `0.925` band.
+- Implementation implication: the next useful operator is not another tail closure probe. It needs to create a real `corner_release_contract` or choose a root/canvas/structure family where this corner cluster has a dependency-compatible non-open basin before BCL/closure materialization. If using c027, the reservation must happen at root/seedState/topology level, not after the current seedState/BCL pipeline.
+
+# Generated-Root WBP Decision: Dirty Tail Cells Need Earlier Reservation, Not Late Bundle Repair - 2026-07-03
+
+- Decision: for c027-style high-capacity rows, the remaining dirty tail cells should be handled by early duty reservation/rewrite or by regenerating the root/structure state, not by repeatedly appending late open chains or small late support bundles.
+- Evidence: t174 shows direct open placement of `(5,0;5,1)` can keep the board officially solved but fails Tail Hygiene through `global_dependency_follow_run=12`; forcing it earlier inside the late-tail sequence does not fix the spine risk.
+- Evidence: t175a finds owner-release variants for `(5,0;5,1)` through owners `79` and `9`, but all non-open variants are Greedy-unsolved as single additions from the clean `t174l` context. The only Greedy-solved option is the already-known dirty open chain.
+- Evidence: t175b/t175c test dirty owner-release plus one disjoint support chain from both clean `t174l` and earlier `t174b`; both produce `0` accepted candidates, with all sampled bundles rejected as `greedy_unsolved`.
+- Evidence: t176d/t176e move the same test back to the earlier `t173j` base at coverage `0.9068826`. The cluster still has `0` accepted non-open single-chain forms, and dirty owner-release plus one support chain produces `0` accepted candidates (`greedy_unsolved:102`).
+- Implementation implication: this is a forward-planning failure, not a local rerank failure. The next product attempt should reserve or rewrite this tail cluster before the board reaches the near-full tail state, and the scheduler should expose dirty-tail cells as pre-materialization duties with anti-spine / release-owner diversity constraints.
+
+# Generated-Root WBP Decision: Use Micro-Wave Re-Enumeration For Low-Coverage Causal Roots - 2026-07-03
+
+- Decision: for low-coverage high-causal roots like c038, the unified scheduler should use many small preplanned micro-waves with re-enumeration and tail-solved lookahead, not large 8/12-chain coverage waves.
+- Evidence: c038 large-wave runs `t171d/t171e` fail at wave1 with rawOptions `60` but bundleCount `0`, while single/micro-wave runs climb through `0.716`, `0.755`, `0.781`, `0.799`, and current best `0.8299595`.
+- Evidence: `t171v` reaches coverage `0.8299595`, official `A/A`, Hard-Core Window pass, Tail Hygiene pass, and late lookahead still positive. By contrast, the t142h/cross-basin high-coverage route `t171c` has zero tail-safe options near coverage `0.864`.
+- Decision: hard local-touch caps are not valid anti-local controls by themselves. Global and late `max-local-touch=2` variants starve capacity, so anti-local must be soft or expressed through release-owner diversity, head-region diversity, support/dual-gate reservation, and tail-safe lookahead.
+- Implementation implication: make micro-wave scheduling an explicit UDG mode and keep it inside the single duty scheduler. Do not turn it into a second-stage filler or a separate post-hoc repair pass.
+
+# Generated-Root WBP Decision: Soft History Diversity Is A Brake, Not A Capacity Engine - 2026-07-03
+
+- Decision: cross-wave history diversity should remain a default-off soft scoring layer used to reduce spine/local risk, not the primary route to `0.95`.
+- Evidence: `t171ac_c038_crossbasin_micro12_historysoft` keeps official `A/A` and Hard-Core/Tail pass, and raises hardStructureV3 versus old 12-wave rows, but coverage drops from old `~0.755` to `~0.743`.
+- Evidence: `t171af_c038_crossbasin_micro16_historysoft` keeps official `A/A` and Hard-Core/Tail pass at coverage `0.7773279`, but still trails old `t171m` coverage `0.7813765` and does not beat the best old hardStructureV3. Its positive is lower dependencyFollowRun in one row (`4`), not new capacity.
+- Implementation implication: use soft diversity as a tie-breaker/risk guard near the tail, while the next capacity step must come from reservation/dual-gate/future tail-safe planning or a better root/structure family matrix. Do not keep increasing diversity penalties as a coverage search strategy.
+
+# Generated-Root WBP Decision: Structure Templates Must Preserve Option Diversity - 2026-07-03
+
+- Decision: use `hub/spiral/patchwork/cross-basin` as pre-materialization structure-template/reservation controls, but do not implement them as large scalar rewards that reorder the whole option pool. Strong template scoring can crowd the top pool with overlapping or Greedy-incompatible local options and produce false `0 candidate` results.
+- Evidence: early `t170e/t170f/t170g` patchwork runs produced `0` rows, but calibrated reproduction showed the issue was not patchwork impossibility. With `coverage-option-early-stop` restored and gentle template reward, `t170n_patchwork_gentle_cov12_4_4_1` reaches the known `0.8684211` capacity node with official `4/4 A/A`; `t170o_crossbasin_gentle_cov12_4_4_1` does the same.
+- Evidence: product verifier at formal `minCoverage=0.95` reports `Overall Fail` only for coverage; hard-core/tail remain viable. Cross-basin gives `4/4 Hard-Core Pass + Tail Pass`; patchwork gives `3/4 Hard-Core Pass + 4/4 Tail Pass` and includes one more topology-shifted row with prior-wave release count `2`.
+- Evidence: `t170t_structure_template_invariance_audit.csv` classifies `t142h -> t170n`, `t142h -> t170o`, `t145e -> t170n`, and `t145e -> t170o` all as `TailPreservesHardCore`. Gentle structure templates do not pollute hard-core, but they also do not break the `0.868` capacity ceiling.
+- Evidence: future-lattice and wave-shape probes (`t170v/t170w/t170x/t170y`) do not break the `0.868` ceiling. The t170z reject audit shows the final sampled tail options fail because they make the board `greedy_unsolved` (`160/160` sampled options), not because they exceed max choices. This means late tail cells are solver-poisoned, not just scarce or too easy.
+- Implementation implication: the next scheduler change should be reservation/bucket-aware template planning: keep template-aligned candidates in competition with non-template capacity candidates, enforce per-region/per-owner diversity, and reserve future tail-safe cells. It also needs early tail-closure owner / solvability-preserving reservation. Do not raise template/future-lattice reward or split into many one-chain tail waves as the main mechanism.
+
+# Generated-Root WBP Decision: Search Hard-Core Invariance Under Tail Fill - 2026-07-03
+
+- Decision: the next product route is `hard-core invariance search`, not more single-root coverage search. A `0.95+` row is acceptable with an easier tail only if the front/mid hard-core window remains visible after tail extension and tail hygiene passes.
+- Decision: tail fill must be audited as a before/after structural intervention. Compare hard-core-window dependency entropy, region entropy, branch diversity, support/contract evidence, and spine risk before vs after the tail; classify the route as tail-preserving, tail-eroding, tail-spine-risk, root-core-insufficient, or needing step diagnostics.
+- Decision: do not count parameter-only UDG profiles as proof of a structure family. The smoke matrix labels `hub`, `spiral`, `patchwork`, and `cross-basin` must correspond to pre-materialization structure-template/reservation inputs, not just scoring weights after the same option pool is formed.
+- Evidence: t169 shows high coverage solved rows can wash out hard-core (`competitor_v7_coverage095`), while generated-root c043/c038 rows preserve hard-core below product coverage. The missing proof is not "can add cells", but "can add cells without erasing the hard-core window".
+- Evidence: t170 re-traced t145e with official step diagnostics and classifies `t142h -> t145e` as `TailPreservesHardCore` despite official `LocalEasy`: coverage rises `0.751 -> 0.868`, hard-core score drops within tolerance (`0.921 -> 0.831`), dependency entropy and branch diversity rise, and tail hygiene passes. This makes t145e/root154 a valid tail-safe capacity node, not a final product.
+- Evidence: t170d preflight shows the current UDG can only approximate `patchwork`/`cross-basin` and blocks `hub`/`spiral` as real structures. Running the 32 rows immediately would overstate capability; the correct next step is a structure-template/reservation layer in the same scheduler.
+- Implementation implication: every root/structure smoke must emit the same three product gates (`Overall`, `Hard-Core Window`, `Tail Hygiene`) and an invariance delta before visual review. The search matrix should vary root, structure family, canvas, and duty plan instead of drilling one current root family.
+
+# Generated-Root WBP Decision: Use Product Family Matrix Before Single-Root Optimization - 2026-07-02
+
+- Decision: after the High-Coverage Hard-Core Product goal pivot, root/family selection must be matrix-driven. Do not continue optimizing one current root unless it is justified by the family matrix against other root/body styles.
+- Evidence: t169 product family matrix over 17 families / 31 trace rows produced `0` ProductPass. The only `0.95` solved row (`competitor_v7_coverage095`) is `HighCoverageCoreWashedOut`, while current generated-root WBP rows preserve root/preplan and hard-core/tail only up to about `0.82`.
+- Evidence: c027/t158 and seed-maze references reach higher solved coverage (`~0.90-0.917`) with hard-core/tail signals, but they lack generated-root identity and pre-materialization evidence. This means the likely breakthrough is not more c043 coverage drilling, but finding or creating a generated-root family with c027/maze-like capacity while preserving root/preplan.
+- Implementation implication: every new candidate route should be added to `Build-GeneratedRootWBPV12ProductFamilyMatrixV1.py` spec/output before visual review. A route can be advanced only if it improves at least one product dimension without washing out hard-core: solved coverage, root/preplan evidence, hard-core window, tail hygiene, or spine/local risk.
+
+# Generated-Root WBP Decision: Product Gate Is Hard-Core Window Plus Tail Hygiene, Not All-Trace A - 2026-07-02
+
+- Decision: Generated-Root WBP final product acceptance should target `High-Coverage Hard-Core Product Level`: coverage `>=0.95`, official solved, generated root preserved, pre-materialization duty evidence preserved, and a real hard-core window retained in the first `60-75%` of solve trace. Overall process may be `B` if the hard-core survives and the tail is hygienic.
+- Decision: split product validation into three gates: `Overall` (coverage/solved/root/preplan), `Hard-Core Window` (low-choice `1-2/2-3`, region/direction/remote switching, after-local frontier break, and at least one choke/support/cross-basin/dual-gate/parent-edge contract), and `Tail Hygiene` (no long outer same-side sweep, no single dependency spine, no material worsening of dependencyFollow/localPatch, no loss of root/support identity).
+- Evidence: t167 calibration shows c043 `t165d` can be global `B/B` while still retaining a hard-core window and passing tail hygiene; under the new goal it is not a categorical failure, only coverage-incomplete. In contrast, c043 `t165m` has a hard-core window but fails tail hygiene through `dependencyFollowRunMax=11`, matching the t166 spine-risk diagnosis.
+- Evidence: c027 `t158m` is the closest current prototype for the new product shape: official `B/B`, coverage `0.9068826`, hard-core window at trace steps `31-50` (`~37%-60%`), and tail hygiene pass. It still fails the product gate because coverage is below `0.95` and its manifest lacks root/pre-materialization evidence.
+- Implementation implication: do not keep optimizing for all-trace `A`; optimize for `0.95+` solved rows that preserve a front/mid hard-core window and pass tail hygiene. Any tail-fill route must carry root identity and pre-materialization duty fields through its final manifest.
+
+# Competitor Hard Decision: V7-Style Fill On V10 Is Visual-Only, Not A Valid Closure Route - 2026-07-02
+
+- Decision: do not use V7-style tail/patch fill on top of V10 as a production or hard-level route. Keep V11 as a visual diagnostic only.
+- Evidence: strict V7 `multi_tail_close` adds `0` cells to V10 because the first full tail wave makes the board unsolved and is rolled back. Relaxed/forced tail growth can make the board visually dense, but official trace marks both V11 rows `solved=False`, `Drop/Drop`, `WeakCausality`.
+- Evidence: forced visual V11 reaches `0.950-0.951` coverage, but hardStructureV3Score collapses to `0.027`, frontierDrainRemoteChokeCount becomes `0`, and supportClosureBestDepth becomes `0`.
+- Implementation implication: V7's success depended on starting from an already high-coverage V3 exterior; it is not a general solver-preserving closure operator for V10. The next real route still needs pre-interval region/body-basin planning, not late visual tail/patch closure.
+
+# Generated-Root WBP Decision: Player-Stall Must Split Structural Stall From Spine Stall - 2026-07-02
+
+- Decision: do not treat dependency spine dominance as the sole difficulty signal. Generated-Root WBP validation must separate `structural stall` from `spine stall`.
+- Evidence: t166 dependency spine audit on t165 rows shows simple top-1 path share does not explain process drop. A rows (`t165a` c043 and `t165j` c038) already have high top-1 path share around `0.48-0.52` and dominant component share around `0.94`, yet remain process `A/A` because support closure is still structurally effective.
+- Evidence: c043 `t165d` reaches coverage `0.8198381` but drops to `B/B`; its top-1 path share is lower (`0.246`), so the failure is not more spine dominance. The actual signal is support erosion: hardV3 falls to `0.139`, structuredHardness to `0.573`, and localPatchRun rises to `5`.
+- Evidence: c043 `t165m` anti-follow negative proves the separate spine risk path: top-1 path share `0.485`, dependencyFollowRun `11`, localPatchRun `5`, and the new verifier labels it `StructuralSupportEroded + SpineRiskWeakStructure`.
+- Implementation decision: `DifficultyVerify` now emits `structuralStallClass/Score` and `spineStallClass/Risk`, with optional join from `DependencySpineAuditV1`. `PlayerStallAuditV1` now has the same split via `--spine-audit-csv`; default player-stall pass requires spine risk `<=0.55`, so `SpineRiskBalanced` dependency-follow rows become Review even if their low-choice window is strong.
+- Validation implication: a good player stall must pass both sides: structural support (`StructuralSupportClosure` or better, or an explicit structural partial with strong remote/choke evidence) and controlled spine. Do not use top-1 path share alone as a reject rule because good A rows can have high top-path share; use it as part of the spine risk score together with dependency-follow/local/sweep continuity.
+- Scheduler implication: anti-spine alone is not a valid next route. The scheduler must preserve support closure / reserve dual-gate control slots while also limiting long low-choice dependency-follow runs and over-reuse of recent release owners/regions. Coverage climb should resume only through these front-end constraints, not by more late basin stages.
+
+# Competitor Hard Decision: T145 Early Connector Planning Beats Post-Fill, But Needs Region Materialization - 2026-07-02
+
+- Decision: keep the t145-style early control-surface route for competitor-hard generation, but do not treat V10 as a final high-density solution. It should supersede post-V8 WBP fill as a structural diagnostic because it restores `MediumStructure`, but coverage still stalls near V8 scale.
+- Evidence: V10 starts from the solved V4 SkeletonPSG connector and plans BCL/t145 owner-hit structure before interval density. Official trace solves both rows as `MediumStructure`; best row `ccsf_v10_001_ccsf_v4_001_9142301_p1_bcl8_interval` is `A/A`, difficultyScoreV2 `0.697`, hardStructureV3Score `0.202`, openers `3`, avg/max choices `2.72/6`.
+- Evidence: the static wave audit shows the early BCL layer only moves coverage from `0.468` to `0.519`; interval waves climb to about `0.700` and then stop at `small_interval_wave`. This proves the t145 control surface improves structure, but owner-hit BCL plus interval fill does not create enough body capacity for the user's `~0.95` target.
+- Boundary: do not continue by widening post-fill close bundles, copying competitor screenshots, or validating one chain/few chains at a time. Those paths either reproduce LocalEasy filler or lack a planned board-level grammar.
+- Implementation implication: next competitor-hard generator should introduce a pre-interval body-basin / room-slot / support-control materializer. The generator must allocate multi-cell region duties and support owners from the V4 connector or semantic core before interval density, then validate the completed board and contracts.
+
+# Generated-Root WBP Decision: Do Not Scale Static Full-Slot Beam For Low Prefixes - 2026-07-02
+
+- Decision: do not treat `Build-GeneratedRootWBPV12FullClosureSlotPlannerV0.py` as the next production route for low-coverage prefixes by simply widening pool/beam/search. It remains a diagnostic tool.
+- Evidence: f018 lower-prefix probes show static full-slot V0 can do small late exact steps (`t156o -> 0.834`) but fails from `t156k/t156m/t156o` to `0.84/0.86`, from `t156c` to historical `0.720`, and from `t156s_c005` to `0.86` even with maxLen6 smoke.
+- Evidence: historical `t156e` proves `t156c -> 0.7206478` is possible by staged BCL. The winning cells are visible in V0's maxLen6 option audit but rank deep, and the solved combination is lost by high-score beam/final-plan selection.
+- Implementation implication: the next Generated-Root WBP coverage climb should be staged re-enumeration: commit a small solved bundle, re-enumerate first-hit slots, preserve future owner/space reservations, and only then continue. Static one-shot full-slot planning from low coverage has too many false-positive complete plans.
+
+# Generated-Root WBP Decision: Closure-First Solved Staged Basins Are The Current Root-General Route - 2026-07-02
+
+- Decision: upgrade the Generated-Root WBP route from "reserve basins before closure" to "materialize required closure/hard-body duties first, then add coverage basins in solved stages under preplanned release policy." This still counts as duty-first planning because each basin stage is selected as a planned batch before chain cutting and must pass whole-board Greedy before the next stage.
+- Evidence: t164 closure-visibility audit shows every tested pre-closure basin reservation plan preserves `cmp7/cmp11` but kills `cmp2` visibility. Even a single protected reservation from the current owner-hit basin grammar makes `planned_danger_outer_body cmp2` invisible, so generic basin reservation cannot precede `cmp2`.
+- Evidence: after the c043/c038 closure3 bases (`t160t/t160u`), requiring `--require-plan-greedy-solved` unlocks two-basin solved plans that previous ranking missed. The old failure was not pure capacity absence; high-scoring geometric options were unsolved and polluted the beam.
+- Decision: treat unsolved prefixes as invalid for staged basin growth. Do not keep them as candidate state just because first-hit contracts look stable or coverage improves.
+- Decision: cap coverage-basin self-release. A small amount of new-owner release can be useful, but consecutive newly added basin owners create dependency-follow/local-run collapse. Current accepted policy is `--max-new-release-owner-uses 1 --avoid-consecutive-new-release-owner --max-release-owner-reuse 2`.
+- Evidence: ungated c043 staged basin reaches `0.7955466` but official trace drops to `B/B`; policy-gated c043 reaches `0.7550607` with official `A/A` and DifficultyVerify `HardPotential 0.795`. The same policy generalizes to c038 at `0.7530364`, official `A/A`, DifficultyVerify `HardPotential 0.797`.
+- Boundary: the current route is a root-general breakthrough around `0.75` coverage, not the final `0.95+` endpoint. Remaining blockers are `no_strict_dual_gate` and `dependency_follow_run_risk`, so next work should add strict dual-gate / anti-follow duties before further coverage climb.
+
+# Generated-Root WBP Decision: Root-General Generator Requires Region-Duty Rewrite Before More Coverage Basins - 2026-07-02
+
+- Decision: keep the root-general generator goal split into root capacity, region/cell duty graph, semantic materialization, TraceGate, DifficultyVerify/PlayerStall, and coverage climb. Coverage climb is not allowed to become a post-hoc filler route; it must be committed as duty/reservation before chain cutting.
+- Implementation decision: keep coverage-basin future-capacity lookahead inside `Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py` as an opt-in audit/scoring tool. Defaults remain off so earlier t160/t161 behavior is preserved.
+- Evidence: t162 geometry lookahead can see future basin geometry after candidate placement (`futureCoverageOptions` up to `19`, future owners up to `7`), but no two-basin solved bundle appears from the current c043 prefix.
+- Evidence: continuing from the accepted t161f prefix still produces `0` solved ActivationBeam bundles for the second basin even when owner0 is allowed; the only known continuation is BCL exact1 at deep ranks `75/111`, release owner `0`, coverage `0.6842105`.
+- Boundary: this proves the second-basin issue is not simply lack of geometric empty space or lack of option ranking. The current root/region state has already consumed clean release capacity; chasing deeper owner0 afterfill would re-enter the old LocalEasy/filler route.
+- Implementation implication: the next generator change should reserve/rewrite second-basin space before the first basin and early closure duties are materialized, probably by promoting coverage basins to region-level duty units in the root/region planner. Do not treat t162 outputs as review levels or continue widening the current beam as the main path.
+
+# Generated-Root WBP Decision: Coverage-Basin Supply Must Be Planned In Activation, Not BCL Afterfill - 2026-07-02
+
+- Decision: keep coverage-basin selection inside ActivationBeam V2 as the correct next control surface. Do not revert to post-prefix BCL as the primary coverage mechanism.
+- Evidence: t161f/t161g automatically add one non-owner0 coverage-basin chain (release owner `35`) together with the early semantic duty bundle, reaching coverage `0.6740891` on both c043 and c038. This proves coverage supply can be committed before materialization and is not inherently owner0-only.
+- Evidence: post-t161 BCL exact1 still only uses owner `0`, and exact2 remains `0`. Therefore BCL can be used as a diagnostic continuation, but it should not define the generator route.
+- Boundary: adding two coverage-basin chains still fails even with owner0 allowed, shorter basin chains, or unsolved-prefix search. The second basin requires earlier region/space rewrite, not more beam width.
+- Implementation implication: next work should turn coverage-basin from "append one owner-hit supply chain" into region-level basin reservation/rewiring before early closure selection, so the second coverage basin has clean release capacity before the first basin consumes the local geometry.
+
+# Competitor Hard Decision: Post-V8 WBP Fill Is Too Late For 0.95 Hard Density - 2026-07-02
+
+- Decision: do not continue the route of applying WBP/T111 protected fill after V8's dense interval-duty body. Keep V9 as a diagnostic negative, not as a review/acceptance pack.
+- Evidence: V9 starts from the best V8 row at coverage `0.711` and reaches only `0.765` with `4` accepted bundles / `8` chains. The V4/V8 connector contract is preserved (`3/3` first-hit and `3/3` corridor-clear), but all accepted bundles are `open_close`; anchored and mixed phases mostly fail as `greedy_unsolved`.
+- Evidence: official trace solves the row as `B/B`, but still classifies it `LocalEasy` with hardStructureV3Score `0.126`. The good signals (`frontierDrainRemoteChokeCount=11`, choice-choke-after-local-frontier-break `4`, support depth `4`) do not overcome local/dependency-follow collapse.
+- Interpretation: T111's `0.953` coverage path worked because protected fill began from a semantic root while future capacity was still available. V8 already spends the corridor/body space, so adding WBP afterward can only add open-close closure, not the anchored/mixed coverage basin needed for dense hard structure.
+- Implementation implication: next competitor-hard generator should start from the V4 SkeletonPSG connector or semantic core and plan WBP-style coverage basins, support closure, and anti-local slots before interval-duty density is materialized. Do not try to rescue V8 by widening post-fill search, and do not return to one-chain/few-chain validation.
+
+# Generated-Root WBP Decision: Activation-Aware V2 Is Valid, But Coverage Basin Must Move Forward - 2026-07-02
+
+- Decision: keep ActivationBeam V2 as the next early-closure materializer control surface, but do not use ordinary BCL continuation as the next coverage route after the V2 prefix.
+- Evidence: t160 owner-diverse solved-prefix auto-shortlist reproduces the V1 2-chain result and improves same-family c038/c043 to a 3-chain semantic prefix. Both `t160t` and `t160u` reach coverage `0.6639676` with release owners `19/22/20` and include a `future_release_guard_cluster`, so this is not just path-chunk filler.
+- Evidence: the same c038/c043 V2 prefixes still have no BCL exact2 capacity; BCL exact1 succeeds only through release owner `0` and reaches `0.6740891`. This means the current prefix still leaves only one narrow coverage outlet.
+- Boundary: widening static bundle search, broad unsolved-prefix beam, or one-chain BCL continuation is the wrong next step. They either time out, produce no solved bundle, or reproduce the old one-outlet behavior.
+- Implementation implication: the next generator step must plan coverage-basin / future-release supply inside the activation scheduler before chain materialization. Coverage must be a first-class duty alongside early closure, not a post-prefix BCL layer.
+
+# Generated-Root WBP Decision: Root-Generalization Requires A Stronger Materializer Than V1 - 2026-07-02
+
+- Decision: keep the root-general WBP route, but treat current early-closure V1 as a diagnostic/materializer baseline rather than the final generator core.
+- Evidence: t159a matrix proves the direct same-pipeline batch is not c027-only at the root/seed/projection layers. `root154_core_sched0589_v1_r3_c027/c038/c043` are all stage1 roots; c038/c043 seed-only rows solve at `0.6397-0.6417`, and their early-space debt/duty projection is nearly identical to c027.
+- Evidence: V1 materialization does not fully generalize. c038/c043 only reach 1 closure chain before patch, and 2 closure chains with `--candidate-scan-options 24`, while c027 t156c reaches 4 closure chains and `0.6801619`.
+- Implementation implication: the next useful work is a bundle-aware / activation-aware early closure V2 that can select mutually supporting guard/corridor duties and alternate release owners. Do not continue tuning c027-specific duty order or call same-family seed/projection success a complete root-general generator.
+
+# Competitor Hard Decision: V8 Restores Structure But Exposes A Whole-Batch Capacity Ceiling - 2026-07-02
+
+- Decision: use `CompetitorCoreSkeletonPSGBatchV8Pack` as the current correct-route structural review pack. It supersedes V7 for hard-structure review, while V7 remains only a high-coverage visual boundary.
+- Evidence: V8 uses V4 skeleton + SkeletonPSG corridor contracts and whole interval-duty waves. The generated rows preserve connector contracts (`3/3 firstHit`, `3/3 corridorClear`) and official trace solves `4/4`, with `3 MediumStructure + 1 LocalEasy`; the mounted pack keeps only the three MediumStructure rows.
+- Evidence: mounted V8 rows have official `A/A` or `B/B`, max choices `6-8`, frontierDrainRemoteChokeCount up to `11`, and solveTraceQuality around `0.806-0.864`, avoiding the V7 pattern of `frontierDrainRemoteChokeCount=0` and tight `Drop`.
+- Boundary: V8 coverage is only `0.694-0.711`. The whole-batch planner stops at `small_wave_capacity`, so this is not the final competitor-density result.
+- Implementation implication: the next improvement should increase pre-materialized corridor/topology capacity and bring more V4 sources into solved connector state before fill. Do not raise coverage by reintroducing V3 rank-field background, tail closure, direct SeededSGP, or any one-chain/few-chain validate loop.
+
+# Competitor Hard Decision: Reuse SkeletonPSG Corridor-Duty Logic For The Next V4-Based Route - 2026-07-02
+
+- Decision: the next competitor-hard attempt should reuse the existing SkeletonPSG corridor/duty pipeline from `.worktrees/sgp-rhythm-lab` rather than continue V3/V7 rank-field density or tail-closure fill.
+- Evidence: `Build-SkeletonPSGFeasibilityV1.py` runs directly on the current V4 formal skeleton report and marks all three V4 rows as `PSGConnectableNeedsCorridorWavePlanner`. Strong connector capacity exists (`108-110` strong slots per row), but `immediateStrong=0`, so the pressure graph depends on preserving line-of-sight corridors.
+- Evidence: `Build-SkeletonPSGCorridorWavePlanV1.py` can select real critical corridor units from V4 under strict no-overlap, and `Build-SkeletonPSGCorridorConnectorCutterV1.py` materializes them as actual chains with static `firstHit`/`corridorClear` contracts passing.
+- Boundary: this is not a finished high-coverage pack. The strict V4 corridor plan currently selects only `3-5` units per row, so reaching `0.95` still requires scheduled DAG/topology fill that preserves those corridor contracts and avoids filler opener explosion/dynamic ray pollution.
+- Implementation implication: treat selected corridor units as hard semantic contracts, then use/adapt `Build-SkeletonPSGScheduledDAGFillV1.py`, `Build-SkeletonPSGSolverTopologyV1.py`, and `Build-SkeletonPSGTopologyRealizerV2.py` style logic for coverage. Do not call generic dense fill, direct SeededSGP, or multi-tail closure a valid hard route unless contract audit and official trace stay clean.
+- User constraint: the next generator must not be a one-chain/few-chain incremental validate loop. It should preplan a whole wave/topology/cell-plan, materialize the planned batch as a coherent board, then validate the completed board and contract surfaces.
+
+# Competitor Hard Decision: V7 Meets 0.95 Coverage But Is Visual-Coverage Only - 2026-07-02
+
+- Decision: mount `CompetitorCoreCoverage095V7Pack` for high-coverage visual review because it reaches the user's requested `~0.95` coverage and has one official-solved row.
+- Evidence: selected row `ccsf_v7_002_ccsf_v3_008_8638894_ne_cov095` is `24x30`, `132` chains, `684` arrows, coverage `0.950`, official `solved=True`, process `B`.
+- Boundary: do not call V7 hard. Official trace classifies the mounted row as `LocalEasy`, tight process `Drop`, with `frontierDrainRemoteChokeCount=0`. The other generated row is not mounted because official trace reports `solved=False`.
+- Implementation implication: coverage closure by dense rank-field exterior plus multi-tail closure can hit the visual target, but it erases the hard skeleton signals. The next true-hard route must reserve remote choke/support duties inside the 0.95 body plan instead of closing coverage after a LocalEasy high-density exterior.
+
+# Competitor Hard Decision: V6 Is The Current Viewable Whole-Plan Pack, Not The Final Hard/Dense Endpoint - 2026-07-02
+
+- Decision: mount and review `CompetitorCoreSkeletonWholePlanV6Pack` as the current viewable competitor-hard attempt. It is the first pack using the full route: approved hard skeleton, rank-interval density planning before materialization, and batch-pruned background density.
+- Evidence: V6 reaches coverage `0.740-0.752` with `78-95` chains and official trace solves `3/3`. The first two mounted rows are `MediumStructure`; the third row is kept as a boundary sample.
+- Evidence: visually, V6 is denser and more maze-room-like than V5 while preserving the V4 skeleton as a visible blue core in previews.
+- Boundary: V6 loses V5's tight process: official process is `1 A + 2 B`, tight process is `Drop` for all, and hardStructureV3 is `2 MediumStructure + 1 LocalEasy`. It is a human-review pack, not a final trace-hard approval.
+- Implementation implication: high coverage must become structural, not only visual background. The next generator should convert the background density wave into planned cross-basin/remote-choke duties with rank intervals, instead of overfill/prune background chains after the hard skeleton.
+
+# Competitor Hard Decision: V5 Preserves Hard Skeleton Under Overall Planned Closure But Is Not The 0.9 Density Endpoint - 2026-07-02
+
+- Decision: keep `CompetitorCoreSkeletonClosureV5` as the current formal review pack for the approved V4 skeleton closure route. It replaces V4 as the mounted Demo pack for human review.
+- Evidence: V5 uses the user-approved V4 skeleton anchors and fills by whole-board planning: topology-safe multi-tail waves, batch U-detours, and rank-interval dependent field-chain waves. It does not use screenshot copying, seed topology reuse, or one-chain-at-a-time filler acceptance.
+- Evidence: official trace solves `3/3`; all rows are process/tight `A/A`, with hardStructureV3 classes `1 TrueHardCandidate + 1 HardPotential + 1 MediumStructure`. Best row `ccsf_v5_005_ccsf_v4_001_9142301_cl1` is `TrueHardCandidate` at coverage `0.644`.
+- Boundary: V5 coverage is only `0.644-0.647`, so it is not competitor visual parity with the `~0.9` dense maze-room references. Do not present it as the final density solution.
+- Implementation implication: the approved skeleton can survive overall closure, but late closure has a hard capacity ceiling. The next route to true competitor density should plan high-coverage body capacity before materialization, while preserving V4-style remote/cross-basin skeleton duties and official A/A trace signals.
+
+# Generated-Root WBP Decision: A Few Easy Openers Are Acceptable Only If Midgame Stall Survives - 2026-07-02
+
+- Decision: for Generated-Root WBP review, opener count is a tolerance gate, not the difficulty definition. Opener `5` is acceptable by default, and opener `6` can be reviewed when the user explicitly accepts a few easy opening clears and the trace still has a strong midgame stall.
+- Evidence: `t158f` reaches coverage `0.8886640` with openers `5`, official `B/B MediumStructure`, max choices `5`, and PlayerStallPass `0.790`. Its best low-choice window is 15 steps and remote choke count is `13`.
+- Evidence: `t158m` reaches coverage `0.9068826` with openers `6`, official solved `B/B`, max choices `6`, PlayerStallPass `0.780` under `--max-openers 6`, and DifficultyVerify `HardPotential 0.677` at the intermediate `B/0.90` gate.
+- Boundary: this does not relax the final `0.95+` coverage goal or final hard-structure goal. The open-anchor closure route currently ceilings around `0.90-0.91`; it proves the play-feel acceptance is viable, but not that late open fill can finish the level.
+- Implementation implication: future WBP closure should use early planned open anchors/delayed owner chains as capacity sources, then preserve the PlayerStallAudit window. Do not continue by adding unlimited direct-open filler, and do not call official `LocalEasy` a final success without the separate player-stall and DifficultyVerify context.
+
+# Generated-Root WBP Decision: Player-Stall Is A Separate Acceptance Layer From Official LocalEasy - 2026-07-02
+
+- Decision: accept a few easy opening clears if the level creates a meaningful mid-game stall. Do not reject a candidate solely because openers are 3-5 or official `HardStructureV3Class` says `LocalEasy`.
+- Evidence: t156s/t157e candidates have openers `3`, max choices `4-5`, and official process `B/B`; official structure often remains `LocalEasy`, but traces show long mid-game windows with only 1-2 options, cross-region switches, direction breaks, and remote choke counts up to `12`.
+- Decision: use `PlayerStallAuditV1` as a review/selection layer alongside official trace and DifficultyVerify. It is not a replacement for final coverage/root/process gates; it answers the user's play-feel question: "will this make a player stop and read?"
+- Boundary: t157 proves player-stall can survive low-impact BCL filling to `0.8502`, but BCL is exhausted there. Further progress toward `0.95+` must use a new closure/openRay/bridge operator that preserves the stall window.
+
+# Generated-Root WBP Decision: Early Closure Restores Capacity, But Late BCL Plateau Requires Bundle-Aware Duty Materialization - 2026-07-02
+
+- Decision: keep the c027 early-closure route alive. It is no longer a speculative patch: t156 proves a generated root plus early closure duties can restore owner-hit coverage capacity that was previously unavailable.
+- Evidence: `t156c` raises c027 seed-only coverage from about `0.6417` to `0.6802`; subsequent short BCL waves reach `0.8421` while preserving root identity and staying Greedy/official solved on traced samples.
+- Evidence: the t156o trace sample is `4/4` solved, process/tight `B/B`, max choices `5`, and DifficultyVerify classifies all four rows as intermediate `HardPotential` once pre-materialization evidence is propagated.
+- Decision: do not continue treating BCL as the endpoint. By t156s, BCL still raises coverage but space debt no longer improves (`debt=12`, openRay still `6`, raw options down to `14`). This is a plateau signal, not a full-board success.
+- Decision: the next materializer must be bundle-aware. V1 can only accept one closure-duty chain if that chain is independently Greedy-solved. Remaining high-priority corridors have first-hit-matching paths, but every single-chain candidate is Greedy-unsolved; `cmp16` is a one-cell duty that needs a bridge. Therefore V2 must commit small multi-chain duty bundles per component before validation.
+- Implementation implication: do not add a second filler system. Extend the same duty pipeline so remaining open-ray/danger boundary components are assigned as component-level contracts, then materialized by a bounded beam of small chains. Official trace/DifficultyVerify remain final gates, not per-chain generation drivers.
+
+# Generated-Root WBP Decision: Root Selection Is Necessary But Not Sufficient; Closure Duties Need A New Materializer - 2026-07-02
+
+- Decision: keep the t155 root-plan viability selector as the next gate before heavy Generated-Root WBP generation. Do not feed arbitrary roots into UDG just because they have high coverage or a high root hard score.
+- Evidence: `t155a` found only 3 same-frame roots ready for native UDG. The best is `root154_core_sched0589_v1_r3_c027`, with coverage `0.6052632`, chain/reserve `5/5`, and a clean control slot at `18,11;18,12`.
+- Evidence: c027 plus the old t142 seedState is legal and solved as seed-only (`t155e`, coverage about `0.641`, max choices `6-7`), but still has early-space debt around `69-70` cells. This means root selection helps, but old seedState plus old coverage grammar does not solve closure.
+- Evidence: `t155g` projects the remaining space into explicit closure duties. `t155i` then proves current BCL owner-hit options are mostly misaligned with those duties: the highest closure corridor depends on owners `38;17`, with zero overlap from visible BCL options; the control-slot owner is visible but consumes the wrong cells; one danger body duty is fully invisible.
+- Decision: do not continue by increasing BCL max length or wave size. A `maxChainLength=12` single-chain visibility probe timed out, and this also violates the target language of many short/medium semantic chains.
+- Implementation implication: the next accepted generator primitive should be a duty-specific early closure materializer: it must consume closure-duty components, reserve control slots, assign release owner/window, and produce short/medium chains before generic coverage waves. BCL remains a secondary coverage primitive only after the closure duties are committed.
+
+# Generated-Root WBP Decision: Full Coverage Closure Is Not Enough Without Official Process Structure - 2026-07-02
+
+- Decision: do not promote `f013g` or `f013h` as target baselines even though they reach `0.95+` coverage and are official solved.
+- Evidence: `f013g` reaches coverage `0.9500000`; `f013h` reaches `0.9518519`. Both preserve the protected prefix/root identity and solve officially, proving the remaining visual coverage can be closed mechanically.
+- Rejection evidence: both rows remain process `B`, tight process `Drop`, `hardStructureV3Class=LocalEasy`, with no strict dual gate and no qualified support closure. `DifficultyVerify` rejects them because the official tight process/structure evidence collapses.
+- Decision: use `f013h` only as a closure/feel review artifact and as proof that late open/proxy fill can finish coverage. It is not a Generated-Root WBP success under the current target.
+- Decision: root control-slot readiness and early-space/closure capacity are now root-stage gates. A root that cannot reserve future control slots or safe closure cells before materialization should not be carried forward just because it can be late-filled.
+- Implementation implication: the next route must combine coverage closure and structural contracts before chain cutting: control-slot reservation, support outlet preservation, closure-reachable components, and planned blockers/delays belong in the unified duty graph, not in a final repair/filler pass.
+
+# Competitor Hard Decision: Two-Stage Core Skeleton Density Fill Is Viable But Not Final - 2026-07-02
+
+- Decision: after rejecting seed-derived generation, the active competitor-hard route is now `core skeleton -> DAG-preserving density fill`. `CompetitorCoreSkeletonFillV2` is the current proof pack for this route.
+- Evidence: V2 starts from V1's from-scratch dependency skeleton and then adds short room/corridor density chains only if the actual ray-blocker graph remains acyclic and bounded by solve-pressure gates. It does not copy screenshots or reuse seed topology.
+- Evidence: V2 raises the candidate band from V1's `0.430-0.527` coverage to `0.608-0.662` with `54-74` chains while official trace still solves 6/6; hardStructureV3Class is `5 MediumStructure / 1 LocalEasy`.
+- Boundary: V2 is not a final hard/competitor-equivalent pack. It still has only one `A/A` process row, no current `TrueHardCandidate`, and visual density remains below the high-coverage competitor references. The next accepted improvement should make the density filler trace-aware and push coverage without losing Medium/Hard structure.
+
+# Competitor Hard Decision: Batch Rank-Field Fill Solves Coverage But Not Difficulty - 2026-07-02
+
+- Decision: near-`0.9` coverage should be pursued with batch/wave construction, not V2's one-chain-at-a-time density acceptance. `CompetitorCoreSkeletonFillV3` proves that batch high coverage is feasible.
+- Evidence: V3 generates `0.874-0.901` coverage rows with `128-134` chains and `112-118` bulk density chains per row; the density stage is rank-field construction, not per-chain validation. Official trace solves 3/3.
+- Boundary: V3 is not accepted as hard. All traced rows are `LocalEasy`, with weak remote choke (`0-2`) and regular wave-front behavior. Treat V3 as a coverage mechanism proof only.
+- Next implementation direction: keep the batch construction model but add batch-level remote-corridor, cross-basin, and staged gate duties before final validation. Do not regress to per-chain filler validation, and do not present high coverage alone as hard success.
+
+# Competitor Hard Decision: V4 Formal Skeleton Replaces Rank-Field As The Hard Anchor - 2026-07-02
+
+- Decision: use `CompetitorCoreSkeletonFormalV4` as the current formal skeleton anchor. It is not final density, but it fixes the V3 same-direction/rank-field flaw and produces official hard-structure evidence.
+- Evidence: V4 official trace solves 3/3 with `1 TrueHardCandidate + 2 MediumStructure`; best row `ccsf_v4_001_9142301` is `A/A`, openers `4`, avg/max `2.89/6`, local/near `2/1`, remote choke `4`, and difficultyScoreV2 `0.712`.
+- Boundary: V4 coverage is only `0.460-0.526`, so it is not competitor visual parity. Do not ship it as a dense competitor-like final level pack.
+- Next implementation direction: keep V4's multi-direction hard skeleton and add a separate high-coverage closure layer that preserves official trace signals. Do not use V3's single rank-field fill as the final closure; it is allowed only as evidence that batch coverage can be mechanically achieved.
+
+# Competitor Hard Decision: Core-Skeleton DAG Is The Active Route - 2026-07-02
+
+- Decision: the active route for competitor-hard generation is now bottom-up core-skeleton generation with dependency-preserving fill, not seed-derived variants and not visual-only maze drawing.
+- Evidence: `CompetitorCoreSkeletonFillV1` creates from-scratch chains, checks every added chain against the actual ray-blocker dependency graph, topologically sorts the DAG, and writes authored LevelDefinitions without reading seed topology.
+- Evidence: the first proof pack official-traces 6/6 solved with all process/tight `A/A`; one row is `TrueHardCandidate` and five rows are `MediumStructure`, unlike the rejected visual-only variants that remained `LocalEasy`.
+- Boundary: current proof coverage is only `0.430-0.527`, so it is not visually competitor-equivalent yet. Do not present it as final. The next decision point is whether a second-stage filler can raise density while preserving DAG structure and official hard signals.
+
+# Competitor Hard Decision: Reject Seed-Derived Route, Return To Core-Skeleton Generation - 2026-07-02
+
+- Decision: `CompetitorSeedMazeGrammarV1` is rejected as a solution route. It is not acceptable to build the competitor-hard lane by transforming existing seed topology, even when the visual distribution is closer.
+- Reason: the required path is bottom-up generation: either explicitly build core chains / skeleton first and then fill around them, or derive the competitor logic at the rule level and generate it from scratch.
+- Boundary: keep SeedMazeGrammar only as a diagnostic negative showing that seed-derived variants can recover visual maze-room shape but do not satisfy the user's route requirement or hard-structure proof.
+- Next implementation direction: generate a small set of core/skeleton chains with planned dependencies, gates, release order, and remote choke roles; then add coverage/filler chains only if they preserve the skeleton's solve-order contract and visual maze-room density.
+
+# Competitor Hard Decision: Separate Visual Grammar From Hard Structure - 2026-07-02
+
+- Decision: `CompetitorSeedMazeGrammarV1` is a rejected visual diagnostic, not the corrected route. It can be used only as evidence about visual grammar, not as a baseline or proof of difficulty.
+- Evidence: SeedMazeGrammar V1 generated 3 dense maze-room candidates that visually match the true contact sheets much better than short-rail, Gatehouse, or braid outputs; official trace solved 3/3 but classified all as `LocalEasy` with `B/Drop/Drop` process.
+- Evidence: original true-reference seeds also trace as 5/5 solved but `LocalEasy`, so the hard-structure metric is stricter/different than visual competitor similarity. Visual match and hard proof must remain separate gates.
+- Implementation implication: the next accepted competitor-hard generator must preserve maze-room seed grammar while adding explicit structural duties: cross-region gates, remote choke/frontier breaks, support closure, dual-gate-like control slots, or WBP-style interposers. Do not claim hard success from visual maze density alone.
+
+# Competitor Hard Decision: True Target Is Maze-Room Seed Grammar, Not Short-Rail Or Stripe Prototypes - 2026-07-02
+
+- Decision: the user's uploaded colored short-rail screenshot is a rejected negative, not a competitor target. Do not use it to define shape, layout, or success criteria.
+- Decision: the current competitor-hard target is the true in-project competitor/contact-sheet distribution: high-coverage maze-room linework with nested rooms, corridors, U-turns, gates, pockets, and dense non-striped panels.
+- Decision: `CompetitorShortRailReadV1` is invalid because it was built from the negative screenshot. `CompetitorMazeRoomReadV1` is also not an accepted candidate: the layered version is visually closer but trace-collapses into `Drop/LocalEasy`; the braid version lowers choices but is visually mechanical stripe/ladder output.
+- Evidence: top project seed references such as `seed_Above300_level_844`, `seed_Above300_level_987`, `seed_Arrowz_level_199`, and `seed_AOut_level_089` already show the desired maze-room family with coverage about `0.91-0.93`, many medium chains, visible room/corridor structure, and nontrivial choice curves.
+- Implementation implication: the next generator must learn/extract the maze-room grammar from true seeds/contact sheets before materializing new levels. Do not tune short rails, generic gatehouses, or low-choice braid strips forward.
+
+# Competitor Hard Decision: Loose12 And Fresh Gatehouse Are Rejected Negatives - 2026-07-02
+
+- Decision: the ScheduledBreak Loose12 tryout is a rejected negative after human review. Do not use it as a positive sample, proof seed, or generator promotion target; it reused already-rejected material and failed the requested shape/feel standard.
+- Decision: `CompetitorMazeReadDemandV1` must start from fresh authored geometry or an explicitly approved skeleton/contract, not from repackaging old read-demand candidates.
+- Decision: the fresh Gatehouse prototype in `.worktrees/competitor-hard-fresh` is also rejected. Do not tune it forward or call it a review candidate; it has neither the competitor visual result nor the intended logic/structure.
+- Evidence: the current Gatehouse row `cmrd_gatehouse_v1_02_seed7302203` light-traces as solved `B/B` with avg/max choices `4.23/6`, but HardStructure V3 is `LocalEasy`, `frontierDrainRemoteChokeCount=0`, and `choiceChokeAfterLocalFrontierBreakCount=0`. Human review agrees this is not a false negative; `LocalEasy` is the correct rejection signal here.
+- Boundary: max-choice control and visible staged gates are insufficient. The next route must be based on true competitor/seed maze-room grammar: dense non-striped panels, nested rooms, corridors, gates, pockets, and cross-region read order. Do not continue by adding generic room-fill, gate ladders, short rails, or braid stripes to Gatehouse.
+
+# HoleMask Decision: Direct Nutation Must Treat Hole Blocks As Head-Ray Constraints - 2026-07-02
+
+- Decision: for HoleMask + Nutation, the correct experiment route is direct constrained generation with the hole present as both `blockIndices` and `canSpawn=false` from the start. Do not use `Nutation finished seed -> mask crop -> repair/refill` as the route being evaluated.
+- Decision: a center hole blocker is not only empty/no-spawn geometry; head escape rays must reject any direction that sees the hole block. Otherwise direct peel can fill well but still create arrows aimed into the hole.
+- Evidence: first direct probe generated high-fill rows but `0` final accepts because every row had `holeBlockHits>0`. After moving blocker-ray rejection into head selection, the same direct family produced `5` Greedy-passing rows with `holeHits=0`, fill `0.973-0.981`, chains `97-144`, and bounded edge/axis runs.
+- Acceptance gates for this probe: Greedy pass, `holeBlockHits=0`, chain/fill band, edge straight run `<=5`, axis same-dir run `<=9`, max straight run `<=17`, bounded initial clearable chain count. Human visual review remains required before production approval.
+
+# Generated-Root WBP Decision: Safe Prefix Plus Single-Greedy BCL Is Viable, Raw BCL Is Not - 2026-07-02
+
+- Decision: after a solved semantic safe prefix, use coverage layers only with single-chain Greedy safety and local-touch caps. Do not apply raw owner-hit BCL directly to f004d-style bases.
+- Evidence: f005b/f005c produced `0` solved bundles from raw BCL; f005d proved the geometry can combine but creates low-choice unsolved deadlocks. This matches the user's warning that low choice metrics can be fake.
+- Evidence: f005f with `--require-single-greedy-solved` restored solved bundles and official trace; f006a reached coverage `0.7101449` with `4/4 A/A`, localPatch `3-4`, nearOuter `2`, and max choices `8`.
+- Evidence: f006e with phased half-layer and `--max-local-touch 2` reached the best current balance: coverage `0.7449275`, two `A/A` rows, localPatch `4`, nearOuter `2`, dependencyFollow `6`, max choices `7`.
+- Boundary: f006g shows that simply pushing beyond `0.75` is not currently safe; all top rows became `B/B` and one was `LocalEasy`. Next work should add anti-local wave selection / release-owner diversity to the coverage layer before chasing more coverage.
+
+# Generated-Root WBP Decision: Demand Carriers Must Be Safe Prefixes, Not Forced Direct Bundles - 2026-07-02
+
+- Decision: do not force f001 high-demand 2-chain carrier bundles directly into V12 chain-plan seeds. Treat demand-carrier rows as candidates for safe-prefix / duty-front-end planning, not as guaranteed insertable chains.
+- Evidence: f002a relaxed release-impact checking and still got `12/12` Greedy unsolved for the f001 two-chain bundles, so the failure is not just missing prerelease-safe parent/delay timing.
+- Evidence: f003b found only one safe single carrier among `17`: `CLT97060` (`7->11`). f004a/f004b showed this single can seed V12 and extend to 2 chains with official trace `A`.
+- Evidence: f004d showed a real positive when same-release-owner diversity is relaxed carefully: exact 3 added chains, official trace `A/HardPotential`, localPatch `3`, max choices `8`, remote choke signal strong. But f004e exact 4 fails, so this is not yet a coverage route.
+- Implementation implication: next f-line work should either port the t142/t143 seedState-front-end style to demand duties / active cells, or build a custom safe-prefix expansion that allows bounded repeated release owners only when the target/frontier/demand role differs. More direct bundle forcing is a known negative path.
+
+# Generated-Root WBP Decision: Use f-line Prefix For Independent Side Experiments - 2026-07-02
+
+- Decision: independent Codex-side Generated-Root WBP probes should use `f###` prefixes, leaving the main `t###` sequence to the other active conversation/user-facing t-line.
+- Reason: the main route has already advanced through `t142+`; reusing `t###` locally risks confusing reports, assets, and handoff notes.
+- f001 boundary: compiling t139 demand-overlap carriers into V12 chain-plan seeds is useful as a feeder diagnostic, but direct 2-chain carrier insertion is currently rejected by `blocks_pre_release_owner` or `greedy_unsolved`. The next f-line probe should add pre-release-safe parent/delay pairing or a demand-carrier seed mode, not just force the same carrier rows harder.
+
+# Generated-Root WBP Decision: Promote Run-Break Demand Into Active Cell/Region Duties - 2026-07-02
+
+- Decision: do not continue by only increasing `cell-demand` penalty weights or by directly forcing t138 late-owner edges into the early generated-root hardbase pattern.
+- Reason: t139a proved V12 can load and score t138c demand, but the strongest t138 contracts (`67->79`, `40->9`, `83->5`) refer to owners created late in the full-board chain cutting. The early generated-root planner still works on earlier owners, so direct owner-edge forcing is the wrong layer.
+- Required next change: convert run-break contracts into active cell/region duties or demand-seeded frontier/reservation candidates before chain cutting. The acceptance smoke for that layer is nonzero seed states plus visible `choke/remote_guard/delay` overlap in planned relations, before official trace.
+- Boundary: t137 accepted rows remain playable diagnostics, not a final baseline. They validate the target behavior (`9>24` delay and preserved bridge), but the next candidate should be planned from the whole-board duty layer rather than another post-hoc repair.
+
+# Generated-Root WBP Decision: Move Outer Run-Breaking Into Generation-Side Contracts - 2026-07-02
+
+- Decision: do not continue by adding post-hoc parent-release blockers one at a time. The remaining right/outer sequential-clear issue should be represented as whole-board planning contracts before chain cutting.
+- Evidence: t138a run-break planning on `t124b_right_run_shape_recut2_r006_trim21x4_orig` identifies the exact visible conveyor window `78->52->7->1->36->64->67->79->40->9->24->47->21->58` and recommends `9>24` as `planned_delay_break`, matching the accepted t137 improvement.
+- Evidence: t138b run-break planning on accepted t137a rows no longer anchors on `9>24`; it instead flags the remaining right-side run around `67>79` / `40>9` as `cross_basin_frontier_break_around_rejected_stack`.
+- Implementation proof: t138c converts these contracts into the existing V12 `cell_demand` format (`144` cell-demand rows, roles `choke/remote_guard/guard/delay`), so the next pass can bias the whole-board planner directly instead of deriving a repair after trace.
+- Counter-evidence: t137b already showed that stacking a second parent-release breaker on `79>40` keeps the bridge but does not improve the headline local/near-outer run and reduces remote choke signal, so `79>40` should be an avoid edge for the next pass.
+- Implementation implication: the next WBP generator pass should ingest run-break contracts as semantic duties (`cross_basin_release`, `remote_guard`, `choke`, `delay`) in the whole-board cell plan, while preserving `58->85->83->68->72->28` and rejecting `60->28`.
+
+# Generated-Root WBP Decision: Use Single Bridge-Locked 9->24 Breaker, Reject Stacked Upstream Breakers - 2026-07-02
+
+- Decision: accept the single bridge-locked `9->24` parent-release breaker as a diagnostic baseline improvement for the current t124b branch; do not continue by stacking more upstream parent-release breakers.
+- Evidence: t137a `r004/r005/r009` all solve officially, keep coverage `0.9574899-0.9615385`, reduce `nearOuterPatchSolveRunMax` from `4` to `3`, preserve support depth `4`, and keep the exact audit tail `58->85->83->68->72->28` with no `60->28` steal.
+- Evidence: the accepted breaker changes the concrete run from immediate `9 -> 24 -> 47 -> 21 -> 58` into a delayed `9 -> 47 -> 21 -> 58 -> ... -> 87 -> 24` pattern, matching the user's concern about visible outer sequential clearing.
+- Evidence: t137a `r014` proves metric-only acceptance is unsafe: it loses `72->28` and introduces `60->28`, so relation audit remains mandatory.
+- Counter-evidence: t137b stacked an additional `79->40` breaker and still solved with the bridge intact, but it did not improve `nearOuter` or `localPatch` and reduced `frontierDrainRemoteChokeCount` from `2` to `0`.
+- Implementation implication: the next WBP operator should not add another local parent-release blocker. It should re-plan the remaining right-side run as a semantic cross-basin/hard-frontier break, targeting `localPatchSolveRunMax<=4` and better anti-locality while preserving the accepted bridge tail.
+
+# Generated-Root WBP Decision: Outer Conveyor Breaker Must Lock The Bridge Victim - 2026-07-02
+
+- Decision: prioritize the outer/right-side conveyor problem identified by playtest, but do not accept an outer breaker unless it also preserves the root bridge/victim contract in relation audit.
+- Evidence: the visible t129/t124 run is not captured by `outerNearFollowRunMax` alone; it appears as local/near-outer patch sequence and conveyor relation edges around `9->24->47->21->58`.
+- Evidence: late guard insertion found `0` candidates from t129a, t126n, and t126j, so a simple final guard patch is not a viable geometric route.
+- Evidence: parent-release blocker `9->82/87->24` works mechanically and can reduce local/near-outer pressure (`t136e`: `7/7 -> 6/6`; `t136f_r002`: nearOuter `4 -> 3`), but it weakens or breaks the accepted bridge tail by letting `60->28` replace `72->28`.
+- Counter-evidence: `t136f_r001` preserves `72->28` and support score `0.944`, proving the contract can survive a blocker-style recut, but it does not improve the visible near-outer run.
+- Implementation implication: the next WBP operator should be an outer breaker plus bridge-victim lock. It should target the `9->24/47` area, reserve/recut cells earlier if needed, and use official relation audit gates requiring `58->85->83->68->72->28` or an explicitly approved equivalent while rejecting `60->28` steals.
+
 ## Campaign500 Normal Full V1 Keep Policy - 2026-06-30
 
 - 决策：Campaign500 Normal Full V1 不把 `LongChainProbe` 作为当前正式 production lane；原计划中的 LongChainProbe slot 用 `PeelHard` replacement 进入 source pool，并在 merge/join 层继续显式排除 `LongChainProbe`。
@@ -2631,3 +3041,451 @@ Do not run production fill on unsolved light-fill gate templates. Strict-dual ga
 - Use three layers together: solve-path `choiceWave`, one-step branch next-choice profile, and frontier-drain next layer width.
 - Desired normal-hard rhythm is usually many steps in the 3-5 choice band, occasional 1-2 choice choke, low 8+ branch explosion, and low flat-consequence/fake-choice rate.
 - For production selection, new choice-rhythm fields are diagnostic-only until calibrated on multiple packs; do not silently change existing keep/rank gates without a separate validation run.
+
+# Generated-Root WBP Decision: t110 Low-Coverage Capacity 6 Is A Structure Signal, Not A Scalar-Tuning Path - 2026-07-01
+
+- Decision: the t110 side-line proves generated roots can reach current-root capacity `6+`, but only after relaxing root coverage to about `0.24` in the tested seed band. Treat this as a structure signal, not as permission to keep scalar gate tuning.
+- Evidence: `t110a_relaxed_rootpool_probe_s560880_c001` passed the post-hoc current-root gate with supply `6/6/6`, target-owner dominance `0.280`, and `capacityMaxDisjoint=6`.
+- Counter-evidence: the same relaxed setup at `minSelectCoverage=0.26` selected `0` roots. Higher-coverage growth-log candidates around `0.314` existed but had weak strict-edge target-owner/top-root diversity (`2-4`), so they are not relation-rich roots.
+- Boundary: do not resume old RCH/RCH-like coverage chasing, and do not keep tuning `coverage/rank/direct budget` as the main move. The next valid WBP route is either a low-coverage generated root causal core followed by whole-board lane/fill planning, or a hard/structured root lane allocator that explicitly preserves disjoint reserve capacity while raising root coverage.
+
+# Generated-Root WBP Decision: Design Hardness Around Planned 1-2 Choice Choke Moments - 2026-07-01
+
+- Decision: WBP hardness should explicitly design one or two meaningful solve steps where available choices contract to `1-2`, then reopen afterward. Do not treat global low average choices or full-board coverage as a substitute for these planned choke moments.
+- Rationale: a hard arrow-chain level often feels difficult because the player must recognize a specific forced or near-forced release at a critical wave, not because every step is equally narrow.
+- Implementation implication: whole-board cell planning needs scheduled choke/release contracts tied to root basins: before a choke, several visible options may exist but most are guarded/blocked; at the choke wave, only the intended release chain or one alternative should be valid/productive; after clearing it, a basin or cross-basin contract opens.
+- Metrics implication: track choice valleys in the official trace (`min choices`, `count of 1-2 choice waves`, and whether the following wave expands), alongside coverage and current-root relation capacity. Avoid optimizing only `avgChoices`, which can hide the absence of real choke moments.
+
+# Generated-Root WBP Decision: Coverage Breakthrough Must Now Be Anti-Local Fill - 2026-07-01
+
+- Decision: after t111i, do not keep optimizing the protected filler only for coverage, Greedy solved, and max choice. The next WBP fill objective must include anti-local/interleave/localPatch pressure, because the current route can reach `0.95+` coverage but still traces as `B/LocalEasy`.
+- Evidence: t111i preserves the generated root prefix and reaches coverage `0.9534413` with official solved `True`, openers `4`, avg/max choices `4.1/7`, over10 `0`, and meaningfulUnlockRate `0.867`; however official process is `B`, HardStructure is `LocalEasy`, localPatchSolveRunMax is `7`, dependencyFollowRunMax is `7`, and causalAntiLocality is only `0.16`.
+- Boundary: small numbers of intentional early filler are acceptable only as a late coverage closure tool and must remain capped/audited. They are not a difficulty solution.
+- Next direction: keep the low-coverage generated root + semantic slot materialization path, but score/accept filler bundles by reducing local patch runs, same-region follow, and dependency conveyor behavior before final trace. The acceptance target remains coverage `>=0.95`, official solved, process `A+`, and root identity preserved.
+
+# Generated-Root WBP Decision: Use Simultaneous Wave-Front Width As Skeleton-B Diagnostic - 2026-07-01
+
+- Decision: add simultaneous wave-front width as a diagnostic layer for WBP candidates. It clears all currently available chains as one wave, records the current/next wave choice width, and classifies available chains as root, semantic slot, or filler.
+- Evidence: t111i is official `B/LocalEasy`, but the wave-front audit solves it in `39` waves with avg/p80/max width `2.026/3/5`, `26/39` waves at `<=2`, and `16` forced-single waves. This shows a real low-width skeleton rhythm that is not captured by process tier alone.
+- Boundary: this metric does not replace official trace or the A/Hard target. It should prevent false rejection of "skeleton B" candidates and guide the next fill objective: preserve narrow waves while reducing localPatch/follow/local-conveyor collapse.
+- Next direction: compare future WBP fills by both official metrics and wave-front rhythm. Good candidates should keep coverage `>=0.95`, official solved, root identity, and many meaningful narrow waves, while improving anti-locality enough to reach process `A` or HardPotential.
+
+# Generated-Root WBP Decision: t111 Is The Base Route, Placement Must Target Rhythm Not Narrowness - 2026-07-01
+
+- Decision: treat t111 as the current Generated-Root WBP base route: low-coverage real generated root with high causal capacity -> semantic slot materialization -> protected high-coverage fill -> official trace, wave-front audit, and human playtest. Do not return to old RCH, rootless high coverage, or scalar coverage tuning as the main route.
+- Evidence: t111i preserves generated-root identity, reaches coverage `0.9534413`, official solved `True`, wave-front avg/p80/max `2.026/3/5`, and received human feedback of clear "good / 优" quality even though official hard class remains `LocalEasy`.
+- Placement experiment evidence: t112 placement proxy can lower choice width (`t112c` maxChoices `6` vs t111i `7`; `t112h` maxChoices `4` vs t111f `7`), but over-compression worsens local/boring signals (`t112c` localPatch/nearOuter `11/11`; `t112h` low2Rate `0.723`, lowChoiceRunMax `13`, choke score `0`).
+- Boundary: placement proxy should be a soft scoring signal, not a hard gate. Hard prefilter runs t112e/t112f preserved spread but stalled coverage at `0.779/0.828`. The next placement objective is not "fewer choices everywhere"; it is meaningful choke moments plus reopen, with caps on long low-choice/local-patch runs.
+- Next direction: t113 should keep the t111 base route and replace single-chain greedy acceptance with a two-stage bundle scheduler: cheap candidate pool -> bundle selection by coverage gain, wave-front rhythm band, local-run proxy, region/owner/direction alternation -> Greedy/official trace.
+
+## Decision - 2026-07-01 21:12 - PSG difficulty shift requires dependency-aware generation
+- Avg choices alone is insufficient, but branch/frontier rhythm proved useful for deciding generator direction.
+- Same-slot proof rejected the few-long-chain/low-fragmentation fix: it worsened branch explosion despite longer chains.
+- Same-slot proof supports dependency-aware placement as the next generator family: it sharply reduced branchNextChoiceExplosionRate and frontierDrainExplosionRate.
+- Dependency-aware work must explicitly prevent local conveyor collapse and same-axis/near-region solve runs; otherwise it becomes controlled but still LocalEasy.
+
+## Decision - 2026-07-01 22:25 - DependencyRhythm Needs Scheduled Windows, Not More Cross-Region Weight
+- Decision: do not promote `DependencyRhythm` to production yet. Keep it as an experimental Nutation lane until it has solve-window/frontier-width control.
+- Evidence: same-slot v4/v6 reduced official same-axis/same-dir runs close to PSG baseline (`57/24` proof -> `17/14`) and raised source cross-region hits (`34`), but branchNextChoiceExplosionRate rose to `0.768`, avg/max choices to `9.27/16`, and process stayed Drop/LocalEasy.
+- Evidence: v5 proved that simply forcing longer dependency chains breaks early-wave construction (`fill 8/1452`) because early wave length guards are structurally required.
+- Interpretation: cross-region dependency placement and anti-local scoring are necessary but not sufficient. They must be paired with scheduled dependency windows: only a bounded number of fronts should be productive in each solve wave, with later reopen/interleave.
+- Next implementation direction: add a stage/window or bundle scheduler above gate-aware placement that chooses candidate chains by coverage gain, predicted wave, region/direction alternation, and next-frontier width. Avoid another round of scalar score retuning.
+
+# Generated-Root WBP Decision: Trace Hard Labels Are Proxy Signals, Not Player-Feel Truth - 2026-07-01
+
+- Decision: for t111/t112 style Generated-Root WBP candidates, do not treat official `LocalEasy` as equivalent to "the level feels easy". Treat it as a specific proxy failure: anti-locality, local patch run, near-outer patch run, and dependency-follow/conveyor structure are below the current hard gate.
+- Evidence: t112c keeps coverage `0.9534413`, official solved, maxChoices `6`, choiceRhythmScoreV1 `0.688`, and `choiceChokeMomentScoreV1=1`; user playtest still reads it as not simple even though hardStructureV3 remains `LocalEasy`.
+- Metric interpretation: `hardStructureV3` and `processTier A` heavily penalize long `localPatchSolveRunMax` / `nearOuterPatchSolveRunMax` and low `causalAntiLocalityScore`. This is useful for catching old high-coverage local-peel false positives, but it can under-credit a real low-width/root-skeleton rhythm.
+- Operational rule: keep official trace as validation, but split judgement into axes: coverage/root identity, solved/process tier, choice rhythm/choke-reopen, local-collapse risk, and human playtest. Future t113 work should improve local/anti-local proxies without destroying the proven choke rhythm or over-compressing every wave.
+
+# Generated-Root WBP Decision: Human-Read Difficulty Separates Search Pressure From Local Risk - 2026-07-01
+
+- Decision: add a WBP human-read difficulty layer that scores tight meaningful choices, choke/reopen wave rhythm, solve-location/direction switching, and far/cross-basin dependencies as the main player-read pressure.
+- Decision: local patch runs and near-outer runs are tracked as `localConveyorRisk`, not as an automatic proof that the level is easy. Consecutive local clears are allowed when they are short rhythm segments followed by a required place/direction/dependency switch.
+- Evidence: t112c scores higher than t111i on `readSearchPressureV1` because it has stronger choice/choke pressure, while still carrying `LocalConveyorRisk` due `localPatchRun=11` and `nearOuterRun=11`.
+- Operational rule: future t113 scoring should optimize `readSearchPressureV1` and reduce `localConveyorRisk` together; do not reduce difficulty to either average choices or official `LocalEasy` alone.
+
+# Generated-Root WBP Decision: t114 Generalizes The Route But Moves The Bottleneck To Final Closure - 2026-07-01
+
+- Decision: treat t114 as evidence that the low-coverage generated-root + semantic materialization + protected fill route is reusable across generated roots, not a one-off t110 accident.
+- Evidence: non-t110 roots `t103a_c001` and `t104d_c001` both preserved root identity, materialized real semantic chains, filled to high coverage, and official-traced solved. Best alternate root `t104d_c001_fill095_open` reached coverage `0.9311741`, process/tight `B/B`, and human-read class `SkeletonHard`.
+- Boundary: t114 did not reach the final acceptance target. It stalled below `0.95`, remained official `LocalEasy`, and relation audit showed shallow support closure plus local pollution.
+- Next direction: focus on the `0.90 -> 0.95` phase with planned closure bundles, support-closure scoring, and anti-local/interleave constraints. Do not restart scalar root tuning or judge the route by root coverage alone.
+## Generated-Root WBP Decision: t115 Bundle Fill Is A Subtool, Not The Final A/Hard Mechanism - 2026-07-02
+
+- Decision: keep scheduled bundle fill as a diagnostic/high-coverage closure subtool, but do not promote it to the final Generated-Root WBP generator by itself.
+- Evidence: t115 full-coverage sample `t115c` reaches `0.9534413`, official solved, max choice `6`, choice rhythm `0.753`, and lower collapse risk than t113, but still remains `B/B` and `LocalEasy`.
+- Evidence: closure-aware below-cover sample `t115e` has stronger human-read/collapse (`humanReadDifficultyV1=0.941`, collapse risk `0.249`) but the final closure to `0.9534413` can reintroduce local conveyor (`t115f` local/near `11/11`).
+- Evidence: relation audit remains nearly unchanged in the official hard bottleneck: support depth `2`, low anti-locality, and conveyor-heavy strong parents. Late bundle/filler placement improves rhythm but does not create deep support-closure structure.
+- Boundary: t115 did not solve t114 alternate-root closure; closure-aware bundle reached only `0.9271255` vs the previous open-fill best `0.9311741`.
+- Next technical direction: support-closure-aware bundle planning should target relation-audit weak parents and anti-local closure edges before the final high-coverage phase; endpoint or single-chain closure should remain a final repair, not the source of hardness.
+
+# Generated-Root WBP Decision: Support Bridges Must Be Planned Before Late Closure - 2026-07-02
+
+- Decision: support-closure bridges are a real mechanism and should be planned before high-coverage closure consumes bridge slots; do not treat them as a late repair step.
+- Evidence: t117 early bridge insertion from `t111f` created official `58->68->72->28` with support depth `3`, solved trace, and closure-valid `68->72` plus `72->28` edges.
+- Counter-evidence: trying the same bridge insertion after t116c produced no accepted candidates: `72`/`68` first-hit bridge candidates became Greedy-unsolved, and `58` had no usable first-hit slot.
+- Decision: high-coverage closure must preserve bridge contracts under official trace, not just Greedy/relation proxy. t117 high-coverage continuations reached `0.945` and `0.953` solved/ReadHard, but official support depth dropped back to `2` because victim `28` was reassigned from `72->28` to `2->28`.
+- Implementation implication: next WBP closure planner needs explicit contract ownership constraints such as "after filler, official relation must still contain parent->bridge and bridge->victim", plus solve-order protection for secondary blockers. Scoring `supportDepth>=3` in a local Greedy proxy is insufficient by itself.
+
+# Generated-Root WBP Decision: t118 Late Contract Postfilter Is Not Enough - 2026-07-02
+
+- Decision: do not continue trying to rescue the current t117 branch by endpoint postfiltering or late guard chains. The contract-preserving requirement has to move earlier into the closure planner.
+- Evidence: t118 proved official `58->68->72->28` can survive to `0.9453441` (`t118b_contract_ex57_close_s118201`), but exhaustive single-tail and final-bundle enumeration found no Greedy-solvable continuation from that state to `0.95+`.
+- Evidence: from `t117i`, the only `0.9493927` near-miss uses the `57` lane and official trace reassigns the victim to `2->28`. From `t117m2`, all six enumerated `0.953+` closures official-solve but remain support depth `2` with `2->28`.
+- Evidence: adding a late guard after `t117n` found no Greedy-solvable single-chain candidate, so "fix after full coverage" is not currently available.
+- Implementation implication: next WBP planner must reserve non-polluting closure capacity and protect the official order `13->10->66->2` before `72` during the `0.89 -> 0.94` phase. The acceptance gate should include an official-trace contract check, not only a relation proxy score.
+
+## Decision - 2026-07-02 - Read-Demand Hardness Needs Drain-Break Choke, Not Just Low Choices
+
+- Decision: for SGP read-demand hardening, do not accept "low average choices" or "direction switch after local" as sufficient. A candidate should show at least one moment where draining the current small frontier leaves a remote, narrow next frontier (`1-2` choices).
+- Evidence: the earlier ChokeBreak review felt positive but still played as continuous bottom-to-top clearing. Its strict trace had `choiceChokeAfterLocalFrontierBreakCount=0`, so low-choice windows did not reliably break the solve flow.
+- Evidence: the new V2 drain-break proxy plus official trace produced 8 candidates with `frontierDrainRemoteChokeCount>0`; these are better aligned with the desired "clear a small patch, then move elsewhere with only one or two options" feel.
+- Boundary: remote-drain choke is still a proxy. If playtest still reads as continuous, the next step is to force scheduled solve windows or dependency-window planning, not to keep flipping individual arrows or chasing lower `avgChoices`.
+- Operational rule: future read-demand review packs should rank/gate by `frontierDrainRemoteChokeCount/Score` together with `choiceChokeLow2ContinuityRunMax`, `maxChoices`, and human playtest. Keep `choiceChokeAfterLocalFrontierBreakCount` as a warning signal because it remains zero in the current drain-break sample.
+
+# Generated-Root WBP Decision: t119 Proves Coverage And Official Bridge Contract Can Coexist - 2026-07-02
+
+- Decision: treat t119 as the first walk-through proof for the current support-bridge line's coverage + official contract gate. It is not final A/Hard acceptance.
+- Evidence: one-cell existing-chain extension from the contract-preserved `t119g` near-miss produced 12 candidates at coverage `0.9514170`; official trace solved all 12, and relation audit preserved `58->68->72->28` for 11 of them.
+- Evidence: earlier new-chain tail closure from `t119g` had zero legal candidates, so the viable closure move is not "add another chain at the end" but "reserve/extend existing body capacity" without changing the release graph.
+- Boundary: extending chain `72` itself breaks the bridge contract and drops support depth to `2`; avoid modifying the bridge chain as a final coverage repair unless official trace proves otherwise.
+- Remaining blocker: all t119j successful candidates remain `B/LocalEasy` with localPatchSolveRunMax `16` and antiLocality around `0.156`. Next work should optimize scheduled closure for local-run reduction and anti-locality, not re-prove coverage.
+
+# Generated-Root WBP Decision: Local-Run Guards Work Only If Planned Before Closure - 2026-07-02
+
+- Decision: use delayed local-run guards as a real WBP hardening primitive, but do not treat them as a late one-chain patch. They must be allocated in the whole-board cell plan with bridge-contract protection.
+- Evidence: t120c added a 2-cell guard on the local-run `26` ray and reduced official localPatchSolveRunMax from `16` to `7`, proving the official trace is responsive to guard/reroute pressure rather than immovable.
+- Counter-evidence: the same t120c guard let official trace clear bridge chain `72` before victim `28`, dropping support depth to `2`. Local-run reduction alone can destroy the root/bridge contract.
+- Evidence: t120e shortened chain `57` by a small tail amount and made the guard 3/4 cells long; official trace solved, preserved `58->68->72->28`, preserved support depth `3`, and reduced localPatchSolveRunMax to `9`.
+- Implementation implication: the next Generated-Root WBP planner should reserve guard-length capacity and local-run breaker cells during the `0.89 -> 0.95` fill phase. Acceptance should require both local-run improvement and official relation edges `58->68`, `68->72`, `72->28`, not one without the other.
+
+## Decision - 2026-07-02 - DependencyRhythm Needs Placement/Bundles, Not More Scalar Tuning
+
+- Decision: do not promote the current Nutation `DependencyRhythm` experiment to Campaign500 production yet. Keep it isolated in `.worktrees/nutation-flow-peel-production`.
+- Evidence: owner-aligned source solve-flow is a necessary fix; before it, generation undercounted same-axis/same-dir runs because Greedy can click non-head cells while the proxy read only authored heads.
+- Evidence: v12/v14/v15 slot-316 probes prove score/window changes can move individual official metrics, but cannot yet satisfy them together. v15 best choice row reached avg/max choices `5.76/10` and frontier explosion `0.009`, but sameAxis/sameDir were `36/26`; better sameAxis rows stayed choice-heavy or localPatch-heavy.
+- Interpretation: the remaining blocker is structural same-region parent ownership (`dependencyLocalSameRegionRate` about `0.71-0.75`) and local conveyor geometry. Score-only penalties mostly trade one failure mode for another.
+- Next implementation direction: add a real dependency-window placement primitive or bundle scheduler that allocates parent-child ownership across regions before chains are committed. Candidate selection should optimize a bundle for coverage gain, wave width, parent-region quota, head-axis alternation, and official-like localPatch risk.
+
+# Generated-Root WBP Decision: Second Local-Run Guard Must Be Co-Planned With Bridge Timing - 2026-07-02
+
+- Decision: do not continue treating the second local-run breaker as a late one-guard patch on the t120e board. It must be co-planned with the bridge timing and `2/28` ownership before final high-coverage closure.
+- Evidence: t121b tail-trim search produced 24 Greedy-solvable high-coverage candidates, but none satisfied both `supportClosureBestDepth>=3` and `localPatchSolveRunMax<9` under official trace.
+- Evidence: the strongest local-run rows (`r006/r011/r018/r023`) reached localPatchSolveRunMax `7`, proving the second breaker can reduce official conveyor risk, but all dropped support depth to `2` because official relation reassigned victim `28` to `2->28`.
+- Counter-evidence: bridge-preserving rows kept official `58->68->72->28` and support depth `3`, but stayed at localPatchSolveRunMax `9`; a 3-cell guard repair preserved bridge but worsened localRun to `11`.
+- Implementation implication: the next Generated-Root Whole-Board Planner pass should reserve cells for local-run break, 72-delay, and `2/28` protection as a combined contract. Acceptance must check the pair of conditions together, not in separate late repair probes.
+
+# Generated-Root WBP Decision: T122 Proves The Route Is Viable But Still Local-Run Bound - 2026-07-02
+
+- Decision: continue the Generated-Root Whole-Board Planner route. It has now walked through coverage `0.95+`, official solve, generated-root identity, and official root contract in the same candidate family.
+- Evidence: `t122b_from_r019_second_guard_r004_trim27x2_t39` and `t122b_from_r019_second_guard_r010_trim27x2_t39` are official solved at coverage `0.9574899` / `0.9554656`, chains `82`, process `B`, support root `58`, support depth `3`, and support score `0.743`.
+- Evidence: relation audit confirms the intended contract edges `58->68`, `68->72`, and `72->28` for the best t122b rows. The contrast row `r001` demonstrates why this matters: it also reaches localRun `7`, but assigns `28` to `2->28` and drops support depth to `2`.
+- Boundary: t122b is not final A/Hard. It remains `LocalEasy` because `localPatchSolveRunMax=7`, `nearOuterPatchSolveRunMax=7`, `causalAntiLocalityScore=0.167`, and `causalCudP20=5.667`.
+- Implementation implication: next optimization should target the specific official local sequence `40->64->9->24->47->21->58->44`, especially the right-side near-outer run before root entry. Do not resume broad coverage/rank/direct-budget tuning or late one-off guard stacking.
+
+# Generated-Root WBP Decision: Shape Re-Cut Is A Valid Hardening Primitive - 2026-07-02
+
+- Decision: add shape re-cut to the Generated-Root WBP hardening toolbox. It is distinct from adding a guard: it trims the cells causing local geometric adjacency and recuts those cells into a new short semantic chain so coverage is preserved while localPatch geometry changes.
+- Evidence: `t123d_trim31_recut_r002_trim31x3_orig` keeps coverage `0.9595142`, official solved, process `B`, support root `58`, support depth `4`, and support score `0.874`, while reducing localPatchSolveRunMax to `5` and raising antiLocality to `0.198`.
+- Evidence: the specific `5->31` edge changed from local to non-local after trimming chain `31` by three tail cells and recutting them; measured box gap becomes `3`, and the official max local run moves back to the right-side near-outer sequence.
+- Decision: treat the t123b interposer as a valid contract extension: the official relation is now `58->83->68->72->28`, not a failure of the earlier direct `58->68` edge. Chain `83` is released by root `58` and releases bridge `68`, increasing support depth from `3` to `4`.
+- Boundary: strict late parent-release blocker insertion for the left run is not enough. The narrow `5->31` search found no candidates; the wide search produced candidates but did not reduce localRun below `6`.
+- Implementation implication: the next WBP planner should reserve shape-recut candidates before final closure, especially around the remaining `9->24->47->21->58->44` near-outer run. Do not rely on generic guard stacking to reach A/Hard.
+
+# Generated-Root WBP Decision: t124 Walks Through, Late Relocation Does Not - 2026-07-02
+
+- Decision: continue the current Generated-Root WBP route, but move interruption-slot reservation earlier. t124 proves another hardening step can walk through while preserving coverage, official solve, generated-root identity, and the root contract.
+- Evidence: `t124b_right_run_shape_recut2_r006_trim21x4_orig` is the current valid t124 basis: coverage `0.9595142`, official solved, process `B`, hard class `LocalEasy`, local/nearOuter `5/4`, antiLocal `0.265`, CUD p20 `6.25`, support depth `4`, support score `0.944`, and official relation `58->85->83->68->72->28`.
+- Decision: reject candidates that only look good in aggregate metrics but break the contract. `t124b_r005` has a slightly better official score and bestRoot `58`, but relation audit assigns `28` to `2->28`, so it is not an accepted WBP continuation.
+- Evidence: late shape relocation after `0.9595` coverage has no capacity on this board. The probe found `0` Greedy-solvable candidates even with loose gates; empty-space audit shows only one connected 3-cell empty component and otherwise isolated singletons.
+- Implementation implication: same-place re-cut can keep improving anti-locality incrementally, but reaching A/Hard likely needs remote interruption/relocation cells reserved during the `0.90 -> 0.95` planning phase, before final fill consumes connected empty geometry.
+
+# Generated-Root WBP Decision: Endpoint Closure Must Respect Reserved Guard Slots - 2026-07-02
+
+- Decision: do not accept a `0.95+` endpoint closure if it consumes cells reserved for the later contract/local-run guard plan. Coverage that steals the guard slot is a false positive for the Generated-Root WBP route.
+- Evidence: t126 early reservation from `t117g` can preserve `0,3;0,4;1,4;1,5;3,10;3,11;11,19;11,20;11,21` through scheduled fill to `0.9453441`, then through a non-reserved one-cell extension to `0.9473684`, while official trace remains solved and relation audit preserves `58->68->72->28`.
+- Counter-evidence: all current final `0.9514170` closures from those reserved `0.947` boards cut the same `0,3;0,4` chain released by owner `57`. That reaches the visual coverage floor but consumes the left contract slot, so it cannot serve as the final route basis.
+- Evidence: strict scheduled continuation from the reserved `0.947` board with the left slot forbidden produces no further bundle; reserving only the left contract slot from the earlier `t117g` fill also stalls below `0.95`.
+- Implementation implication: the final 2-3 cells needed for `0.95+` must be planned earlier as part of whole-board bundle allocation, or the planner must create an alternate non-left closure slot before the board reaches the `0.94` phase. Do not spend more time on late tail-chain enumeration for this exact geometry unless a new reserved slot source is introduced.
+
+# Generated-Root WBP Decision: t129 Proves Reserved Non-Left Closure Can Preserve The Contract - 2026-07-02
+
+- Decision: continue from the t129a reserved non-left closure route. It proves the route can walk through `0.95+` coverage, official solve, preserved generated-root prefix, reserved left slot survival, and official `58->68->72->28` in one candidate.
+- Evidence: t129a uses tail-split plus extra tail trim: chain `27` is trimmed/re-cut, chain `31` is extra-trimmed by `2`, and the longer right closure `3,10;3,11;3,12;3,13` reaches coverage `0.9514170`. Official trace rerun solved `1/1`; relation audit reports support root `58`, depth `3`, and edges `58->68`, `68->72`, `72->28`.
+- Counter-evidence: t127's shorter right closure was a capacity proof only; it lost the bridge-victim contract to `60->28`. The t129a delay is the reason this branch is now acceptable as a walkthrough checkpoint.
+- Boundary: t129a is still not final A/Hard. It remains process `B/B`, hard class `LocalEasy`, local/nearOuter `7/7`, antiLocal `0.2`, and CUD p20 `5.5`.
+- Implementation implication: next work should harden local/near-outer rhythm from t129a while preserving the restored contract. Do not go back to endpoint closure probing unless the hardening step consumes the t129 right-slot structure.
+
+# SGP Read-Demand Decision: FrontierContract Is Positive But Still Too Continuous - 2026-07-02
+
+- Decision: keep `SGPPressureReadDemandV1FrontierContract` as a partial positive generation-time route, but do not treat it as the final read-demand hardening answer.
+- Evidence: the lane can generate solved B/A candidates and low-choice switch/composite windows without late arrow-flip repair. The best review row has a `2 1 1 1 2 2 1 1` low-choice window with region/direction/frontier-break signals.
+- Counter-evidence: human playtest still reads as continuous clearing, just moving bottom-to-top. Exact strict `choiceChokeAfterLocalFrontierBreakCount` remains `0`, and the desired "small patch drained -> forced remote switch with only 1-2 choices" moment is not reliably present.
+- Operational rule: future read-demand review should rank composite/switch windows and max choices, but acceptance must require a real interruption window by human feel or an explicit scheduled trace contract. Do not promote broad FrontierContract pools into production; only curated A/B rows may be mounted for review.
+- Next technical direction: move from scalar head scoring to a scheduled frontier/window DAG. The generator should reserve/assign at least one interruption window before dense fill, with owner-region order, blocker ownership, and post-drain next-frontier width as first-class state.
+
+# Generated-Root WBP Decision: Current Walkthrough Is Family-Portable, Not Yet Root-General - 2026-07-02
+
+- Decision: treat the current delay72 tail-split closure as a real reusable closure primitive inside the t126/t129 high-coverage skeleton family, but do not claim general alternate-root `0.95+` capability yet.
+- Evidence: t131b applied the same t129a operation to four sibling bases and official trace solved all four at coverage `0.9514170`. Relation audit preserved `58->68->72->28` in all four and found no `60->28` steal.
+- Boundary: the sibling rows still share the same underlying skeleton and remain `B/LocalEasy` with local/nearOuter `7/7`. This proves walk-through portability, not final hardness or broad root generalization.
+- Counter-evidence: true alternate-root t114/t104d continuation is still blocked. Both strict and relaxed scheduled bundle probes from `t114_generalization_probe_t104d_c001_fill095_open` stayed at `0.9311741` with zero accepted bundles, even with relaxed bundle size `1-3`, chain length up to `8`, and max choice `10`.
+- Implementation implication: next work should add a planner-level closure/slot scheduler for the `0.90 -> 0.95` phase on true new roots. Continuing to optimize t129/t126 details is useful only after we decide whether to first generalize closure capacity or chase final A/Hard on the current family.
+
+# Generated-Root WBP Decision: Alternate-Root Closure Needs Earlier Slot Scheduling - 2026-07-02
+
+- Decision: treat t133 as a near-closure breakthrough and a late-repair boundary, not as a final accepted route. The true alternate-root t114/t104d board can official-solve at `0.9493927`, but current late operators cannot cross `0.95`.
+- Evidence: direct short new-chain closure from t114 and from the +9 near-closure rows has `cleanOk=0`; the available short empty components all become Greedy-unsolved if cut as late chains.
+- Evidence: multi-tail extension proves the right mechanism class exists: extending existing semantic chain bodies yields 4 official-solved rows at `0.9493927`. These rows keep the board playable but remain `B/LocalEasy`, so they prove closure capacity rather than difficulty.
+- Boundary: adding the 10th cell by late multi-tail extension, single-cell extension from +9, or targeted tail-split closure around the two residual components failed. The best +10 frontiers reach `0.9514170` geometrically but deadlock under Greedy.
+- Implementation implication: the next root-general planner must reserve or assign the last 1-2 coverage cells before the board reaches the `0.949` near-full state. The final cells should be part of the whole-board cell responsibility plan, with release owner and escape-ray effects known before chain cutting.
+- Operational rule: do not repeat broad tail-split brute force for t114/t104d unless a new scheduler narrows the candidate set by planned release/target ownership. Blind final repair wastes time and has already hit the relevant boundary.
+
+# Generated-Root WBP Decision: Tail-Only Scheduling Is Not Enough For t104d - 2026-07-02
+
+- Decision: do not treat exhaustive existing-tail path scheduling as the missing root-general closure solution. It is a useful diagnostic, but t104d still needs earlier basin ownership or recut planning.
+- Evidence: t134 enumerated all short tail paths from `t114_generalization_probe_t104d_c001_fill095_open`: `10` eligible chains, `15` path options, and `31` exact `+10` combinations to reach `0.9514170`. Accepted rows: `0`.
+- Evidence: all exact `+10` assignments deadlock under Greedy after only `37-38` removed chains, with stable blockers around `7->40`, `12->40`, `40->26`, and `27->42`. This is a structural basin lock, not a missed tail ordering.
+- Boundary: t133's `0.9493927` official-solved rows remain a meaningful near-closure proof. The negative t134 result only rejects tail-only closure to `0.95+` on this alternate root; it does not reject the generated-root WBP direction.
+- Implementation implication: the next root-general route should schedule the chain40/42 basin earlier, likely by reserving a non-tail release/recut slot or changing a semantic owner assignment during the `0.90 -> 0.94` phase. Re-running final tail extension, final new-chain closure, or unconstrained tail-split brute force is now a known dead end for this geometry.
+
+# ScheduledBreak Needs Official Step Proof Before Review - 2026-07-02
+
+- Decision: for read-demand hardening, a candidate is not considered a true break unless official trace shows `choiceChokeAfterLocalFrontierBreakCount >= 1` or equivalent step diagnostics with `choices <= 2`, region/frontier change, and `frontierHardBreakAfterChosen=True` after a local patch drains.
+- Evidence: `SGPPressureReadDemandV1ScheduledBreak` produced a positive row, `rdsb_03`, with tier `B`, avg/max `4.85/11`, window `30-34:2 1 1 1 1`, and step-level hard breaks at steps `30-32`. This matches the intended interruption signal better than earlier ChokeSwitch/FrontierContract packs.
+- Boundary: one positive row out of twelve is not量产. Keep ScheduledBreak isolated and use it as a proof target; do not merge it into PSG/PSG-derived production gates until hit rate and human playtest improve.
+- Next accepted route: make scheduled old-frontier removal a first-class generation contract, not only a scoring bonus. A good next smoke should require at least one official after-local frontier break and keep max choices near `<=12`.
+
+# SGP Read-Demand Decision: Choice Peak Compression Is A Hard Gate, Not A Cosmetic Score - 2026-07-02
+
+- Decision: for ScheduledBreak/read-demand hardening, `maxChoices` and concentrated local clearing must be controlled as acceptance gates, especially around the interruption window. A candidate with a low average choice count can still feel easy if one local patch opens too many simultaneous removals.
+- Evidence: the old ScheduledBreak review row already had a valid low-choice window, but official max choices were `11` and source early choices were `44.4/119`; the rebuilt ChoiceCompress row keeps the break signal while official avg/max choices improve to `4.08/7`.
+- Evidence: source-side pressure also moved in the desired direction: early choices `25.0/72`, chain-choice wave `4.1/8`, portable openers `2`, and official after-local frontier breaks `2`.
+- Boundary: this is not production-yield solved. The hard gate selected `1/12` rows. The next route should increase hit rate and enforce forced area-switch/old-frontier removal as a planned contract, not keep tightening scalar penalties until yield collapses.
+
+## ScheduledBreak ChokeWindow Gate - 2026-07-02
+
+- Decision: ScheduledBreak forced-switch detection uses a new source-side `ChokeWindow` metric, but it does not replace the global `SwitchFlow` gate.
+- Reason: smoke11 showed multiple failed candidates have strong low-choice windows (`1/2` choices with switch/frontier/new-region evidence), including the old row 3 negative-feel sample; row 3 must remain rejected by global region/local continuity (`RegionRun=5`) despite window strength.
+- Accepted gate shape: a kept ScheduledBreak candidate must pass `ChoiceGate`, global `SwitchFlow`, and `ChokeWindow`. `ChokeWindow` proves a local "only 1-2 choices then forced switch" moment; `SwitchFlow` prevents whole-board regional sweeping.
+- Next tuning target: reduce choice peak/opener pressure (`maxChoices` ideally `<=8`, current row 11 official max `9`) and `localPatchSolveRunMax` (current `6`) by changing generation pressure/placement, not by loosening gates.
+
+## RegionFrontierReplay Must Pair Break Signal With Continuity Risk - 2026-07-02
+
+- Decision: do not use a static/coarse region graph or ChokeWindow alone as the next ScheduledBreak gate. Use dynamic owner-region frontier replay and explicitly pair break evidence with continuity-risk fields.
+- Evidence: first replay comparison classifies both `rdsb_03` and `rdsb_11` as having real break signals, but both retain continuity risk in different ways. `rdsb_03` has lower choices and more remote-narrow breaks, yet still has dependency/region-collapse continuity risk; `rdsb_11` has stronger switch feel but still has localPatch/switch-continuity and one post-break explosion.
+- Implementation rule: a future kept candidate should not just prove `frontierHardBreak + narrow reopen`; it must also limit post-break explosion, dependency follow run, region-collapse run, and localPatch run. Otherwise the player can still feel continuous sweeping after a nominal break.
+
+# Generated-Root WBP Decision: Move To Region-First Constraint Projection - 2026-07-02
+
+- Decision: t137/t138 local run-break work has reached a local patch ceiling. The next Generated-Root WBP lane should use region-first constraint flow as the planning primitive, then compile to seedState/frontier reservations before chain cutting.
+- Decision: late-owner trace edges are evidence, not direct generation instructions. Map edges such as `67->79`, `40->9`, and `83->5` to region pressure, delay, choke, guard, and cross-basin duties instead of trying `edge -> edge` or `edge -> chain` replay.
+- Evidence: t140a projects `144` t138 cell-demand rows into `9` stable region-duty rows and `16` seedState-like rows before chain generation. Top-region Jaccard remains `1.000` under +/-10% role-weight perturbations.
+- Boundary: the current t138 demand is `19x26`, while the current generated-root input `geosupply_sched_root10_from_40eb0da7_r1_c038` is `23x30`; therefore t139's direct demand smoke is diagnostic-only and cannot be treated as a valid root planner baseline.
+- Evidence: t140b finds a compatible `19x26` generated-root input, `root154_from0700_tail0_c01`, where the same projection yields `16/16` planner-ready seedStates. This means the next step can test reservation integration without solving coordinate normalization first.
+- Implementation implication: before V12 materialization, feed compatible seedStates into frontier reservation and require forward evidence: nonzero reservations, ready seedStates, and early trace/topology divergence before accepting any chain-cut candidate. Add coordinate/frame normalization only when reusing a differently sized root is necessary.
+
+# Generated-Root WBP Decision: SeedState Materialization Channel Is Viable But Needs Solved-Prefix Expansion - 2026-07-02
+
+- Decision: keep the t140/t141 region-duty route as the current Generated-Root WBP baseline. The viable pipeline is `region duty -> seedState reservation -> materialized chain-plan seed rows -> V12 strict validation`, not demand penalty alone and not late local repair.
+- Evidence: t141a maps `16/16` ready seedStates on generated root `root154_from0700_tail0_c01` to `44` concrete empty reservation demand cells; t141b proves V12 loads those cells and scores overlapping options.
+- Evidence: t141c/t141h/t141j prove materialization works: V12 reconstructs materialized seed rows through `--chain-plan-seed-csv`, accepts strict solved-prefix seed states, and writes legal candidate assets. Best strict prefix currently has `3` planned seedState chains, coverage `0.7388664`, Greedy `True/3.966/10`, and demand overlap weight `752.152`.
+- Boundary: this is not the final target. Coverage is still far from `0.95+`, contracts are still mostly choke-region seed chains, and naive `4`-chain region assembly is Greedy-unsolved. A broad unbounded 3-chain search also timed out, so future expansion must be staged and bounded.
+- Implementation implication: next work should make solved-prefix expansion first-class: add release-impact-safe pruning, region/basin diversity constraints, and incremental official/Greedy gates while growing from the accepted 3-chain prefix. Do not treat the old V12 `cell_demand` penalty path as sufficient, and do not continue brute-force group search without pruning.
+
+# Generated-Root WBP Decision: t142 Front-End Works, Coverage Layer Must Be Replanned - 2026-07-02
+
+- Decision: the Generated-Root WBP front-end is now viable through `region-duty -> ordered seedState materialization -> V12 chain-plan seed -> official trace`. The current accepted backbone is the t142h exact-5 seedState route on generated root `root154_from0700_tail0_c01`.
+- Evidence: t142f exact-4 and t142h exact-5 both preserve root fingerprint `5f26bf2d9d40c90a`, pass V12 strict Greedy, write semantic planned relations, and replay in official trace as `4/4 A`. t142h has `5` short/medium semantic chains, coverage up to `0.7510121`, openers `3`, max choices `6-7`, localPatch `3`, and outerExit `1`.
+- Decision: do not continue trying to reach `0.95+` by adding more current seedState groups. Current one-region-one-seedState capacity is effectively capped at `5` viable regions; the next work must introduce a coverage-layer option supply generated against the accepted causal backbone.
+- Evidence: r3c2 is a negative boundary (`singleGreedySolved=False`, depth-4 exact-prefix rejects by Greedy deadlock), while r3c0/r3c1 currently produce no materialized options. Old V12 carrier extension and cluster checks from the 5-chain backbone also rejected all +1 attempts by Greedy unsolved, loop risk, or overlap.
+- Implementation implication: the next planner stage should compile coverage duties from the t142h backbone before chain cutting, with protected escape/first-hit contracts and official trace validation. Reusing old carrier/cluster options as a late coverage patch is a diagnostic only, not the main path.
+
+# Generated-Root WBP Decision: t143 Coverage Layer Is Viable But Single-Layer Owner-Hit Caps Near 0.82 - 2026-07-02
+
+- Decision: keep the t143 direction as the current continuation: a generated-root causal backbone plus a planned coverage-duty layer is one planner control surface, not two unrelated placement systems. The backbone remains the immutable causal core; coverage chains must declare old-owner release contracts and preserve root identity.
+- Evidence: `Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py` formalizes the layer and reproduces the owner-hit probe in a root-preserving manifest. t143g on `t142h_root154_seedstate_exact5_orderA_strict_smoke_c004` adds `12` short coverage chains / `36` cells, raising coverage from `0.7489879` to `0.8218623`.
+- Evidence: official trace for t143g top4 remains `4/4 solved`, process `A`, avg/max choices `2.49/6`, outerExit run `1`, localPatch run `3`, structuredHardnessV21 `0.745`, and frontierDrainRemoteChokeCount `9`. This proves the coverage layer can add substantial cells without collapsing into LocalEasy or outer sweep.
+- Boundary: old-owner-hit coverage supply by itself is not enough for the final `0.95+` goal. On this backbone the practical single-layer ceiling is currently about `0.82`; reaching `0.95+` requires either a second-stage region/coverage supply, earlier recut/reservation of coverage duties, or broader source-basin planning before final chain cutting.
+- Risk/metric note: t143g improves coverage and keeps process A, but some human-read quality metrics drop from t142h (`hardStructureV3Score ~0.32`, `solveTraceQualityScore ~0.784`, collapse risk `~0.312`). The next layer should include switch/choke quality in scoring, not only coverage and low choices.
+- Operational rule: use `--selection-mode greedy` for t143 V1 throughput. Beam mode currently runs for small smoke but times out on 12-chain searches until option/Greedy evaluation is cached or staged.
+
+# Generated-Root WBP Decision: t144 Unified Duty Graph Replaces Post-Backbone Filler As Current Baseline - 2026-07-02
+
+- Decision: t144 is now the preferred Generated-Root WBP continuation. The accepted route is `root input -> unified duty scheduler -> seedState duty + coverage basin duty selection -> single materialization -> official trace`. Do not treat t143 as the default production path; t143 remains a diagnostic proof that coverage duties are mechanically viable.
+- Evidence: `Build-GeneratedRootWBPV12UnifiedDutyGraphSchedulerV1.py` starts from the generated root asset via `rootPath`, not from a prebuilt t142h backbone asset. It selects a seedState group and coverage bundle in one scheduler and emits duty/cell-plan CSVs before writing candidate assets.
+- Evidence: t144a reaches coverage `0.8238866` with `5` seedState chains and `12` coverage duties, official trace top4 `4/4 A`, avg/max `2.65/6`, outerExit `1`, localPatch `3`, structuredHardnessV21 `0.759`, solveTraceQuality `0.814`, and frontierDrainRemoteChokeCount `8`.
+- Anti-post-hoc proof: t144a candidate rows carry `preMaterializationDutyCommit=1`, `dutyGraphMode=unified_seedstate_coverage_v1`, and full-board cell-plan assignment. The selected seedState groups differ from t143g's fixed t142h c004 source, so this is not identical backbone plus extra chains.
+- Boundary: t144 is still a V1 control-surface proof. It does not solve the `0.95+` gap; single-layer old-owner-hit coverage still caps near `0.82`. The next technical problem is coverage basin capacity and future release reservation, not more same-style owner-hit bundles.
+- Implementation implication: next t145 should add region/basin coverage planning before option materialization: assign remaining empty regions to coverage basins with release windows, then let scheduler select options that satisfy basin capacity and future-release diversity. Keep official trace as validation, but require the pre-materialization duty/cell-plan evidence to remain nonzero and explainable.
+
+# Generated-Root WBP Decision: Multi-Wave Owner-Hit Improves Coverage But Caps Near 0.868 - 2026-07-02
+
+- Decision: keep t145 multi-wave unified duty graph as a positive architecture proof, but do not keep drilling same-style owner-hit waves as the main route to `0.95+`.
+- Evidence: t145e plans seedState plus coverage waves `12,4,4,1` before materialization and reaches coverage `0.8684211`, official top4 `4/4 A`, max choices `5`, outerExit `1`, local/nearOuter `3/3`, and root fingerprint `5f26bf2d9d40c90a` preserved.
+- Evidence: t145l with broader beam increases planned prior-wave release edges from `1` to `2`, proving the scheduler changes dependency topology, but coverage remains capped at `0.8684211`.
+- Boundary: after the first 12-chain owner-hit wave, a second 12-chain wave has insufficient valid bundle capacity; after `12,4,4,1`, tail extension finds only one safe cell and extra `+2` or `+1+1` waves fail or time out. Relaxing later-wave single-chain solved filtering produces many options but no valid bundle.
+- Implementation implication: the next complete-level attempt needs a broader coverage-basin primitive before chain cutting: area/basin ownership, body extension, recut/reservation, or a root/seedState layout that creates future coverage capacity. It should still be one scheduler and one materialization, not post-hoc filler.
+
+# Generated-Root WBP Decision: Split Official Trace Gate From Difficulty Verification - 2026-07-02
+
+- Decision: official trace is a hard acceptance gate, not the final difficulty truth. Use `TraceGate` for validity/process health and a separate `DifficultyVerify` verdict for real hard-read evidence.
+- TraceGate answers: official solved, process tier, choice peak/openers, coverage threshold, root preservation, and pre-materialization duty commit. A candidate failing this gate is not eligible for difficulty review.
+- DifficultyVerify answers: whether low-choice windows are meaningful, whether they force region/direction/jump changes, whether local/outer sweeping is controlled, whether remote dependencies/chokes exist, and whether hard structure has support closure, dual gate, bridge, or cross-basin contract evidence.
+- Do not optimize only for official `A`, low average choices, or coverage. Those can produce LocalEasy false positives. A true hard candidate needs both tight choices and structural contract evidence.
+- New class interpretation: `Fail` means invalid or weak difficulty; `Review` means some readable pressure but not enough hard evidence; `HardPotential` means playable hard direction with blockers; `TrueHardCandidate` requires non-LocalEasy structure plus strong remote/anti-flow evidence.
+- Evidence: t145e Cov868 rows all pass TraceGate but verify only as `HardPotential` (`0.707-0.716`), blocked by `LocalEasyStructure`, weak structural contract, no qualified support closure, no strict dual gate, weak remote choke count, and sweep-continuation risk. This confirms the split prevents treating official `A` as final hard proof.
+
+# Generated-Root WBP Decision: Coverage Gap Is Early Space Debt, Not Just Late Fill Search - 2026-07-02
+
+- Decision: the current `0.868 -> 0.95` gap should be treated as early space-debt planning, not as a late coverage-combination problem.
+- Evidence: t145e Cov868 has `65` empty cells and needs `41` more cells to reach `0.95`; EarlySpaceDebt V1 estimates only `29` safe fill capacity, leaving `12` debt cells. `30/65` empty cells are high-risk, `18` are boundary cells, and `27-28` are dangerous outer-fill roles.
+- Evidence: t142h seedState front-end already has large debt (`coverage 0.7489879`, needs `100`, safe capacity `64`, debt `36`), t144a after the first 12-chain coverage layer still has debt `22-23`, and t145e reduces this to `12` but cannot eliminate it.
+- Evidence: late-wave option supply collapses before the final wave. In t145e/t146c, wave 4 starts around coverage `0.8643725` with `rawOptions=1`; by then the scheduler cannot choose a different space shape.
+- Negative boundary: adding space-debt scoring inside the existing t145 coverage-wave scheduler reproduces the same `0.8684211` candidates and the same debt. This proves the intervention is too late if applied only during coverage-wave bundle ranking.
+- Implementation implication: t147 should move outer/high-risk cell duties before or alongside seedState/frontier planning: classify cells as safe body buffer, guard/choke-only, intentional empty, or danger fill before owner-hit coverage options are enumerated. The generator should not leave a concentrated outer/debt tail for the last waves.
+
+# Generated-Root WBP Decision: Budget-Aware Options Improve Rhythm But Not Structural Contract - 2026-07-02
+
+- Decision: budget-aware coverage-option scoring is useful but not sufficient. It can improve remote choke/anti-flow metrics, but it does not reduce the `0.95` space debt or create true hard structure by itself.
+- Evidence: t147b keeps coverage `0.8684211`, official trace `2/2 solved/A`, avg/max choices `2.35/5`, low2 rate `0.605`, after-local frontier breaks `5`, remote choke count `4`, remote choke score `0.916`, local/nearOuter runs `3/3`.
+- Evidence: DifficultyVerifier improves from t145e `0.707-0.716` to t147b `0.730-0.731`, and blockers shrink from `LocalEasyStructure;weak_structural_contract;no_qualified_support_closure;no_strict_dual_gate;weak_remote_choke_count;sweep_continuation_risk` to `LocalEasyStructure;weak_structural_contract;no_qualified_support_closure;no_strict_dual_gate`.
+- Boundary: t147b still has the same space debt as t145e (`need 41`, safe capacity `29`, debt `12`, high-risk empties `30`, boundary empties `18`) and remains `HardStructureV3=LocalEasy` with no qualified support closure or strict dual gate.
+- Negative subcase: t147a's stronger danger-cell rewards dropped coverage to `0.8562753` and worsened debt to `14`, showing that budget rewards can select short guard-like chains that feel tighter but do not solve coverage.
+- Implementation implication: next work should combine early cell budget with structural-contract generation: support closure, dual gate, bridge pressure, and cross-basin required edges must become planned duties before coverage waves. Do not keep tuning budget scalar weights alone.
+
+# Generated-Root WBP Decision: t148 Structural Contracts Need New Materializer, Not BCL Scoring Alone - 2026-07-02
+
+- Decision: the next WBP route should add a structural-contract reservation/materializer before coverage waves. Do not try to solve t147b by only increasing BCL owner-hit scoring.
+- Evidence: t148 relation audit on t147b c001/c002 confirms `LocalEasy` is not caused by missing trace data. The board has deep single-spine closure (`bestClosureRoot=25`, depth `4`, score `0.686`) but no qualified hub; actual cross-critical fanout roots like `50` and `33` stay shallow (`depth=2`, scores about `0.357/0.355`).
+- Evidence: targeted late support-closure bridge probes from t147b c001 produced `0` candidates for root50 release `46/51`, root33 release `30/54`, root25 release `25/77`, root77 release `22`, and root22 release `21`. Rejects are mainly `wrong_release_owner`/`bad_second`, with some `greedy_unsolved`; the near-full board has already spent the useful ray/entry space.
+- Evidence: `StructuralContractProjectionV1` compiles the gap into `34` forward duties: `coverage_space_debt`, `strict_dual_gate_sync`, `planned_bridge_pressure_missing`, `support_hub_extend`, `deep_closure_needs_branch`, and `anti_local_edge_rewrite`.
+- Evidence: uncapped `StructuralContractOptionAuditV1` over root+seedState prefix enumerated `780` current BCL options. High-priority support owners `28/42/76`, `46/51`, and `3/70` are not visible to owner-hit grammar; dual-gate owners `69/20/48` are visible only as `5` single-unsolved options; only lower-priority deep-closure `21/40` has one solved visible option.
+- Implementation implication: the next generator primitive should create/reserve structural chains that can block or delay a target owner's escape ray while being released by an earlier owner, plus reserve space for support child-of-child closure. BCL can remain a coverage primitive, but it cannot be the only chain grammar for hard structure.
+
+# Generated-Root WBP Decision: Coverage Must Preserve Existing Support Closure - 2026-07-02
+
+- Decision: treat support-closure preservation as a first-class coverage constraint. The route is not "find hard structure after coverage"; the generator must avoid spending hard-structure downstream release owners as generic coverage capacity.
+- Evidence: t142h c004 already had a qualified support closure at root `50` (`50->46`, `50->51`, then `51->1`, `1->0`, `1->12`), with closure depth `3` and score about `0.802`.
+- Evidence: t147b reached coverage `0.8684211` but used `1/0/12` as coverage release owners. Relation audit shows root50 degraded to depth `2`, score `0.357`, and `conveyorHeavy`, while the board stayed `LocalEasy`.
+- Evidence: t148k forbids coverage release owners `0,1,12` and preserves root50: official trace `3/3` solved, best process `A/A`, coverage `0.8340081`, relation audit root50 depth `3`, score `0.807`, `crossCrit`, and overall class `MediumStructure`.
+- Boundary: hard protection caps the current owner-hit multi-wave route around `0.834`; t148m/t149c/t149e cannot build wave3 even after later waves reopen the protected owners. This proves the conflict is structural, not a missing scalar weight.
+- Implementation implication: future WBP coverage must introduce a structural coverage outlet such as protected-body expansion, support-aware recut, or parent-release blocker/bridge materialization before generic BCL waves. Do not solve this by post-hoc filler, late repair, or just making coverage chains longer.
+## Campaign500 Planning Method Baseline - 2026-07-02
+
+- Decision: use `Campaign500 Slot Spec V2` as the stable planning baseline before resource assignment.
+- The fixed method is: keep the original template skeleton, define each slot by 10-level micro-loop role and 50-level macro arc, plan with `targetEffectiveLoad` instead of raw chain count, then match/generate candidates by duty and required evidence.
+- Shape slots are visual/perspective wrappers and hole slots are spatial anchors; neither should be used as filler for normal peak slots.
+- Front20 is treated as hand-authored: L1 remains tutorial, L10 is a light quiz, and L19 is the first mini-boss around effective load `56-66`.
+- Current choke/key-arrow review candidates are classified as `NormalPlus/ReadCheck-lite`, not hard/peak supply. True hard+ still requires forced reread, remote narrow frontier, and meaningful downstream consequence.
+- Future changes should update slot fields, load bands, evidence requirements, or candidate matching against `campaign500_slot_spec_v2_locked.csv`; do not restart the whole 500-level pacing logic unless the user explicitly invalidates this baseline.
+
+## HoleMask Decision: Nutation Is An Approved Seed Pool, Not A Replacement Generator - 2026-07-02
+
+- Decision: for mask-crop HoleMask production, use updated Nutation outputs as a whitelisted external seed pool under `Assets/ArrowMagic/SOData/Levels/Seeds/NutationCandidatePool`, not as a wholesale replacement for seed crop + repair + Greedy validation.
+- Reason: the product rule is still "crop/mask an existing seed, repair, refill, and Greedy-validate"; Nutation direct procedural logic has useful long-chain/flow priors but does not preserve arbitrary mask shape by itself.
+- Evidence: after copying `106` Nutation seed assets into the experiment project and rerunning the high-chain 100-150 batch, Nutation seeds appeared in preview Top8 on `3/5` masks but did not enter final accepted Top3. Current R1/R2 seeds still dominate by fill, chain target fit, and deep-run score.
+- Implementation implication: the low-risk integration is correct, but quality impact needs a dedicated Nutation deep-run lane or reserved per-mask Nutation attempt. Avoid simply increasing Nutation score bonus so much that lower-quality previews displace better R1/R2 candidates.
+
+## HoleMask Decision: Greedy + Fill + Chain Count Is Not A Production Quality Gate - 2026-07-02
+
+- Decision: do not promote `HoleMask_HighChain_100To150_Candidates.asset` or similar rows based only on Greedy pass, fill ratio, chain count, and block-hit checks.
+- Evidence: the reviewed high-chain pack passed the current technical screen (`100-150` chains, fill >= `80%`, hole/block hits `0`, Greedy-solvable) but was rejected by human review as too simple and mechanical.
+- Reason: the current screen measures "can be solved" and "is dense"; it does not measure whether the solve path has real dependency, reread, choke/switch moments, or varied decision rhythm. High chain count can be fake complexity when many chains are direct exits or parallel strips.
+- Required future gate: before calling HoleMask output production-ready, add quality filters for direct/outer exit ratio, initial choice count, local clearing run length, same-direction strip dominance, dependency depth, and official/Greedy trace rhythm. Human review remains the final arbiter for this family until those metrics correlate with feel.
+
+## HoleMask Decision: Hole Terrain Works Best As A Constraint On Seed Structure - 2026-07-02
+
+- Decision: do not treat the first `Nutation seed structure + fixed-hole terrain blocker + dependency/outer-exit gates` probe as production-ready. It is only a constraint experiment and its first review pack is rejected.
+- Evidence: the direct template blocker V13 rerun accepted `0` strict Top5 rows and the debug candidate looked mechanically striped. In contrast, `RunHoleMaskNutationTerrainProbeBatch` produced `2` Greedy-valid probe levels with hole ray hits `0`, direct outer exits only `5-6`, final dependency depth `11`, and fill around `88%`.
+- Human review correction: the two-level probe still looked like obvious mechanical rails/parallel strips and should be marked as a false positive. Numeric dependency/outer-exit metrics alone are not enough.
+- Boundary: hole-as-terrain can cooperate with Nutation seed structure technically, but the lane is invalid until it adds visual/mechanical rejection gates for parallel strip dominance, boundary ring/rail dominance, large empty components, hole engagement, and trace/local-run rhythm.
+- Implementation implication: future expansion should reserve a dedicated Nutation-terrain lane only after these visual/trace-feel filters exist. Do not add current probe rows to formal HoleMask production pools.
+
+## Campaign500 Shape Slot Role - 2026-07-02
+
+- Decision: shape is first a visual/perspective wrapper, not a standalone difficulty source. It plays the same slot roles as other levels: reward, release, practice, read-check, hard, or occasional bottleneck cameo.
+- Calibration: current Nutation-generated shape feels slightly harder than ordinary peel, but only by a small premium. Do not use shape geometry alone to carry core hard/extreme difficulty.
+- Implementation: `Campaign500 Slot Spec V2` now marks shape styles as `ShapeHosted/...`, uses shape-specific production needs such as `use_existing_shape_anchor_pool`, `partial_supply_need_shape_readcheck`, and `needs_underlying_hard_supply_shape_cameo`, and requires `underlying_non_shape_read_evidence` for shape-hosted peak slots.
+- Production implication: if a shape slot is code 3/4, select or generate a real hard-read/dependency candidate and apply shape as a theme lens. Shape can occasionally guest as a bottleneck, but the proof must come from trace/read/dependency evidence.
+## Generated-Root WBP: Structural Outlets Must Be Front-Loaded - 2026-07-02
+
+- Decision: do not treat parent-release blockers or release-window interposers as late repair/fill operators on an already covered board.
+- Evidence: on protected t148k (`0/1/12` release owners preserved), PRB produced `0` raw candidates; release-window interposer produced valid-looking contract attempts but all contract candidates were Greedy-unsolved after coverage was already packed.
+- Positive boundary: the same release-window interposer grammar works on the earlier t142h skeleton. A `10 -> interposer -> target 56 window` candidate official-traced `A/A` and preserved root50 support closure.
+- Consequence: structural outlets belong before generic coverage waves, inside a scheduler layer that allocates delay/block/dual-gate duties with spatial diversity. Late insertion can be used only as feasibility evidence.
+- Current limit: single or double front-loaded interposers plus protected BCL reaches only about `0.836` coverage, with `HardPotential` but no strict dual gate. Further progress needs multi-duty scheduling, not scalar BCL tuning.
+
+## Generated-Root WBP: Strict Dual Gate Needs Early Control-Slot Reservation - 2026-07-02
+
+- Decision: do not keep trying to create strict dual gate by late control-chain insertion on t151h/t150j-style boards. The missing dual-gate control slot must be planned before coverage and likely before seedState materialization.
+- Evidence: t151 remote-gap structural interposer keeps process `A/A`, root50 support depth `3`, and DifficultyVerify `HardPotential`, but still fails `no_strict_dual_gate`.
+- Evidence: t152 added official `newParentEdges` diagnostics and used the real trace `parentOf` for dual-gate probing. It found `4` upstream-control near-pairs, all requiring target gate `5`, but `0` late materialized control candidates.
+- Evidence: every gate5 control slot around `(0,14)` has incumbent debt. `0,14;0,13` is blocked by body owner `34` plus release-ray owners `14;32;41`; `0,14;0,15` is blocked by body owner `41` plus release-ray owners `15;34;54;70`. The projected slots are `8/8` debt and `0/8` clean.
+- Interpretation: the failure is not "candidate search missed a chain"; it is a whole-board duty allocation failure. Coverage/root/seedState have already occupied the control body cell and release corridor needed for the gate contract.
+- Implementation implication: next WBP generator work should introduce `dual_gate_control_slot` and `control_release_corridor` reservations in the early duty graph. Owner-hit BCL may fill around those reservations, but must not consume them. Late relocation/repair of t151h is a negative boundary unless used only for diagnostics.
+
+## Generated-Root WBP Decision: Product Gate Is Hard-Core Window Plus Tail-Safe Fill - 2026-07-03
+
+- Decision: accept the product definition `0.95+ coverage = hard-core invariant window + tail-safe fill`; do not require the whole solve trace to remain `A` if the hard-core window survives and the tail is hygienic.
+- Verification split: every candidate must still output `Overall`, `Hard-Core Window`, and `Tail Hygiene`. `Overall` includes coverage/root/pre-materialization evidence; Hard-Core and Tail are separate sub-gates.
+- Evidence from t172b: c038 micro-wave extensions from `0.755` to `0.830` preserve dependency entropy, region entropy, branch diversity, and spine risk within small deltas. Tail is not currently polluting the c038 hard-core; capacity is the blocker.
+- Evidence from t172a/t171: root154/t142 style cross-basin and patchwork variants can reach `0.8684211` with root/preplan evidence but become tail-safe capacity poisoned near `0.864`, so blind continuation is not the right search.
+- Evidence from c027: t158m has the strongest hard-core/tail shape so far (`0.9068826`, Hard-Core pass, Tail pass), but it failed product Overall due coverage below `0.95` and missing propagated root/preplan fields. Upstream t157e c005 preserves root/preplan, so the shape is useful as a capacity reference, not as a completed candidate.
+- Implementation implication: next work should search for hard-core invariance and capacity together. Preferred routes are c027/maze-like capacity reproduced with generated-root product metadata, or an early reservation/rewrite operator that gives c038/root154 more safe tail capacity without spending hard-core support slots.
+
+## Generated-Root WBP Decision: Hub/Spiral Are Negative Under Current Owner-Hit Grammar - 2026-07-03
+
+- Decision: do not make hub-like or spiral templates the next main route while using the current owner-hit coverage grammar and `12,4,4,1` multi-wave materializer.
+- Evidence: t173 same-root structure-family smoke on `root154_from0700_tail0_c01` shows patchwork and cross-basin both reach `0.8684211` with official `A/A`, Hard-Core pass, Tail pass, root/preplan true. Hub and spiral both fail at wave1 with `rawOptions=500`, `filteredOptions=500`, and `bundleCount=0`.
+- Interpretation: hub/spiral are not merely under-ranked; their structure-template pressure selects option sets that cannot form a Greedy-valid first coverage bundle in this grammar. Tuning scalar rewards is unlikely to produce the needed `0.95+` product.
+- Implementation implication: treat patchwork/cross-basin as the viable current-grammar structures, but acknowledge their capacity ceiling. For the next breakthrough, either transfer the c027/maze-like capacity into product-compliant generated-root evidence, or add an early reservation/rewrite primitive that increases tail-safe capacity before coverage waves.
+
+## Generated-Root WBP Decision: c027 Clean-Tail Closure Is Capped After 0.9069 - 2026-07-03
+
+- Decision: use c027/maze-like output as high-capacity hard-core reference, not as proof that the remaining `0.95` tail can be solved by late clean closure.
+- Evidence: `t173j_c027_after0906_noopen_tail_probe` starts from `t158m_c027_c005_psclosure_after_open12_noopen_095` at coverage `0.9068826`, keeps propagated `rootPreserved=True` and `preMaterializationDutyCommit=1`, remains Greedy solved, but adds `0` chains under no-open tail constraints.
+- Evidence: `t173k/t173l` official/product recheck classifies the lineage-propagated row as solved `B/B`, `CoverageIncompleteHardCore`, Hard-Core pass, Tail pass, and `Overall Fail` only for `coverage_below_product`. This removes the earlier t167 lineage blocker for c027, but the coverage gap remains.
+- Evidence: the closure probe stalls before target with reject top `greedy_unsolved:65, open_cap:13`, so the missing cells are not just unsearched easy filler. Allowing easier open-tail behavior may increase coverage, but would risk product tail hygiene and player-stall meaning.
+- Implementation implication: the c027 path needs earlier tail-space reservation/rewrite inside the duty graph, or a regenerated c027-like root family whose hard-core and tail capacity are planned together. Do not continue by repeatedly appending late no-open closure probes to the same `0.9069` board.
+
+## Generated-Root WBP Decision: c027 Tail Needs Option-Level Anti-Spine, Not Blind Open Fill - 2026-07-03
+
+- Decision: controlled open-tail is allowed as a product mechanism only when product verifier keeps Hard-Core and Tail Hygiene pass. It should be selected with anti-spine evidence, not by raw Greedy/coverage score.
+- Evidence: t174 controlled open-tail raises c027 from `0.9068826` to a hygienic `0.9251012` (`t174l`) while preserving root/preplan, Hard-Core pass, and Tail pass. This proves `no-open` was too strict as a product tail rule.
+- Negative evidence: the default third open `(5,0;5,1)` produces official-solved rows (`t174c/t174d/t174o/t174v`) but fails Tail Hygiene through `global_dependency_follow_run`, with `globalDependencyFollowRunMax=12`.
+- Negative evidence: forcing `(5,0;5,1)` as the first open-tail chain (`t174ac`) still fails Tail Hygiene with the same global dependency-follow risk, so the problem is not solved by simply moving the same cluster earlier in the late-tail order.
+- Boundary: from clean `t174l`, forbidding `(5,0;5,1)` leaves `0` accepted next-chain alternatives under wide enumeration. The cell cluster is not just badly ranked; it needs earlier duty/reservation/rewrite or a different release context before materialization.
+- Implementation implication: the next generator step should promote tail option audit into a scheduler constraint: detect dirty late-open clusters, reserve or rewrite them earlier, and score against dependency-spine risk. Do not treat open-tail count alone as either success or failure.
+
+## Competitor-Hard Decision: Direct SGP Is A Control Sample, Not The Hard Target - 2026-07-03
+
+- Decision: direct SGP/Pressure can be used to compare full-board high-coverage shape and playable fill, but should not be treated as a completed competitor-hard route unless trace/dependency evidence improves beyond `LocalEasy`.
+- Evidence: fresh `.worktrees/competitor-hard-fresh` SGP trial generated 4 solved rows at coverage `0.978-0.994`; trace/join kept 2 rows with process `A/B` and max choices `8`, but both keep rows still classify `LocalEasy`.
+- Implementation implication: future competitor-hard work should borrow SGP's whole-board high-coverage fill behavior, while adding a real skeleton/core-chain dependency plan that creates remote choke/support/dual-gate evidence. Do not regress to V7-style tail fill, and do not call SGP direct hard just because coverage is high.
+
+## Competitor-Hard Decision: Preserve Skeleton Difficulty Before Coverage Tail - 2026-07-03
+
+- Decision: for V10/T145 skeleton handoff, prioritize preserving the hard skeleton's choice pressure and medium-structure window over maximizing coverage with late outer exits.
+- Evidence: V12 high-exit SGP suffix pushed coverage to `0.822-0.835`, but official trace was `4/4 Drop` with max choices `18-20`. User playtest matched this: late coverage fill created too many outer exits and made the perimeter easy even though the mid/late skeleton still existed.
+- Evidence: V12 low-exit hard-preserve suffix limits direct exits to `4`, keeps V10 prefix unchanged, and official trace gives `1 A / 3 B`, including `A/MediumStructure` at coverage `0.754`. This better preserves skeleton difficulty even with lower coverage.
+- Evidence: allowing owner-hit chains to overlap prefix corridors raises coverage to `0.844-0.854` with max choices `7-8`, but official hardStructure falls to `LocalEasy` for all rows because corridor occupation shortens/linearizes the causal skeleton.
+- Implementation implication: do not continue suffix-only coverage pushing. The next real generator change should front-load exit/corridor ownership and structural outlets before generic coverage waves, borrowing the t179-t181 boundary-ownership conclusion: dirty/tail boundary cells need root/seedState/reservation context, not late repair.
+
+## Generated-Root WBP Decision: Hard-Core Window Needs Explicit SSWD Plus Protection - 2026-07-03
+
+- Decision: `hard-core window` is now a first-class front-loaded duty (`SSWD_FRONTIER_BREAK_SUPPORT`), not a post-hoc trace label. SSWD specs are scheduler-eligible only when the source window has `hardCoreGate=Pass` and the anchor step has `frontierHardBreakAfterChosen=True`.
+- Evidence: t183a showed old t182 hard-core windows were not explicit SSWD (`CoverageDutyOnly` or `TraceOnlyNoDuty`). After adding eligible SSWD scoring, t183c produced `sswdPreCommitCount=9` and Hard-Core pass at coverage `0.6842105`, proving a forward SSWD channel can create the desired window.
+- Negative boundary: including t182m as SSWD evidence polluted generation because its source hard-core failed and anchor frontier break was false. Do not use failed/fuzzy hard-core windows as scheduler specs.
+- Decision: post-SSWD coverage must protect the support window. Later waves that reuse SSWD release owners or basins can erase `frontierHardBreakAfterChosen` even while the board remains solved.
+- Evidence: t183g 16-wave without SSWD protection raised coverage to `0.7226721` but lost Hard-Core; t183j soft protection restored Hard-Core at `0.7186235`; t183l hard protection with wider pool found outside protected options and retained Hard-Core at `0.6882591`.
+- Implementation implication: the next generator stage should not blindly extend micro-waves. It needs `SSWD protection + outside-supply candidate expansion + anti-spine tail selection`; hard filtering works only if the post-SSWD candidate pool is broad enough.
+
+## Generated-Root WBP Decision: Post-SSWD Tail Failure Is Scorer Bias, Not SSWD Failure - 2026-07-03
+
+- Decision: keep SSWD and UDG as the same unified scheduler; fix post-SSWD tail selection with structural-divergence scoring rather than adding a second generator.
+- Evidence: t183m rank audit showed the bad tail option that yields `dependencySpineDominanceScore=1.0` was ranked `#1` by the current scorer. Top9 were all `r1c0->r1c0 / releaseOwner46`, so this is a ranking bias toward spine continuation.
+- Evidence: t183n/t183o added default-off tail anti-spine scoring. t183o redirected wave13 to `r1c1->r2c1` released by root owner `27`, kept Hard-Core pass, reduced local run `11 -> 5`, and reduced spine dominance `1.0 -> 0.89`.
+- Boundary: t183o still fails Tail Hygiene because dependency-follow run remains `10`, and PlayerStall low-choice strength drops. Anti-spine scoring alone is helpful but incomplete; the next scoring proxy needs dependency-follow/run-break awareness, not only region/basin/owner diversity.
+- Implementation implication: scale this path by making the wider candidate pool late-only and adding a dependency-follow proxy for post-SSWD tail options before attempting 16/20/24-wave coverage pushes.

@@ -1,5 +1,805 @@
 # Current Status
 
+## Generated-Root WBP t183 Final Evaluation Semantics Freeze - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; t183 is now closed as an evaluation-semantics result, not an open generator/scorer bug.
+- Final model: `Generation (SSWD + UDG)`, `Structural Difficulty (anti-spine / discontinuity)`, `Solvability Invariant`, and `Solver Policy Artifacts` are separate layers.
+- Evidence: t183o wave13 pool300 already exposes clean root-domain cross-region candidates (`top10/top20` all `singleBoardGate=Pass`), and t183p parent-run-break re-rank gives valid discontinuity reward but does not change the saturated top-k.
+- Fixed-board policy perturbation closes the remaining ambiguity: official/max-cleared style policies keep `dependencyFollowRunMax` near `9-10`, deterministic `anti_follow` solves the same board with run `4`, and random / anti-follow-random policies both solve `5000/5000` trials with `minRemoved=48` and no deadlocks.
+- Conclusion: `dependencyFollowRunMax` is a solver-policy-conditioned traversal footprint, not a standalone difficulty/generation failure gate. It may be used for solver comparison, execution-bias debugging, and player-model calibration only.
+- Next work should not keep tuning UDG/wave13/scorer just to lower official dep-run. The next valid layer is product verifier semantics and a real player-difficulty model, while structural product gates remain `Overall`, `Hard-Core Window`, and `Tail Hygiene`.
+
+## Competitor-Hard Phase Ledger V14 Experiment A Result - 2026-07-03
+
+- Worktree: `.worktrees/competitor-hard-fresh`; extended `Tools/Production/Build-CompetitorCoreSkeletonPlannedReserveV13.py` with opt-in `--enable-phase-ledger` / `--ledger-strictness`, writing isolated V14 outputs instead of overwriting V13.
+- V14 adds step-aligned local clear-step estimation, phase windows `P0_setup/P1_build/P2_controlled_release/P3_cleanup`, `futureDebt`, `ledgerReleaseStep/Frac/Phase`, BCL/interval ledger filtering, room/SGP premature-unlock penalty, and `competitor_core_skeleton_phase_ledger_v14_phase_ledger.csv`.
+- Final smoke used `--ledger-strictness 0.45 --variants-per-profile 1 --keep 3 --min-coverage 0.70`; Demo-mounted pack is `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonPhaseLedgerV14Pack.asset`, GUID `da4d9b3e658446879522416549ecf971`.
+- Static rows: coverage `0.732-0.760`; best `ccsf_v14_001...reserve_mid_body100_r1` reaches `0.760`, base/BCL/interval/slot/room `0.468/0.489/0.619/0.686/0.714`, slots `12/12`, room/SGP `8/11`, ledgerDebt `1.84`, choices `3.65/13`.
+- Official light trace: `3/3` solved but all `LocalEasy`; process `B/B/Drop`, hardStructureV3Score `0.099-0.137`, max choices `12-13`, outerExitHeadCount `12-13`. Top-coverage official step trace shows early choice spike and no frontier hard breaks (`0` hardBreaks across 20-step buckets).
+- Interpretation: Experiment A confirms ledger instrumentation and penalties work, but Phase Ledger Only fails the success signal (`0.83+` and MediumStructure). The failure is now sharper: static slots plus ledger braking cannot create missing capacity; next step should be Experiment B, contiguous Phase Rooms with real frontier-break/support contracts before interval, not more strictness tuning or SGP suffix work.
+
+## Generated-Root WBP t183 Root Parent Cascade Audit - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; audited t183n/t183o official step diagnostics to answer whether residual `dependencyFollowRunMax` is caused by a globally dominant root-parent single spine.
+- Result: both t183n and t183o have `41` total `newParentEdges`, `24` root-root edges, and the longest root-root path is `31->22->21->20->19->18->17->16->15->14->13->12` with `11` edges.
+- The longest path share is `11/24 = 0.458` of root-root edges and `11/41 = 0.268` of all parent edges, below the `>60%` single-chain dominance threshold.
+- Interpretation: the remaining t183o failure is not a full graph-level single-spine domination. It is a temporal dependency-follow/run-order collapse where official trace continues along a long root cascade (`16->15->14->13->12->43->7->6->5->4`) after anti-spine scoring already reduced spatial/local collapse.
+- Offline graph-only traversal shuffle confirms the same direction. Keeping the first `13/20/25` official steps fixed and randomly topologically reordering the tail drops t183o dependency-follow run from official `10` to random median `6/6/5`; an anti-follow greedy reorder drops it to `4/4/5`. t183n drops from official `11` to random median `7/7/8` and anti-follow `6/6/7`.
+- Implemented default-off `--tail-parent-run-break-*` controls in `Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py`. The scorer uses recent root-domain `hitOwnerBaseGreedyStep` memory, near/repeat parent-step penalties, adjacent root-owner penalty, and step-discontinuity reward, with option/candidate audit fields `tailParentRunBreak*`. `python -m py_compile`, CLI help, and synthetic scorer smoke passed (`far step +120`, repeated/near adjacent root candidate `-360` under the smoke weights).
+- Smoke boundary: early t183p reruns need `--coverage-option-early-stop` and `--max-greedy-initial/--max-greedy-max 7` to match t183o. Fast pool80 reaches wave13 but has only `6` filtered options and `0` bundles; pool300 runs are slow and timed out in this interactive pass. This is a run-parameter/performance boundary, not a scorer compile failure.
+- t183p pool80 wave13 rank probe (`t183p_probe_boroot19x26_udg_micro13_parentrun_rank_v1_wave13_option_rank.csv`) answers the GPT question about cross-region reward vs non-parent-chain steps: the remaining `6/6` wave13 options are cross-region, but all release through owner `35` / step `16`, are `singleBoardGate=Fail`, and the parent-run-break scorer marks all as `non_root_ignored`. Therefore current smoke does not yet prove the scorer increased non-parent-chain root step ratio; it only shows the late option pool has shifted to non-root/cross-region but unsolved candidates under pool80.
+- Direct comparison with the existing t183o pool300 rank audit changes the boundary: `t183o_probe_boroot19x26_udg_micro13_tail_antispine_strong_v2_wave13_option_rank.csv` has `56` rows, `35` root-domain candidates, `35` root-domain `singleBoardGate=Pass`, all marked `protected_outside`, and `24` cross-region root-domain pass rows. Top rows release through root owner `27` at step `3`, basin `r1c1->r2c1`. Therefore root-domain valid discontinuity samples do exist in the wider pool; the t183p pool80 smoke failed to expose them.
+- Final top-k check for t183o pool300: top10 and top20 wave13 rows are all `singleBoardGate=Pass`, all root-domain, and all cross-region. All 56 ranked rows are `Pass` (`35` root-domain, `36` cross-region). This confirms the current t183p gap is pool visibility/sampling mismatch rather than scorer ranking bias at wave13.
+- Offline t183p scorer re-rank over the same t183o pool300 wave13 rows shows no top-k movement: baseline top5 and re-ranked top5 are both `BCL00354;BCL00355;BCL00360;BCL00397;BCL00399`, top10 order is identical, top20 set is identical, and `0/56` positions change. The scorer gives the top candidates `+120 step_discontinuity` because recent root-domain steps before wave13 are `27/26/25` and the selected root owner `27` is step `3`.
+- Interpretation: wave13 is already saturated with the correct root-domain cross-region break candidates under t183o. Parent-run-break scoring is valid as a reinforcement/audit signal, but it does not create a new wave13 choice in this pool. Residual `dependencyFollowRunMax=10` likely comes from official solve-order behavior after materialization, not from wave13 choosing the wrong candidate.
+- Fixed-board solver-level perturbation confirms this final layer. On the same t183o generated board, Python `max_cleared` solves all `48` chains with `dependencyFollowRunMax=10`, and an `official_like` boundary/length policy solves with run `9`, close to official trace `10`. Changing only the selection policy to deterministic `anti_follow` still solves all `48` chains and lowers dependency run to `4`.
+- Larger randomized stability check: plain random available-chain policy solves `5000/5000` trials with dep-run median `5` (`p90=7`, `p99=9`, worst `12`); `anti_follow_random` solves `5000/5000` with median `5`, `p90=6`, `p99=6`, worst `7`, and no deadlocks (`minRemoved=48`). Therefore `dependencyFollowRunMax` is a solve-policy-conditioned observable, not a structural failure by itself.
+- Superseded next-step: after the fixed-board policy perturbation and final review, a calibrated t183p pool300/late-only probe is no longer required to prove generator correctness. If run, it should be treated as rank/evaluation audit only; do not introduce graph-level reservation or keep tuning the scorer merely to reduce official `dependencyFollowRunMax`.
+
+## Competitor-Hard Phase Ledger Trace Capability Check - 2026-07-03
+
+- User/GPT review identified the next valid direction as a phase-aware capacity ledger plus frontier/region planner, not more static slot growth or SGP suffix repair.
+- Key fork confirmed locally: official trace supports stable step diagnostics through `Build-SGPRhythmTrace.ps1 -WriteStepDiagnostics`, with per-step `step`, `choices`, `chosenChain`, `newParentEdges`, `unlockCount`, `unlockRegions`, and `frontierHardBreakAfterChosen`.
+- V13 also already emits generation-side wave audit (`competitor_core_skeleton_planned_reserve_v13_wave_audit.csv`) with BCL/interval stage, wave, raw/filtered options, selected cells, coverage before/after, and Greedy choices. Therefore the next implementation can use a real Phase Ledger instead of a proxy-only heuristic.
+- Fresh V13 step-diagnostic rerun wrote `competitor_core_skeleton_planned_reserve_v13_stepdiag_metrics.csv` and `_steps.csv` under `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`; current 2 rows solve but remain `LocalEasy`, reinforcing that ledger/frontier planning is still needed.
+- Next experiment should be `Phase Ledger Only`: keep V13 geometry fixed, add phase-budget/audit constraints around BCL/interval/room/SGP consumption, and check whether mid-collapse is delayed before replacing slots with continuous phase rooms.
+
+## Competitor-Hard Fresh Planned Future Slot V13 - 2026-07-03
+
+- Worktree: `.worktrees/competitor-hard-fresh`; added `Tools/Production/Build-CompetitorCoreSkeletonPlannedReserveV13.py` to move reservation before V10 interval fill. It starts from the V4 connector, plans acyclic short owner-hit future slots, reserves their body/ray cells through BCL+interval, materializes slots as a batch, then applies seeded SGP.
+- Current Demo-mounted V13 pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonPlannedReserveV13Pack.asset`, GUID `47045385ed7148ab9cf400beb8095598`.
+- Current V13 rows: coverage `0.740-0.785`; best row `ccsf_v13_002...reserve_wide_body120_r2` reaches `0.785` with `13/13` planned slots, `55` planned slot cells, slot coverage `0.721`, SGP suffix `15` chains, max choices `10`, connector contract `3/3`.
+- Official trace rerun: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_planned_reserve_v13_trace_metrics.csv`; result `3/3` solved, process `A/B/B`, structure `1 MediumStructure / 2 LocalEasy`. The MediumStructure row is `ccsf_v13_003...reserve_low_body80_r1` at coverage `0.743`; best coverage row is still `LocalEasy`.
+- Interpretation: the user diagnosis is correct. Front-loaded empty/future-slot reservation is necessary and works mechanically: V13 can materialize preplanned slots as a solved batch and slightly beats V12 hard-preserve coverage without using late outer-exit spam. However fixed slots only supply about `48-55` cells, so it still stops around `0.78`.
+- Negative boundary: naive reserved-room expansion to `120` cells lowers interval coverage and creates high-choice release-exit noise (`0.742`, max choice `14`); do not treat it as success. BCL slot fallback was added behind `--enable-bcl-slot-fallback` but is too slow for default interactive runs and remains experimental.
+- Next implementation should make reserved rooms phase-aware and generated from a structural support/frontier-break contract, not arbitrary room dilation and not V12 suffix fill. The generator needs more preplanned acyclic outlet capacity before interval, while preserving the hard skeleton evidence.
+
+## Generated-Root WBP t182 Boundary-Owned Root + UDG Micro-Wave Checkpoint - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; implemented first narrow `19x26` boundary-owned generated-root prototype for dirty top edge `(5,0;5,1)` after t181 proved existing 19x26 roots never own it.
+- New script `Build-GeneratedRootWBPV12BoundaryOwnedRootGeneratorV0.py` generates roots that own target boundary cells before seedState/coverage. t182a produced 3 Greedy-solved roots; best `t182a_boroot19x26_c002` has root coverage `0.5384615`, 32 root chains, target `(5,0;5,1)` same-chain owned, Greedy `7/3.094/7`.
+- t182b ownership audit passes all 3 generated roots for frame `19x26` + same-chain target ownership. t182c CornerDuty audit on t182a root shows accepted non-open owner release, dependency link count `1`, tailGreedyUnsolvedRate `0`; remaining rejection is only missing planner basin/region contract in root-only audit.
+- t182d/t182e connect `t182a_boroot19x26_c002` to existing seedState pipeline: reservation `16/16` groups ready; micro materializer writes 8 solved 3-chain seed groups at coverage `0.5627530`. This proves dirty corner ownership can enter the generated-root route before coverage waves.
+- t182f 4-chain UDG wave fails with `rawOptions=80` but `bundleCount=0`; t182g/t182h/t182i prove same-scheduler micro-waves work, climbing to coverage `0.8036437` with 24 planned coverage duties and prior-wave releases `12`.
+- Official/product audit of t182i: solved `B/Drop`, coverage `0.8036437`, but `LocalEasy`, dependencyFollowRunMax `12`, localPatchRun `7`; Product hard-core/tail fail. Root ownership solved the dirty corner capacity entry, not the difficulty-retention problem.
+- Added default-off history hard quota controls to `Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py`: cumulative/recent release-owner, head-region, hit-region, and basin use caps plus basin soft scoring. Compile passed.
+- t182j/t182k/t182m quota smokes show the new control surface is real but incomplete: t182j gets Hard-Core+Tail pass at coverage `0.7672065`; t182k gets Hard-Core pass at `0.7874494` but Tail fail; t182m gets Tail pass/spine controlled at `0.7854251` but Hard-Core fail. This separates three needs: root boundary ownership, late tail hygiene quota, and midgame structural/frontier-break support.
+- Current conclusion: do not resume late bundle/tail search for `(5,0;5,1)`. The next generator step is a pre-materialization structural-support/frontier-break duty layer inside UDG, then phase-aware coverage quotas. Coverage-only micro-wave scaling is not enough for the final `0.95+` hard-core product target.
+
+## Competitor-Hard Fresh V10 -> Seeded SGP Handoff V12 - 2026-07-03
+
+- Worktree: `.worktrees/competitor-hard-fresh`; user clarified the correct handoff point is the V10/T145 stalled board around coverage `0.699-0.714`, not empty-board SGP and not V7-style refill.
+- Added `Tools/Production/Build-CompetitorCoreSkeletonSGPHandoffV12.py`. It parses V10 LevelDefinition assets, preserves the V10 prefix, then appends a seeded SGP peel suffix with whole-board Greedy validation, acyclic gating, prefix preservation reporting, and explicit direct-exit budget.
+- Direct high-coverage SGP-from-empty remains only a control sample. V12 high-exit fill reached coverage `0.822-0.835` but official trace was `4/4 Drop`, max choices `18-20`, proving the user diagnosis that coverage tail fill via many outer exits flattens the opening.
+- Low-exit hard-preserve V12 is currently mounted in Demo: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonSGPHandoffV12Pack.asset`, GUID `96b0f795080242edbdfbc14fd4f60b5e`. Rows cover `0.754-0.776`, direct exits `4`, max internal choices `7-9`, prefix preserved, no rollback.
+- Official low-exit trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_sgp_handoff_v12_lowexit_trace_metrics.csv`; result `1 A / 3 B`, `2 MediumStructure / 2 LocalEasy`, max choices `8-9`. Best hard-preserve row was `ccsf_v12_001...sgp1`: `A`, `MediumStructure`, hardV3 `0.227`, coverage `0.754`.
+- Reservation/corridor overlap experiment (`--allow-owner-hit-prefix-ray-overlap`) can raise coverage to `0.844-0.854` while keeping max choices `7-8`, but official trace drops all rows to `B/LocalEasy` with hardV3 about `0.055-0.066`. This is useful coverage evidence but not the mounted hard-preserve answer.
+- Interpretation: t179-t181 and this V12 test agree. Tail cells/corridors must be planned as early root/seedState/structural outlet ownership. Late outer exits or late corridor owner-hit may increase coverage, but they wash out the hard skeleton. Next implementation should front-load structural outlet/reservation before V10-style coverage, not keep pushing suffix fill.
+
+## Generated-Root WBP t181 Dirty Boundary Ownership Entry Split - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; followed t180 by testing where dirty boundary ownership must enter: seedState materializer, existing root selection, or root regeneration.
+- Added default-off `--required-cells` to `Build-GeneratedRootWBPV12SeedStateMaterializerV1.py`; `python -m py_compile` passed. It filters materialized seedState options to those containing specified cells, used only for diagnostics so far.
+- t181a/b/c/d narrow pre-seedState injection for `(5,0;5,1)` on c027 root-only: reservation is actionable (`plannedCells=14`, owners `16/9/15/33/35`), and `148` required-cell options exist, but strict solved-prefix output is `0`; all `148/148` reject as `option_single_greedy_unsolved`.
+- t181e/f/g broader local reservation around top-left dirty cluster: reservation is actionable (`plannedCells=22`), but strict solved-prefix output is still `0`; all `160/160` required-cell options reject as `option_single_greedy_unsolved`.
+- t181h root-pool ownership scan found `40/83` roots owning both `(5,0;5,1)`, initially suggesting root selection could solve the dirty cluster.
+- t181m frame-aware scan corrected that interpretation: among scanned roots, all `41` `19x26` roots own `0/2` dirty cells, while all `40` `23x30` root10-style roots own `2/2`. Therefore the positive boundary-owned roots are a different canvas family, not direct c027 replacements.
+- t181i root10_c036 corner audit: top_x5 has existing root ownership, accepted non-open owner release, dependency link, and Greedy-solved behavior, but is `RejectNoBasin` only because no planner basin/region contract is assigned in that root-only audit.
+- t181j/l micro smoke on root10_c036 shows the pipeline can start on that root family if frame mismatch is ignored: reservation `16/16` ready; micro materializer finds `8` solved 3-chain seed groups. This is route plumbing evidence only, not product evidence, because root10 is `23x30` and t140b duties are not a true frame-matched projection.
+- Added `Build-GeneratedRootWBPV12BoundaryOwnershipRootPoolAuditV1.py`; `python -m py_compile` passed. t181n formalizes the gate for target `5,0;5,1`, frame `19x26`, same-chain required: current root pool result is `Fail:41`, `FrameMismatch:40`, `MissingAsset:2`, with `0` passing roots.
+- Conclusion: for the current 19x26 c027/c038/c043 canvas, dirty `(5,0;5,1)` cannot be solved by late fill, short/long anchored seedState injection, or selecting another existing 19x26 root from the current pool. The next valid target is a 19x26 root-level boundary ownership/regeneration pass, using root10 as topology evidence/template, then re-run seedState + UDG.
+
+## Generated-Root WBP t180 Boundary Corner Topology / Ownership Audit - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; continued the GPT/user direction that dirty corner `(5,0;5,1)` is an early-duty/root-topology issue, not a late bundle or tail-search issue.
+- Added `Build-GeneratedRootWBPV12CornerTopologyMatrixV1.py`; `python -m py_compile` passed. It wraps CornerDutyAudit over boundary two-cell clusters and reports empty-target acceptance, non-open candidate count, dependency links, and verdicts.
+- t180b near-corner edge6 matrix over c027/c038/c043 seed-only states: each case has `48` clusters, `11` empty target clusters, and `0` empty accepted non-open clusters. Same-family root swap repeats the same edge topology.
+- t180c full-boundary matrix: each case has `90` clusters, `24` empty target clusters, and `0` empty accepted non-open clusters. Every empty boundary cluster is `RejectNoDependencyCompatibleEntry`; accepted non-open clusters are already occupied.
+- Ownership source check: among accepted non-open boundary entries in t180c, `129/132` are existing root chains and only `3/132` are seedState/later (`right_y10`, chain `39`). Dirty `(5,0;5,1)` remains empty with basin `r0c0`, `6` non-open candidates, `0` accepted non-open, and tail greedy-unsolved rate `1.0`.
+- Added `Probe-GeneratedRootWBPV12TargetClusterAnchoredPathsV1.py`; `python -m py_compile` passed. t180d probes longer anchored paths through `(5,0;5,1)` up to length `12`: `184` paths, `151` owner paths, `33` open paths, `0` accepted non-open; all owner paths are `greedy_unsolved`.
+- Conclusion: the dirty corner cannot be repaired by short CornerDuty injection, nearby support, or a longer after-seed anchored corridor in the current seed-only topology. Boundary dependency compatibility currently exists only when the generated root/seedState has already owned the edge cells before fill.
+- Next step: implement or probe a pre-seedState/root boundary-ownership reservation route. The generator must force dirty/at-risk boundary clusters to be root/seedState-owned with a dependency edge or region contract before BCL/closure, or switch to a different topology/canvas family that naturally owns those cells.
+
+## Generated-Root WBP t179 CornerDuty Audit / Dirty-Corner Entry Boundary - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; accepted GPT/user review that `0.95 = hard-core window + tail-safe fill`, and stopped treating dirty corner `(5,0;5,1)` as a late bundle/tail search problem.
+- t179 early-prefix reproduction: forcing `(5,0;5,1)` before early-duty then adapting the old c027 projection can reproduce 4 early duties only after widening duty scan, but the two guard duties change shape/owners and the following BCL collapses. `t179d/e/f/g` produce `0` 2/3/4-chain BCL bundles even with relaxed Greedy caps; `t179h` can add only one owner0 chain to coverage `0.6842105`.
+- Added `Build-GeneratedRootWBPV12CornerDutyAuditV1.py`; `python -m py_compile` passed. It reports basin membership, open/non-open release candidates, accepted non-open count, dependency links, isolated open sink, and non-open greedy-unsolved rate.
+- A/B/C smoke `t179j`: A `c027 seed-only` has basin `r0c0`, `6` non-open candidates, but `0` accepted non-open and non-open greedy-unsolved rate `1.0`; B0 `c027 early open-prefix` is `RejectOpenSink`; C `c038 seed-only no injection` repeats the A pattern (`6` non-open, `0` accepted).
+- Conclusion: the GPT direction is correct, but B must mean a true non-open CornerDuty contract/bundle, not an early open-prefix. Simple same-family root/canvas swap without corner duty also does not fix the entry context.
+- Added `--required-duty-ids` to `Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py` so required early contracts can be enforced at solved-bundle acceptance without pruning unsolved prefixes.
+- t179k baseline activation with injected corner duty finds `8` solved bundles, but all bypass `t179_corner5_nonopen` and select only old cmp7/cmp2 duties. This is not a valid B-group success.
+- Required-corner probes `t179m/p/q/r/s` force `t179_corner5_nonopen` into completed bundles and test nearby support combinations (`cmp7/cmp2`, `cmp1`, `cmp11`, `cmp7+cmp1`, `cmp2+cmp1`, `cmp7+cmp11`). All return `0` solved bundles; rejects are primarily `greedy_unsolved`.
+- Updated conclusion: the dirty corner diagnosis is correct, but current c027 early-duty grammar cannot make `(5,0;5,1)` dependency-compatible by small support injection. Do not continue late bundle/tail search or simple early open-prefix. Next step should pivot to stronger root/canvas/topology reservation that creates a real entry context before this corner becomes a sink.
+
+## Generated-Root WBP t175 c027 Dirty-Tail Release Boundary - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; continued from c027 `t174l` after the product definition was locked as `0.95 = hard-core window + tail-safe fill`.
+- Purpose: diagnose whether the remaining dirty tail cluster `(5,0;5,1)` can be made dependency-compatible by non-open release or a small support bundle, instead of continuing blind coverage search.
+- New diagnostic scripts: `Probe-GeneratedRootWBPV12DirtyClusterReleaseOptionsV1.py` and `Build-GeneratedRootWBPV12DirtyClusterBundleProbeV1.py`; both compile with `python -m py_compile`.
+- `t175a` from clean `t174l`: `4` release options exist for `(5,0;5,1)`, but accepted non-open options are `0`. The only Greedy-solved option is the direct open chain, which earlier t174 evidence proves creates Tail Hygiene / dependency-follow risk; all owner-release forms are `greedy_unsolved`.
+- `t175b` from clean `t174l`: dirty owner-release path plus one disjoint support chain yields `0` accepted candidates; rejects are `greedy_unsolved:6`.
+- `t175c` from earlier `t174b`: the same dirty owner-release plus one support-chain bundle also yields `0` accepted candidates; rejects are `greedy_unsolved:24`.
+- Interpretation: the dirty cluster is not just badly ordered or under-searched. In the current tail context it requires earlier duty reservation/rewrite or a different root/structure state. Do not keep trying to append it as late tail fill.
+- Product state unchanged: best hygienic c027 row remains `t174l` at coverage `0.9251012`, official solved, root/preplan true, Hard-Core pass, Tail pass, Overall fail only by coverage.
+
+## Generated-Root WBP t176 Hard-Core Invariance Baseline / Smoke Readiness - 2026-07-03
+
+- Re-ran the hard-core invariance baseline under the accepted product definition. `t176a` writes the default c043/c038/t142 before/after audit and confirms the same result as t170/t172: `7 TailPreservesHardCore`, `1 TailCreatesSpineRisk`.
+- `t176b` writes the required `32`-row smoke spec: `2 roots (c043/c038) x 4 structures (hub/spiral/patchwork/cross-basin) x 2 canvases x 2 duty plans`.
+- `t176c` is the execution-readiness summary. It states that patchwork/cross-basin can be run now as honest executable/profile smokes, while hub/spiral need true topology reservation before they count. Scalar score-label runs are not valid product evidence.
+- Required output for every accepted matrix candidate remains `Overall`, `Hard-Core Window`, and `Tail Hygiene`; any before/after extension must also include hard-core invariance deltas.
+- Extra c027 dirty-tail probe from the earlier `t173j` base: `t176d` again finds `0` accepted non-open options for `(5,0;5,1)`, and `t176e` dirty owner-release plus one support chain yields `0` accepted candidates (`greedy_unsolved:102`). This suggests the dirty cluster lacks a clean release context already at coverage `0.9069`, not only after `t174l`.
+- Next implementation direction: promote dirty-tail cells into early duties/reservations or regenerate the c027-like root/structure state with that corner cluster planned from the start. Do not continue late single-chain/two-chain repair drilling.
+
+## Generated-Root WBP t177-t178 c027 Dirty-Open Prefix Boundary - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; tested whether dirty cluster `(5,0;5,1)` becomes clean if moved earlier in the c027 lineage.
+- t177 lineage audit: seed-only `t155e c001-c004` has only open candidates for `(5,0;5,1)` and `0` accepted non-open. `t156c`, `t156o`, `t156s`, `t157e`, and `t173j` also have `0` accepted non-open; after BCL, owner-release-looking paths appear but remain Greedy-unsolved. Dirty+one-support bundle is `0` at seed-only, early-duty, BCL, and tail states.
+- Added diagnostic script `Build-GeneratedRootWBPV12ForcedPrefixChainProbeV1.py` to force a specified prefix chain while preserving lineage. `python -m py_compile` passed.
+- t178 forced `(5,0;5,1)` as an early open prefix on top of `t157e` and then reran player-stall preserving closure. Result `t178d`: coverage `0.9251012`, official solved `B/Drop`, root/preplan true, Hard-Core pass score `0.918`, Tail pass score `1`, product still `CoverageIncompleteHardCore` only by coverage.
+- t178g wide continuation from `t178d` adds `0` chains. Moving dirty-open earlier is hygiene-safe but not a coverage breakthrough.
+- Updated route implication: the missing capability is not "place the dirty two cells earlier in the same closure grammar"; it is a true corner-release contract/root-canvas state/structure-family reservation that makes those outer cells dependency-compatible before BCL and closure consume release corridors.
+
+## Generated-Root WBP t173 Hard-Core Matrix Smoke / c027 Clean-Tail Boundary - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; continued the hard-core invariance/product-matrix route rather than pure coverage search.
+- t173 root154 same-root structure smoke: patchwork and cross-basin remain viable current-grammar structures at coverage `0.8684211` with official `A/A`, root/preplan evidence, Hard-Core pass, and Tail Hygiene pass; hub and spiral fail at wave1 even with `500` raw/filtered options and `0` bundle.
+- Important caveat: c038 `t173b/t173c/t173d/t173f` reruns produced `0` rows because the repro recipe/ranking was wrong; do not treat them as c038 root-family negatives. Authoritative c038 evidence remains `t171/t172b`.
+- c027 clean-tail probe `t173j_c027_after0906_noopen_tail_probe` starts from `t158m` coverage `0.9068826` with propagated `rootPreserved=True` and `preMaterializationDutyCommit=1`, but no-open tail continuation adds `0` chains and stalls before `0.95`; top rejects are `greedy_unsolved:65` and `open_cap:13`.
+- Official/product recheck `t173k/t173l`: `1/1` solved `B/B`, product verdict `CoverageIncompleteHardCore`, `Overall Fail` only for `coverage_below_product`, `Hard-Core Pass`, `Tail Pass`, hard-core score `0.942`, tail score `1`, global dependency/local/near-outer runs `6/5/5`.
+- Executable matrix slice `t173m` compares c038 micro24, root154 patchwork/cross-basin, and c027 no-open lineage in one product table: `0` ProductPass rows; all best rows are `CoverageIncompleteHardCore`. Best solved coverage is c027 `0.9068826`; best current-grammar root154 structures are patchwork/cross-basin at `0.8684211`; c038 micro24 is `0.8299595` with Hard-Core/Tail pass and positive late tail capacity.
+- Interpretation: c027/maze-like capacity is real and closer to product coverage than root154, but simple late clean-tail closure is exhausted around `0.9069`. This is not enough to claim a product row; it means the remaining tail cells must be planned earlier as duty/reservation/rewrite capacity.
+- Current best route choice: do not tune hub/spiral scalar rewards or keep drilling root154 tail waves. Next implementation should add early tail-safe reservation/rewrite for patchwork/cross-basin or transfer c027/maze-like capacity into a product-compliant generated-root pipeline.
+
+## Generated-Root WBP t174 c027 Tail-Safe Open Probe - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; tested controlled open-tail continuation from lineage-propagated c027 `t173j` instead of no-open tail closure.
+- Added default-off diagnostics to `Build-GeneratedRootWBPV12PlayerStallPreservingClosureV1.py`: `--option-audit-csv`, `--option-audit-limit`, and `--forbid-cells`. Defaults preserve prior behavior; `python -m py_compile` passed.
+- Result: no product-complete row yet. Best hygienic c027 row is `t174l_c027_after0921_open1_forbid5x0`, coverage `0.9251012`, official solved `B/Drop`, product verdict `CoverageIncompleteHardCore`, `rootPreserved=True`, `preMaterializationDutyCommit=True`, Hard-Core Pass score `0.916`, Tail Pass score `1`.
+- Capacity improvement: tightly bounded open-tail can safely move from no-open `t173j` coverage `0.9068826` to `t174b` `0.9210526`, and with option-level anti-spine choice to `t174l` `0.9251012`.
+- Dirty cluster found: adding late open chain `(5,0;5,1)` keeps official solved but fails Tail Hygiene by `global_dependency_follow_run`, raising `globalDependencyFollowRunMax` to `12`. This happens in default `t174c` and later `t174d/t174o/t174v` continuations.
+- Forcing `(5,0;5,1)` as the first open-tail chain also fails Tail Hygiene (`t174ac`, coverage `0.9251012`, Hard-Core Pass, Tail Fail, `globalDependencyFollowRunMax=12`). The issue is not only ordering; this cluster is structurally dirty in the current tail context.
+- Clean boundary: from the clean `t174l` row, forbidding `(5,0;5,1)` and using wide enumeration adds `0` chains (`t174y`, reject top `forbid_cell:6, greedy_unsolved:2`). The next `0.925 -> 0.95` step requires earlier reservation/rewrite of that cell cluster or a different release context, not simple late open rerank.
+
+## Generated-Root WBP t171 Micro-Wave Tail-Safe UDG - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; continued after t170 hard-core invariance search, adding default-off tail-solved lookahead and wave audit fields to the UDG multi-wave scheduler.
+- t142h/cross-basin high-coverage route: default-off reproduction `t171a` still reaches coverage `0.8684211`; late tail-solved hard filter `t171c` proves that after wave5 at coverage `0.8643725`, lookahead tail options are `0`. This means the `0.868` wall is tail-safe capacity poisoning, not only search budget.
+- c038 same-family root `root154_core_sched0589_v1_r3_c038`: large first coverage waves fail (`t171d/t171e`: rawOptions `60`, bundleCount `0`), but single-chain and micro-wave re-enumeration works (`t171f/g/h/i/m/q/v`).
+- Current best positive: `t171v_c038_crossbasin_cov1x24_tailsafe_late_narrow` reaches coverage `0.8299595`; official trace `t171w` is `3/3` solved `A/A MediumStructure`, Greedy max choices `5`, and product verifier `t171x` gives `3/3 CoverageIncompleteHardCore` with Hard-Core Window pass + Tail Hygiene pass.
+- t171v still has positive late tail capacity: wave23/24 tailSolvedLookaheadPassBundles `2/2`, maxOptions `6`, release owners `0;33;36`. This contrasts with t142h/t171c, where tail-safe options hit `0` near `0.864`.
+- Boundary: 20 micro-waves `t171q` reaches `0.7995951` but official drops to `B/B`; two rows still pass Hard-Core/Tail, one fails Tail on localPatchRun. Hard local-touch caps (`t171t`, `t171u`) are negative because they starve capacity by roughly `0.706-0.751`.
+- Interpretation: micro-wave UDG is a real control-surface shift for low-coverage, high-causal roots. Do not use large coverage waves or hard local-touch caps as the next route; use preplanned micro-waves plus soft anti-local, release-owner diversity, head-region diversity, and dual-gate reservation.
+- Implemented explicit micro-wave CLI in the UDG multi-wave scheduler: `--micro-wave-count N --micro-wave-size M`. This replaces manual `1,1,1...` wave lists and preserves single-generator, pre-materialization duty commit semantics.
+- Added default-off cross-wave history diversity scoring: recent release-owner/head-region/hit-region penalties plus new owner/region rewards. Audit fields now write `historyDiversityScore` and the active diversity knobs into candidate/wave/reject CSVs.
+- Smoke `t171ab_c038_crossbasin_micro4_smoke` validates the new micro-wave entry point and history audit fields.
+- Soft diversity comparison: `t171ac_c038_crossbasin_micro12_historysoft` reaches `0.7429`, official `A/A`, Hard-Core/Tail pass, but lower coverage than old 12-wave `t171i` (`0.7551`). It raises hardStructureV3 in the 12-wave comparison (`~0.375` vs `~0.328`) but does not improve coverage.
+- Soft diversity 16-wave check: `t171af_c038_crossbasin_micro16_historysoft` reaches `0.7773279`, official `A/A`, Hard-Core/Tail pass. Compared with old 16-wave `t171m` (`0.7813765`), it slightly loses coverage and does not beat the best hardStructureV3, though one row reduces dependencyFollowRun to `4`.
+- Updated conclusion: soft history diversity is useful as a spine/local risk brake, not as the main capacity breakthrough. Keep c038 current best as `t171v` (`0.8299595`, A/A, Hard-Core/Tail pass). Next step should be full product-matrix execution and/or a real reservation/dual-gate mechanism, not stronger scalar diversity rewards.
+
+## Generated-Root WBP t170 Structure-Template Calibration - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; continued the hard-core invariance search instead of pushing raw coverage.
+- Fixed a UDG/BCL wrapper regression: `Build-GeneratedRootWBPV12UnifiedDutyGraphSchedulerV1.py::make_coverage_args` now passes default-off BCL future-lattice fields, and `Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py` exposes matching CLI args. This restores beam/coverage wrapper compatibility without changing default scoring.
+- Key calibration: reproducing t145-style UDG requires `--coverage-option-early-stop`; `max-raw-coverage-options` alone does not control enumeration cost. `t170l_none_repro_seed1_cov12_4_4_1_greedy` exactly reproduces the t145e capacity node: coverage `0.8684211`, `4` rows, solved by generated Greedy, prior-wave release `1`.
+- The earlier `t170e/t170f/t170g` 0-row patchwork attempts were not evidence against patchwork. They used overly strong/uncalibrated template scoring and did not reproduce the t145 parameter surface.
+- Calibrated structure-template smokes: `t170n_patchwork_gentle_cov12_4_4_1` and `t170o_crossbasin_gentle_cov12_4_4_1` both produce `4` rows at coverage `0.8684211` and official step diagnostics `4/4 solved A/A`.
+- Product verifier with formal `minCoverage=0.95`: both calibrated runs fail `Overall` only because coverage remains `0.868`; cross-basin has `4/4 Hard-Core Window Pass + Tail Hygiene Pass`, patchwork has `3/4 Hard-Core Pass + 4/4 Tail Pass`.
+- Invariance audit `t170t_structure_template_invariance_audit.csv` classifies all four pairs as `TailPreservesHardCore`: `t142h -> patchwork`, `t142h -> cross-basin`, `t145e -> patchwork`, and `t145e -> cross-basin`.
+- Interpretation: gentle structure-template scoring is a safe front-end control surface, but it has not increased capacity beyond the known `0.868` wall. Patchwork changes topology more aggressively (one row gets prior-wave release `2` but one hard-core miss); cross-basin is steadier and mostly isomorphic to t145e.
+- Future-lattice capacity tests `t170v/t170w/t170x/t170y` did not break the wall. `12,4,4,2` fails because wave 4 has only one raw option at coverage `0.864`; `12,4,3,3` sees two raw options at coverage `0.860` but no valid bundle; `12,4,3,1,1,1` reaches diagnostic wave 6 around `0.866-0.868` but cannot complete.
+- Added optional `--wave-reject-audit-csv` to the multi-wave scheduler and ran `t170z_crossbasin_future_relaxlast_rejectaudit`. At wave 6, all sampled `160/160` options are rejected as `greedy_unsolved`; they are not failing because choices are too high (`singleGreedyMax` is mostly `3-4`). This shows the late tail space is solver-poisoned, not merely scarce or too easy.
+- Next step: do not crank template/future-lattice rewards or keep splitting tail waves. Add real reservation/bucket semantics so structure templates preserve option diversity, plus early tail-closure owner / solvability-preserving reservation that keeps the final tail options Greedy-solvable.
+
+## Generated-Root WBP t170 Hard-Core Invariance Search - 2026-07-03
+
+- Product definition accepted by GPT/user review: `0.95 = hard-core window + tail-safe fill`; final trace does not need to stay all-trace `A`, but the hard-core window must survive tail extension.
+- Next-stage priority changed from "prove one root can reach high solved coverage" to `hard-core invariance search`: find root/structure families where tail fill is dependency-compatible and does not wash out the front/mid hard-core.
+- Required audit: compare c043/c038/t142-style rows before and after tail extension on hard-core-window dependency entropy, region entropy, branch diversity, support/contract evidence, and spine risk. Classify whether failure is `tail pollution` or `root/core insufficiency`.
+- Required smoke matrix: `2 roots x 4 structures (hub/spiral/patchwork/cross-basin) x 2 canvases x 2 duty plans`. Every candidate must report `Overall`, `Hard-Core Window`, and `Tail Hygiene` gates before visual review.
+- Implemented `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12HardCoreInvarianceAuditV1.py`. It writes default audit/smoke specs and compares before/after product gates plus dependency entropy, region entropy, branch diversity, and spine risk.
+- Initial output: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t170a_hardcore_invariance_audit.csv`, `_summary.md`, plus `t170b_hardcore_invariance_smoke_matrix_spec.csv` and summary. After re-tracing t145e with step diagnostics, audit result is `7` TailPreservesHardCore and `1` TailCreatesSpineRisk.
+- t170c step diagnostics for t145e: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t170c_t145e_stepdiag_metrics.csv`, `_steps.csv`, `_summary.md`; `4/4` solved `A/A`. Official class remains `LocalEasy`, but t170 invariance classifies `t142h -> t145e` as `TailPreservesHardCore`: coverage `0.751 -> 0.868`, hard-core score `0.921 -> 0.831`, dependency entropy `+0.983`, branch diversity `+0.191`, tail pass.
+- Key finding: current c043/c038/t142 tails up to about `0.82-0.868` often preserve hard-core; the known bad pattern is dependency-follow tail (`c043_stage16_to_antifollow`). Therefore the next route should not assume "tail fill always pollutes"; it should search root/structure families with more tail-safe capacity from `~0.868` toward `0.95` and reject dependency-follow tail collapse.
+- Smoke matrix preflight: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t170d_hardcore_smoke_matrix_preflight.csv`, `_summary.md`. The 32 planned rows are not all executable as real structure proof: `hub` and `spiral` are blocked because UDG lacks true structure-template/reservation inputs; `patchwork` and `cross-basin` are only profile/partial approximations.
+- Route implication: do not run the 32 rows as raw parameter combinations and call them structure families. The next engineering step is to add a true structure-template/reservation layer to the unified duty scheduler, then run the smoke matrix with product/invariance gates.
+- Implemented a first default-off structure-template hook in `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py`: `--structure-template none|hub|spiral|patchwork|cross-basin`, reward/miss/filter knobs, and template fields in candidate/duty/wave audits. This keeps structure control inside the unified scheduler.
+- Diagnostic smokes `t170e/t170f/t170g` for patchwork template wiring produced `0` accepted rows under narrow/quick parameter sets. Treat them as interface validation only, not as final evidence that patchwork cannot work; the t145/t145l exact parameter surface was not fully reproduced.
+- Current implementation task: calibrate real structure-template UDG smokes, starting with patchwork/cross-basin because hub/spiral still need stronger reservation semantics. Every accepted row must go through official step diagnostics plus t170 invariance/product gates.
+
+## Generated-Root WBP t169 Product Family Matrix Baseline - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; continued the `High-Coverage Hard-Core Product Level` goal by moving from single-root probes to a multi-family product matrix.
+- New matrix runner: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ProductFamilyMatrixV1.py`. It reuses `HighCoverageHardCoreProductVerifierV1`, reads a spec CSV, emits per-level detail plus family summary, and reports product pass, `0.95` solved, hard-core+tail, root/preplan evidence, best process, dependency/local run, and spine fields.
+- New representative spec/output: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t169a_product_family_matrix_spec.csv`, `_detail.csv`, `_summary.csv`, `_summary.md`. The run covered 17 spec rows / 31 trace rows / 17 families.
+- Result: `0` ProductPass rows. The only `0.95` solved row is `competitor_v7_coverage095`, but it is `HighCoverageCoreWashedOut` with `hardCoreGate=Fail` and blocker `weak_low_choice_window`. `competitor_v11_v7_fill` reaches `0.95+` visually but is unsolved and hard-core failed.
+- Current generated-root family with root/preplan evidence still tops out at c043 `t165d` coverage `0.8198381`, solved `B/B`, `HardCore Pass`, `Tail Pass`, dep/local `8/5`; c043 anti-follow `t165m` is `HardCoreTailRisk` due `global_dependency_follow_run=11`.
+- Highest solved hard-core+tail rows in the wider matrix are not product-ready: c027 `t158m` coverage `0.9068826` and c027 `t158g` coverage `0.902834` pass hard-core/tail but lack root/preplan evidence; seed-maze reference reaches `0.917` solved but is non-root and lacks root/preplan evidence.
+- Interpretation: high coverage and hard-core currently exist in different lanes. V7 proves `0.95` solved coverage can wash out hard-core; current generated-root WBP preserves root/preplan and hard-core but lacks capacity; c027/maze-like lanes show higher solved capacity with hard-core+tail signals but need generated-root identity and pre-materialization evidence or a matching root-family rewrite.
+- Next route: do not keep rescuing only current c043. Use the matrix as the search/report harness, then test root families that combine c027/maze-like capacity with generated-root/preplan evidence and tail hygiene. Any new generator output should be added to the t169 matrix before visual review.
+
+## Generated-Root WBP t167 High-Coverage Hard-Core Product Gate - 2026-07-02
+
+- Goal pivot: final product target is now `High-Coverage Hard-Core Product Level`, not all-trace `A/A`. A final trace may be global `B` if coverage reaches `0.95+`, root/pre-materialization evidence survives, and the front/mid hard-core window is not washed out by tail fill.
+- New verifier: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12HighCoverageHardCoreProductVerifierV1.py`. It outputs three gates: `Overall` (coverage/solved/root/preplan), `Hard-Core Window` (low-choice + switch/remote/frontier-break/contract evidence before 75% trace), and `Tail Hygiene` (no long same-side/region/dependency/local-spine tail).
+- Calibration: c043 `t165a`, c043 `t165d`, and c038 `t165j` classify as `CoverageIncompleteHardCore`: hard-core window and tail hygiene pass, but coverage is below product `0.95`. This means `t165d` being global `B/B` is not automatically a reject under the new product definition.
+- Negative calibration: c043 `t165m` classifies as `HardCoreTailRisk` because hard-core exists but global `dependencyFollowRunMax=11` violates tail hygiene. This preserves the t166 spine-risk finding.
+- c027 `t158m` is the closest current prototype shape under the new product definition: coverage `0.9068826`, official `B/B`, hard-core window at trace `31-50` (`~37%-60%`), tail hygiene pass, but it fails product coverage and lacks manifest-level root/pre-materialization evidence.
+- Implementation note: the interrupted t167 support-preserve scheduler run was stopped; no completed t167a candidate manifest was produced. The scheduler now has default-off late-short hard constraints, but the active route should prioritize product-gate reporting and root-family search over single-root coverage pushing.
+- Next step: run product verifier as the mandatory report after official step diagnostics, then search multiple root families for `0.95+` solved rows whose hard-core window and tail hygiene survive. Future tail-fill manifests must preserve `rootPreserved` and `preMaterializationDutyCommit` fields.
+
+## Generated-Root WBP t166 Dependency Spine Audit / Validator Split - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active goal remains root-general Generated-Root WBP hard generator. User explicitly paused pure coverage pushing and requested dependency spine audit before further coverage work.
+- New script: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DependencySpineAuditV1.py`. It reconstructs official trace `newParentEdges` into a dependency forest and reports top-1 path node/cell share, dominant component share, fanout, and spine class.
+- t166 audit compared `t165a` c043 A/cov `0.789`, `t165d` c043 B/cov `0.820`, `t165m` c043 anti-follow B/cov `0.814`, `t165j` c038 A/cov `0.800`, and `t165q` c043 stage17 A/cov `0.800`.
+- Key finding: process drop is not explained by simple top-1 path dominance rising. A rows already have high top-path share (`~0.48-0.52`) and dominant component share (`~0.94`). `t165d` B has lower top-path share (`0.246`) but loses effective structure (`hardV3 0.139`, structuredHardness `0.573`, localPatchRun `5`). `t165m` is the true spine-risk negative (`topPath 0.485`, depRun `11`, localPatchRun `5`).
+- Updated `Build-GeneratedRootWBPV12DifficultyVerifierV1.py` to split `structuralStallClass/Score` from `spineStallClass/Risk`, optionally joining the spine audit CSV. Recheck: c043 `t165a` and c038 `t165j` are `StructuralSupportClosure + SpineControlled`; c043 `t165d` is `StructuralSupportEroded + SpineControlled`; c043 `t165m` is `StructuralSupportEroded + SpineRiskWeakStructure`.
+- Updated `Build-GeneratedRootWBPV12ClosureFirstStagedBasinSchedulerV0.py` with default-off front-end constraints: stage plan audit CSV, late anti-follow rerank start stage, max plan Greedy low1/low2 run, recent release-owner/head-region diversity windows, and dual-gate reserve cells. Defaults preserve old behavior.
+- Current verified best root-general band: c043 `t165q` and c038 `t165j` both around coverage `0.800`, official `A/A`, DifficultyVerify `HardPotential`, root preserved, pre-materialization duty evidence present. `0.82` coverage is possible but process drops to `B`.
+- Next step: do not chase more coverage until the scheduler uses the new constraints with explicit structural-support preservation or dual-gate reservation. Anti-spine alone is insufficient; it can create a B row (`t165m`) if it erodes support closure.
+
+## Generated-Root WBP t168 Player-Stall Spine Split Recheck - 2026-07-02
+
+- User asked to stop pure coverage pushing and re-audit dependency spine first. Rechecked c043 `t165a/t165d/t165m` and c038 `t165j` with the t166 dependency spine summary.
+- Dependency spine data: `t165a` A has top1 node/cell share `0.484/0.521`; `t165d` B has lower top1 share `0.246/0.299`; `t165m` B anti-follow has `0.485/0.498`; `t165j` A has `0.524/0.542`. Conclusion remains: process drop is not caused by simple top1 path share rising.
+- A/B interpretation: `t165d` drops mainly through structural erosion (`hardStructureV3Score 0.139`, structuredHardness `0.573`, localPatchRun `5`) while spine risk stays controlled. `t165m` is the spine-risk negative (`dependencyFollowRunMax 11`, `SpineRiskBalanced` in PlayerStall and `SpineRiskWeakStructure` in DifficultyVerify).
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12PlayerStallAuditV1.py` to accept `--spine-audit-csv` and emit `structuralStallScore/Class`, `spineStallRiskScore/Class`, and dependency top-path fields. Default PlayerStall pass now requires spine risk `<=0.55` so `SpineRiskBalanced` rows become Review instead of Pass.
+- t168 recheck outputs: `t165a` and `t165j` are `PlayerStallPass + StructuralSupportClosure + SpineControlled`; `t165d` is `Review + StructuralSupportClosure + SpineControlled` due weak low-choice/sweep; `t165m` is `Review + StructuralSupportClosure + SpineRiskBalanced` due `spine_stall_risk;dependency_follow_run_risk`.
+- Scheduler preconstraints already exist in `Build-GeneratedRootWBPV12ClosureFirstStagedBasinSchedulerV0.py`: `anti_follow` rerank, recent release-owner/head-region diversity gates, Greedy low1/low2 run gates, late short-chain gates, and dual-gate reserve-cell overlap gate. Use these before resuming coverage climb.
+
+## Generated-Root WBP f018 Lower-Prefix Full-Slot Probe - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; continued f017 by trying lower-coverage c027 prefixes with `Build-GeneratedRootWBPV12FullClosureSlotPlannerV0.py`.
+- Added default-off diagnostic owner-signature retention controls to the V0 planner: `--beam-owner-bucket-keep` and `--final-owner-bucket-keep`. Compile passed. These do not change default planner behavior.
+- Results: from `t156k` (`0.7935`), `t156m` (`0.8097`), and `t156o` (`0.8259`) to targets `0.84/0.86`, accepted candidates were `0`; sampled complete plans rejected as `greedy_unsolved`.
+- Positive calibration: from `t156o_c027_ecduty_bcl4x6_c001` to target `0.834`, f018d accepted `8` candidates at coverage `0.8340081`; this proves V0 can still perform small late exact steps.
+- Low-prefix boundary: from `t156c` (`0.6802`) to `0.720`, V0 found `0` accepted under maxLen4 and maxLen6/deep-pool variants, even though historical `t156e` reaches `0.7206478`. The historical winning cells are visible in the V0 option audit but ranked deep (`~910-1172`), so the failure is beam/final-plan selection over a noisy false-positive space, not total absence of slots.
+- High-prefix chain-length check: `t156s_c027_ecduty_bcl4x7_c005 -> 0.86` with maxLen6 still found `0` accepted in the smoke window, so the `0.8502` wall is not just a too-short max-chain-length issue.
+- Report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f018_lower_prefix_fullslot_v0_summary.md`. Next recommended step is a staged full-slot planner that commits small solved bundles and re-enumerates first-hit slots between stages, rather than scaling the current static high-score beam.
+
+## Competitor Core Skeleton T145 + V7 Fill V11 Visual Diagnostic - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`; Demo activePack now points to `CompetitorCoreSkeletonT145V7FillV11Pack.asset` GUID `d4a450fc66b5433b931405b29cd1eb75` for visual inspection.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonT145V7FillV11.py`. It starts from the two V10 t145-hybrid rows. Strict V7 `multi_tail_close` adds `0` cells on V10 because whole-tail waves make the board unsolved; the mounted visual diagnostic therefore uses forced V7-style tail growth plus small visual patch chains to reach coverage.
+- Generated rows: `ccsf_v11_002_ccsf_v10_002_ccsf_v4_001_9142301_p2_bcl8_6_interval_v7fill095` reaches coverage `0.951` from source `0.699` with `157` forced tail cells and `9` patch chains; `ccsf_v11_001_ccsf_v10_001_ccsf_v4_001_9142301_p1_bcl8_interval_v7fill095` reaches coverage `0.950` from source `0.714` with `146` forced tail cells and `9` patch chains.
+- Official trace ran on both rows and confirms this is not playable/hard: both are `solved=False`, process/tight `Drop/Drop`, `hardStructureV3Class=WeakCausality`, hardStructureV3Score `0.027`, frontierDrainRemoteChokeCount `0`, supportClosureBestDepth `0`.
+- Conclusion: V11 answers the user's visual request ("V10 plus V7-style fill to near full") but proves that V7 fill cannot be applied as a valid solver-preserving closure on V10. Treat this as visual evidence only, not a candidate route.
+
+## Competitor Core Skeleton T145 Hybrid V10 Diagnostic - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`; Demo activePack now points to `CompetitorCoreSkeletonT145HybridV10Pack.asset` GUID `f85d34cebed241ffa89dcc8f40769327` for inspection.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonT145HybridV10.py`. It starts from the solved V4 SkeletonPSG connector, applies a real BCL/t145 owner-hit structural wave first, then planned interval body waves, then a small protected close bundle phase; final validation happens on the completed board, not one chain at a time.
+- Generated rows: `ccsf_v10_001_ccsf_v4_001_9142301_p1_bcl8_interval` at coverage `0.714`, `90` chains, avg/max choices `2.80/5`, contract `3/3`; and `ccsf_v10_002_ccsf_v4_001_9142301_p2_bcl8_6_interval` at coverage `0.699`, `91` chains, avg/max choices `2.92/6`, contract `3/3`.
+- Official trace: both rows solve and both are `MediumStructure`. Row 001 is `A/A`, difficultyScoreV2 `0.697`, hardStructureV3Score `0.202`, frontierDrainRemoteChokeCount `5`, supportClosureBestDepth `3`. Row 002 is `B/B`, difficultyScoreV2 `0.656`, hardStructureV3Score `0.173`, frontierDrainRemoteChokeCount `8`, supportClosureBestDepth `4`.
+- Wave audit: BCL contributes early structure (`0.468 -> 0.519`), interval waves climb to about `0.700`, then tail capacity stops (`small_interval_wave`). This is cleaner than V9's post-fill LocalEasy route, but it still does not provide a path toward `0.95`.
+- Current conclusion: t145-style early connector planning is the right control surface, but owner-hit BCL plus interval tail is too low-throughput. Next attempt should add a pre-interval body-basin / room-slot / support-control materializer from the V4 connector or semantic core, then run interval density after those regions are committed.
+
+## Generated-Root WBP t164 Closure-First Staged Basin Breakthrough - 2026-07-02
+
+- Active goal remains: build a root-general Generated-Root WBP generator that preserves a real generated root, plans duties before chain cutting, and produces difficult player-stalling levels while climbing toward high coverage.
+- New script: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ClosureFirstStagedBasinSchedulerV0.py`. It starts from an already materialized closure/hard body, then adds coverage basins in planned stages; each stage must be whole-board Greedy solved before the next stage runs.
+- Updated reservation compiler: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12CoverageBasinReservationCompilerV0.py` now supports closure-visibility auditing and `--require-plan-greedy-solved`. t164 proves the previous two-basin wall was partly a selection/gate issue: high-scoring geometric basins were unsolved and blocking `cmp2`.
+- Key route decision: `cmp2` / planned danger outer body must be materialized before generic basin reservation; preserving it as protected future space blocks current basin grammar. After closure3, solved multi-basin planning is viable.
+- c043 proof: `t164v_c043_stage9_oldrelease_guard_v0_c001` reaches coverage `0.7550607`, official trace solved `A/A`, avg/max choices `2.48/5`, `MediumStructure`, DifficultyVerify `HardPotential 0.795`, root preserved, pre-materialized duty evidence present.
+- c038 same-family proof: `t164y_c038_stage9_oldrelease_guard_v0_c001` reaches coverage `0.7530364`, official trace solved `A/A`, avg/max choices `2.21/5`, `MediumStructure`, DifficultyVerify `HardPotential 0.797`.
+- Negative boundary: ungated staged fill can reach `0.7955466` (`t164p`) but drops to process `B` and lower hardV3 due dependency-follow/local run risk. The release policy `--max-new-release-owner-uses 1 --avoid-consecutive-new-release-owner --max-release-owner-reuse 2` restores process A around `0.75`.
+- Remaining gap: this is a route breakthrough, not the final `0.95+` generator. Next work should add strict dual-gate / dependency-follow suppression and higher-coverage region-duty capacity without reverting to unsolved prefix, owner0 afterfill, or LocalEasy coverage filler.
+
+## Generated-Root WBP t162 Future-Capacity Lookahead / Goal Decomposition - 2026-07-02
+
+- Active goal: build a root-general Generated-Root Whole-Board Planner generator that keeps a real generated root, plans whole-board duties before cutting chains, and produces player-stalling hard levels with a path back toward `0.95+` coverage.
+- Landing stages are now explicit: (1) root pool/root identity and capacity gate, (2) pre-materialization region/cell duty graph, (3) semantic chain materialization, (4) TraceGate for legality/Greedy/official solved/root preservation, (5) independent DifficultyVerify/PlayerStall audit, (6) coverage climb only through duties planned before cutting.
+- Worktree: `.worktrees/sgp-rhythm-lab`; updated `Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py` with opt-in coverage-basin future-capacity lookahead. Defaults stay off. New controls include `--enable-coverage-basin-lookahead`, `--coverage-basin-lookahead-mode geometry|greedy`, per-state candidate limit, geometry path cap, and future option/owner/solved rewards or hard gates.
+- Validation: `python -m py_compile Tools\SGPRhythmLab\Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py` passed. Greedy-mode lookahead was too expensive under broad settings and timed out, so the script now supports lightweight geometry future-capacity first.
+- t162 geometry smoke (`t162b_c043_covbasin2_geolook_targeted_v0`) shows many first-basin candidates leave future geometry capacity (`futureCoverageOptions` up to `19`, future owners up to `7`), but no two-basin solved bundle is found. This separates "future empty geometry exists" from "second basin is Greedy/contract feasible".
+- Continuation from the known t161f prefix confirms the narrow second outlet problem: `t162d` no-owner0 and `t162e` owner0-allowed ActivationBeam continuation both write `0` solved bundles; the known BCL exact1 success `t161j` only appears as deep rank `75/111`, release owner `0`, coverage `0.6842105`.
+- Conclusion: future-capacity lookahead is useful as audit/scoring instrumentation, but it does not solve the current second-basin wall. The next real generator step should move basin reservation earlier into root/region duty rewrite, not widen BCL/ActivationBeam or chase deep owner0 afterfill.
+
+## Generated-Root WBP t161 Coverage-Basin Activation V0 - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; continued active root-general WBP goal from t160. No PSG/original generator changes.
+- Updated `Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py` with an opt-in coverage-basin stage. It reuses BCL owner-hit option enumeration inside the same activation beam, adds coverage-basin chain rows before final materialization, records `addedCoverageBasinChains`, and keeps default behavior off.
+- Positive: fully automatic c043/c038 runs (`t161f_c043_covbasin_auto_no0_v0_c001`, `t161g_c038_covbasin_auto_no0_v0_c001`) select the same 3 early semantic duties plus a non-owner0 coverage-basin chain released by owner `35`, reaching coverage `0.6740891` with Greedy `3.681/8` and `3.234/7`. This proves coverage-basin supply can be planned before chain cutting and is not inherently forced to owner0.
+- Continuation: BCL exact1 after t161f/g reaches `0.6842105` (`t161j/t161k`) but only through release owner `0`; BCL exact2 remains `0` (`t161h/t161i`).
+- Boundary: two coverage-basin chains inside the activation beam still fail. `t161c` (no owner0), `t161d` (owner0 allowed), `t161e` (short 2-3 cell basins), and `t161l` (unsolved-prefix allowed) all produce `0` solved bundles. This indicates the next needed change is earlier spatial/region rewrite for the second basin, not wider BCL or generic beam brute force.
+- Current best same-family stage1 prefix is t161f/g for route evidence, not final review levels. Coverage remains far below `0.95+`; difficulty/official trace validation is premature until a higher-coverage body exists.
+
+## Competitor Core Skeleton WBP Bundle V9 Diagnostic - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`; Demo activePack now points to `CompetitorCoreSkeletonWBPBundleV9Pack.asset` GUID `f6c96f602f844114b456732e77155e04` for inspection, but this is a diagnostic mount, not an accepted hard-level pack.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonWBPBundleV9.py`. It tries to apply WBP/T111-style staged bundle protected fill on top of the best V8 SkeletonPSG row, preserving the V4/V8 connector contract and validating the completed board, not each single chain.
+- Static result: only one solved candidate, `ccsf_v9_001_ccsf_v8_038_ccsf_v4_001_9142301_psgwp10_wbp1`, reaching coverage `0.765` from V8 base `0.711`, with `95` chains, `551` arrows, `4` accepted bundles / `8` bundle chains, and `3/3` first-hit plus `3/3` corridor-clear contract preserved.
+- Bundle audit: all accepted bundles are `open_close`; `anchored_bulk`, `anchored_mid`, and `mixed_close` reject mostly as `greedy_unsolved`. Reject top is `open_close:greedy_unsolved:555`, `mixed_close:120`, `anchored_mid:100`, `anchored_bulk:79`.
+- Official trace: solved `B/B` but `hardStructureV3Class=LocalEasy`, `hardStructureV3Score=0.126`, `difficultyScoreV2=0.665`, openers `3`, avg/max choices `3.33/7`, `frontierDrainRemoteChokeCount=11`, `choiceChokeAfterLocalFrontierBreakCount=4`, `supportClosureBestDepth=4`.
+- Conclusion: post-V8 WBP bundle fill is not the route to `0.95`. It improves some rhythm/choke signals but cannot reproduce T111's `0.953` path because V8's interval-duty body has already consumed the future anchored/mixed coverage capacity. Next attempt should move WBP coverage-basin and support-closure planning earlier, from V4 connector / semantic core before dense interval fill.
+
+## Generated-Root WBP t160 Activation-Aware Early Closure V2 / Same-Family Capacity - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active goal remains root-general Generated-Root WBP that preserves generated root identity, plans duties before chain cutting, and produces difficult player-stalling levels.
+- Added/updated V2 probes: `Build-GeneratedRootWBPV12EarlyClosureDutyBundleV2.py` and `Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py`. ActivationBeam V2 now has owner-diverse option sampling (`--options-per-release-owner`, `--expanded-options-per-state`, `--prefer-new-release-owner-options`), targeted duty replay (`--only-duty-ids`), and a solved-prefix shortlist gate (`--skip-duties-without-solved-single`).
+- Static bundle V2 and broad dynamic beam are negative/diagnostic: base-enumerated static bundles and wide unsolved-prefix beams found `0` solved bundles or timed out, so this cannot become a brute-force route without caching/stronger pruning.
+- Positive: solved-prefix auto-shortlist V2 generalizes to same-family roots. `t160t_c043_activation_autoshortlist_chain3_v2_c001` and `t160u_c038_activation_autoshortlist_chain3_v2_c001` each add `3` semantic closure duties and reach coverage `0.6639676`; c043 selected `cmp7 early_closure_corridor owner19`, `cmp2 planned_danger_outer_body owner22`, and `cmp11 future_release_guard_cluster owner20`.
+- Boundary: after the 3-chain V2 prefix, BCL exact2 still writes `0` bundles on both c043/c038; BCL exact1 succeeds only as a single release-owner-0 chain to coverage `0.6740891`. This proves the route needs pre-materialized coverage-basin supply / multi-basin release planning, not ordinary BCL continuation or one-chain-at-a-time drilling.
+- Next implementation target: integrate coverage-basin duty selection into the early activation scheduler so the prefix deliberately creates multiple future release basins before coverage cutting. Do not treat V2 chain3 as a final level or continue widening BCL.
+
+## Generated-Root WBP f017 Full Closure Slot Planner V0 - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; added diagnostic script `Tools/SGPRhythmLab/Build-GeneratedRootWBPV12FullClosureSlotPlannerV0.py`.
+- V0 implements the missing middle layer in minimal form: enumerate short owner-hit slots, select a complete non-overlapping slot set to reach a target coverage, then materialize the entire set and run one final Greedy validation. It is not one-chain validation and does not run official trace.
+- Calibration positive: from `t156s_c027_ecduty_bcl4x7_c005` (`0.8421053`), target `0.850` produces `8` accepted full-plan candidates at `0.8502024` with `2` chains / `4` cells, reproducing the known t157e exact2 ceiling.
+- Coverage-wall test: from the same `t156s...c005`, target `0.860` produces `0` accepted candidates; raw options `158`, and `4000/4000` complete plans reject as `greedy_unsolved`.
+- Continuation test: from accepted `f017e...c007` (`0.8502024`), target `0.860` also produces `0` accepted; raw options `150`, and `800/800` complete plans reject as `greedy_unsolved`.
+- Conclusion: on this c027 prefix, the wall above `0.8502` is structural under ordinary empty-slot fill. Existing empty cells expose candidate slots, but complete materialization breaks Greedy. Next route needs local rewrite / re-cut / root-stage closure topology rather than BCL rerank or scalar future-space scoring.
+- Report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f017_full_closure_slot_planner_v0_summary.md`.
+
+## Generated-Root WBP f016 Same-Root Future-Lattice Probe - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; no PSG/original generator changes. Added default-off future-lattice bundle metrics to `Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py` for diagnostics only.
+- Goal was to test the user's real question: on the same `c027` root, can coverage improve if the fill layer considers future empty-cell / lattice capacity before consuming space.
+- Direct BCL reruns from `t156c_c027_ecduty_v1_noowner_len6_c001` did not reproduce historical `t156e` under shallow/current parameters; historical viable cells now sit deep in the option pool, and deep beam/raw expansion timed out, so brute-force deep pool is not a viable process.
+- Existing-candidate rerank showed naive future-lattice geometry is too weak: `t156s`/`t157e` rows still report many geometric future slots, while real BCL continuation is exhausted after `0.8502`.
+- Direct asset space-debt audit across all 8 `t156s` rows is identical (`coverage=0.8421053`, `debt=12`, `safeCap=42`, `highRisk=29`, `openRay=6`), so aggregate empty-space/point-lattice metrics cannot distinguish the branch that later exact2-continues.
+- Shallow actual exact2 top20 pair capacity found `0` solved pairs for all `t156s` rows; known `t157e` success from `t156s_c005` is a sparse deeper exact-slot event. Conclusion: future space must be handled as hard future-bundle reservation / exact-slot planning, not scalar rerank of ordinary BCL options.
+- Report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f016_same_root_future_lattice_probe_summary.md`.
+
+## Generated-Root WBP t159 Root-Generalization Matrix / Same-Family Smoke - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active goal is a root-general Generated-Root Whole-Board Planner that can produce difficult player-stalling levels from generated roots, with root preserved and whole-board duties before chain cutting.
+- New control-surface script: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootGeneralizationMatrixV1.py`. It ranks roots/families, emits route gates, and writes a batch base CSV so follow-up generation is matrix-driven rather than c027 hand-selection.
+- t159a matrix over 83 roots / 34 families: only `root154_core_sched0589_v1` has direct `stage1_same_pipeline_batch` readiness (`c027/c038/c043`). Six other families are `stage2_early_capacity_regen`: they have control capacity but root coverage is below the native stage1 threshold and need earlier coverage-basin planning.
+- Stage1 same-family seed-only smoke passed for c038/c043 using the same old t142g seed plan. Outputs `t159b` and `t159c` each write 4 solved seed-only rows at coverage `0.6397-0.6417`; c038 Greedy max `6-7`, c043 max `7-8`.
+- Early-space debt and closure-duty projection also generalize: c038 debt `69-70`, c043 debt `67-68`, with top duties matching c027's control-slot reservation, early closure corridors, planned danger outer body, and future-release guard clusters.
+- Patched `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyMaterializerV1.py` with `--candidate-scan-options` (default `1` preserves old behavior). This fixes a root-generalization fragility where the best-scored duty option can be unsolved even when lower-ranked options are valid.
+- Materializer result: c038/c043 with scan24 improve from 1 closure chain to 2 chains (`t159n/t159o`, coverage `0.6558704`; `t159p/t159q`, coverage `0.6538462`), but they do not reproduce c027's t156c 4-chain / `0.6801619` recovery. Guard-only diagnostics `t159r/t159s` add 0 chains.
+- Current conclusion: root-general route is alive at seed/projection level, but V1 early-closure materialization is not yet root-general. Next implementation should be bundle-aware / activation-aware early closure V2 that plans mutually supporting guard/corridor duties, not another c027-specific parameter tune.
+
+## Competitor Core Skeleton PSG Batch V8 Medium Review - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`; Unity `competitor-hard-fresh - Demo` is open and Demo activePack now points to `CompetitorCoreSkeletonPSGBatchV8Pack.asset` GUID `2a2d7ad0f2664533aaacfd3b7392d521`.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonPSGBatchV8.py`. It starts from the user-approved V4 skeleton plus existing SkeletonPSG corridor connector contracts, reserves planned corridor cells, plans whole interval-duty waves, materializes the batch, then validates the complete board/contract/official trace. It is explicitly not a one-chain/few-chain validate loop.
+- Output levels: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Levels/DirectProcedural/CompetitorCoreSkeletonPSGBatchV8/`; pack is manually curated after trace to contain only the three `MediumStructure` rows, excluding the one `LocalEasy` row.
+- Static pack rows: coverage `0.694-0.711`, chains `83-88`, arrows `500-512`, connector contract `3/3 firstHit` and `3/3 corridorClear` for all mounted rows; planner stops at `small_wave_capacity`, showing current whole-batch capacity ceiling around `0.71` for the solved V4_001 connector source.
+- Official trace: `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_psg_batch_v8_trace_metrics.csv`; `4/4` generated rows solved, process `2 A + 2 B`, tight `2 A + 2 B`, classes `3 MediumStructure + 1 LocalEasy`. Mounted rows are `ccsf_v8_033...`, `ccsf_v8_036...`, and `ccsf_v8_038...`.
+- Boundary: V8 is a correct-route structural review pack, not the `0.95` density endpoint. Compared with V7 it restores official structure/choke signals, but coverage is much lower; next work needs to grow the corridor/topology capacity before materialization rather than falling back to rank-field/tail closure.
+
+## Competitor V4 Skeleton PSG Direct-Logic Probe - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`; no Demo mount change. Ran existing `.worktrees/sgp-rhythm-lab` SkeletonPSG tools directly against current V4 formal skeleton report.
+- Feasibility output: `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_v4_skeleton_psg_feasibility_probe1_*`. All three V4 rows are `PSGConnectableNeedsCorridorWavePlanner`, proving the accepted skeletons expose PSG-style pressure slots but require corridor-wave scheduling before fill.
+- Key V4 feasibility numbers: `ccsf_v4_009` strong/corridorStrong `108/108`, `ccsf_v4_001` `110/110`, `ccsf_v4_008` `110/110`; immediateStrong is `0` for all. Do not use immediate/direct fill from these skeletons.
+- Corridor-wave output: `competitor_v4_skeleton_psg_corridor_wave_probe1_*`; strict no-overlap plan selected only `4`, `3`, and `5` critical corridor units for the three rows, so the direct capacity is real but not enough for a one-shot 12-unit wave.
+- Connector materializer output: `competitor_v4_skeleton_psg_connector_cutter_probe1_*` and low-coverage assets under `Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/SkeletonPSGCorridorConnectorCutterV1/cc_ae4b7668/`; static contract passes for generated rows (`firstHit` and `corridorClear` all pass). Next route should adapt SkeletonPSG scheduled DAG/topology fill around these corridor contracts rather than V7 rank-field/tail closure.
+
+## Competitor Core Coverage095 V7 Solved Review - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`; Demo activePack now points to `CompetitorCoreCoverage095V7Pack.asset` GUID `7fb8a5739cf1463d90a911a1759f4cae`.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreCoverage095V7.py`. It starts from the latest high-coverage V3 batch exterior and performs synchronized multi-tail closure to hit `0.95` coverage. This is batch tail closure, not one-filler-chain validation.
+- Output levels: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Levels/DirectProcedural/CompetitorCoreCoverage095V7/`; pack is manually curated to include only the official-solved row `ccsf_v7_002_ccsf_v3_008_8638894_ne_cov095`.
+- Static selected row: `24x30`, `132` chains, `684` arrows, coverage `0.950`, tail closure added `32` cells, internal openers `7`, avg/max choices `4.47/8`.
+- Official trace: `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_coverage095_v7_trace_metrics.csv`; trace ran both generated rows and found missing/failed `0`, but `ccsf_v7_001...` has `solved=False` under official trace and is not mounted. The mounted `ccsf_v7_002...` is official `solved=True`, process `B`, tight `Drop`, hardStructureV3Class `LocalEasy`.
+- Boundary: V7 satisfies the user's requested `~0.95` visual coverage and is the current viewable high-coverage pack. It is not a hard-structure success; the coverage layer collapses remote choke (`frontierDrainRemoteChokeCount=0`) and should be treated as visual/coverage review only.
+
+## Competitor Core Skeleton WholePlan V6 Review Pack - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`; Unity `competitor-hard-fresh - Demo` is open and Demo activePack now points to `CompetitorCoreSkeletonWholePlanV6Pack.asset` GUID `c5177b438dbe4b83b5fdac6f714ef432`.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonWholePlanV6.py`. V6 uses V4-approved hard skeletons, then plans rank-interval dependent density chains before materialization; a second background density wave is overfilled, oriented, and pruned in batches until the whole board solves.
+- Output levels: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Levels/DirectProcedural/CompetitorCoreSkeletonWholePlanV6/`. Pack order was manually curated after trace to put MediumStructure rows first: `ccsf_v6_009...wp1`, `ccsf_v6_011...wp3`, then boundary row `ccsf_v6_021...wp5`.
+- Static result: coverage `0.740-0.752`, `78-95` chains, `533-539` arrows on the 24x30 rows and `496` arrows on the 22x30 row. This is substantially denser and more reviewable than V5, though still not true `0.9` competitor density.
+- Official trace: `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_whole_plan_v6_trace_metrics.csv`; `3/3` solved, missing/failed `0`. Classes are `2 MediumStructure + 1 LocalEasy`; process is `1 A + 2 B`, tight process `Drop` for all.
+- Boundary: V6 is the current human-review pack because it is visually fuller and uses the complete planning route. It is not a final hard proof: background density improves coverage but weakens tight-process/hardStructure compared with V5. Next route should make the high-coverage background wave structural rather than pruned visual capacity.
+
+## Front20 Lite V1 Optimized20 Review Pack - 2026-07-02
+
+- Worktree: `.worktrees/nutation-front20-slotwise-runner`; no PSG/main generator changes.
+- New reusable selection/pack script: `.worktrees/nutation-front20-slotwise-runner/Tools/Production/Export-Front20LiteOptimized20V1.ps1`. Default run reads Final40 selection + Final40 pack, applies quota/score/local-risk rhythm selection, writes Optimized20 CSV/summary/pack, and can mount Demo with `-MountDemo`.
+- Built a 20-level review subset from the existing strict `Front20LiteV1 Final40` pool: `.worktrees/nutation-front20-slotwise-runner/.codex-run/front20_lite_v1_optimized20_selection.csv`.
+- New summary: `.worktrees/nutation-front20-slotwise-runner/.codex-run/front20_lite_v1_optimized20_summary.md`.
+- New review pack: `.worktrees/nutation-front20-slotwise-runner/Assets/ArrowMagic/SOData/Packs/Campaign500/Front20LiteV1Optimized20ReviewPack.asset`, GUID `f20f201020707e44a8ba4aef00000020`.
+- Demo in the runner worktree now points to the Optimized20 pack. Composition is 10 EarlyNormalLowPressure, 6 Front10ReadCheckLite, 4 Front20MiniBoss; all selected rows remain `TraceOrderKeep` + `visualPass=True`.
+- Metrics: chains `20-60` avg `34.3`, coverage avg `0.983`, avgChoices avg `4.033`, maxChoices avg `7`, localPatchRun avg `3.9`, nearOuterRun avg `3.4`, dependencyFollowRun avg `3.1`.
+- Selection intent: reduce Final40 repetition, keep front20 relief/read/miniboss ramp, preserve Flow/Peel/Lock/Mixed/LongChain-lite contrast, and avoid lowering quality gates.
+
+## Front20 HardBody V1 Production - 2026-07-02
+
+- Worktree: `.worktrees/nutation-front20-slotwise-runner`; this is a real level-body hardening run, not just Final40 reselection. PSG/Nutation generator core was not changed.
+- Plan 1: `.worktrees/nutation-front20-slotwise-runner/.codex-run/front20_hardbody_v1_plan.csv`; generated 20 design rows x 2 variants = `40` candidates via `Invoke-Campaign500NormalFullSourceShardV1.ps1` into `Campaign500NormalFullV1/hardbody_v1`.
+- Trace 1: official SGPRhythmTrace solved `28/40`; joined output `.codex-run/front20_hardbody_v1_trace_joined.csv`; strict `TraceOrderKeep` rows `20`.
+- Read/Mini top-up plan: `.codex-run/front20_hardbody_v1_topup_rm_plan.csv`; generated `24` candidates into `Campaign500NormalFullV1/hardbody_rm`. Trace solved `8/24`; strict `TraceOrderKeep` rows `5`.
+- Final hardbody review selection: `.codex-run/front20_hardbody_v1_review20_selection.csv`; summary `.codex-run/front20_hardbody_v1_review20_summary.md`.
+- Final hardbody review pack: `.worktrees/nutation-front20-slotwise-runner/Assets/ArrowMagic/SOData/Packs/Campaign500/Front20HardBodyV1ReviewPack.asset`, GUID `f20f20d120707e44a8ba4aef00000021`; runner Demo now points to this pack.
+- Final composition is `10 EarlyHardBody / 6 ReadHardBody / 4 MiniHardBody`, all from strict `TraceOrderKeep`. Style mix: PeelHard `9`, PeelLight `5`, PressurePeak `5`, NeutralMixed `1`; pure Flow rows were excluded from final review to make the body harder.
+- Compared with Optimized20, HardBodyV1 raises chains avg `34.3 -> 40.65`, avgChoices `4.033 -> 4.577`, maxChoices `7 -> 7.4`, dependencyFollowRun `3.1 -> 3.7`, while coverage stays about `0.98` and collapse risk stays similar (`0.106 -> 0.102`). Boundary: Mini/Read hardening is lower-yield; top-up solved only `8/24`, so future production should over-generate Read/Mini or soften only the worst Mini risk rows.
+
+## Competitor Core Skeleton Closure V5 Formal Pack - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`; Unity window `competitor-hard-fresh - Demo` is open and Demo activePack now points to `CompetitorCoreSkeletonClosureV5Pack.asset` GUID `1ac88c4d9ac345b189443d3d88644021`.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonClosureV5.py`. It uses the user-approved V4 skeleton anchors and fills by whole-board planning: topology-safe multi-tail closure, batch U-detours, and rank-interval dependent field-chain waves. It does not copy screenshots, seed topology, or validate one filler chain at a time.
+- Output pack: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonClosureV5Pack.asset`; levels in `Assets/ArrowMagic/SOData/Levels/DirectProcedural/CompetitorCoreSkeletonClosureV5/`.
+- Static result: 3 selected rows, coverage `0.644-0.647`, `55-61` chains, openers `3-4`; closure adds `123-135` cells in total, with tail, detour, and planned dependent field-chain splits recorded in `competitor_core_skeleton_closure_v5_report.csv`.
+- Official trace: `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_closure_v5_trace_metrics.csv`; `3/3` solved, process/tight `A/A`, classes `1 TrueHardCandidate + 1 HardPotential + 1 MediumStructure`, no LocalEasy.
+- Best V5 row is `ccsf_v5_005_ccsf_v4_001_9142301_cl1`: coverage `0.644`, official `A/A`, `TrueHardCandidate`, avg/max choices `2.7/6`, hardStructureV3 `0.684`.
+- Boundary: V5 is the first formal accepted-skeleton closure pack, not final competitor visual density. It preserves hard structure better than V3 but remains around `0.65` coverage; reaching true `0.9` visual density needs a pre-materialized high-coverage skeleton/fill planner, not a late closure layer on V4.
+
+## Generated-Root WBP t158 Player-Stall Preserving Closure / c027 Open-Anchor Ceiling - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; this continues the same generated-root c027 route from `t157e_c027_ecduty_bcl2_from_stall005_c005`, not old RCH or a hand-made master board.
+- New script: `Build-GeneratedRootWBPV12PlayerStallPreservingClosureV1.py`. It exactly enumerates short low-impact closure chains, records release type (`open`, `old_owner`, `new_owner`), and only appends a chain when the full board remains Greedy-solved with bounded choices. This is a diagnostic closure probe, not the final UDG scheduler.
+- Supporting fix: `Build-GeneratedRootWBPV12PlayerStallAuditV1.py` now formats integer metrics correctly, so values like remote choke `10` no longer render as `1`.
+- Key result: accepting a few easy openers is viable. `t158f_c027_c005_psclosure_open5_095` reaches coverage `0.8886640`, official trace solved `B/B`, `MediumStructure`, openers `5`, max choices `5`, and passes PlayerStallAudit with score `0.790`. It has a 15-step low-choice window `38-52:2 2 2 2 2 2 2 2 2 2 1 2 2 2 2`, remote choke `13`, and new-region switch picks `15`.
+- Higher coverage probe: `t158g` allows opener budget up to `6` and reaches `0.9028340`; a no-more-open continuation `t158m` reaches `0.9068826`. `t158m` official trace solves `B/B`, openers `6`, max choices `6`, and passes PlayerStallAudit under `--max-openers 6` with score `0.780`; DifficultyVerify at `B/0.90/openers6` classifies it as `HardPotential 0.677`.
+- Boundary: current open-anchor closure improves c027 from `0.8502` to `0.9069` while preserving player-stall feel, but it does not reach `0.95`. Further no-open continuation adds only one 2-cell old-owner chain; remaining gap still needs earlier planned dependency/support capacity, not more BCL or pure open filler.
+- Current best review choices: use `t158f` for stricter opener-5 feel (`0.8887`, MediumStructure, PlayerStallPass) and `t158m` for highest coverage proof so far (`0.9069`, PlayerStallPass/HardPotential but official LocalEasy and sweep risk). Neither is final target success.
+
+## Generated-Root WBP t157 Player-Stall Acceptance / c027 BCL Ceiling - 2026-07-02
+
+- User clarified acceptance: a few easy opening clears are acceptable, but the level must still stall the player later. This changes the review emphasis from opener count alone to mid-game low-choice windows, remote/cross-region switching, and forced read moments.
+- New script `Build-GeneratedRootWBPV12PlayerStallAuditV1.py` separates "can stall a player" from official `HardStructureV3`. It allows up to 5 openers by default, then scores mid/late low-choice windows, best 1-2 choice window, forced-single count, new-region/switch/jump evidence, remote choke count, local-run risk, dependency-follow risk, and sweep-continuation risk.
+- t156s high-coverage endpoint (`0.8421053`) official trace `t157a` solves 4/4 with process/tight `B/B`, max choices `4-5`, openers `3`, but official `HardStructureV3Class=LocalEasy` for all 4. Under PlayerStallAudit `t157c`, all 4 pass; best c005/c006 have a 15-step midgame window like `2 1 1 1 1 1 1 1 1 1 2 2 2 2 2`, remote choke `8`, new-region switches `16-17`, and player-stall scores `0.906-0.921`.
+- Focused bundle diagnostics on remaining duties confirmed V1's boundary: top corridor options for `cmp10/cmp0` exist but no 2-5 chain bundle among narrowed candidates produced a Greedy-solved board; `cmp16` remains a one-cell bridge duty. This supports "needs stronger bundle-aware closure V2", not more V1 score tuning.
+- Continuing coverage from the strongest stall row `t156s_c005`: exact4 BCL fails (`rawOptions=7`, `bundles=0`), exact2 succeeds as `t157e` and reaches coverage `0.8502024` with 2 added chains / 4 cells. Official trace `t157f` solves 4/4; PlayerStallAudit `t157g` still passes all 4, and c001 is `MediumStructure` with remote choke `12`.
+- t157e space debt (`t157h`) remains `need=50 / safeCap=38 / debt=12`, highRisk `29`, boundary `18`, openRay `6`; further exact2 from both c001 and c005 fails with only `rawOptions=1`, `bundles=0`. Current BCL ceiling for the c027 player-stall route is therefore about `0.8502`.
+- Current conclusion: c027 now has a real playable hard-feel spine under the new player-stall criterion, but not final coverage. The next coverage jump must come from a new closure operator that handles openRay/danger boundary/one-cell bridge duties without erasing the mid-game stall window.
+
+## Generated-Root WBP t156 Early Closure Duty Materializer / c027 Capacity Recovery - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; current route continues the c027 same-frame generated root selected in t155 (`root154_core_sched0589_v1_r3_c027`) and adds a duty-specific closure materializer before generic owner-hit coverage waves.
+- New script `Build-GeneratedRootWBPV12EarlyClosureDutyMaterializerV1.py` consumes projected early closure duties plus space-debt cells, reserves root control-slot cells, and materializes short/medium semantic chains before later BCL waves. It writes candidate, duty-commit, option-audit, cell-plan, summary, and LevelDefinition assets.
+- t156c first pass raises c027 seed-only from about `0.6417` coverage to `0.6802`, reducing early-space debt from `69` to `57` and high-risk empties from `72` to `65`.
+- After the early-closure pass, the same short owner-hit BCL grammar that previously failed on c027 can continue: t156e/t156g/t156i/t156k/t156m/t156o/t156s reach `0.7206 -> 0.7490 -> 0.7713 -> 0.7935 -> 0.8097 -> 0.8259 -> 0.8421`.
+- Best audited endpoint so far is `t156s_c027_ecduty_bcl4x7_c001`: coverage `0.8421053`, Greedy `avg/max=2.267/4`, raw options in the last BCL wave down to `14`, space-debt audit `need=54 / safeCap=42 / debt=12`, high-risk `29`, boundary `18`, openRay still `6`.
+- Official trace on t156o top4 (`t156q`) is `4/4` solved, process/tight `B/B`, max choices `5`, `3 MediumStructure / 1 LocalEasy`. DifficultyVerify with intermediate gate `minProcess=B,minCoverage=0.82` passes `4/4` as `HardPotential` with scores `0.639-0.733`; main blockers are `no_strict_dual_gate`, `dependency_follow_run_risk`, and for one row `LocalEasyStructure/weak_structural_contract`.
+- BCL manifest now carries `preMaterializationDutyCommit` and `dutyGraphMode` from its base row, so descendants preserve forward duty evidence for TraceGate/DifficultyVerify instead of being falsely rejected as missing pre-materialization proof.
+- Remaining-duty projection from t156s (`t156u`) emits 34 duties. Highest active debts are root control-slot reservation, early closure corridors `cmp10/cmp0/cmp16`, planned danger outer body singletons, and intentional/future-supply boundary components. A second V1 materializer pass (`t156v`) adds `0` chains: top corridor candidates exist but each is single-chain Greedy-unsolved, and `cmp16` is a single-cell duty that V1 cannot cut.
+- Current conclusion: there is a real route, but the next endpoint is not another BCL wave. BCL alone is now in a plateau where coverage rises but debt/openRay do not improve. The next implementation should be a bundle-aware early-closure materializer V2 that commits small multi-chain duty bundles per component, especially for open-ray/danger boundary components, before continuing coverage.
+
+## SGP Read-Demand Repair Prefilter Top14 Calibration - 2026-07-02
+
+- Worktree: `.worktrees/read-demand-hardening`; updated `Tools/Production/Export-SGPReadDemandRepairPlanTracePrefilterV1.ps1` sorting so top24 is no longer needed for the current `rdsb_03` repair-plan batch.
+- New default `MaxRows=14`. Selection now anchors highest quality row, same-repair quality sibling, and continuity-proxy rows before filling by repair-report quality/diversity.
+- Added repair-target residual/sweep signal: rows targeting owner `61` get priority, while non-61 rows with flat `earlyAvg>=24.95` and unhelpful `rgp10` variants are pushed down. This is a trace-thrift proxy, not final difficulty proof.
+- Calibration against existing 48-row official trace/DifficultyVerify: top12 already catches the main four useful candidates (`r08_05`, `r08_03`, `r06_04`, `r06_03`) with 9 HardPotential / 3 fail; top14 catches the same four with 10 HardPotential / 4 fail; top16 catches 11 HardPotential / 5 fail but adds mostly exploration redundancy.
+- Recommendation: production prefilter default top14, top12 for fast smoke, top16 only when extra exploration budget is acceptable. Final keep still requires official trace plus DifficultyVerify.
+
+## Generated-Root WBP t155 Root Plan Viability / Early Closure Duty Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; added pre-materialization tooling rather than continuing late filler.
+- New selector `Build-GeneratedRootWBPV12RootPlanViabilitySelectorV1.py` ranks roots by control-slot readiness, root coverage, chain/reserve quality, frame compatibility, and route evidence. Current run `t155a` ranks 83 roots: only 3 are same-frame `ready_for_native_udg`, 15 are stronger large-frame roots that need native large-frame or coordinate porting, and 19 are control-slot proof only.
+- Best same-frame root is `root154_core_sched0589_v1_r3_c027`: `19x26`, root coverage `0.6052632`, chain/reserve `5/5`, clean first-release control slot on gate `7` with cells `18,11;18,12`.
+- c027 plus old t142 seedState can materialize as seed-only: `t155e_c027_seedonly_oldstate_c001-c004`, coverage `0.6397-0.6417`, Greedy solved, max choices `6-7`. This proves the root is usable, but the seedState is not a complete route.
+- c027 seed-only still has high early-space debt: needs `153-154` cells to reach `0.95`, safe capacity `84-85`, debt `69-70`, high-risk empties `72`, boundary `46`, open-ray `20`.
+- New closure-duty projection `t155g` for c027 c001 emits 26 early duties: 1 hard dual-gate control-slot reservation, 4 early closure corridors, 3 planned danger-outer body duties, 2 future-release guard clusters, and 16 intentional/future supply components.
+- BCL visibility audit `t155i` shows the current owner-hit coverage grammar is insufficient for those projected duties: top control slot is owner-visible but cell-misaligned; highest closure corridor owner set `38;17` has only 3 visible options and zero cell overlap; one planned danger outer body is completely invisible. A long-chain BCL visibility try timed out and should not be continued as the main route.
+- Current conclusion: c027 is a better same-frame root candidate than c073 for native continuation, but the next implementation must be a duty-specific closure materializer that consumes projected closure duties before generic coverage waves. More BCL wave tuning or longer BCL search is not the route to the target.
+
+## Generated-Root WBP t153-t154 Control Slot / Full Coverage Closure Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; this checkpoint supersedes the older f013 note that large-canvas closure had not reached `0.95`.
+- t153 root-control-slot audit found that clean early control slots do exist, but not on the current high-coverage `root154_from0700_tail0` family. The clean gate5 root `root154_section_sched_v1_r3_c073` has a usable control slot around `0,14;0,13`, but starts at only `0.510` coverage and current BCL/beam growth is too slow (`t153o` only reaches `0.6437`).
+- Higher-coverage rootlang candidates (`~0.619`, `23x30`, TrueHardCandidate-ish root scores, many first-release control slots) are structurally stronger, but the old `19x26` seedState cannot be reused directly. Existing rootlang edgepattern5 output has huge early space debt: needs `204` cells to reach `0.95`, safe capacity about `104`, debt `100`.
+- f013 larger positive-anchor closure finally crossed the visual coverage line: `f013g` reaches `0.9500000`, `f013h` reaches `0.9518519`, both are official solved and preserve the protected prefix/root identity.
+- f013g/f013h are not target successes. Official trace still reports process `B`, tight process `Drop`, `hardStructureV3Class=LocalEasy`, no strict dual gate, and no qualified support closure; `DifficultyVerify` rejects them even under a loose process gate because tight process is `Drop`.
+- Current conclusion: full coverage closure is mechanically possible, but late open/proxy fill does not create or preserve the official hard structure. The next route must plan closure cells, control slots, support outlets, and structural blockers before materialization, not append them after a feel-positive core is already packed.
+- Key artifacts: `f013g_pad20x27_continue_open095_*`, `f013h_pad20x27_continue_open095_proxy_*`, `t153a_root_control_slot_readiness_*`, and `t154b_rootlang_edgepattern5_c001_space_debt_*` under `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/`.
+- Next step: build a root/plan selector that gates roots by control-slot readiness plus early-space/closure capacity, then feed the selected root into an early closure-duty planner instead of running another late tail/open filler.
+
+## Generated-Root WBP f013 Positive Anchor Big Canvas Probe - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; no PSG/original generator logic was changed. f013 starts from the f011/f012 human-positive `t103a` anchor and tests a minimal larger canvas transfer, `19x26 -> 20x27`.
+- Raw compatibility works: `f013a_t103a_anchor_pad20x27_raw` preserves the original 67 chains on a `20x27` board, coverage drops to `0.8129630`, but official trace remains solved `B/B`, max choices `6`, essentially matching the original positive anchor trace.
+- Padded f012 closure also works as a playable base: `f013b_t103a_f012f_pad20x27_raw` keeps the f012 closed core on `20x27`, coverage `0.8703704`, official solved `B/Drop`, max choices `11`.
+- Larger-board closure does not reach production coverage with current tools: new-strip-only fill times out at `0.9037037`; unrestricted relaxed open fill times out at `0.9259259`; tail extension from that row can only find a best frontier `0.9351852`, not `0.95`.
+- Interpretation: larger-canvas anchor transfer is compatible, but the f012 closure recipe is not scale-free. To use this route seriously, next work needs either native larger-root generation or a border/space-budget closure operator; simple padding plus old fill is only a feel probe.
+- Mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_f013BigCanvasAnchorReviewPack.asset`, GUID `f013b16c0dec4c2b9d9a5eed00000003`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack points to it.
+- Pack order: original `19x26/0.888`, raw padded `20x27/0.813`, f012 filled `19x26/0.951`, f012 padded raw `20x27/0.870`, new-strip fill `20x27/0.904`, relaxed open fill `20x27/0.926`.
+- `sgp-rhythm-lab - Demo` Unity is open for review. Key review question: whether the larger canvas actually improves hard feel enough to justify solving the new closure problem.
+- Main report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f013_positive_anchor_bigcanvas_summary.md`; trace outputs: `f013_positive_anchor_bigcanvas_trace_metrics.csv` and `_steps.csv`.
+
+## Competitor Core Skeleton Fill V2 Density Proof - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`. This is the active competitor-hard route after the user rejected seed-derived generation.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonFillV2.py`. It loads the V1 from-scratch skeleton generator, then adds a second-stage density filler. The filler does not read seed assets or screenshots; it only accepts added chains that keep the actual ray-blocker DAG acyclic and keep internal solve pressure bounded.
+- Output pack mounted in the fresh Demo: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonFillV2Pack.asset`, GUID `2e80e2ed17b9429cacd6bef0b20aaf6f`.
+- Current 6-row pack: `54-74` chains, `0.608-0.662` coverage, opener count `3-5`, internal avg/max choices `2.26-3.51/4-9`, density filler contributed `17-26` chains per row.
+- Official trace: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_fill_v2_trace_metrics.csv`; 6/6 solved, hardStructureV3Class is `5 MediumStructure / 1 LocalEasy`, process/tight is `1 A/A + 5 B/B`.
+- Best current trace row for review is `ccsf_v2_014_8074488`: `A/A`, `MediumStructure`, openers `4`, avg/max/p80 `2.39/5/3`, remote choke `9`, after-local frontier break `2`.
+- Boundary: V2 proves the correct two-stage route is viable and much denser than V1, but it is still not final competitor parity. Visual coverage is below the target high-density reference band, and process quality should be stabilized before claiming hard production. Next step should make the density filler trace-aware and push toward `0.70+` coverage without increasing dependency-follow/local runs.
+
+## Competitor Core Skeleton Fill V3 Batch High-Coverage Proof - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`. V3 answers the user's specific request to fill near `0.9` coverage without the V2-style "place one chain, validate one chain" route.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonFillV3.py`. The active V3 mode is a rank-field batch generator: it builds opener/core chains, then adds `100+` density chains in one constructed wave. Each chain is oriented toward lower rank and its body is constrained not to dip below its head rank, so the bulk DAG is construction-driven rather than one-chain accepted.
+- Current Demo pack: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonFillV3Pack.asset`, GUID `7075082cc6954667adbce6b54809ddb8`.
+- Current 3-row pack: coverage `0.874`, `0.901`, `0.882`; chain counts `128-134`; bulk density adds `112-118` chains per row; internal openers `6-7`, avg/max choices `3.69-4.73/6-10`.
+- Official trace: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_fill_v3_trace_metrics.csv`; 3/3 solved, but all `LocalEasy` (`B/Drop`, `Drop/Drop`, `B/B`). This is a high-coverage proof, not a hard proof.
+- Boundary and next step: do not continue by per-chain validation. V3 proves batch near-0.9 fill is feasible, but the rank field is too regular and lacks remote choke (`frontierDrainRemoteChokeCount 0-2`). Next hardening should add batch-level remote-corridor/cross-basin duties and then validate the finished board, not accept filler chains one by one.
+
+## Competitor Core Skeleton Formal V4 - 2026-07-02
+
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`. This is the first formal non-rank-field skeleton candidate after the user rejected V3's same-direction continuous-clear behavior.
+- New script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonFormalV4.py`. It uses the proven from-scratch V1 DAG skeleton as the formal core, protects first-hit corridors, and adds a bounded formal batch fill. It does not read seed topology or screenshots.
+- Current Demo pack: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonFormalV4Pack.asset`, GUID `00adefdd18574cc19297db8ad4659bef`.
+- Current 3-row pack is a formal skeleton anchor, not final visual density: coverage `0.460-0.526`, chains `45-55`, openers `4`, internal avg/max choices `1.89-2.65/4-6`, remote/cross first-hit counts up to `24/40`.
+- Official trace: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_formal_v4_trace_metrics.csv`; 3/3 solved, classes are `1 TrueHardCandidate + 2 MediumStructure`, process/tight `A/A`, `A/B`, and `B/B`.
+- Best row: `ccsf_v4_001_9142301`, official `TrueHardCandidate`, `A/A`, openers `4`, avg/max/p80 `2.89/6/5`, local/near/dep `2/1/9`, remote choke `4`, difficultyScoreV2 `0.712`.
+- Boundary: V4 fixes the skeleton direction problem but reopens the coverage problem. Next step should use V4 as the hard skeleton anchor and add a high-coverage closure operator that preserves the V4 trace signals, rather than returning to V3's single rank-field.
+
+## Generated-Root WBP f012 Fillup Positive Anchor Review - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; built directly from the f011 human-positive anchor `t114_generalization_probe_t103a_c001_fill090c` after user said level 1 already has difficulty and coverage is the main defect.
+- Goal: fill the positive anchor toward production coverage while accepting final outer/open exits if necessary, then mount Demo for feel review.
+- New-chain open fill results: `f012b_t103a_anchor_open095_loose10` reached coverage `0.9210526`; `f012d_t103a_anchor_open095_greedyonly_from_f012c` reached `0.9433198`. Both official trace solved, but new-chain fill stalls at `0.943`; deterministic enumeration found no additional Greedy-safe new short/open chain.
+- Successful full coverage closure: `f012f_t103a_anchor_multitail095_r001_a04_d04` uses multi-tail extension from `f012d`, adds 4 cells to 4 existing chain tails, reaches coverage `0.9514170`, official trace solved `B/LocalEasy`, max choice `11`.
+- Interpretation: if the hard feel is already present, final coverage should be a separate low-impact tail-closure phase, not necessarily more new filler chains. This supports a route of "hard anchor first, low-impact coverage closure second."
+- Mounted Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_f012FillupAnchorReviewPack.asset`, GUID `f012fee1feed4c2b9d9a5eed00000002`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack points to it.
+- Pack order: baseline `0.888`, open-fill `0.921`, open/Greedy-only `0.943`, tail-extension closure `0.951`. Unity `sgp-rhythm-lab - Demo` is open for human review.
+- Human review result: user said the filled versions have little feel change. Treat this as a positive route signal: the `0.888` hard/read-demand anchor can be closed to `0.951` by low-impact open/tail coverage without obviously destroying difficulty feel.
+- Updated route implication: prioritize finding more positive anchors like f011 level 1, preferably on larger canvases, then use two-stage closure (`open/new-chain fill until safe boundary`, then `existing-chain tail extension` for final cells). Do not over-penalize final closure being easy/open if the core difficulty survives in human play.
+- Main report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f012_fillup_positive_anchor_summary.md`; trace/human-read outputs: `f012_fillup_positive_anchor_trace_metrics.csv`, `f012_fillup_positive_anchor_human_read.csv`.
+
+## Generated-Root WBP V12 t151-t152 Structural Interposer / Dual-Gate Control Slot - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; no Demo pack was changed in t151/t152.
+- t151 added a structural interposer scheduler and proved the useful selection rule: remote release gap matters more than immediate interposer coverage. Naive two-interposer selection picked `8->55` plus `10->56` and stalled at protected continuation coverage `0.8340081`; remote-gap-only selected `10->56@15` and reproduced the best protected continuation `0.8360324`.
+- t151 official validation on `t151h_t151g_c001_preserve012_bcl4_c001-c003`: `3/3` solved, process/tight `A/A`, avg/max `2.22/5`, relation audit `MediumStructure`, root50 support closure preserved at depth `3`, score `0.839`; DifficultyVerify remains `HardPotential 0.746`, blocker `no_strict_dual_gate`.
+- t152 patched `Build-SGPRhythmTrace.ps1` step diagnostics with `newParentEdges`, so strict dual-gate audits can use the official single-parent `parentOf` instead of relation-audit approximations.
+- t152 dual-gate probe found no late-materializable upstream control chain. The promising near-pairs all need target gate `5`, but gate5's only control entry is around `(0,14)` and every possible 2-cell control slot has incumbent debt.
+- t152 control-slot projection: `8` projected slots, `0` clean. Up-control `0,14;0,13` is blocked by body owner `34` and release-ray owners `14;32;41`; down-control `0,14;0,15` is blocked by body owner `41` and release-ray owners `15;34;54;70`.
+- Interpretation: strict dual gate cannot be repaired after t151h coverage. The next real route is early `dual_gate_control_slot` / corridor reservation during root/seedState/duty planning, before coverage chains occupy the column and its release ray.
+- Key new scripts: `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12StructuralInterposerSchedulerV1.py`, `Build-GeneratedRootWBPV12DualGateUpstreamControlProbeV1.py`, and `Build-GeneratedRootWBPV12DualGateControlSlotProjectionV1.py`.
+- Key reports: `t151i_t151h_remote_interposer_preserve012_*`, `t152c_t151h_preserve012_parentedge_diag_*`, `t152e_t151h_c003_dualgate_control_relaxed_*`, and `t152i_t151h_c003_dualgate_control_slot_projection*`.
+- Next step: implement an early reservation-aware scheduler that reserves the gate5 control slot/corridor as a duty before materialization, then rerun coverage around that reservation. Do not continue late relocation/repair on t151h.
+
+## Competitor Seed Maze Grammar V1 Diagnostic - 2026-07-02
+
+- User rejected this route after review: seed-derived / seed-grammar variants are not the desired solution path, even if the visual distribution is closer. Treat this line as a rejected diagnostic, not a baseline to tune.
+- Worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`; new script `Tools/Production/Build-CompetitorSeedMazeGrammarV1.py`.
+- Route: uses true-reference project seeds as grammar teachers, then builds affine variants with bounded chain splitting/removal. This is a seed-grammar prototype, not direct approval to reuse original seed assets as final content.
+- Output pack mounted in the fresh worktree Demo: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorSeedMazeGrammarV1Pack.asset`; preview `.codex-run/competitor_seed_maze_grammar_v1_preview.png`.
+- Current generated pack has 3 visual-correct candidates: `55-88` chains, coverage `0.908-0.917`, internal avg/max choices `2.82-3.85/8-11`; visually it matches dense maze-room panels much better than ShortRail/Gatehouse/Braid.
+- Official trace: `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_seed_maze_grammar_v1_trace_metrics.csv`, 3/3 solved, but process is `B/Drop/Drop`, hardStructureV3Class remains `LocalEasy`, remote choke count is weak (`0-2`), and there is no after-local frontier break.
+- Control trace on original true-reference seeds (`competitor_true_seed_reference_trace_metrics.csv`) also shows 5/5 solved but `LocalEasy`, proving current trace hard-structure gate is stricter than visual competitor similarity. This does not make generated candidates hard; it separates visual grammar from structural difficulty.
+- Current verdict: SeedMazeGrammar V1 is rejected as a route. It may remain as evidence that seed-derived variants can match visuals but fail the user's generation-standard requirement. Next route must be from-scratch bottom-up generation: core chains / skeleton first, then fill around that skeleton while preserving difficulty structure.
+
+## Competitor Core Skeleton Fill V1 Proof - 2026-07-02
+
+- User rejected the seed-derived route and redirected the lane to bottom-up generation: core chains / skeleton first, then fill around that skeleton, or true competitor logic from the rules layer.
+- New from-scratch script: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonFillV1.py`. It does not read seed assets or screenshot topology.
+- Generator logic: create opener/core chains, add later chains that point at earlier release owners, preflight every added chain against the actual ray-blocker dependency graph, then topologically sort the final DAG before writing LevelDefinition assets.
+- Current pack: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorCoreSkeletonFillV1Pack.asset`; Demo in the fresh worktree is mounted to this pack.
+- Current output is a low-coverage mechanism proof, not final competitor visuals: 6 candidates, `32-50` chains, coverage `0.430-0.527`, openers `3-5`, internal avg/max choices about `1.91-2.74/4-5`, dependency-follow runs `6-10`.
+- Official trace: `.worktrees/competitor-hard-fresh/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/competitor_core_skeleton_fill_v1_trace_metrics.csv`; 6/6 solved, all process/tight `A/A`; one row `ccsf_v1_026_7504576` is `TrueHardCandidate`, the rest are `MediumStructure`.
+- Visual boundary: this proves the skeleton route can create real structure but is too sparse for competitor parity. A one-stage higher-coverage search timed out, so the next step should be a separate second-stage filler that adds noncritical maze-room density while preserving the DAG/trace structure.
+
+## Competitor Hard True Reference Correction - 2026-07-02
+
+- User correction: the uploaded colored short-rail screenshot is a negative example of the bad prototype result, not the competitor target. Do not use it as positive visual guidance.
+- True positive references are the in-project competitor/contact sheets under `TempContactSheets/*_36.png` plus high-scoring project seeds. The visual target is high-coverage maze/room linework: nested rooms, corridors, U-turns, gates, pockets, and dense but non-striped labyrinth panels.
+- Fresh worktree remains `.worktrees/competitor-hard-fresh` on branch `codex/competitor-hard-fresh`, but current outputs are diagnostic negatives, not review candidates.
+- `CompetitorShortRailReadV1` is invalid because it was derived from the user's negative screenshot; mark it as a rejected negative even if trace labels are not the primary issue.
+- `CompetitorMazeRoomReadV1` has two useful lessons only: layered-room variants looked closer visually but official trace collapsed to `Drop/LocalEasy` with choice explosion; braid-room variants lowered choices but became mechanical vertical/horizontal stripes unlike competitor screenshots. Do not mount or present it as accepted.
+- Seed scan evidence shows the project already contains true-reference-like seeds: examples include `seed_Above300_level_844`, `seed_Above300_level_987`, `seed_Arrowz_level_199`, and `seed_AOut_level_089`, with coverage about `0.91-0.93`, `58-94` chains, and avg choices about `2.9-5.2`.
+- Next correct route: extract or approximate the seed/contact-sheet maze-room grammar first, then generate. Do not continue by tuning short rails, generic gatehouses, or braid stripes.
+
+## Generated-Root WBP f011 Multi-Root Seed Variance Probe - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; independent `f###` line, explicitly not competing with the active t-line difficulty-structure work and not modifying PSG.
+- Purpose: answer the user's lower-level question after f010: whether high-coverage multi-root compatibility is real at the bottom layer, whether different seeds produce genuinely different high-coverage tails, and whether stronger root/skeleton difficulty survives after fill.
+- Tested two non-t110 t114 bases with identical `targetCoverage=0.93`, 45s/seed, no open fill: `t103a_fill090c` at coverage `0.8886640` with prefix `27`, and `t104d_fill090c` at coverage `0.9048583` with prefix `25`.
+- f011a anti-conveyor mode (`placement + anti-conveyor proxy`, local/nearOuter proxy cap `7/7`): `t103a` selected `0` chains for all 3 seeds; `t104d` selected the exact same 2 chains for all 3 seeds and stopped at `0.9129555`.
+- f011b relaxed mode: `t103a` selected only 1-2 right-edge chains and reached at best `0.8967611`; `t104d` selected 1-2 chains and reached at best `0.9149798`. Different seeds can vary, but only inside a tiny set of tail slots.
+- Reduced official trace on three representatives solved `3/3`; human-read results: `t103a relaxed best` = `0.724 SkeletonHard`, `t104d anti-conveyor` = `0.814 ReadHard`, `t104d relaxed best` = `0.814 ReadHard`. All official hard structure still `LocalEasy`.
+- Conclusion: bottom-layer multi-root compatibility is real, but late high-coverage uniformity is not solved. The `0.90 -> 0.95` phase behaves like a small closure-slot frontier, so seed variance collapses and root quality dominates. Stronger root/peripheral skeleton does transfer into higher filled difficulty, but current filler still cannot make official hard structure by itself.
+- Demo mounted pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_f011SeedVarianceReviewPack.asset`, GUID `f0115eed5eed4c2b9d9a5eed00000001`; `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack points to it.
+- Human review corrected the metric reading: pack level 1 (`t114_generalization_probe_t103a_c001_fill090c`, coverage `0.8886640`) feels genuinely difficult despite lower coverage and should be treated as the current positive feel anchor. A larger canvas with similar lower-coverage read-demand may be a better next target than forcing `0.93/0.95`.
+- Human review also marked pack level 3 (`t114_generalization_probe_t104d_c001_fill090c`) as weaker for hard-read because of too much continuous clearing, especially outer-ring clearing. It can be kept as a possible peel-style candidate only if the board after outer-ring removal still has real decision pressure.
+- Main report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f011_multiroot_seed_variance_summary.md`; key outputs include `f011a_multiroot_seed_variance_run_summary.csv`, `f011b_multiroot_seed_variance_relaxed_run_summary.csv`, `f011_multiroot_seed_variance_trace3_metrics.csv`, and `f011_multiroot_seed_variance_trace3_human_read.csv`.
+
+## Generated-Root WBP f010 High-Coverage Multi-Root Difficulty Validation - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; independent `f###` side-line, no t-line or original PSG changes.
+- User corrected the validation target: use the t111/t114 high-coverage route, not f009 low/mid-coverage partials, to answer whether multi-root high coverage and root-stage difficulty optimization are real.
+- Existing evidence confirms high-coverage WBP is multi-root but uneven: original `t111i_protected_fill_from_t111h_final095` reached coverage `0.9534413`, solved `B/B`, human-read `0.932 ReadHard`; non-t110 `t104d` reached `0.9311741`, solved `B/B`, human-read `0.779 SkeletonHard`; `t103a` reached `0.8886640`; weak `t105f` stalled around `0.599`.
+- New f010 t104d anti-conveyor/peripheral-closure continuation used placement proxy + anti-conveyor proxy against `t114_generalization_probe_t104d_c001_fill090c`; both no-open and open variants timed out at coverage `0.9170040` after about `100s`, with Greedy solved and official trace solved.
+- f010 difficulty direction is positive versus t104d baseline: human-read `0.779 -> 0.816`, class `SkeletonHard -> ReadHard`, local/nearOuter run `6/6 -> 5/5`, supportClosureBestDepth `1 -> 3`, outerExitHeadCount `4 -> 2`, structuredHardnessV21 `0.675 -> 0.722`, collapse risk `0.289 -> 0.240`.
+- Boundary: f010 lost coverage compared with t104d `0.931 -> 0.917`, official HardStructure remains `LocalEasy`, qualified support hubs remain `0`, and strict dual gate remains false. Late fill scoring improves feel but cannot yet close `0.90 -> 0.95`.
+- Current conclusion: high-coverage multi-root works in principle, efficiency collapses in the last closure phase, and optimized root/peripheral skeleton can raise difficulty signals. The next real experiment should be a `0.90 -> 0.95` closure scheduler that preserves support depth, low outer-exit heads, and anti-local/anti-conveyor behavior while adding the last cells.
+- Main report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f010_highcoverage_multiroot_difficulty_validate_summary.md`; compare files: `f010_highcov_difficulty_compare_trace_metrics.csv`, `f010_highcov_difficulty_compare_human_read.csv`, `f010_hicov_anticonv_run_summary.csv`.
+
+## Competitor Hard Fresh Gatehouse Rejected Negative - 2026-07-02
+
+- User rejected the prior Loose12 tryout because it reused already-rejected material and did not deliver the required shape/feel. Treat Loose12 as a negative reference only; do not promote `rdsbl12_01` as a positive seed.
+- New isolated worktree: `.worktrees/competitor-hard-fresh`, branch `codex/competitor-hard-fresh`, started from scratch rather than from existing LevelDefinition assets.
+- Fresh generator/artifacts: `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorMazeReadDemandV1.py`, `Assets/ArrowMagic/SOData/Packs/DirectProcedural/CompetitorMazeReadDemandV1FreshPack.asset`, and rows under `Assets/ArrowMagic/SOData/Levels/DirectProcedural/CompetitorMazeReadDemandV1/`.
+- Human verdict: this Gatehouse prototype is disqualified. It does not reproduce the competitor result, logic, or structure; it lacks the screenshot's sparse two-cluster composition, repeated short horizontal rail groups, central vertical rhythm/read points, and intended visual parsing pressure.
+- Trace verdict is consistent with human review: light official trace on `cmrd_gatehouse_v1_02_seed7302203` is solved `B/B`, avg/max choices `4.23/6`, but HardStructure V3 remains `LocalEasy`, `frontierDrainRemoteChokeCount=0`, and `choiceChokeAfterLocalFrontierBreakCount=0`.
+- Boundary: do not tune or promote this Gatehouse family. Treat it as a negative artifact proving that generic staged gates/room-fill are not the competitor route.
+- Next required route: first mine project seeds and true competitor/contact-sheet references for a concrete visual/logic grammar: dense maze-room panels, nested rooms, corridors, gates, pockets, and cross-region read order. The short-rail/two-cluster screenshot is a rejected negative, not a target.
+
+## Competitor Hard Level Analysis - 2026-07-02
+
+- User goal: understand base Arrow rules/generation logic and define a route to produce harder levels comparable to in-project competitor/reference screenshots.
+- Read project memory, script/level/resource indexes, core runtime rules, authored builder, basic/portable generators, NoMask PSG/Nutation logic, ReadDemand/ScheduledBreak entries, SGPRhythmTrace, DifficultyVerifier, and contact sheets under `TempContactSheets/`.
+- New report: `Exports/HardLevelCompetitorAnalysis_20260702/competitor_hard_level_landing_plan_v1.md`.
+- Main conclusion: competitor-like hard should be visual maze-room density plus real read-demand evidence, not raw chain count/coverage/low avg choices.
+- Recommended next lane: isolated `CompetitorMazeReadDemandV1`, combining ScheduledBreak/FrontierContract read-demand scoring with DenseWeave/RoomCorridor/NestedRooms/LongCorridor visual grammar and strict official trace gates.
+- Suggested hard-read acceptance band: solved, avg choices `3.5-5.5`, max choices `<=10`, initial openers `2-6`, `frontierDrainRemoteChokeCount>=3`, `choiceChokeAfterLocalFrontierBreakCount>=1`, local/near/follow runs capped around `5/4/6`, and no severe stripe/outer-sweep risk.
+- WBP remains the long-term route for true hard/extreme because current t145/t147 are `HardPotential` but still `LocalEasy`; do not use shape, high-chain HoleMask, LongChain, or TraceOrderKeep alone as hard proof.
+
+## Front20 Lite V1 Candidate Production - 2026-07-02
+
+- Worktree: `.worktrees/nutation-front20-slotwise-runner`; no PSG/main project lane changes were made.
+- User requested three front20-light pools: `EarlyNormalLowPressure 20/load20-32`, `Front10ReadCheckLite 12/load36-46`, `Front20MiniBoss 8/load54-68`.
+- Generated/traced new source pool: `115` new rows plus `6` failed lock top-up rows; official trace solved `96/115`; strict visual+trace viable pool has `63` rows after adding load-valid historic MiniBoss fallbacks.
+- Final manifest: `.worktrees/nutation-front20-slotwise-runner/.codex-run/front20_lite_v1_final40_selection.csv`; summary: `.codex-run/front20_lite_v1_final40_summary.md`.
+- Final review pack: `.worktrees/nutation-front20-slotwise-runner/Assets/ArrowMagic/SOData/Packs/Campaign500/Front20LiteV1Final40ReviewPack.asset` (`40` levels, attached to runner Demo).
+- Viable pool pack: `.worktrees/nutation-front20-slotwise-runner/Assets/ArrowMagic/SOData/Packs/Campaign500/Front20LiteV1ViablePoolPack.asset` (`63` levels).
+- Quality gate for Final40: `TraceOrderKeep`, `visualPass=True`, and chain load in requested band. Load summary: Early `20-28 avg22.4`, Read `36-43 avg39.4`, MiniBoss `55-68 avg60.1`.
+- Known mix deviations preserved to avoid lowering quality: ReadCheck has only `3` strict in-load `Lock-lite` rows instead of requested `4`; MiniBoss has only `1` strict in-load `LongChain-lite` row, because `LargeRhythm/LongChainProbe` is currently too slow or under-load for this front20 entry.
+
+## HoleMask Direct Nutation Blocker Probe - 2026-07-02
+
+- Work area: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment`; main project was not used for generation and its active Unity process was not touched.
+- Added direct generator entry `Assets/ArrowMagic/Editor/DirectNutationHoleProbeBuilder.cs::BuildDirectNutationHoleProbePack`.
+- Correct route used here: fixed center hole is `blockIndices` plus `canSpawn=false` from the start; Nutation-style constrained peel grows around it directly. No Nutation finished seed, no seed-mask crop, no generic refill.
+- First direct run produced `0` final rows because all candidates had head escape rays seeing the hole block (`holeBlockHits`). The fix moved the blocker ray check into head candidate selection, so such heads are never generated.
+- Final probe pack: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\SOData\Packs\Production\HoleMask\HoleMask_DirectNutationHoleProbe.asset`, mounted to experiment `Demo.unity`.
+- Final count: `5` levels. Specs: `n40x32` x2, `n36x30` x2, `n32x28` x1. Chain counts: `97, 112, 113, 136, 144`; fill ratios `0.973-0.981`; `holeHits=0`; edge straight run `3-4`; axis same-dir run `7-9`.
+- Report: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Reports\Production\HoleMask\HoleMask_DirectNutationHoleProbe_Report.csv`; summary: `_Summary.txt`.
+- Boundary: this is a correct-route visual probe, not production approval yet. Human review should compare whether direct Nutation blocker output is less mechanical than the rejected `HoleMask_NutationTerrainProbe.asset` false-positive.
+
+## Generated-Root WBP f005-f006 Safe-Prefix Coverage Layer - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; independent `f###` side-line.
+- Route tested: start from f004d safe 3-chain demand-carrier prefix, then apply t143 `Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py` as a short owner-hit coverage layer.
+- Negative: f005b/f005c without `--require-single-greedy-solved` found owner-hit geometry but no solved bundles; f005d with `--no-require-greedy-solved` produced low-choice deadlocks. This proves raw BCL can create fake low-choice blockers on the f004d base.
+- Positive gate: adding `--require-single-greedy-solved` turns BCL into a usable safe coverage layer. f005f added 8 coverage chains to f004d and official trace solved `4/4`; best row `f005f...c004` stayed `A/A`, coverage `0.6753623`, max choices `7`, localPatch `3`.
+- f006a added a second 8-chain safe BCL layer from f005f c004: official trace `4/4 A/A`, coverage `0.7101449`, max choices `8`, localPatch `3-4`, nearOuter `2`, dependencyFollow `6`.
+- f006e is the best current balance: phased half-layers with `--max-local-touch 2` reach `0.7449275` while keeping two official `A/A` rows (`f006e_bcl4half_loctouch2_c001/c002`), max choices `7`, localPatch `4`, nearOuter `2`, dependencyFollow `6`, remoteChokeCount `5`.
+- Boundary: pushing past the boundary drops process quality. f006b full third layer at `0.7449` became `B/B` with localPatch `8`; f006g mini push to `0.752-0.754` also became all `B/B` and one `LocalEasy`. Current safe route should stop around `0.745` until a stronger anti-local / wave-diversity coverage selector exists.
+
+## Campaign500 Shape Role Clarification In Slot Spec V2 - 2026-07-02
+
+- User clarified shape levels are primarily visual/perspective rhythm changes; they can be reward, normal, hard, or occasional bottleneck cameo, but core hard/extreme difficulty should not rely on shape alone.
+- Updated `Tools/Production/Campaign500SlotSpecV2Builder.py` so shape slots use `ShapeHosted/...`, require `shape_perspective_variation`, and require `underlying_non_shape_read_evidence` for shape-hosted peak duties.
+- Regenerated V2 planning outputs under `Exports/Campaign500_DesignPlanning_20260702/`; `campaign500_slot_spec_v2_locked.csv` now distinguishes `use_existing_shape_anchor_pool`, `partial_supply_need_shape_readcheck`, and `needs_underlying_hard_supply_shape_cameo`.
+- Re-ran `Audit-Campaign500RhythmV1` on the 500-row V2 spec: score remains `92/A`, `0` errors, `0` warnings.
+- Re-ran First50 existing-resource layout and audit after adding `loadInterpretationNote` to its CSV output; First50 audit remains `96/A` with the same two warnings: L3 low-pressure supply gap and weak section-1 hard contrast.
+
+## Generated-Root WBP f002-f004 Demand-Carrier Safe Prefix - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; this remains an independent `f###` side-line and should not collide with the active main `t###` Generated-Root WBP route.
+- Added read-only auditor `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ChainSeedRejectAuditV1.py` to rehydrate chain-plan seed rows and attribute rejection to release-impact, legality, or Greedy failure.
+- f002a audited the f001 two-chain demand-carrier bundles: strict result was `6` pre-release owner blockers and `6` Greedy unsolved; relaxed release-impact still produced `12/12` Greedy unsolved. Parent/delay pairing alone is not a rescue route for those direct bundles.
+- f003a/f003b audited single demand carriers: `17` singles, only `CLT97060` accepted. It is edge `7->11`, cells `5,17;4,17;4,16;3,16;2,16;1,16;0,16;0,17;0,18`, coverage `0.6289855`, Greedy `true/2.867/8`.
+- f004a/f004b confirmed V12 accepts that safe carrier as a chain-plan seed state and can extend it to 2 added chains under strict release-owner diversity. Light official trace for f004b was `3/3` solved, process/tight `A`, localPatch `3`, max choices `8`.
+- f004d relaxed same-release-owner diversity and reached exact 3 added chains: `8` candidates, top4 trace `4/4` solved, process/tight `A`, `HardPotential`, coverage about `0.641`, localPatch `3`, max choices `8`, remote choke count `5`.
+- f004e exact 4 relaxed failed: current generic extension caps at 3 chains because additional choices hit cell overlap plus Greedy unsolved. Next f-line should move to a demand duty / seedState front-end or a smarter safe-prefix expansion policy, not more direct carrier forcing.
+
+## Campaign500 Front20 Slotwise Nutation Candidates - 2026-07-02
+
+- Worktree: `.worktrees/nutation-front20-slotwise-runner`; PSG/main lanes were not changed.
+- Target slots: front20 normal replaceable orders `3,5,7,8,10,11,12,14,15,16,18,19,20`.
+- Generated source batches: `f20slot_v1=80`, `o19v2=18`, `o19v3=12`, `o3v1=16`; official trace solved all `126/126`.
+- Production joined pool excluding LongChain has `122` rows; strict `TraceOrderKeep` rows are `31`.
+- Best-per-slot review manifest has `13/13` slots with `visualPass=True` and `TraceOrderKeep`; order3 was improved by top-up `PeelLight`, order19 by non-LongChain `LargeRhythm`.
+- Review pack: `.worktrees/nutation-front20-slotwise-runner/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500Front20SlotwiseV1ReviewPack.asset` (`13` levels, attached to runner Demo).
+- Production keep pack: `.worktrees/nutation-front20-slotwise-runner/Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500Front20SlotwiseV1ProductionKeepPack.asset` (`31` levels).
+- Key reports: `.worktrees/nutation-front20-slotwise-runner/.codex-run/c5_front20_slotwise_v1_combined_summary.md`, `_best_per_slot.csv`, `_production_keep.csv`, `_trace_joined_prod.csv`.
+
+## Generated-Root WBP f001 Demand-Carrier Side-Line - 2026-07-02
+
+- User noted another conversation is already using `t142+`; this side-line now uses `f###` prefixes to avoid colliding with the main Generated-Root WBP `t###` sequence.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DemandCarrierSeedPlanV1.py`, a narrow compiler from V12 carrier-profile demand overlaps into chain-plan seed CSV rows.
+- f001a compiled 12 disjoint 2-chain seed bundles from `t139a_runbreak_demand_smoke_carrier_profile.csv`; all useful demand overlap is currently on `CARRIER_B1_TO_CHOKE`, not the old hardbase `STATE_FRONTIER_B1_TO_B2` pattern.
+- f001b rehydrated those seeds through V12 `--enable-chain-plan-seed-states`; result stayed `0` candidates and `0` seed states, with rejection summary `blocks_pre_release_owner=6;greedy_unsolved=6;row_reconstructed_option=24;rows=24`.
+- Interpretation: demand-carrier extraction is working, but direct insertion is not enough. Next f-line attempt should add pre-release-safe parent/delay pairing or a demand-carrier seed mode that reasons about prereq owners before Greedy, rather than continuing the old `24->33/51/42/26` activation pattern.
+- Temporary old `t140a/t140b demand_carrier` outputs created by this side-line were removed; unrelated existing `t140*` files were left untouched.
+
+## Campaign500 Trace V2 Calibration30 - 2026-07-02
+
+- User requested a 30-level sample for Trace V2 difficulty/choke calibration, based on the latest reviewed C5V5F100 layout rather than generating new levels.
+- Output folder: `Exports/Campaign500_DesignPlanning_20260702/TraceV2Calibration30/`.
+- Selected orders: `1,2,3,4,10,19,20,23,25,29,30,38,47,72,83,96,100,112,150,153,168,181,185,188,217,305,310,378,456,466`.
+- Sample mix: `21 normal / 7 shape / 2 hole`; difficulty code mix is `1:15, 2:7, 3:4, 4:4`.
+- Official trace baseline was chunked: `20/30` completed and `20/20` solved; process tiers are `3 A / 17 B`.
+- Pending trace orders are `168,181,185,188,217,305,310,378,456,466`; the combined late/heavy chunk timed out, so run these one-by-one or with a larger timeout.
+- Important mapping correction: join official trace metrics back to the sample by normalized asset `path` vs `traceAbsolutePath`, not by `levelId` text, because asset ids may contain unrelated `L###` fragments.
+- Key files: `campaign500_trace_v2_calibration30_summary.md`, `campaign500_trace_v2_calibration30_selection.csv`, `campaign500_trace_v2_calibration30_human_review_sheet.csv`, `campaign500_trace_v2_calibration30_metrics_partial20_joined_selection.csv`, and `campaign500_trace_v2_calibration30_trace_input_pending10.csv`.
+
+## SGP Read-Demand CardPoint Review5 - 2026-07-02
+
+- Worktree: `.worktrees/read-demand-hardening`; PSG/Nutation production lanes remain untouched.
+- Route decision: the current best path for the user's core issue is read-demand/card-point shaping: real remote choke + dependency distance + choice rhythm, not stronger local peel rules or hot-loop micro-bundle materialization.
+- Built a focused 5-level review pack from existing ChokeMutationV2 official trace rows, selected by `frontierDrainRemoteChokeCount/Score`, dependency distance, low local/near/follow runs, and source-slot variety.
+- Pack mounted in read-demand Demo: `.worktrees/read-demand-hardening/Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2ReviewPack.asset`, display `SGP Pressure Read Demand V1 Choke Mutation V2 Review (5)`, GUID `7f869d001abf3da438cff99f4b369b8d`.
+- Selection files: `.worktrees/read-demand-hardening/.codex-run/sgp_pressure_read_demand_v1_cardpoint_review5_keep.csv` and `_summary.md`; Unity builder mirror is `.codex-run/sgp_pressure_read_demand_v1_choke_mutation_v2_trace1_review_v1_review_keep.csv`.
+- Selected rows: `sgp_rdcm_v2_s02_07_c13`, `sgp_rdcm_v2_s01_01_c46`, `sgp_rdcm_v2_s02_01_c16`, `sgp_rdcm_v2_s02_03_c3`, `sgp_rdcm_v2_s03_09_c5`.
+- Metric band: avg choices `4.42-4.94`, P80 `6-7`, max `7-9`, remote choke count `1-3`, dependency distance avg `6.746-7.697`, local/near/follow run max at most `5/4/5`.
+- Validation: `dotnet build read-demand-hardening.sln --no-restore -v:minimal` passed; Unity batch review-pack build succeeded after one stale compile retry. No generation rerun was needed.
+- Follow-up user review said this was better overall but still not a qualitative jump: many arrows remain one-glance clearable, and low-choice moments often stay inside the current continuous region.
+- Added non-invasive ChoiceValue V2 rerank script `.worktrees/read-demand-hardening/Tools/Production/Export-SGPReadDemandChoiceValueReviewV1.ps1`, using official trace counterfactual fields rather than remote-choke proxy alone.
+- ChoiceValue V2 selected 5 rows: `sgp_rdcm_v2_s04_06_t12`, `sgp_rdcm_v2_s04_02_c51`, `sgp_rdcm_v2_s03_06_c48`, `sgp_rdcm_v2_s02_01_c16`, `sgp_rdcm_v2_s03_07_c6`; same Demo pack path is now overwritten to display `SGP Pressure Read Demand V1 Choice Value V2 Review (5)`.
+- V2 metrics improve the target signal but do not prove a solved route: avg choices `4.62-5.02`, P80 `6-7`, max `8-9`, useful tension `0.097-0.143`, flat consequence `0.403-0.556`, counterfactual meaningful option rate `0.378-0.616`.
+- Low-choice audit improved modestly versus CardPoint Review5: `s04_06_t12` has `4` low-choice steps and `0` local-low steps, but strong read-choke steps remain rare (`0-1` per row). Conclusion: current candidate space has better choice-value samples, but true `local decoy + remote useful choice` likely needs either a larger pool or generation-side choice-divergence shaping.
+
+## HoleMask HighChain 100-150 Candidate Pack - 2026-07-02
+
+- Work area: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment`; main project `F:\Unityproject\ArrowLevel-Hand` was only read for seed-pool comparison and memory/index checkpointing.
+- Batch method: `SeedMaskPatchWindow.RunHoleMaskHighChain100To150CandidatesBatch`; Unity batch completed and no `ArrowLevel-Hand-HoleExperiment` Unity process remains.
+- Output pack: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\SOData\Packs\Production\HoleMask\HoleMask_HighChain_100To150_Candidates.asset`, `15` levels.
+- Candidate folder: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\SOData\Levels\Production\HoleMask\HighChain100To150`; report: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Reports\Production\HoleMask\HoleMask_HighChain_100To150_Candidates_Report.txt`.
+- Generated specs: `36x30_standard`, `38x30_wide`, `40x30_wide`, `40x32_standard`, `42x32_wide`, each with fixed `8x9` center hole and `3` accepted candidates.
+- Accepted chain range is `102-128`; fill is about `90%` of mask shell (`782/868` through `997/1108`), `FinalBlockHits=0`, and candidates are Greedy-passing by the seed-mask rescue route.
+- Seed-pool check: main project has `951` seed assets and experiment has `982`; both have `347` R1-name/path hits and `171` `R2FinalCandidatePool` assets. Main R1/R2 assets missing in experiment: `0`, so no seed copy was needed.
+- Pack is not mounted to a Demo scene yet in this checkpoint; mount it manually or via the existing Demo activePack workflow if visual review is requested.
+
+## Nutation Dependency MicroBundle Validation Boundary - 2026-07-02
+
+- Worktree: `.worktrees/nutation-flow-peel-production`; PSG/main production lanes remain untouched.
+- Implemented opt-in lane marker `DependencyRhythmMicroBundle` / `_microbundle` plus a transactional 2-chain micro-bundle probe in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`; build passes with the existing 7 warnings.
+- Validation target was the same large slot `order=316` plan, converted to `.codex-run/c5dr316_microbundle_plan_v1.csv`, to compare against prior StageWindow v22/v23 probes.
+- First run `c5dr316_v24microbundle_smoke` was stopped after no source report appeared; generation entered the slot but remained in active CPU work.
+- Slim run `c5dr316_v24microbundle_slim_smoke` capped bundle attempts to 3 and delayed trigger to mid-board, but still produced no source report after several minutes on a single level; it was stopped.
+- Current conclusion: this is not the old whole-board sandwich template, but strong transactional bundle materialization inside the current peel/fill inner loop is too expensive and not production-viable as implemented.
+- Next useful route: keep dependency ordering as a cheaper candidate scoring/rerank or an offline post-candidate materializer, then only promote to generation once the signal is proven outside the hot loop.
+- Follow-up cheap rerank validation used existing slot316 v1-v23 source reports plus 15 available full8 trace rows; outputs are `.worktrees/nutation-flow-peel-production/.codex-run/c5dr316_dependency_rhythm_cheap_rerank_v*_*.csv`.
+- V1/V2 rerank showed a false positive: v18 ranked high from cross-region/axis activity but official trace was poor (`local/near/depFollow=15/15/15`), proving raw `sourceCrossRate` is not a quality signal.
+- Correlation audit says `sourceAxisRate/sourceDirRate` are useful cheap signals for reducing local/near runs, while high `sourceCrossRate` correlates with dependency-follow/directional risk and must be capped.
+- V3 rerank gates `sourceCrossRate<=0.17` and penalizes source choice pressure; it ranks v22 first (`local/near/depFollow=10/9/9`) and rejects v18 as `crossRateHigh;sourceChoiceHot`.
+- Current conclusion after rerank validation: cheap source-side rerank is viable as a post-candidate diagnostic/selector, but not enough for direct production without official trace; promote only as a selection gate, not generation-core logic.
+
+## Generated-Root WBP V12 Demo Mount t137 Bridge OK 3 - 2026-07-02
+
+- Worktree Unity project `.worktrees/sgp-rhythm-lab` was opened with Unity PID `20244`.
+- Created review pack `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_t137BridgeOk3Pack.asset`, GUID `5f9445b481a94fd8a2cb66dc5388c137`.
+- Pack contains accepted playable t137 rows `r004`, `r005`, and `r009` from `t137_outer_bridge_lock_probe`; this is the latest playable bridge-locked outer-breaker review set, not a t139 candidate.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` activePack now points to this t137 Bridge OK 3 pack.
+
+## Generated-Root WBP V12 t139 Run-Break Overall Audit - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. t139 checked whether t138 run-break contracts are actually connected to V12 whole-board planning.
+- Added read-only script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RunBreakOverallAuditV1.py` and output `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t139_overall_runbreak_readiness_audit_summary.md`.
+- Ran small planner smoke `t139a_runbreak_demand_smoke` on generated root `geosupply_sched_root10_from_40eb0da7_r1_c038` with t138c demand and nonzero demand penalties. Demand loaded successfully: `43` cells / `144` rows / total weight about `463.5`; `65/372` options overlapped demand before filtering.
+- Smoke produced `0` candidates because the current hardbase seed pattern still targets old early-owner edges (`24->33/51/42/26`, with `24->26` missing), while t138's strongest contracts are late-owner evidence (`67->79`, `40->9`, `83->5`, etc.).
+- Current conclusion: the route is connected but not candidate-ready. The next implementation should promote run-break demand from passive penalty into active cell/region duty or demand-seeded frontier/reservation before chain cutting; do not spend time only tuning penalty weights.
+- Current playable baseline remains t137 accepted rows: official solved/process `B`, coverage `0.9574899-0.9615385`, localPatch `5`, nearOuter `3`, dependencyFollow `7`, support depth `4`; still not final A/Hard.
+- Next concrete gate: a planner smoke with demand-seeded frontier/reservation must produce nonzero seed states before full candidate generation.
+
+## Generated-Root WBP V12 t138 Generation-Side Run-Break Plan - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass moves the outer/right sequential-clear fix from late repair into a planning gate.
+- Added read-only script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RunBreakPlanV1.py`, which reads official step diagnostics and emits run-risk windows plus generation-side break contracts before the next chain-cutting pass.
+- t138a on `t124b_right_run_shape_recut2_r006_trim21x4_orig` flags the top window steps `22-35`: `78->52->7->1->36->64->67->79->40->9->24->47->21->58`; first contract is `9>24` as `planned_delay_break`, preserving `58->85->83->68->72->28` and rejecting `60->28`.
+- t138b on accepted t137a rows confirms `9>24` is no longer a contract anchor; the remaining right-side run is now around `67>79` / `40>9`, with `cross_basin_frontier_break_around_rejected_stack` and explicit avoid edge `79>40`.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RunBreakDemandV1.py`; t138c converts accepted t137 contracts into V12 `cell_demand` rows consumable by `Build-GeneratedRootWholeBoardPlannerV12.py --cell-demand-csv`.
+- t138c output `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t138c_t137a_bridge_ok_runbreak_cell_demand.csv` contains `144` cell-demand rows and `12` contract headers, with roles `choke`, `remote_guard`, `guard`, and `delay`.
+- Current conclusion: t137 is a valid baseline improvement, but the next candidate should not stack parent-release blockers. It should ingest t138 contracts before cutting chains, reserving cross-basin/remote-guard/choke roles around `67>79` or `40>9`.
+- Next target for t139: coverage `>=0.95`, official solved, relation `58->85->83->68->72->28`, no `60->28`, localPatch ideally `<=4`, nearOuter `<=3`, dependencyFollow ideally `<=5`.
+- Summary report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t138_generation_side_runbreak_plan_summary.md`.
+
+## Generated-Root WBP V12 t137 Bridge-Locked Outer Breaker - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass tested the t136 recommendation: break the right/outer conveyor only if the bridge-victim relation remains locked.
+- t137a generated 16 parent-release blocker candidates from `t124b_right_run_shape_recut2_r006_trim21x4_orig`; 3 full-traced `9->24` candidates are accepted as diagnostic improvements: `r004`, `r005`, and `r009`.
+- Accepted t137a candidates preserve exact relation audit edges `58->85->83->68->72->28` and reject `60->28`; official trace stays solved/B with coverage `0.9574899-0.9615385`, `nearOuterPatchSolveRunMax=3`, `supportClosureBestDepth=4`, and support score `0.944-0.947`.
+- The useful behavior change is local and concrete: `9 -> 24 -> 47 -> 21 -> 58` becomes a delayed pattern such as `9 -> 47 -> 21 -> 58 -> ... -> 87 -> 24`, so the visible outer sweep is interrupted without losing the root bridge tail.
+- t137a also confirmed the relation gate is necessary: `r014` is rejected because `72->28` disappears and `60->28` appears, despite plausible headline metrics.
+- t137b tried stacking a second upstream `79->40` breaker on accepted `r004`; it produced only 2 candidates, both solved and bridge-safe, but did not improve `nearOuter` or `localPatch`, and dropped `frontierDrainRemoteChokeCount` from `2` to `0`.
+- Current conclusion: keep the single bridge-locked `9->24` breaker as a baseline improvement, but stop stacking parent-release breakers. The remaining blocker is `localPatchSolveRunMax=5`, `dependencyFollowRunMax=7`, and low anti-locality around `0.25`; next work should re-plan the right-side run with a cross-basin switch/hard frontier break instead of another post-hoc breaker.
+- Summary report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t137_outer_bridge_lock_probe_summary.md`.
+
+## Generated-Root WBP V12 t136 Outer Conveyor Break Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass directly tested the user's playtest read that the current review pack still has too much outer/right-side sequential clearing.
+- Official step attribution confirms the visible run: `t129a` has a right-side sequence around steps `20-33` (`52 -> 7 -> 1 -> 36 -> 67 -> 79 -> 76 -> 40 -> 64 -> 9 -> 24 -> 47 -> 21 -> 58`), while `t124b r006` has the shorter related sequence around steps `25-35`.
+- Plain late guard insertion is geometrically unavailable: t136a/t136b from `t129a`, t136c from `t126n`, and t136d from `t126j` all found `0` guard candidates, even in relaxed mode. Most target rays have no connected empty chain space left.
+- Parent-release blocker insertion works mechanically but is not yet accepted. `t136e` inserts `9->82->24` from `t129a`, solves officially, and reduces local/nearOuter `7/7 -> 6/6`, but support depth drops to `2` and victim `28` is stolen by `60->28`.
+- From `t124b r006`, `t136f_r002` inserts `9->87->24`, solves officially, and improves nearOuter `4 -> 3` plus frontierDrainRemoteChoke `2 -> 4`, but relation audit weakens the bridge tail and shows `60->28`. `t136f_r001` preserves `72->28` and support score `0.944`, but does not improve nearOuter.
+- Current conclusion: outer-conveyor breaking is the right next focus, but it must be co-planned with bridge/victim ownership. The next operator should combine an outer breaker on the `9->24/47` area with a hard relation gate preserving `58->85->83->68->72->28` or an approved equivalent; reject `60->28` steals.
+- Summary report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t136_outer_conveyor_break_probe_summary.md`.
+
 ## Snapshot - 2026-06-18
 
 - 已建立项目记忆骨架：`AGENTS.md`、`.agents/memory/`、`.agents/index/`、`.agents/skills/project-memory/SKILL.md`。
@@ -6479,3 +7279,768 @@
 - Smoke validation on Campaign500 order 316 large slot (`33x44`, 8 candidates) succeeded: trace `8/8`, join `8` rows.
 - Diagnosis for the order 316 PressurePeak large slot: `choiceRhythmScoreV1 avg=0.185`, `branchNextChoiceExplosionRate avg=0.678`, `branchNextChoiceChokeRate avg=0.006`, `frontierDrainExplosionRate avg=0.358`; this confirms large-canvas continuous clearing is a frontier-too-wide issue, not just average-choice calibration.
 - Next production/generator step: build a large-normal anti-conveyor profile that keeps canvas area/coverage while lowering branch next-choice explosion and adding occasional 1-2 choice choke without creating long forced single-path runs.
+
+## Generated-Root WBP V12 t110 Side-Line Root-Capacity Probe - 2026-07-01
+
+- User asked to run a bounded side-line and stop at a clear continue/stop signal, not drill indefinitely.
+- Worktree: `.worktrees/sgp-rhythm-lab`. No generator code was changed; only existing root-pool + current-root capacity rerank scripts were run.
+- t110a relaxed root-pool probe: `t110a_relaxed_rootpool_probe` with seed `560880`, `32` attempts, `minSelectCoverage=0.24`, relaxed strict-edge/light-role gates. It selected one Greedy-clean generated root, `t110a_relaxed_rootpool_probe_s560880_c001`, coverage `0.2408907`.
+- t110a current-root rerank passed the gate for the first time in this line: supply `6/6/6`, target-owner dominance `0.280`, `capacityMaxDisjoint=6`, selected edges `6->12,1->6,14->4,8->9,3->11,4->13`.
+- t110b mid-coverage check used the same seed/settings but `minSelectCoverage=0.26`; it selected `0` roots. Growth log still contains higher-coverage candidates around `0.314`, but their strict-edge target-owner/top-root diversity was only about `2-4`, so they do not provide relation-rich current-root capacity.
+- Current conclusion: the side-line has a real breakthrough signal at low root coverage, but current root grammar shows a coverage-vs-disjoint-semantics squeeze. Do not keep scalar tuning. Continue only if the next step is either low-coverage generated root as causal core plus whole-board lane/fill planning, or a hard/structured root lane allocator that preserves capacity while raising root coverage.
+
+## Generated-Root WBP V12 t111 Choke-Plan From t110a - 2026-07-01
+
+- User clarified coverage is a hard visual floor while difficulty should prioritize planned `1-2` choice choke moments.
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SemanticCellPlanV1.py` so post-hoc current-root capacity selected edges are included in the semantic cell/edge plan even when they were not present in rootgen's original light-role edge list.
+- Added read-only audit `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ChokeMomentPlanV1.py`, which converts semantic plans into planned choke moments, coverage gap numbers, and a continue/needs-replan status.
+- t111 outputs: `t111_chokeplan_from_t110a_semantic_cell_plan.csv`, `_semantic_edge_plan.csv`, `_semantic_cell_plan_summary.md`, `t111_chokeplan_from_t110a_choke_moment_plan.csv`, and `_choke_moment_plan_summary.md`.
+- t111 result: status `ready_for_whole_board_fill_probe`; board `19x26`; root coverage `0.241`; planned duty coverage `0.437`; target `0.95` needs `253` additional filler/body cells after protected root + duty cells.
+- Planned choke targets are two 1-choice moments: `3->11` and `6->12`, both `planned_choke_ready`. There are also four expansion/cross-basin selected contracts (`1->6,14->4,8->9,4->13`).
+- Boundary: this is not a solved full-board level. Next step should be protected whole-board fill/cutting: preserve generated root identity and these choke reserve/chain cells, fill toward `0.95+`, then run Greedy/official trace and verify choice valleys actually appear.
+
+## Generated-Root WBP V12 t111b-i Coverage Breakthrough And Difficulty Gap - 2026-07-01
+
+- Added ordered slot-fit path export fields and capacity-selected path passthrough so t110a's post-hoc selected edges can be materialized as authored chains instead of only edge labels.
+- t111b reproduced selected edges `6->12,1->6,14->4,8->9,3->11,4->13`; all 6 selected slot chains have ordered adjacent paths, `43` chain cells total, no overlap/self-overlap.
+- Added materializer `Build-GeneratedRootWBPV12SlotFitMaterializeV1.py`. t111c combines the real generated root plus 6 semantic chains; root prefix fingerprint is preserved, first-hit matches activation owner for all 6 semantic chains, coverage `0.3279352`, Greedy solved.
+- Added protected filler `Build-GeneratedRootWBPV12ProtectedCoverageFillV1.py`. Staged fill reached t111i final asset `GeneratedRootWBPV12/t111d_protected_fill_from_t111c/t111i_protected_fill_from_t111h_final095.asset`: `19x26`, `79` chains, `471/494` cells, coverage `0.9534413`, no chain legality issues, Greedy solved with initial/avg/max choices `4/3.873/7` and `15` official-light `<=2` choice steps in the lightweight curve.
+- Official trace `t111i_grwbp095_trace1_metrics.csv`: solved `True`, missing `0`, process/tight tier `B/B`, openers `4`, avg/max choices `4.1/7`, over10 `0`, meaningfulUnlockRate `0.867`, choiceRhythmScoreV1 `0.595`.
+- Added simultaneous wave-front audit `Build-GeneratedRootWBPV12WaveFrontAuditV1.py`. For t111i, clearing all currently available chains per wave solves in `39` waves with counts `4 3 3 3 2 2 2 1 2 3 3 1 1 3 5 3 2 1 2 1 2 1 1 3 1 1 2 1 1 1 1 1 3 4 2 3 2 1 1`; avg/p50/p80/max `2.026/2/3/5`, `26/39` waves `<=2`, and `16` forced-single waves. This supports the user's read that t111i has skeleton rhythm even though the official tier is still B/LocalEasy.
+- For user playtest, created single-level pack `Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_t111i_DemoPack.asset` (GUID `4b8e0982d542436bacfdba5e6ccb131b`) and pointed `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` `activePack` to it. The pack contains only `t111i_protected_fill_from_t111h_final095`.
+- Human playtest feedback: t111i is not "very good", but it has reached a clear "good / 优" level. Treat this as a qualitative route validation: the low-coverage generated-root + semantic materialization + protected high-coverage fill path can produce a playable high-quality candidate even before official A/Hard metrics catch up.
+- Remaining blocker: t111i is not the target final difficulty. Official HardStructure is `LocalEasy` with hardV3 `0.069`, causalAntiLocality `0.16`, dependencyFollowRunMax `7`, localPatchSolveRunMax `7`, nearOuterPatchSolveRunMax `5`. A-tier failed mainly because local patch runs remain too long; next iteration should add anti-local/interleave/localPatch proxy scoring to the protected fill, not continue scalar coverage tuning.
+- Current conclusion: route is viable for the coverage/root-identity/semantic-chain side, but difficulty still collapses under official trace. The next milestone is `coverage >=0.95` plus process `A` by reducing local patch/follow runs while preserving root prefix and planned choke contracts.
+
+## SGP Pressure Read Demand Pool24 Partial9 Checkpoint - 2026-07-01
+
+- Worktree: `.worktrees/read-demand-hardening`, branch `codex/read-demand-hardening`; main PSG/Nutation production code was not modified.
+- Added opt-in Pool24 entry for the separate `SGPPressureReadDemandV1` hardening lane. Pool24 run `sgp_pressure_read_demand_v1_pool24_v5balanced_1` generated 9 source rows, then Unity exited around spec 10 without success marker.
+- Source summary: 9 rows, coverage min/avg `0.976/0.982`, chains `55-71`, initial movable chains `1-3`, avg/max attempts `758.7/1246`.
+- Official trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_read_demand_v1_pool24_v5balanced_partial9_metrics.csv`; result `9/9 solved`, tiers `A=4/B=5`.
+- Trace summary: avg choices `4.353`, maxChoices max `10`, localPatch avg/max `4.667/9`, nearOuter avg/max `3.667/6`, traceQuality avg `0.860`, collapseRisk avg `0.204`, dependency distance/far/region avg `7.721/0.720/0.670`.
+- Strict keep filter kept 5 rows using solved A/B, `maxChoices<=10`, `localPatch<=7`, `nearOuter<=5`, `traceQuality>=0.83`, `collapseRisk<=0.28`, `dependencyFar>=0.65`, `dependencyRegion>=0.68`.
+- Strict review pack in that worktree was rebuilt and Demo now points to `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1StrictReviewPack.asset`, GUID `a0e8230c644ed914b818d96363324d2a`, display `SGP Pressure Read Demand V1 Strict Review (5)`.
+- Wrapper `Tools/Production/Invoke-SGPPressureReadDemandV1.ps1` in the worktree now fails fast on non-zero Unity exit and only continues from partial report when explicit `-AllowPartialUnityReport` is passed, preventing another false multi-hour wait.
+
+## Checkpoint - 2026-07-01 21:12 - Choice rhythm minimal proof
+- Worktree: .worktrees/nutation-flow-peel-production; trace tool: .worktrees/sgp-rhythm-lab.
+- Same slot tested: Campaign500 normal order 316, 33x44.
+- LargeRhythm v1 (few long chains) failed directionally: source chains 91-98, avgChain 13.7-14.7, coverage 0.919-0.923; trace branchNextChoiceExplosionRate avg 0.898, comfort 0.032, worse than PressurePeak baseline.
+- DependencyProof v1 (gate-aware maze mixed, high-chain dependency net) proved the qualitative direction: source chains 217, openers 3, coverage 0.895; trace avgChoices 5.33, maxChoices 9, branchNextChoiceExplosionRate 0.154, frontierDrainExplosionRate 0.
+- New issue from DependencyProof: still Drop/LocalEasy due solve collapse/local conveyor; solveSameAxisRunMax 57, solveSameDirHeadRunMax 24, solveTraceCollapseRiskScore 0.577, dependencyLocalSameRegionRate 0.771.
+- Decision implication: do not continue parameter-tuning PSG/rectangle peel for this goal; next real branch should be dependency-aware generation with anti-local-conveyor and cross-region dependency distance as first-class gates.
+
+## Checkpoint - 2026-07-01 22:25 - DependencyRhythm minimum generator probe
+- Worktree: `.worktrees/nutation-flow-peel-production`; added isolated experimental Campaign500 lane `DependencyRhythm` / spec `nutation_dependency_rhythm_v1`, leaving PSG entry untouched.
+- Implementation tested: gate-aware dependency builder with independent spec/profile, 96-step solve/choice proxy, 12-step local probe, dependency-specific head placement scoring for cross-region, axis/direction alternation, and same-parent/same-region penalties.
+- Same slot: Campaign500 order 316, `33x44`. v2 saved `206` chains, coverage `0.890`; trace improved same-axis from DependencyProof `57 -> 25` and same-dir `24 -> 21`, but worsened choice explosion (`branchExplosion 0.624`) and stayed Drop/LocalEasy.
+- v4/v6 placement prior increased cross-region owner hits `20/25 -> 34` and official same-axis/same-dir improved to `17/14`, near PSG baseline directionally; coverage `0.899`, chains `213`.
+- v4/v6 failure mode: choice surface exploded (`avg/max choices 9.27/16`, branchExplosion `0.768`), collapse stayed high (`0.554`), localPatch/nearOuter `17/17`. Cross-region placement alone opens too many simultaneous fronts.
+- v5 long-chain attempt failed source generation (`fill 8/1452`) because early wave length guards reject long early dependency chains; do not solve this by simply lengthening all chains.
+- Current conclusion: DependencyRhythm proves placement can reduce same-axis/same-dir conveyor, but production-quality version needs a stage/window or bundle scheduler that limits simultaneous unlock width while interleaving region/direction. Next useful step is not more scalar scoring; it is scheduled dependency windows / frontier-width control in generation.
+
+## Generated-Root WBP V12 t112 Placement Proxy Findings - 2026-07-01
+
+- User requested that the t111 route/thinking be settled as a base and that filler placement be optimized to see if metrics can improve.
+- Added optional placement proxy scoring to `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ProtectedCoverageFillV1.py`: region/direction balance, cross-region/ray-distance/region-spread bonuses, local-touch/boundary/near-release penalties, optional prefilter, and wall-time cap. Defaults preserve old behavior.
+- Wrote route/experiment report: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t112_generated_root_wbp_base_and_placement_proxy_summary.md`.
+- t112c endpoint closure from t111h reached the same coverage `0.9534413` and improved official choice pressure (`avgChoices 4.1->3.58`, max `7->6`, choiceRhythm `0.595->0.688`), but worsened local collapse (`localPatchRun 7->11`, nearOuterPatchRun 5->11`, collapseRisk `0.229->0.439`). It remains `B/LocalEasy`.
+- For user difficulty comparison, created `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_t112c_DemoPack.asset` (GUID `706dbb8c57b74800aa2da3f4aaecdb5f`) and pointed worktree `Demo.unity` `activePack` to it. This is the full-coverage t112 candidate; t112h remains a mid-coverage diagnostic only.
+- t112e/t112f hard prefilter proved too restrictive: coverage stalled at `0.779/0.828`. Placement proxy should not be a hard gate by itself.
+- t112g/t112h score-only placement reached comparable mid coverage (`0.8927` vs t111f `0.8907`) with lower max choice (`4` vs `7`), but over-compressed the solve (`low2Rate 0.723`, lowChoiceRunMax `13`, choke score `0`) and stayed `B/LocalEasy`.
+- Current conclusion: t111 is the valid base route. Placement optimization must target rhythm, not narrowness: preserve planned choke moments, then reopen to a `3-5` band, while penalizing local patch/follow runs. Next useful implementation is a t113 two-stage bundle scheduler rather than stricter single-chain placement.
+
+## Generated-Root WBP V12 Trace-Difficulty Calibration - 2026-07-01
+
+- User playtest note on t112c: there are several consecutive-clear waves, but the level does not feel simple. This is consistent with the metrics: t112c has strong choice-rhythm/choke signals (`choiceRhythmScoreV1=0.688`, `choiceChokeMomentScoreV1=1`, maxChoices `6`) while still failing official anti-local hard structure.
+- Trace interpretation: official `LocalEasy` currently means local/near-outer solve collapse and low causal anti-locality, not a direct human difficulty verdict. For t112c the main negatives are `localPatchSolveRunMax=11`, `nearOuterPatchSolveRunMax=11`, `causalAntiLocalityScore=0.158`, and collapse risk `0.439`.
+- Do not overcorrect by forcing fewer choices everywhere. t112h showed that narrowness alone can become boring/over-compressed (`low2Rate=0.723`, `lowChoiceRunMax=13`, choke score `0`).
+- Next t113 target remains: keep `0.95+` coverage, root identity, solved trace, and visible choke rhythm; reduce local/near-outer conveyor runs toward process A/HardPotential without sacrificing the human-feel skeleton.
+
+## Generated-Root WBP V12 Human-Read Difficulty Audit V1 - 2026-07-01
+
+- Added read-only audit script `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12HumanReadDifficultyAuditV1.py`.
+- The metric separates `readSearchPressureV1` from `localConveyorRiskV1`: true read pressure is tight meaningful choices, choke/reopen wave rhythm, cross-place/direction solve switching, and far/cross-basin dependency. Local consecutive clears are a risk tag, not an automatic easy verdict.
+- t112c audit output: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t112c_human_read_difficulty_v1.csv` and `_summary.md`.
+- t112c result: `readSearchPressureV1=0.974`, `humanReadDifficultyV1=0.942`, class `ReadHardSkeleton_LocalConveyorRisk`; strengths are `tight-choice/choke`, `narrow-wave-rhythm`, `switch-place/direction`, and `far-cross dependency`; risks are `localPatchRun=11` and `nearOuterRun=11`.
+- t111i comparison: `readSearchPressureV1=0.942`, `humanReadDifficultyV1=0.933`, class `ReadHard`; t112c is stronger on read/choke pressure, while t111i is cleaner on local-run discipline. This matches the current playtest read: t112c is not simple, but the next t113 move is to reduce local conveyor risk without flattening the choke rhythm.
+
+## Generated-Root WBP V12 t113 Endpoint Bundle Repair - 2026-07-01
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EndpointClosureBundleV1.py`, a bounded endpoint closure enumerator that scores the final two short chains as a bundle instead of random single-chain drilling.
+- Added default-off anti-conveyor proxy fields to `Build-GeneratedRootWBPV12ProtectedCoverageFillV1.py`; hard proxy gates were a negative for endpoint closure because the final `0.945->0.953` space is too tight and stalls coverage.
+- t113g enumerated all legal two-chain closures from `t111h`: only 4 bundles exist at `coverage=0.9534413`. Official trace solved all 4.
+- Best candidate is `t113g_endpoint_bundle_from_t111h_final095_r004`: coverage `0.9534413`, official solved, process/tight `B/B`, HardStructure `LocalEasy`, avg/max choices `3.60/6`, `choiceChokeMomentScoreV1=1`.
+- Improvement over t112c: official `localPatchSolveRunMax 11->7`, `nearOuterPatchSolveRunMax 11->5`, collapse risk `0.439->0.352`; human-read class improves to `ReadHard` with `readSearchPressureV1=0.965` and `humanReadDifficultyV1=0.951`.
+- Demo in `.worktrees/sgp-rhythm-lab` now points to `SGPRhythmLab_GeneratedRootWBPV12_t113g_r004_DemoPack.asset`.
+- User playtest feedback: t113g r004 feels better than t112c. Treat this as support for the human-read/local-conveyor split: reducing local/near-outer runs can improve feel even when official class remains `B/LocalEasy`.
+- Boundary: t113g is still `B/LocalEasy`; it is a local-risk repair and playtest candidate, not final A/Hard. Since endpoint closure has only four legal bundles, next A/Hard attempt should move bundle scheduling earlier, around the `0.89 -> 0.945` fill phase.
+
+## Generated-Root WBP V12 t114 Generalization Probe - 2026-07-01
+
+- User asked to first check whether the current Generated-Root WBP route can walk on another skeleton/root before optimizing details.
+- Worktree: `.worktrees/sgp-rhythm-lab`. Added a compatibility fallback to `Build-GeneratedRootWBPV12SlotFitMaterializeV1.py`: when old slot-fit supply CSVs lack ordered path fields, it reconstructs an adjacent authored path from `slotFitBestChainCells` and prefers the orientation whose head ray hits the planned activation owner.
+- Tested three non-t110 generated roots: `t103a_c001`, `t104d_c001`, and `t105f_c001`. All three materialized into root-preserved, Greedy-solved semantic cores. `t103a` added 5 semantic chains and reached core coverage `0.3947368`; `t104d` added 4 and reached `0.3603239`; `t105f` added 4 and reached `0.3886640`, but one semantic chain did not match the planned activation owner.
+- Bounded protected fill on the clean roots showed the route is not t110-only: `t103a_c001` reached `0.8886640`, and `t104d_c001` reached `0.9311741`, with generated root/core prefix preserved and Greedy solved.
+- Official trace for three t114 representatives solved `3/3`: `t104d_c001_fill090c` at `0.9048583`, `t104d_c001_fill095_open` at `0.9311741`, and `t103a_c001_fill090c` at `0.8886640`. All remain process/tight `B/B` and official `LocalEasy`.
+- Human-read audit gives a more positive skeleton signal: t114 representatives classify as `SkeletonHard`; best is `t104d_c001_fill095_open` with `readSearchPressureV1=0.782` and `humanReadDifficultyV1=0.779`.
+- Relation audit wrote `193` official relation edges / `144` parent rows and confirms planned semantic owners for `t104d` appear in the official graph, but support closure remains shallow and local pollution is high.
+- Current conclusion: the route generalizes for root identity + semantic materialization + `0.90+` solved coverage, but it is not yet a general `0.95 + A/Hard` generator. The next useful work is a `0.90 -> 0.95` closure/bundle scheduler with anti-local/support-closure scoring, not more scalar root tuning.
+
+## Generated-Root WBP V12 t115 Scheduled Bundle Fill - 2026-07-02
+
+- Goal continuation: move toward final `0.95+` coverage and A/Hard by testing bundle-level high-coverage fill instead of single-chain hill climbing.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ScheduledBundleFillV1.py`. It samples `2-4` chain bundles, reuses protected-fill legality, and adds optional anti-conveyor plus closure-capacity proxy.
+- t111 mainline result: `t115c_single_close_from_t115a_final095` reaches coverage `0.9534413`, official solved, process/tight `B/B`, `LocalEasy`, avg/max choices `3.54/6`, local/near `7/5`, choke `1`, collapse risk `0.308`, human-read `0.919`.
+- Best below-cover bundle: `t115e_closureaware_bundle_from_t111g_final095` reaches `0.9493927`, official solved, human-read `0.941`, local/near `7/4`, collapse risk `0.249`; final single closure to `t115f` reaches `0.9534413` but reintroduces local/near `11/11`.
+- Compared with t113 r004, t115c keeps `0.9534413` and `7/5` local/near while improving choice rhythm `0.620 -> 0.753` and collapse risk `0.352 -> 0.308`; it still does not cross official A/Hard.
+- t114 alternate-root smoke with closure-aware bundle (`t115g`) stalled at `0.9271255`, below the previous t114 open-fill best `0.9311741`; current bundle prototype is not yet the generalized `0.95` closer.
+- Relation audit for t115 still shows the real blocker: support depth `2`, anti-locality around `0.14-0.17`, CUD p20 `5.5`, and missing gates `score<0.68|cudP20<6|antiLocal<0.55|localRun>3`.
+- Current conclusion: scheduled bundle fill is a useful subtool for read rhythm/collapse risk, but final A/Hard likely requires support-closure-aware planning earlier than late filler. Next step should target relation-audit weak parents/closure roots directly and reserve final closure cells before `0.90+` fill.
+
+## Generated-Root WBP V12 t117 Support-Closure Bridge - 2026-07-02
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SupportClosureBridgeV1.py`, a narrow bridge enumerator that appends one chain released by a target owner and checks whether support closure rooted at a chosen parent deepens; it can require bridge->victim before emitting candidates.
+- Late insertion after t116c is a negative boundary: owner `72` / `68` first-hit bridge candidates exist but become Greedy-unsolved, and owner `58` has no usable first-hit slot. Bridge repair after late closure is too late.
+- Early insertion from `t111f` is positive: `t117g_bridgevictim_from_t111f_owner68_r001/r002` reached coverage `0.8947368`, official trace solved `2/2`, and relation audit confirmed depth `3` with `58->68->72->28`. `68->72` and `72->28` are closure-valid official edges.
+- High-coverage continuation can reach the visual floor: `t117n_bridge_resample_single_close095_from_m2` reaches coverage `0.9534413`, official solved, process/tight `B/B`, maxChoices `7`, human-read `ReadHard` score `0.864`.
+- But high-coverage closure does not yet preserve the bridge contract. At `0.9453441` (`t117m2`) and `0.9534413` (`t117n`), official support depth drops back to `2`; `68->72` remains, but victim `28` becomes owned by `2->28`, so planned `72->28` is lost.
+- Current conclusion: the route is alive and the bridge mechanism is real, but final acceptance needs contract-preserving closure / solve-order protection. Next useful step is not more scalar relation-proxy tuning; it is a closure planner that preserves official `parent->bridge->victim` ownership while filling to `0.95+`.
+
+## Checkpoint - 2026-07-02 00:58 - SGP Read-Demand Drain-Break Mutation
+
+- Worktree: `.worktrees/read-demand-hardening`; trace tool: `.worktrees/sgp-rhythm-lab`.
+- User playtest on previous ChokeBreak review: direction was positive, but still felt like continuous clearing from bottom to top; no real interruption point. Treat that pack as partial/negative for the target.
+- Added a V2-only generation-side proxy in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`: after a candidate solves, clone the board, drain all currently clearable owner chains in a local frontier, then score cases where the next frontier is remote and narrow (`1-2` choices). Original PSG/core generator remains untouched.
+- Rebuilt `SGPPressureReadDemandV1ChokeMutationV2Pack`: `35` generated rows, official trace `35/35` solved. Normal rhythm review kept `6`, but that review is not the main acceptance metric for this user target.
+- Official trace metric `frontierDrainRemoteChokeCount` found `8/35` candidates with remote-drain choke events. Best rows include `sgp_rdcm_v2_s02_07_c13` count `3`, `sgp_rdcm_v2_s01_01_c46` count `2`, and `sgp_rdcm_v2_s02_01_c16` count `2`; examples include `2->1`, `3->1`, and `5->1` after draining a local frontier.
+- Built an 8-level remote-drain review CSV at `.worktrees/read-demand-hardening/.codex-run/sgp_pressure_read_demand_v1_choke_mutation_v2_trace1_review_v1_review_keep.csv` and mounted `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2ReviewPack.asset` in the `read-demand-hardening` Demo scene.
+- Validation: `dotnet build .\read-demand-hardening.sln` passes with only pre-existing warnings; Unity review pack build succeeded. Visible Unity window `read-demand-hardening - Demo` is open.
+- Remaining risk: `choiceChokeAfterLocalFrontierBreakCount` is still `0` in official trace. This is a real improvement for "drain current small patch -> remote 1-2 choices", but not yet proof that continuous solve flow is fully broken in player feel.
+
+## Generated-Root WBP V12 t118 Contract-Preserving Closure Probe - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This was a route feasibility test for `0.95+` plus official `58->68->72->28`, not a final accepted level.
+- Added deterministic tail enumerators: `Build-GeneratedRootWBPV12TailChainEnumerateV1.py` and `Build-GeneratedRootWBPV12TailBundleEnumerateV1.py`; also added default-off `--exclude-release-owners` to protected fill and scheduled bundle fill.
+- Positive intermediate: `t117i_bridge_then_bundle_close_from_t117g_r001` preserves official `58->68->72->28` at coverage `0.9412955`; `t118b_contract_ex57_close_s118201` preserves it at coverage `0.9453441`, official solved, support depth `3`.
+- Negative closure result: from `t118b`, exhaustive single-tail and endpoint-bundle checks found no Greedy-solvable `0.95+` continuation. From `t117i`, exhaustive single-tail/two-chain bundle found no `0.95+` continuation; `0.9493927` near-miss requires the `57` lane and official trace assigns `2->28`.
+- From `t117m2`, six enumerated `0.9534413-0.9554656` continuations all official-solved but all stayed support depth `2` and assign `2->28`; from `t117n`, no single late guard chain was Greedy-solvable.
+- Current conclusion: this t117 late-closure branch does not walk through to `0.95+` while preserving the official bridge contract. Next route should enforce the `13->10->66->2 before 72` ordering earlier, before `0.94+` tail geometry consumes closure capacity.
+
+## Generated-Root WBP V12 t119 Walkthrough Probe - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass checked route walk-through before A/Hard polish.
+- Calibration confirmed local Greedy relation depth is not sufficient: bad high-coverage branches can show proxy depth `3` while official trace reassigns victim `28` to `2->28`. Use official step diagnostics for the hard contract.
+- Early `excludeReleaseOwner=57` closure from `t117g` produced contract-preserved near-misses: `t119b_ex57_from_t117g_s119101` at coverage `0.9473684` and `t119g_ex57_longer_from_t117g_s119301` at coverage `0.9493927`, both official solved and preserving `58->68->72->28`.
+- Those near-misses had no legal final new-chain or two-chain tail closure. The breakthrough was extending one existing non-root/core chain by one cell instead of adding a new chain.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailCellExtendV1.py` and generated `t119j` one-cell extension candidates from `t119g`.
+- Official trace solved `12/12` t119j candidates at coverage `0.9514170`; relation audit preserved `58->68->72->28` for `11/12`. Extending chain `72` itself is the bad case and drops support depth to `2`.
+- Representative good candidate: `t119j_extend1_from_t119g_c27_3_10`, coverage `0.9514170`, official solved, support depth `3`, contract true, `frontierDrainRemoteChokeCount=4`.
+- Remaining gap: still `B/LocalEasy`, localPatchSolveRunMax `16`, nearOuter `7`, antiLocality about `0.156`, CUD p20 about `5.667`. The route now walks through coverage + official + contract, but not final A/Hard.
+
+## Generated-Root WBP V12 t120 Local-Run Guard Feasibility - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass checked whether the t119 local conveyor can be broken without abandoning coverage/root/bridge.
+- Attribution on `t119j_extend1_from_t119g_c27_3_10` found the official local run: steps `48-64`, chains `5;31;56;4;29;0;55;57;26;23;20;53;69;13;27;10;39`, localPatchSolveRunMax `16`. Chains `70` and `72` are available for most of the run, but official picker keeps choosing longer local chains.
+- Added `Build-GeneratedRootWBPV12LocalRunGuardProbeV1.py`. A pure added guard candidate `t120c_local_guard_from_t119j_c27_r001_t26` reaches coverage `0.9554656`, official solved, and reduces localPatchSolveRunMax `16 -> 7`, but it clears bridge chain `72` too early, dropping support depth `3 -> 2` and losing `72->28`.
+- Minimal reroute probe shortened chain `57` by `1-2` tail cells and turned the guard into a 3/4-cell chain. Three t120e candidates official-solved at coverage `0.9534413-0.9554656`; all preserve support depth `3` and official `58->68->72->28`.
+- Best t120e signal: localPatchSolveRunMax `16 -> 9`, nearOuter stays `7`, supportClosureBestRoot `58`, support depth `3`, official edges include `58->68`, `68->72`, and `72->28`; process remains `B`, HardStructure remains `LocalEasy`.
+- Current conclusion: the hardening route can walk through one step. A delayed local-run guard plus tiny chain-shape reallocation can reduce official local conveyor while preserving the bridge contract. It is not final A/Hard; the next planner should move this from a local reroute probe into earlier whole-board cell planning, reserving guard length/cells before late fill consumes space.
+
+## Checkpoint - 2026-07-02 - ReadDemand Choke Mutation Composite Break
+
+- Worktree: `.worktrees/read-demand-hardening`; trace tool: `.worktrees/sgp-rhythm-lab`.
+- Added read-only trace metrics for `choiceChokeCompositeBreakScoreV1`, `choiceChokeCompositeBreakWindowCount`, `choiceChokeSweepContinuationRiskScore`, and composite break window patterns.
+- Updated `NoMaskProceduralGenerator` V2 proxy to reward after-local composite break windows and penalize low-choice same-axis/sweep continuation; original PSG core remains untouched.
+- Drainbreak5 composite run: `64/64` official solved; `27/64` rows have composite break windows; best score `0.73`; strict `choiceChokeAfterLocalFrontierBreakCount` is still `0`.
+- Built source-capped 4-level review pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2ReviewPack.asset`, GUID `7f869d001abf3da438cff99f4b369b8d`, mounted on read-demand Demo.
+- Representative rows: `sgp_rdcm_v2_s01_08_c25`, `sgp_rdcm_v2_s02_01_c16`, `sgp_rdcm_v2_s04_05_t51`, `sgp_rdcm_v2_s05_08_t34_t26_t45`.
+- Current conclusion: direction is positive and can produce perceived break candidates, but true frontier-hard interruption is not solved yet; next step should target residual old-frontier chains instead of only flipping/trimming more chains.
+
+## Checkpoint - 2026-07-02 - Nutation DependencyRhythm Window/Owner Probe
+
+- Worktree: `.worktrees/nutation-flow-peel-production`; trace tool: `.worktrees/sgp-rhythm-lab`; PSG/main project untouched.
+- Fixed source solve-flow proxy to map Greedy click cells back to authored chain owners before reading region/head direction. This exposed hidden conveyor risk: the same v10 candidate source `HeadRun` changed from `9/9` to `36/27`, matching official trace much better.
+- Added DependencyRhythm scheduled wave budgets, wave-axis budgets, solve-flow gates, choice-explosion penalties, and same-region parent-hit penalties in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`.
+- Slot 316 probes show controllable movement but not production readiness: v12 reduced official sameAxis `54 -> 18` but avg choices rose `6.89 -> 9.59`; v14 restored coverage `0.913` and lowered localPatch `16 -> 10` but avg choices stayed `8.31`.
+- v15 3-candidate pool split the objectives instead of solving both: best choice rhythm row had avg/max `5.76/10`, branch/frontier explosion `0.247/0.009`, but sameAxis/sameDir `36/26`; better axis rows had avg choices `8.31-8.45` or localPatch/nearOuter too high.
+- Current conclusion: scalar/window retuning can move the tradeoff, but current rectangle/gate-aware placement still cannot reliably produce "low choices + low same-axis/local conveyor" in the same large-board candidate. Next useful step is a real placement primitive or bundle scheduler that limits same-region parent ownership earlier, not another round of score-only tuning.
+
+## Generated-Root WBP V12 t121 Tail-Trim Guard Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass checked whether t120e can take a second local-run hardening step before optimizing details.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailTrimGuardProbeV1.py`, a diagnostic enumerator that trims 1-3 non-core tail cells and inserts one short guard on a target escape ray.
+- Pure second guard from t120e found `raw=0`; the `0.9534413` board has no simple free-space guard slot.
+- Broad t121b tail-trim search found `24` Greedy-solvable candidates at coverage `0.9534413-0.9554656`; official trace solved all sampled/full rows, but no candidate simultaneously reached `supportClosureBestDepth>=3` and `localPatchSolveRunMax<9`.
+- Best local-run rows (`r006/r011/r018/r023`) reduce localPatchSolveRunMax to `7`, but all drop support depth to `2`; official relation assigns victim `28` to `2->28` instead of `72->28`.
+- Bridge-preserving rows (`r001/r004/r016` and several remaining rows) keep support depth `3` and official `58->68->72->28`, but stay at localPatchSolveRunMax `9`.
+- Targeted repair tests confirmed the structural conflict: a 3-cell left guard (`t121c`) preserves support depth but worsens localRun to `11`; a 72-delay repair from the localRun-7 branch (`t121d`) keeps localRun `7` but still support depth `2`.
+- Current conclusion: tail-trim guards are real, but late one-guard patching has hit a boundary. The next route should plan the local-run guard, 72-delay, and `2/28` ownership protection together in the whole-board cell plan before final closure, rather than stacking late patches.
+
+## Generated-Root WBP V12 t122 Contract Guard Checkpoint - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass checked whether the co-planned guard route can actually preserve a generated root contract at `0.95+` coverage before fine placement optimization.
+- `t122a` starts from `t119g_ex57_longer_from_t117g_s119301` instead of the later t120e board. It reduces localPatchSolveRunMax from `16` to `8` while keeping official solved, coverage above `0.95`, support root `58`, support depth `3`, and contract `58->68->72->28`.
+- `t122b` starts from `t122a_t119g_tailtrim_guard_r019_trim57x1_t20` and finds two stronger rows: `t122b_from_r019_second_guard_r004_trim27x2_t39` and `t122b_from_r019_second_guard_r010_trim27x2_t39`.
+- Best current rows: coverage `0.9574899` / `0.9554656`, chains `82`, official solved, process `B`, hard class `LocalEasy`, avg choices `3.83`, max choices `8`, support root `58`, support depth `3`, support score `0.743`, `localPatchSolveRunMax=7`, `nearOuterPatchSolveRunMax=7`.
+- Relation audit confirms the intended official contract for `r004/r010`: `58->68`, `68->72`, `72->28`. Contrast row `r001` keeps local run `7` but changes the tail to `2->28`, dropping support depth to `2`.
+- Remaining hard blocker: official difficulty gate is still failed by `localRun>3`, `antiLocal=0.167 < 0.55`, and `CUD p20=5.667 < 6`. The max local/near-outer run is `40->64->9->24->47->21->58->44`.
+- Current conclusion: the route is viable but not final-hard. Next work should co-plan a breaker for the right-side near-outer run before/around root entry while preserving `58->68->72->28`; do not return to broad coverage/rank/direct-budget tuning.
+
+## Generated-Root WBP V12 t123 Run-Breaker/Shape-Recut Checkpoint - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass continued from t122b best and tested whether local-run hardening can proceed without losing generated-root identity or official support closure.
+- `t123a` used the existing tail-trim guard operator on the right near-outer run. Best rows kept coverage `0.9574899`, official solved, support root `58`, support depth `3`, and reduced `localPatchSolveRunMax 7->6`, `nearOuterPatchSolveRunMax 7->5`, with CUD p20 `6.167`.
+- `t123b` from `t123a_r004_right_run_breaker_r010_trim40x3_t47` found a stronger interposer: `t123b_from_r010_left_run_breaker_r016_trim40x1_t31` / `r022` reach coverage `0.9595142`, official solved, local/nearOuter `6/5`, antiLocal `0.188`, CUD p20 `6.167`, support depth `4`, support score `0.845`.
+- Relation audit shows the root contract is extended, not lost: official chain becomes `58->83->68->72->28`. Chain `83` is a semantic interposer released by root `58` and releasing bridge `68`.
+- Added `Build-GeneratedRootWBPV12ParentReleaseBlockerProbeV1.py` to test strict parent-release blockers. Narrow `5->31` search found `0` candidates; wide search found 4 but did not reduce localRun below `6`, proving late single parent-release insertion is not enough for that left run.
+- A manual shape re-cut probe trimmed chain `31` by 3 tail cells and recut those cells as a new short chain. Best row `t123d_trim31_recut_r002_trim31x3_orig` is official solved at coverage `0.9595142`, chains `85`, local/nearOuter `5/5`, antiLocal `0.198`, CUD p20 `6.167`, crossCrit `12`, support depth `4`, support score `0.874`.
+- The `5->31` edge is no longer local after t123d (`boxgap=3`, local false), so shape re-cut is a validated hardening primitive. Remaining max run is `9->24->47->21->58->44`.
+- Current conclusion: t123 is a real improvement but still not final A/Hard. Next useful move is a planned shape re-cut / earlier reservation for the remaining right near-outer run, not another generic guard stack.
+
+## Generated-Root WBP V12 t124 Shape-Recut Walkthrough - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass answered the user's "first see whether it can walk through" request before finer optimization.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ShapeRecutProbeV1.py` and `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ShapeRelocateProbeV1.py` as diagnostic-only hardening tools.
+- `t124a` from `t123d` trimmed/re-cut chain `9`; best valid row `t124a_right_run_shape_recut_r001_trim09x2_rev` keeps coverage `0.9595142`, official solved, local/nearOuter `5/4`, antiLocal `0.244`, CUD p20 `6.25`, crossCrit `13`, support depth `4`. Official relation extends to `58->85->83->68->72->28`; root `58` is preserved and releases new interposer `85`.
+- `t124b` from `t124a r001` found a stronger contract-preserved row: `t124b_right_run_shape_recut2_r006_trim21x4_orig`, coverage `0.9595142`, chains `87`, official solved, process `B`, hard class `LocalEasy`, local/nearOuter `5/4`, antiLocal `0.265`, CUD p20 `6.25`, crossCrit `12`, support depth `4`, support score `0.944`, official relation `58->85->83->68->72->28`.
+- Contrast row `t124b_r005` has the highest local score and bestRoot `58`, but is rejected for the WBP route because relation audit shows victim `28` is assigned to `2->28` instead of `72->28`.
+- Human-read audit for valid `t124b r006`: `humanReadDifficultyV1=0.888`, class `ReadHard`. Wave-front audit: solved, `40` waves, avg/max available-per-wave `2.175/7`, `25/40` waves `<=2`, counts `4 7 3 3 3 2 2 2 2 3 3 1 1 3 3 4 3 1 2 1 2 1 1 3 1 1 2 2 2 1 1 3 3 2 3 2 1 1 1 1`.
+- `t124c` late shape-relocation from `t124b r006` is a negative boundary: even loose gates produced `0` Greedy-solvable candidates. Empty-space audit found only one connected 3-cell empty slot plus isolated singletons at coverage `0.9595`, so relocation must be reserved earlier in the whole-board plan.
+- Current conclusion: the route can walk through another hardening step without dropping root identity/coverage/official solve, but it is still not final A/Hard. Next useful move is earlier reservation of remote relocation/interruption slots before the board reaches `0.95+`, not more late same-place recuts.
+
+## Generated-Root WBP V12 t125-t126 Early Reservation Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass tested whether the t124/t125 late relocation failure can be solved by reserving interruption/future-guard slots during the earlier `0.895 -> 0.95` scheduled fill.
+- Empty-space audit showed why late relocation fails: t119 still has a few 2/3-cell empty components, but by t122+ and t124 the board has only one connected 3-cell empty component plus singletons. Relocation/guard capacity must be allocated earlier.
+- `t125a` relocated shape from `t119g` into `0,3;0,4` and broke `9->24`, but it consumed the same left slot later needed for contract guard; official relation reassigned the victim through `2->28`, so the route is not acceptable.
+- Added default-off reservation support: `Build-GeneratedRootWBPV12ShapeRelocateProbeV1.py --forbid-relocate-cells`, `Build-GeneratedRootWBPV12ProtectedCoverageFillV1.py --forbid-fill-cells`, and `Build-GeneratedRootWBPV12ScheduledBundleFillV1.py --forbid-fill-cells`. Reserved cells are treated as unavailable for chain bodies while signal first-hit still uses real occupancy.
+- `t126j_reserved_open_from_t117g_s126102` proves early reservation is not dead: with `0,3;0,4;1,4;1,5;3,10;3,11;11,19;11,20;11,21` reserved, scheduled fill reaches coverage `0.9453441`, official solved, support depth `3`, and preserves official `58->68->72->28`.
+- One-cell non-reserved extension from t126j reaches `0.9473684`; top5 non-reserved rows all official solve and preserve `58->68->72->28` with support depth `3`.
+- Hard boundary: every current final `0.9514170` closure from those `0.947` rows uses chain `0,3;0,4` released by owner `57`. If that left contract slot remains reserved, scheduled/tail closure stalls at `0.9473684`. Reserving only the left contract slot also stalls below `0.95`.
+- Current conclusion: the route can preserve future guard/relocation slots through official-solved `0.947`, but current endpoint closure to `0.95+` depends on consuming the left contract slot. Next work should not keep probing final tail chains; it should move the final 2-3 coverage cells into the earlier whole-board bundle plan, or create an alternate non-left closure slot before the `0.94` phase.
+
+## Generated-Root WBP V12 t127 Non-Left Tail-Split Closure - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass checked whether the reserved route can reach `0.95+` without consuming the left slot `0,3;0,4`.
+- Added diagnostic scripts `Build-GeneratedRootWBPV12ClosureSlotAuditV1.py` and `Build-GeneratedRootWBPV12TailSplitClosureProbeV1.py`. The latter trims a non-root chain tail, recuts the freed cells as a short chain, then appends one specified closure chain; official trace/relation audit remain mandatory.
+- Slot audits from `t126j` and `t126n c76` show direct clean closure is not available: the left slot is the only direct Greedy-accepted endpoint, while remote slots `3,10;3,11` and `11,19;11,20;11,21` are Greedy-unsolved. The promising right slot `3,10;3,11` forms a cycle with chain `27`.
+- `t127c_tail_split_closure_from_t126n_c76_r001_orig_orig` materializes the repair: trim chain `27` tail cells `3,8;3,9`, recut them as new chain `80`, then append closure chain `81` at `3,10;3,11`. Coverage reaches `0.9514170`, chain count `82`, official solved `True`, process `B`, hard class `LocalEasy`.
+- Root identity/slot reservation status: protected root prefix count `21` is unchanged; left cells `0,3;0,4;1,5` remain empty. This proves a non-left endpoint closure route exists, but not final hardness.
+- Relation audit sees the new local semantic contract `80->81->27`, but the old bridge-victim contract regresses: support depth drops to `2`, and victim `28` is now released by `60->28` instead of `72->28`. Metrics: avg/max choices `3.33/7`, localPatch `16`, antiLocal `0.137`, CUD p20 `5.15`, frontierDrainRemoteChokeCount `3`.
+- Current conclusion: t127 is a real route-capacity breakthrough for reserved `0.95+` coverage, not an accepted final candidate. Next work should co-plan this right closure with `72->28` ownership protection / 72-delay and local-run reduction before final closure, rather than merely polishing the endpoint asset.
+
+## Generated-Root WBP V12 t129 Delay72 Tail-Split Walkthrough - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass checked whether the reserved non-left closure route can walk through while preserving the official bridge-victim contract.
+- Updated `Build-GeneratedRootWBPV12TailSplitClosureProbeV1.py` with default-off `--extra-trim-specs`, allowing additional non-root tail trims before appending a longer closure chain. Validation: `python -m py_compile` passed.
+- Positive asset: `t129a_tsc_delay72_c76_14_22_r001_orig_orig.asset`, built from `t126n_extend1_from_t126j_c76_14_22.asset`. Operation: trim chain `27` by 3 cells, recut `2,8;3,8;3,9` as chain `80`, trim chain `31` by 2 cells, and append closure `3,10;3,11;3,12;3,13` as chain `81`.
+- Coverage reaches `0.9514170`, chains `82`, protected root prefix count `21` is preserved, and reserved left cells `0,3;0,4;1,5` remain empty. Official trace rerun: `1/1` solved, `missing/failed=0`.
+- Relation audit rerun: official support root `58`, support depth `3`, support score `0.743`; official edges include `58->68`, `68->72`, `72->28`. There is no `60->28` steal in the filtered relation check.
+- Key official order: step `73` clears `70`, step `74` clears `60`, step `75` clears `72`, and step `77` clears `28`; this confirms the added delay preserves `72->28`.
+- Current metrics remain below final target: process `B/B`, hard class `LocalEasy`, avg/max choices `3.39/7`, local/nearOuter `7/7`, antiLocal `0.2`, CUD p20 `5.5`, frontierDrainRemoteChokeCount `2`.
+- Current conclusion: t129a is a real "can walk through" checkpoint for `0.95+ + official solved + generated-root contract + non-left reserved closure`. It is not final A/Hard; next useful work is local/near-outer hardening from this base while preserving `58->68->72->28`, not more endpoint closure probing.
+
+## SGP Read-Demand FrontierContract V1 Checkpoint - 2026-07-02
+
+- Worktree: `.worktrees/read-demand-hardening`; PSG/core routes remain untouched. Added isolated generation-time lane `SGPPressureReadDemandV1FrontierContract` in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`.
+- Mechanism: region/owner-aware head scoring records first ray blockers, rewards cross-region blocker releases, penalizes same-region/direct late exits, adds choice-explosion tax, and skips the late hard-flip gate so the generation-time contract is not undone.
+- Source smoke generated 12/12 candidates with coverage about `0.961-0.974`; official trace solved 12/12 with tiers `A=1`, `B=3`, `Drop=8`.
+- Review pack mounted to Demo: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1FrontierContractReviewPack.asset`; selected rows are `rdfc_12`, `rdfc_11`, `rdfc_05`, and `rdfc_07`.
+- Best trace candidate is `rdfc_12_sgp_pressure_hard_rect_read_demand_v1_frontier_contract_fc_cbc`: tier `B`, avg/max choices `5.58/12`, local/near `4/4`, composite window `55-62: 2 1 1 1 2 2 1 1` with switch/afterLocal/frontierBreak/newRegion/dirBreak signals.
+- Human feedback after Unity review: direction is positive, but the play still feels like continuous clearing, now mostly bottom-to-top. There is still no convincing forced interruption point where the player clears a small patch, must jump elsewhere, and only has `1-2` choices.
+- Current conclusion: FrontierContract is a partial positive and better than late mutation, but it is not a solved route. The next implementation should make interruption windows explicit in generation, likely with a scheduled window/DAG contract, not further average-choice tuning or single-arrow flips.
+
+## Generated-Root WBP V12 t131-t132 Walkthrough Generalization Checkpoint - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. User asked whether the current ability is real or only works on one skeleton, so this checkpoint tested walk-through before further detail optimization.
+- `t131b` transferred the exact t129a delay72 tail-split closure (`split 27`, extra trim `31:2`, recut `2,8;3,8;3,9`, closure `3,10;3,11;3,12;3,13`) to four t126n sibling bases: `c56_5_13`, `c38_1_16`, `c75_14_22`, and `c76_13_21`.
+- Result: `4/4` Greedy candidates materialized at coverage `0.9514170`, then official trace solved `4/4` with `missing/failed=0`. Relation audit confirms all four preserve `58->68`, `68->72`, `72->28`, and none assign `60->28`.
+- Shared official metrics for t131b: process `B`, hard class `LocalEasy`, avg/max choices about `3.38-3.39/7`, local/nearOuter `7/7`, same-side near-outer `6`, dependency follow run `6`, antiLocal `0.2`, CUD p20 `5.5`, support root `58`, support depth `3`, score `0.743`.
+- `t131a` strict transfer with `mustRemainEmptyCells=0,3;0,4;1,4;1,5` rejected all four siblings because those sibling bases already use the reserved-left-slot space. This is a reservation warning, not a chain legality failure.
+- `t132` and relaxed `t132b` tested a true alternate-root continuation from `t114_generalization_probe_t104d_c001_fill095_open` at coverage `0.9311741`. Both scheduled bundle fill probes stalled with `0` accepted bundles; relaxed mode allowed bundle size `1-3`, max chain length `8`, max choices `10`, and still stayed at `0.9311741` with reject top `greedy_unsolved/no_candidate`.
+- Current conclusion: current route is not a one-off t129 artifact inside its high-coverage skeleton family, but it is not yet a general alternate-root `0.95+` closer. The missing capability is a planner-level `0.90 -> 0.95` closure/slot scheduler for true new roots, not another late endpoint probe on t129/t126 siblings.
+
+## Generated-Root WBP V12 t133 Alternate-Root Near-Closure Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass tested whether the true alternate-root t114/t104d board can walk toward `0.95` before optimizing details.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12MultiTailExtendProbeV1.py`, a diagnostic beam probe that allocates remaining cells by extending existing non-prefix authored-chain tails instead of adding new filler chains.
+- Closure-slot audit on `t114_generalization_probe_t104d_c001_fill095_open` found only 14 short new-chain slots and `cleanOk=0`; all were Greedy-unsolved. This confirms t132 failed because the residual empty space is not usable as late new chains.
+- One-cell tail extension from t114 had 12 Greedy-solvable candidates, proving existing-chain body capacity exists. Multi-tail fast search produced 4 official-solved +9 candidates at coverage `0.9493927`; official trace solved `4/4`, relation audit wrote 272 edges / 196 parent rows / 4 level rows.
+- The +9 candidates are closure-capacity proofs, not hard candidates: process `B/B`, hard class `LocalEasy`, hardStructureV3Score `0.056`, localPatchSolveRunMax `6`, dependencyFollowRunMax `8`, relation best depth `2`, antiLocal `0.147`.
+- The final +10 cell remains blocked: strict and relaxed multi-tail `0.95` runs found `0` accepted candidates, best frontier coverage `0.9514170` but `final_greedy_unsolved=31`. From each +9 row, single-cell tail extension to `0.95` found `0`; short new-chain closure after +9 also had `cleanOk=0`.
+- Targeted tail-split closure probes around `6,6;7,6` and `9,9-9,12` from +9 r001 also found `0` accepted rows; a broader brute-force tail-split enum was stopped after timeout and should not be repeated without a smarter scheduler.
+- Current conclusion: true alternate-root closure is no longer stuck at `0.931`; it can be walked to official-solved `0.94939`. The last `0.95` cell needs earlier reservation / slot scheduling during the `0.90 -> 0.94` phase, not late new chains, late single tail extension, or blind tail-split search.
+
+## Generated-Root WBP V12 t134 Tail-Path Scheduler Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. This pass answered the user's "first see whether it can walk through before optimizing details" question for the true alternate-root t104d board.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailPathSchedulerV1.py`, an exhaustive short existing-tail path scheduler. It assigns the remaining cells as one contiguous path per eligible tail before running final Greedy, so it is stronger than stepwise tail extension for this narrow closure question.
+- Validation: `python -m py_compile Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailPathSchedulerV1.py` passed.
+- t134 run from `t114_generalization_probe_t104d_c001_fill095_open` at coverage `0.9311741`: eligible non-prefix tail chains `10`, path options `15`, product size `6144`, exact `+10` target combinations `31`, accepted `0`.
+- All 31 exact `0.9514170` tail-path assignments are Greedy-unsolved. Best rows remove only `37-38` chains before a zero-frontier deadlock; repeated blocker edges include `7->40`, `12->40`, `40->26`, and `27->42`.
+- Current conclusion: this alternate root still has a real body-capacity path to `0.9493927`, but not a tail-only path to `0.95+`. The next root-general experiment must change earlier ownership around the chain40/42 basin or reserve/recut a release slot before the `0.949` state; do not repeat final tail-path or final new-chain closure on this geometry.
+
+## Generated-Root WBP V12 Current Review6 Pack - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active WBP goal remains open. User asked for several official-trace-difficulty levels to play and to identify weak metrics.
+- Added review pack `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_CurrentReview6Pack.asset` and mounted it in `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` via activePack GUID `f4229d0f49354cb48b3127c1bdb7ed31`.
+- Pack contents: `t124b r006` (`0.9595142` current best), `t129a` (`0.9514170` walkthrough), two `t131b` sibling transfers (`0.9514170`), and two `t133` true alternate-root near-closures (`0.9493927`).
+- Report written to `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t135_current_review6_summary.csv` and `.md`.
+- Official trace status: all six solve, but all remain `B/B` and `LocalEasy`. Current-family weak metrics are local/near-outer runs (`5-7` / `4-7`), dependency follow run (`6-7`), and low anti-locality (`0.200-0.265`); t133 alternate-root rows also have weak support depth (`1` in official trace field) and antiLocal `0.147`.
+- Validation: direct asset/meta GUID checks passed for all six LevelDefinition refs; Demo activePack points to the new pack; targeted `git diff --check` passed.
+
+## Nutation DependencyRhythm Slot316 Boundary Checkpoint - 2026-07-02
+
+- Worktree: `.worktrees/nutation-flow-peel-production`; PSG/core routes remain untouched. Tested slot316 large-board DependencyRhythm generation changes against the current production-quality baseline.
+- `DependencyWindow` head selector v16-v18 shifted some same-axis/collapse metrics but hurt coverage, rejections, choice peaks, and official trace stability. It is now opt-in only through spec id marker `_depwindow_`, not default DependencyRhythm behavior.
+- `ParentTileFanout` budget v19 attempted to cap child tile releases per parent, but source smoke fell to coverage about `0.895`, raised early/local choice risk, and is also opt-in only through `_parenttile_`.
+- Representative reports: `Assets/ArrowMagic/SOData/Reports/Campaign500/NormalFullV1/c5dr316_v16depwindow_smoke_dr316v16dws_report.csv`, `c5dr316_v17depwindow_cross_dr316v17dwc_report.csv`, `c5dr316_v18depwindow_topcross_dr316v18dwt_report.csv`, and `c5dr316_v19parenttile_smoke_dr316v19pts_report.csv`.
+- Validation after gating the negative experiments: `dotnet build nutation-flow-peel-production.sln --no-restore -v:minimal` passed with the existing 7 warnings and 0 errors.
+- Current conclusion: further gains should not come from more local head scoring or fanout penalties. The next meaningful route is a stage/bundle/frontier-window scheduler that explicitly shapes solve rhythm, e.g. controlled `3-5` choices with occasional `1-2` choke windows, while preserving coverage and solved quality gates.
+- Follow-up v20-v23 added opt-in `DependencyRhythmStageWindow` / `stagewindow` picker prototype in `.worktrees/nutation-flow-peel-production/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`. It is diagnostic-only and not enabled by default.
+- v20 fixed-region scheduling found no aligned windows (`depStageAligned=0`); v21 dynamic pair scheduling also failed to align; v22/v23 force-pair produced a real local-run improvement but not a production candidate.
+- v22/v23 source row: coverage `0.886`, chains `201`, early choices `23.9/41`, local run `14`, `depStageAligned=28`, actual cross/same `27/171`. Official trace solved but remained `Drop`: avg/p80/max choices `7.83/11/14`, local/near `10/9`.
+- Current StageWindow conclusion: single-chain picker-level scheduling can improve local conveyor signals, but it cannot preserve coverage or enough cross-region dependency. The next route must materialize stage bundles/slots before per-chain picking, rather than tuning the picker further.
+
+## SGP Read-Demand ScheduledBreak V1 Checkpoint - 2026-07-02
+
+- Worktree: `.worktrees/read-demand-hardening`; PSG/core routes remain untouched. Added isolated `SGPPressureReadDemandV1ScheduledBreak` lane in `.worktrees/read-demand-hardening/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs` plus `-ScheduledBreak` wrapper support in `.worktrees/read-demand-hardening/Tools/Production/Invoke-SGPPressureReadDemandV1.ps1`.
+- Mechanism: reuses FrontierContract generation but adds a staged region schedule, stronger rewards for official after-local frontier breaks, larger reserved-empty budget, and stricter penalties for sweep/residual-frontier risk. This targets "clear a small patch, then forced switch elsewhere with only 1-2 choices."
+- Source smoke was run from detached runner `.worktrees/read-demand-hardening-runner` because the visible Unity project was open. It generated 12/12 source rows into `Assets/ArrowMagic/SOData/Levels/DirectProcedural/RDSB`, all officially traced solved.
+- Official trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_read_demand_v1_scheduled_break_smoke1_metrics.csv`; result `12/12 solved`, tiers `A=1/B=6/Drop=5`.
+- Best confirmed row: `rdsb_03_sgp_pressure_hard_rect_read_demand_v1_scheduled_break_sb_lba`, tier `B`, avg/max choices `4.85/11`, composite window `30-34:2 1 1 1 1`, `choiceChokeAfterLocalFrontierBreakCount=1`, `choiceChokeSwitchFrontierBreakCount=4`.
+- Step diagnostics for `rdsb_03` confirm a real low-choice interruption: steps `30-33` have choices `1,1,1,1`, regions `3 -> 4 -> 1 -> 5`, and `frontierHardBreakAfterChosen=True` on steps `30-32`.
+- Mounted Demo review pack: `.worktrees/read-demand-hardening/Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ScheduledBreakReviewPack.asset`, GUID `3f068564ae8922a4b8b8ed1a1574e934`, display `SGP Pressure Read Demand V1 Scheduled Break Review (1)`; Demo points to this one-row pack.
+- Boundary: this is the first trace-confirmed positive sample for the desired interruption feel, not a solved量产 lane. Only 1/12 rows had official after-local frontier break evidence, so next work is raising hit rate by making scheduled old-frontier removal a hard generation contract rather than another scalar reward.
+
+## SGP Read-Demand ScheduledBreak ChoiceCompress Checkpoint - 2026-07-02
+
+- Worktree: `.worktrees/read-demand-hardening`; detached runner `.worktrees/read-demand-hardening-runner`; PSG/core generator still untouched.
+- Added `ChoiceCompress` generation gate/scoring for `SGPPressureReadDemandV1ScheduledBreak`: early chain-choice peak, tile-choice peak, region burst, local-probe run/revisit/entropy, and opener pressure now gate ScheduledBreak candidates before pack output.
+- Smoke7 produced one saved row, still `rdsb_03_sgp_pressure_hard_rect_read_demand_v1_scheduled_break_sb_lba`, but rebuilt as a new 61-chain asset. Source pressure improved from the previous review row: early choices `44.4/119 -> 25.0/72`, chain-choice wave `4.8/11 -> 4.1/8`, portable openers `9 -> 2`.
+- Official trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_read_demand_v1_scheduled_break_smoke7_metrics.csv`, `1/1` solved, tier `B`, avg/max choices `4.08/7`, local/near `4/4`, dependencyFollowRunMax `6`.
+- Break signal improved rather than disappearing: composite window `32-35:2 1 1 1`, `choiceChokeAfterLocalFrontierBreakCount=2`, `choiceChokeSwitchFrontierBreakCount=3`, `frontierDrainRemoteChokeCount=4`.
+- Demo review pack was rebuilt and mounted: `.worktrees/read-demand-hardening/Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ScheduledBreakReviewPack.asset`, GUID `3f068564ae8922a4b8b8ed1a1574e934`, display `SGP Pressure Read Demand V1 Scheduled Break Review (1)`.
+- Validation: `dotnet build .\read-demand-hardening.sln -v:minimal` passed with 0 warnings/errors; targeted `git diff --check` passed; visible Unity was launched for `.worktrees/read-demand-hardening`.
+- Boundary: max-choice compression works on this sample, but hit rate is still `1/12`; next step should raise yield and make forced area-switch/old-frontier removal explicit, not merely tighten the choice gate further.
+
+## Campaign500 Rhythm Planning Reset - 2026-07-02
+
+- Main project: `F:\Unityproject\ArrowLevel-Hand`; user rejected the previous rough Campaign500 arrangement approach as too chain-count/coarse-placement driven.
+- New planning direction: define what each slot needs first, then generate/select candidates against slot specs. Campaign rhythm should be `10-level micro loop + 50-level arc + 500-level long arc`.
+- Created planning folder `Exports/Campaign500_DesignPlanning_20260702/` with rhythm design doc, 10-level loop blueprint, slot duty matrix, 50-level arc, generation slot spec fields, and original template section distribution.
+- Key principle: preserve template category/difficulty skeleton where possible, but assign explicit duties such as `RecoveryFlow`, `NormalPractice`, `LanguageVariation`, `ReadCheck`, `DependencyPeak`, `ShapeAnchor`, and `ExtremeMemory`.
+- Generated draft `Exports/Campaign500_DesignPlanning_20260702/campaign500_slot_spec_v1_draft.csv` with 500 rows. It preserves template order/category/difficulty and adds `slotDuty`, `styleTarget`, `chainLanguageTarget`, `effectiveLoadBand`, `readDemandTarget`, novelty/reject rules, and replacement priority.
+- Draft audit signal: template-driven assignment leaves only `2` explicit `LocalRunBreaker` rows, so the next pass should deliberately fold local-run breaking into more `ReadCheck`/`DependencyPeak` slots instead of relying on slot position alone.
+- User confirmed the desired workflow: first determine each 10-level section, then specify each individual level's duty.
+- Added `campaign500_slot_planning_method_v2.md`, `campaign500_10level_section_plan_v1.csv`, `campaign500_per_level_duty_v2.csv`, and `campaign500_first100_per_level_duty_preview_v2.csv` under `Exports/Campaign500_DesignPlanning_20260702/`.
+- V2 per-level spec separates `positionBeatRole` from `actualBeatRole`; production/replacement should use `actualBeatRole + slotDutyV2`, because template difficulty/category can override the default position rhythm.
+
+## Campaign500 Planning V3 Front20 + Full500 Rough Script - 2026-07-02
+
+- User clarified that template position/default pressure roles are not mandatory; reasonability and player experience take priority. Front20 should have detailed handcrafted duties rather than generic slot roles.
+- Added `Exports/Campaign500_DesignPlanning_20260702/campaign500_planning_principles_v3.md`, which states that difficulty should rise within each 10-level group with possible retreats, and chain/arrow counts must not grow infinitely once canvas comfort is reached.
+- Added hand-authored front20 duty table `campaign500_front20_handcrafted_duty_v1.csv` and front20 preview `campaign500_front20_per_level_duty_v3_preview.csv`. Examples: L1 tutorial clear rule, L2 rescue/hole theme, L3 camera/board-scale guide, L4 crystalball unlock, L5 crystalball follow-up, L10 light hard lock quiz, L19 first mini-boss, L20 release/new-theme bridge.
+- Added full rough 500 planning files: `campaign500_full500_10level_story_v3.csv` (50 ten-level scripts) and `campaign500_per_level_duty_v3_rough.csv` (500 per-level rough duties).
+- Next step: review and manually adjust front20/front100 duties before any further candidate matching, generation, or resource replacement.
+
+## Campaign500 Rhythm Audit Tool V1 - 2026-07-02
+
+- Added reusable static layout audit tool: `Tools/Production/Campaign500RhythmAuditV1.py` and wrapper `Tools/Production/Audit-Campaign500RhythmV1.ps1`.
+- The tool audits a 500-row layout CSV against V3 planning files, checking order integrity, front20 onboarding pressure, early jumps, hard/peak contrast, post-peak release, chain/arrow overgrowth, and style/source repetition. It is a rhythm proxy, not a Unity solver/playtest replacement.
+- Ran it on previous final layout `Exports/C5V5F100/Docs/campaign500_rhythm_v5_front100_per_level_config_index.csv`; output folder `Exports/Campaign500_DesignPlanning_20260702/Audit_C5V5F100/`.
+- Result: score `68/100`, grade `C`, `0` structural errors, `150` warnings, `239` infos, `5` sections below 80. This matches the human read that the version is usable as a reference but too rough for final pacing.
+- Main audit gaps: several sections have hard/peak averages below normal averages, early jumps at L4/L23/L38/L47/L72/L83/L96, many high non-peak arrow-count comfort warnings, and weak release after some extreme peaks.
+- Skill status: not yet converted to a formal Codex skill because skill install/location should be confirmed; current project tool can be promoted after testing on 1-2 more layouts.
+
+## Campaign500 V3 Rough Audit + Trace Standard Review - 2026-07-02
+
+- Ran RhythmAuditV1 on `Exports/Campaign500_DesignPlanning_20260702/campaign500_per_level_duty_v3_rough.csv`; output `Exports/Campaign500_DesignPlanning_20260702/Audit_V3Rough/`.
+- Result: score `72/100`, grade `B`, `0` structural errors, `151` warnings, `259` infos, `2` sections below 80. It is slightly better than C5V5F100 but still a duty/chain template draft, not a final candidate layout.
+- User questioned whether official trace metrics are sufficient for real difficulty. Current conclusion: do not replace official trace globally yet; add an overlay `Trace Standard V2` that validates slot-aware difficulty evidence while keeping official trace as solved/safety baseline.
+- Added GPT handoff doc `Exports/Campaign500_DesignPlanning_20260702/campaign500_trace_difficulty_current_rules_for_gpt_v1.md`.
+- Added implementation direction doc `Exports/Campaign500_DesignPlanning_20260702/campaign500_trace_standard_v2_draft_direction.md`.
+- Proposed V2 evidence fields include `slotDifficultyFitClass`, `difficultyEvidenceTags`, `difficultyRiskTags`, `effectiveLoadScore`, `readDemandScore`, `localBreakScore`, `dependencyEvidenceScore`, and `peakContrastScore`.
+- User clarified that most official trace dimensions are acceptable, but the missing core is a separate "key choke arrow / 卡点箭头" signal; average choices alone cannot represent this.
+- Updated both Trace V2 docs to add `chokeArrowScore`, `chokeArrowCount`, `chokeArrowMaxStrength`, `chokeArrowEvidenceTags`, `chokeArrowRiskTags`, `chokeArrowFairnessScore`, and a lightweight one-step counterfactual proxy for detecting readable key arrows.
+
+## Generated-Root WBP V12 t140 Region-Duty Projection - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; active Generated-Root WBP goal remains `0.95+` coverage with at least A-like hard read, but this checkpoint intentionally creates no playable asset.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RegionDutyProjectionV1.py`, a forward audit that projects t138 `cell_demand` into region-level duties and seedState-like reservations before chain cutting.
+- t140a input demand: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t138c_t137a_bridge_ok_runbreak_cell_demand.csv`, `144` cell-demand rows, `43` cells, frame `19x26`.
+- t140a root input: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/grwbp_v8_root_input.csv`, root `geosupply_sched_root10_from_40eb0da7_r1_c038`, frame `23x30`, occupied cells `425`.
+- Result: demand projected to `9` region-duty rows and `16` seedState rows; top duties include `67>79 -> r4c3` bottom choke/remote-guard pressure, `83>5`/`66>2 -> r3c1` inner delay/guard pressure, and `40>9 -> r2c3` cross-basin pressure.
+- Critical boundary: `frameStatus=frame_mismatch`, so t140 seedStates are diagnostic only for the supplied `23x30` root. The earlier t139 direct smoke proved loader/scoring connectivity, not a valid planner baseline.
+- t140b reran the same projection on compatible root input `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/geosupply_root154_from0700_tail0_c01_input.csv`, root `root154_from0700_tail0_c01`, frame `19x26`, coverage `0.7145749`, occupied cells `353`; result `frameStatus=compatible`, `16/16` seedStates ready for planner.
+- Counterfactual stability: top-region set is stable under +/-10% role-weight perturbations (`min/avg Jaccard=1.000`), so the projection is not just random post-hoc noise.
+- Next gate: feed t140b ready seedStates into frontier reservation on the compatible root and require early topology divergence before any chain-level materialization; only add coordinate/frame normalization if we need to reuse the current `23x30` root.
+
+## Generated-Root WBP V12 t141 SeedState Materialization - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; root remains generated-root `root154_from0700_tail0_c01` (`19x26`, root coverage `0.7145749`). This is still a planner/materialization proof, not the final `0.95+` / A-hard candidate.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SeedStateReservationAuditV1.py`; t141a converts t140b seedStates into concrete reservation cells/edges on the compatible generated root: `16/16` reservation-ready, `44` unique planned empty reservation cells, `172` reservation-cell rows, baseline frontier Jaccard `0.128`.
+- t141a also emits V12-compatible root-specific demand `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t141a_root154_seedstate_reservation_cell_demand.csv` with `44` demand rows (`choke=19`, `guard=15`, `delay=7`, `remote_guard=3`).
+- t141b V12 demand smoke confirms the handoff: demand loads as `44` cells / total weight `1798.121`; `3/12` carrier options overlap demand (`overlap_weight=573`). Existing V12 scoring can see the reservation, but state-frontier still does not actively materialize seedState chains.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SeedStateMaterializerV1.py`; it enumerates short reservation chains whose head ray first-hits a planned root owner, writes V12 `chain_plan_seed_csv`, and includes solved-prefix / release-impact-safe group search.
+- t141c materializer produced `106` retained options and V12 accepted `14` reconstructed seed states when Greedy solving was relaxed; 4-chain groups were legal but Greedy-unsolved, proving the channel works while exposing the combination problem.
+- t141h strict V12 smoke accepts `8` two-chain solved-prefix seed groups at coverage `0.7348178`, Greedy `True/3.737/9`, chain legality OK, demand overlap `10` cells / weight `529.980`.
+- t141j strict V12 smoke accepts `4` three-chain solved-prefix seed groups at coverage `0.7388664`, Greedy `True/3.966/10`, chain legality OK, demand overlap `12` cells / weight `752.152`; chains are semantic seedState choke chains for regions `r4c3`, `r2c3`, and `r3c3`.
+- Current hard boundary: naive 4-chain region assembly reaches `0.740-0.745` but is Greedy-unsolved; a broader 3-chain deep search timed out until bounded. Next step should add staged prefix expansion/pruning and diversify beyond choke-only `r4c3/r2c3/r3c3` while preserving solved-prefix gates. Do not return to penalty-only demand scoring.
+
+## Generated-Root WBP V12 t142 SeedState Front-End Breakthrough - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; root remains generated-root `root154_from0700_tail0_c01`, fingerprint `5f26bf2d9d40c90a`, root coverage `0.7145749`.
+- Updated `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SeedStateMaterializerV1.py` with bounded front-end controls: `--skip-naive-groups`, solved-prefix audit CSV, single-option Greedy gate, region include/exclude, and `--solved-prefix-region-order`.
+- t142c rejection audit showed exact-4 failure was not a generic search failure: all `288` depth-4 rejects were `greedy_unsolved` in region `r3c2`; r3c2 options are single-chain unsolved and deadlock by hitting active owners `23/19`.
+- t142e excluding r3c2 found `8` exact-4 solved-prefix groups. V12 strict t142f accepted `4/4` candidates at coverage `0.7489879`, added `4` semantic seedState chains (`r4c3/r2c3/r2c1/r3c3`), Greedy `True/3.898/10`, and official trace `4/4 A`, openers `3`, avg/max choices `3.42/8`, localPatch `2`, outerExit `1`.
+- t142g/t142h proved region ordering matters: placing `r2c2` before `r2c1` avoids the first-hit conflict and yields exact-5 solved-prefix groups. V12 strict t142h accepted `4/4` candidates, coverage `0.7489879-0.7510121`, added `5` semantic seedState chains, official trace `4/4 A`, avg/max choices about `2.9-3.22/6-7`, `structuredHardnessV21 ~0.74`, and no outer-run regression.
+- Current front-end capacity boundary: current one-region-one-seedState materialization has `5` viable regions (`r4c3/r2c3/r2c2/r2c1/r3c3`); `r3c2` is single-chain unsolved, and `r3c0/r3c1` currently produce no materialized options.
+- Coverage-layer boundary: V12 extension/cluster from the 5-chain backbone did not add a sixth chain. t142i extension rejected by `greedy_unsolved=16`, `added_loop_risk=4`, `same_release_owner=8`; t142k cluster rejected by `greedy_unsolved=16`, `added_loop_risk=4`, `cell_overlap=8`. The next gate is not more seedState brute force; it needs a planned coverage option supply that is generated against the 5-chain causal backbone.
+
+## SGP Read-Demand ScheduledBreak SwitchWindow Checkpoint - 2026-07-02
+
+- Worktree: `.worktrees/read-demand-hardening`; detached runner: `.worktrees/read-demand-hardening-runner`; PSG/original SGP remain untouched.
+- Added ScheduledBreak-only `ChokeWindow` generation metric in `Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs`: it scans 4-step low-choice windows on the same greedy owner-move path and records choice pattern, switch/frontier/new-region/direction breaks, local/region runs, jump distance, and near rate.
+- Smoke10 found the first stronger switch sample row 11, `rdsb_11_sgp_pressure_hard_rect_read_demand_v1_scheduled_break_sb_lbc`: `21x29`, `64` chains, `582` arrows, coverage `0.956`, initial openers `4`.
+- Smoke11 with the new hard window gate still kept row 11 and rejected the old row 3 by global `SwitchFlow`. Row 11 source window: `Window=32+4 Choices=2.0/4 Low2=3 Single=2 Breaks=3/1/3/1 Pattern=32:1 1 2 4|switch=33;34;35|frontier=33|newRegion=33;34;35|dir=34`.
+- Official trace smoke11: `1/1 solved`, avg/max choices `4.98/9`, composite window `32-35:2 1 1 2`, after-local frontier break `1`, switch frontier break `2`, remote drain choke `8`, sameRegion/regionCollapse/dependencyFollow `2/3/4`.
+- Demo review pack mounted/copied: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ScheduledBreakReviewPack.asset`; review keep: `.codex-run/sgp_pressure_read_demand_v1_scheduled_break_review_keep.csv`.
+- Boundary: forced-switch evidence is now explicit and trace-aligned, but `maxChoices=9` and `localPatchSolveRunMax=6` remain above ideal. Next work should reduce early/global choice peaks and localPatch runs without loosening `ChoiceGate` or relying on window gate alone.
+
+## SGP Read-Demand RegionFrontierReplay V1 Checkpoint - 2026-07-02
+
+- Added read-only analyzer `.worktrees/read-demand-hardening/Tools/Production/Export-SGPReadDemandRegionFrontierReplayV1.ps1`.
+- It consumes official trace step diagnostics and emits summary/windows/enriched-step CSVs for dynamic frontier replay: old frontier retention, hard frontier break, remote narrow reopen, post-break explosion, local/micro proxy runs, plus official continuity metrics.
+- Reran official trace with step diagnostics for `rdsb_03` and `rdsb_11`: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/sgp_pressure_read_demand_v1_scheduled_break_region_replay_metrics.csv` / `_steps.csv`.
+- Replay output: `.worktrees/read-demand-hardening/.codex-run/sgp_read_demand_region_frontier_replay_v1_scheduled_break_compare_summary.csv` plus windows/enriched-step CSVs.
+- Result: both rows have real break signals but are classified `BreakSignalWithContinuityRisk`. `rdsb_03` has stronger low-choice/frontier-break numbers but dependency/region-collapse risk (`dependencyFollowRunMax=6`, `solveRegionCollapseRunMax=4`). `rdsb_11` has stronger perceived switch flow but local/continuity risk (`localPatchSolveRunMax=6`, switch continuity `3`, one post-break choice explosion).
+- Next step: feed replay-derived continuity risk back into ScheduledBreak selection/generation. Do not treat static/coarse region graph or ChokeWindow alone as sufficient.
+
+## SGP Read-Demand Contract-State Quick Audit - 2026-07-02
+
+- Quick audit on current ScheduledBreak smoke11/source report: 12 source rows produced only 1 saved row under existing `ChoiceGate + SwitchFlow + ChokeWindow`.
+- Several rejected rows have strong ChokeWindow signals, but fail choice peak or SwitchFlow; the only saved row still fails strict replay continuity (`BreakSignalWithContinuityRisk`).
+- If a strict contract-state acceptance requires saved asset plus no local/dependency/region-collapse/switch-continuity/post-break explosion risk, current keep is `0/2` traced samples and effectively `0/12` source smoke.
+- Conclusion: simply hardening post-generation gates will collapse yield. The next viable route must add a lower-level contract supply/reservation layer before or during SGP fill, rather than only stricter scoring/filtering.
+
+## Campaign500 Choke Candidate Audit - 2026-07-02
+
+- Audited existing known candidate, trace, and rerank CSVs for choke/key-arrow evidence only; no new generation was run.
+- Main output folder: `Exports/Campaign500_DesignPlanning_20260702/ChokeCandidateAudit_20260702_AllKnown/`; focused output folder: `Exports/Campaign500_DesignPlanning_20260702/ChokeCandidateAudit_20260702/`.
+- All-known scan covered `366` CSV files, `9162` scored rows, and `3049` unique asset candidates. Result: `29` `StrongChokeReview`, `108` total `ChokeReview`, `96` `ChokeSignalRisky`.
+- Distribution is uneven: usable choke-like candidates mostly come from ReadDemand/ChokeMutation/ScheduledBreak experimental pools. Current Campaign500/Nutation normal pool has only a few order-tagged usable samples.
+- Best current-order candidates from focused audit: order `100` strict mixed peak (`Strong`), order `25` longchain lock patch (`Strong`), order `47` hub mixed (`Review`), order `29` longchain patch (`Review`). Order `112` has signal but is risky due local-run continuity.
+- Conclusion: existing pool is enough for a small human-review pack, but not enough for broad Campaign500 hard/peak supply. A future ChokeRich/ReadDemand production lane is still needed if we want consistent card-point levels.
+- Built 15-level demo review pack `Assets/ArrowMagic/SOData/Packs/Campaign500/ChokeCandidateAuditReviewPack20260702.asset` from `choke_candidate_audit_recommended_review_set_v1.csv` and mounted it to main `Assets/ArrowMagic/Scenes/Demo.unity`.
+- Copied the 7 missing ReadDemand/ScheduledBreak LevelDefinition assets from worktree/export sources into main `Assets/ArrowMagic/SOData/Levels/DirectProcedural/RDSB/` and `Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2/`; GUID conflict check returned zero existing hits before copy.
+- Added builder `Assets/ArrowMagic/Editor/Campaign500ChokeCandidateReviewPackBuilder.cs`; build summary/report are `Exports/Campaign500_DesignPlanning_20260702/ChokeCandidateAudit_20260702_AllKnown/choke_candidate_audit_review_pack_build_summary.md` and `_report.csv`.
+- Human review feedback: several levels have some difficulty and can serve as normal/normal-plus candidates, but most still allow mostly sequential clearing. The positive signal is occasional forced region re-read/switch, not a true hard/peak choke. Do not classify this review pack as hard/peak supply.
+
+## Campaign500 Slot Spec V2 Locked Planning - 2026-07-02
+
+- Added reproducible builder `Tools/Production/Campaign500SlotSpecV2Builder.py` and wrapper `Tools/Production/Build-Campaign500SlotSpecV2.ps1`.
+- Generated locked planning artifacts in `Exports/Campaign500_DesignPlanning_20260702/`: `campaign500_locked_planning_principles_v2.md`, `campaign500_10level_section_plan_v2_locked.csv`, `campaign500_slot_spec_v2_locked.csv`, `campaign500_slot_spec_v2_front100_preview.csv`, `campaign500_slot_spec_v2_demand_summary.csv`, and `campaign500_slot_spec_v2_gap_summary.md`.
+- Updated `Tools/Production/Campaign500RhythmAuditV1.py` so static audit recognizes `targetEffectiveLoad`.
+- Ran `Audit-Campaign500RhythmV1.ps1` on `campaign500_slot_spec_v2_locked.csv`; output `Exports/Campaign500_DesignPlanning_20260702/Audit_SlotSpecV2Locked/`, score `92/A`, `0` errors, `0` warnings, `0` sections below 80.
+- V2 locks the planning method: original template skeleton + 10-level micro-loop + 50-level macro arc + effective-load bands + per-slot duty/evidence. Future iterations should adjust slot fields or candidate matching, not restart the whole campaign logic.
+- Current demand reading from V2: `213` normal-pool slots, `96` normal-plus/readcheck partial-supply slots, `98` shape/hole anchor slots, `59` hard/special peak supply slots, `33` extreme peak supply slots, and `1` keep-original tutorial slot.
+
+## Campaign500 First50 Existing-Resource Layout Rehearsal - 2026-07-02
+
+- Built a first-50 layout from existing resources only: `Exports/Campaign500_First50_V2Existing_20260702/campaign500_first50_v2_existing_layout_v1.csv`.
+- Source pool: `Exports/C5V4FSC/Docs/campaign500_rhythm_v4_final_strict_complete_per_level_config_index.csv`; no new generation. Matching uses V2 slot duty, effective-load band, style/language hints, and existing resource quality/status.
+- Added reusable matcher `Tools/Production/Campaign500First50ExistingResourceLayoutV1.py` with wrapper `Tools/Production/Build-Campaign500First50ExistingResourceLayoutV1.ps1`.
+- Resource check: `50/50` assets and metas exist. `32/50` rows changed from the same V4 order. Effective-load avg/min/max after category calibration: about `56/6/92`.
+- Static audit with `Audit-Campaign500RhythmV1.ps1 -ExpectedCount 50` output `Exports/Campaign500_First50_V2Existing_20260702/Audit_LayoutV1/`: score `96/A`, `0` errors, `2` warnings, `0` sections below 80. Remaining warnings are L3 too high for camera/scale intro and weak section-1 hard contrast; root cause is missing formal low-load normal resources around `20-30`.
+- Built direct-yaml review pack `Assets/ArrowMagic/SOData/Packs/Campaign500/Campaign500First50V2ExistingReviewPack.asset`, GUID `d686bcdceefd4bca856620dfe792fc29`, with `50` levels and mounted main `Assets/ArrowMagic/Scenes/Demo.unity` to it.
+- Added direct pack builder `Tools/Production/Campaign500First50ReviewPackDirectBuilder.py` and wrapper `Tools/Production/Build-Campaign500First50ReviewPackDirect.ps1`. Direct-yaml was used because the main Unity project may already be open.
+
+## Generated-Root WBP V12 t143 Backbone Coverage Layer - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; base remains t142h generated-root backbone `root154_from0700_tail0_c01`, fingerprint `5f26bf2d9d40c90a`, base row `t142h_root154_seedstate_exact5_orderA_strict_smoke_c004`, coverage `0.7489879`, official `A`.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py`, a coverage-layer planner that reads an accepted backbone, enumerates short old-owner-release coverage duties, writes option audit + candidate CSV + assets, and preserves root metadata in output rows.
+- Fast mode is `--selection-mode greedy`; beam mode exists but is currently too slow for 12-chain searches without caching. A 4-chain beam/smoke path ran successfully; 12-chain beam timed out and should not be the default until optimized.
+- Probe baseline with existing `Build-OwnerHitGrammarFillV1.py` showed the remaining empty space is usable: bundle6 reached `0.789-0.791`, official top4 stayed `4/4 A`, max choices `6`, outerExit run `1`, localPatch run `3`.
+- Formal t143g V1 run: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t143g_root154_c004_bclv1_greedy_cov12_candidates.csv`; top rows reach coverage `0.8218623`, `12` added coverage chains, `36` added cells, generated Greedy `initial=3`, `avg/max=2.500/6`.
+- Official light trace for t143g top4: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t143g_root154_c004_bclv1_greedy_cov12_top4_trace_light_metrics.csv`; result `4/4 solved`, process `A`, avg/max choices `2.49/6`, outerExit/sameSideOuterExit run `1/1`, local/nearOuter patch run `3/3`, structuredHardnessV21 `0.745`, frontierDrainRemoteChokeCount `9`, remoteChokeScore `1`.
+- Boundary: this is a real coverage-layer breakthrough but not close to the final `0.95+`; single-layer old-owner-hit coverage appears capped around `0.82` on this backbone. Remaining gap needs a second-stage region/coverage supply or earlier recut of coverage duties, not just larger same-style bundles.
+- Risk: t143g preserves process A and choice pressure, but hardStructureV3/solveTraceQuality drop versus t142h (`~0.32/0.784` vs t142h best `~0.43-0.46/0.86-0.89`). Next scoring should reward switch/choke quality and avoid only maximizing coverage.
+
+## Generated-Root WBP V12 t144 Unified Duty Graph Scheduler - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; direction follows GPT二审: one scheduler, not `backbone generator + filler`. t144 starts from generated root `root154_from0700_tail0_c01` and selects causal seedState duty plus coverage basin duty before a single materialization pass.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphSchedulerV1.py`. It reads root metadata from t142h candidate CSV, loads root asset via `rootPath`, groups t142 seedState chain-plan options, re-enumerates coverage options on `root + selected seedState`, and writes candidate CSV, duty-commit CSV, full-board cell-plan CSV, assets, and summary.
+- t144a command used `maxSeedGroups=2`, `targetSeedChains=5`, `targetCoverageChains=12`, old-owner-release coverage duties, and Greedy gates `initial<=4`, `max<=10`. It produced `8` candidates.
+- t144a candidate manifest: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t144a_root154_udg_v1_seedcov12_candidates.csv`; best coverage `0.8238866`, root chains `55`, seedState chains `5`, coverage duties `12`, generated Greedy `avg/max=2.667/6`.
+- t144a official light trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t144a_root154_udg_v1_seedcov12_top4_trace_light_metrics.csv`; result `4/4 solved`, process `A`, avg/max `2.65/6`, outerExit run `1`, localPatch run `3`, structuredHardnessV21 `0.759`, solveTraceQuality `0.814`, frontierDrainRemoteChokeCount `8`.
+- Pre-materialization evidence: candidate rows carry `preMaterializationDutyCommit=1`, `dutyGraphMode=unified_seedstate_coverage_v1`, and `notPostHocEvidence=root_input;seedstate_and_coverage_joint_scheduler;cell_plan_commit;single_materialization`. Duty commit CSV has `5` causal seedState rows + `12` coverage basin rows per level; cell plan assigns every board cell as root / seedState / coverage_basin / intentional_empty_or_future_supply.
+- Dual-role conflict evidence: t143g uses source `t142h_root154_seedstate_exact5_orderA_strict_smoke_c004`, while t144a starts from root and selects seedState groups `t141c_seedmat_solved_001/004` (`SSM00005;SSM00056;SSM00238;SSM00207;SSM00286/297`). This is not the identical t142h c004 asset plus extra chains.
+- Boundary: t144a proves the unified scheduler control surface, not the final `0.95+`. Coverage is still around `0.824`; next route should add coverage basin capacity/future release reservation, not return to t143 post-backbone filler.
+
+## Generated-Root WBP V12 t145 Multi-Wave Coverage Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py`.
+- t145 keeps the single-generator control surface: root input + seedState duties + all coverage waves are committed before one final asset write. Coverage waves can be released by root, seedState, or prior coverage waves; output includes duty commit, full-board cell plan, and wave audit.
+- Important option-pool finding: coverage option enumeration must require `singleGreedySolved` for early waves, otherwise high-score but single-unsolved long-ray options crowd out the known good bundles. Later-wave relax was tested with a score penalty but did not break the ceiling.
+- Best accepted run is `t145e_root154_udg_mw_cov12_4_4_1`: coverage `0.8684211`, chains `81`, seedState chains `5`, coverage duties `21` in waves `12,4,4,1`, generated Greedy `avg/max 2.75-2.79/5`, and `coverageWave1` releases `1` later duty.
+- Official light trace for t145e top4: `4/4 solved`, process `A`, avg/max choices `2.69-2.73/5`, outerExit run `1`, localPatch/nearOuter `3/3`, `structuredHardnessV21 0.622-0.665`, `frontierDrainRemoteChokeCount 1-2`. HardStructureV3 still classifies all rows as `LocalEasy`.
+- Larger beam `t145l` did not improve coverage beyond `0.8684211`, but raised prior-wave release evidence to `2`, proving the scheduler affects dependency topology while still hitting a coverage capacity wall.
+- Boundary tests: second wave `12` fails after the first 12-chain coverage bundle; smaller waves `12,4,4,1` pass, while `12,4,4,2` and `12,4,4,1,1` fail or time out under broad beam. Tail-cell extension from t145e c001 finds only `1` Greedy-safe one-cell extension.
+- Current conclusion: unified multi-wave owner-hit coverage is a real improvement over t144 (`0.824 -> 0.868`, official A, pre-materialization evidence preserved), but it is not the path to `0.95+` by itself. Next route must change coverage basin generation capacity earlier, likely by planning region/basin area ownership or body/recut duties before owner-hit chain cutting, not by adding more same-style owner-hit waves.
+- Human-review mount: created `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_t145eCov868Pack.asset`, GUID `145e0868421100000000000000000001`, with `4` t145e rows (`c001-c004`) and mounted `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/Scenes/Demo.unity` to it. Unity opened for `.worktrees/sgp-rhythm-lab` as PID `10348`.
+
+## Generated-Root WBP V12 Difficulty Verifier V1 - 2026-07-02
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DifficultyVerifierV1.py`.
+- Rule split is now official: `TraceGate` is the hard gate for solved/process/coverage/root/pre-materialization validity; `DifficultyVerify` is the separate hard-read verdict.
+- Ran V1 on t145e Cov868 with `--min-coverage 0.86 --require-root-preserved --require-pre-materialization`.
+- Output: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t145e_root154_udg_mw_cov12_4_4_1_difficulty_verify_v1.csv` and `_summary.md`.
+- Result: all `4/4` rows pass `TraceGate`; all classify as `HardPotential`, score `0.707-0.716`.
+- Important blockers: `LocalEasyStructure`, weak structural contract, no qualified support closure, no strict dual gate, weak remote choke count, and sweep-continuation risk. Next generator/scoring work should raise structural-contract and remote-choke evidence, not merely improve official trace A or coverage.
+
+## Generated-Root WBP V12 t146 Early Space Debt - 2026-07-02
+
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlySpaceDebtAuditV1.py`.
+- t146a audits classify remaining empty cells as safe body buffer, guard/choke-only, dangerous outer fill, escape corridor, or intentional/future supply. Output for t145e: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t146a_t145e_early_space_debt_summary.csv` / `_cells.csv` / `_summary.md`.
+- t145e Cov868 result: coverage `0.8684211`, empty `65`, cells needed to `0.95` is `41`, safe capacity estimate `29`, early-space debt `12`, high-risk empties `30`, boundary empties `18`, open-ray empties `6`.
+- t142h front-end debt audit on c004: coverage `0.7489879`, needs `100`, safe capacity `64`, debt `36`. t144a first-layer audit: coverage `0.821-0.824`, needs `63-64`, safe capacity `40-41`, debt `22-23`.
+- Patched `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py` with optional space-budget scoring fields/args. Defaults preserve prior behavior.
+- t146c narrow space-budget smoke: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t146c_root154_udg_space_narrow_cov12_4_4_1_candidates.csv`; it reproduces `0.8684211` and the same debt (`12`). This is a negative boundary: coverage-wave ranking is too late. Next route should plan outer/high-risk cell duties before coverage option enumeration, likely as t147 region/cell budget projection.
+
+## Generated-Root WBP V12 t147 Budget-Aware Coverage Options - 2026-07-02
+
+- Extended `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py` with default-off early-space option scoring. It adjusts raw coverage option scores before bundle selection based on empty-cell budget roles.
+- t147a strong budget smoke changed the option pool but was a negative tradeoff: coverage dropped to `0.8562753`, debt worsened to `14`, though choices tightened. Treat as proof that danger-cell rewards need coverage/length guardrails.
+- t147b balanced budget smoke: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t147b_root154_udg_budgetopt_balanced_cov12_4_4_1_candidates.csv`, `2` candidates, coverage `0.8684211`, Greedy avg/max `2.407/5`.
+- t147b official light trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t147b_root154_udg_budgetopt_balanced_cov12_4_4_1_trace_light_metrics.csv`; `2/2 solved/A`, avg/max `2.35/5`, low2 `0.605`, after-local frontier breaks `5`, remote choke count `4`, local/nearOuter `3/3`.
+- t147b DifficultyVerifier: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t147b_root154_udg_budgetopt_balanced_cov12_4_4_1_difficulty_verify_v1.csv`; class remains `HardPotential`, score `0.730-0.731`. This is better than t145e but still blocked by `LocalEasyStructure`, weak structural contract, no support closure, and no strict dual gate.
+- t147b debt audit: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t147b_root154_udg_budgetopt_balanced_cov12_4_4_1_space_debt_summary.csv`; same debt as t145e (`12`). Next step should plan support-closure/dual-gate/cross-basin contract duties earlier, not only tune early-space scalar weights.
+
+## Generated-Root WBP V12 t148 Structural Contract Projection - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; no Demo pack was changed in this step.
+- Reran t147b c001/c002 with official step diagnostics: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t148a_t147b_budgetopt_balanced_diag_metrics.csv` / `_steps.csv`; `2/2` solved.
+- Ran chain relation audit: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t148a_t147b_budgetopt_balanced_relation_audit_*`. It confirms `LocalEasy` gap: `antiLocality=0.397`, `cudP20=5.4`, deep best closure root `25` is single-spine, and cross-critical roots `50/33` are shallow.
+- Late support bridge probes are negative: t148b/t148c summaries for root50 `46/51`, root33 `30/54`, root25 `25/77`, root77 `22`, and root22 `21` all wrote `0` candidates. This supports earlier reservation/materialization instead of late repair.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12StructuralContractProjectionV1.py`. t148d output compiles `34` forward contract duties into `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t148d_t147b_structural_contract_projection_v1_contracts.csv` and `_summary.md`.
+- Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12StructuralContractOptionAuditV1.py`. t148f uncapped audit over t147b c001 root+seedState prefix enumerated `780` BCL options: high-priority support owners `28/42/76`, `46/51`, and `3/70` are not visible to owner-hit grammar; strict dual-gate owners `69/20/48` are visible only as single-unsolved options.
+- Current conclusion: the next productive step is a structural-contract materializer/reservation pass before coverage waves, not more BCL scoring. It should create or reserve parent-release blocker / child-of-child support capacity, then hand remaining area back to coverage waves.
+
+## Generated-Root WBP V12 t149 Support-Closure Preservation Boundary - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; no Demo pack was changed in this step. Existing t145e Cov868 pack remains the WBP review mount unless changed later.
+- New evidence: t142h c004 already had a good support closure around root `50` (`fanout=2`, children `46;51`, depth `3`, score about `0.802`). t147b did not lack a hard skeleton; later coverage waves polluted it.
+- Pollution attribution: t147b coverage duties used closure downstream owners `1/0/12` as release owners. This inserted local/conveyor edges under `51->1`, including coverage chains released by `1`, `0`, and `12`, degrading root50 to depth `2`, score `0.357`, `conveyorHeavy`.
+- Patched `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py` with default-off release-owner controls: `--forbid-coverage-release-owners`, `--forbid-coverage-release-owners-through-wave`, `--penalize-coverage-release-owners`, and penalty/decay knobs.
+- Hard-preserve smoke t148j/t148k: forbidding release owners `0,1,12` can still place wave1 `12` and wave2 `4`; best t148k reaches coverage `0.8340081`, official trace `3/3 solved` with two `A/A` rows, avg/max about `2.30/5`.
+- t148n relation audit confirms protection works: t148k root50 support closure recovers to depth `3`, score `0.807`, `crossCrit`, and board class improves from t147b `LocalEasy` to `MediumStructure`. This is a real causal proof that coverage waves were damaging hard structure.
+- Boundary: with `0/1/12` hard-protected, wave3 `4` cannot be formed. t148m shows wave3 raw options `19`, filtered `1`, bundle `0`; t149c/t149e staged protection variants also fail at wave3, and len7 widening timed out. Current BCL owner-hit grammar cannot both preserve closure and continue toward `0.868+`.
+- Next step should not be more BCL scalar tuning. Add a new structural coverage outlet/materializer that creates coverage without spending protected support-closure release owners, then feed remaining cells back into the unified scheduler.
+
+## HoleMask Nutation Seed-Pool Upgrade Checkpoint - 2026-07-02
+
+- Experiment project only: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment`; main project remained read/copy source only.
+- Upgraded `Assets/ArrowMagic/Editor/SeedMaskPatchWindow.cs` in the experiment project with approved external seed-pool support at `Assets/ArrowMagic/SOData/Levels/Seeds/NutationCandidatePool`.
+- Copied `106` Nutation LevelDefinition assets plus `106` `.meta` files from main DirectProcedural Nutation pools into the experiment seed pool. Long S2/S3 folder names were shortened to `LC80HolefixS2` / `LC80HolefixS3` to avoid Windows path-length copy issues.
+- Reran `RunHoleMaskHighChain100To150CandidatesBatch` in the experiment project. Output pack stayed consistent: `Assets/ArrowMagic/SOData/Packs/Production/HoleMask/HoleMask_HighChain_100To150_Candidates.asset`, `15/15` accepted, report `Assets/ArrowMagic/Reports/Production/HoleMask/HoleMask_HighChain_100To150_Candidates_Report.txt`.
+- Result: Nutation candidates entered preview Top8 on `3/5` high-chain masks, but none beat the current R1/R2 seeds into accepted Top3. This validates the seed-pool integration but shows that passive score bonus alone is not enough to materially change final output.
+- Next HoleMask upgrade direction: keep Nutation as a whitelisted candidate pool, then add a dedicated Nutation deep-run lane or per-mask reserved Nutation attempt before deciding whether Nutation improves shape/long-chain quality. Do not replace seed-mask crop/repair with direct Nutation procedural generation.
+- Demo status: experiment `Assets/ArrowMagic/Scenes/Demo.unity` active pack is now `HoleMask_HighChain_100To150_Candidates.asset`; Unity was opened for `F:\Unityproject\ArrowLevel-Hand-HoleExperiment` after mounting.
+
+## HoleMask HighChain Negative Review - 2026-07-02
+
+- Human review verdict: `HoleMask_HighChain_100To150_Candidates.asset` is not usable for production. Although all rows pass technical validation, the actual play feel is very simple, mechanical, and repetitive.
+- Treat this pack and its `15` regenerated candidates as negative examples / filter-failure evidence, not as production candidates.
+- Root cause: the high-chain batch accepted levels using only technical gates: Greedy pass, no hole/block ray hits, chains between `100-150`, and fill at least `80%` of mask cells. These gates prove solvability and density, but not interesting dependency, local choice pressure, reread, meaningful hole interaction, or non-mechanical solve rhythm.
+- Specific failure mode: high chain count inflated perceived difficulty, but many chains behave like independent direct exits or simple strips. The result can look dense while still clearing as straightforward mechanical sweeping.
+- Next HoleMask quality gate must include human-feel proxies before Demo/production: outer/direct-exit ratio, initial/opening choice count, local-run length, same-direction/parallel strip dominance, meaningful dependency depth, choke/switch evidence, and post-Greedy trace rhythm. Chain count alone must not be treated as difficulty.
+
+## HoleMask Nutation Terrain Probe - 2026-07-02
+
+- Experiment project only: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment`; main project Unity was not touched.
+- Direct template blocker path `MaskPreviewPackBuilder.BuildHoleMaskTemplateBlocksV13Top5DemoPack` was rerun with `hole.png` as authored blocks. Strict Top5 accepted `0`; debug candidate had fill `0.802`, chains `83`, initial `4`, but failed Greedy and looked visually mechanical/striped. Treat direct template blocker as a negative boundary for now.
+- Added and ran `SeedMaskPatchWindow.RunHoleMaskNutationTerrainProbeBatch` in the experiment project. It scans only `Assets/ArrowMagic/SOData/Levels/Seeds/NutationCandidatePool`, applies the fixed-hole mask as terrain/no-spawn blocker, and gates preview/deep output by hole ray hits, direct outer exits, dependency edges, depth, and tiny-chain count.
+- Output pack: `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\SOData\Packs\Production\HoleMask\HoleMask_NutationTerrainProbe.asset`, mounted to experiment `Demo.unity`.
+- Result: `2` accepted levels. Level 1 `36x30_standard`: fill `764/868`, chains `96`, hole hits `0`, direct outer exits `5`, dependency depth `11`. Level 2 `40x32_standard`: fill `930/1056`, chains `79`, hole hits `0`, direct outer exits `6`, dependency depth `11`.
+- Human review verdict after Demo: reject the probe pack as visually/experientially bad. The metrics missed obvious mechanical parallel strips, edge rails, and poor silhouette/hole interaction. Treat `HoleMask_NutationTerrainProbe.asset` as a metric false-positive / negative example, not as production material.
+- Interpretation update: Nutation terrain may still be useful as an input constraint, but the current acceptance gate is invalid. Before any further expansion, add visual/mechanical filters for parallel same-direction bands, edge rail/ring dominance, large empty components, hole engagement, and trace/local-run rhythm.
+
+## Generated-Root WBP V12 f007 Root-First Quick Validate - 2026-07-02
+
+- Quick validation artifacts: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f007_root_first_quick_validate_summary.md`, `_matrix.csv`, `f007_gapaware_root154_from0700_tail0_c01.csv`, and `f007_root_stage_debt_summary.csv`.
+- Existing t55 hard-root pool audit shows roots are not equivalent: gap2 `chainQualityDisjoint` distribution over 80 roots is `1:16, 2:7, 3:13, 4:5, 5:27, 6:12`; parsed `reserveDisjoint` max is `6`.
+- Current t145/t146 root `root154_from0700_tail0_c01` audits much weaker for future-slot semantics: gap2 `chainQualityDisjoint=2`, `reserveDisjoint=2`, `cross=0`, `choke=0`, `supportProxy=0`.
+- Root-stage space-debt probe: current root coverage `0.7145749`, needs `117` cells to reach `0.95`, safe capacity `69`, debt `48`; top cap6 roots have stronger semantics but lower coverage and larger raw outer/space debt.
+- Conclusion: root-first is supported, but simple root selection is not enough. The next route should generate/select roots with both semantic slot capacity and outer/high-risk cell budget pre-planned before seedState/coverage waves; late coverage-wave scoring alone is unlikely to break the `0.868` ceiling.
+
+## Generated-Root WBP V12 f008 Per-Root Replan Quick Validate - 2026-07-02
+
+- Quick validation artifacts: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f008_per_root_replan_quick_validate_summary.md` and `_results.csv`.
+- High-coverage from0700 sibling audit, after fixing worktree-relative paths, found max gap2 `chainQualityDisjoint=2`; this matches current t145 root and suggests the high-coverage from0700 family is weak in future-slot semantics.
+- Cap6 root `geosupply_oh_root154_from055_dense_c003`: reservation 16/16 ready, exact5 seedState grouping failed, exact2 grouping succeeded; wave4 produced 4 playable candidates at coverage `0.6052632`, official trace 4/4 A, DifficultyVerify all `HardPotential`, score `0.834-0.843`, blocker `no_strict_dual_gate`.
+- Cap6 root `root154_section_sched_v2_r5_c062`: reservation 16/16 ready, exact2 grouping succeeded; wave4 produced 4 playable candidates at coverage `0.591-0.593`, official trace 4/4 A, DifficultyVerify 3 `TrueHardCandidate` + 1 `HardPotential`, score `0.833-0.842`, blocker `no_strict_dual_gate`.
+- Negative scalability checks: c003 exact5 produced 0 groups; c003 first coverage wave `12` produced raw options but 0 bundles; c003 `4,4` run timed out and was stopped. Conclusion: the control surface is generic at small scale, but the t145 high-coverage recipe is not yet a general high-coverage hard generator.
+
+## SGP Read-Demand ScheduledBreak Confirmation - 2026-07-02
+
+- Confirmed the frontier-drain / scheduled-break route already exists in `.worktrees/read-demand-hardening`, separate from PSG/Nutation main production. Key entry: `Tools/Production/Invoke-SGPPressureReadDemandV1.ps1 -ScheduledBreak|-ScheduledBreakLoose12`.
+- Reran existing `ScheduledBreak` asset with `-SkipUnity`: `rdsb_11...sb_lbc` is solved, coverage `0.956`, `processTier=B`, avg/max choices `4.98/9`, `frontierDrainRemoteChokeCount=8`, `choiceChokeAfterLocalFrontierBreakCount=1`, composite break score `0.853`, but still `HardStructureV3Class=LocalEasy`.
+- Ran a fresh `ScheduledBreakLoose12` smoke in `.worktrees/read-demand-hardening`: `12` specs produced `4` assets, all official solved after trace. Best row `rdsbl12_01...lock_buckle_b1_01` is `processTier=A`, coverage `0.964`, avg/max choices `4.58/10`, `frontierDrainRemoteChokeCount=4`, `choiceChokeAfterLocalFrontierBreakCount=1`, `choiceChokeSwitchFrontierBreakCount=2`, local/near/same-region runs `3/2/3`.
+- DifficultyVerify check on the two representatives: strict gate gives `rdsb_11` TraceGate Pass / Review / score `0.591`; `rdsbl12_01` fails strict TraceGate because `tightProcessTier=Drop` even though normal process is A. Relaxed gate (`minProcess=Drop`) gives `rdsbl12_01` Review / score `0.620`. Both remain `HardStructureV3Class=LocalEasy` with weak structural contract / no support closure / no strict dual gate.
+- Boundary: Loose12 improves yield but only `1/4` traced rows is clearly useful; other solved rows are process `Drop` with high avg/max choices or branch explosion. This route is real and promising, but not yet production-stable.
+- Next useful work: turn ScheduledBreak into a bounded production lane by scaling pool size, ranking by after-local frontier break + remote drain + low branch explosion, then port the successful control surface back into Nutation/PSG only after keep-rate and play feel are verified.
+
+## Generated-Root WBP V12 f009 Multi-Root Root-Adaptive Validate - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; report: `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f009_multiroot_rootadaptive_quick_validate_summary.md`.
+- Root pool `f009_multiroot_cap6_19x26_input.csv` has 6 cap6 19x26 strong roots. Reservation and exact2 seedState materialization passed on all 6 roots, each with 8 seed rows.
+- Added default-off coverage option early stop in `Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py --early-stop-options`, exposed through `Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --coverage-option-early-stop`; default 0 preserves existing t-line behavior.
+- Fast wave2 same-parameter smoke: 5/6 roots produced candidates; official trace 5/5 solved; DifficultyVerify 5/5 `TrueHardCandidate`.
+- Fast cov4 with `--coverage-option-early-stop 120`: 5/6 roots produced 10 candidates at coverage `0.593-0.603`; official trace 10/10 solved; DifficultyVerify 9 `TrueHardCandidate` + 1 `HardPotential`.
+- Root2 is not incompatible but needs adaptive fallback: `maxLocalTouch=2`, stop240 produced cov4 candidates at coverage `0.5668016`, trace 2/2 solved, DifficultyVerify 2/2 `TrueHardCandidate`.
+- Two-wave `4,4` on root1 with early-stop120 completed instead of timing out: coverage `0.6295547`, trace 2/2 solved, DifficultyVerify 2/2 `HardPotential`, process `A`.
+- Current conclusion: the line can now multi-produce small/mid hard candidates across strong roots, but high coverage and strict dual-gate/support closure remain unsolved. Next step should replace scan-order early stop with release-owner/region diversity-aware option collection plus per-root adaptive fallback before attempting `0.85+` or `0.95+`.
+
+## SGP Read-Demand Next-Step Review Pack - 2026-07-02
+
+- Built a 6-level ScheduledBreak review pack in `.worktrees/read-demand-hardening`: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ScheduledBreakReviewPack.asset`, mounted to `Assets/ArrowMagic/Scenes/Demo.unity`, and opened Unity on the read-demand worktree.
+- Review manifest: `.worktrees/read-demand-hardening/.codex-run/codex_try_scheduled_break_nextstep_review_trace_input.csv`; review pack report: `.worktrees/read-demand-hardening/Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_read_demand_v1_scheduled_break_review_report.csv`.
+- Official trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/codex_try_scheduled_break_nextstep_review_metrics.csv`; `6/6` parsed and solved, no missing/failed rows.
+- Latest DifficultyVerify default gate is stricter than earlier smoke usage (`process>=A`, `maxChoices<=7`), so most rows fail default TraceGate. Under the comparable B/9 review gate, `rdsb_03...sb_lba` passes as `HardPotential` score `0.651`, avg/max `4.08/7`, coverage `0.955`; `rdsb_11...sb_lbc` passes as `Review` score `0.591`, avg/max `4.98/9`, coverage `0.956`.
+- Loose12 rows remain useful feel probes but not production candidates yet: `rdsbl12_01` scores `0.620` but fails B/9 gate due `process<B;maxChoices>9`; other Loose12 rows fail on `process<B`, high max choices, and/or openers.
+- Pool36 hard gate attempt produced no assets before interruption; first failures were `ScheduledBreakChoiceGateMiss` / switch-flow misses from high choice compression and branch explosion. Treat Pool36 as too strict or needing candidate-pool/rerank separation, not as a current production lane.
+- Human review on `rdsb_03`: feels somewhat difficult but not especially hard; barely acceptable as a normal-level candidate. Treat this as a normal-plus reference, not as a target for hard / true-hard production.
+
+## RDSB03 Same-Level Mutation A/B - 2026-07-02
+
+- Used `rdsb_03...sb_lba` as a single-source same-level hardening probe via `.worktrees/read-demand-hardening` `NoMaskProceduralGenerator.BuildSgpPressureReadDemandV1ChokeMutationV2Pack`. Temporary source CSV was restored after generation.
+- ChokeMutationV2 generated `11` same-source variants. Trace input: `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_same_level_mutation_compare_trace_input.csv`; official trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/codex_try_rdsb03_same_level_mutation_compare_metrics.csv`; `12/12` solved including original.
+- B/9 DifficultyVerify: `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_same_level_mutation_compare_difficulty_verify_v1_b9.csv`. Original `rdsb_03` is `HardPotential 0.651`, `B/B`, avg/max `4.08/7`. Best variants are `sgp_rdcm_v2_s01_09_c19` (`HardPotential 0.677`, `A/A`, avg/max `4.10/7`) and `sgp_rdcm_v2_s01_10_c19_c25` (`HardPotential 0.676`, `A/A`, avg/max `4.25/7`).
+- Default strict DifficultyVerify only passes the two variants above; original fails default because process is below A. All still block on `LocalEasyStructure`, weak structural contract, no qualified support closure, and no strict dual gate.
+- Mounted a 3-level A/B review pack to `.worktrees/read-demand-hardening/Assets/ArrowMagic/Scenes/Demo.unity`: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2ReviewPack.asset`. Order is original `rdsb_03`, then `s01_09_c19`, then `s01_10_c19_c25`.
+- Current judgment: same-level mutation can make a normal-plus level tighter and pass stricter trace gates, but it is an incremental polish path, not a true hard/read-point structural breakthrough.
+
+## Generated-Root WBP V12 t150 Structural Coverage Outlet Probe - 2026-07-02
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; no Demo pack was changed. Added `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ReleaseWindowInterposerProbeV1.py`.
+- Late insertion boundary: PRB on protected t148k c001 produced `0` raw candidates. Release-window interposer on t148k found many contract-shape attempts but all accepted contracts were Greedy-unsolved (`t150c/t150d`), confirming late post-coverage insertion is effectively deadlocked.
+- Early insertion positive: running release-window interposer on t142h c004 produced `12` candidates. The useful row is `t150g...r012_rel10_tar56`, coverage `0.7550607`, contract `releaseOwner=10`, `targetChild=56`, gap `15`, official trace `A/A`, avg/max `2.97/6`; relation audit preserves root50 depth `3`, score `0.802`.
+- Patched `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py` with default-off `--exclude-release-owners` so diagnostic BCL can avoid spending protected support owners `0/1/12`.
+- Best single-interposer continuation: `t150j_t150i_c001_preserve012_bcl4_c001` reaches coverage `0.8360324` with release owners `61;6;16;18` in the final protected BCL wave; official trace `3/3 solved`, `A/A`, avg/max `2.22/5`, DifficultyVerify at `minCoverage=0.83` gives `HardPotential 0.746`, blocker `no_strict_dual_gate`. Relation audit keeps root50 as best root, depth `3`, score `0.839`.
+- Boundary: a third protected BCL wave from t150j has `0` raw options. A two-interposer branch (`10->56` plus `8->55`) is feasible, but its protected continuation only reaches `0.8340081`, not better than t150j.
+- Current conclusion: front-loaded semantic interposers are a real outlet and can preserve root50 while slightly beating the protected BCL ceiling (`0.834 -> 0.836`), but one-off interposer + BCL is still far from `0.95+` and does not beat t148k difficulty score. Next useful implementation should be a pre-coverage structural-interposer scheduler with diversity/anti-local/dual-gate targets, not more late repair or BCL scalar tuning.
+- Human review update: the same-level mutation variants are visually hard to distinguish from original, but one variant did briefly block the player. This validates mutation as a real feel lever, while reinforcing that simple 1-2 chain reversal is too small for a clear visual/structural style change.
+
+## RDSB03 Micro-Region Mutation Review6 - 2026-07-02
+
+- Worktree: `.worktrees/read-demand-hardening`; kept PSG/Nutation production untouched. Generated a narrow multi-owner repair plan for `rdsb_03` around steps `30-42`, targeting pre-residual owners `52/55/57`, first-release owners `16/21/43`, and fan-out owners `10/22/25/33`.
+- Full manual plan including owner `9`/full-window guard-heavy bundles hung Unity import/evaluation; keep as a negative boundary. The usable narrow plan is `.codex-run/codex_try_rdsb03_micro_region_narrow_plan.csv`.
+- Narrow repair-plan batch produced `48/48` solved mutation assets in `Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2RepairPlan/`; generation report: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_read_demand_v1_choke_mutation_v2_repair_plan_report.csv`.
+- Official top16 trace: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/codex_try_rdsb03_micro_region_top16_metrics.csv`; `19/19` solved. Strict DifficultyVerify: `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_micro_region_top16_difficulty_verify_v1_strict.csv`.
+- Best candidate is `sgp_rdcm_v2rp_r03_04_rgp10b199n219_c19` (`fanout guard + c19` on owners `10;22;25;33`): strict `HardPotential 0.710`, process `A/A`, avg/max `3.68/7`, low2 `0.290`, local/near/same-region runs `3/3/2`, `structuredHardnessV21=0.708`. This beats prior same-level best `0.677`, but still remains `LocalEasyStructure`.
+- Review pack now mounted and Unity opened: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2ReviewPack.asset`. Order is original, previous `c19`, previous `c19+c25`, micro top `rgp10...+c19`, micro second `rfp55+h25`, and a guard-chain visual control.
+- Current judgment: micro-region mutation is a real incremental hardening lever and can create more low-choice windows, but it does not yet create the missing structural contract / support closure / strict dual-gate. For qualitative difficulty, next work should move the same idea generation-side as a planned small-region dependency/choke contract, not keep piling larger post-hoc repair bundles.
+
+## RDSB03 Dependency-Relation Surgery Plan - 2026-07-02
+
+- Correction from user: do not keep guessing generation-side; first analyze a concrete level with existing dependency/relation tools, then decide where to edit.
+- Ran relation/frontier tools on the 6-level `rdsb_03` review pack. Outputs: `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_review6_chain_relation_audit_edges.csv`, `_parents.csv`, `_levels.csv`, and `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_review6_region_frontier_replay_*`.
+- Tool conclusion: existing good choke is steps `31-34` (`52 -> 55 -> 57 -> 58 -> 9`); avoid touching it. The weak area is after parent `21` at step `35`, where fanout `22/25/33/61` (or original `10/22/25/33`) remains mostly local/conveyor and causes a post-choke sweep.
+- Micro top improvement source: `sgp_rdcm_v2rp_r03_04_rgp10b199n219_c19` keeps guard chain `61`, compressing the postfan window to `5,4,3,2,2,2`, but relation audit still labels it `LocalEasy` because `21` fanout remains local and closure depth is not improved.
+- More promising edit target: pull the closure-valid spine `25 -> 27 -> 29 -> 7/30` earlier/cleaner and make `61` or equivalent guard compete with it, instead of adding broad constraints around owner `9` or the full window.
+- Prepared non-overwriting relation-guided repair plan: `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_relation_guided_repair_plan.csv`. It targets `21/25/27/29/33/61` and residual sweep owners, avoids `9/52/55/57/58`, and is ready to copy to `.codex-run/sgp_read_demand_composite_break_repair_plan_v1.csv` before running `BuildSgpPressureReadDemandV1ChokeMutationV2RepairPlanPack`.
+
+## RDSB03 Relation-Guided Repair Landing - 2026-07-02
+
+- Copied `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_relation_guided_repair_plan.csv` into the fixed repair-plan input `.worktrees/read-demand-hardening/.codex-run/sgp_read_demand_composite_break_repair_plan_v1.csv`; previous fixed input is backed up as `.before_relation_guided.csv`.
+- Unity batch `BuildSgpPressureReadDemandV1ChokeMutationV2RepairPlanPack` generated `48/48` solved relation-guided variants in `Assets/ArrowMagic/SOData/Levels/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2RepairPlan/`.
+- Official trace input: `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_relation_guided_repair48_trace_input.csv`; metrics/steps: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/codex_try_rdsb03_relation_guided_repair48_metrics.csv` and `_steps.csv`; trace solved `50/50` including original and micro top.
+- DifficultyVerify strict best rows: `sgp_rdcm_v2rp_r08_05_rfp43` score `0.716`, `sgp_rdcm_v2rp_r08_03_rrp25n75_rfp43` score `0.713`, `sgp_rdcm_v2rp_r06_04_rrp29n150_rfp27` score `0.712`, `sgp_rdcm_v2rp_r06_02_rrp29n150_rfp27_rfp25` score `0.711`. All are `HardPotential` with `A/A`, max choices `7`, but still block on `LocalEasyStructure`, weak structural contract, no qualified support closure, and no strict dual gate.
+- Review pack mounted to `.worktrees/read-demand-hardening/Assets/ArrowMagic/Scenes/Demo.unity`: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2ReviewPack.asset`. Order is original, previous micro top, then the four best relation-guided rows above.
+- Interpretation: this landed a better same-level rhythm/choke review pack, not a structural breakthrough. Top row compresses the step34-42 sequence to `1,2,5,5,4,3,2,2,2` versus micro top `1,3,6,6,5,4,3,2,2,2`; relation audit still says `antiLocal≈0.267`, support depth `2`, `LocalEasy`.
+
+## RDSB03 Continuity-Capped Review Pack - 2026-07-02
+
+- User requested an optimization to reduce the maximum continuous-clear portion. Implemented as a selection/rerank layer over the existing relation-guided 48 candidates, not a generator-core change.
+- Continuity cap fields used: `localPatchSolveRunMax <= 3`, `sameRegionSolveRunMax <= 2`, `dependencyFollowRunMax <= 4`, `frontierDrainRemoteChokeCount >= 3`, plus `TraceGate Pass` / `HardPotential`.
+- New review manifest: `.worktrees/read-demand-hardening/.codex-run/codex_try_rdsb03_continuity_capped_review6_keep.csv`. It includes original, previous micro top, score-top `r08_05_rfp43` with depRun `6`, then three continuity-capped rows with depRun `4`: `r06_04_rrp29n150_rfp27`, `r06_03_rrp29n150_rrp25n75_rfp27`, and `r06_02_rrp29n150_rfp27_rfp25`.
+- Demo-mounted pack remains `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureReadDemandV1ChokeMutationV2ReviewPack.asset`, rebuilt with the continuity-capped order. This pack is for human A/B comparison between highest score and lower max-continuity candidates.
+- Trace-time optimization note: `DifficultyVerify` cannot run before official trace because it consumes trace metrics. Added `.worktrees/read-demand-hardening/Tools/Production/Export-SGPReadDemandRepairPlanTracePrefilterV1.ps1` as a pre-trace report-level filter. It uses cheap repair-report scoring plus a continuity-proxy fallback to emit topN trace input.
+- Calibration on the current 48-row `rdsb_03` batch: top16 catches two depRun4 continuity candidates but can miss the highest-score same-family row; top20 catches the main `0.713` and depRun4 candidates; top24 catches both score-top family (`r08_05`/`r08_03`) and main depRun4 candidates, while still halving trace cost versus 48 rows.
+
+## Generated-Root WBP f014 Native Large-Root Review - 2026-07-02
+
+- User rejected f013 level 6 as superficial outer padding; treat f013/f013g/f013h as closure-feasibility artifacts and negative examples for production route, not as the desired skeleton fill logic.
+- Worktree: `.worktrees/sgp-rhythm-lab`. New f014 route starts from native `23x30` roots selected by t155 instead of padding old `19x26` anchors.
+- Added default-off BCL sampling control `--enumeration-release-owner-cap` so early-stop option pools do not collapse onto one release owner on large roots. This is a compatibility/smoke helper; default behavior is unchanged.
+- Multi-root smoke passed: `rootlang_root10_0615_section_short_r1_c036` and `geosupply_sched_root10_from_40eb0da7_r1_c038` both generated native large-frame coverage bundles. First layers reach about `0.658-0.661` coverage with 8 added chains and max Greedy `5-7`.
+- Best review sample is `f014g_c038_native23x30_bcl8x2_ownercap_c001`: `23x30`, coverage `0.6927536`, `75` chains, current-layer boundary heads `0`, official trace solved `A/A`, `MediumStructure`, avg/max choices `2.41/5`, openers `2`, localPatchRun `4`, remote choke `5`.
+- Higher rootlang capacity sample `f014d_c036_native23x30_bcl8x3_ownercap_c001` reaches `0.7289855` with current-layer boundary heads `0`, but official trace drops to `B/B LocalEasy` with localPatchRun `6`; fourth layer reaches `0.7536232` but becomes boundary-heavy (`3-4` boundary heads), so it is not a positive candidate.
+- Mounted small f014 Demo pack: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Packs/SGPRhythmLab/SGPRhythmLab_GeneratedRootWBPV12_f014NativeLargeRootReviewPack.asset`, GUID `f014b16c0dec4c2b9d9a5eed00000004`; `sgp-rhythm-lab - Demo` Unity is open.
+- Current conclusion: native large-root continuation is compatible and more structurally honest than f013 padding, but current BCL still loses internal safe capacity after 2-3 layers. Next step needs a native large-frame closure/duty materializer, not more outer/open filler.
+
+## Generated-Root WBP Codex t156v Relaxed Bundle Diagnostic - 2026-07-02
+
+- Checked t156/t157 as requested after rejecting f014/BCL-as-demo. t156/t157 is the correct route direction but not solved to final coverage: c027 reaches `0.8421053` / `0.8502024` with strong player-stall evidence, while BCL ceiling remains around `0.8502`.
+- Reran V1 early-closure materializer on `t156s_c027_ecduty_bcl4x7_c001` with relaxed single-chain filtering under prefix `codex_diag_t156v_relaxed_options`. Geometry options exist for `cmp10` (`3`), `cmp0` (`80`), safe basin `cmp1` (`22`), and guard `cmp4` (`1`), but V1 still adds `0` chains because best options are unsolved after append or invalid.
+- Tested representative V1 options as 2-3 chain bundles: first pass `34` options / `6545` combos with duty diversity, second pass `44` options / `14190` combos allowing same-duty combos. Both produced `0` Greedy-solved bundles.
+- Conclusion: bundle-aware V2 cannot just combine V1 options. It needs a stronger local rewrite or earlier reservation/re-cut operator that creates mutually supporting corridor/guard chains, especially around `cmp0/cmp10/cmp16`, while preserving the t157 player-stall window.
+- Diagnostic summary: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/codex_diag_t156v_relaxed_bundle_smoke_summary.md`; temporary 0-chain LevelDefinition dir was removed.
+
+## Generated-Root WBP f015 Same-Root c027 Early Duty Probe - 2026-07-02
+
+- User asked to try the optimization on the same root. Kept root `root154_core_sched0589_v1_r3_c027` and base `t155e_c027_seedonly_oldstate_c001`; no f014 large-frame or padding route involved.
+- Ran `f015a_c027_seedonly_aggressive_ecduty` from seed-only with longer chains, relaxed single-chain filters, no-owner/direct duties, and broader duty types. It accepted only `1` chain (`cmp2` planned danger outer body), reaching coverage `0.6497976` / Greedy `3.250/7`, worse than t156c's `0.6801619`.
+- Relaxed options existed in quantity (`cmp23=120`, `cmp7=15`, `cmp0=120`, `cmp1=120`, `cmp14=28`, `cmp11=120`), but were rejected as unsolved-after-append or no valid path.
+- Bundle smoke over `68` representative early options tested the first `15000` 2-3 chain combinations and found `0` Greedy-solved bundles. This matches the later t156v/t157 result: naive V1 option bundling is not enough.
+- Conclusion: on the same c027 root, the next useful implementation must create a new local rewrite / mutually-supporting corridor operator for `cmp23/cmp0/cmp14`-style duties. Earlier V1 retuning does not solve the closure debt.
+- Summary: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/f015_same_root_c027_early_duty_probe_summary.md`.
+
+## Generated-Root WBP V12 t172 Hard-Core Invariance Smoke - 2026-07-03
+
+- GPT review accepted the product definition: `0.95+` is hard-core window plus tail-safe fill, not necessarily full-trace `A`. The next search axis is hard-core invariance, not blind multi-root coverage search.
+- Added explicit matrix axes to the product-family matrix runner: `rootKind`, `structureFamily`, `canvas`, and `dutyPlan`. Smoke output: `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t172a_product_family_matrix_summary.md`.
+- t172a compared c043/current, c038 micro/history-soft, root154 patchwork/cross-basin, and c027 near-product reference. No row is product-complete yet.
+- Best root+preplan invariant route remains c038 micro-wave tail-safe: coverage `0.8299595`, official solved `A/A`, Hard-Core pass, Tail Hygiene pass. t172b shows micro extensions `12->16->20->24` all `TailPreservesHardCore`; blocker is coverage capacity, not hard-core pollution up to `0.83`.
+- root154 patchwork/cross-basin reaches `0.8684211` with root/preplan evidence, but prior t171 lookahead shows the route becomes tail-safe capacity poisoned around `0.864`.
+- c027 t158m is the strongest shape reference: coverage `0.9068826`, Hard-Core pass (`0.942`), Tail pass (`1.0`), but it is coverage-incomplete and its t158 closure manifest dropped root/preplan lineage fields. Upstream t157e c005 does have `rootPreserved=True` and `preMaterializationDutyCommit=1`, so c027 is a recoverable lineage/reference, not a finished product candidate.
+- Next target route: reproduce the c027/maze-like capacity under generated-root WBP product evidence, or add a real early reservation/rewrite operator to c038/root154 that raises capacity without sacrificing hard-core invariance.
+- Added t172c default 32-slot hard-core invariance smoke template: `2 roots(c043/c038) x 4 structures(hub/spiral/patchwork/cross-basin) x 2 canvases x 2 duty plans`. This is a planned matrix, not result data yet.
+- Ran t172d default c043/c038/t142 invariance audit: `8` pairs, `7` TailPreservesHardCore and `1` TailCreatesSpineRisk. Process drop alone is not a fail: `c043_stage15_to_target082` drops `A/A -> B/B` but still passes hard-core/tail. Bad tail is specifically visible in `c043_stage16_to_antifollow`, which fails Tail Hygiene and raises spine risk.
+- Patched `Build-GeneratedRootWBPV12PlayerStallPreservingClosureV1.py` to accept `--source-manifest-csv` and propagate root/preplan lineage into closure manifests. Smoke `t172e_c027_lineage_propagation_noadd` adds `0` chains but proves the output keeps `rootPreserved=True`, `preMaterializationDutyCommit=1`, `rootLevelId`, `rootPath`, `baseCoverage`, and `dutyGraphMode`.
+
+## Generated-Root WBP V12 t173 Structure Family Smoke - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; summary: `Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t173i_root154_structure_family_smoke_summary.md`.
+- Ran same-root structure-family smoke on `root154_from0700_tail0_c01` with the same seedState plan and current `19x26` canvas. Compared hub, spiral, patchwork, and cross-basin under the `12,4,4,1` structure-template duty plan.
+- Positive references remain patchwork and cross-basin: both reach `0.8684211`, official `A/A`, root/preplan true, Hard-Core Window pass, Tail Hygiene pass, but remain coverage-incomplete and known tail-capacity capped near `0.864+`.
+- New negative evidence: hub and spiral both fail before any candidate asset is produced. Even with a 500-option first-wave pool, wave1 has `rawOptions=500`, `filteredOptions=500`, `bundleCount=0`. This makes them poor next targets under the current owner-hit coverage grammar.
+- Diagnostic correction: a c038 micro24 reproduction attempt initially returned `0` because narrow beam/structure reward selected a short first-wave dead-end. Do not treat those t173a/t173b/t173c failed c038 reproduction artifacts as root-family proof; the authoritative c038 evidence remains t171/t172b.
+- Next route choice: stop tuning hub/spiral scalar rewards in the current grammar. Productive branches are (1) c027/maze-like capacity transfer with propagated root/preplan evidence, or (2) a new early reservation/rewrite operator that gives patchwork/cross-basin more tail-safe capacity without spending hard-core support slots.
+
+## Competitor-Hard Fresh Direct SGP Trial - 2026-07-03
+
+- Worktree: `.worktrees/competitor-hard-fresh`; user asked to try direct SGP after rejecting V7-style fill as shape-only/local-easy.
+- Ran existing `Tools/Production/Invoke-SGPPressureProductionBatchV1.ps1` route partially. Full multi-batch wrapper hit Unity project-lock after `trial`; recovered by tracing the fresh `trial` output directly and building the keep pack.
+- Fresh SGP trial report: `Assets/ArrowMagic/SOData/Reports/DirectProcedural/sgp_pressure_hard_trial_report.csv`. It generated 4 solved high-coverage rows: coverage `0.978-0.994`, `58-61` chains, avg chain about `9.57-10.62`, max chain `21`, initial movable chains `1-3`.
+- Trace/join outputs: `.worktrees/competitor-hard-fresh/.codex-run/sgp_pressure_direct_fresh_v12b_trial_trace_summary.md` and `_joined.csv`; official join result is `processKeep=3`, `visualPass=1`, `productionKeep=2`.
+- Mounted Demo pack: `Assets/ArrowMagic/SOData/Packs/DirectProcedural/SGPPressureHardProductionKeepPack.asset`, GUID `c3daf292d5b4bbb49861cc48c7defe5a`, display `SGP Pressure Hard Production Keep (2)`. Demo activePack points to this pack and Unity was reopened.
+- Best keep rows are `sgp_pressure_hard_trial_01_sgp_pressure_hard_rect_lock_buckle` (`A`, coverage `0.991`, max choices `8`) and `sgp_pressure_hard_trial_04_sgp_pressure_hard_rect_core_burst` (`B`, coverage `0.990`, max choices `8`).
+- Current judgment: direct SGP solves high coverage and playable fill better than V7/V11 tail-fill, but both keep rows still classify `LocalEasy`; use this as a control/shape reference, not as proof of competitor-level hard logic.
+
+## Generated-Root WBP V12 t183 SSWD Front-Loaded Window Smoke - 2026-07-03
+
+- Worktree: `.worktrees/sgp-rhythm-lab`; new script: `Tools/SGPRhythmLab/Build-GeneratedRootWBPV12StructuralSupportWindowDutyCompilerV1.py`; updated `Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py` with default-off `--sswd-*` scoring and protection controls.
+- t183a compiler mapped t182 hard-core windows back to duty evidence: `3` specs, but `0` were explicit SSWD in the old graph (`CoverageDutyOnly:2`, `TraceOnlyNoDuty:1`). After eligibility tightening, only t182j/t182k specs are enabled; t182m is disabled because `hardCoreGate=Fail` and anchor frontier break is false.
+- t183c 12-wave SSWD smoke proves the new pre-materialization channel works: coverage `0.6842105`, `sswdPreCommitCount=9`, official solved `B/Drop`, Product `HardCoreTailRisk`, Hard-Core pass with window `11-22:5 5 4 4 3 2 1 1 1 1 2 2`, `hardCoreFrontierBreaks=3`.
+- t183g 16-wave without protection reaches coverage `0.7226721` but loses Hard-Core (`missing_after_local_frontier_break`), proving waves `14-16` can erode the SSWD window. t183i 13-wave still passes Hard-Core at coverage `0.6943320`, locating the pollution boundary after wave13.
+- Added SSWD protection: after a chosen wave, later coverage options can be penalized or hard-filtered if they hit a release owner or basin already used by SSWD commits. t183j 16-wave soft protection preserves Hard-Core at coverage `0.7186235` and raises PlayerStall score to `0.701`, but still fails Tail Hygiene due spine/local run risk.
+- t183k hard protection with top40 options dies at wave13 (`filteredOptions=0`); t183l hard protection with pool160 finds protected-outside options (`wave13 filteredOptions=43`) and passes Hard-Core at coverage `0.6882591`, but still has spine/local risks (`dependencySpineDominanceScore=1.0`, global dep/local run `11`).
+- t183m rank audit reran the t183l setup with wave13 option-rank export. The chosen wave13 tail option (`BCL00148`, basin `r1c0->r1c0`, releaseOwner `46`, cells `4,10;3,10;3,11;4,11;5,11`) ranked `#1` under the current UDG scorer, while the resulting official spine audit still reports `dependencySpineDominanceScore=1.0`. This confirms the immediate failure mode is tail scoring bias, not missing supply.
+- t183n added default-off post-SSWD tail anti-spine scoring. It changed wave13 from `BCL00148 r1c0->r1c0 owner46` to cross-region `BCL00067 r0c1->r0c0 owner45`, proving the scorer can redirect selection, but official improvement was small (`spineScore 1.0 -> 0.971`, dep/local run still `11`).
+- t183o used stronger structural-divergence attraction and wider pool300. Wave13 shifted to root-released cross-region `BCL00397 r1c1->r2c1 owner27(root)`. Official/product result: coverage `0.6943320`, Hard-Core pass (`0.881`, window `13-20`), localRun `11 -> 5`, depRun `11 -> 10`, `dependencySpineDominanceScore 1.0 -> 0.89`; Tail still fails only on `tail_dependency_follow_run`. PlayerStall still fails because low-choice window weakened, but spine is now `SpineControlled`.
+- Follow-up max-run audit: t183l/t183n max dependency-follow run is pure root cascade `22->21->20->19->18->17->16->15->14->13->12` across steps `18-28`; t183o changes/reduces it to `16->15->14->13->12->43->7->6->5->4` across steps `26-35`. Thus the remaining depRun is not dominated by the wave13 tail releaseOwner `45/46`; it is a global root parent cascade with one SSWD insert (`43`). Next proxy must break root parent-run continuity, not only penalize repeated tail release owners.
+- Current t183 conclusion: SSWD is a real structural layer and post-SSWD anti-spine scoring works as a direction. The remaining blocker is dependency-follow tail run, not generic spine/local collapse. Next step should tune/scalably apply tail anti-spine with a late-only wider candidate pool and a dependency-follow proxy, then try 16-wave before resuming coverage pushes.

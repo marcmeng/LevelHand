@@ -1,5 +1,324 @@
 # Script Index
 
+## Competitor-Hard Phase Ledger V14 - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonPlannedReserveV13.py --enable-phase-ledger --ledger-strictness <value>` | V14 Experiment A: phase-ledger version of V13 without geometry changes | Writes isolated `CompetitorCoreSkeletonPhaseLedgerV14` assets/reports. Adds step-aligned clear-step estimation, phase windows, future debt, premature-unlock penalty, BCL/interval ledger filtering, and `phase_ledger.csv`. Final smoke at strictness `0.45` was solved but all `LocalEasy`, so this is diagnostic, not a successful hard/high-coverage route. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1 -WriteStepDiagnostics` | Official step alignment validation for V14 | Current V14 light trace output prefix `competitor_core_skeleton_phase_ledger_v14_light_trace`; top coverage step output prefix `competitor_core_skeleton_phase_ledger_v14_topcov_trace`. |
+
+## Competitor-Hard Planned Reserve V13 - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonPlannedReserveV13.py` | Front-loaded future-slot reservation generator | Starts from V4 connector state, plans acyclic owner-hit future slots, reserves body/ray cells before BCL+interval, materializes slots as a batch, then applies seeded SGP suffix. Current default review route uses `--disable-room-expansion`; reserved-room expansion is diagnostic/negative so far. |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonPlannedReserveV13.py --enable-bcl-slot-fallback` | Experimental extra future-slot source from BCL option pool | Default off. It may expose more owner-hit slot candidates, but current interactive runs are too slow; use only as a targeted experiment after narrowing budgets. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` | Official trace for V13 planned-reserve candidates | Current output prefix `competitor_core_skeleton_planned_reserve_v13_trace`; source root should point to `.worktrees/competitor-hard-fresh`. |
+
+## Generated-Root WBP t182 Boundary-Owned Root + UDG History Quota - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BoundaryOwnedRootGeneratorV0.py` | Narrow 19x26 generated-root prototype that owns required boundary cells | Generates root candidates with target cells such as `(5,0;5,1)` embedded in a root chain before seedState/coverage. t182a produced 3 Greedy-solved roots; use as route proof, not final product generator. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --history-hard-filter-start-wave --max-history-* --max-recent-* --recent-basin-* --history-new-basin-reward` | Default-off UDG cross-wave quota and basin diversity controls | Added in t182 after micro-wave coverage collapsed into dependency/local runs. Supports cumulative and recent release-owner/head-region/hit-region/basin caps plus basin soft scoring. Quotas are a hygiene brake; they do not replace structural-support/frontier-break duties. |
+
+## Generated-Root WBP t181 Dirty Boundary Ownership Entry Split - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SeedStateMaterializerV1.py --required-cells` | Diagnostic filter for seedState options that must contain target cells | Default-off t181 addition. Used to test whether `(5,0;5,1)` can be forced into a solved seedState from c027 root-only. Narrow and broad reservations both produce required-cell paths but `0` solved strict groups. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BoundaryOwnershipRootPoolAuditV1.py` | Read-only root-pool gate for required boundary ownership | Scans generated root assets for required target cells, optional target frame, and same-chain ownership. t181n shows current `19x26` root pool has no root owning `(5,0;5,1)`; `23x30` root10 positives are frame-mismatched references. |
+
+## Generated-Root WBP t180 Boundary Corner Topology / Ownership Audit - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12CornerTopologyMatrixV1.py` | Boundary two-cell cluster matrix around CornerDutyAudit | Scans edge/corner clusters across cases and reports empty-target acceptance, dependency-compatible non-open entries, open-sink verdicts, and case summaries. t180b/t180c show c027/c038/c043 seed-only states have `0` empty accepted non-open boundary clusters. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Probe-GeneratedRootWBPV12TargetClusterAnchoredPathsV1.py` | Target-cluster anchored path feasibility probe | Enumerates longer paths that include a target cluster before materialization and tests release/open feasibility. t180d shows `(5,0;5,1)` has `0` accepted non-open anchored paths up to length `12`; owner paths are Greedy-unsolved. |
+
+## Generated-Root WBP t179 CornerDuty Audit - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12CornerDutyAuditV1.py` | Front-end audit for a corner cluster's dependency-compatible entry context | Reports basin membership, release candidate count, non-open candidate count, accepted non-open count, dependency link counts, isolated open sink, and non-open greedy-unsolved rate. t179j shows `(5,0;5,1)` has basin membership in c027/c038 seed-only states but `0` accepted non-open entries; early open-prefix is a negative open-sink injection. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py --required-duty-ids` | Required early-duty acceptance gate for activation-beam smoke tests | Added during t179 to force contracts like `t179_corner5_nonopen` to be present in accepted solved bundles. It does not prune unsolved prefixes; it only rejects completed solved bundles that bypass the required duty. |
+
+## Generated-Root WBP t175 Dirty-Tail Release Diagnostics - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Probe-GeneratedRootWBPV12DirtyClusterReleaseOptionsV1.py` | Enumerate release forms for a target dirty cell cluster | Reports whether target cells can be represented as open vs owner-released short paths, then checks Greedy/choice/proxy rhythm. t175a shows `(5,0;5,1)` has owner-release forms but none solve from clean `t174l`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DirtyClusterBundleProbeV1.py` | Try dirty owner-release path plus one support chain in one materialization batch | Diagnostic boundary test for whether a dirty cluster can be cleaned by a two-chain local bundle. t175b/t175c produce `0` accepted candidates, all rejected as Greedy-unsolved. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ForcedPrefixChainProbeV1.py` | Force a specified prefix chain before continuing closure probes | Diagnostic for moving a dirty tail cluster into the early/opening phase while preserving root/preplan lineage. t178 shows `(5,0;5,1)` can be moved early without failing hard-core/tail, but it does not improve coverage beyond `0.9251012`. |
+
+## Generated-Root WBP t171 Micro-Wave Tail-Safe UDG - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --tail-solved-lookahead-*` | Default-off tail-safe lookahead for UDG multi-wave candidates | Scores or filters a candidate by whether the post-candidate board still has Greedy-solvable tail options, with diversity fields for release owner, head region, hit region, release step, and boundary heads. t171 shows t142h reaches `0.868` but has zero safe tail options near `0.864`, while c038 micro-wave still has positive late tail capacity around `0.83`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --late-max-local-touch` | Diagnostic-only late local-touch hard cap | Added to test whether hard anti-local constraints solve tail hygiene. t171 negative probes show hard caps starve capacity, so this should remain diagnostic; prefer soft diversity scoring and reservation constraints. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --micro-wave-count --micro-wave-size` | Explicit micro-wave UDG route | Replaces manual repeated wave lists such as `1,1,1...`. This keeps the route inside the single scheduler and writes planned coverage waves before materialization. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --history-diversity-start-wave --recent-release-owner-window --recent-head-region-window --history-new-release-owner-reward` | Default-off cross-wave soft diversity scoring | Scores options against prior waves to discourage recent owner/region repeats and reward new release owners/regions. t171ac/t171af show it can reduce some dependency-follow risk while preserving Hard-Core/Tail, but it is not a coverage breakthrough. |
+
+## Generated-Root WBP t170 Hard-Core Invariance Search - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12HardCoreInvarianceAuditV1.py` | Before/after hard-core invariance audit and smoke-matrix spec writer | Compares tail extension pairs using product verifier outputs plus hard-core-window dependency entropy, region entropy, branch diversity, and spine risk. Classifies `TailPreservesHardCore`, `TailCreatesSpineRisk`, `TailErodesHardCore`, `RootCoreInsufficient`, or `NeedsStepDiagnostics`. Also writes the 32-row root/structure/canvas/duty smoke matrix template. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --structure-template` | Unified scheduler structure-template control surface | t170 added default-off `hub/spiral/patchwork/cross-basin` option reservation/scoring fields. Calibrated `t170n/t170o` show gentle patchwork/cross-basin templates preserve hard-core/tail at the known `0.8684211` capacity node; strong scalar rewards can produce false `0` rows. Use `--coverage-option-early-stop` for t145-style smokes. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphSchedulerV1.py::make_coverage_args` | UDG-to-BCL coverage argument bridge | t170 calibration fixed default-off compatibility with BCL future-lattice fields. The multi-wave wrapper now also exposes matching future-lattice CLI args, defaulting to zero so old behavior is unchanged. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --wave-reject-audit-csv` | Optional wave-level reject reason audit | t170z diagnostic hook. When enabled, records sampled raw options with single-board Greedy gate reasons, useful for distinguishing no capacity, choice overflow, and solver-poisoned late tail space. Defaults off and does not change generation. |
+
+## Generated-Root WBP t167 High-Coverage Hard-Core Product Gate - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12HighCoverageHardCoreProductVerifierV1.py` | Product verifier for `0.95+` hard-core-retaining levels | Reads official trace metrics + step diagnostics, optional candidate manifest, and optional dependency spine audit. Emits `Overall`, `Hard-Core Window`, and `Tail Hygiene` gates. Use this after official step diagnostics for the new product definition where final global process may be `B` if front/mid hard-core survives and tail fill is hygienic. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ProductFamilyMatrixV1.py` | Multi-root/family product matrix runner | t169 baseline runner. Reads a spec CSV of trace metrics/steps/candidates/spine audit, reuses the product verifier, and emits detail/family summaries with `0.95` solved, hard-core+tail, root/preplan evidence, process, dependency/local run, and spine fields. Use this before deciding which root family to optimize next. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ClosureFirstStagedBasinSchedulerV0.py --max-late-short-chain-count --max-consecutive-late-short-chain-count` | Default-off support/tail hygiene preconstraint hook | Added during t167 before the goal pivot fully landed. It can reject late local short-chain runs before materialization, but the active next route is product-gate reporting and multi-root search, not more single-root coverage pushing. |
+
+## Generated-Root WBP t166 Dependency Spine / Stall Split - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DependencySpineAuditV1.py` | Official-trace dependency spine audit | Reconstructs `newParentEdges` from step diagnostics into a dependency forest, then reports top-1 path node/cell share, dominant component share, fanout, and spine class. t166 shows A/B process drop is not explained by simple top-path share alone; support erosion and spine risk must be separated. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DifficultyVerifierV1.py --spine-audit-csv` | Split TraceGate/DifficultyVerify plus structural-vs-spine stall labels | Now emits `structuralStallScore/Class`, `spineStallRiskScore/Class`, and optional dependency-spine audit fields. Use this instead of reading official `A` or `HardStructureV3Class` alone. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12PlayerStallAuditV1.py --spine-audit-csv` | Player-stall validator with structural-vs-spine split | t168 update: emits `structuralStallScore/Class`, `spineStallRiskScore/Class`, and dependency top-path fields. Default pass requires spine risk `<=0.55`, so low-choice windows carried by `SpineRiskBalanced` dependency-follow runs are Review rather than Pass. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ClosureFirstStagedBasinSchedulerV0.py --stage-plan-audit-csv --max-plan-greedy-low2-run --recent-release-owner-diversity-window --dual-gate-reserve-cells` | Closure-first staged scheduler with default-off front-end stall constraints | t166 adds plan audit, late anti-follow start stage, Greedy low-choice run gates, recent release-owner/head-region diversity gates, and dual-gate reserve-cell exclusion. Defaults preserve old behavior; use constraints before resuming coverage climb. |
+
+## Competitor Core Skeleton T145 + V7 Fill V11 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonT145V7FillV11.py` | V10 plus V7-style high-coverage visual fill diagnostic | Starts from V10, tries V7 tail closure semantics, then defaults to forced tail growth plus patch closure for visual `0.95` inspection. Official trace says the outputs are unsolved `WeakCausality`; keep this as a visual/negative diagnostic, not a hard generator route. |
+
+## Competitor Core Skeleton T145 Hybrid V10 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonT145HybridV10.py` | V4 SkeletonPSG connector + t145/BCL early structural wave + planned interval body waves | Starts from solved V4 connector `ccsf_v4_001_9142301`, commits BCL owner-hit duties before interval fill, records duty/cell/wave audits, and validates the completed board. Current output is structurally cleaner than V9 (`MediumStructure`, best row `A/A`) but stalls around `0.714` coverage, so the next script should add body-basin / room-slot / support-control materialization before interval waves. |
+
+## Generated-Root WBP t164 Closure-First Staged Basin Scheduler - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ClosureFirstStagedBasinSchedulerV0.py` | Closure-first solved staged coverage-basin scheduler | Starts from a closure/hard-body base such as `t160t/t160u`, enumerates owner-hit coverage basin stages, requires each whole stage to be Greedy solved, then materializes the planned stages once. Current policy flags `--max-new-release-owner-uses 1 --avoid-consecutive-new-release-owner --max-release-owner-reuse 2` keep process A around `0.75` coverage on c043/c038. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12CoverageBasinReservationCompilerV0.py --closure-visibility-mode protect --require-plan-greedy-solved` | Coverage-basin reservation compiler with closure visibility and solved-plan gates | t164 adds closure visibility audit fields plus `--require-plan-greedy-solved`. Use it to prove basin plans do not erase required closure duties and to reject geometric-but-unsolved basin plans before staged materialization. |
+
+## Generated-Root WBP t162 Future-Capacity Lookahead - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py --enable-coverage-basin-lookahead` | Opt-in future-capacity lookahead for coverage-basin options | Adds geometry/greedy lookahead fields (`futureCoverageOptions`, `futureCoverageSolvedOptions`, owners/new owners), candidate-limit and geometry path caps, plus future option/owner/solved rewards or hard gates. Defaults are off. t162 shows geometry future capacity exists but current c043 prefix still cannot solve two coverage basins; use this as audit/scoring evidence, not as a wider brute-force route. |
+
+## Competitor Core Skeleton WBP Bundle V9 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonWBPBundleV9.py` | V8 SkeletonPSG + WBP-style staged bundle protected-fill diagnostic | Starts from V8 MediumStructure rows, preserves selected corridor contracts, samples bundle-level fill phases, then validates the full board/contract/official trace. Current output reaches only `0.765` and remains `LocalEasy`; use this as a negative boundary proving WBP coverage basins must be planned before V8-style interval-duty fill. |
+
+## Generated-Root WBP t161 Coverage-Basin Activation V0 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py --enable-coverage-basin-stage` | Opt-in coverage-basin stage inside activation beam | t161 reuses BCL owner-hit option enumeration inside the same pre-materialization beam. New controls include `--coverage-basin-rounds`, `--min-coverage-basin-chains`, `--coverage-basin-max-states`, per-owner option caps, and `--coverage-basin-exclude-release-owners`. Positive c038/c043 auto runs add one non-owner0 basin chain; two-basin runs are still blocked. Defaults keep previous t160 behavior off. |
+
+## Generated-Root WBP t160 Activation-Aware Early Closure V2 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyBundleV2.py` | Bundle-aware early-closure diagnostic materializer | Tests static multi-duty bundles before final validation. t160 proved base-enumerated static bundles are insufficient for c038/c043 because useful options need re-enumeration after accepted prefixes; keep as diagnostic, not production route. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyActivationBeamV2.py` | Activation-aware dynamic early-closure beam | Re-enumerates options after each prefix and writes candidate/bundle/duty/cell-plan outputs. t160 adds owner-diverse sampling (`--options-per-release-owner`, `--expanded-options-per-state`, `--prefer-new-release-owner-options`), targeted duty replay (`--only-duty-ids`), and solved-prefix duty pruning (`--skip-duties-without-solved-single`). Current positive auto-shortlist finds 3 semantic closure chains on c038/c043; next work is coverage-basin integration, not wider BCL. |
+
+## Generated-Root WBP f017 Full Closure Slot Planner - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12FullClosureSlotPlannerV0.py` | Minimal full closure slot planner | Diagnostic middle layer between space-debt audit and materialization. It enumerates short owner-hit slots, selects a complete non-overlapping slot set for a target coverage, then materializes the whole set and runs one final Greedy validation. f017 reproduces the known c027 `0.8502` exact2 continuation but finds no Greedy-solved full plan to `0.860`, supporting that the c027 wall is structural rather than a BCL rerank issue. f018 adds default-off owner-signature bucket controls (`--beam-owner-bucket-keep`, `--final-owner-bucket-keep`) and shows lower-prefix wide static full-slot search is noisy/slow: it can make small late steps but does not reproduce historical staged BCL from `0.680` or break `0.86`. |
+
+## Generated-Root WBP t159 Root-Generalization Control Surface - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootGeneralizationMatrixV1.py` | Root-generalization matrix and batch-base emitter | Reads root readiness rows, ranks roots/families, emits route gates, writes `*_batch_base.csv`, and separates `stage1_same_pipeline_batch` from `stage2_early_capacity_regen`. t159a found only one direct stage1 family (`root154_core_sched0589_v1`, roots c027/c038/c043) plus six lower-coverage stage2 families. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyMaterializerV1.py` | Early closure duty materializer baseline with candidate scan patch | t159 patch adds `--candidate-scan-options` with default `1` to preserve old behavior. Use higher scan counts for root-general smoke because same-family variants can make the highest-scored option unsolved while lower-ranked options are valid. V1 still does not fully generalize; next route needs bundle/activation-aware V2. |
+
+## Competitor Core Skeleton PSG Batch V8 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonPSGBatchV8.py` | V4 skeleton + SkeletonPSG contract whole-batch generator | Consumes the V4 SkeletonPSG connector-cutter candidates and selected corridor CSVs, reserves planned corridor cells, plans large interval-duty waves, materializes the batch, and validates the completed board plus contract. This is the current correct-route structural generator and is explicitly not a one-chain/few-chain validate loop. Current output is `0.694-0.711` coverage with `3 MediumStructure` mounted; next work should improve whole-batch capacity. |
+
+## Competitor Core Coverage095 V7 Solved Review - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreCoverage095V7.py` | Coverage-0.95 review generator | Starts from the high-coverage V3 batch exterior and performs synchronized multi-tail closure to reach `0.950` coverage. Current mounted pack keeps only the official-solved row; it is visual coverage review only because trace classifies it as `LocalEasy` / tight `Drop`. |
+
+## Front20 Lite V1 Optimized20 Review - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/nutation-front20-slotwise-runner/Tools/Production/Export-Front20LiteOptimized20V1.ps1` | Reusable Final40-to-Optimized20 selection and pack builder | Reads `.codex-run/front20_lite_v1_final40_selection.csv` plus `Front20LiteV1Final40ReviewPack.asset`, enforces strict `TraceOrderKeep + visualPass` by default, selects 10 Early / 6 Read / 4 MiniBoss with style-chain quotas and local/choice/risk caps, writes Optimized20 CSV/summary/LevelPack, and can mount Demo with `-MountDemo`. This is a post-selection/grouping tool, not a generation-core change. |
+
+## Competitor Core Skeleton WholePlan V6 Review Pack - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonWholePlanV6.py` | Whole-plan high-density review generator from approved V4 skeletons | Plans rank-interval dependent chains before materialization, then adds an overfilled background density wave and prunes it in batches until the whole board solves. Current pack reaches coverage `0.740-0.752`, solves `3/3`, and mounts two MediumStructure rows first; it is a viewable review pack, not final trace-hard proof. |
+
+## Competitor Core Skeleton Closure V5 Formal Pack - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonClosureV5.py` | Overall planned closure generator for accepted V4 skeletons | Loads V4 formal skeleton assets, preserves first-hit corridors, then applies topology-safe tail closure, batch U-detours, and rank-interval dependent field-chain waves before final whole-board validation. Current V5 pack traces `3/3 A/A` with `1 TrueHardCandidate + 1 HardPotential + 1 MediumStructure`, but coverage is only `0.644-0.647`, so it is formal closure rather than final competitor-density generation. |
+
+## Generated-Root WBP f014 Native Large-Root Review - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py --enumeration-release-owner-cap` | Native large-root BCL smoke helper | Default-off f014 addition. Caps accepted options per release owner during enumeration so early-stop sampling on `23x30` roots can collect multi-owner bundles instead of one local pocket. Default `0` preserves prior behavior. |
+
+## Generated-Root WBP t158 Player-Stall Preserving Closure - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12PlayerStallPreservingClosureV1.py` | Exact low-impact closure probe for c027 player-stall candidates | Starts from a solved WBP candidate, enumerates short closure chains, records release type (`open`, `old_owner`, `new_owner`), and appends only if the full board stays Greedy-solved with bounded initial/max choices and low-choice windows. Use to test limited easy-opener/open-anchor closure; not a final replacement for the unified duty graph scheduler. Current best reaches `0.9068826` but still needs earlier planned capacity for `0.95+`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12PlayerStallPreservingClosureV1.py --option-audit-csv --forbid-cells` | Default-off t174 tail option audit and counterfactual exclusion | Writes accepted tail options per step and can forbid specific cells such as dirty late-open clusters. t174 uses this to prove `(5,0;5,1)` causes Tail Hygiene failure while alternative `(18,9;17,9)` preserves tail at coverage `0.9251012`. |
+
+## Generated-Root WBP t157 Player-Stall Audit - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12PlayerStallAuditV1.py` | Audits whether a trace can stall a player after a tolerable opening | Reads official trace metrics and scores mid/late low-choice windows, forced-single counts, cross-region/switch jumps, remote choke evidence, and local/dependency-follow risks. Use alongside official trace and DifficultyVerify when opener count is allowed to be 3-5 by default, or 6 for explicit open-anchor review. Integer metric formatting was fixed in t158. |
+
+## Generated-Root WBP t156 Early Closure Duty Materializer - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyMaterializerV1.py` | Materializes projected early closure duties before generic coverage waves | Consumes a base candidate, closure-duty projection, and space-debt cells; reserves root control slots; emits semantic short/medium chains plus candidate, duty-commit, option-audit, cell-plan, summary, and LevelDefinition outputs. t156c proves it can restore c027 coverage capacity; t156v proves V1 cannot solve remaining corridor duties because they require multi-chain bundled closure. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py` | Owner-hit BCL continuation after early closure duties | t156 patch: candidate manifests now inherit `preMaterializationDutyCommit` and `dutyGraphMode` from the base row so TraceGate/DifficultyVerify can preserve forward duty evidence across BCL continuations. BCL is secondary after closure duties, not the endpoint. |
+
+## Generated-Root WBP t155 Root Plan / Closure Duty Front-End - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootPlanViabilitySelectorV1.py` | Pre-materialization root/route selector | Ranks root readiness rows by control slots, coverage, chain/reserve quality, frame compatibility, and optional route evidence. Current `t155a` found only 3 same-frame `ready_for_native_udg` roots; top is `root154_core_sched0589_v1_r3_c027`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlyClosureDutyProjectionV1.py` | Converts early-space debt cells into closure/control/guard/body duties | Groups empty components into duties such as `dual_gate_control_slot_reservation`, `early_closure_corridor`, `planned_danger_outer_body`, `future_release_guard_cluster`, and `intentional_empty_or_future_supply`. Use before chain cutting; it does not write LevelDefinition assets. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ClosureDutyOptionVisibilityAuditV1.py` | Audits whether projected closure duties are visible to current BCL options | Joins closure duties to BCL option audit by release owner and cell overlap. Current `t155i` proves many high-priority closure duties are owner-invisible or cell-misaligned, so BCL tuning alone is not the next route. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootControlSlotReadinessAuditV1.py` | Root-level control-slot readiness audit | t153 audit that finds clean early control slots before seedState/coverage. Use as an input to root selection; not a materializer. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --allow-empty-coverage-waves` | Default-off seed-only materialization/audit mode | Added for t155 diagnostics so a root+seedState can be written and audited without coverage waves. Default behavior remains unchanged; use only for compatibility and early-space debt checks. |
+
+## Competitor Core Skeleton Fill V2 Density Proof - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonFillV2.py` | Active from-scratch core-skeleton plus density-fill competitor-hard prototype generator | Loads the V1 skeleton builder, then adds short room/corridor density chains only when the actual ray-blocker DAG remains acyclic and internal solve pressure stays bounded. Current proof writes `CompetitorCoreSkeletonFillV2Pack.asset`; official trace is 6/6 solved with 5 MediumStructure and 1 LocalEasy. Next improvement should make density selection trace-aware and push coverage higher without losing structure. |
+
+## Competitor Core Skeleton Fill V3 Batch High-Coverage Proof - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonFillV3.py` | Batch high-coverage competitor fill proof | Uses rank-field batch construction to reach `0.874-0.901` coverage without one-chain validation. Official trace solves 3/3 but all rows are `LocalEasy`, so this is a coverage proof and the next route should add batch remote-corridor/cross-basin duties. |
+
+## Competitor Core Skeleton Formal V4 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonFormalV4.py` | Current formal multi-direction hard-skeleton generator | Uses the proven from-scratch V1 DAG skeleton as core, protects first-hit corridors, and adds bounded formal batch fill. Current pack traces 3/3 solved with one TrueHardCandidate and two MediumStructure rows; coverage is low and should be improved by a separate closure operator. |
+
+## Competitor Core Skeleton Fill V1 Proof - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonFillV1.py` | From-scratch low-coverage core-skeleton mechanism proof | Builds opener/core chains, adds dependency-preserving fill, preflights each added chain against the actual ray-blocker DAG, and topologically sorts before writing assets. V2 now wraps this as the skeleton phase and adds density fill. |
+
+## Competitor Seed Maze Grammar V1 Diagnostic - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorSeedMazeGrammarV1.py` | Rejected seed-derived visual diagnostic | Uses true-reference project seeds as grammar teachers, applies affine transforms plus bounded chain split/drop, writes pack/report/preview, and mounts the fresh worktree Demo. User rejected this as the wrong route; keep only as a diagnostic negative, not as a base generator. |
+
+## Competitor Hard True Reference Correction - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorShortRailReadV1.py` | Rejected short-rail prototype generator | Invalid route. It was built from the user's negative short-rail screenshot, not from the true competitor/contact-sheet target. Do not tune or promote it. |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorMazeRoomReadV1.py` | Rejected/diagnostic maze-room prototype generator | Useful only as a lesson: layered output had closer maze density but collapsed under official trace; braid output had low choices but mechanical stripe visuals. Do not treat current outputs as accepted review candidates. |
+
+## Competitor Hard Fresh Gatehouse Rejected Negative - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorMazeReadDemandV1.py` | Rejected fresh direct authored-chain Gatehouse generator | Creates staged gatehouse/maze candidates without reusing existing LevelDefinition assets, but the produced logic/structure does not match the competitor reference and should not be tuned forward. Top light trace is solved `B/B` but `LocalEasy`; human review directly disqualified the family. |
+
+## HoleMask Direct Nutation Blocker Probe - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Editor\DirectNutationHoleProbeBuilder.cs::BuildDirectNutationHoleProbePack` | Correct-route direct Nutation + fixed hole blocker probe | Builds candidates directly with hole cells as `blockIndices` and no-spawn cells from the start. Head candidates reject escape rays that see the hole block, then candidates pass visual gates and Greedy before the Top5 pack is saved and mounted to experiment Demo. |
+
+## Generated-Root WBP f-line Chain-Seed Reject Audit - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ChainSeedRejectAuditV1.py` | Read-only audit for V12 chain-plan seed rows | Rehydrates chain-plan seed CSV rows against a generated root, checks release-impact blockers, legality, Greedy solved status, and relaxed release-impact outcome. f002a used it to prove f001 direct 2-chain demand-carrier bundles remain Greedy-unsolved even when pre-release blockers are ignored. |
+
+## Generated-Root WBP f-line Safe Coverage Usage - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py` | Short owner-hit coverage layer after a solved safe prefix | For f-line use, require `--require-single-greedy-solved`; raw BCL produced fake low-choice deadlocks on f004d. Current best usage is phased layers: two 8-chain layers, then 4-chain half-layers with `--max-local-touch 2`; f006e reaches coverage `0.7449275` with two official `A/A` rows. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --coverage-option-early-stop` | Default-off fast coverage option collection for f009 multi-root smoke | Added after f009 found `max_raw_options` only truncates after full enumeration. Default `0` preserves existing t-line behavior. Useful for root-adaptive smoke and small/mid coverage production; too-low values such as 24 can miss release-owner diversity and produce 0 bundles. |
+
+## Generated-Root WBP f-line Demand Carrier Seeds - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DemandCarrierSeedPlanV1.py` | f-line demand-carrier chain-plan seed compiler | Independent side-line for Codex experiments; use `f###` prefixes to avoid colliding with the main `t###` Generated-Root WBP sequence. Reads V12 carrier profiles, finds options overlapping run-break demand cells, and emits chain-plan seed CSV rows for V12 `--enable-chain-plan-seed-states`. f001 proved candidate extraction works but direct 2-chain seed rehydration is still rejected by `blocks_pre_release_owner` / `greedy_unsolved`. |
+
+## SGP Read-Demand Region Frontier Replay V1 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/read-demand-hardening/Tools/Production/Export-SGPReadDemandRegionFrontierReplayV1.ps1` | Read-only dynamic frontier replay analyzer for ScheduledBreak/read-demand candidates | Consumes official trace `*_steps.csv` plus optional metrics CSV, then emits summary/windows/enriched steps. Tracks old frontier retention, hard frontier break, remote narrow reopen, post-break choice explosion, local/micro proxy runs, and official continuity metrics. Use before feeding graph-level signals back into generation. |
+
+## SGP Read-Demand Choice Value Review - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/read-demand-hardening/Tools/Production/Export-SGPReadDemandChoiceValueReviewV1.ps1` | Non-invasive ReadDemand V2 rerank | Reads official SGPRhythm trace metrics and reranks candidates by solve-time choice value: useful branch tension, counterfactual divergence, meaningful option rate, low local-only rate, and low flat-consequence risk. It writes ranked/keep/summary CSVs and can mirror keep rows to the existing ChokeMutationV2 review-pack CSV; it does not generate or mutate levels. |
+| `.worktrees/read-demand-hardening/Tools/Production/Export-SGPReadDemandRepairPlanTracePrefilterV1.ps1` | Repair-plan trace prefilter | Reads the Unity repair-plan report before official trace and emits a smaller trace input CSV. Default is now top14: anchor rows first capture top score family plus continuity-capped candidates, then quality/diversity fill. Use top12 for fastest smoke and top16 for extra exploration; `DifficultyVerify` still runs after trace because it depends on official trace metrics. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1 -WriteStepDiagnostics` | Step-level validation for V2 keeps | Required after ChoiceValue V2 rerank to check whether low-choice moments are real read points or same-region/local fake chokes. |
+
+## HoleMask HighChain Seed-Mask Batch - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Editor\SeedMaskPatchWindow.cs::RunHoleMaskHighChain100To150CandidatesBatch` | HoleMask 100-150 chain candidate batch | Experimental-project entry. Builds five fixed-hole large shell masks, scores R1/R2 seed previews, runs seed-mask GreedyRescue deep generation, and writes `HoleMask_HighChain_100To150_Candidates.asset`. |
+| `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Editor\SeedMaskPatchWindow.cs::TrySyncHighChainPack` | Sync high-chain LevelPack | Packs accepted `HighChain100To150` candidate assets into the production HoleMask pack; does not automatically mount Demo in the recorded run. |
+
+## Generated-Root WBP Run-Break Overall Audit - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RunBreakOverallAuditV1.py` | t139 whole-route readiness audit | Read-only join of t137 accepted metrics, t138 contracts/demand, and optional t139 planner smoke outputs. Use to decide whether run-break demand is actually connected before running full candidate generation. |
+
+## Generated-Root WBP Run-Break Planning - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RunBreakPlanV1.py` | Generation-side run-break contract planner | Read-only t138 planning gate. Reads official trace steps/metrics and emits run-risk windows plus contracts such as `planned_delay_break` or `cross_basin_frontier_break_around_rejected_stack`. Use before the next whole-board chain-cutting pass to avoid post-hoc sequential-clear repairs. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RunBreakDemandV1.py` | Run-break contracts to V12 cell-demand bridge | Converts t138 contract CSV rows into `cell_demand` rows that `Build-GeneratedRootWholeBoardPlannerV12.py --cell-demand-csv` already consumes. This is the generator-side handoff for t139. |
+
+## Generated-Root WBP Outer-Conveyor Break Diagnostics - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12LocalRunGuardProbeV1.py` | Late local/outer guard negative probe | t136 used it to test t129a/t126n/t126j right-side run targets. All found `0` candidates, so final guard space is exhausted on these near-full boards. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ParentReleaseBlockerProbeV1.py` | Parent-release outer-conveyor blocker probe | t136 used it for `9->24` and related outer-run edges. It can reduce local/nearOuter metrics, but acceptance now requires relation audit to preserve the bridge-victim chain and reject `60->28` steals. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-ChainRelationAuditV1.py` | Bridge-victim acceptance audit | Required for t136+ outer-breaker candidates; metrics alone can say support depth survives while relation audit shows the victim edge changed. |
+
 路径以仓库根目录为基准。先按用途找入口，再读取具体脚本和相邻实现。
 
 ## Runtime
@@ -454,6 +773,13 @@ RCH/high-root and Reverse-CSSC generation notes have been moved out of the activ
 | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` | Static slot-fit blocker map staged growth input | 2026-06-29 t78-t84 追加默认关闭参数 `--light-role-slot-fit-blocker-map-csv`、`--light-role-slot-fit-blocker-map-weight-scale`、`--light-role-slot-fit-blocker-map-top-cells`、`--light-role-slot-fit-blocker-map-min-pressure`。`--light-role-slot-fit-blocker-map-csv` now accepts semicolon-separated multiple CSVs and aggregates cell pressure. This is diagnostic only: t79 improved supply to `5/8`, but t80/t82/t84 show caps and pressure maps alone can collapse slot-fit capacity. |
 | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Select-GeneratedRootWBPV12LightRoleJointEdgesV1.py` | Generated-root WBP staged light-role edge selector | 2026-06-29 t81 新增只读/复制式 selector；读取 root CSV + slot-fit supply CSV，beam-select planned light-role edges by slot candidates, reserve-cell compatibility, activation-top spread, dominance, and preflight cost, then writes a patched root CSV plus selected-edge CSV/summary. It does not edit root assets. |
 | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SemanticCellPlanV1.py` | Generated-root WBP whole-board semantic cell plan artifact | 2026-06-29 t81 新增只读 artifact builder；读取 root CSV、selected edges、slot-fit supply，输出 per-cell role plan and edge contract CSV before chain cutting. Roles include `root/body/release/guard/choke/delay/intentional_empty`; preserves `rootIdentity` for generated root cells and exposes root/plan conflicts. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SemanticCellPlanV1.py` | Generated-root WBP capacity-selected cell plan bridge | 2026-07-01 t111 追加兼容：当 post-hoc current-root capacity selected edges 不存在于 rootgen 原始 `lightRoleReserveEdges` 时，也会把这些边纳入 semantic edge/cell plan，避免 t110a 类 root 的真实 capacity-6 合约在 planning artifact 中丢失。 |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ChokeMomentPlanV1.py` | Generated-root WBP planned 1-2 choice choke audit | 2026-07-01 t111 新增只读 audit；读取 semantic cell/edge plan，统计 root/duty coverage、离 `0.95` coverage 的补格缺口、selected capacity edges、planned choke moments、planned choice width 和 post-choke expansion edges。用于把“1-2 choice 收口步”变成 whole-board cutting 的明确验收目标。 |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Export-GeneratedRootWBPV12LightRoleSlotFitSupplyV1.py` + `Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` | Ordered slot-fit path export bridge | 2026-07-01 t111b 追加 `slotFitBestChainPathCells`、signal/ray reserve cells、head/second/target/dir/hitDistance 字段；旧 set 字段保留兼容。用于把 post-hoc capacity 选边从“语义合约”落到可 authored 的有序 chain path。 |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SlotCapacityAuditV1.py` | Capacity selected rows with materializable paths | 2026-07-01 t111b 追加透传 ordered slot-fit path 字段到 variant/selected CSV；选择算法不变。t111b 复现 t110a selected edges `6->12,1->6,14->4,8->9,3->11,4->13`，且 6 条链有序、相邻、互不重叠。 |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SlotFitMaterializeV1.py` | Generated root + semantic slot chain materializer | 2026-07-01 t111c 新增 bridge test；读取 generated root asset 与 capacity selected ordered CSV，保留 root prefix 原样并追加 slot-fit semantic chains，输出 LevelDefinition、root identity CSV、chain relation CSV 和 summary。t111c 结果 coverage `0.3279352`、Greedy solved、6/6 first-hit matches activation owner。 |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ProtectedCoverageFillV1.py` | Protected whole-board coverage filler prototype | 2026-07-01 t111d-i 新增 bounded filler；每条 filler 必须合法、不重叠，并默认被已规划 owner 的 escape ray 阻挡，整关保持 Greedy solved 与 choice cap。支持末段 opt-in `--allow-open-fill` 少量 intentional early filler。t111i 达 coverage `0.9534413` / trace solved，但 official process 仍为 B、HardStructure `LocalEasy`。2026-07-01 t112 追加默认关闭 placement proxy scoring、cheap prefilter 和 wall-time cap；实验证明它能降低 choice width，但硬筛会损失 coverage，过度压窄会恶化 local/boring，因此后续应做 bundle scheduler 而非单链硬 gate。 |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12WaveFrontAuditV1.py` | Generated-root WBP simultaneous wave-front choice audit | 2026-07-01 t111i 新增只读 audit；每波一次性清除所有当前可消链，记录当前/下一波可选根数，并按 root / semantic slot / filler 拆分。t111i wave-front solved `True`，39 waves，counts `4 3 3 3 2 2 2 1 ...`，avg/p80/max `2.026/3/5`，`<=2` waves `26/39`。用于区分“骨架 B”和普通 LocalEasy B，不替代 official trace。 |
 | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SemanticSlotPreplanV1.py` | Generated-root WBP staged semantic slot preplan artifact | 2026-06-29 t88 新增只读 preplanner；读取 root CSV、selected edges、slot-fit supply，把 slot-ready edges 转成 reserve/chain constraints，并把 unmet edges 的 `topBlockedCells` / preflight signals 转成 `clear_or_replan_blocker` constraints。输出 per-cell preplan、per-edge preplan、constraint CSV 和 summary，用于下一阶段 root growth/cutter 消费。 |
 | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SourceBasinRootGeneratorV1.py` | Generated-root WBP semantic preplan-consuming rootgen | 2026-06-29 t89 追加默认关闭 `--semantic-slot-preplan-constraint-csv`、`--semantic-slot-preplan-demand-weight-scale`、`--semantic-slot-preplan-preserve-weight-scale`、`--semantic-slot-preplan-top-cells`、`--semantic-slot-preplan-min-pressure`、`--semantic-slot-preplan-selected-only`。用于让 staged semantic slot constraints 影响 root growth；t89 把 role-slot reserve 推到 `3/3/3`，但仍只到 `3/8` slot-ready semantic contracts，不能当最终 acceptance。 |
 | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SemanticRepairPlanV1.py` | Generated-root WBP semantic repair classifier | 2026-06-29 t90 新增只读 repair planner；读取 semantic preplan + slot-fit pressure，分类 unmet edge 为 shared activation corridor、redundant with ready contract、first-hit/timing、preflight repair 等，并输出 edge/owner/cell repair CSV 与 rootgen-compatible filtered constraints。t91/t92 用它把假 8-edge plan 收敛为 `3/4` ready clean core。 |
@@ -713,3 +1039,126 @@ Correction note: as of 2026-06-29, `Export-TightChoiceBottleneckReviewV1.ps1` de
 | --- | --- | --- |
 | `Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs::BuildRhythmV4PreviewPack` | Builds the Campaign500 Rhythm V4 500-level preview pack | Reads `Exports/Campaign500_FirstAssembly_20260701_RhythmV4/campaign500_first_assembly_rhythm_v4_500_manifest.csv`, falls back to `Campaign500HardGateUntil0910V1FinalPreviewPack.asset` for keep-current/gap rows, writes the V4 build report and summary, and mounts `Campaign500FirstAssemblyRhythmV4PreviewPack.asset` to `Demo.unity`. |
 | `Assets/ArrowMagic/Editor/Campaign500FirstAssemblyPreviewBuilder.cs::BuildRhythmV4FinalPreviewPack` | Builds the Campaign500 Rhythm V4 Final 500-level preview pack | Reads `Exports/Campaign500_FirstAssembly_20260701_RhythmV4Final/campaign500_first_assembly_rhythm_v4_final_500_manifest.csv`, falls back to `Campaign500HardGateUntil0910V1FinalPreviewPack.asset` for keep-current/gap rows, writes the V4 Final build report and summary, and mounts `Campaign500FirstAssemblyRhythmV4FinalPreviewPack.asset` to `Demo.unity`. |
+
+## Generated-Root WBP Human-Read Difficulty - 2026-07-01
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12HumanReadDifficultyAuditV1.py` | Generated-Root WBP human-read difficulty audit | Read-only post-trace audit. Combines official trace metrics plus optional wave-front audit into `readSearchPressureV1`, `humanReadDifficultyV1`, and `localConveyorRiskV1`; use when checking whether a WBP candidate feels hard despite official `LocalEasy`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EndpointClosureBundleV1.py` | Generated-Root WBP endpoint closure bundle enumerator | Enumerates the final two short closure chains from a high-coverage base and scores them as a bundle before official trace. Use for bounded `0.945 -> 0.953` endpoint tests; not a replacement for earlier whole-board bundle scheduling. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SlotFitMaterializeV1.py` | Generated-Root WBP semantic slot materializer | Bridges selected slot-fit contracts into real authored chains while preserving the generated root prefix. Since t114 it can recover ordered adjacent paths from older `slotFitBestChainCells`-only CSVs and prefers orientations whose head ray hits the planned activation owner. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ScheduledBundleFillV1.py` | Generated-Root WBP scheduled bundle fill prototype | t115 high-coverage closure experiment. Samples `2-4` chain bundles instead of single-chain fills, with optional anti-conveyor and closure-capacity proxy. Useful for `0.90 -> 0.95` diagnostics; current result improves read/collapse signals but still does not reach official A/Hard. |
+
+## SGP Read-Demand Drain-Break Hardening - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/read-demand-hardening/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs::BuildSgpPressureReadDemandV1ChokeMutationV2Pack` | Isolated read-demand mutation V2 generator | Adds a V2-only drain-break proxy that scores solved full candidates by draining the current clearable frontier and rewarding remote `1-2` next-choice choke events. Original PSG/core generator remains untouched. |
+| `.worktrees/read-demand-hardening/Tools/Production/Invoke-SGPReadDemandChokeMutationV2.ps1` | Choke Mutation V2 generation/trace wrapper | Runs Unity generation, official SGPRhythm trace, rhythm review, and optional review-pack build. Current drain-break smoke prefix: `sgp_pressure_read_demand_v1_choke_mutation_v2_drainbreak2`; use `-SkipReviewPack` when selecting a custom remote-drain review CSV. |
+| `.worktrees/read-demand-hardening/Tools/Production/Invoke-SGPReadDemandChokeBreakReviewV1.ps1` | ChokeBreak strict selector/wrapper | Candidate recall now unions primary, switch-only, and per-window diversity rows. Strict acceptance should require hard break plus frontier/remote-drain evidence; previous bottom-to-top continuous pack is only a partial positive. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` | Official trace plus choice-rhythm diagnostics | Read-only trace now includes `frontierDrainRemoteChokeCount`, `frontierDrainRemoteChokeScoreV1`, and `frontierDrainRemoteChokePattern`, measuring whether draining the current frontier leaves a remote narrow next frontier. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SupportClosureBridgeV1.py` | Generated-Root WBP support-closure bridge probe | t117 one-chain bridge enumerator. Appends a chain released by a chosen owner and scores whether official-like relation closure rooted at a chosen parent deepens, optionally requiring bridge->victim. Use for early support-bridge feasibility before high-coverage closure, not as a late repair. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailChainEnumerateV1.py` | Generated-Root WBP final one-chain tail/guard enumerator | t118 deterministic closure probe. Enumerates one final simple chain, filters by Greedy/choice gates, and writes candidate assets/manifest. Use to prove whether a near-full board has any single-chain route to `0.95+` or late guard repair. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailBundleEnumerateV1.py` | Generated-Root WBP final two-chain tail bundle enumerator | t118 deterministic closure probe. Enumerates two-chain tail bundles such as `2+3` or `3+2`, then writes top candidates for official trace/relation postfilter. Use for bounded final closure feasibility checks, not as a full planner. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailCellExtendV1.py` | Generated-Root WBP one-cell existing-chain extension probe | t119 closure tool. Appends one adjacent empty cell to an existing non-prefix chain tail, preserving the chain head/ray and avoiding a new chain. Use when a contract-preserved near-full board is one cell short of `0.95+`; official trace/relation audit is still mandatory. Avoid extending bridge chain `72` unless explicitly testing a negative boundary. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12MultiTailExtendProbeV1.py` | Generated-Root WBP multi-tail existing-chain extension probe | t133 diagnostic. Beam-searches multiple 1-cell extensions on existing non-prefix authored-chain tails, with optional `--final-greedy-only` for fast near-closure feasibility. Use to test whether a true alternate-root board has body-capacity closure before adding new chains; t133 reached official-solved `0.9493927` but not `0.95+`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailPathSchedulerV1.py` | Generated-Root WBP exhaustive tail-path scheduler | t134 diagnostic. Enumerates one contiguous short path per eligible existing-chain tail and combines paths to an exact target cell count before final Greedy. Use to prove whether a near-full alternate root has any tail-only `0.95+` closure; t104d has `0/31` accepted exact `+10` combinations. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12LocalRunGuardProbeV1.py` | Generated-Root WBP local-run guard probe | t120 diagnostic. Adds one short guard chain on a known local-run escape ray to test whether official localPatch runs can be broken. Use only as feasibility/attribution; final planner should allocate these cells earlier and then official-trace relation-audit the bridge contract. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailTrimGuardProbeV1.py` | Generated-Root WBP tail-trim guard probe | t121 diagnostic. Trims 1-3 tail cells from an existing non-core chain and inserts one short guard on a target escape ray. Use to test whether a local-run breaker can fit in a near-full board; do not treat a passing Greedy row as accepted without official localRun plus bridge-contract checks. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ParentReleaseBlockerProbeV1.py` | Generated-Root WBP parent-release blocker probe | t123 diagnostic. Enumerates a semantic interposer for a known local edge: parent blocks the new chain before parent clear, the new chain exits after parent clear, and the new chain blocks the child. Useful for testing explicit `parent -> blocker -> child` contracts; current narrow `5->31` search is a boundary, not final production logic. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ShapeRecutProbeV1.py` | Generated-Root WBP same-place shape recut probe | t124 diagnostic. Trims tail cells from a non-core chain and recuts those exact cells as a new short chain, preserving coverage while changing localPatch/static geometry. Must be followed by official trace and relation audit. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ShapeRelocateProbeV1.py` | Generated-Root WBP remote shape relocation probe | t124 diagnostic. Trims tail cells from a non-core chain and cuts an equal-size new chain from already-empty remote cells, preserving coverage while leaving local cells empty. t125 added default-off `--forbid-relocate-cells` for earlier reservation tests. Current late `0.9595` probe found zero candidates; do not use it as a final repair path. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ProtectedCoverageFillV1.py` / `Build-GeneratedRootWBPV12ScheduledBundleFillV1.py` | Generated-Root WBP protected/scheduled fill with optional release exclusion and reserved cells | t118 added default-off `--exclude-release-owners`; t126 added default-off `--forbid-fill-cells`. Reserved cells are unavailable for chain bodies but first-hit rays still use real occupancy. Use to test whether future guard/relocation slots can survive high-coverage fill; t126 proves survival to `0.947` but current `0.95+` endpoint closure still wants `0,3;0,4`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ClosureSlotAuditV1.py` | Generated-Root WBP closure-slot audit | t127 diagnostic-only enumerator for remaining short endpoint slots. Labels forbidden/reserved-cell use and optional Greedy rejection without writing LevelDefinition assets. Use to prove whether a near-full board has clean closure capacity before materializing a repair. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12TailSplitClosureProbeV1.py` | Generated-Root WBP tail-split closure materializer | Diagnostic materializer. Trims a non-root chain tail, recuts the freed cells as a short chain, and appends one specified closure chain; since t129 it also supports default-off `--extra-trim-specs` for longer closure chains that free additional tail cells. t129a proves non-left `0.9514170` closure can preserve official `58->68->72->28`; official trace/relation audit remain mandatory. |
+
+## SGP Read-Demand FrontierContract - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/read-demand-hardening/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs::BuildSgpPressureReadDemandV1FrontierContractPack` | Isolated generation-time FrontierContract source pack builder | Builds 12 source candidates into the short `RDFC` output path and does not attach Demo. Uses region/owner-aware ray-blocker scoring, choice-explosion tax, and no late hard-flip gate. |
+| `.worktrees/read-demand-hardening/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs::BuildSgpPressureReadDemandV1FrontierContractReviewPack` | FrontierContract curated review-pack builder | Reads `.codex-run/sgp_pressure_read_demand_v1_frontier_contract_review_keep.csv`, builds `SGPPressureReadDemandV1FrontierContractReviewPack.asset`, and mounts Demo for human review. Current result is a partial positive, not production-ready. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` | Official trace plus choice-rhythm/composite-window diagnostics | Used to validate FrontierContract pool12. Best rows show low-choice switch/composite windows, but strict `choiceChokeAfterLocalFrontierBreakCount` is still zero, so human playtest remains mandatory. |
+
+## SGP Read-Demand ScheduledBreak - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/read-demand-hardening/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs::BuildSgpPressureReadDemandV1ScheduledBreakPack` | Isolated generation-time ScheduledBreak source pack builder | Builds 12 source candidates into `Assets/ArrowMagic/SOData/Levels/DirectProcedural/RDSB` and does not attach Demo. Uses a staged region target schedule on top of FrontierContract scoring to seek after-local frontier breaks. |
+| `.worktrees/read-demand-hardening/Assets/ArrowMagic/Editor/NoMaskProceduralGenerator.cs::BuildSgpPressureReadDemandV1ScheduledBreakReviewPack` | ScheduledBreak curated review-pack builder | Reads `.codex-run/sgp_pressure_read_demand_v1_scheduled_break_review_keep.csv`, builds `SGPPressureReadDemandV1ScheduledBreakReviewPack.asset`, and mounts Demo. Current review pack contains the single trace-confirmed positive row `rdsb_03`. |
+| `.worktrees/read-demand-hardening/Tools/Production/Invoke-SGPPressureReadDemandV1.ps1 -ScheduledBreak` | ScheduledBreak wrapper mode | Runs or traces the ScheduledBreak source pack. Because an open Unity project blocks batchmode on the same worktree, a detached runner worktree can be used for source generation, then assets/pack copied back for visual review. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1 -WriteStepDiagnostics` | Official step proof for interruption windows | Required before trusting ScheduledBreak positives. For `rdsb_03`, diagnostics confirmed steps `30-33` choices `1,1,1,1` with region changes and `frontierHardBreakAfterChosen=True` on steps `30-32`. |
+
+## Campaign500 Rhythm Audit V1 - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `Tools/Production/Audit-Campaign500RhythmV1.ps1` | Campaign500 layout rhythm audit wrapper | Static metadata audit for a 500-row layout CSV. Defaults to V3 planning duties/story files and writes score, section audit, findings, and markdown summary. |
+| `Tools/Production/Campaign500RhythmAuditV1.py` | Campaign500 layout audit implementation | Checks row/order integrity, front20 onboarding pressure, early jumps, hard/peak contrast, post-peak release, chain/arrow overgrowth, and style/source repetition. It is not a solver or Unity playtest replacement. |
+| `Assets/ArrowMagic/Editor/Campaign500ChokeCandidateReviewPackBuilder.cs` | Choke candidate review pack builder | Reads the 15-row choke recommended review set, loads/copies project `LevelDefinition` assets, builds `ChokeCandidateAuditReviewPack20260702.asset`, and mounts it to `Assets/ArrowMagic/Scenes/Demo.unity`. |
+| `Tools/Production/Build-Campaign500SlotSpecV2.ps1` | Campaign500 Slot Spec V2 wrapper | Rebuilds the locked planning artifacts from the original template and front20 duty table. Use this when the planning spec needs controlled regeneration. |
+| `Tools/Production/Campaign500SlotSpecV2Builder.py` | Campaign500 Slot Spec V2 builder | Generates the locked principles doc, 50-section plan, 500-row slot spec, front100 preview, and demand/gap summaries. It plans `targetEffectiveLoad`, treats shape as `ShapeHosted/...` perspective wrapper, and does not assign or replace level assets. |
+| `Tools/Production/Build-Campaign500First50ExistingResourceLayoutV1.ps1` | Campaign500 First50 existing-resource layout wrapper | Builds the first-50 V2 rehearsal layout from existing C5V4FSC resources. No new generation; outputs layout/match/resource CSVs and summary under `Exports/Campaign500_First50_V2Existing_20260702/`. |
+| `Tools/Production/Campaign500First50ExistingResourceLayoutV1.py` | Campaign500 First50 matcher | Matches V2 first-50 slot duties to existing resources by category, effective-load band, style/language hints, and source status. Shape anchors preserve theme/perspective first; hole anchors preserve spatial contrast; both use calibrated effective load for rhythm audit while retaining raw-chain context. |
+| `Tools/Production/Build-Campaign500First50ReviewPackDirect.ps1` | Campaign500 First50 review pack direct builder wrapper | Builds `Campaign500First50V2ExistingReviewPack.asset` directly from the first-50 layout and mounts `Demo.unity`. Use when Unity is already open and batchmode cannot safely open the same project. |
+| `Tools/Production/Campaign500First50ReviewPackDirectBuilder.py` | Campaign500 First50 direct-yaml pack builder | Reads `campaign500_first50_v2_existing_layout_v1.csv`, resolves asset GUIDs, writes the 50-level LevelPack asset/meta, updates Demo activePack, and writes pack build report/summary. |
+
+## Generated-Root WBP V12 Region-Duty Projection - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RegionDutyProjectionV1.py` | t140 forward region-duty/seedState projection audit | Read-only planner-front-end audit. Projects t138 `cell_demand` into region duties and seedState-like reservations before chain cutting; writes region CSV, seedState CSV, and summary. It also checks root/demand frame compatibility and counterfactual top-region stability. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SeedStateReservationAuditV1.py` | t141 seedState reservation audit | Converts t140 seedState rows into concrete generated-root reservation cells/edges, plus optional V12-compatible root-specific `cell_demand`. Use before materialization to prove region duties have actionable empty capacity on the generated root. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12SeedStateMaterializerV1.py` | t141/t142 seedState chain-plan materializer | Enumerates short reservation chains whose head ray first-hits planned root owners, writes V12 `chain_plan_seed_csv`, and supports solved-prefix / release-impact-safe grouping. t142 added bounded controls: `--skip-naive-groups`, solved-prefix audit CSV, single-option Greedy gate, region include/exclude, and `--solved-prefix-region-order`. Use for front-end causal backbone materialization, not as the final high-coverage fill layer. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py` | t143 backbone coverage-layer planner | Reads an accepted generated-root backbone candidate CSV row, enumerates short coverage-duty chains whose head rays first-hit old backbone owners, writes option audit/candidate CSV/assets/summary, and preserves root metadata. Use `--selection-mode greedy` for current throughput; beam mode is opt-in and still too slow for 12-chain searches. Current t143g proof reaches coverage `0.8218623` with official `4/4 A`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphSchedulerV1.py` | t144 unified duty graph scheduler | Starts from the generated root asset, groups seedState options, re-enumerates coverage basin duties after a selected seedState group, and writes candidate/duty-commit/full-board cell-plan CSVs plus assets in one materialization pass. Current t144a proof reaches coverage `0.8238866`, official top4 `4/4 A`, and carries `preMaterializationDutyCommit=1`; this replaces post-backbone filler as the current WBP baseline. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py` | t145/t147 unified duty graph multi-wave coverage scheduler | Extends t144 into pre-committed coverage waves with release domains `root/seedState/coverageWaveN`, duty commit, full-board cell plan, and wave audit. Current best t145e reaches coverage `0.8684211`; t147 adds default-off early-space option scoring before bundle selection. Use for capacity/rhythm diagnostics and next coverage-basin redesign, not as a completed `0.95+` route. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12StructuralSupportWindowDutyCompilerV1.py` | t183 SSWD compiler from official hard-core trace windows | Maps ProductVerifier hard-core windows back to duty rows and emits scheduler specs plus anchor audit. Only specs with `hardCoreGate=Pass` and anchor `frontierHardBreakAfterChosen=True` are `enabled=1`; use this before SSWD generation so failed/post-hoc windows do not pollute the scheduler. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --sswd-*` | t183 SSWD-aware multi-wave scheduler controls | Default-off controls include `--sswd-spec-csv`, `--sswd-option-reward`, `--sswd-score-start-wave`, `--sswd-score-end-wave`, `--sswd-commit-min-score`, and post-window protection flags `--sswd-protect-after-wave`, `--sswd-protect-release-owner-penalty`, `--sswd-protect-basin-penalty`, `--sswd-protect-hard-filter`. Use to front-load `SSWD_FRONTIER_BREAK_SUPPORT` duties, then protect their release owners/basins during tail fill. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --tail-anti-spine-*` | t183 post-SSWD tail anti-spine scorer | Default-off tail selector controls after SSWD protection. Rewards structural divergence (`new basin/head/hit/release owner`, `cross-region`, protected-outside) and penalizes recent owner/basin/region reuse, self-loop basins, and `coverageWave` release continuation. t183o proves this can reduce local run and spine dominance while preserving Hard-Core; next use should add dependency-follow proxy and late-only wider pools. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py --tail-parent-run-break-*` | t183p default-off temporal traversal/run-break scorer | Targets residual dependency-follow runs after anti-spine by scoring root-domain parent-step continuity. Adds parent-step memory, near/repeat step penalties, adjacent root-owner penalty, discontinuity reward, and option/candidate audit fields (`tailParentRunBreak*`). Use after `--tail-anti-spine-*`; it is a scorer-level traversal proxy, not a graph-level reservation system. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12EarlySpaceDebtAuditV1.py` | Generated-Root WBP early empty-space debt audit | Reads candidate manifest and cell plan, reconstructs chain rays, and classifies unfilled cells as safe body buffer, guard/choke-only, dangerous outer fill, escape corridor, or intentional/future supply. Use before next WBP generation to prove whether remaining coverage is still safe capacity or already bad late-fill debt. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DifficultyVerifierV1.py` | Generated-Root WBP TraceGate + DifficultyVerify splitter | Reads official trace metrics and optional candidate manifest. Emits `TraceGate` for solved/process/coverage/root/pre-materialization validity and separate `DifficultyVerify` classes (`Fail/Review/HardPotential/TrueHardCandidate`) for low-choice quality, switch breaks, anti-flow, remote dependency, structural contract, visual sweep risk, and preplan evidence. Use after official trace before calling a WBP candidate truly hard. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12StructuralContractProjectionV1.py` | t148 structural-contract projection compiler | Read-only compiler from official trace/relation/space-debt/difficulty evidence into forward contract duty rows. Current t148d output shows coverage debt, raw dual-gate sync, missing planned bridge pressure, support hub extension, deep-closure branch, and anti-local rewrite duties. Use before adding structural materializer logic. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12StructuralContractOptionAuditV1.py` | t148 structural contract visibility audit | Rebuilds root+seedState prefix from a unified-duty candidate, enumerates current BCL owner-hit options, and checks whether projected structural contracts are visible to current grammar. t148f proves high-priority support/dual-gate contracts are mostly invisible or single-unsolved, so scoring alone is insufficient. |
+
+## Generated-Root WBP V12 Support-Closure Preservation Controls - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12UnifiedDutyGraphMultiWaveCoverageV1.py` | t149 support-closure-aware coverage scheduler controls | Default-off additions: `--forbid-coverage-release-owners`, `--forbid-coverage-release-owners-through-wave`, `--penalize-coverage-release-owners`, `--coverage-release-owner-penalty`, and `--coverage-release-owner-penalty-wave-decay`. Use to prove whether coverage waves are spending structural support owners. t148k proves protecting `0/1/12` preserves root50 support closure at coverage `0.834`; t148m/t149c/t149e prove current BCL cannot continue wave3 under that protection. |
+
+## Generated-Root WBP V12 Structural Coverage Outlet - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ReleaseWindowInterposerProbeV1.py` | t150 release-window interposer diagnostic | Enumerates a semantic short chain that is released by an earlier owner and blocks a target child at its natural clear window. Use as front-loaded structural outlet evidence; late insertion on packed boards deadlocks. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12StructuralInterposerSchedulerV1.py` | t151 structural interposer scheduler | Jointly selects multiple release-window interposer duties before coverage and materializes once. Current useful rule is remote release-gap selection; naive multi-interposer bundles can lower future capacity. Diagnostic, not a final high-coverage generator. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1 -WriteStepDiagnostics` | official parent-edge diagnostics | t152 added `newParentEdges` to step diagnostics. Use this field when reproducing strict dual-gate ancestry; relation-audit edges are multi-edge explanations and should not be treated as official `parentOf`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DualGateUpstreamControlProbeV1.py` | t152 dual-gate upstream-control probe | Searches strict-dual-gate near-misses and tries to add a short control chain on the missing gate's escape ray. Current t151h result is `0` late candidates, proving the control slot is already occupied. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12DualGateControlSlotProjectionV1.py` | t152 dual-gate control-slot projection | Read-only compiler from dual-gate near-pairs to explicit `controlCells`, release-ray blockers, incumbent owners, and reservation debt. Use this to feed early duty/reservation planning. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12BackboneCoverageLayerV1.py --exclude-release-owners` | Protected BCL diagnostic continuation | Default-off t150 addition. Filters owner-hit coverage options by release owner so protected support-closure owners such as `0/1/12` are not spent during direct BCL probes. |
+
+## Competitor-Hard V10 Seeded SGP Handoff - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/competitor-hard-fresh/Tools/Production/Build-CompetitorCoreSkeletonSGPHandoffV12.py` | V10/T145 coverage-0.70 to seeded-SGP suffix generator | Parses V10 LevelDefinitions, preserves the V10 prefix, appends seeded SGP peel suffix chains, enforces acyclic dependency, caps direct exits, and writes LevelDefinition/pack/report/trace input. Use `--max-direct-exit 4` with default prefix-ray protection for the current hard-preserve review pack. Use `--allow-owner-hit-prefix-ray-overlap` only as a coverage diagnostic because official traces drop to `LocalEasy`. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-SGPRhythmTrace.ps1` | Official trace for V12 handoff candidates | Used with prefixes `competitor_core_skeleton_sgp_handoff_v12_lowexit_trace`, `_fanout3_trace`, and `_reservehit_trace`. Low-exit is the current hard-preserve reference; higher-coverage overlap variants are negative/diagnostic. |
+
+## Generated-Root WBP V12 Product Matrix / Hard-Core Invariance - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12ProductFamilyMatrixV1.py` | t172 product-family matrix summarizer | Reads a spec of candidate/trace/product verifier artifacts and outputs per-family `Overall`, `Hard-Core Window`, and `Tail Hygiene`. Now supports explicit optional axes `structureFamily`, `canvas`, and `dutyPlan`; use it for small root/structure/canvas/duty smoke comparisons. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12HardCoreInvarianceAuditV1.py` | t172 hard-core invariance audit | Compares tail-extension pairs on dependency entropy, region entropy, branch diversity, and spine risk. Use before declaring whether a higher-coverage tail preserves the hard-core window or pollutes it. |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12PlayerStallPreservingClosureV1.py --source-manifest-csv` | tail-safe closure with root/preplan lineage propagation | t172 added default-compatible lineage propagation. When a source manifest is provided, closure outputs keep `rootLevelId`, `rootPath`, `rootPreserved`, `preMaterializationDutyCommit`, `dutyGraphMode`, `baseCoverage`, and `rootCoverage` so tail-safe fill does not lose product identity. |
+
+## HoleMask Seed-Mask Production - 2026-07-02
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Editor\SeedMaskPatchWindow.cs::RunHoleMaskHighChain100To150CandidatesBatch` | HoleMask high-chain batch builder in the experiment project | Rebuilds `HoleMask_HighChain_100To150_Candidates.asset` from five high-chain hole masks. After the Nutation upgrade it scans approved Nutation seeds under `Seeds/NutationCandidatePool` in addition to R1/R2 seeds. |
+| `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Editor\SeedMaskPatchWindow.cs::RunHoleMaskNutationTerrainProbeBatch` | HoleMask Nutation terrain-blocker probe | Scans only the copied Nutation seed pool, applies fixed-hole mask cells as terrain/no-spawn blockers, then gates candidates by hole ray hits, direct outer exits, dependency edges/depth, near-hole blocker contact, and tiny-chain count. Current probe produced the 2-level `HoleMask_NutationTerrainProbe.asset` review pack. |
+| `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Editor\SeedMaskPatchWindow.cs::kApprovedNutationSeedPoolRoot` | Nutation seed-pool whitelist | Allows copied Nutation generated assets to participate as seed candidates without opening the door to arbitrary `seed_mask` / `_maskpatch` generated test assets. Current passive scoring adds only a small preference; use a dedicated deep-run lane for stronger testing. |
+| `F:\Unityproject\ArrowLevel-Hand-HoleExperiment\Assets\ArrowMagic\Editor\MaskPreviewPackBuilder_Experiment.cs::BuildHoleMaskTemplateBlocksV13Top5DemoPack` | Direct hole-blocker template generation probe | Rerun on 2026-07-02 accepted `0` strict Top5 rows. Useful as negative boundary evidence: direct template blocker generation can produce mechanical/striped structures and should not be promoted without a stronger dependency/visual filter. |
