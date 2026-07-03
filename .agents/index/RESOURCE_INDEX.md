@@ -1,5 +1,12 @@
 # Resource Index
 
+## Generated-Root WBP t184 Root-First Feasibility Gate - 2026-07-03
+
+| Resource | Path | Notes |
+| --- | --- | --- |
+| t184 gate prototype script | `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootFirstFeasibilityGateV0.py` | Read-only V0 implementation of the frozen root-first dual-axis architecture. Capacity is soft; only compatibility fail rejects. |
+| t184a gate output | `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Reports/SGPRhythmLab/t184a_root_first_dual_gate_v0.csv`, `_summary.md` | Default four-case smoke. Result: `FAIL:1`, `PASS:1`, `BORDERLINE:2`; no `Compatibility Pass + Capacity High + probeCollapse` row. c027-like is high capacity but compatibility fail; t182 is compatibility pass but capacity underfit/mixed probes; c038/root154 are borderline stable limited probes. |
+
 ## Competitor-Hard Phase Ledger V14 Diagnostics - 2026-07-03
 
 | Resource | Path | Notes |

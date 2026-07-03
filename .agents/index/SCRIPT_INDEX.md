@@ -1,5 +1,11 @@
 # Script Index
 
+## Generated-Root WBP t184 Root-First Feasibility Gate - 2026-07-03
+
+| Path | Purpose | Notes |
+| --- | --- | --- |
+| `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootFirstFeasibilityGateV0.py` | Read-only root-first dual-axis feasibility gate prototype | Normalizes existing root/reservation/product-probe reports into `PASS/BORDERLINE/FAIL`, soft `capacityScore`, `routingDecision`, and `probeOutcome`. Default t184a cases are c027-like capacity reference, t182 boundary-owned root family, c038 micro capacity control, and root154 cross-basin control. It does not generate levels and must not feed `probeCollapse` back into the hard compatibility gate. |
+
 ## Competitor-Hard Phase Ledger V14 - 2026-07-03
 
 | Path | Purpose | Notes |

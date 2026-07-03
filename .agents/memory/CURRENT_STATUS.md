@@ -2,6 +2,9 @@
 
 ## Generated-Root WBP Multi-Root Mainline Recenter - 2026-07-03
 
+- Implemented first read-only gate prototype in `.worktrees/sgp-rhythm-lab/Tools/SGPRhythmLab/Build-GeneratedRootWBPV12RootFirstFeasibilityGateV0.py`; `python -m py_compile` and CLI help passed. It writes `t184a_root_first_dual_gate_v0.csv` and `_summary.md`.
+- t184a default four-case output: c027-like = `FAIL + High capacity` (`0.974`, route `reject`, stable coverage `0.9251`), t182 boundary-owned = `PASS + Underfit` (`0.808`, route `limitedProbe`, mixed probes `1 pass / 3 collapse`), c038 micro = `BORDERLINE + Borderline` (`0.874`, stable limited probe), root154 cross-basin = `BORDERLINE + Borderline` (`0.914`, stable limited probe).
+- t184a answers the freeze-validation question for current evidence: `CompatibilityPassCapacityHighRows=0` and `CompatibilityPassCapacityHighProbeCollapseRows=0`. The two-axis architecture still explains current failures; gray-zone routing needs more probe calibration but no third hard gate is justified.
 - GPT review accepted the goal switch away from t183 dep-run/scorer work and toward root-family capacity discovery, but corrected the execution order: do not make the product matrix the first selector.
 - Active next loop: `root candidate -> early reservation feasibility gate -> accepted root -> UDG/duty graph -> product matrix evaluation`.
 - Key answer to GPT's confirmation question: yes, c027-like capacity references already show an early reservation/root feasibility failure mode. Existing c027-style `19x26` roots do not own the dirty `(5,0;5,1)` boundary cluster at root time; later seedState injection and anchored-path repair found geometry but `0` solved strict groups / `0` accepted non-open entries. That means root-first feasibility must be checked before treating c027 capacity as transferable.
