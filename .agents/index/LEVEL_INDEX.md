@@ -1,5 +1,12 @@
 # Level Index
 
+## Generated-Root WBP t186 Segmented Micro Replay Assets - 2026-07-03
+
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t186_segmented_micro_replay_v1/` - diagnostic LevelDefinition output dir for t186b calibrated micro prefix replay. These are replay/capacity-curve probes, not review/product levels.
+- `t186b_c038_micro_capacity_control_micro01/02/04/06_c001-c003` - c038 calibrated prefix assets under `--require-single-coverage-greedy-solved`; best observed coverage reaches `0.7024291` at micro6, Greedy avg/max `2.837/7`, release domains `coverageWave4:1;root:5`.
+- `t186b_c043_stage_control_no_dirty_micro01/02/04/06_c001-c003` - c043 no-dirty calibrated prefix assets; best observed coverage also reaches `0.7024291` at micro6, Greedy avg/max `3.204/8`, release domains `coverageWave4:1;root:5`.
+- Boundary: t186 prefixes are not resumable chunks. Current UDG reloads the original root asset and seedState on every run, so micro8+ should be treated as deeper offline prefix replay unless a future resumable UDG state feature is added.
+
 ## Generated-Root WBP t185 Selector Calibration / Replay Assets - 2026-07-03
 
 - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t185_selector_calibration_v0/` - diagnostic LevelDefinition output dir for t185f wave1 selector calibration. These are replay probes, not review/product levels.
