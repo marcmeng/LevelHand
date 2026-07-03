@@ -1,5 +1,12 @@
 # Level Index
 
+## Generated-Root WBP t185 Selector Calibration / Replay Assets - 2026-07-03
+
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t185_selector_calibration_v0/` - diagnostic LevelDefinition output dir for t185f wave1 selector calibration. These are replay probes, not review/product levels.
+- `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t185_calibrated_replay_v0/` - diagnostic LevelDefinition output dir for calibrated replay. Current successful row family is root154 full `12,4,4,1` under `--require-single-coverage-greedy-solved`.
+- `t185g_root154_cov12_4_4_1_require_single_solved_c001-c008` - restored root154 historical capacity window, coverage `0.8684211`, Greedy max `5-6`, prior-wave release `1-2`. This is capacity replay proof that t185c/t185d drift was selector/gate calibration, not a final `0.95+` product candidate.
+- c038 calibrated full micro replay has no accepted asset yet because interactive `micro24` and `micro8` runs timed out before output. Treat c038 as requiring segmented/offline replay rather than failed root capacity.
+
 ## Generated-Root WBP t184 Limited Probe Assets - 2026-07-03
 
 - `.worktrees/sgp-rhythm-lab/Assets/ArrowMagic/SOData/Levels/SGPRhythmLab/GeneratedRootWholeBoardPlannerV12/t184_limited_udg_probe_v0/` - diagnostic LevelDefinition output dir for t184 limited UDG probe execution. These are probe artifacts, not review/product candidates.

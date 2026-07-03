@@ -1,5 +1,15 @@
 # Decisions
 
+# Generated-Root WBP Decision: t185 Replay Drift Is Selector/Gate Calibration, Not Root Failure - 2026-07-03
+
+- Decision: do not interpret the t185c/t185d current-code replay truncation as a root-family compatibility or capacity failure. The active failure mode is selector/gate calibration drift between option enumeration and bundle selection.
+- Evidence: t185e corrected the historical replay audit to match historical wave-1 chain cells rather than unstable `BCLxxxxx` option ids. c038's historical first wave cells are still visible and `singleBoardGate=Pass` in current audit, but only around rank `242`; root154 also has pass options only far below the default top pool.
+- Evidence: t185f selector calibration shows c038 wave1 baseline pool120 has `47` single-board pass options but `0` bundles. Widening to pool500, applying a strong single-unsolved penalty, or requiring single-board solved options recovers wave1 candidates. For root154 batch12, pool/penalty alone still fail, but `--require-single-coverage-greedy-solved` recovers wave1.
+- Evidence: t185g applies the hard single-board-solved filter to the full root154 historical `12,4,4,1` wave shape and restores `8` candidates at coverage `0.8684211`. This reproduces the historical capacity window under current code.
+- Current boundary: c038 full micro replay with the same filter is an offline/segmented cost problem in the interactive environment; a micro8 attempt timed out before output. Do not call it failed until it is run as a segmented/offline replay.
+- Implementation implication: route replay/planning should use a single-board-solved option domain or equivalent hard filtering before batch/micro bundle selection. Unsovled high-score options must not be allowed to occupy the selector's visible pool when the purpose is capacity replay or root-family comparison.
+- Negative route: do not tune product difficulty, dep-run, or root feasibility based on uncalibrated t185b/t185c zero-row outputs.
+
 # Generated-Root WBP Decision: Root-First Reservation Feasibility Precedes Matrix Evaluation - 2026-07-03
 
 - Decision: after t183 evaluation semantics freeze, the active Generated-Root WBP mainline is `Root Family Capacity Discovery`, not further scorer/dep-run tuning.
